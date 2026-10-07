@@ -1,0 +1,814 @@
+[
+  {
+    "id": 1,
+    "case_id": "GH9218",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ambiguities": [],
+      "checks": [],
+      "facts_with_quotes": [],
+      "keys": [],
+      "stage": "extract",
+      "status": "ok"
+    },
+    "at": "2026-10-07T12:33:54.573449+00:00"
+  },
+  {
+    "id": 2,
+    "case_id": "GH9218",
+    "kind": "user_update",
+    "payload": {
+      "checks": [],
+      "facts": {},
+      "message": "file_uploader with large file results in server getting killed\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI am using st.file_uploader to upload ~3.5gb file into my streamlit dashboard. This however, results in the server getting killed.\nWhen I inspect using btop, Upon file upload, the server starts using an astronomic amount of RAM.\n\nEDIT: I tried imposing a RAM limit by dockerizing the dashboard and settting a 4gb RAM limit, but it just gets killed in the container.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\nuploaded_file = st.file_uploader(\"Choose a video file\", type=[\"mp4\", \"mov\", \"avi\"])\n```\n\n\n### Steps To Reproduce\n\nstreamlit run dashboard.py --maxUploadSize=5000\n\n### Expected Behavior\n\nIt's probably better to stream it in chunks to disk when clicking an 'upload file' button.\n\n### Current Behavior\n\nThe server gets killed.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:\n- Python version:\n- Operating System:\n- Browser:\n\n\n### Additional Information\n\n_No response_",
+      "revision": 1
+    },
+    "at": "2026-10-07T12:33:54.583995+00:00"
+  },
+  {
+    "id": 3,
+    "case_id": "GH9218",
+    "kind": "pipeline_stage",
+    "payload": {
+      "revision": 1,
+      "stage": "read_case"
+    },
+    "at": "2026-10-07T12:33:54.593573+00:00"
+  },
+  {
+    "id": 4,
+    "case_id": "GH9218",
+    "kind": "pipeline_stage",
+    "payload": {
+      "components": {
+        "dense": false,
+        "judge": true,
+        "mmr": true,
+        "rerank": true,
+        "rewrite": true
+      },
+      "method": "bm25",
+      "stage": "retrieve"
+    },
+    "at": "2026-10-07T12:33:54.622615+00:00"
+  },
+  {
+    "id": 5,
+    "case_id": "GH9218",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ids": [
+        "issue:3722:v2:71635c29cc9d28e8",
+        "issue:11292:v2:d7b9a7e02bb4771a",
+        "issue:7920:v2:b1fd60532d7d2f04",
+        "issue:6748:v2:b1fd60532d7d2f04",
+        "issue:17030:v2:d7b9a7e02bb4771a",
+        "issue:6851:v2:b1fd60532d7d2f04",
+        "issue:5938:v2:b1fd60532d7d2f04",
+        "issue:11259:v2:d7b9a7e02bb4771a"
+      ],
+      "stage": "rerank",
+      "status": "ok"
+    },
+    "at": "2026-10-07T12:33:54.639498+00:00"
+  },
+  {
+    "id": 6,
+    "case_id": "GH9218",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ids": [
+        "issue:3722:v2:71635c29cc9d28e8",
+        "issue:11292:v2:d7b9a7e02bb4771a",
+        "issue:7920:v2:b1fd60532d7d2f04"
+      ],
+      "stage": "context_pack",
+      "utf8_bytes": 1306
+    },
+    "at": "2026-10-07T12:33:54.657356+00:00"
+  },
+  {
+    "id": 7,
+    "case_id": "GH9218",
+    "kind": "pipeline_stage",
+    "payload": {
+      "stage": "draft",
+      "status": "produced"
+    },
+    "at": "2026-10-07T12:33:54.675952+00:00"
+  },
+  {
+    "id": 8,
+    "case_id": "GH9218",
+    "kind": "pipeline_stage",
+    "payload": {
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+          "score": 2
+        },
+        "injection_resistance": {
+          "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+          "score": 2
+        }
+      },
+      "attempt": 1,
+      "evaluation_kind": "test_fixture",
+      "findings": [],
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 2,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "stage": "judge",
+      "verdict": "accept"
+    },
+    "at": "2026-10-07T12:33:54.690121+00:00"
+  },
+  {
+    "id": 9,
+    "case_id": "GH9218",
+    "kind": "proposal_created",
+    "payload": {
+      "hash": "2a55d73fa9978af38045a6648ceea3ee2adc5074f42f7b18618afe2a9e3adcf0",
+      "payload": {
+        "actions": [
+          {
+            "body": "پاسخ پیشنهادی: پرسش بعدی: نسخهٔ دقیق `Streamlit` در محیطی که خطا رخ می‌دهد چیست؟\n\nشاهد مستند: گزارش یک کاربر؛ اثبات علت این پرونده نیست.\n\nبخش منبع:\n\n```text\nSteps to reproduce\n```\n\nنسخهٔ منبع:\n\n```text\n2023-01-18T02:38:19Z\n```\n\nمتن شاهد:\n\n```text\nAdd a file uploader:\n`uploaded_file = st.file_uploader(\"Choose a file\", type=['mp4', 'avi'])`\nDeploy to any of the above environments.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/streamlit/issues/3722\n```\n\nشاهد مستند: گزارش یک کاربر؛ اثبات علت این پرونده نیست.\n\nبخش منبع:\n\n```text\nChecklist\n```\n\nنسخهٔ منبع:\n\n```text\n2025-05-07T13:53:46Z\n```\n\nمتن شاهد:\n\n```text\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/streamlit/issues/11292\n```\n\nمحدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+            "type": "comment"
+          },
+          {
+            "type": "status",
+            "value": "waiting_user"
+          }
+        ],
+        "source_ids": [
+          "issue:3722",
+          "issue:11292"
+        ],
+        "summary": {
+          "ambiguities": [],
+          "completed_checks": [],
+          "decision": "ask",
+          "facts": {},
+          "hypotheses": [],
+          "judge": {
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+                "score": 2
+              }
+            },
+            "findings": [],
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "verdict": "accept"
+          },
+          "next_step": "پرسش بعدی: نسخهٔ دقیق `Streamlit` در محیطی که خطا رخ می‌دهد چیست؟",
+          "problem": "file_uploader with large file results in server getting killed\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI am using st.file_uploader to upload ~3.5gb file into my streamlit dashboard. This however, results in the server getting killed.\nWhen I inspect using btop, Upon file upload, the server starts using an astronomic amount of RAM.\n\nEDIT: I tried imposing a RAM limit by dockerizing the dashboard and settting a 4gb RAM limit, but it just gets killed in the container.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\nuploaded_file = st.file_uploader(\"Choose a video file\", type=[\"mp4\", \"mov\", \"avi\"])\n```\n\n\n### Steps To Reproduce\n\nstreamlit run dashboard.py --maxUploadSize=5000\n\n### Expected Behavior\n\nIt's probably better to stream it in chunks to disk when clicking an 'upload file' button.\n\n### Current Behavior\n\nThe server gets killed.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:\n- Python version:\n- Operating System:\n- Browser:\n\n\n### Additional Information\n\n_No response_",
+          "rationale": "محدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.",
+          "sources": [
+            {
+              "evidence_id": "issue:3722:v2:71635c29cc9d28e8",
+              "kind": "issue",
+              "lines": [
+                12,
+                30
+              ],
+              "product_version": null,
+              "quote": "Add a file uploader:\n`uploaded_file = st.file_uploader(\"Choose a file\", type=['mp4', 'avi'])`\nDeploy to any of the above environments.",
+              "revision": "2023-01-18T02:38:19Z",
+              "section": "Steps to reproduce",
+              "source_id": "issue:3722",
+              "url": "https://github.com/streamlit/streamlit/issues/3722"
+            },
+            {
+              "evidence_id": "issue:11292:v2:d7b9a7e02bb4771a",
+              "kind": "issue",
+              "lines": [
+                3,
+                7
+              ],
+              "product_version": null,
+              "quote": "- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.",
+              "revision": "2025-05-07T13:53:46Z",
+              "section": "Checklist",
+              "source_id": "issue:11292",
+              "url": "https://github.com/streamlit/streamlit/issues/11292"
+            }
+          ],
+          "unknowns": [
+            "streamlit_version",
+            "python_version",
+            "deployment",
+            "reproducible"
+          ]
+        }
+      },
+      "proposal_id": "6ee7a608d115494056564b64",
+      "revision": 1
+    },
+    "at": "2026-10-07T12:33:54.704220+00:00"
+  },
+  {
+    "id": 10,
+    "case_id": "GH9218",
+    "kind": "pipeline_stage",
+    "payload": {
+      "auto_execute": false,
+      "hash": "2a55d73fa9978af38045a6648ceea3ee2adc5074f42f7b18618afe2a9e3adcf0",
+      "id": "6ee7a608d115494056564b64",
+      "stage": "prepare_proposal"
+    },
+    "at": "2026-10-07T12:33:54.717967+00:00"
+  },
+  {
+    "id": 11,
+    "case_id": "GH9218",
+    "kind": "turn_completed",
+    "payload": {
+      "architecture": "v2",
+      "case_id": "GH9218",
+      "components": {
+        "dense": false,
+        "judge": true,
+        "mmr": true,
+        "rerank": true,
+        "rewrite": true
+      },
+      "decision": "ask",
+      "judge": {
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+            "score": 2
+          }
+        },
+        "findings": [],
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "verdict": "accept"
+      },
+      "latency_seconds": 0.15553,
+      "max_calls": 8,
+      "method": "final",
+      "mode": "replay",
+      "model_calls": 4,
+      "repair_count": 0,
+      "request_id": "v2-eval",
+      "retrieved": [
+        {
+          "id": "issue:3722:v2:71635c29cc9d28e8",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 62.17935,
+          "section": "Steps to reproduce",
+          "source_id": "issue:3722",
+          "url": "https://github.com/streamlit/streamlit/issues/3722",
+          "version_relation": null
+        },
+        {
+          "id": "issue:11292:v2:d7b9a7e02bb4771a",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 61.42313,
+          "section": "Checklist",
+          "source_id": "issue:11292",
+          "url": "https://github.com/streamlit/streamlit/issues/11292",
+          "version_relation": null
+        },
+        {
+          "id": "issue:7920:v2:b1fd60532d7d2f04",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 59.61811,
+          "section": "Checklist",
+          "source_id": "issue:7920",
+          "url": "https://github.com/streamlit/streamlit/issues/7920",
+          "version_relation": null
+        }
+      ],
+      "steps": 8,
+      "usage": {
+        "cost_usd": 0,
+        "mode": "replay",
+        "provider_requests": 0,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "cost_usd": 0,
+            "kind": "extract",
+            "mode": "replay",
+            "provider_requests": 0
+          },
+          {
+            "cost_usd": 0,
+            "kind": "rerank",
+            "mode": "replay",
+            "provider_requests": 0
+          },
+          {
+            "cost_usd": 0,
+            "kind": "rerank",
+            "mode": "replay",
+            "provider_requests": 0
+          },
+          {
+            "cost_usd": 0,
+            "kind": "judge",
+            "mode": "replay",
+            "provider_requests": 0
+          }
+        ]
+      },
+      "validation_error": null
+    },
+    "at": "2026-10-07T12:33:54.743258+00:00"
+  },
+  {
+    "id": 12,
+    "case_id": "GH11528",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ambiguities": [],
+      "checks": [],
+      "facts_with_quotes": [
+        {
+          "key": "streamlit_version",
+          "quote": "cache_data failing to serialize classes from v1.44.0\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI noticed in the upgrade from 1.43.0 to 1.44.0 that we are getting UnserializableReturnValueError when calling cache_data with a self defined class. I can confirm pickle dumps and loads works fine for this class when I run it outside of streamlit. \n\nFull error:\n> streamlit.runtime.caching.cache_errors.UnserializableReturnValueError: Cannot serialize the return value (of type __main__.Example) in test(). st.cache_data uses pickle to serialize the function's return value and safely store it in the cache without mutating the original object. Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences).\n\n### Reproducible Code Example\n\n```Python\nfrom streamlit import cache_data\nimport datetime as dt\n\nclass Example:\n    def __init__(self, name):\n        self.name = name\n\n@cache_data(ttl=dt.timedelta(minutes=60))\ndef test():\n    name = \"andy\"\n    return Example(name)\n\nif __name__ == '__main__':\n\n    b = test()\n```\n\n### Steps To Reproduce\n\nRun the code above in streamlit\n\n### Expected Behavior\n\nThe class should be pickled and be stored in the cache\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.44.0\n- Python version: 3.10\n- Operating System: Linux\n- Browser: Chrome\n\n\n### Additional Informat",
+          "value": "1.44.0"
+        },
+        {
+          "key": "python_version",
+          "quote": "cache_data failing to serialize classes from v1.44.0\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI noticed in the upgrade from 1.43.0 to 1.44.0 that we are getting UnserializableReturnValueError when calling cache_data with a self defined class. I can confirm pickle dumps and loads works fine for this class when I run it outside of streamlit. \n\nFull error:\n> streamlit.runtime.caching.cache_errors.UnserializableReturnValueError: Cannot serialize the return value (of type __main__.Example) in test(). st.cache_data uses pickle to serialize the function's return value and safely store it in the cache without mutating the original object. Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences).\n\n### Reproducible Code Example\n\n```Python\nfrom streamlit import cache_data\nimport datetime as dt\n\nclass Example:\n    def __init__(self, name):\n        self.name = name\n\n@cache_data(ttl=dt.timedelta(minutes=60))\ndef test():\n    name = \"andy\"\n    return Example(name)\n\nif __name__ == '__main__':\n\n    b = test()\n```\n\n### Steps To Reproduce\n\nRun the code above in streamlit\n\n### Expected Behavior\n\nThe class should be pickled and be stored in the cache\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.44.0\n- Python version: 3.10\n- Operating System: Linux\n- Browser: Chrome\n\n\n### Additional Informat",
+          "value": "3.10"
+        }
+      ],
+      "keys": [
+        "python_version",
+        "streamlit_version"
+      ],
+      "stage": "extract",
+      "status": "ok"
+    },
+    "at": "2026-10-07T12:33:54.765752+00:00"
+  },
+  {
+    "id": 13,
+    "case_id": "GH11528",
+    "kind": "user_update",
+    "payload": {
+      "checks": [],
+      "facts": {
+        "python_version": "3.10",
+        "streamlit_version": "1.44.0"
+      },
+      "message": "cache_data failing to serialize classes from v1.44.0\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI noticed in the upgrade from 1.43.0 to 1.44.0 that we are getting UnserializableReturnValueError when calling cache_data with a self defined class. I can confirm pickle dumps and loads works fine for this class when I run it outside of streamlit. \n\nFull error:\n> streamlit.runtime.caching.cache_errors.UnserializableReturnValueError: Cannot serialize the return value (of type __main__.Example) in test(). st.cache_data uses pickle to serialize the function's return value and safely store it in the cache without mutating the original object. Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences).\n\n### Reproducible Code Example\n\n```Python\nfrom streamlit import cache_data\nimport datetime as dt\n\nclass Example:\n    def __init__(self, name):\n        self.name = name\n\n@cache_data(ttl=dt.timedelta(minutes=60))\ndef test():\n    name = \"andy\"\n    return Example(name)\n\nif __name__ == '__main__':\n\n    b = test()\n```\n\n### Steps To Reproduce\n\nRun the code above in streamlit\n\n### Expected Behavior\n\nThe class should be pickled and be stored in the cache\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.44.0\n- Python version: 3.10\n- Operating System: Linux\n- Browser: Chrome\n\n\n### Additional Information\n\n_No response_",
+      "revision": 1
+    },
+    "at": "2026-10-07T12:33:54.777859+00:00"
+  },
+  {
+    "id": 14,
+    "case_id": "GH11528",
+    "kind": "pipeline_stage",
+    "payload": {
+      "revision": 1,
+      "stage": "read_case"
+    },
+    "at": "2026-10-07T12:33:54.790509+00:00"
+  },
+  {
+    "id": 15,
+    "case_id": "GH11528",
+    "kind": "pipeline_stage",
+    "payload": {
+      "components": {
+        "dense": false,
+        "judge": true,
+        "mmr": true,
+        "rerank": true,
+        "rewrite": true
+      },
+      "method": "bm25",
+      "stage": "retrieve"
+    },
+    "at": "2026-10-07T12:33:54.826647+00:00"
+  },
+  {
+    "id": 16,
+    "case_id": "GH11528",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ids": [
+        "issue:6138:v2:b1fd60532d7d2f04",
+        "issue:6228:v2:b1fd60532d7d2f04",
+        "docs:caching:v2:e6829bd5089a51c5",
+        "issue:7041:v2:b1fd60532d7d2f04",
+        "issue:12740:v2:d7b9a7e02bb4771a",
+        "issue:5830:v2:b1fd60532d7d2f04",
+        "issue:8458:v2:b1fd60532d7d2f04",
+        "issue:9917:v2:b1fd60532d7d2f04"
+      ],
+      "stage": "rerank",
+      "status": "ok"
+    },
+    "at": "2026-10-07T12:33:54.838657+00:00"
+  },
+  {
+    "id": 17,
+    "case_id": "GH11528",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ids": [
+        "issue:6138:v2:b1fd60532d7d2f04",
+        "docs:caching:v2:e6829bd5089a51c5",
+        "issue:12740:v2:d7b9a7e02bb4771a"
+      ],
+      "stage": "context_pack",
+      "utf8_bytes": 1897
+    },
+    "at": "2026-10-07T12:33:54.849829+00:00"
+  },
+  {
+    "id": 18,
+    "case_id": "GH11528",
+    "kind": "pipeline_stage",
+    "payload": {
+      "stage": "draft",
+      "status": "produced"
+    },
+    "at": "2026-10-07T12:33:54.862341+00:00"
+  },
+  {
+    "id": 19,
+    "case_id": "GH11528",
+    "kind": "pipeline_stage",
+    "payload": {
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+          "score": 2
+        },
+        "injection_resistance": {
+          "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+          "score": 2
+        }
+      },
+      "attempt": 1,
+      "evaluation_kind": "test_fixture",
+      "findings": [],
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 2,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "stage": "judge",
+      "verdict": "accept"
+    },
+    "at": "2026-10-07T12:33:54.876729+00:00"
+  },
+  {
+    "id": 20,
+    "case_id": "GH11528",
+    "kind": "proposal_created",
+    "payload": {
+      "hash": "5186388c9ec70c5da670be8447bf1f66fc09edee71513738e1c311efbb3875dd",
+      "payload": {
+        "actions": [
+          {
+            "body": "پاسخ پیشنهادی: پرسش بعدی: خطا روی اجرای محلی هم رخ می‌دهد یا فقط روی محیط استقرار؟ نام محیط و خروجی خطای همان اجرا را بفرستید.\n\nشاهد مستند: گزارش یک کاربر؛ اثبات علت این پرونده نیست.\n\nبخش منبع:\n\n```text\nChecklist\n```\n\nنسخهٔ منبع:\n\n```text\n2024-08-15T20:55:07Z\n```\n\nمتن شاهد:\n\n```text\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/streamlit/issues/6138\n```\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nMinimal example\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nThe behavior of `st.cache_data` is what you want in most cases – so if you're unsure, start with `st.cache_data` and see if it works!\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md\n```\n\nمحدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+            "type": "comment"
+          },
+          {
+            "type": "status",
+            "value": "waiting_user"
+          }
+        ],
+        "source_ids": [
+          "issue:6138",
+          "docs:caching"
+        ],
+        "summary": {
+          "ambiguities": [],
+          "completed_checks": [],
+          "decision": "ask",
+          "facts": {
+            "python_version": "3.10",
+            "streamlit_version": "1.44.0"
+          },
+          "hypotheses": [],
+          "judge": {
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+                "score": 2
+              }
+            },
+            "findings": [],
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "verdict": "accept"
+          },
+          "next_step": "پرسش بعدی: خطا روی اجرای محلی هم رخ می‌دهد یا فقط روی محیط استقرار؟ نام محیط و خروجی خطای همان اجرا را بفرستید.",
+          "problem": "cache_data failing to serialize classes from v1.44.0\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI noticed in the upgrade from 1.43.0 to 1.44.0 that we are getting UnserializableReturnValueError when calling cache_data with a self defined class. I can confirm pickle dumps and loads works fine for this class when I run it outside of streamlit. \n\nFull error:\n> streamlit.runtime.caching.cache_errors.UnserializableReturnValueError: Cannot serialize the return value (of type __main__.Example) in test(). st.cache_data uses pickle to serialize the function's return value and safely store it in the cache without mutating the original object. Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences).\n\n### Reproducible Code Example\n\n```Python\nfrom streamlit import cache_data\nimport datetime as dt\n\nclass Example:\n    def __init__(self, name):\n        self.name = name\n\n@cache_data(ttl=dt.timedelta(minutes=60))\ndef test():\n    name = \"andy\"\n    return Example(name)\n\nif __name__ == '__main__':\n\n    b = test()\n```\n\n### Steps To Reproduce\n\nRun the code above in streamlit\n\n### Expected Behavior\n\nThe class should be pickled and be stored in the cache\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.44.0\n- Python version: 3.10\n- Operating System: Linux\n- Browser: Chrome\n\n\n### Additional Information\n\n_No response_",
+          "rationale": "محدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.",
+          "sources": [
+            {
+              "evidence_id": "issue:6138:v2:b1fd60532d7d2f04",
+              "kind": "issue",
+              "lines": [
+                3,
+                7
+              ],
+              "product_version": null,
+              "quote": "- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.",
+              "revision": "2024-08-15T20:55:07Z",
+              "section": "Checklist",
+              "source_id": "issue:6138",
+              "url": "https://github.com/streamlit/streamlit/issues/6138"
+            },
+            {
+              "evidence_id": "docs:caching:v2:e6829bd5089a51c5",
+              "kind": "docs",
+              "lines": [
+                43,
+                48
+              ],
+              "product_version": null,
+              "quote": "The behavior of `st.cache_data` is what you want in most cases – so if you're unsure, start with `st.cache_data` and see if it works!",
+              "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+              "section": "Minimal example",
+              "source_id": "docs:caching",
+              "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md"
+            }
+          ],
+          "unknowns": [
+            "deployment",
+            "reproducible"
+          ]
+        }
+      },
+      "proposal_id": "25f3a24986b36939f30d84b2",
+      "revision": 1
+    },
+    "at": "2026-10-07T12:33:54.891117+00:00"
+  },
+  {
+    "id": 21,
+    "case_id": "GH11528",
+    "kind": "pipeline_stage",
+    "payload": {
+      "auto_execute": false,
+      "hash": "5186388c9ec70c5da670be8447bf1f66fc09edee71513738e1c311efbb3875dd",
+      "id": "25f3a24986b36939f30d84b2",
+      "stage": "prepare_proposal"
+    },
+    "at": "2026-10-07T12:33:54.905194+00:00"
+  },
+  {
+    "id": 22,
+    "case_id": "GH11528",
+    "kind": "turn_completed",
+    "payload": {
+      "architecture": "v2",
+      "case_id": "GH11528",
+      "components": {
+        "dense": false,
+        "judge": true,
+        "mmr": true,
+        "rerank": true,
+        "rewrite": true
+      },
+      "decision": "ask",
+      "judge": {
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.",
+            "score": 2
+          }
+        },
+        "findings": [],
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "verdict": "accept"
+      },
+      "latency_seconds": 0.154991,
+      "max_calls": 8,
+      "method": "final",
+      "mode": "replay",
+      "model_calls": 4,
+      "repair_count": 0,
+      "request_id": "v2-eval",
+      "retrieved": [
+        {
+          "id": "issue:6138:v2:b1fd60532d7d2f04",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 66.8673,
+          "section": "Checklist",
+          "source_id": "issue:6138",
+          "url": "https://github.com/streamlit/streamlit/issues/6138",
+          "version_relation": null
+        },
+        {
+          "id": "docs:caching:v2:e6829bd5089a51c5",
+          "kind": "docs",
+          "product_version": null,
+          "retrieval_score": 61.98299,
+          "section": "Minimal example",
+          "source_id": "docs:caching",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+          "version_relation": null
+        },
+        {
+          "id": "issue:12740:v2:d7b9a7e02bb4771a",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 59.64614,
+          "section": "Checklist",
+          "source_id": "issue:12740",
+          "url": "https://github.com/streamlit/streamlit/issues/12740",
+          "version_relation": null
+        }
+      ],
+      "steps": 8,
+      "usage": {
+        "cost_usd": 0,
+        "mode": "replay",
+        "provider_requests": 0,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "cost_usd": 0,
+            "kind": "extract",
+            "mode": "replay",
+            "provider_requests": 0
+          },
+          {
+            "cost_usd": 0,
+            "kind": "rerank",
+            "mode": "replay",
+            "provider_requests": 0
+          },
+          {
+            "cost_usd": 0,
+            "kind": "rerank",
+            "mode": "replay",
+            "provider_requests": 0
+          },
+          {
+            "cost_usd": 0,
+            "kind": "judge",
+            "mode": "replay",
+            "provider_requests": 0
+          }
+        ]
+      },
+      "validation_error": null
+    },
+    "at": "2026-10-07T12:33:54.940529+00:00"
+  }
+]

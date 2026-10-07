@@ -1,0 +1,153 @@
+[
+  {
+    "id": 1,
+    "case_id": "live-smoke-GH9218",
+    "kind": "user_update",
+    "payload": {
+      "checks": [],
+      "facts": {},
+      "message": "file_uploader with large file results in server getting killed\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI am using st.file_uploader to upload ~3.5gb file into my streamlit dashboard. This however, results in the server getting killed.\nWhen I inspect using btop, Upon file upload, the server starts using an astronomic amount of RAM.\n\nEDIT: I tried imposing a RAM limit by dockerizing the dashboard and settting a 4gb RAM limit, but it just gets killed in the container.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\nuploaded_file = st.file_uploader(\"Choose a video file\", type=[\"mp4\", \"mov\", \"avi\"])\n```\n\n\n### Steps To Reproduce\n\nstreamlit run dashboard.py --maxUploadSize=5000\n\n### Expected Behavior\n\nIt's probably better to stream it in chunks to disk when clicking an 'upload file' button.\n\n### Current Behavior\n\nThe server gets killed.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:\n- Python version:\n- Operating System:\n- Browser:\n\n\n### Additional Information\n\n_No response_",
+      "revision": 1
+    },
+    "at": "2026-10-07T09:58:36.729089+00:00"
+  },
+  {
+    "id": 2,
+    "case_id": "live-smoke-GH9218",
+    "kind": "tool_result",
+    "payload": {
+      "revision": 1,
+      "tool": "read_case"
+    },
+    "at": "2026-10-07T09:58:36.741186+00:00"
+  },
+  {
+    "id": 3,
+    "case_id": "live-smoke-GH9218",
+    "kind": "tool_result",
+    "payload": {
+      "ids": [
+        "docs:where-file-uploader-store-when-deleted:000",
+        "api:file_uploader:002",
+        "docs:architecture:004",
+        "issue:3722:001",
+        "issue:8351:000"
+      ],
+      "method": "final",
+      "tool": "search_evidence"
+    },
+    "at": "2026-10-07T09:58:36.938846+00:00"
+  },
+  {
+    "id": 4,
+    "case_id": "live-smoke-GH9218",
+    "kind": "proposal_created",
+    "payload": {
+      "hash": "b9153df40a3943f347632c6f7ec61590201f849ac4ce03059d4637af115badb1",
+      "payload": {
+        "actions": [
+          {
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `unsupported_quote`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+            "type": "comment"
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "completed_checks": [],
+          "decision": "escalate",
+          "facts": {},
+          "hypotheses": [],
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "problem": "file_uploader with large file results in server getting killed\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI am using st.file_uploader to upload ~3.5gb file into my streamlit dashboard. This however, results in the server getting killed.\nWhen I inspect using btop, Upon file upload, the server starts using an astronomic amount of RAM.\n\nEDIT: I tried imposing a RAM limit by dockerizing the dashboard and settting a 4gb RAM limit, but it just gets killed in the container.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\nuploaded_file = st.file_uploader(\"Choose a video file\", type=[\"mp4\", \"mov\", \"avi\"])\n```\n\n\n### Steps To Reproduce\n\nstreamlit run dashboard.py --maxUploadSize=5000\n\n### Expected Behavior\n\nIt's probably better to stream it in chunks to disk when clicking an 'upload file' button.\n\n### Current Behavior\n\nThe server gets killed.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:\n- Python version:\n- Operating System:\n- Browser:\n\n\n### Additional Information\n\n_No response_",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `unsupported_quote`.",
+          "sources": [],
+          "unknowns": [
+            "streamlit_version",
+            "python_version",
+            "deployment",
+            "reproducible"
+          ]
+        }
+      },
+      "proposal_id": "1f5ff0e16f258f92384423e9",
+      "revision": 1
+    },
+    "at": "2026-10-07T09:58:42.170569+00:00"
+  },
+  {
+    "id": 5,
+    "case_id": "live-smoke-GH9218",
+    "kind": "turn_completed",
+    "payload": {
+      "case_id": "live-smoke-GH9218",
+      "decision": "escalate",
+      "latency_seconds": 5.449886,
+      "method": "final",
+      "mode": "live",
+      "model_calls": 1,
+      "request_id": "smoke-1",
+      "retrieved": [
+        {
+          "id": "docs:where-file-uploader-store-when-deleted:000",
+          "kind": "docs",
+          "product_version": null,
+          "retrieval_score": 32.16414,
+          "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+          "source_id": "docs:where-file-uploader-store-when-deleted",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md#L5-L21"
+        },
+        {
+          "id": "api:file_uploader:002",
+          "kind": "docs",
+          "product_version": "1.49.0",
+          "retrieval_score": 26.89896,
+          "section": "file_uploader (line 252)",
+          "source_id": "api:file_uploader",
+          "url": "https://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/elements/widgets/file_uploader.py"
+        },
+        {
+          "id": "docs:architecture:004",
+          "kind": "docs",
+          "product_version": null,
+          "retrieval_score": 17.67525,
+          "section": "WebSockets and session management",
+          "source_id": "docs:architecture",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/architecture.md#L30-L37"
+        },
+        {
+          "id": "issue:3722:001",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 61.97546,
+          "section": "Steps to reproduce",
+          "source_id": "issue:3722",
+          "url": "https://github.com/streamlit/streamlit/issues/3722"
+        },
+        {
+          "id": "issue:8351:000",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 54.06038,
+          "section": "Checklist",
+          "source_id": "issue:8351",
+          "url": "https://github.com/streamlit/streamlit/issues/8351"
+        }
+      ],
+      "steps": 5,
+      "usage": {
+        "cost_usd": 0.00178112,
+        "input_tokens": 2580,
+        "ledger_id": "00f92c413a398f6f90879c19",
+        "mode": "live",
+        "output_tokens": 367,
+        "provider_requests": 1
+      },
+      "validation_error": "unsupported_quote"
+    },
+    "at": "2026-10-07T09:58:42.189666+00:00"
+  }
+]

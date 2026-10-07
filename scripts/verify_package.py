@@ -24,7 +24,9 @@ def main():
     check('10 multi-turn / half test',len(scenario)==10 and sum(s['split']=='test' for s in scenario)==5)
     check('scenario split matches source case',all(s['case_id'] in case_map and case_map[s['case_id']]['split']==s['split'] for s in scenario))
     frozen=read_json(ROOT/'eval'/'freeze_manifest.json')
-    for name,h in frozen['code_sha256'].items(): check('frozen '+name,hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==h)
+    for name,h in frozen['code_sha256'].items():
+        historical=ROOT/'artifacts/architecture_v1/frozen'/name
+        check('historical V1 frozen '+name,hashlib.sha256((historical if historical.exists() else ROOT/name).read_bytes()).hexdigest()==h)
     check('fresh test selected after freeze',{c['issue_number'] for c in cases if c['split']=='test'}==set(frozen['new_test_issue_numbers']))
     nb=read_json(ROOT/'CasePilot_project.ipynb')
     for i,cell in enumerate(nb['cells']):
@@ -36,10 +38,19 @@ def main():
     check('local test suite passed',tests['passed'] and tests['tests']>0 and tests['errors']==0 and tests['failures']==0)
     check('measured report exists',(ROOT/'report.md').is_file())
     wf=read_json(ROOT/'workflows'/'casepilot_main.json'); names={n['name'] for n in wf['nodes']}
-    check('workflow 12 nodes / inactive',len(names)==12 and wf['active'] is False)
+    check('workflow 13 nodes / inactive',len(names)==13 and wf['active'] is False)
     check('workflow valid connections',all(c['node'] in names for out in wf['connections'].values() for group in out['main'] for c in group))
     check('all webhook paths authenticated',all(n['parameters'].get('authentication')=='headerAuth' for n in wf['nodes'] if n['type'].endswith('.webhook')))
-    check('no automatic review from turn',wf['connections']['Turn Python API']['main'][0][0]['node']=='Turn Response')
+    check('no automatic human approval from turn',wf['connections']['Turn Python API']['main'][0][0]['node']=='Turn Pipeline Contract' and wf['connections']['Turn Pipeline Contract']['main'][0][0]['node']=='Turn Response')
+    v2=read_json(ROOT/'data/corpus_v2.json'); v2manifest=read_json(ROOT/'data/index_v2_manifest.json')
+    check('V2 corpus hash',hashlib.sha256((ROOT/'data/corpus_v2.json').read_bytes()).hexdigest()==v2manifest['corpus_sha256'])
+    check('V2 source allowlist',set(r['source_id'] for r in v2)<=set(r['source_id'] for r in corpus))
+    check('V2 heldout families excluded',not {r.get('issue_number') for r in v2}&excluded)
+    check('V2 heldout references excluded',not any(re.search(r'(?:#|issues/|pull/)'+str(n)+r'\b',r['text']) for r in v2 for n in excluded))
+    check('V2 rubric and bounds',read_json(ROOT/'policies/judge_rubric.json')['can_approve_or_execute'] is False and read_json(ROOT/'policies/execution_policy.json')['max_model_calls_per_turn']==8)
+    check('V2 saved-output audit passed',read_json(ROOT/'artifacts/architecture_v2/verification.json')['passed'])
+    check('V2 workflow contracts passed',read_json(ROOT/'artifacts/architecture_v2/workflow_verification.json')['passed'])
+    check('materialized quote schema matches validator',read_json(ROOT/'schemas/answer.schema.json')['properties']['claims']['items']['required']==['evidence_id','quote'])
     check('no embedded credential values',not any(re.search(r'Bearer\s+[A-Za-z0-9_-]{20,}',canonical(n)) for n in wf['nodes']))
     issues=read_json(ROOT/'data'/'issues_snapshot.json')
     check('Python decorators preserved',any('@st.cache_data' in (r['body'] or '') for r in issues))

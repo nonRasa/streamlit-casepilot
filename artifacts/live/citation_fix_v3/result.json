@@ -1,0 +1,295 @@
+{
+  "at": "2026-10-07T10:15:17.724239+00:00",
+  "finished_at": "2026-10-07T10:15:24.062676+00:00",
+  "status": "success",
+  "split": "dev",
+  "mode": "live",
+  "model": "gpt-4.1-mini",
+  "request_limit": 1,
+  "pilot_cap_usd": 0.1,
+  "new_provider_requests": 1,
+  "new_cost_usd": 0.00195888,
+  "cost_cumulative": {
+    "budget_usd": 0.1,
+    "charged_or_reserved_usd": 0.00558448,
+    "confirmed_usd": 0.00558448,
+    "uncertain_reserved_usd": 0,
+    "requests": 3,
+    "embedding_requests": 0,
+    "embedding_cost_usd": 0,
+    "input_tokens": 8264,
+    "output_tokens": 1107,
+    "calls": [
+      {
+        "id": "00f92c413a398f6f90879c19",
+        "at": "2026-10-07T09:58:36.987569+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.008314944,
+        "charged": 0.00178112,
+        "status": "confirmed",
+        "input_tokens": 2580,
+        "output_tokens": 367,
+        "kind": "chat"
+      },
+      {
+        "id": "728b9d28e51947b66c5b8f8c",
+        "at": "2026-10-07T10:12:05.539637+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.008785920000000001,
+        "charged": 0.0018444800000000001,
+        "status": "confirmed",
+        "input_tokens": 2784,
+        "output_tokens": 352,
+        "kind": "chat"
+      },
+      {
+        "id": "28309f9af9e79f1d6e017c1f",
+        "at": "2026-10-07T10:15:17.998443+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.009156576000000001,
+        "charged": 0.00195888,
+        "status": "confirmed",
+        "input_tokens": 2900,
+        "output_tokens": 388,
+        "kind": "chat"
+      }
+    ]
+  },
+  "error": null,
+  "cases": [
+    {
+      "id": "GH9218",
+      "split": "dev",
+      "output": {
+        "case_id": "citation-fix-v3-GH9218",
+        "request_id": "citation-fix-v3-1",
+        "mode": "live",
+        "method": "final",
+        "decision": "answer",
+        "response": "پاسخ پیشنهادی: برای مدیریت فایل‌های بزرگ، بهتر است مکانیسمی برای ذخیره‌سازی فایل‌ها به صورت موقت در دیسک بین راندها (مثل کش کردن یا استفاده از کتابخانه‌های جانبی) پیاده‌سازی شود. همچنین محدودیت‌های حافظه را بررسی کنید یا از سرویس‌های مخصوص ذخیره‌سازی استفاده نمایید.\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nWhere does st.file_uploader store uploaded files and when do they get deleted?\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nWhen you upload a file using [`st.file_uploader`](/develop/api-reference/widgets/st.file_uploader), the data are copied to the Streamlit backend via the browser, and contained in a BytesIO buffer in Python memory (i.e. RAM, not disk). The data will persist in RAM until the Streamlit app re-runs from top-to-bottom, which is on each widget interaction. If you need to save the data that was uploaded between runs, then you can [cache](/develop/concepts/architecture/caching) it so that Streamlit persists it across re-runs.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md#L5-L21\n```\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nWhere does st.file_uploader store uploaded files and when do they get deleted?\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nAs files are stored in memory, they get deleted immediately as soon as they’re not needed anymore.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md#L5-L21\n```\n\nشاهد مستند: گزارش یک کاربر؛ اثبات علت این پرونده نیست.\n\nبخش منبع:\n\n```text\nSteps to reproduce\n```\n\nنسخهٔ منبع:\n\n```text\n2023-01-18T02:38:19Z\n```\n\nمتن شاهد:\n\n```text\nAdd a file uploader:\n`uploaded_file = st.file_uploader(\"Choose a file\", type=['mp4', 'avi'])`\nDeploy to any of the above environments. I followed this guide https://github.com/ash2shukla/streamlit-heroku for docker+heroku, and just the standard stuff for streamlit sharing.\nUpload a >1 gb Video file.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/streamlit/issues/3722\n```\n\nمحدودیت: با توجه به مستندات، فایل‌های آپلود شده با `st.file_uploader` در حافظه RAM نگهداری می‌شوند و به محض عدم نیاز حذف خواهند شد. همچنین گزارش کاربر و مسائل مشابه نشان می‌دهد که بارگذاری فایل‌های حجیم منجر به استفاده بسیار زیاد از حافظه و در نتیجه کشته شدن سرور می‌شود. بنابراین احتمال بالایی وجود دارد که علت مشکل، محدودیت حافظه سرور و نحوه ذخیره‌سازی فایل‌ها باشد.\n\nفرضیهٔ تأییدنشده: ممکن است علت کشتن سرور، مصرف بسیار زیاد حافظه RAM هنگام آپلود فایل بزرگ باشد.\n\nفرضیهٔ تأییدنشده: از آنجایی که فایل‌ها در حافظه RAM نگهداری می‌شوند، آپلود فایل‌های بزرگ باعث مصرف قابل توجهی از حافظه می‌شود.\n\nفرضیهٔ تأییدنشده: عدم وجود مکانیزم پیش‌فرض برای ذخیره فایل‌های بزرگ به صورت دسته‌ای (chunked) در دیسک ممکن است باعث این مشکل شود.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+        "summary": {
+          "problem": "file_uploader with large file results in server getting killed\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI am using st.file_uploader to upload ~3.5gb file into my streamlit dashboard. This however, results in the server getting killed.\nWhen I inspect using btop, Upon file upload, the server starts using an astronomic amount of RAM.\n\nEDIT: I tried imposing a RAM limit by dockerizing the dashboard and settting a 4gb RAM limit, but it just gets killed in the container.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\nuploaded_file = st.file_uploader(\"Choose a video file\", type=[\"mp4\", \"mov\", \"avi\"])\n```\n\n\n### Steps To Reproduce\n\nstreamlit run dashboard.py --maxUploadSize=5000\n\n### Expected Behavior\n\nIt's probably better to stream it in chunks to disk when clicking an 'upload file' button.\n\n### Current Behavior\n\nThe server gets killed.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:\n- Python version:\n- Operating System:\n- Browser:\n\n\n### Additional Information\n\n_No response_",
+          "facts": {},
+          "unknowns": [
+            "streamlit_version",
+            "python_version",
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [],
+          "sources": [
+            {
+              "evidence_id": "docs:where-file-uploader-store-when-deleted:000",
+              "source_id": "docs:where-file-uploader-store-when-deleted",
+              "quote": "When you upload a file using [`st.file_uploader`](/develop/api-reference/widgets/st.file_uploader), the data are copied to the Streamlit backend via the browser, and contained in a BytesIO buffer in Python memory (i.e. RAM, not disk). The data will persist in RAM until the Streamlit app re-runs from top-to-bottom, which is on each widget interaction. If you need to save the data that was uploaded between runs, then you can [cache](/develop/concepts/architecture/caching) it so that Streamlit persists it across re-runs.",
+              "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md#L5-L21",
+              "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+              "lines": [
+                5,
+                21
+              ],
+              "kind": "docs",
+              "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+              "product_version": null
+            },
+            {
+              "evidence_id": "docs:where-file-uploader-store-when-deleted:000",
+              "source_id": "docs:where-file-uploader-store-when-deleted",
+              "quote": "As files are stored in memory, they get deleted immediately as soon as they’re not needed anymore.",
+              "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md#L5-L21",
+              "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+              "lines": [
+                5,
+                21
+              ],
+              "kind": "docs",
+              "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+              "product_version": null
+            },
+            {
+              "evidence_id": "issue:3722:001",
+              "source_id": "issue:3722",
+              "quote": "Add a file uploader:\n`uploaded_file = st.file_uploader(\"Choose a file\", type=['mp4', 'avi'])`\nDeploy to any of the above environments. I followed this guide https://github.com/ash2shukla/streamlit-heroku for docker+heroku, and just the standard stuff for streamlit sharing.\nUpload a >1 gb Video file.",
+              "url": "https://github.com/streamlit/streamlit/issues/3722",
+              "section": "Steps to reproduce",
+              "lines": [
+                12,
+                31
+              ],
+              "kind": "issue",
+              "revision": "2023-01-18T02:38:19Z",
+              "product_version": null
+            }
+          ],
+          "decision": "answer",
+          "next_step": "برای مدیریت فایل‌های بزرگ، بهتر است مکانیسمی برای ذخیره‌سازی فایل‌ها به صورت موقت در دیسک بین راندها (مثل کش کردن یا استفاده از کتابخانه‌های جانبی) پیاده‌سازی شود. همچنین محدودیت‌های حافظه را بررسی کنید یا از سرویس‌های مخصوص ذخیره‌سازی استفاده نمایید.",
+          "rationale": "با توجه به مستندات، فایل‌های آپلود شده با `st.file_uploader` در حافظه RAM نگهداری می‌شوند و به محض عدم نیاز حذف خواهند شد. همچنین گزارش کاربر و مسائل مشابه نشان می‌دهد که بارگذاری فایل‌های حجیم منجر به استفاده بسیار زیاد از حافظه و در نتیجه کشته شدن سرور می‌شود. بنابراین احتمال بالایی وجود دارد که علت مشکل، محدودیت حافظه سرور و نحوه ذخیره‌سازی فایل‌ها باشد.",
+          "hypotheses": [
+            "ممکن است علت کشتن سرور، مصرف بسیار زیاد حافظه RAM هنگام آپلود فایل بزرگ باشد.",
+            "از آنجایی که فایل‌ها در حافظه RAM نگهداری می‌شوند، آپلود فایل‌های بزرگ باعث مصرف قابل توجهی از حافظه می‌شود.",
+            "عدم وجود مکانیزم پیش‌فرض برای ذخیره فایل‌های بزرگ به صورت دسته‌ای (chunked) در دیسک ممکن است باعث این مشکل شود."
+          ]
+        },
+        "proposal": {
+          "id": "9b0a815a31466cc6a9ce4e0b",
+          "case_id": "citation-fix-v3-GH9218",
+          "revision": 1,
+          "hash": "c42efaafc0ad9dc4ba9d1064defcfa458be0a2a0ad5e6b8d2be97b3f5bc03c66",
+          "payload": {
+            "actions": [
+              {
+                "type": "comment",
+                "body": "پاسخ پیشنهادی: برای مدیریت فایل‌های بزرگ، بهتر است مکانیسمی برای ذخیره‌سازی فایل‌ها به صورت موقت در دیسک بین راندها (مثل کش کردن یا استفاده از کتابخانه‌های جانبی) پیاده‌سازی شود. همچنین محدودیت‌های حافظه را بررسی کنید یا از سرویس‌های مخصوص ذخیره‌سازی استفاده نمایید.\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nWhere does st.file_uploader store uploaded files and when do they get deleted?\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nWhen you upload a file using [`st.file_uploader`](/develop/api-reference/widgets/st.file_uploader), the data are copied to the Streamlit backend via the browser, and contained in a BytesIO buffer in Python memory (i.e. RAM, not disk). The data will persist in RAM until the Streamlit app re-runs from top-to-bottom, which is on each widget interaction. If you need to save the data that was uploaded between runs, then you can [cache](/develop/concepts/architecture/caching) it so that Streamlit persists it across re-runs.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md#L5-L21\n```\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nWhere does st.file_uploader store uploaded files and when do they get deleted?\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nAs files are stored in memory, they get deleted immediately as soon as they’re not needed anymore.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md#L5-L21\n```\n\nشاهد مستند: گزارش یک کاربر؛ اثبات علت این پرونده نیست.\n\nبخش منبع:\n\n```text\nSteps to reproduce\n```\n\nنسخهٔ منبع:\n\n```text\n2023-01-18T02:38:19Z\n```\n\nمتن شاهد:\n\n```text\nAdd a file uploader:\n`uploaded_file = st.file_uploader(\"Choose a file\", type=['mp4', 'avi'])`\nDeploy to any of the above environments. I followed this guide https://github.com/ash2shukla/streamlit-heroku for docker+heroku, and just the standard stuff for streamlit sharing.\nUpload a >1 gb Video file.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/streamlit/issues/3722\n```\n\nمحدودیت: با توجه به مستندات، فایل‌های آپلود شده با `st.file_uploader` در حافظه RAM نگهداری می‌شوند و به محض عدم نیاز حذف خواهند شد. همچنین گزارش کاربر و مسائل مشابه نشان می‌دهد که بارگذاری فایل‌های حجیم منجر به استفاده بسیار زیاد از حافظه و در نتیجه کشته شدن سرور می‌شود. بنابراین احتمال بالایی وجود دارد که علت مشکل، محدودیت حافظه سرور و نحوه ذخیره‌سازی فایل‌ها باشد.\n\nفرضیهٔ تأییدنشده: ممکن است علت کشتن سرور، مصرف بسیار زیاد حافظه RAM هنگام آپلود فایل بزرگ باشد.\n\nفرضیهٔ تأییدنشده: از آنجایی که فایل‌ها در حافظه RAM نگهداری می‌شوند، آپلود فایل‌های بزرگ باعث مصرف قابل توجهی از حافظه می‌شود.\n\nفرضیهٔ تأییدنشده: عدم وجود مکانیزم پیش‌فرض برای ذخیره فایل‌های بزرگ به صورت دسته‌ای (chunked) در دیسک ممکن است باعث این مشکل شود.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+              },
+              {
+                "type": "status",
+                "value": "open"
+              }
+            ],
+            "source_ids": [
+              "docs:where-file-uploader-store-when-deleted",
+              "docs:where-file-uploader-store-when-deleted",
+              "issue:3722"
+            ],
+            "summary": {
+              "problem": "file_uploader with large file results in server getting killed\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI am using st.file_uploader to upload ~3.5gb file into my streamlit dashboard. This however, results in the server getting killed.\nWhen I inspect using btop, Upon file upload, the server starts using an astronomic amount of RAM.\n\nEDIT: I tried imposing a RAM limit by dockerizing the dashboard and settting a 4gb RAM limit, but it just gets killed in the container.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\nuploaded_file = st.file_uploader(\"Choose a video file\", type=[\"mp4\", \"mov\", \"avi\"])\n```\n\n\n### Steps To Reproduce\n\nstreamlit run dashboard.py --maxUploadSize=5000\n\n### Expected Behavior\n\nIt's probably better to stream it in chunks to disk when clicking an 'upload file' button.\n\n### Current Behavior\n\nThe server gets killed.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:\n- Python version:\n- Operating System:\n- Browser:\n\n\n### Additional Information\n\n_No response_",
+              "facts": {},
+              "unknowns": [
+                "streamlit_version",
+                "python_version",
+                "deployment",
+                "reproducible"
+              ],
+              "completed_checks": [],
+              "sources": [
+                {
+                  "evidence_id": "docs:where-file-uploader-store-when-deleted:000",
+                  "source_id": "docs:where-file-uploader-store-when-deleted",
+                  "quote": "When you upload a file using [`st.file_uploader`](/develop/api-reference/widgets/st.file_uploader), the data are copied to the Streamlit backend via the browser, and contained in a BytesIO buffer in Python memory (i.e. RAM, not disk). The data will persist in RAM until the Streamlit app re-runs from top-to-bottom, which is on each widget interaction. If you need to save the data that was uploaded between runs, then you can [cache](/develop/concepts/architecture/caching) it so that Streamlit persists it across re-runs.",
+                  "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md#L5-L21",
+                  "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+                  "lines": [
+                    5,
+                    21
+                  ],
+                  "kind": "docs",
+                  "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+                  "product_version": null
+                },
+                {
+                  "evidence_id": "docs:where-file-uploader-store-when-deleted:000",
+                  "source_id": "docs:where-file-uploader-store-when-deleted",
+                  "quote": "As files are stored in memory, they get deleted immediately as soon as they’re not needed anymore.",
+                  "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md#L5-L21",
+                  "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+                  "lines": [
+                    5,
+                    21
+                  ],
+                  "kind": "docs",
+                  "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+                  "product_version": null
+                },
+                {
+                  "evidence_id": "issue:3722:001",
+                  "source_id": "issue:3722",
+                  "quote": "Add a file uploader:\n`uploaded_file = st.file_uploader(\"Choose a file\", type=['mp4', 'avi'])`\nDeploy to any of the above environments. I followed this guide https://github.com/ash2shukla/streamlit-heroku for docker+heroku, and just the standard stuff for streamlit sharing.\nUpload a >1 gb Video file.",
+                  "url": "https://github.com/streamlit/streamlit/issues/3722",
+                  "section": "Steps to reproduce",
+                  "lines": [
+                    12,
+                    31
+                  ],
+                  "kind": "issue",
+                  "revision": "2023-01-18T02:38:19Z",
+                  "product_version": null
+                }
+              ],
+              "decision": "answer",
+              "next_step": "برای مدیریت فایل‌های بزرگ، بهتر است مکانیسمی برای ذخیره‌سازی فایل‌ها به صورت موقت در دیسک بین راندها (مثل کش کردن یا استفاده از کتابخانه‌های جانبی) پیاده‌سازی شود. همچنین محدودیت‌های حافظه را بررسی کنید یا از سرویس‌های مخصوص ذخیره‌سازی استفاده نمایید.",
+              "rationale": "با توجه به مستندات، فایل‌های آپلود شده با `st.file_uploader` در حافظه RAM نگهداری می‌شوند و به محض عدم نیاز حذف خواهند شد. همچنین گزارش کاربر و مسائل مشابه نشان می‌دهد که بارگذاری فایل‌های حجیم منجر به استفاده بسیار زیاد از حافظه و در نتیجه کشته شدن سرور می‌شود. بنابراین احتمال بالایی وجود دارد که علت مشکل، محدودیت حافظه سرور و نحوه ذخیره‌سازی فایل‌ها باشد.",
+              "hypotheses": [
+                "ممکن است علت کشتن سرور، مصرف بسیار زیاد حافظه RAM هنگام آپلود فایل بزرگ باشد.",
+                "از آنجایی که فایل‌ها در حافظه RAM نگهداری می‌شوند، آپلود فایل‌های بزرگ باعث مصرف قابل توجهی از حافظه می‌شود.",
+                "عدم وجود مکانیزم پیش‌فرض برای ذخیره فایل‌های بزرگ به صورت دسته‌ای (chunked) در دیسک ممکن است باعث این مشکل شود."
+              ]
+            }
+          },
+          "status": "pending"
+        },
+        "retrieved": [
+          {
+            "id": "docs:where-file-uploader-store-when-deleted:000",
+            "source_id": "docs:where-file-uploader-store-when-deleted",
+            "kind": "docs",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md#L5-L21",
+            "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+            "product_version": null,
+            "retrieval_score": 32.16414
+          },
+          {
+            "id": "api:file_uploader:002",
+            "source_id": "api:file_uploader",
+            "kind": "docs",
+            "url": "https://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/elements/widgets/file_uploader.py",
+            "section": "file_uploader (line 252)",
+            "product_version": "1.49.0",
+            "retrieval_score": 26.89896
+          },
+          {
+            "id": "docs:architecture:004",
+            "source_id": "docs:architecture",
+            "kind": "docs",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/architecture.md#L30-L37",
+            "section": "WebSockets and session management",
+            "product_version": null,
+            "retrieval_score": 17.67525
+          },
+          {
+            "id": "issue:3722:001",
+            "source_id": "issue:3722",
+            "kind": "issue",
+            "url": "https://github.com/streamlit/streamlit/issues/3722",
+            "section": "Steps to reproduce",
+            "product_version": null,
+            "retrieval_score": 61.97546
+          },
+          {
+            "id": "issue:8351:000",
+            "source_id": "issue:8351",
+            "kind": "issue",
+            "url": "https://github.com/streamlit/streamlit/issues/8351",
+            "section": "Checklist",
+            "product_version": null,
+            "retrieval_score": 54.06038
+          }
+        ],
+        "steps": 5,
+        "model_calls": 1,
+        "usage": {
+          "mode": "live",
+          "provider_requests": 1,
+          "input_tokens": 2900,
+          "output_tokens": 388,
+          "cost_usd": 0.00195888,
+          "ledger_id": "28309f9af9e79f1d6e017c1f"
+        },
+        "validation_error": null,
+        "latency_seconds": 6.311931
+      },
+      "public_writes": 0
+    }
+  ],
+  "model_sha256": "48b37979de99e4c7e560eb4c89a3ac83d27f53a7d807e43a5e2d16ebb5fe5673",
+  "prices": {
+    "input_usd_per_million": 0.44,
+    "output_usd_per_million": 1.76,
+    "source": "https://docs.metisai.ir/pricing/",
+    "verified_date": "2026-10-07"
+  },
+  "limitations": [
+    "One development case only; not full evaluation or independent semantic quality review.",
+    "No approval or public writes; no automatic retry.",
+    "Cost computed from provider token usage; account balance not queried."
+  ]
+}

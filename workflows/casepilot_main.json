@@ -1,5 +1,5 @@
 {
-  "name": "CasePilot — Turn, Human Review, Execute",
+  "name": "CasePilot V2 — Reviewed RAG, Human Review, Execute",
   "nodes": [
     {
       "id": "38a7abbd-9039-59ce-bae1-3a7e5a61edf6",
@@ -57,7 +57,7 @@
         "specifyBody": "json",
         "jsonBody": "={{ JSON.stringify($json.body) }}",
         "options": {
-          "timeout": 90000,
+          "timeout": 210000,
           "response": {
             "response": {
               "fullResponse": true,
@@ -80,7 +80,7 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        760,
+        1000,
         0
       ],
       "parameters": {
@@ -147,7 +147,7 @@
         "specifyBody": "json",
         "jsonBody": "={{ JSON.stringify($json.body) }}",
         "options": {
-          "timeout": 90000,
+          "timeout": 210000,
           "response": {
             "response": {
               "fullResponse": true,
@@ -237,7 +237,7 @@
         "specifyBody": "json",
         "jsonBody": "={{ JSON.stringify($json.body) }}",
         "options": {
-          "timeout": 90000,
+          "timeout": 210000,
           "response": {
             "response": {
               "fullResponse": true,
@@ -270,6 +270,20 @@
           "responseCode": "={{ $json.statusCode }}"
         }
       }
+    },
+    {
+      "id": "f2bf6005-baa2-52ca-a98a-cff2a8e66cc2",
+      "name": "Turn Pipeline Contract",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        740,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const r=$json; const b=r.body;\nif(r.statusCode>=200 && r.statusCode<300) {\n  if(!b || !b.proposal || !b.proposal.id || !b.proposal.hash) throw new Error('Missing scoped proposal');\n  if(b.method==='final') {\n    if(b.architecture!=='v2' || !Array.isArray(b.pipeline) || b.model_calls>8 || b.repair_count>1) throw new Error('Invalid bounded pipeline result');\n    if(!b.validation_error && (!b.judge || b.judge.verdict!=='accept')) throw new Error('Unchecked draft rejected');\n    if(b.validation_error && (b.decision!=='escalate' || b.summary.sources.length)) throw new Error('Unsafe fallback rejected');\n  }\n}\nreturn [{json:r}];"
+      }
     }
   ],
   "connections": {
@@ -299,7 +313,7 @@
       "main": [
         [
           {
-            "node": "Turn Response",
+            "node": "Turn Pipeline Contract",
             "type": "main",
             "index": 0
           }
@@ -371,6 +385,17 @@
           }
         ]
       ]
+    },
+    "Turn Pipeline Contract": {
+      "main": [
+        [
+          {
+            "node": "Turn Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -379,7 +404,7 @@
     "saveDataSuccessExecution": "none",
     "saveDataErrorExecution": "none",
     "saveManualExecutions": false,
-    "executionTimeout": 180
+    "executionTimeout": 240
   },
   "pinData": {},
   "tags": [],

@@ -17,7 +17,7 @@ def expect_error(fn,code):
 
 def scenario_run(scenario,cases,retriever,client,tmp):
     cid=scenario['case_id']; case=cases[cid]; store=Store(tmp/(scenario['id']+'.sqlite3'))
-    agent=Agent(store,retriever,client); turns=[]
+    agent=Agent(store,retriever,client,architecture="v1"); turns=[]
     turns.append(agent.turn(cid,case['initial_message'],'start',case['initial_facts'],case['initial_checks']))
     mode=scenario['pattern']; old=None
     for index,turn in enumerate(scenario['turns']):
@@ -38,7 +38,7 @@ def scenario_run(scenario,cases,retriever,client,tmp):
         changes=[{'type':'comment','body':'پاسخ ویرایش‌شده: لطفاً نتیجهٔ بررسی حداقلی را بفرستید.'},{'type':'status','value':'waiting_user'}]
         edit_result=store.review(cid,edited['id'],edited['hash'],'edit','بازبین آزمایشی',changes)
         p=next(x for x in store.get(cid)['proposals'] if x['id']==edit_result['id'])
-    if mode=='restart': store=Store(store.path); agent=Agent(store,retriever,client); assert store.get(cid)['pending_proposal']==p['id']
+    if mode=='restart': store=Store(store.path); agent=Agent(store,retriever,client,architecture="v1"); assert store.get(cid)['pending_proposal']==p['id']
     if mode=='stale':
         previous,approval=old
         errors.append(expect_error(lambda:store.execute(cid,previous['id'],approval['approval_id']),'stale_approval'))
@@ -65,10 +65,32 @@ def run(split='all',mode='replay',limit=None,with_scenarios=True):
     cases=read_json(ROOT/'eval'/'cases.json'); selected=[c for c in cases if split=='all' or c['split']==split]
     if limit: selected=selected[:limit]
     retriever=Retriever(); client=make_client(mode); records=[]; scenarios=[]; started=utcnow(); start=time.perf_counter(); stopped=None
+    run_label=split+(f'_sample_{limit}' if limit else '')
+    outdir=ROOT/'artifacts'/('live' if mode=='live' else 'offline')/run_label
+    outdir.mkdir(parents=True,exist_ok=True)
+    if mode=='live':
+        require(not (outdir/'evaluation_metrics.json').exists() and not (outdir/'progress.json').exists(),
+                'evaluation_exists','نتیجهٔ اجرای قبلی حفظ شد؛ اجرای زندهٔ تکراری خودکار مجاز نیست.')
+    traces={}
+    frozen_files={p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest()
+                  for p in sorted((ROOT/'src'/'casepilot').glob('*.py'))}
+    frozen_files.update({name:hashlib.sha256((ROOT/name).read_bytes()).hexdigest() for name in
+                        ('data/corpus.json','eval/cases.json','eval/scenarios.json','schemas/answer.schema.json','schemas/model_selection.schema.json','scripts/evaluate.py')})
+    configuration={'files':frozen_files,'model':getattr(client,'model','deterministic-replay'),
+                   'max_output_tokens':getattr(client,'max_output',None),
+                   'input_rate':getattr(client,'ir',None),'output_rate':getattr(client,'orate',None)}
+    cost_before=client.budget.report() if mode=='live' else {'requests':0,'confirmed_usd':0}
+    def checkpoint():
+        (outdir/'answers.jsonl').write_text(''.join(json.dumps(r,ensure_ascii=False)+'\n' for r in records),encoding='utf-8')
+        write_json(outdir/'multi_turn_results.json',scenarios)
+        write_json(outdir/'traces.json',traces)
+        write_json(outdir/'progress.json',{'at':utcnow(),'started_at':started,'mode':mode,'split':split,
+                   'comparison_turns_done':len(records),'comparison_turns_expected':2*len(selected),
+                   'scenarios_done':len(scenarios),'configuration_hash':digest(configuration),'stopped_reason':stopped})
     with tempfile.TemporaryDirectory(prefix='casepilot-eval-') as folder:
         tmp=Path(folder)
         for method in ('baseline','final'):
-            agent=Agent(Store(tmp/(method+'.sqlite3')),retriever,client)
+            agent=Agent(Store(tmp/(method+'.sqlite3')),retriever,client,architecture="v1")
             for c in selected:
                 try:
                     out=agent.turn(c['id'],c['initial_message'],'eval-'+method,c['initial_facts'],c['initial_checks'],method)
@@ -78,6 +100,7 @@ def run(split='all',mode='replay',limit=None,with_scenarios=True):
                                     'decision_in_allowed_set':out['decision'] in c['allowed_decisions'],
                                     'decision':out['decision'],'validation_error':out['validation_error'],'latency_seconds':out['latency_seconds'],
                                     'model_calls':out['model_calls'],'usage':out['usage'],'output':out})
+                    traces[method]=agent.store.traces(); checkpoint()
                 except CasePilotError as exc:
                     stopped=exc.code
                     if exc.code in ('budget_exhausted','provider_error'): break
@@ -88,7 +111,8 @@ def run(split='all',mode='replay',limit=None,with_scenarios=True):
             for scenario in read_json(ROOT/'eval'/'scenarios.json'):
                 if split!='all' and scenario['split']!=split: continue
                 if limit and scenario['case_id'] not in {c['id'] for c in selected}: continue
-                try: scenarios.append(scenario_run(scenario,allcases,retriever,client,tmp))
+                try:
+                    scenarios.append(scenario_run(scenario,allcases,retriever,client,tmp)); checkpoint()
                 except CasePilotError as exc:
                     stopped=exc.code
                     if exc.code in ('budget_exhausted','provider_error'): break
@@ -102,14 +126,16 @@ def run(split='all',mode='replay',limit=None,with_scenarios=True):
                          'validation_failures':sum(bool(r['validation_error']) for r in rows),
                          'median_latency_seconds':statistics.median(r['latency_seconds'] for r in rows) if rows else None,
                          'by_category':{cat:{'n':len(group),'decision_rubric_proxy':statistics.mean(r['decision_in_allowed_set'] for r in group)} for cat in ('answerable','ambiguous','escalate') if (group:=[r for r in rows if r['category']==cat])}}
-    manifest={'started_at':started,'finished_at':utcnow(),'mode':mode,'split':split,'selected_cases':len(selected),'complete':len(records)==2*len(selected) and stopped is None,
+    expected_scenarios=sum((split=='all' or s['split']==split) and (not limit or s['case_id'] in {c['id'] for c in selected}) for s in read_json(ROOT/'eval'/'scenarios.json')) if with_scenarios else 0
+    manifest={'started_at':started,'finished_at':utcnow(),'mode':mode,'split':split,'selected_cases':len(selected),'complete':len(records)==2*len(selected) and len(scenarios)==expected_scenarios and stopped is None,
               'stopped_reason':stopped,'elapsed_seconds':time.perf_counter()-start,'provider_execution':mode=='live',
               'limitations':['Replay is a deterministic test policy, not LLM quality evidence.','Decision set match is a permissive routing proxy, not correctness or usefulness.','Source-level qrels are prospective manual annotations; independent human review still required.','Test cases were seen during dataset authoring; this is not a blind external benchmark.'],
-              'configuration_hash':digest({'schema':read_json(ROOT/'schemas'/'answer.schema.json') if (ROOT/'schemas'/'answer.schema.json').exists() else {},'snapshot':read_json(ROOT/'data'/'snapshot_manifest.json')['files'],'model':getattr(client,'model','deterministic-replay')}),
+              'configuration_hash':digest(configuration),'configuration':configuration,
               'metrics':metrics,'scenarios':{'n':len(scenarios),'passed':sum(s['passed'] for s in scenarios)},
               'cost':client.budget.report() if mode=='live' else {'requests':0,'input_tokens':0,'output_tokens':0,'embedding_requests':0,'embedding_cost_usd':0,'charged_or_reserved_usd':0,'mode':'replay'}}
-    run_label=split+(f'_sample_{limit}' if limit else '')
-    outdir=ROOT/'artifacts'/('live' if mode=='live' else 'offline')/run_label; outdir.mkdir(parents=True,exist_ok=True)
+    manifest['run_provider_requests']=manifest['cost']['requests']-cost_before['requests']
+    manifest['run_confirmed_usd']=manifest['cost'].get('confirmed_usd',0)-cost_before['confirmed_usd']
+    checkpoint()
     write_json(outdir/'evaluation_metrics.json',manifest)
     write_json(outdir/'multi_turn_results.json',scenarios)
     (outdir/'answers.jsonl').write_text(''.join(json.dumps(r,ensure_ascii=False)+'\n' for r in records),encoding='utf-8')

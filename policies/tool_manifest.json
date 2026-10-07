@@ -15,16 +15,17 @@
     },
     {
       "name": "search_evidence",
-      "implementation": "Retriever.search",
+      "implementation": "HybridRetriever.search",
       "input": {
         "query": "string",
-        "k": "integer <= 5",
-        "method": "baseline | final"
+        "k": "integer <= 8",
+        "version": "string or null"
       },
-      "output": "versioned source chunks",
+      "output": "versioned candidates; at most 5 enter final context",
       "errors": [
         "invalid_input",
-        "invalid_method"
+        "embedding_index_not_ready",
+        "budget_exhausted"
       ],
       "write": false
     },

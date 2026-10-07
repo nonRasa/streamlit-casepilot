@@ -1,0 +1,1 @@
+Historical V1 implementation used for artifacts/live and the original 60-row AI review. These results do not evaluate architecture V2. Frozen files are verified against the unchanged original evaluation plan.

@@ -1,0 +1,613 @@
+{
+  "started_at": "2026-10-07T10:34:09.565808+00:00",
+  "finished_at": "2026-10-07T10:37:25.761756+00:00",
+  "mode": "live",
+  "split": "dev",
+  "selected_cases": 15,
+  "complete": true,
+  "stopped_reason": null,
+  "elapsed_seconds": 196.19562260000384,
+  "provider_execution": true,
+  "limitations": [
+    "Replay is a deterministic test policy, not LLM quality evidence.",
+    "Decision set match is a permissive routing proxy, not correctness or usefulness.",
+    "Source-level qrels are prospective manual annotations; independent human review still required.",
+    "Test cases were seen during dataset authoring; this is not a blind external benchmark."
+  ],
+  "configuration_hash": "27569279a452d9262e26d1ef49d6250a54196df98aeb79c7122fea113791ac00",
+  "configuration": {
+    "files": {
+      "src/casepilot/__init__.py": "14297a2fe955613daf489c47801aa269af0d134b433e082ed99f93e1febe18ef",
+      "src/casepilot/accounting.py": "099208d90b5a7dcc1e2f04c790613e3ddf33dffd0fd7d03994479beeb2cdad0d",
+      "src/casepilot/agent.py": "3334aa459e3d640d8d6c249e766a5d381e0d2212a52ed507653b293dcd3b22ba",
+      "src/casepilot/cli.py": "b9b2253c47a826fe57476c77c52a34d23460fb5985dae6a65ed8df8f21775dc9",
+      "src/casepilot/common.py": "5fd56b4e58d13b0555cc574a9921134aac8f5958f9a8d3ae326028df74652567",
+      "src/casepilot/grounding.py": "5878886ac2af23c180a6d57b7c4ec57af7c1fb329bd68ed1834e8bb3c3f7dee6",
+      "src/casepilot/model.py": "48b37979de99e4c7e560eb4c89a3ac83d27f53a7d807e43a5e2d16ebb5fe5673",
+      "src/casepilot/retrieval.py": "767d56e39f6780806447ae9e8956d15291e2a864fea606e093c2ba9a9a6f3984",
+      "src/casepilot/server.py": "b2c9fc974670d2b32c18736e31985eea7e7e74d1eeee1bf75ffc982ef578137d",
+      "src/casepilot/store.py": "84cbf3cb95e5ce24c65cc39e7423137ab3b382cc433b1327f76523feca494b5e",
+      "data/corpus.json": "e4cc916355d43571bc3c7a42546da6b4c5515fd438e675f0bc128c7ce254e8a0",
+      "eval/cases.json": "59378be38f8953526bf81261cca419cc4ba9990fb1502207bada04c2c4ce0083",
+      "eval/scenarios.json": "b5fc26b5e7b3296adfe2186531e2d095a7633512f9c3626378eb780704406d38",
+      "schemas/answer.schema.json": "c126dcdf9caa418bbe40609759b350301a5cc278ebb1e4da048ad665944b00f1",
+      "schemas/model_selection.schema.json": "83ae89f46e4746c9acd0f200727f62c8325126e0ca22621bac7d67525a5b228a",
+      "scripts/evaluate.py": "b58e221329811e313dc2b9def299b562c4dd0121d13a9197df6a2ec9500f4ba4"
+    },
+    "model": "gpt-4.1-mini",
+    "max_output_tokens": 1000,
+    "input_rate": 0.44,
+    "output_rate": 1.76
+  },
+  "metrics": {
+    "baseline": {
+      "n": 15,
+      "recall_labelled_n": 15,
+      "source_recall_at_5": 0.2,
+      "decision_rubric_proxy": 0.5333333333333333,
+      "validation_failures": 1,
+      "median_latency_seconds": 3.589656,
+      "by_category": {
+        "answerable": {
+          "n": 3,
+          "decision_rubric_proxy": 0.6666666666666666
+        },
+        "ambiguous": {
+          "n": 10,
+          "decision_rubric_proxy": 0.4
+        },
+        "escalate": {
+          "n": 2,
+          "decision_rubric_proxy": 1
+        }
+      }
+    },
+    "final": {
+      "n": 15,
+      "recall_labelled_n": 15,
+      "source_recall_at_5": 0.9333333333333333,
+      "decision_rubric_proxy": 0.6666666666666666,
+      "validation_failures": 1,
+      "median_latency_seconds": 4.78964,
+      "by_category": {
+        "answerable": {
+          "n": 3,
+          "decision_rubric_proxy": 1
+        },
+        "ambiguous": {
+          "n": 10,
+          "decision_rubric_proxy": 0.5
+        },
+        "escalate": {
+          "n": 2,
+          "decision_rubric_proxy": 1
+        }
+      }
+    }
+  },
+  "scenarios": {
+    "n": 5,
+    "passed": 5
+  },
+  "cost": {
+    "budget_usd": 0.5,
+    "charged_or_reserved_usd": 0.113911248,
+    "confirmed_usd": 0.10705728,
+    "uncertain_reserved_usd": 0.006853967999999999,
+    "requests": 46,
+    "embedding_requests": 0,
+    "embedding_cost_usd": 0,
+    "input_tokens": 167984,
+    "output_tokens": 18832,
+    "calls": [
+      {
+        "id": "00f92c413a398f6f90879c19",
+        "at": "2026-10-07T09:58:36.987569+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.008314944,
+        "charged": 0.00178112,
+        "status": "confirmed",
+        "input_tokens": 2580,
+        "output_tokens": 367,
+        "kind": "chat"
+      },
+      {
+        "id": "728b9d28e51947b66c5b8f8c",
+        "at": "2026-10-07T10:12:05.539637+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.008785920000000001,
+        "charged": 0.0018444800000000001,
+        "status": "confirmed",
+        "input_tokens": 2784,
+        "output_tokens": 352,
+        "kind": "chat"
+      },
+      {
+        "id": "28309f9af9e79f1d6e017c1f",
+        "at": "2026-10-07T10:15:17.998443+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.009156576000000001,
+        "charged": 0.00195888,
+        "status": "confirmed",
+        "input_tokens": 2900,
+        "output_tokens": 388,
+        "kind": "chat"
+      },
+      {
+        "id": "f1d28a6a5641c81c61f4e8e2",
+        "at": "2026-10-07T10:29:30.388636+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.006853967999999999,
+        "charged": 0.006853967999999999,
+        "status": "uncertain_reserved",
+        "input_tokens": null,
+        "output_tokens": null,
+        "kind": "chat"
+      },
+      {
+        "id": "34bff06b8f62640391b2a19b",
+        "at": "2026-10-07T10:34:09.711773+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.006853967999999999,
+        "charged": 0.00137456,
+        "status": "confirmed",
+        "input_tokens": 1884,
+        "output_tokens": 310,
+        "kind": "chat"
+      },
+      {
+        "id": "5aeb5388de626e576925dee9",
+        "at": "2026-10-07T10:34:12.965191+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.007247328,
+        "charged": 0.0016073200000000002,
+        "status": "confirmed",
+        "input_tokens": 2077,
+        "output_tokens": 394,
+        "kind": "chat"
+      },
+      {
+        "id": "e8e2ce3887444443aacc6ab5",
+        "at": "2026-10-07T10:34:17.102874+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.007539839999999999,
+        "charged": 0.0014894,
+        "status": "confirmed",
+        "input_tokens": 2217,
+        "output_tokens": 292,
+        "kind": "chat"
+      },
+      {
+        "id": "f5be4c3db951ed3e01547875",
+        "at": "2026-10-07T10:34:20.152943+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.00924264,
+        "charged": 0.0020662399999999996,
+        "status": "confirmed",
+        "input_tokens": 3124,
+        "output_tokens": 393,
+        "kind": "chat"
+      },
+      {
+        "id": "a9a2928da49ab204034c92ac",
+        "at": "2026-10-07T10:34:23.547489+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.010312367999999999,
+        "charged": 0.00220088,
+        "status": "confirmed",
+        "input_tokens": 3506,
+        "output_tokens": 374,
+        "kind": "chat"
+      },
+      {
+        "id": "0bd512bfbd970b4352fbdbe5",
+        "at": "2026-10-07T10:34:27.222078+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.008544624,
+        "charged": 0.0018211599999999998,
+        "status": "confirmed",
+        "input_tokens": 2515,
+        "output_tokens": 406,
+        "kind": "chat"
+      },
+      {
+        "id": "b8090999e8e4fba1c40d88db",
+        "at": "2026-10-07T10:34:30.915024+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.013535808,
+        "charged": 0.0028674800000000004,
+        "status": "confirmed",
+        "input_tokens": 4921,
+        "output_tokens": 399,
+        "kind": "chat"
+      },
+      {
+        "id": "0fee4ff8e30a69b254c34fad",
+        "at": "2026-10-07T10:34:34.869784+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.012712656,
+        "charged": 0.00251636,
+        "status": "confirmed",
+        "input_tokens": 4667,
+        "output_tokens": 263,
+        "kind": "chat"
+      },
+      {
+        "id": "a541b597feb5d3c325088504",
+        "at": "2026-10-07T10:34:38.105668+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.0136884,
+        "charged": 0.00317944,
+        "status": "confirmed",
+        "input_tokens": 4990,
+        "output_tokens": 559,
+        "kind": "chat"
+      },
+      {
+        "id": "9fd52cb51b7cb32457d1c547",
+        "at": "2026-10-07T10:34:42.494164+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.008415792,
+        "charged": 0.001991,
+        "status": "confirmed",
+        "input_tokens": 2733,
+        "output_tokens": 448,
+        "kind": "chat"
+      },
+      {
+        "id": "53d2649286ccf90711661a11",
+        "at": "2026-10-07T10:34:45.955162+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.008459616,
+        "charged": 0.00179476,
+        "status": "confirmed",
+        "input_tokens": 2663,
+        "output_tokens": 354,
+        "kind": "chat"
+      },
+      {
+        "id": "80575a18e1c1fa2a30dd93e6",
+        "at": "2026-10-07T10:34:49.321377+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.014146704,
+        "charged": 0.00293304,
+        "status": "confirmed",
+        "input_tokens": 5126,
+        "output_tokens": 385,
+        "kind": "chat"
+      },
+      {
+        "id": "a9295d462baf4530f81045cb",
+        "at": "2026-10-07T10:34:52.919065+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.007876176,
+        "charged": 0.0016359200000000001,
+        "status": "confirmed",
+        "input_tokens": 2326,
+        "output_tokens": 348,
+        "kind": "chat"
+      },
+      {
+        "id": "0cb281af2d5fe1f12ded1c54",
+        "at": "2026-10-07T10:34:56.009672+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.008084735999999999,
+        "charged": 0.00173976,
+        "status": "confirmed",
+        "input_tokens": 2474,
+        "output_tokens": 370,
+        "kind": "chat"
+      },
+      {
+        "id": "0df88334b61e00625b16f237",
+        "at": "2026-10-07T10:34:59.840776+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.011566895999999998,
+        "charged": 0.00293348,
+        "status": "confirmed",
+        "input_tokens": 3983,
+        "output_tokens": 671,
+        "kind": "chat"
+      },
+      {
+        "id": "8b5f64ef8ca4fcedb76cc48d",
+        "at": "2026-10-07T10:35:05.580409+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.009156576000000001,
+        "charged": 0.00198,
+        "status": "confirmed",
+        "input_tokens": 2900,
+        "output_tokens": 400,
+        "kind": "chat"
+      },
+      {
+        "id": "4c47921ce65ffd01049853f1",
+        "at": "2026-10-07T10:35:09.995841+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.00996864,
+        "charged": 0.0022136400000000002,
+        "status": "confirmed",
+        "input_tokens": 3231,
+        "output_tokens": 450,
+        "kind": "chat"
+      },
+      {
+        "id": "87e831e484da78f552e39bb7",
+        "at": "2026-10-07T10:35:13.678757+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.009175056000000001,
+        "charged": 0.00211684,
+        "status": "confirmed",
+        "input_tokens": 3027,
+        "output_tokens": 446,
+        "kind": "chat"
+      },
+      {
+        "id": "1abedcd233f84180da174034",
+        "at": "2026-10-07T10:35:17.307558+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.010070016,
+        "charged": 0.00215072,
+        "status": "confirmed",
+        "input_tokens": 3500,
+        "output_tokens": 347,
+        "kind": "chat"
+      },
+      {
+        "id": "271962400086d0f077f5f347",
+        "at": "2026-10-07T10:35:22.181486+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.013378992000000001,
+        "charged": 0.00284856,
+        "status": "confirmed",
+        "input_tokens": 4766,
+        "output_tokens": 427,
+        "kind": "chat"
+      },
+      {
+        "id": "b851911d106693995afcf30b",
+        "at": "2026-10-07T10:35:25.905706+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.010073183999999999,
+        "charged": 0.0020878000000000003,
+        "status": "confirmed",
+        "input_tokens": 3221,
+        "output_tokens": 381,
+        "kind": "chat"
+      },
+      {
+        "id": "57d109862d2c1972d21e96ab",
+        "at": "2026-10-07T10:35:30.045222+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.013801392,
+        "charged": 0.0029026800000000004,
+        "status": "confirmed",
+        "input_tokens": 4969,
+        "output_tokens": 407,
+        "kind": "chat"
+      },
+      {
+        "id": "f7361eebb4aeb97300b83258",
+        "at": "2026-10-07T10:35:34.887345+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.012691536,
+        "charged": 0.00288288,
+        "status": "confirmed",
+        "input_tokens": 4592,
+        "output_tokens": 490,
+        "kind": "chat"
+      },
+      {
+        "id": "8a55e762ff237f502ec9f56d",
+        "at": "2026-10-07T10:35:40.532629+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.016087103999999998,
+        "charged": 0.0034011999999999996,
+        "status": "confirmed",
+        "input_tokens": 6006,
+        "output_tokens": 431,
+        "kind": "chat"
+      },
+      {
+        "id": "32d045f155a30b46df2f7b9e",
+        "at": "2026-10-07T10:35:46.154665+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.010259568,
+        "charged": 0.0024618,
+        "status": "confirmed",
+        "input_tokens": 3539,
+        "output_tokens": 514,
+        "kind": "chat"
+      },
+      {
+        "id": "7a13ed5e296d1e6bad2fb17f",
+        "at": "2026-10-07T10:35:53.567874+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.01154472,
+        "charged": 0.0024411199999999997,
+        "status": "confirmed",
+        "input_tokens": 3996,
+        "output_tokens": 388,
+        "kind": "chat"
+      },
+      {
+        "id": "02f68bbe8969a9ebee063c3e",
+        "at": "2026-10-07T10:35:58.530225+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.01403952,
+        "charged": 0.00310508,
+        "status": "confirmed",
+        "input_tokens": 4989,
+        "output_tokens": 517,
+        "kind": "chat"
+      },
+      {
+        "id": "aebf04564c90b702c586f762",
+        "at": "2026-10-07T10:36:05.084430+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.010032527999999999,
+        "charged": 0.00222156,
+        "status": "confirmed",
+        "input_tokens": 3289,
+        "output_tokens": 440,
+        "kind": "chat"
+      },
+      {
+        "id": "9acc24d1f53a17cc9550453d",
+        "at": "2026-10-07T10:36:09.936726+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.009898415999999998,
+        "charged": 0.00224444,
+        "status": "confirmed",
+        "input_tokens": 3337,
+        "output_tokens": 441,
+        "kind": "chat"
+      },
+      {
+        "id": "b8870a35cd5d2abaaa103db4",
+        "at": "2026-10-07T10:36:15.260905+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.011907983999999998,
+        "charged": 0.0027566,
+        "status": "confirmed",
+        "input_tokens": 4149,
+        "output_tokens": 529,
+        "kind": "chat"
+      },
+      {
+        "id": "9582357b56234440fc8d4ee9",
+        "at": "2026-10-07T10:36:21.067122+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.009898415999999998,
+        "charged": 0.00229548,
+        "status": "confirmed",
+        "input_tokens": 3337,
+        "output_tokens": 470,
+        "kind": "chat"
+      },
+      {
+        "id": "b70c64b522fcfa3f0fd08c9d",
+        "at": "2026-10-07T10:36:26.461767+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.010785983999999998,
+        "charged": 0.00250184,
+        "status": "confirmed",
+        "input_tokens": 3762,
+        "output_tokens": 481,
+        "kind": "chat"
+      },
+      {
+        "id": "d66d34a024c67946d0353749",
+        "at": "2026-10-07T10:36:31.776382+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.010893168,
+        "charged": 0.00236588,
+        "status": "confirmed",
+        "input_tokens": 3817,
+        "output_tokens": 390,
+        "kind": "chat"
+      },
+      {
+        "id": "3862e3825e410253de9c6a87",
+        "at": "2026-10-07T10:36:37.789253+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.016087103999999998,
+        "charged": 0.00339064,
+        "status": "confirmed",
+        "input_tokens": 6006,
+        "output_tokens": 425,
+        "kind": "chat"
+      },
+      {
+        "id": "88952ac82ccc226a9fcb0ace",
+        "at": "2026-10-07T10:36:43.725815+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.015540096,
+        "charged": 0.00331276,
+        "status": "confirmed",
+        "input_tokens": 5801,
+        "output_tokens": 432,
+        "kind": "chat"
+      },
+      {
+        "id": "bdb1aa4a572dea872aea7e72",
+        "at": "2026-10-07T10:36:49.431479+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.009156576000000001,
+        "charged": 0.00195536,
+        "status": "confirmed",
+        "input_tokens": 2900,
+        "output_tokens": 386,
+        "kind": "chat"
+      },
+      {
+        "id": "c36dd8243c261519eae7db33",
+        "at": "2026-10-07T10:36:53.753610+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.009274848,
+        "charged": 0.00198308,
+        "status": "confirmed",
+        "input_tokens": 2963,
+        "output_tokens": 386,
+        "kind": "chat"
+      },
+      {
+        "id": "e722705af313bf4e6d571397",
+        "at": "2026-10-07T10:36:58.647346+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.009358799999999999,
+        "charged": 0.00202224,
+        "status": "confirmed",
+        "input_tokens": 3004,
+        "output_tokens": 398,
+        "kind": "chat"
+      },
+      {
+        "id": "cf076ac74615e624ed3af04e",
+        "at": "2026-10-07T10:37:03.340843+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.013378992000000001,
+        "charged": 0.00287496,
+        "status": "confirmed",
+        "input_tokens": 4766,
+        "output_tokens": 442,
+        "kind": "chat"
+      },
+      {
+        "id": "4a075debe8f00715e215ec93",
+        "at": "2026-10-07T10:37:10.318188+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.012968208,
+        "charged": 0.00278256,
+        "status": "confirmed",
+        "input_tokens": 4652,
+        "output_tokens": 418,
+        "kind": "chat"
+      },
+      {
+        "id": "69f33b8f6df74c8e3293d57c",
+        "at": "2026-10-07T10:37:15.162612+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.013801392,
+        "charged": 0.0029906800000000003,
+        "status": "confirmed",
+        "input_tokens": 4969,
+        "output_tokens": 457,
+        "kind": "chat"
+      },
+      {
+        "id": "4a0d099b2765f51d25e93648",
+        "at": "2026-10-07T10:37:20.365442+00:00",
+        "model": "gpt-4.1-mini",
+        "reserved": 0.013899071999999998,
+        "charged": 0.0030315999999999997,
+        "status": "confirmed",
+        "input_tokens": 5026,
+        "output_tokens": 466,
+        "kind": "chat"
+      }
+    ]
+  },
+  "run_provider_requests": 42,
+  "run_confirmed_usd": 0.1014728
+}

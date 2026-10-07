@@ -116,7 +116,7 @@ class TrackerTests(unittest.TestCase):
 class AgentTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls): cls.retriever=Retriever()
-    def setUp(self): self.tmp=tempfile.TemporaryDirectory(); self.store=Store(Path(self.tmp.name)/'tracker.sqlite3'); self.agent=Agent(self.store,self.retriever,ReplayClient())
+    def setUp(self): self.tmp=tempfile.TemporaryDirectory(); self.store=Store(Path(self.tmp.name)/'tracker.sqlite3'); self.agent=Agent(self.store,self.retriever,ReplayClient(),architecture='v1')
     def tearDown(self): self.tmp.cleanup()
     def test_turn_does_not_write_comment(self):
         out=self.agent.turn('A','گزارش: مقدار `session_state` پس از تغییر صفحه از بین می‌رود.','r1')
@@ -144,7 +144,7 @@ class AgentTests(unittest.TestCase):
     def test_resume_failed_turn_no_duplicate_message(self):
         class Broken(ReplayClient):
             def generate(self,*args,**kwargs): self.calls+=1; raise CasePilotError('provider_error','خطای آزمایشی')
-        broken=Agent(self.store,self.retriever,Broken())
+        broken=Agent(self.store,self.retriever,Broken(),architecture='v1')
         with self.assertRaises(CasePilotError): broken.turn('A','widget value','r1')
         out=self.agent.turn('A','widget value','r1'); self.assertEqual(len(self.store.get('A')['messages']),1)
     def test_extract_ambiguous_versions_remains_unknown(self):

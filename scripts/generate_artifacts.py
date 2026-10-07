@@ -4,6 +4,8 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]; sys.path.insert(0,str(ROOT/'src'))
 from casepilot.common import write_json
 from casepilot.model import SCHEMA
+from casepilot.roles import EXTRACTION, REWRITE, RERANK, JUDGE, JUDGE_PROMPT
+from notebook_v2 import notebook
 
 def node(name,kind,parameters,x,y,version=2,credentials=None):
     row={'id':str(uuid.uuid5(uuid.NAMESPACE_URL,'casepilot/'+name)),'name':name,'type':'n8n-nodes-base.'+kind,'typeVersion':version,'position':[x,y],'parameters':parameters}
@@ -28,52 +30,59 @@ def workflow(base_url):
             node(names[2],'httpRequest',{'method':'POST','url':base_url.rstrip('/')+'/api/'+route,
                  'authentication':'genericCredentialType','genericAuthType':'httpHeaderAuth',
                  'sendBody':True,'specifyBody':'json','jsonBody':'={{ JSON.stringify($json.body) }}',
-                 'options':{'timeout':90000,'response':{'response':{'fullResponse':True,'neverError':True,'responseFormat':'json'}}}},500,y,4.2,backend),
+                 'options':{'timeout':210000,'response':{'response':{'fullResponse':True,'neverError':True,'responseFormat':'json'}}}},500,y,4.2,backend),
             node(names[3],'respondToWebhook',{'respondWith':'json','responseBody':'={{ $json.body }}','options':{'responseCode':'={{ $json.statusCode }}'}},760,y,1.4)
         ])
         for a,b in zip(names,names[1:]): connections[a]={'main':[[{'node':b,'type':'main','index':0}]]}
-    return {'name':'CasePilot — Turn, Human Review, Execute','nodes':nodes,'connections':connections,'active':False,
-            'settings':{'executionOrder':'v1','saveDataSuccessExecution':'none','saveDataErrorExecution':'none','saveManualExecutions':False,'executionTimeout':180},
+    audit='Turn Pipeline Contract'
+    js="""const r=$json; const b=r.body;
+if(r.statusCode>=200 && r.statusCode<300) {
+  if(!b || !b.proposal || !b.proposal.id || !b.proposal.hash) throw new Error('Missing scoped proposal');
+  if(b.method==='final') {
+    if(b.architecture!=='v2' || !Array.isArray(b.pipeline) || b.model_calls>8 || b.repair_count>1) throw new Error('Invalid bounded pipeline result');
+    if(!b.validation_error && (!b.judge || b.judge.verdict!=='accept')) throw new Error('Unchecked draft rejected');
+    if(b.validation_error && (b.decision!=='escalate' || b.summary.sources.length)) throw new Error('Unsafe fallback rejected');
+  }
+}
+return [{json:r}];"""
+    nodes.append(node(audit,'code',{'mode':'runOnceForAllItems','jsCode':js},740,0))
+    next(n for n in nodes if n['name']=='Turn Response')['position']=[1000,0]
+    connections['Turn Python API']={'main':[[{'node':audit,'type':'main','index':0}]]}
+    connections[audit]={'main':[[{'node':'Turn Response','type':'main','index':0}]]}
+    return {'name':'CasePilot V2 — Reviewed RAG, Human Review, Execute','nodes':nodes,'connections':connections,'active':False,
+            'settings':{'executionOrder':'v1','saveDataSuccessExecution':'none','saveDataErrorExecution':'none','saveManualExecutions':False,'executionTimeout':240},
             'pinData':{},'tags':[], 'meta':{'templateCredsSetupCompleted':False}}
 
-def notebook():
-    cells=[]
-    def md(text): cells.append({'id':f'cell-{len(cells):02d}','cell_type':'markdown','metadata':{},'source':text.splitlines(keepends=True)})
-    def code(text): cells.append({'id':f'cell-{len(cells):02d}','cell_type':'code','execution_count':None,'metadata':{},'outputs':[],'source':text.splitlines(keepends=True)})
-    md('# پروژهٔ دستیار پیگیری پرونده\n\nراهنما: این نوت‌بوک مسیر داده، بازیابی، پاسخ مستند، تأیید انسانی، آزمون و ارزیابی را مانند تمرین‌ها اجرا می‌کند. حالت پیش‌فرض `replay` است و هیچ کلید یا هزینه‌ای ندارد. خروجی آزمایشی، نتیجهٔ مدل واقعی محسوب نمی‌شود.')
-    code("from pathlib import Path\nimport sys, json, subprocess, tempfile\nROOT = Path.cwd()\nif not (ROOT / 'src' / 'casepilot').exists():\n    raise RuntimeError('نوت‌بوک را از ریشهٔ پروژه باز کنید.')\nsys.path.insert(0, str(ROOT / 'src'))\nfrom casepilot.common import read_json\nfrom casepilot.store import Store\nfrom casepilot.retrieval import Retriever\nfrom casepilot.agent import Agent\nfrom casepilot.model import ReplayClient\nprint('وضعیت: محیط آماده است.')")
-    md('## مرحلهٔ داده و مرز ارزیابی\n\nتوضیح: گزارش‌های واقعی از دادهٔ ثابت خوانده می‌شوند. پرونده‌های ارزیابی، نظرها و خانواده‌های تکراری‌شان پیش از قطعه‌بندی از بازیابی کنار گذاشته شده‌اند. ارزیابی روی snapshot کنونی است و ادعای بازسازی تاریخی ندارد.')
-    code("manifest = read_json(ROOT / 'data' / 'snapshot_manifest.json')\nprint(json.dumps({k: manifest[k] for k in ('issue_count','comments_retained','docs_count','chunks','split','excluded_docs')}, ensure_ascii=False, indent=2))\ncases = read_json(ROOT / 'eval' / 'cases.json')\nprint('تعداد پرونده‌های توسعه:', sum(c['split']=='dev' for c in cases))")
-    md('## مرحلهٔ بازیابی و استناد\n\nتوضیح: روش پایه جست‌وجوی واژگانی است. روش نهایی ادغام رتبهٔ واژه و سه‌نویسه، گسترش واژگان و تنوع منبع را اضافه می‌کند. کنترل خودکار، وجود نقل‌قول در منبع را می‌سنجد؛ تشخیص کامل صحت معنایی همچنان نیازمند بازبینی است.')
-    code("retriever = Retriever()\nquery = 'session_state widget value resets after navigation'\nfor method in ('baseline','final'):\n    rows = retriever.search(query, method=method)\n    print('روش:', method)\n    print([(r['source_id'], r['section']) for r in rows])")
-    md('## مرحلهٔ پاسخ و گفت‌وگوی وابسته\n\nتوضیح: اطلاعات تازه جای واقعیت قبلی را می‌گیرد و در سابقه ثبت می‌شود. هیچ نظر عمومی در این مرحله ثبت نمی‌شود.')
-    code("temporary = tempfile.TemporaryDirectory(prefix='casepilot-notebook-')\nstore = Store(Path(temporary.name) / 'tracker.sqlite3')\nagent = Agent(store, retriever, ReplayClient())\nfirst = agent.turn('notebook-case', 'مقدار session_state پس از جابه‌جایی صفحه تغییر می‌کند.', 'nb-turn-1')\nprint(first['response'])\nsecond = agent.turn('notebook-case', 'پاسخ: نسخه مشخص شد و نمونهٔ کوچک هم رفتار را دارد.', 'nb-turn-2', facts={'streamlit_version':'1.49.0','reproducible':True})\nprint(second['response'])\nassert len(store.get('notebook-case')['comments']) == 0")
-    md('## مرحلهٔ تأیید انسانی و اقدام\n\nراهنما: متن پیشنهاد را بخوانید. مقدار `REVIEW_DECISION` را خودتان انتخاب کنید. مقدار پیش‌فرض `reject` است. تأیید همین متن و همین پرونده معتبر است و ویرایش نیازمند تأیید تازه است.')
-    code("REVIEW_DECISION = 'reject'\np = second['proposal']\nreview = store.review('notebook-case', p['id'], p['hash'], REVIEW_DECISION, 'بازبین نوت‌بوک')\nif REVIEW_DECISION == 'approve':\n    result = store.execute('notebook-case', p['id'], review['approval_id'])\n    repeated = store.execute('notebook-case', p['id'], review['approval_id'])\n    assert repeated['replayed']\n    print(json.dumps(result, ensure_ascii=False, indent=2))\nelse:\n    assert len(store.get('notebook-case')['comments']) == 0\n    print('وضعیت: پیشنهاد رد شد و تغییری ثبت نشد.')")
-    md('## مرحلهٔ آزمون و ارزیابی توسعه\n\nتوضیح: اجرای زیر رایگان است. سنجهٔ تصمیم در بازپخش فقط یک شاخص مسیر است؛ کیفیت مدل واقعی، درستی علت و مفیدبودن پاسخ را ثابت نمی‌کند. آزمون نهایی باید پس از قفل تنظیمات اجرا شود.')
-    code("subprocess.run([sys.executable, 'scripts/run_tests.py'], cwd=ROOT, check=True)\nsubprocess.run([sys.executable, 'scripts/evaluate.py', '--split', 'dev'], cwd=ROOT, check=True)")
-    md('## مرحلهٔ ارزیابی خصمانه\n\nتوضیح: ورودی‌های تزریقی و مجوزهای جعلی در چند خانواده آزموده می‌شوند. بازپخش مقاومت مدل واقعی در برابر تزریق را اثبات نمی‌کند؛ نتیجهٔ مکانیزم مجوز و استناد جدا گزارش می‌شود.')
-    code("subprocess.run([sys.executable, 'scripts/adversarial.py'], cwd=ROOT, check=True)")
-    md('## مرحلهٔ اتصال واقعی پس از دریافت کلید\n\nراهنما: کلید و نام مدل و تعرفه را فقط در محیط تنظیم کنید. ابتدا نمونهٔ کوچک توسعه اجرا شود. مقدار زیر پیش‌فرض خاموش است. راهنمای دقیق در فایل `docs/LIVE_RUN_FA.md` آمده است.')
-    code("RUN_LIVE = False\nif RUN_LIVE:\n    subprocess.run([sys.executable, 'scripts/evaluate.py', '--mode', 'live', '--split', 'dev', '--limit', '2', '--no-scenarios'], cwd=ROOT, check=True)\nelse:\n    print('وضعیت: اجرای واقعی انجام نشده؛ کلید هنوز دریافت نشده است.')\ntemporary.cleanup()")
-    return {'cells':cells,'metadata':{'kernelspec':{'display_name':'Python 3','language':'python','name':'python3'},'language_info':{'name':'python','version':'3.11'}},'nbformat':4,'nbformat_minor':5}
-
 def main(base):
-    write_json(ROOT/'schemas'/'answer.schema.json',SCHEMA)
+    answer_schema=json.loads(json.dumps(SCHEMA))
+    answer_schema['properties']['claims']['items']['required']=['evidence_id','quote']
+    answer_schema['properties']['claims']['items']['properties']={'evidence_id':{'type':'string'},'quote':{'type':'string','minLength':20,'maxLength':1000}}
+    write_json(ROOT/'schemas'/'answer.schema.json',answer_schema)
+    write_json(ROOT/'schemas'/'model_selection.schema.json',SCHEMA)
+    for name,schema in [('extraction',EXTRACTION),('rewrite',REWRITE),('rerank',RERANK),('judge',JUDGE)]:
+        write_json(ROOT/'schemas'/(name+'.schema.json'),schema)
+    write_json(ROOT/'policies'/'judge_rubric.json',{'architecture':'v2','prompt':JUDGE_PROMPT,'schema':'schemas/judge.schema.json',
+        'acceptance':'all six criteria score 2, no findings, deterministic gates pass','repair_limit':1,'repeat_judge_after_repair':True,
+        'human_comparison':'Independent human scores on the same V2 outputs remain required. Historical V1 AI review is not human ground truth.',
+        'can_approve_or_execute':False})
     write_json(ROOT/'policies'/'tool_manifest.json',{'tools':[
         {'name':'read_case','implementation':'Store.get','input':{'case_id':'string'},'output':'case state, pending proposal, comments','errors':['invalid_id','not_found'],'write':False},
-        {'name':'search_evidence','implementation':'Retriever.search','input':{'query':'string','k':'integer <= 5','method':'baseline | final'},'output':'versioned source chunks','errors':['invalid_input','invalid_method'],'write':False},
+        {'name':'search_evidence','implementation':'HybridRetriever.search','input':{'query':'string','k':'integer <= 8','version':'string or null'},'output':'versioned candidates; at most 5 enter final context','errors':['invalid_input','embedding_index_not_ready','budget_exhausted'],'write':False},
         {'name':'prepare_proposal','implementation':'Store.propose','input':{'case_id':'string','revision':'integer','payload':'validated actions and summary'},'output':'proposal id, hash, revision','errors':['invalid_action','conflict'],'write':'internal draft only'},
         {'name':'review_proposal','implementation':'Store.review','input':{'decision':'approve | reject | edit','proposal_hash':'string','reviewer':'authenticated actor'},'output':'approval or replacement draft','errors':['stale_approval','proposal_changed','already_reviewed'],'write':'internal approval only'},
         {'name':'execute_approved','implementation':'Store.execute','input':{'case_id':'string','proposal_id':'string','approval_id':'string'},'output':'stored effects and idempotent result','errors':['approval_required','approval_expired','stale_approval','resolution_unconfirmed'],'write':'local tracker only'}]})
-    write_json(ROOT/'policies'/'execution_policy.json',{'max_steps_per_turn':5,'max_model_calls_per_turn':1,'max_user_turns_per_case':100,'max_retrieved_chunks':5,'max_context_characters':10000,'max_message_characters':20000,'max_actions':3,'approval_ttl_seconds':900,'team_budget_usd':5,'auto_execute':False,'allowed_gateway_host':'api.metisai.ir','writes':'local SQLite only'})
+    write_json(ROOT/'policies'/'execution_policy.json',{'architecture':'v2','max_steps_per_turn':14,'max_model_calls_per_turn':8,'max_repair_attempts':1,'max_turn_usd':.04,'max_turn_seconds':180,'max_user_turns_per_case':100,'max_candidates':8,'max_retrieved_chunks':5,'max_context_utf8_bytes':10000,'max_message_characters':20000,'max_actions':3,'approval_ttl_seconds':900,'team_budget_usd':5,'default_operational_cap_usd':.50,'auto_execute':False,'allowed_gateway_host':'api.metisai.ir','writes':'local SQLite only'})
     write_json(ROOT/'workflows'/'casepilot_main.json',workflow(base))
     write_json(ROOT/'CasePilot_project.ipynb',notebook())
     write_json(ROOT/'examples'/'turn.json',{'case_id':'demo-1','request_id':'example-turn-1','message':'مقدار session_state پس از تغییر صفحه از بین می‌رود.','facts':{},'checks':[]})
     write_json(ROOT/'examples'/'review.json',{'case_id':'demo-1','proposal_id':'COPY_FROM_TURN_RESULT','proposal_hash':'COPY_FROM_TURN_RESULT','decision':'reject','reviewer':'نگه‌دارنده'})
     write_json(ROOT/'examples'/'execute.json',{'case_id':'demo-1','proposal_id':'COPY_FROM_TURN_RESULT','approval_id':'COPY_FROM_REVIEW_RESULT'})
-    write_json(ROOT/'artifacts'/'live_run_manifest.json',{'status':'not_run','provider_requests':0,'reason':'API key has not been provided; no fabricated model results.','n8n_status':'JSON generated; user imports and verifies on their own instance.'})
+    if not (ROOT/'artifacts'/'live_run_manifest.json').exists():
+        write_json(ROOT/'artifacts'/'live_run_manifest.json',{'status':'not_run','provider_requests':0,'reason':'No execution result exists.','n8n_status':'JSON generated; user imports and verifies on their own instance.'})
     print('وضعیت: نوت‌بوک، قراردادها و گردش‌کار ساخته شدند.')
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser(); p.add_argument('--backend-url',default='https://YOUR-CASEPILOT-BACKEND.example'); main(p.parse_args().backend_url)
+    p=argparse.ArgumentParser(); p.add_argument('--backend-url',default='https://YOUR-CASEPILOT-BACKEND.example'); p.add_argument('--workflow-only',action='store_true'); args=p.parse_args()
+    if args.workflow_only:
+        write_json(ROOT/'workflows/casepilot_main.json',workflow(args.backend_url)); print('وضعیت: فقط گردش‌کار بازسازی شد؛ نوت‌بوک حفظ شد.')
+    else: main(args.backend_url)

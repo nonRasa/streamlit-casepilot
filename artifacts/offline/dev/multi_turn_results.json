@@ -6,12 +6,12 @@
     "actual_comments": 1,
     "blocked_errors": [],
     "execution": {
-      "proposal_id": "b40824c76423710b1600afbb",
+      "proposal_id": "c71f3cee4593ec6a7b0da4ef",
       "case_id": "GH17119",
       "effects": [
         {
           "type": "comment",
-          "comment_id": "b40824c76423710b1600afbb-0"
+          "comment_id": "c71f3cee4593ec6a7b0da4ef-0"
         },
         {
           "type": "status",
@@ -77,7 +77,7 @@
           "hypotheses": []
         },
         "proposal": {
-          "id": "865b75df8a3cad3410b873e8",
+          "id": "b559efbe9a90ef0af76eafae",
           "case_id": "GH17119",
           "revision": 1,
           "hash": "b336fb616f165b18e355cca3081dd2fd2e2b8083046ea1641b8d7171595db077",
@@ -200,7 +200,7 @@
           "provider_requests": 0
         },
         "validation_error": null,
-        "latency_seconds": 0.339967
+        "latency_seconds": 0.357891
       },
       {
         "case_id": "GH17119",
@@ -256,7 +256,7 @@
           "hypotheses": []
         },
         "proposal": {
-          "id": "ac67d330226d064e965a10ed",
+          "id": "749efc62b970097cfed53565",
           "case_id": "GH17119",
           "revision": 2,
           "hash": "5e9a37edd418fd84ac5c3ae68d2e1d334b351384917dc59496252e4aad992d0f",
@@ -379,7 +379,7 @@
           "provider_requests": 0
         },
         "validation_error": null,
-        "latency_seconds": 0.333991
+        "latency_seconds": 0.336685
       },
       {
         "case_id": "GH17119",
@@ -435,7 +435,7 @@
           "hypotheses": []
         },
         "proposal": {
-          "id": "b40824c76423710b1600afbb",
+          "id": "c71f3cee4593ec6a7b0da4ef",
           "case_id": "GH17119",
           "revision": 3,
           "hash": "a8f69cdc910d95c7f9ca9bb315a2e3993db830f5cf92d8d085221e6f0adf209f",
@@ -558,7 +558,7 @@
           "provider_requests": 0
         },
         "validation_error": null,
-        "latency_seconds": 0.346383
+        "latency_seconds": 0.333398
       }
     ],
     "trace": [
@@ -574,7 +574,7 @@
           "message": "Keyed persist_state=None remount can reset the UI while st.session_state[key] still holds the previous value\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nA keyed `persist_state=None` widget that has already registered, is then hidden, then shown again can render the widget default while `st.session_state[key]` still holds the previous value on that remount run. A follow-up rerun overwrites session state with the default. Unmount should reset **both** the UI and `st.session_state[key]` in the same run (#3512).\n\nThis is a follow-up to #17106 / #17093. That PR syncs delayed first mount to a leftover pre-registration user key. This issue is the already-registered remount path: unmount cleanup has dropped widget-id state, but a leftover user-key entry can leave the two sides out of sync for one run.\n\n### Reproducible Code Example\n\n```python\nimport streamlit as st\n\nst.session_state.setdefault(\"input2\", \"input 2\")\nst.session_state.setdefault(\"input3\", \"input 3\")\n\nselect = st.selectbox(\"select delayed input\", [\"A\", \"B\"])\nif select == \"A\":\n    value = st.text_input(\"input 2\", key=\"input2\")\nelse:\n    value = st.text_input(\"input 3\", key=\"input3\")\n\nst.write(\"widget return:\", repr(value))\nst.write(\"session_state input2:\", repr(st.session_state.get(\"input2\")))\n```\n\n### Steps To Reproduce\n\n1. Load the app. Input 2 is shown on first load with `\"input 2\"`.\n2. Switch the selectbox to B.\n3. Optionally edit input 3 and press Enter.\n4. Switch back to A.\n5. Compare the input 2 field with the printed `st.session_state.get(\"input2\")` value, then press `r`.\n\n### Expected Behavior\n\nAfter the registered widget remounts, both the rendered input and `st.session_state[\"input2\"]` are the widget default (empty) on that same run. A follow-up rerun is not required to sync them.\n\nA user key written while the widget had **never** registered remains ordinary session state: delayed first mount (and leftover-key remount after edit/hide) should still adopt that stored value on both sides. `persist_state=\"session\"` / `\"page\"` (same page) should still remount the last edit.\n\n### Current Behavior\n\nAfter switching back to A (especially after editing the sibling input 3), the input 2 **field is empty** while `st.session_state.get(\"input2\")` still prints `\"input 2\"` for that run. A follow-up rerun clears the printed backend as well.\n\nWithout the sibling edit, A→B→A can keep UI and backend aligned at `\"input 2\"`. Either interpretation of leftover keys should keep UI and printed state in sync; the #3512 unmount rule for an already-registered `persist_state=None` widget is that both sides reset in the same run.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: current develop / #17106\n- Python version: 3.13\n- Operating System: macOS\n- Browser: Chromium (Playwright)\n\n### Additional Information\n\nFound during QA of https://github.com/streamlit/streamlit/pull/17106#issuecomment-5813147965.\n\nRelated:\n\n- #3512 — unmount should reset both the widget UI and the Python value in the same run\n- #17093 / #17106 — delayed first mount after a leftover pre-registration user key (out of scope here)\n- #12880 — identity-by-key (out of scope)",
           "revision": 1
         },
-        "at": "2026-10-07T09:51:41.171583+00:00"
+        "at": "2026-10-07T10:42:26.397650+00:00"
       },
       {
         "id": 2,
@@ -584,7 +584,7 @@
           "revision": 1,
           "tool": "read_case"
         },
-        "at": "2026-10-07T09:51:41.181435+00:00"
+        "at": "2026-10-07T10:42:26.408544+00:00"
       },
       {
         "id": 3,
@@ -601,7 +601,7 @@
           "method": "final",
           "tool": "search_evidence"
         },
-        "at": "2026-10-07T09:51:41.448539+00:00"
+        "at": "2026-10-07T10:42:26.691631+00:00"
       },
       {
         "id": 4,
@@ -671,10 +671,10 @@
               ]
             }
           },
-          "proposal_id": "865b75df8a3cad3410b873e8",
+          "proposal_id": "b559efbe9a90ef0af76eafae",
           "revision": 1
         },
-        "at": "2026-10-07T09:51:41.499290+00:00"
+        "at": "2026-10-07T10:42:26.743309+00:00"
       },
       {
         "id": 5,
@@ -683,7 +683,7 @@
         "payload": {
           "case_id": "GH17119",
           "decision": "ask",
-          "latency_seconds": 0.339967,
+          "latency_seconds": 0.357891,
           "method": "final",
           "mode": "replay",
           "model_calls": 1,
@@ -743,7 +743,7 @@
           },
           "validation_error": null
         },
-        "at": "2026-10-07T09:51:41.521361+00:00"
+        "at": "2026-10-07T10:42:26.765014+00:00"
       },
       {
         "id": 6,
@@ -757,7 +757,7 @@
           "message": "پاسخ نسخه: از نسخهٔ قدیمی استفاده می‌کردم.",
           "revision": 2
         },
-        "at": "2026-10-07T09:51:41.533087+00:00"
+        "at": "2026-10-07T10:42:26.777949+00:00"
       },
       {
         "id": 7,
@@ -767,7 +767,7 @@
           "revision": 2,
           "tool": "read_case"
         },
-        "at": "2026-10-07T09:51:41.543935+00:00"
+        "at": "2026-10-07T10:42:26.787774+00:00"
       },
       {
         "id": 8,
@@ -784,7 +784,7 @@
           "method": "final",
           "tool": "search_evidence"
         },
-        "at": "2026-10-07T09:51:41.801631+00:00"
+        "at": "2026-10-07T10:42:27.050535+00:00"
       },
       {
         "id": 9,
@@ -854,10 +854,10 @@
               ]
             }
           },
-          "proposal_id": "ac67d330226d064e965a10ed",
+          "proposal_id": "749efc62b970097cfed53565",
           "revision": 2
         },
-        "at": "2026-10-07T09:51:41.857795+00:00"
+        "at": "2026-10-07T10:42:27.103499+00:00"
       },
       {
         "id": 10,
@@ -866,7 +866,7 @@
         "payload": {
           "case_id": "GH17119",
           "decision": "ask",
-          "latency_seconds": 0.333991,
+          "latency_seconds": 0.336685,
           "method": "final",
           "mode": "replay",
           "model_calls": 1,
@@ -926,7 +926,7 @@
           },
           "validation_error": null
         },
-        "at": "2026-10-07T09:51:41.879095+00:00"
+        "at": "2026-10-07T10:42:27.127552+00:00"
       },
       {
         "id": 11,
@@ -941,7 +941,7 @@
           "message": "اصلاح: نسخهٔ محیط خطا متفاوت است؛ بازتولید مستقل موفق شد.",
           "revision": 3
         },
-        "at": "2026-10-07T09:51:41.891924+00:00"
+        "at": "2026-10-07T10:42:27.140197+00:00"
       },
       {
         "id": 12,
@@ -951,7 +951,7 @@
           "revision": 3,
           "tool": "read_case"
         },
-        "at": "2026-10-07T09:51:41.902913+00:00"
+        "at": "2026-10-07T10:42:27.150674+00:00"
       },
       {
         "id": 13,
@@ -968,7 +968,7 @@
           "method": "final",
           "tool": "search_evidence"
         },
-        "at": "2026-10-07T09:51:42.194216+00:00"
+        "at": "2026-10-07T10:42:27.410223+00:00"
       },
       {
         "id": 14,
@@ -1038,10 +1038,10 @@
               ]
             }
           },
-          "proposal_id": "b40824c76423710b1600afbb",
+          "proposal_id": "c71f3cee4593ec6a7b0da4ef",
           "revision": 3
         },
-        "at": "2026-10-07T09:51:42.227765+00:00"
+        "at": "2026-10-07T10:42:27.461822+00:00"
       },
       {
         "id": 15,
@@ -1050,7 +1050,7 @@
         "payload": {
           "case_id": "GH17119",
           "decision": "ask",
-          "latency_seconds": 0.346383,
+          "latency_seconds": 0.333398,
           "method": "final",
           "mode": "replay",
           "model_calls": 1,
@@ -1110,7 +1110,7 @@
           },
           "validation_error": null
         },
-        "at": "2026-10-07T09:51:42.248910+00:00"
+        "at": "2026-10-07T10:42:27.485000+00:00"
       },
       {
         "id": 16,
@@ -1118,15 +1118,15 @@
         "kind": "human_review",
         "payload": {
           "decision": "approve",
-          "proposal_id": "b40824c76423710b1600afbb",
+          "proposal_id": "c71f3cee4593ec6a7b0da4ef",
           "result": {
             "expires_in_seconds": 900,
-            "proposal_id": "b40824c76423710b1600afbb",
+            "proposal_id": "c71f3cee4593ec6a7b0da4ef",
             "status": "approved"
           },
           "reviewer": "بازبین آزمایشی"
         },
-        "at": "2026-10-07T09:51:42.262429+00:00"
+        "at": "2026-10-07T10:42:27.499166+00:00"
       },
       {
         "id": 17,
@@ -1136,7 +1136,7 @@
           "case_id": "GH17119",
           "effects": [
             {
-              "comment_id": "b40824c76423710b1600afbb-0",
+              "comment_id": "c71f3cee4593ec6a7b0da4ef-0",
               "type": "comment"
             },
             {
@@ -1144,12 +1144,12 @@
               "value": "waiting_user"
             }
           ],
-          "proposal_id": "b40824c76423710b1600afbb",
+          "proposal_id": "c71f3cee4593ec6a7b0da4ef",
           "replayed": false,
           "resolution_confirmed": false,
           "revision": 4
         },
-        "at": "2026-10-07T09:51:42.273255+00:00"
+        "at": "2026-10-07T10:42:27.510668+00:00"
       }
     ]
   },
@@ -1213,7 +1213,7 @@
           "hypotheses": []
         },
         "proposal": {
-          "id": "d50b6c4b771c1aef036f2052",
+          "id": "23b288e58114c82d1d61f45c",
           "case_id": "GH14710",
           "revision": 1,
           "hash": "ece36d503627bb6749317568d93b5d20aaf3f805d218b029543fc14884df1974",
@@ -1336,7 +1336,7 @@
           "provider_requests": 0
         },
         "validation_error": null,
-        "latency_seconds": 0.437168
+        "latency_seconds": 0.378827
       },
       {
         "case_id": "GH14710",
@@ -1392,7 +1392,7 @@
           "hypotheses": []
         },
         "proposal": {
-          "id": "1d369fe39e316f9d55ac5a28",
+          "id": "1067c2b8e8171dbe5799c538",
           "case_id": "GH14710",
           "revision": 2,
           "hash": "d59c6356b2e8bfc7fbd3ad5e57db9647c8e8ea8c5d94cbfe4e0136ab97deaa41",
@@ -1515,7 +1515,7 @@
           "provider_requests": 0
         },
         "validation_error": null,
-        "latency_seconds": 0.455944
+        "latency_seconds": 0.423611
       }
     ],
     "trace": [
@@ -1532,7 +1532,7 @@
           "message": "Await a Components V2 initialization value without session-state residue\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\n<details>\n<summary>./docker-compose.yml</summary>\n\n```yaml\nservices:\n  main:\n    build:\n      context: .\n      dockerfile_inline: |\n        # syntax=docker.io/docker/dockerfile-upstream:1.20.0-labs\n        # check=error=true\n        FROM python:3.10-slim AS base\n        RUN pip install \"streamlit==1.55\"\n    init: true\n    network_mode: \"host\"\n    working_dir: /app\n    volumes:\n      - .:/app:ro\n    entrypoint: [\"/usr/bin/env\", \"streamlit\", \"run\"]\n    command: [\"./streamlit_app.py\"]\n```\n\n</details>\n<details>\n<summary>./comp.py</summary>\n\n```python\n# comp.py\n\nimport sys\nfrom datetime import datetime\nfrom pathlib import Path\n\nimport streamlit as st\n\nst_comp_get_cookies = st.components.v2.component(\n    \"component_bidi_drop_bug.get_cookies\",\n    js=\"\"\"\n    export default function(component){\n        const { data, setTriggerValue } = component;\n        console.log(\"Comp Instantiated: \" + data._);\n        // More advanced logic here\n        const retObj = document.cookie;\n        console.log(\"cookie-getter:\", retObj);\n        if(retObj !== undefined) setTriggerValue(\"get_cookies\", retObj);\n    }\n    \"\"\",\n    isolate_styles=False,\n)\n\ndef _frame_gen(frame, skip=0):\n    while frame:\n        if frame.f_code.co_filename.startswith(\"/app\"):\n            if skip <= 0:\n                yield frame\n            else:\n                skip -= 1\n        frame = frame.f_back\n\n_cwd = Path.cwd()\n\ndef _rm_cwd(path):\n    if _cwd in Path(path).parents:\n        return str(Path(path).relative_to(_cwd))\n    return path\n\ndef unique_key(suffix: str = \"\", skip: int = 0) -> str:\n    return \"\".join(reversed([\n        f\"{_rm_cwd(f.f_code.co_filename)}-{f.f_code.co_name}-{f.f_lineno};\"\n        for f in _frame_gen(sys._getframe(), skip + 1)\n    ])) + suffix\n\ndef unique_line_time(suffix: str = \"\", skip: int = 0) -> str:\n    return unique_key(suffix, skip + 1) + f\":{int(datetime.now().timestamp())}\"\n```\n\n</details>\n\n<details>\n<summary>./streamlit_app.py</summary>\n\n```python\n# streamlit_app.py\n\nimport time\n\nimport streamlit as st\nfrom comp import st_comp_get_cookies, unique_line_time\n\nst.set_page_config(page_title=\"Component V2 Bidi Bug\")\nst.header(\"Hi\")\nst.write(\"This component passes a 'soft' key via data so that multiple instances of it can exist,\")\nst.write(\"that's LOC/time unique. So every app hard or soft refresh creates a new widget.\")\nst.write(\"Avoiding making a key, because intend to post-process the return value and populate\")\nst.write(\"session_state with refined data. Messy session_state is annoying.\")\nst.write(\"The base component only exists once, in the cached helper file.\")\n\nst.header(\"Problem\")\nst.write(\"Browser console logs: the widget is instantiated, then returns the value.\")\nst.write(\"Python logs: the returned value isn't always received.\")\nst.write(\"Because it's so inconsistently received, it's hard to depend on\")\n\ndef get_raw_cookies() -> str:\n    data = { \"_\": unique_line_time() }\n    obj = st_comp_get_cookies(data=data)\n    print(f\"{obj=}\")\n    if not isinstance(obj, dict) or \"get_cookies\" not in obj:\n        time.sleep(2)\n        st.rerun() # Very first run, component mightn't be ready\n    return obj[\"get_cookies\"]\n\n# Main\n\nif \"rerun_counter\" not in st.session_state:\n    st.session_state[\"rerun_counter\"] = -1\nst.session_state[\"rerun_counter\"] = st.session_state[\"rerun_counter\"] + 1\nprint(f'{st.session_state[\"rerun_counter\"]} Refresh')\n\n\nprint(f\"First: {get_raw_cookies()=}\")\nprint(f\"Second: {get_raw_cookies()=}\")\nst.header(\"Page finished loading!\")\n```\n\n</details>\n`docker compose up`\nstreamlit v 1.55\n\nI'm trying to migrate our custom js widgets from v1 component api to the non-iframe v2 api.\nIt seems far more powerful, and seems like it'll cut boilerplate.\nIn our style, we have accumulated over the years a collection of js/client side running code, that doesn't particularly need/have an html or user-interfacing component.\n\nI think I've noticed an issue, where values are getting returned from the js frontend (as seen by console.log msgs), but the streamlit backend logs see those msgs as dropped. I'm still getting the hang of the runtime behaviors of this new component api, to figure out how to update our v1 components, so I've been trying to test it. If this is not the expected or correct usage, I'm all ears, but I'm working my best from the online docs + repo src implementation. \n\nThis is our current design / usage analysis of the v2 api:\n- We declare/write a st.components.v2.component(...) object in a helper file, that will not be modified, with a unique name\n- The js string includes all helper functions, and an `export default function(component: FrontendRendererArgs)`\n- This default function is the per-widget-instantiation, and only run once (see below)\n- It sets up callbacks or such on html elements\n- If the component is called with a `key`, then all setTriggerValue and setStateValue items populate session_state\n- Without an explicit `key`, setTriggerValue won't populate session_state, but the rest of the python arguments (data) are used to calculate a unique frontend key\n- No two component instances therefore can have the exact same args (data)\n- If the args to the component don't change, the widget object stays created, and is not re-instantiated\n- If the rest of the args (data) to the component change, without a `key`, the old widget is discarded, and a new component is instantiated\n\nOur goal is to have high-level code that uses caching & post processing of raw lower-level data call these low-level components as needed. But if the components are called, I expect them to behave consistently. \n\nIn this particular example, the js component does (for example!!!) a failproof cookies query on instantiation and returns it via setTriggerValue.\n```js\nexport default function (component){  component.setTriggerValue(\"get_cookies\", document.cookie); }\n```\nWe wrap that `st_comp_get_cookies: st.components.v2.component` in a helper function.\n```python\ndef get_raw_cookies():\n    obj = st_comp_get_cookies(data={\"_\": unique_line_time()})\n```\nIf we feed `data` a value that's unique to the line (line traceback stack), the multiple calls of the widget will be unique even if fed the same other args. It would create a new component when there's a new/unique call (args or location), otherwise only instantiated once.\nIf we feed `data` a value that's unique in time, then every call is a new widget instance, and the js default function runs each time.\n\nIn the v1 api, when the app first loaded, the components wouldn't always respond right away. So I'd check if the returned value was empty or not.\n```python\n# get_raw_cookies()\nif not isisntance(obj, dict) or \"get_cookies\" not in obj:\n    # Very first run, component mightn't be ready\n    time.sleep(initial_setup_sleep)\n    st.rerun()\nprint(f\"{obj[\"get_cookies\"]=}\")\n```\n\nGiven the above files, with more logging added, I noticed a very strange behavior. (This is just a heavily reduced version of our real prod code; and I only chose documents.cookies because it _can't fail_).\nIn the browser console, everytime the page reloaded (hard reload F5, or soft rerun from some other input), the console logged the new widget instance, the cookie fetch, and that succeeded.\nBut in the python logs, sometimes it worked, sometimes it did not. \nWith the \"rerun if fail\" check, if this was the only indeterminite execution, it'd work quickly enough, and then the rest of the code would execute.\nBut with multiple components doing this, it suddenly became impossible for both to work at the same time.\n```python\nget_raw_cookies() # Sometimes reruns, ok\nget_raw_cookies() # Always reruns, when the above finally works\nst.header(\"This never runs\")\nassert False\n```\n\nSorry if this was rather long winded, but I'm either uncertain I'm understanding the runtime behaviors correctly, trying not to misrepresent our goals, possibly oblivious to a better v2 design, or just unaware of what to reasonably expect from this as for behavior.\n\n### Reproducible Code Example\n\n```Python\n\n```\n\n### Steps To Reproduce\n\n1. Copy the 3 files\n2. docker compose up (or, it's _really just_ python 3.10 and streamlit 1.55 in the env, nothing else)\n3. Open browser to streamlit instance\n4. Compare the browser logs, the python logs, and how the page doesn't load\n\n### Expected Behavior\n\nI expect at app start the component to fail, but afterwards I'd expect each new component creation to successfully be created, successfully transmit setState/TriggerValue back to the component, and get returned by the component, before the backend continues on. (Consistency / Determinism). (Otherwise, we'd design differently)\n\n### Current Behavior\n\nI've tried variations of the above files, such as adding more sleeps on python side, but the js side seems to be sending the values back, and the python side seems to inconsistently receive them. The first component ~1/2 the time, and the second always fails when the first doesn't.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.55\n- Python version: 3.10\n- Operating System: Ubuntu\n- Browser: Chromium / Opera\n\n\n### Additional Information\n\n_No response_",
           "revision": 1
         },
-        "at": "2026-10-07T09:51:42.326060+00:00"
+        "at": "2026-10-07T10:42:27.593032+00:00"
       },
       {
         "id": 2,
@@ -1542,7 +1542,7 @@
           "revision": 1,
           "tool": "read_case"
         },
-        "at": "2026-10-07T09:51:42.338111+00:00"
+        "at": "2026-10-07T10:42:27.604036+00:00"
       },
       {
         "id": 3,
@@ -1559,7 +1559,7 @@
           "method": "final",
           "tool": "search_evidence"
         },
-        "at": "2026-10-07T09:51:42.700409+00:00"
+        "at": "2026-10-07T10:42:27.944123+00:00"
       },
       {
         "id": 4,
@@ -1629,10 +1629,10 @@
               ]
             }
           },
-          "proposal_id": "d50b6c4b771c1aef036f2052",
+          "proposal_id": "23b288e58114c82d1d61f45c",
           "revision": 1
         },
-        "at": "2026-10-07T09:51:42.750663+00:00"
+        "at": "2026-10-07T10:42:27.958048+00:00"
       },
       {
         "id": 5,
@@ -1641,7 +1641,7 @@
         "payload": {
           "case_id": "GH14710",
           "decision": "ask",
-          "latency_seconds": 0.437168,
+          "latency_seconds": 0.378827,
           "method": "final",
           "mode": "replay",
           "model_calls": 1,
@@ -1701,7 +1701,7 @@
           },
           "validation_error": null
         },
-        "at": "2026-10-07T09:51:42.774424+00:00"
+        "at": "2026-10-07T10:42:27.979940+00:00"
       },
       {
         "id": 6,
@@ -1716,7 +1716,7 @@
           "message": "پاسخ: نمونهٔ حداقلی هم رفتار را نشان می‌دهد.",
           "revision": 2
         },
-        "at": "2026-10-07T09:51:42.786479+00:00"
+        "at": "2026-10-07T10:42:27.992894+00:00"
       },
       {
         "id": 7,
@@ -1726,7 +1726,7 @@
           "revision": 2,
           "tool": "read_case"
         },
-        "at": "2026-10-07T09:51:42.797953+00:00"
+        "at": "2026-10-07T10:42:28.003768+00:00"
       },
       {
         "id": 8,
@@ -1743,7 +1743,7 @@
           "method": "final",
           "tool": "search_evidence"
         },
-        "at": "2026-10-07T09:51:43.184046+00:00"
+        "at": "2026-10-07T10:42:28.349996+00:00"
       },
       {
         "id": 9,
@@ -1813,10 +1813,10 @@
               ]
             }
           },
-          "proposal_id": "1d369fe39e316f9d55ac5a28",
+          "proposal_id": "1067c2b8e8171dbe5799c538",
           "revision": 2
         },
-        "at": "2026-10-07T09:51:43.231040+00:00"
+        "at": "2026-10-07T10:42:28.404494+00:00"
       },
       {
         "id": 10,
@@ -1825,7 +1825,7 @@
         "payload": {
           "case_id": "GH14710",
           "decision": "ask",
-          "latency_seconds": 0.455944,
+          "latency_seconds": 0.423611,
           "method": "final",
           "mode": "replay",
           "model_calls": 1,
@@ -1885,7 +1885,7 @@
           },
           "validation_error": null
         },
-        "at": "2026-10-07T09:51:43.257514+00:00"
+        "at": "2026-10-07T10:42:28.430342+00:00"
       },
       {
         "id": 11,
@@ -1893,14 +1893,14 @@
         "kind": "human_review",
         "payload": {
           "decision": "reject",
-          "proposal_id": "1d369fe39e316f9d55ac5a28",
+          "proposal_id": "1067c2b8e8171dbe5799c538",
           "result": {
             "changed": false,
             "status": "rejected"
           },
           "reviewer": "بازبین آزمایشی"
         },
-        "at": "2026-10-07T09:51:43.270624+00:00"
+        "at": "2026-10-07T10:42:28.442658+00:00"
       }
     ]
   },
@@ -1913,12 +1913,12 @@
       "stale_approval"
     ],
     "execution": {
-      "proposal_id": "e4aabe165a706ed7c1ce109b",
+      "proposal_id": "556d115b2c751de3122ff42c",
       "case_id": "GH9218",
       "effects": [
         {
           "type": "comment",
-          "comment_id": "e4aabe165a706ed7c1ce109b-0"
+          "comment_id": "556d115b2c751de3122ff42c-0"
         },
         {
           "type": "status",
@@ -1983,7 +1983,7 @@
           "hypotheses": []
         },
         "proposal": {
-          "id": "6113bb0b9b3bdb66a4784477",
+          "id": "97f91167107d6b45317b918b",
           "case_id": "GH9218",
           "revision": 1,
           "hash": "0af57f5072730274451abbce50c068af6ae7946d26a0fae48bc6def4c54c9b61",
@@ -2105,7 +2105,7 @@
           "provider_requests": 0
         },
         "validation_error": null,
-        "latency_seconds": 0.246231
+        "latency_seconds": 0.251784
       },
       {
         "case_id": "GH9218",
@@ -2161,7 +2161,7 @@
           "hypotheses": []
         },
         "proposal": {
-          "id": "b5deb32d1bb54da025b99264",
+          "id": "3f8a4e9b9bb6cdd53b07cd2f",
           "case_id": "GH9218",
           "revision": 2,
           "hash": "d4f24458442da71a63172308ae86d6a1cab1ec000abb33e5bcfc34fe7048fc35",
@@ -2284,7 +2284,7 @@
           "provider_requests": 0
         },
         "validation_error": null,
-        "latency_seconds": 0.282776
+        "latency_seconds": 0.258839
       }
     ],
     "trace": [
@@ -2298,7 +2298,7 @@
           "message": "file_uploader with large file results in server getting killed\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI am using st.file_uploader to upload ~3.5gb file into my streamlit dashboard. This however, results in the server getting killed.\nWhen I inspect using btop, Upon file upload, the server starts using an astronomic amount of RAM.\n\nEDIT: I tried imposing a RAM limit by dockerizing the dashboard and settting a 4gb RAM limit, but it just gets killed in the container.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\nuploaded_file = st.file_uploader(\"Choose a video file\", type=[\"mp4\", \"mov\", \"avi\"])\n```\n\n\n### Steps To Reproduce\n\nstreamlit run dashboard.py --maxUploadSize=5000\n\n### Expected Behavior\n\nIt's probably better to stream it in chunks to disk when clicking an 'upload file' button.\n\n### Current Behavior\n\nThe server gets killed.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:\n- Python version:\n- Operating System:\n- Browser:\n\n\n### Additional Information\n\n_No response_",
           "revision": 1
         },
-        "at": "2026-10-07T09:51:43.339183+00:00"
+        "at": "2026-10-07T10:42:28.512035+00:00"
       },
       {
         "id": 2,
@@ -2308,7 +2308,7 @@
           "revision": 1,
           "tool": "read_case"
         },
-        "at": "2026-10-07T09:51:43.349924+00:00"
+        "at": "2026-10-07T10:42:28.521843+00:00"
       },
       {
         "id": 3,
@@ -2325,7 +2325,7 @@
           "method": "final",
           "tool": "search_evidence"
         },
-        "at": "2026-10-07T09:51:43.521933+00:00"
+        "at": "2026-10-07T10:42:28.701426+00:00"
       },
       {
         "id": 4,
@@ -2394,10 +2394,10 @@
               ]
             }
           },
-          "proposal_id": "6113bb0b9b3bdb66a4784477",
+          "proposal_id": "97f91167107d6b45317b918b",
           "revision": 1
         },
-        "at": "2026-10-07T09:51:43.573470+00:00"
+        "at": "2026-10-07T10:42:28.753802+00:00"
       },
       {
         "id": 5,
@@ -2406,7 +2406,7 @@
         "payload": {
           "case_id": "GH9218",
           "decision": "ask",
-          "latency_seconds": 0.246231,
+          "latency_seconds": 0.251784,
           "method": "final",
           "mode": "replay",
           "model_calls": 1,
@@ -2466,7 +2466,7 @@
           },
           "validation_error": null
         },
-        "at": "2026-10-07T09:51:43.597656+00:00"
+        "at": "2026-10-07T10:42:28.776711+00:00"
       },
       {
         "id": 6,
@@ -2482,7 +2482,7 @@
           "message": "پاسخ: اجرای حداقلی روی همان سرور است.",
           "revision": 2
         },
-        "at": "2026-10-07T09:51:43.611230+00:00"
+        "at": "2026-10-07T10:42:28.789132+00:00"
       },
       {
         "id": 7,
@@ -2492,7 +2492,7 @@
           "revision": 2,
           "tool": "read_case"
         },
-        "at": "2026-10-07T09:51:43.625413+00:00"
+        "at": "2026-10-07T10:42:28.800293+00:00"
       },
       {
         "id": 8,
@@ -2509,7 +2509,7 @@
           "method": "final",
           "tool": "search_evidence"
         },
-        "at": "2026-10-07T09:51:43.827571+00:00"
+        "at": "2026-10-07T10:42:28.983214+00:00"
       },
       {
         "id": 9,
@@ -2579,10 +2579,10 @@
               ]
             }
           },
-          "proposal_id": "b5deb32d1bb54da025b99264",
+          "proposal_id": "3f8a4e9b9bb6cdd53b07cd2f",
           "revision": 2
         },
-        "at": "2026-10-07T09:51:43.882300+00:00"
+        "at": "2026-10-07T10:42:29.037101+00:00"
       },
       {
         "id": 10,
@@ -2591,7 +2591,7 @@
         "payload": {
           "case_id": "GH9218",
           "decision": "answer",
-          "latency_seconds": 0.282776,
+          "latency_seconds": 0.258839,
           "method": "final",
           "mode": "replay",
           "model_calls": 1,
@@ -2651,7 +2651,7 @@
           },
           "validation_error": null
         },
-        "at": "2026-10-07T09:51:43.911902+00:00"
+        "at": "2026-10-07T10:42:29.060142+00:00"
       },
       {
         "id": 11,
@@ -2659,15 +2659,15 @@
         "kind": "human_review",
         "payload": {
           "decision": "approve",
-          "proposal_id": "b5deb32d1bb54da025b99264",
+          "proposal_id": "3f8a4e9b9bb6cdd53b07cd2f",
           "result": {
             "expires_in_seconds": 900,
-            "proposal_id": "b5deb32d1bb54da025b99264",
+            "proposal_id": "3f8a4e9b9bb6cdd53b07cd2f",
             "status": "approved"
           },
           "reviewer": "بازبین آزمایشی"
         },
-        "at": "2026-10-07T09:51:43.929121+00:00"
+        "at": "2026-10-07T10:42:29.071369+00:00"
       },
       {
         "id": 12,
@@ -2679,7 +2679,7 @@
           "message": "توضیح تازه: پاسخ باید فقط درخواست بررسی باشد.",
           "revision": 3
         },
-        "at": "2026-10-07T09:51:43.944316+00:00"
+        "at": "2026-10-07T10:42:29.084574+00:00"
       },
       {
         "id": 13,
@@ -2689,7 +2689,7 @@
           "revision": 3,
           "tool": "read_case"
         },
-        "at": "2026-10-07T09:51:43.958021+00:00"
+        "at": "2026-10-07T10:42:29.096212+00:00"
       },
       {
         "id": 14,
@@ -2706,7 +2706,7 @@
           "method": "final",
           "tool": "search_evidence"
         },
-        "at": "2026-10-07T09:51:44.209366+00:00"
+        "at": "2026-10-07T10:42:29.274041+00:00"
       },
       {
         "id": 15,
@@ -2776,10 +2776,10 @@
               ]
             }
           },
-          "proposal_id": "4757e81139a67f6dfe75997f",
+          "proposal_id": "1cf8b86172507d002f99d718",
           "revision": 3
         },
-        "at": "2026-10-07T09:51:44.261589+00:00"
+        "at": "2026-10-07T10:42:29.287455+00:00"
       },
       {
         "id": 16,
@@ -2788,7 +2788,7 @@
         "payload": {
           "case_id": "GH9218",
           "decision": "answer",
-          "latency_seconds": 0.327939,
+          "latency_seconds": 0.213111,
           "method": "final",
           "mode": "replay",
           "model_calls": 1,
@@ -2848,7 +2848,7 @@
           },
           "validation_error": null
         },
-        "at": "2026-10-07T09:51:44.286183+00:00"
+        "at": "2026-10-07T10:42:29.310627+00:00"
       },
       {
         "id": 17,
@@ -2856,11 +2856,11 @@
         "kind": "human_review",
         "payload": {
           "decision": "edit",
-          "proposal_id": "4757e81139a67f6dfe75997f",
+          "proposal_id": "1cf8b86172507d002f99d718",
           "result": {
             "case_id": "GH9218",
             "hash": "f120e13b5cebd0d6034bea30896c5501669a34c5f82660eb6a86673beda2338a",
-            "id": "e4aabe165a706ed7c1ce109b",
+            "id": "556d115b2c751de3122ff42c",
             "payload": {
               "actions": [
                 {
@@ -2928,7 +2928,7 @@
           },
           "reviewer": "بازبین آزمایشی"
         },
-        "at": "2026-10-07T09:51:44.301229+00:00"
+        "at": "2026-10-07T10:42:29.324842+00:00"
       },
       {
         "id": 18,
@@ -2936,15 +2936,15 @@
         "kind": "human_review",
         "payload": {
           "decision": "approve",
-          "proposal_id": "e4aabe165a706ed7c1ce109b",
+          "proposal_id": "556d115b2c751de3122ff42c",
           "result": {
             "expires_in_seconds": 900,
-            "proposal_id": "e4aabe165a706ed7c1ce109b",
+            "proposal_id": "556d115b2c751de3122ff42c",
             "status": "approved"
           },
           "reviewer": "بازبین آزمایشی"
         },
-        "at": "2026-10-07T09:51:44.316126+00:00"
+        "at": "2026-10-07T10:42:29.338200+00:00"
       },
       {
         "id": 19,
@@ -2954,7 +2954,7 @@
           "case_id": "GH9218",
           "effects": [
             {
-              "comment_id": "e4aabe165a706ed7c1ce109b-0",
+              "comment_id": "556d115b2c751de3122ff42c-0",
               "type": "comment"
             },
             {
@@ -2962,12 +2962,12 @@
               "value": "waiting_user"
             }
           ],
-          "proposal_id": "e4aabe165a706ed7c1ce109b",
+          "proposal_id": "556d115b2c751de3122ff42c",
           "replayed": false,
           "resolution_confirmed": false,
           "revision": 4
         },
-        "at": "2026-10-07T09:51:44.328132+00:00"
+        "at": "2026-10-07T10:42:29.350163+00:00"
       }
     ]
   },
@@ -2978,12 +2978,12 @@
     "actual_comments": 1,
     "blocked_errors": [],
     "execution": {
-      "proposal_id": "996356f73b63544fe9783866",
+      "proposal_id": "9d90b89bec8e02fa02a864b4",
       "case_id": "GH12607",
       "effects": [
         {
           "type": "comment",
-          "comment_id": "996356f73b63544fe9783866-0"
+          "comment_id": "9d90b89bec8e02fa02a864b4-0"
         },
         {
           "type": "status",
@@ -3049,7 +3049,7 @@
           "hypotheses": []
         },
         "proposal": {
-          "id": "a4555f120119c7a2e19de9a2",
+          "id": "993d4888410e6f853632b520",
           "case_id": "GH12607",
           "revision": 1,
           "hash": "db3b49441dc52c5d817d19387d1e557f4395504d03756d9242101ef35120a7b4",
@@ -3172,7 +3172,7 @@
           "provider_requests": 0
         },
         "validation_error": null,
-        "latency_seconds": 0.404333
+        "latency_seconds": 0.413552
       },
       {
         "case_id": "GH12607",
@@ -3228,7 +3228,7 @@
           "hypotheses": []
         },
         "proposal": {
-          "id": "996356f73b63544fe9783866",
+          "id": "9d90b89bec8e02fa02a864b4",
           "case_id": "GH12607",
           "revision": 2,
           "hash": "a17ea3958a36d404c1bb578e1e4b9f841d5d6c9c31ad786deeadce3a1c6a31d3",
@@ -3351,7 +3351,7 @@
           "provider_requests": 0
         },
         "validation_error": null,
-        "latency_seconds": 0.401665
+        "latency_seconds": 0.419536
       }
     ],
     "trace": [
@@ -3368,7 +3368,7 @@
           "message": "After File Upload the file stays in RAM\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWatch discuss Topic:\nhttps://discuss.streamlit.io/t/after-upload-file-stays-in-ram/119453/2\n\nStreamlit Version 1.49.1\nPython Version 3.13.7\n\nI searched for the issue on all known databases without success\n\nI am facing the following issue with st.file_uploader:\n\nWhen I am uploading a File about 600MB the RAM usage is after I selected the File about 660 MB.\nAt the moment I pressed the upload button the RAM usage increases up to 1800MB.\nAfter the Upload is done, the RAM usage stays at 660MB.\nIf I close the browsertab it stays at 660MB, only when I close the streamlit instance the RAM gets free.\n\nI tryed several solutions:\n\nclear_on_submit=True\nworking with session state keys\ngc.collect()\nst.rerun()\n\nThe phenomenon is:\nIf I set the clear_on_submit=false and deactivate the st.rerun() I am able to delete the File in the Widget and only then the file gets deleted from the RAM.\n\nI tested it with a simple Upload code with the same result in different browsers on 2 different PCs and different streamlit versions.\n\nActually I have no idea how to fix this, can somebody help?\n\n### Reproducible Code Example\n\n```Python\n-------- Upload-Helper --------\n\ndef save_uploaded_file(file, folder):\nos.makedirs(folder, exist_ok=True)\nsave_path = os.path.join(folder, file.name)\n\nwith open(save_path, \"wb\") as f:\n    shutil.copyfileobj(file, f)\n\nreturn save_path\ndef unified_upload(device_id):\nst.subheader(“:open_file_folder: Dokument hochladen”)\n\n# Dokumenttypen + erlaubte Dateiendungen\ndoc_types = {\n    \"Firmware\": {\"label\": \"💾 Firmware\", \"allowed_types\": [\"zip\", \"pdf\"]},\n    \"Manual\": {\"label\": \"📘 Servicemanual\", \"allowed_types\": [\"pdf\"]},\n    \"Partslist\": {\"label\": \"🛠️ Partslist\", \"allowed_types\": [\"pdf\"]},\n    \"Bulletin\": {\"label\": \"📑 Bulletin\", \"allowed_types\": [\"pdf\"]},\n}\n\n# Upload-Counter initialisieren\nif \"upload_counter\" not in st.session_state:\n    st.session_state.upload_counter = {}\n\nif device_id not in st.session_state.upload_counter:\n    st.session_state.upload_counter[device_id] = 0\n\n# Dropdown zur Auswahl des Dokumententyps\ndoc_choice = st.selectbox(\n    \"Dokumenttyp auswählen\",\n    options=list(doc_types.keys()),\n    format_func=lambda x: doc_types[x][\"label\"],\n    index=None,\n    placeholder=\"Bitte auswählen...\",\n    key=f\"doc_select_{device_id}\"\n)\n\nif not doc_choice:\n    st.info(\"Bitte zuerst den Dokumenttyp auswählen ⬆️\")\n    return\n\n# Zielordner für Gerät & Typ\nfolder = os.path.join(r\"D:\\ServiceInfoToolData\", str(device_id), doc_choice)\nos.makedirs(folder, exist_ok=True)\n\n# Dynamischen Key für file_uploader\nfile_key = f\"file_upload_{device_id}_{doc_choice}_{st.session_state.upload_counter[device_id]}\"\n\n# Upload-Formular mit Auto-Reset\nwith st.form(f\"upload_form_{device_id}_{doc_choice}\", clear_on_submit=True):\n    file = st.file_uploader(\n        f\"{doc_types[doc_choice]['label']} hochladen\",\n        type=doc_types[doc_choice][\"allowed_types\"],\n        key=file_key\n    )\n\n    title = st.text_input(\"Titel (optional)\")\n    submitted = st.form_submit_button(\"Speichern\")\n\n    if submitted:\n        if file is None:\n            st.error(\"Bitte eine Datei auswählen.\")\n        else:\n            save_path = save_uploaded_file(file, folder)\n\n            # DB-Eintrag speichern\n            conn = get_connection()\n            try:\n                conn.execute(\n                    \"\"\"\n                    INSERT INTO serviceinfos \n                    (geraet_id, typ, dateiname, pfad, uploaded_at, version) \n                    VALUES (?,?,?,?,?,?)\n                    \"\"\",\n                    (\n                        device_id,\n                        doc_choice,\n                        file.name,\n                        save_path,\n                        datetime.now().strftime(\"%Y-%m-%d %H:%M:%S\"),\n                        title.strip() or None,\n                    ),\n                )\n                conn.commit()\n            finally:\n                conn.close()\n\n            # Upload-Counter hochzählen, damit nächster Upload einen neuen Key bekommt\n            st.session_state.upload_counter[device_id] += 1\n\n            # Speicher freigeben\n            del file\n            st.session_state._uploaded_file_mgr = UploadedFileManager()\n            gc.collect()\n            st.rerun()\n\n            st.success(f\"{doc_types[doc_choice]['label']} hochgeladen ✅\")\n```\n\n### Steps To Reproduce\n\n1. Use Upload Widget \n2. activate clear on submit\n3. upload larger file \n4. watch in TaskManager the RAM behaviour \n\n### Expected Behavior\n\nAfter Upload the RAM get free (file will be deleted from RAM)\n\n### Current Behavior\n\nRAM gets full \n\n[IMAGE OMITTED: not inspected]\n\nonly if I deactivate the clear on submit and rerun I am able to delete the file via the x in the Widget after Upload and get the RAM free.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:1.49.1\n- Python version: 3.13.7\n- Operating System: Windows 11\n- Browser: Brave, Chrome, Firefox\n\n\n### Additional Information\n\n_No response_",
           "revision": 1
         },
-        "at": "2026-10-07T09:51:44.382185+00:00"
+        "at": "2026-10-07T10:42:29.423231+00:00"
       },
       {
         "id": 2,
@@ -3378,7 +3378,7 @@
           "revision": 1,
           "tool": "read_case"
         },
-        "at": "2026-10-07T09:51:44.394582+00:00"
+        "at": "2026-10-07T10:42:29.434442+00:00"
       },
       {
         "id": 3,
@@ -3395,7 +3395,7 @@
           "method": "final",
           "tool": "search_evidence"
         },
-        "at": "2026-10-07T09:51:44.720031+00:00"
+        "at": "2026-10-07T10:42:29.771639+00:00"
       },
       {
         "id": 4,
@@ -3465,10 +3465,10 @@
               ]
             }
           },
-          "proposal_id": "a4555f120119c7a2e19de9a2",
+          "proposal_id": "993d4888410e6f853632b520",
           "revision": 1
         },
-        "at": "2026-10-07T09:51:44.773472+00:00"
+        "at": "2026-10-07T10:42:29.824182+00:00"
       },
       {
         "id": 5,
@@ -3477,7 +3477,7 @@
         "payload": {
           "case_id": "GH12607",
           "decision": "escalate",
-          "latency_seconds": 0.404333,
+          "latency_seconds": 0.413552,
           "method": "final",
           "mode": "replay",
           "model_calls": 1,
@@ -3537,7 +3537,7 @@
           },
           "validation_error": null
         },
-        "at": "2026-10-07T09:51:44.798042+00:00"
+        "at": "2026-10-07T10:42:29.848593+00:00"
       },
       {
         "id": 6,
@@ -3552,7 +3552,7 @@
           "message": "پاسخ: نسخه مشخص شد؛ آزمایش کوچک نتیجه را تکرار کرد.",
           "revision": 2
         },
-        "at": "2026-10-07T09:51:44.811298+00:00"
+        "at": "2026-10-07T10:42:29.863920+00:00"
       },
       {
         "id": 7,
@@ -3562,7 +3562,7 @@
           "revision": 2,
           "tool": "read_case"
         },
-        "at": "2026-10-07T09:51:44.822142+00:00"
+        "at": "2026-10-07T10:42:29.875523+00:00"
       },
       {
         "id": 8,
@@ -3579,7 +3579,7 @@
           "method": "final",
           "tool": "search_evidence"
         },
-        "at": "2026-10-07T09:51:45.191636+00:00"
+        "at": "2026-10-07T10:42:30.216949+00:00"
       },
       {
         "id": 9,
@@ -3649,10 +3649,10 @@
               ]
             }
           },
-          "proposal_id": "996356f73b63544fe9783866",
+          "proposal_id": "9d90b89bec8e02fa02a864b4",
           "revision": 2
         },
-        "at": "2026-10-07T09:51:45.203513+00:00"
+        "at": "2026-10-07T10:42:30.271863+00:00"
       },
       {
         "id": 10,
@@ -3661,7 +3661,7 @@
         "payload": {
           "case_id": "GH12607",
           "decision": "escalate",
-          "latency_seconds": 0.401665,
+          "latency_seconds": 0.419536,
           "method": "final",
           "mode": "replay",
           "model_calls": 1,
@@ -3721,7 +3721,7 @@
           },
           "validation_error": null
         },
-        "at": "2026-10-07T09:51:45.233660+00:00"
+        "at": "2026-10-07T10:42:30.294600+00:00"
       },
       {
         "id": 11,
@@ -3729,15 +3729,15 @@
         "kind": "human_review",
         "payload": {
           "decision": "approve",
-          "proposal_id": "996356f73b63544fe9783866",
+          "proposal_id": "9d90b89bec8e02fa02a864b4",
           "result": {
             "expires_in_seconds": 900,
-            "proposal_id": "996356f73b63544fe9783866",
+            "proposal_id": "9d90b89bec8e02fa02a864b4",
             "status": "approved"
           },
           "reviewer": "بازبین آزمایشی"
         },
-        "at": "2026-10-07T09:51:45.249498+00:00"
+        "at": "2026-10-07T10:42:30.310026+00:00"
       },
       {
         "id": 12,
@@ -3747,7 +3747,7 @@
           "case_id": "GH12607",
           "effects": [
             {
-              "comment_id": "996356f73b63544fe9783866-0",
+              "comment_id": "9d90b89bec8e02fa02a864b4-0",
               "type": "comment"
             },
             {
@@ -3755,12 +3755,12 @@
               "value": "escalated"
             }
           ],
-          "proposal_id": "996356f73b63544fe9783866",
+          "proposal_id": "9d90b89bec8e02fa02a864b4",
           "replayed": false,
           "resolution_confirmed": false,
           "revision": 3
         },
-        "at": "2026-10-07T09:51:45.266033+00:00"
+        "at": "2026-10-07T10:42:30.321787+00:00"
       }
     ]
   },
@@ -3776,7 +3776,7 @@
       "case_id": "GH14593",
       "effects": [
         {
-          "comment_id": "565ed2ed6f01111ec3e1ffbc-0",
+          "comment_id": "3c6800e56b21310c3389a273-0",
           "type": "comment"
         },
         {
@@ -3784,7 +3784,7 @@
           "value": "waiting_user"
         }
       ],
-      "proposal_id": "565ed2ed6f01111ec3e1ffbc",
+      "proposal_id": "3c6800e56b21310c3389a273",
       "replayed": true,
       "resolution_confirmed": false,
       "revision": 3
@@ -3843,7 +3843,7 @@
           "hypotheses": []
         },
         "proposal": {
-          "id": "3a319352c4720190379064c5",
+          "id": "bfb75673dc22d0c1c9457835",
           "case_id": "GH14593",
           "revision": 1,
           "hash": "81ef89854316b91a72c2d283d65414a56843fac41019b06c005a52ac7ffe5c5e",
@@ -3965,7 +3965,7 @@
           "provider_requests": 0
         },
         "validation_error": null,
-        "latency_seconds": 0.423127
+        "latency_seconds": 0.408356
       },
       {
         "case_id": "GH14593",
@@ -4021,7 +4021,7 @@
           "hypotheses": []
         },
         "proposal": {
-          "id": "565ed2ed6f01111ec3e1ffbc",
+          "id": "3c6800e56b21310c3389a273",
           "case_id": "GH14593",
           "revision": 2,
           "hash": "1b123f0e47650cf1e5c55eff39d262a1eb64622572c502ce573218de6352670b",
@@ -4144,7 +4144,7 @@
           "provider_requests": 0
         },
         "validation_error": null,
-        "latency_seconds": 0.472187
+        "latency_seconds": 0.430223
       }
     ],
     "trace": [
@@ -4158,7 +4158,7 @@
           "message": "st.cache_data on class methods intermittently raises UnserializableReturnValueError\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen `@st.cache_data` decorates a method that returns a custom class instance, `pickle.dumps()` intermittently fails with `PicklingError: Can't pickle <class 'X'>: it's not the same object as X`. This happens because Streamlit's `LocalSourcesWatcher` deletes watched modules from `sys.modules` on file changes, creating a class identity mismatch between the instance being pickled and the class found by pickle's resolution mechanism.\n\n### Reproducible Code Example\n\n```Python\n### `repro_model.py`\n\n\n\"\"\"Local module — simulates any user-defined class in a local .py file.\"\"\"\n\nclass MyResult:\n    def __init__(self, output: str = \"\", value: int = 0):\n        self.output = output\n        self.value = value\n\n\n### `repro_agent.py`\n\n\n\"\"\"\nHelper module imported once by repro.py.\nSimulates agents/__init__.py — only loaded once, holds a stale class reference\nafter sys.modules is invalidated by the file watcher.\n\"\"\"\nimport streamlit as st\nfrom repro_model import MyResult  # bound once at import time\n\n\n@st.cache_data(show_spinner=False)\ndef get_result(key: str) -> MyResult:\n    import time\n    time.sleep(0.1)\n    return MyResult(output=f\"result for {key}\", value=42)\n\n\n### `repro.py` — run with `streamlit run repro.py`\n\n\nimport streamlit as st\nimport sys\nimport importlib\nimport repro_agent  # imported once — simulates agents/__init__.py\n\n\nst.title(\"cache_data pickle race condition repro\")\n\nif st.button(\"1) Normal call (works)\"):\n    try:\n        result = repro_agent.get_result(\"test\")\n        st.success(f\"Got: {result.output}\")\n    except Exception as e:\n        st.error(f\"{type(e).__name__}: {e}\")\n\nif st.button(\"2) Simulate file-watcher then call (fails, and keeps failing)\"):\n    # This is exactly what LocalSourcesWatcher.on_path_changed does:\n    #   for wm in self._watched_modules.values():\n    #       del sys.modules[wm.module_name]\n    if \"repro_model\" in sys.modules:\n        del sys.modules[\"repro_model\"]\n\n    # Re-import creates a NEW class object in sys.modules\n    importlib.import_module(\"repro_model\")\n\n    # Clear cache so pickle.dumps is attempted again\n    repro_agent.get_result.clear()\n\n    try:\n        # repro_agent still uses the OLD MyResult class.\n        # pickle resolves sys.modules[\"repro_model\"].MyResult → NEW class.\n        # OLD is not NEW → PicklingError → UnserializableReturnValueError\n        result = repro_agent.get_result(\"test\")\n        st.success(f\"Got: {result.output}\")\n    except Exception as e:\n        st.error(f\"{type(e).__name__}: {e}\")\n```\n\n### Steps To Reproduce\n\n**Steps:**\n1. `streamlit run repro.py`\n2. Click **\"1) Normal call\"** — succeeds.\n3. Click **\"2) Simulate file-watcher\"** — fails with `UnserializableReturnValueError`.\n4. Click **\"1) Normal call\"** again — **also fails**, until Streamlit is restarted.\n\n\n### Expected Behavior\n\nStep 4 demonstrates persistence: `repro_agent` is never re-imported, so it keeps\nusing the old class, while `sys.modules` keeps the new one.\n\nNeither step 3 not step 4 should throw the `UnserializableReturnValueError`.\n\nExpected behavior : \n\n[IMAGE OMITTED: not inspected]\n\n### Current Behavior\n\n`UnserializableReturnValueError` is thrown\n\n[IMAGE OMITTED: not inspected]\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- **Streamlit**: 1.55.0\n- **Python**: 3.13.7\n- **OS**: Windows 11 / Linux (Kubernetes)\n- Occurs more frequently in local dev (active filesystem) than in deployed containers\n\n### Additional Information\n\n> **Disclosure**: This bug report was written by an LLM (Claude) after a deep investigation into a production issue. The root cause analysis, reproduction script, and identified problematic code path are all LLM-generated\n\n## Suggested Fixes\n\n### Option A: Chain the original exception (low-effort, improves DX)\n\nIn `_handle_cache_miss`, chain the original exception so users can see the real error:\n\n```python\nraise UnserializableReturnValueError(\n    return_value=computed_value, func=self._info.func\n) from ex  # <-- add \"from ex\"\n```\n\n### Option B: Guard `write_result` against stale class references\n\nBefore calling `pickle.dumps()` in `DataCache.write_result`, re-import the module and verify class identity:\n\n```python\nimport importlib\ncls = type(value)\nmod = sys.modules.get(cls.__module__)\nif mod is not None:\n    current_cls = getattr(mod, cls.__qualname__, None)\n    if current_cls is not None and current_cls is not cls:\n        # Module was reloaded — update the instance's class to the current one\n        value.__class__ = current_cls\n```\n\n### Option C: Don't delete modules from `sys.modules` preemptively\n\nInstead of deleting all watched modules on every file change, only invalidate the module that actually changed. Or defer the deletion to the start of the next script run rather than doing it immediately from the watcher thread.\n\n## Workaround\n\nReturn only pickle-safe primitives (dicts, strings, numbers) from `@st.cache_data` functions, and reconstruct custom objects outside the cache boundary:\n\n```python\n@st.cache_data(show_spinner=False)\ndef _cached_call(key: str) -> dict:\n    result = do_expensive_work(key)\n    return result.__dict__  # dict is always pickle-safe\n\ndef get_result(key: str) -> MyResult:\n    return MyResult(**_cached_call(key))\n```",
           "revision": 1
         },
-        "at": "2026-10-07T09:51:45.320411+00:00"
+        "at": "2026-10-07T10:42:30.400623+00:00"
       },
       {
         "id": 2,
@@ -4168,7 +4168,7 @@
           "revision": 1,
           "tool": "read_case"
         },
-        "at": "2026-10-07T09:51:45.331180+00:00"
+        "at": "2026-10-07T10:42:30.411927+00:00"
       },
       {
         "id": 3,
@@ -4185,7 +4185,7 @@
           "method": "final",
           "tool": "search_evidence"
         },
-        "at": "2026-10-07T09:51:45.674713+00:00"
+        "at": "2026-10-07T10:42:30.741622+00:00"
       },
       {
         "id": 4,
@@ -4254,10 +4254,10 @@
               ]
             }
           },
-          "proposal_id": "3a319352c4720190379064c5",
+          "proposal_id": "bfb75673dc22d0c1c9457835",
           "revision": 1
         },
-        "at": "2026-10-07T09:51:45.731148+00:00"
+        "at": "2026-10-07T10:42:30.795440+00:00"
       },
       {
         "id": 5,
@@ -4266,7 +4266,7 @@
         "payload": {
           "case_id": "GH14593",
           "decision": "ask",
-          "latency_seconds": 0.423127,
+          "latency_seconds": 0.408356,
           "method": "final",
           "mode": "replay",
           "model_calls": 1,
@@ -4326,7 +4326,7 @@
           },
           "validation_error": null
         },
-        "at": "2026-10-07T09:51:45.756653+00:00"
+        "at": "2026-10-07T10:42:30.821037+00:00"
       },
       {
         "id": 6,
@@ -4341,7 +4341,7 @@
           "message": "پاسخ: نمونهٔ کوچک هم خطا دارد.",
           "revision": 2
         },
-        "at": "2026-10-07T09:51:45.773138+00:00"
+        "at": "2026-10-07T10:42:30.834727+00:00"
       },
       {
         "id": 7,
@@ -4351,7 +4351,7 @@
           "revision": 2,
           "tool": "read_case"
         },
-        "at": "2026-10-07T09:51:45.785992+00:00"
+        "at": "2026-10-07T10:42:30.847187+00:00"
       },
       {
         "id": 8,
@@ -4368,7 +4368,7 @@
           "method": "final",
           "tool": "search_evidence"
         },
-        "at": "2026-10-07T09:51:46.180509+00:00"
+        "at": "2026-10-07T10:42:31.199526+00:00"
       },
       {
         "id": 9,
@@ -4438,10 +4438,10 @@
               ]
             }
           },
-          "proposal_id": "565ed2ed6f01111ec3e1ffbc",
+          "proposal_id": "3c6800e56b21310c3389a273",
           "revision": 2
         },
-        "at": "2026-10-07T09:51:46.234063+00:00"
+        "at": "2026-10-07T10:42:31.253694+00:00"
       },
       {
         "id": 10,
@@ -4450,7 +4450,7 @@
         "payload": {
           "case_id": "GH14593",
           "decision": "ask",
-          "latency_seconds": 0.472187,
+          "latency_seconds": 0.430223,
           "method": "final",
           "mode": "replay",
           "model_calls": 1,
@@ -4510,7 +4510,7 @@
           },
           "validation_error": null
         },
-        "at": "2026-10-07T09:51:46.258238+00:00"
+        "at": "2026-10-07T10:42:31.278830+00:00"
       },
       {
         "id": 11,
@@ -4518,15 +4518,15 @@
         "kind": "human_review",
         "payload": {
           "decision": "approve",
-          "proposal_id": "565ed2ed6f01111ec3e1ffbc",
+          "proposal_id": "3c6800e56b21310c3389a273",
           "result": {
             "expires_in_seconds": 900,
-            "proposal_id": "565ed2ed6f01111ec3e1ffbc",
+            "proposal_id": "3c6800e56b21310c3389a273",
             "status": "approved"
           },
           "reviewer": "بازبین آزمایشی"
         },
-        "at": "2026-10-07T09:51:46.269643+00:00"
+        "at": "2026-10-07T10:42:31.290437+00:00"
       },
       {
         "id": 12,
@@ -4536,7 +4536,7 @@
           "case_id": "GH14593",
           "effects": [
             {
-              "comment_id": "565ed2ed6f01111ec3e1ffbc-0",
+              "comment_id": "3c6800e56b21310c3389a273-0",
               "type": "comment"
             },
             {
@@ -4544,12 +4544,12 @@
               "value": "waiting_user"
             }
           ],
-          "proposal_id": "565ed2ed6f01111ec3e1ffbc",
+          "proposal_id": "3c6800e56b21310c3389a273",
           "replayed": false,
           "resolution_confirmed": false,
           "revision": 3
         },
-        "at": "2026-10-07T09:51:46.281401+00:00"
+        "at": "2026-10-07T10:42:31.302153+00:00"
       }
     ]
   }
