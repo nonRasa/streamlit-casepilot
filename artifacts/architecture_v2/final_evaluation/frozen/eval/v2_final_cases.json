@@ -1,0 +1,844 @@
+[
+  {
+    "id": "GH9218",
+    "issue_number": 9218,
+    "url": "https://github.com/streamlit/streamlit/issues/9218",
+    "split": "dev",
+    "family_id": "family-9218",
+    "category": "answerable",
+    "topic": "file_uploader",
+    "initial_message": "file_uploader with large file results in server getting killed\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI am using st.file_uploader to upload ~3.5gb file into my streamlit dashboard. This however, results in the server getting killed.\nWhen I inspect using btop, Upon file upload, the server starts using an astronomic amount of RAM.\n\nEDIT: I tried imposing a RAM limit by dockerizing the dashboard and settting a 4gb RAM limit, but it just gets killed in the container.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\nuploaded_file = st.file_uploader(\"Choose a video file\", type=[\"mp4\", \"mov\", \"avi\"])\n```\n\n\n### Steps To Reproduce\n\nstreamlit run dashboard.py --maxUploadSize=5000\n\n### Expected Behavior\n\nIt's probably better to stream it in chunks to disk when clicking an 'upload file' button.\n\n### Current Behavior\n\nThe server gets killed.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:\n- Python version:\n- Operating System:\n- Browser:\n\n\n### Additional Information\n\n_No response_",
+    "initial_facts": {},
+    "initial_checks": [],
+    "allowed_decisions": [
+      "answer",
+      "ask"
+    ],
+    "relevant_source_ids": [
+      "docs:where-file-uploader-store-when-deleted",
+      "api:file_uploader"
+    ],
+    "oracle_note": "حجم فایل و حافظهٔ محیط بررسی شود؛ راهنمای حافظه شاهد است نه تضمین یک نسبت مصرف ثابت.",
+    "annotation_method": "manual prospective rubric; not final state/labels",
+    "evaluation_time_policy": "current frozen snapshot; not a historical replay",
+    "missing_information": [
+      "exact failing environment",
+      "independent minimal reproduction result"
+    ],
+    "forbidden_conclusions": [
+      "unverified fixed version",
+      "closed means resolved",
+      "similar issue proves same cause"
+    ]
+  },
+  {
+    "id": "GH11528",
+    "issue_number": 11528,
+    "url": "https://github.com/streamlit/streamlit/issues/11528",
+    "split": "dev",
+    "family_id": "family-11528",
+    "category": "ambiguous",
+    "topic": "cache_data",
+    "initial_message": "cache_data failing to serialize classes from v1.44.0\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI noticed in the upgrade from 1.43.0 to 1.44.0 that we are getting UnserializableReturnValueError when calling cache_data with a self defined class. I can confirm pickle dumps and loads works fine for this class when I run it outside of streamlit. \n\nFull error:\n> streamlit.runtime.caching.cache_errors.UnserializableReturnValueError: Cannot serialize the return value (of type __main__.Example) in test(). st.cache_data uses pickle to serialize the function's return value and safely store it in the cache without mutating the original object. Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences).\n\n### Reproducible Code Example\n\n```Python\nfrom streamlit import cache_data\nimport datetime as dt\n\nclass Example:\n    def __init__(self, name):\n        self.name = name\n\n@cache_data(ttl=dt.timedelta(minutes=60))\ndef test():\n    name = \"andy\"\n    return Example(name)\n\nif __name__ == '__main__':\n\n    b = test()\n```\n\n### Steps To Reproduce\n\nRun the code above in streamlit\n\n### Expected Behavior\n\nThe class should be pickled and be stored in the cache\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.44.0\n- Python version: 3.10\n- Operating System: Linux\n- Browser: Chrome\n\n\n### Additional Information\n\n_No response_",
+    "initial_facts": {},
+    "initial_checks": [],
+    "allowed_decisions": [
+      "ask",
+      "escalate"
+    ],
+    "relevant_source_ids": [
+      "api:cache_data",
+      "api:cache_resource"
+    ],
+    "oracle_note": "نمونهٔ کوچک سریال‌سازی و تفاوت نسخه‌ها بررسی شود؛ جایگزینی کش منابع بدون بررسی اشتراک و ایمنی تضمین نشود.",
+    "annotation_method": "manual prospective rubric; not final state/labels",
+    "evaluation_time_policy": "current frozen snapshot; not a historical replay",
+    "missing_information": [
+      "exact failing environment",
+      "independent minimal reproduction result"
+    ],
+    "forbidden_conclusions": [
+      "unverified fixed version",
+      "closed means resolved",
+      "similar issue proves same cause"
+    ]
+  },
+  {
+    "id": "GH12150",
+    "issue_number": 12150,
+    "url": "https://github.com/streamlit/streamlit/issues/12150",
+    "split": "dev",
+    "family_id": "issue-12150",
+    "category": "ambiguous",
+    "topic": "file_uploader",
+    "initial_message": "Application Crash: file_uploader kills streamlit when used in a page via st.navigation 1.47 and 1.48 at least\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nHi,\n\nPlatform is windows 11, recent python, streamlit version 1.47 and 1.48\n\nI can't see this described in the issues list.\n\nI just spend a couple of hours tracing a very strange problem with st.file_uploader. The problem affects files of any size, including 1kB and doesn't seem to cause run away memory usage in streamlit.\n\nIf I create a simple app with the following file_uploader everything works as expected, file is uploaded and the message is printed\n\n```\n  import streamlit as st\n  \n  st.write(st.__version__)\n  \n  uploads = st.file_uploader(\"Upload one or more files\")\n  \n  if uploads is not None:\n      st.write(\"uploads\")\n\n```\nHowever, if I create an application like this. Then the upload proceeds for a few seconds and then the server process dies with no diagnostics.\n\napp.py\n\n```\nimport streamlit as st\n\npg = st.navigation([\n    st.Page(\"Upload_Data.py\", title=\"Upload data\"),\n])\npg.run()\n\n```\n\nUpload_Data.py\n\n```\nimport streamlit as st\n\nst.write(st.__version__)\n\nuploads = st.file_uploader(\"Upload one or more files\")\n\nif uploads is not None:\n    st.write(\"uploads\")\n\n\n```\n\nIf I replace the string with the python filename with a function, which does the same thing then the function works correctly.\n\nExpected behaviour\n\nApplication doesn't crash when using file_uploader in pages loaded via st.navigation.\n\nThanks for your help and any pointers.\n\nMike\n\n### Reproducible Code Example\n\n```Python\n\n```\n\n### Steps To Reproduce\n\n_No response_\n\n### Expected Behavior\n\n_No response_\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:\n- Python version:\n- Operating System:\n- Browser:\n\n\n### Additional Information\n\n_No response_",
+    "initial_facts": {},
+    "initial_checks": [],
+    "allowed_decisions": [
+      "ask",
+      "escalate"
+    ],
+    "relevant_source_ids": [
+      "api:navigation",
+      "api:file_uploader"
+    ],
+    "oracle_note": "بازتولید روی محیط تازه و مقایسهٔ اجرای تک‌صفحه با ناوبری؛ نصب مجدد انجام‌شده تکرار نشود.",
+    "annotation_method": "manual prospective rubric; not final state/labels",
+    "evaluation_time_policy": "current frozen snapshot; not a historical replay",
+    "missing_information": [
+      "exact failing environment",
+      "independent minimal reproduction result"
+    ],
+    "forbidden_conclusions": [
+      "unverified fixed version",
+      "closed means resolved",
+      "similar issue proves same cause"
+    ]
+  },
+  {
+    "id": "GH12432",
+    "issue_number": 12432,
+    "url": "https://github.com/streamlit/streamlit/issues/12432",
+    "split": "dev",
+    "family_id": "issue-12432",
+    "category": "ambiguous",
+    "topic": "multipage",
+    "initial_message": "Using HTML for putting an image (img src=\"app/static/imagefile.png\") not working despite all prerequisites present\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI intend to add images (particularly various icons) in my multipage app using HTML since I need them to be centered inside their corresponding container, with a label below each. The files are already stored in my static folder. But even though I already applied the format [IMAGE OMITTED: not inspected], and even though the file is present in the static folder, the file name and extension are correct, the file is not corrupted, and static file serving is enabled in .streamlit/config.toml (enableStaticServing = true), the image still does not appear.\n\n### Reproducible Code Example\n\n```Python\n# Setting row 1\n    wxrow1 = st.container(horizontal=True, horizontal_alignment='center')\n    \n    # Thunderstorm\n    tstm = wxrow1.container(width=300)\n    tstm.write('##### Thunderstorm')\n    \n    tstm_content = tstm.container(height=200, border=True)\n    \n    tstm_content.markdown(\n        \"\"\"\n        <div style=\"display: flex; justify-content: center; align-items: center; height: 100%;\">\n            [IMAGE OMITTED: not inspected]\n        </div>\n        <div style=\"text-align: center; font-size: small;\">\n            as of 10:00 AM 31 August 2025\n        </div>\n        \"\"\",\n        unsafe_allow_html=True\n    )\n    \n    with tstm.expander('Details'):\n        st.write(\n            '''\n            Moderate to heavy rainshowers with possible isolated intense downpours, accompanied with lightning and strong winds, are ongoing or likely to occur within 1-2 hours.\n            '''\n            )\n```\n\n### Steps To Reproduce\n\n1. Define a `container`.\n2. Use `markdown` to display the image as centered within the container as in the code example above. Use [this image](https://github.com/beuraieon-a/g1_mdrrmo_wxdashboard/blob/main/static/rain%20warning%20-%2000%20(tstm%20adv).png) as example.\n3. Save code and run.\n\n### Expected Behavior\n\nThe image should appear centered inside the container, similar to this:\n\n[IMAGE OMITTED: not inspected]\n\n### Current Behavior\n\nBut instead, the image does not appear:\n\n[IMAGE OMITTED: not inspected]\n\nThe same problem also appears when I use `st.components.v1.html`.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.49.1\n- Python version: 3.11.5\n- Operating System: Windows 10 Home Single Language (64-bit), ver. 22H2, OS Build: 19045.6282\n- Browser: Google Chrome ver. 139.0.7258.155\n\n### Additional Information\n\nFor your reference, the scripts and the image files are in [this repository](https://github.com/beuraieon-a/g1_mdrrmo_wxdashboard/). Here are also the:\n- [URL to the app](https://g1-mdrrmo-wxdashboard.streamlit.app/)\n- [static folder](https://github.com/beuraieon-a/g1_mdrrmo_wxdashboard/tree/main/static) containing the images\n- [Requirements file](https://github.com/beuraieon-a/g1_mdrrmo_wxdashboard/blob/main/requirements.txt)\n- [Homepage](https://github.com/beuraieon-a/g1_mdrrmo_wxdashboard/blob/main/%F0%9F%8F%A0%20Home.py) and the [pages folder](https://github.com/beuraieon-a/g1_mdrrmo_wxdashboard/tree/main/pages)\n- [.streamlit](https://github.com/beuraieon-a/g1_mdrrmo_wxdashboard/tree/main/.streamlit) folder containing the [config.toml](https://github.com/beuraieon-a/g1_mdrrmo_wxdashboard/blob/main/.streamlit/config.toml) file",
+    "initial_facts": {},
+    "initial_checks": [],
+    "allowed_decisions": [
+      "ask",
+      "answer"
+    ],
+    "relevant_source_ids": [
+      "docs:static-file-serving"
+    ],
+    "oracle_note": "نشانی درخواست فایل و وضعیت شبکه و فاصلهٔ نام فایل بررسی شود؛ نگاشت مسیر به‌تنهایی اثبات رفع نیست.",
+    "annotation_method": "manual prospective rubric; not final state/labels",
+    "evaluation_time_policy": "current frozen snapshot; not a historical replay",
+    "missing_information": [
+      "exact failing environment",
+      "independent minimal reproduction result"
+    ],
+    "forbidden_conclusions": [
+      "unverified fixed version",
+      "closed means resolved",
+      "similar issue proves same cause"
+    ]
+  },
+  {
+    "id": "GH12607",
+    "issue_number": 12607,
+    "url": "https://github.com/streamlit/streamlit/issues/12607",
+    "split": "dev",
+    "family_id": "family-9218",
+    "category": "answerable",
+    "topic": "file_uploader",
+    "initial_message": "After File Upload the file stays in RAM\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWatch discuss Topic:\nhttps://discuss.streamlit.io/t/after-upload-file-stays-in-ram/119453/2\n\nStreamlit Version 1.49.1\nPython Version 3.13.7\n\nI searched for the issue on all known databases without success\n\nI am facing the following issue with st.file_uploader:\n\nWhen I am uploading a File about 600MB the RAM usage is after I selected the File about 660 MB.\nAt the moment I pressed the upload button the RAM usage increases up to 1800MB.\nAfter the Upload is done, the RAM usage stays at 660MB.\nIf I close the browsertab it stays at 660MB, only when I close the streamlit instance the RAM gets free.\n\nI tryed several solutions:\n\nclear_on_submit=True\nworking with session state keys\ngc.collect()\nst.rerun()\n\nThe phenomenon is:\nIf I set the clear_on_submit=false and deactivate the st.rerun() I am able to delete the File in the Widget and only then the file gets deleted from the RAM.\n\nI tested it with a simple Upload code with the same result in different browsers on 2 different PCs and different streamlit versions.\n\nActually I have no idea how to fix this, can somebody help?\n\n### Reproducible Code Example\n\n```Python\n-------- Upload-Helper --------\n\ndef save_uploaded_file(file, folder):\nos.makedirs(folder, exist_ok=True)\nsave_path = os.path.join(folder, file.name)\n\nwith open(save_path, \"wb\") as f:\n    shutil.copyfileobj(file, f)\n\nreturn save_path\ndef unified_upload(device_id):\nst.subheader(“:open_file_folder: Dokument hochladen”)\n\n# Dokumenttypen + erlaubte Dateiendungen\ndoc_types = {\n    \"Firmware\": {\"label\": \"💾 Firmware\", \"allowed_types\": [\"zip\", \"pdf\"]},\n    \"Manual\": {\"label\": \"📘 Servicemanual\", \"allowed_types\": [\"pdf\"]},\n    \"Partslist\": {\"label\": \"🛠️ Partslist\", \"allowed_types\": [\"pdf\"]},\n    \"Bulletin\": {\"label\": \"📑 Bulletin\", \"allowed_types\": [\"pdf\"]},\n}\n\n# Upload-Counter initialisieren\nif \"upload_counter\" not in st.session_state:\n    st.session_state.upload_counter = {}\n\nif device_id not in st.session_state.upload_counter:\n    st.session_state.upload_counter[device_id] = 0\n\n# Dropdown zur Auswahl des Dokumententyps\ndoc_choice = st.selectbox(\n    \"Dokumenttyp auswählen\",\n    options=list(doc_types.keys()),\n    format_func=lambda x: doc_types[x][\"label\"],\n    index=None,\n    placeholder=\"Bitte auswählen...\",\n    key=f\"doc_select_{device_id}\"\n)\n\nif not doc_choice:\n    st.info(\"Bitte zuerst den Dokumenttyp auswählen ⬆️\")\n    return\n\n# Zielordner für Gerät & Typ\nfolder = os.path.join(r\"D:\\ServiceInfoToolData\", str(device_id), doc_choice)\nos.makedirs(folder, exist_ok=True)\n\n# Dynamischen Key für file_uploader\nfile_key = f\"file_upload_{device_id}_{doc_choice}_{st.session_state.upload_counter[device_id]}\"\n\n# Upload-Formular mit Auto-Reset\nwith st.form(f\"upload_form_{device_id}_{doc_choice}\", clear_on_submit=True):\n    file = st.file_uploader(\n        f\"{doc_types[doc_choice]['label']} hochladen\",\n        type=doc_types[doc_choice][\"allowed_types\"],\n        key=file_key\n    )\n\n    title = st.text_input(\"Titel (optional)\")\n    submitted = st.form_submit_button(\"Speichern\")\n\n    if submitted:\n        if file is None:\n            st.error(\"Bitte eine Datei auswählen.\")\n        else:\n            save_path = save_uploaded_file(file, folder)\n\n            # DB-Eintrag speichern\n            conn = get_connection()\n            try:\n                conn.execute(\n                    \"\"\"\n                    INSERT INTO serviceinfos \n                    (geraet_id, typ, dateiname, pfad, uploaded_at, version) \n                    VALUES (?,?,?,?,?,?)\n                    \"\"\",\n                    (\n                        device_id,\n                        doc_choice,\n                        file.name,\n                        save_path,\n                        datetime.now().strftime(\"%Y-%m-%d %H:%M:%S\"),\n                        title.strip() or None,\n                    ),\n                )\n                conn.commit()\n            finally:\n                conn.close()\n\n            # Upload-Counter hochzählen, damit nächster Upload einen neuen Key bekommt\n            st.session_state.upload_counter[device_id] += 1\n\n            # Speicher freigeben\n            del file\n            st.session_state._uploaded_file_mgr = UploadedFileManager()\n            gc.collect()\n            st.rerun()\n\n            st.success(f\"{doc_types[doc_choice]['label']} hochgeladen ✅\")\n```\n\n### Steps To Reproduce\n\n1. Use Upload Widget \n2. activate clear on submit\n3. upload larger file \n4. watch in TaskManager the RAM behaviour \n\n### Expected Behavior\n\nAfter Upload the RAM get free (file will be deleted from RAM)\n\n### Current Behavior\n\nRAM gets full \n\n[IMAGE OMITTED: not inspected]\n\nonly if I deactivate the clear on submit and rerun I am able to delete the file via the x in the Widget after Upload and get the RAM free.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:1.49.1\n- Python version: 3.13.7\n- Operating System: Windows 11\n- Browser: Brave, Chrome, Firefox\n\n\n### Additional Information\n\n_No response_",
+    "initial_facts": {},
+    "initial_checks": [],
+    "allowed_decisions": [
+      "answer",
+      "ask"
+    ],
+    "relevant_source_ids": [
+      "docs:where-file-uploader-store-when-deleted",
+      "api:file_uploader"
+    ],
+    "oracle_note": "چرخهٔ عمر فایل و مصرف حافظه بررسی شود؛ حذف مرجع معادل آزادشدن قطعی حافظه نیست.",
+    "annotation_method": "manual prospective rubric; not final state/labels",
+    "evaluation_time_policy": "current frozen snapshot; not a historical replay",
+    "missing_information": [
+      "exact failing environment",
+      "independent minimal reproduction result"
+    ],
+    "forbidden_conclusions": [
+      "unverified fixed version",
+      "closed means resolved",
+      "similar issue proves same cause"
+    ]
+  },
+  {
+    "id": "GH13002",
+    "issue_number": 13002,
+    "url": "https://github.com/streamlit/streamlit/issues/13002",
+    "split": "dev",
+    "family_id": "issue-13002",
+    "category": "escalate",
+    "topic": "multipage",
+    "initial_message": "Add an option to fully disable sidebar rendering until authentication or page load is complete\n\nCurrently, Streamlit always renders the sidebar and multipage navigation menu before any backend logic runs.\nThis causes a brief flash (“flicker”) of the sidebar, even when developers try to hide it using CSS, st.set_page_config(initial_sidebar_state=\"collapsed\"), or st.stop() during login checks.\n\nProblem\n\nWhen implementing authentication or loading processes (e.g., validating user credentials via an API), Streamlit renders the sidebar before the authentication state is known.\nThis behavior creates two key issues:\n\nSecurity concern:\nUnauthenticated users can briefly see and click sidebar navigation links before st.stop() halts the script, allowing them to access or attempt to load protected pages.\nEven if no data is exposed, it creates a visible loophole and inconsistent behavior.\n\nUX inconsistency:\nThe sidebar “flashes” for a fraction of a second during app load, even when the developer intends to display only a centered login screen or full-screen loading animation.\nThis leads to a jarring visual experience and makes professional deployments look less polished.\n\nWhy this matters\n\nMany enterprise and production Streamlit apps use custom login systems, SSO integrations, or data validation APIs before showing any content.\n\nIn these cases, developers need full control over what renders before authentication completes.\n\nThere’s currently no reliable way to prevent the sidebar or multipage navigation from being rendered briefly.\n\n\nProposed solution\n\nAdd a configuration flag such as:\nst.set_page_config(show_sidebar_on_load=False)",
+    "initial_facts": {},
+    "initial_checks": [],
+    "allowed_decisions": [
+      "escalate",
+      "ask"
+    ],
+    "relevant_source_ids": [
+      "docs:page-and-navigation",
+      "docs:dynamic-navigation"
+    ],
+    "oracle_note": "مخفی‌کردن رابط معادل مجوز دسترسی نیست؛ منطق ناوبری و احراز هویت بررسی شود.",
+    "annotation_method": "manual prospective rubric; not final state/labels",
+    "evaluation_time_policy": "current frozen snapshot; not a historical replay",
+    "missing_information": [
+      "exact failing environment",
+      "independent minimal reproduction result"
+    ],
+    "forbidden_conclusions": [
+      "unverified fixed version",
+      "closed means resolved",
+      "similar issue proves same cause"
+    ]
+  },
+  {
+    "id": "GH14593",
+    "issue_number": 14593,
+    "url": "https://github.com/streamlit/streamlit/issues/14593",
+    "split": "dev",
+    "family_id": "family-11528",
+    "category": "ambiguous",
+    "topic": "cache_data",
+    "initial_message": "st.cache_data on class methods intermittently raises UnserializableReturnValueError\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen `@st.cache_data` decorates a method that returns a custom class instance, `pickle.dumps()` intermittently fails with `PicklingError: Can't pickle <class 'X'>: it's not the same object as X`. This happens because Streamlit's `LocalSourcesWatcher` deletes watched modules from `sys.modules` on file changes, creating a class identity mismatch between the instance being pickled and the class found by pickle's resolution mechanism.\n\n### Reproducible Code Example\n\n```Python\n### `repro_model.py`\n\n\n\"\"\"Local module — simulates any user-defined class in a local .py file.\"\"\"\n\nclass MyResult:\n    def __init__(self, output: str = \"\", value: int = 0):\n        self.output = output\n        self.value = value\n\n\n### `repro_agent.py`\n\n\n\"\"\"\nHelper module imported once by repro.py.\nSimulates agents/__init__.py — only loaded once, holds a stale class reference\nafter sys.modules is invalidated by the file watcher.\n\"\"\"\nimport streamlit as st\nfrom repro_model import MyResult  # bound once at import time\n\n\n@st.cache_data(show_spinner=False)\ndef get_result(key: str) -> MyResult:\n    import time\n    time.sleep(0.1)\n    return MyResult(output=f\"result for {key}\", value=42)\n\n\n### `repro.py` — run with `streamlit run repro.py`\n\n\nimport streamlit as st\nimport sys\nimport importlib\nimport repro_agent  # imported once — simulates agents/__init__.py\n\n\nst.title(\"cache_data pickle race condition repro\")\n\nif st.button(\"1) Normal call (works)\"):\n    try:\n        result = repro_agent.get_result(\"test\")\n        st.success(f\"Got: {result.output}\")\n    except Exception as e:\n        st.error(f\"{type(e).__name__}: {e}\")\n\nif st.button(\"2) Simulate file-watcher then call (fails, and keeps failing)\"):\n    # This is exactly what LocalSourcesWatcher.on_path_changed does:\n    #   for wm in self._watched_modules.values():\n    #       del sys.modules[wm.module_name]\n    if \"repro_model\" in sys.modules:\n        del sys.modules[\"repro_model\"]\n\n    # Re-import creates a NEW class object in sys.modules\n    importlib.import_module(\"repro_model\")\n\n    # Clear cache so pickle.dumps is attempted again\n    repro_agent.get_result.clear()\n\n    try:\n        # repro_agent still uses the OLD MyResult class.\n        # pickle resolves sys.modules[\"repro_model\"].MyResult → NEW class.\n        # OLD is not NEW → PicklingError → UnserializableReturnValueError\n        result = repro_agent.get_result(\"test\")\n        st.success(f\"Got: {result.output}\")\n    except Exception as e:\n        st.error(f\"{type(e).__name__}: {e}\")\n```\n\n### Steps To Reproduce\n\n**Steps:**\n1. `streamlit run repro.py`\n2. Click **\"1) Normal call\"** — succeeds.\n3. Click **\"2) Simulate file-watcher\"** — fails with `UnserializableReturnValueError`.\n4. Click **\"1) Normal call\"** again — **also fails**, until Streamlit is restarted.\n\n\n### Expected Behavior\n\nStep 4 demonstrates persistence: `repro_agent` is never re-imported, so it keeps\nusing the old class, while `sys.modules` keeps the new one.\n\nNeither step 3 not step 4 should throw the `UnserializableReturnValueError`.\n\nExpected behavior : \n\n[IMAGE OMITTED: not inspected]\n\n### Current Behavior\n\n`UnserializableReturnValueError` is thrown\n\n[IMAGE OMITTED: not inspected]\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- **Streamlit**: 1.55.0\n- **Python**: 3.13.7\n- **OS**: Windows 11 / Linux (Kubernetes)\n- Occurs more frequently in local dev (active filesystem) than in deployed containers\n\n### Additional Information\n\n> **Disclosure**: This bug report was written by an LLM (Claude) after a deep investigation into a production issue. The root cause analysis, reproduction script, and identified problematic code path are all LLM-generated\n\n## Suggested Fixes\n\n### Option A: Chain the original exception (low-effort, improves DX)\n\nIn `_handle_cache_miss`, chain the original exception so users can see the real error:\n\n```python\nraise UnserializableReturnValueError(\n    return_value=computed_value, func=self._info.func\n) from ex  # <-- add \"from ex\"\n```\n\n### Option B: Guard `write_result` against stale class references\n\nBefore calling `pickle.dumps()` in `DataCache.write_result`, re-import the module and verify class identity:\n\n```python\nimport importlib\ncls = type(value)\nmod = sys.modules.get(cls.__module__)\nif mod is not None:\n    current_cls = getattr(mod, cls.__qualname__, None)\n    if current_cls is not None and current_cls is not cls:\n        # Module was reloaded — update the instance's class to the current one\n        value.__class__ = current_cls\n```\n\n### Option C: Don't delete modules from `sys.modules` preemptively\n\nInstead of deleting all watched modules on every file change, only invalidate the module that actually changed. Or defer the deletion to the start of the next script run rather than doing it immediately from the watcher thread.\n\n## Workaround\n\nReturn only pickle-safe primitives (dicts, strings, numbers) from `@st.cache_data` functions, and reconstruct custom objects outside the cache boundary:\n\n```python\n@st.cache_data(show_spinner=False)\ndef _cached_call(key: str) -> dict:\n    result = do_expensive_work(key)\n    return result.__dict__  # dict is always pickle-safe\n\ndef get_result(key: str) -> MyResult:\n    return MyResult(**_cached_call(key))\n```",
+    "initial_facts": {},
+    "initial_checks": [],
+    "allowed_decisions": [
+      "ask",
+      "escalate"
+    ],
+    "relevant_source_ids": [
+      "api:cache_data",
+      "api:cache_resource"
+    ],
+    "oracle_note": "قابلیت سریال‌سازی مقدار بازگشتی و وابستگی به اجرای مجدد کلاس بررسی شود.",
+    "annotation_method": "manual prospective rubric; not final state/labels",
+    "evaluation_time_policy": "current frozen snapshot; not a historical replay",
+    "missing_information": [
+      "exact failing environment",
+      "independent minimal reproduction result"
+    ],
+    "forbidden_conclusions": [
+      "unverified fixed version",
+      "closed means resolved",
+      "similar issue proves same cause"
+    ]
+  },
+  {
+    "id": "GH14639",
+    "issue_number": 14639,
+    "url": "https://github.com/streamlit/streamlit/issues/14639",
+    "split": "dev",
+    "family_id": "issue-14639",
+    "category": "ambiguous",
+    "topic": "cache_data",
+    "initial_message": "st.cache_data shares cache across st.Page pages for same-named functions with different source code\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nst.cache_data functions with the same name but different source code in different page files (loaded via st.navigation + st.Page) share the same cache. This is because st.Page executes all pages via exec() with\n  __module__ == \"__main__\", and inspect.getsource() fails in that context. The fallback to func.__code__.co_code (bytecode) does not include string constants, so functions with identical structure but different inline strings (e.g., different SQL queries) produce the same cache key.\n\n### Reproducible Code Example\n\n```Python\n# main.py\nimport streamlit as st\n\nst.set_page_config(page_title=\"Cache Bug Demo\", layout=\"wide\")\npg = st.navigation(\n    {\n        \"Page A\": [st.Page(\"page_a.py\", title=\"Page A\")],\n        \"Page B\": [st.Page(\"page_b.py\", title=\"Page B\")],\n    }\n)\npg.run()\n# page_a.py\nimport streamlit as st\n\n\n@st.cache_data(ttl=3600)\ndef load_data():\n    return {\"source\": \"page_a\", \"columns\": [\"col_a1\", \"col_a2\"]}\n\n\ndata = load_data()\nst.write(\"Page A data:\", data)\nst.write(\"Expected source: page_a, Got:\", data[\"source\"])\n# page_b.py\nimport streamlit as st\n\n\n@st.cache_data(ttl=3600)\ndef load_data():\n    return {\"source\": \"page_b\", \"columns\": [\"col_b1\", \"col_b2\"]}\n\n\ndata = load_data()\nst.write(\"Page B data:\", data)\nst.write(\"Expected source: page_b, Got:\", data[\"source\"])\n```\n\n### Steps To Reproduce\n\n1. Create the three files above (main.py, page_a.py, page_b.py)\n2. Run streamlit run main.py\n3. Open Page A — displays source: page_a (correct)\n4. Navigate to Page B — displays source: page_a (wrong, should be page_b)\n5. Clear cache and open Page B first — displays source: page_b (correct)\n6. Navigate to Page A — displays source: page_b (wrong, should be page_a)\n\n### Expected Behavior\n\nEach page's load_data() should have an independent cache, since they are defined in different files with different source code. Navigating between pages should return each page's own data.\n\n### Current Behavior\n\nWhichever page is loaded first caches its result under the function key. When the other page calls its own load_data(), the cached result from the first page is returned, because both functions produce the same cache key.\n\nRoot cause: In streamlit/navigation/page.py, st.Page.run() executes page scripts as:\n\nmodule = types.ModuleType(\"__main__\")\nexec(code, module.__dict__)\n\nThis means func.__module__ is \"__main__\" for all pages. When inspect.getsource() fails in this exec() context, _make_function_key falls back to func.__code__.co_code, which does not include string constants — so\n  structurally identical functions with different inline values produce the same key.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.55.0\n- Python version: 3.14.3\n- Operating System: macOS Tahoe Docker Desktop `FROM ghcr.io/astral-sh/uv:python3.14-trixie-slim`\n- Browser: Google Chrome 146.0.7680.178\n\n\n### Additional Information\n\nRelated issue: https://github.com/streamlit/streamlit/issues/11157 (cache_data cannot detect difference in values of free variables). That issue covers a similar problem with closure variables, but the st.Page + exec() scenario is a distinct trigger.\n\nWorkaround: Give cached functions unique names per page (e.g., page_a_load_data, page_b_load_data).",
+    "initial_facts": {},
+    "initial_checks": [],
+    "allowed_decisions": [
+      "ask",
+      "escalate"
+    ],
+    "relevant_source_ids": [
+      "docs:caching",
+      "api:cache_data"
+    ],
+    "oracle_note": "جداسازی هویت تابع و منبع کد و کلید حافظه در دو صفحه؛ نتایج متفاوت آزمایش شوند.",
+    "annotation_method": "manual prospective rubric; not final state/labels",
+    "evaluation_time_policy": "current frozen snapshot; not a historical replay",
+    "missing_information": [
+      "exact failing environment",
+      "independent minimal reproduction result"
+    ],
+    "forbidden_conclusions": [
+      "unverified fixed version",
+      "closed means resolved",
+      "similar issue proves same cause"
+    ]
+  },
+  {
+    "id": "GH14710",
+    "issue_number": 14710,
+    "url": "https://github.com/streamlit/streamlit/issues/14710",
+    "split": "dev",
+    "family_id": "family-14710",
+    "category": "ambiguous",
+    "topic": "session_state",
+    "initial_message": "Await a Components V2 initialization value without session-state residue\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\n<details>\n<summary>./docker-compose.yml</summary>\n\n```yaml\nservices:\n  main:\n    build:\n      context: .\n      dockerfile_inline: |\n        # syntax=docker.io/docker/dockerfile-upstream:1.20.0-labs\n        # check=error=true\n        FROM python:3.10-slim AS base\n        RUN pip install \"streamlit==1.55\"\n    init: true\n    network_mode: \"host\"\n    working_dir: /app\n    volumes:\n      - .:/app:ro\n    entrypoint: [\"/usr/bin/env\", \"streamlit\", \"run\"]\n    command: [\"./streamlit_app.py\"]\n```\n\n</details>\n<details>\n<summary>./comp.py</summary>\n\n```python\n# comp.py\n\nimport sys\nfrom datetime import datetime\nfrom pathlib import Path\n\nimport streamlit as st\n\nst_comp_get_cookies = st.components.v2.component(\n    \"component_bidi_drop_bug.get_cookies\",\n    js=\"\"\"\n    export default function(component){\n        const { data, setTriggerValue } = component;\n        console.log(\"Comp Instantiated: \" + data._);\n        // More advanced logic here\n        const retObj = document.cookie;\n        console.log(\"cookie-getter:\", retObj);\n        if(retObj !== undefined) setTriggerValue(\"get_cookies\", retObj);\n    }\n    \"\"\",\n    isolate_styles=False,\n)\n\ndef _frame_gen(frame, skip=0):\n    while frame:\n        if frame.f_code.co_filename.startswith(\"/app\"):\n            if skip <= 0:\n                yield frame\n            else:\n                skip -= 1\n        frame = frame.f_back\n\n_cwd = Path.cwd()\n\ndef _rm_cwd(path):\n    if _cwd in Path(path).parents:\n        return str(Path(path).relative_to(_cwd))\n    return path\n\ndef unique_key(suffix: str = \"\", skip: int = 0) -> str:\n    return \"\".join(reversed([\n        f\"{_rm_cwd(f.f_code.co_filename)}-{f.f_code.co_name}-{f.f_lineno};\"\n        for f in _frame_gen(sys._getframe(), skip + 1)\n    ])) + suffix\n\ndef unique_line_time(suffix: str = \"\", skip: int = 0) -> str:\n    return unique_key(suffix, skip + 1) + f\":{int(datetime.now().timestamp())}\"\n```\n\n</details>\n\n<details>\n<summary>./streamlit_app.py</summary>\n\n```python\n# streamlit_app.py\n\nimport time\n\nimport streamlit as st\nfrom comp import st_comp_get_cookies, unique_line_time\n\nst.set_page_config(page_title=\"Component V2 Bidi Bug\")\nst.header(\"Hi\")\nst.write(\"This component passes a 'soft' key via data so that multiple instances of it can exist,\")\nst.write(\"that's LOC/time unique. So every app hard or soft refresh creates a new widget.\")\nst.write(\"Avoiding making a key, because intend to post-process the return value and populate\")\nst.write(\"session_state with refined data. Messy session_state is annoying.\")\nst.write(\"The base component only exists once, in the cached helper file.\")\n\nst.header(\"Problem\")\nst.write(\"Browser console logs: the widget is instantiated, then returns the value.\")\nst.write(\"Python logs: the returned value isn't always received.\")\nst.write(\"Because it's so inconsistently received, it's hard to depend on\")\n\ndef get_raw_cookies() -> str:\n    data = { \"_\": unique_line_time() }\n    obj = st_comp_get_cookies(data=data)\n    print(f\"{obj=}\")\n    if not isinstance(obj, dict) or \"get_cookies\" not in obj:\n        time.sleep(2)\n        st.rerun() # Very first run, component mightn't be ready\n    return obj[\"get_cookies\"]\n\n# Main\n\nif \"rerun_counter\" not in st.session_state:\n    st.session_state[\"rerun_counter\"] = -1\nst.session_state[\"rerun_counter\"] = st.session_state[\"rerun_counter\"] + 1\nprint(f'{st.session_state[\"rerun_counter\"]} Refresh')\n\n\nprint(f\"First: {get_raw_cookies()=}\")\nprint(f\"Second: {get_raw_cookies()=}\")\nst.header(\"Page finished loading!\")\n```\n\n</details>\n`docker compose up`\nstreamlit v 1.55\n\nI'm trying to migrate our custom js widgets from v1 component api to the non-iframe v2 api.\nIt seems far more powerful, and seems like it'll cut boilerplate.\nIn our style, we have accumulated over the years a collection of js/client side running code, that doesn't particularly need/have an html or user-interfacing component.\n\nI think I've noticed an issue, where values are getting returned from the js frontend (as seen by console.log msgs), but the streamlit backend logs see those msgs as dropped. I'm still getting the hang of the runtime behaviors of this new component api, to figure out how to update our v1 components, so I've been trying to test it. If this is not the expected or correct usage, I'm all ears, but I'm working my best from the online docs + repo src implementation. \n\nThis is our current design / usage analysis of the v2 api:\n- We declare/write a st.components.v2.component(...) object in a helper file, that will not be modified, with a unique name\n- The js string includes all helper functions, and an `export default function(component: FrontendRendererArgs)`\n- This default function is the per-widget-instantiation, and only run once (see below)\n- It sets up callbacks or such on html elements\n- If the component is called with a `key`, then all setTriggerValue and setStateValue items populate session_state\n- Without an explicit `key`, setTriggerValue won't populate session_state, but the rest of the python arguments (data) are used to calculate a unique frontend key\n- No two component instances therefore can have the exact same args (data)\n- If the args to the component don't change, the widget object stays created, and is not re-instantiated\n- If the rest of the args (data) to the component change, without a `key`, the old widget is discarded, and a new component is instantiated\n\nOur goal is to have high-level code that uses caching & post processing of raw lower-level data call these low-level components as needed. But if the components are called, I expect them to behave consistently. \n\nIn this particular example, the js component does (for example!!!) a failproof cookies query on instantiation and returns it via setTriggerValue.\n```js\nexport default function (component){  component.setTriggerValue(\"get_cookies\", document.cookie); }\n```\nWe wrap that `st_comp_get_cookies: st.components.v2.component` in a helper function.\n```python\ndef get_raw_cookies():\n    obj = st_comp_get_cookies(data={\"_\": unique_line_time()})\n```\nIf we feed `data` a value that's unique to the line (line traceback stack), the multiple calls of the widget will be unique even if fed the same other args. It would create a new component when there's a new/unique call (args or location), otherwise only instantiated once.\nIf we feed `data` a value that's unique in time, then every call is a new widget instance, and the js default function runs each time.\n\nIn the v1 api, when the app first loaded, the components wouldn't always respond right away. So I'd check if the returned value was empty or not.\n```python\n# get_raw_cookies()\nif not isisntance(obj, dict) or \"get_cookies\" not in obj:\n    # Very first run, component mightn't be ready\n    time.sleep(initial_setup_sleep)\n    st.rerun()\nprint(f\"{obj[\"get_cookies\"]=}\")\n```\n\nGiven the above files, with more logging added, I noticed a very strange behavior. (This is just a heavily reduced version of our real prod code; and I only chose documents.cookies because it _can't fail_).\nIn the browser console, everytime the page reloaded (hard reload F5, or soft rerun from some other input), the console logged the new widget instance, the cookie fetch, and that succeeded.\nBut in the python logs, sometimes it worked, sometimes it did not. \nWith the \"rerun if fail\" check, if this was the only indeterminite execution, it'd work quickly enough, and then the rest of the code would execute.\nBut with multiple components doing this, it suddenly became impossible for both to work at the same time.\n```python\nget_raw_cookies() # Sometimes reruns, ok\nget_raw_cookies() # Always reruns, when the above finally works\nst.header(\"This never runs\")\nassert False\n```\n\nSorry if this was rather long winded, but I'm either uncertain I'm understanding the runtime behaviors correctly, trying not to misrepresent our goals, possibly oblivious to a better v2 design, or just unaware of what to reasonably expect from this as for behavior.\n\n### Reproducible Code Example\n\n```Python\n\n```\n\n### Steps To Reproduce\n\n1. Copy the 3 files\n2. docker compose up (or, it's _really just_ python 3.10 and streamlit 1.55 in the env, nothing else)\n3. Open browser to streamlit instance\n4. Compare the browser logs, the python logs, and how the page doesn't load\n\n### Expected Behavior\n\nI expect at app start the component to fail, but afterwards I'd expect each new component creation to successfully be created, successfully transmit setState/TriggerValue back to the component, and get returned by the component, before the backend continues on. (Consistency / Determinism). (Otherwise, we'd design differently)\n\n### Current Behavior\n\nI've tried variations of the above files, such as adding more sleeps on python side, but the js side seems to be sending the values back, and the python side seems to inconsistently receive them. The first component ~1/2 the time, and the second always fails when the first doesn't.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.55\n- Python version: 3.10\n- Operating System: Ubuntu\n- Browser: Chromium / Opera\n\n\n### Additional Information\n\n_No response_",
+    "initial_facts": {},
+    "initial_checks": [],
+    "allowed_decisions": [
+      "ask",
+      "escalate"
+    ],
+    "relevant_source_ids": [
+      "docs:state-and-triggers",
+      "docs:architecture"
+    ],
+    "oracle_note": "تفکیک مقدار اولیه از رخداد و زمان بازگشت فرانت‌اند؛ پیشنهاد اجرای کد ناشناس ممنوع.",
+    "annotation_method": "manual prospective rubric; not final state/labels",
+    "evaluation_time_policy": "current frozen snapshot; not a historical replay",
+    "missing_information": [
+      "exact failing environment",
+      "independent minimal reproduction result"
+    ],
+    "forbidden_conclusions": [
+      "unverified fixed version",
+      "closed means resolved",
+      "similar issue proves same cause"
+    ]
+  },
+  {
+    "id": "GH14793",
+    "issue_number": 14793,
+    "url": "https://github.com/streamlit/streamlit/issues/14793",
+    "split": "dev",
+    "family_id": "issue-14793",
+    "category": "answerable",
+    "topic": "multipage",
+    "initial_message": "Updating selectbox selection that is saved in st.session_state needs to be clicked twice\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nHello everyone. \n\nIn my use case, I have a multipage application, with an st.selectbox on top of every subpage. The default value of those selectboxes is taken from st.session_state. The bug I have encountered now is that when I want to update the selectbox value I need to select the new value twice. An example\n\nSelected option: 1\nI select option 2.\nSelected option: 1\nI select option 2 again.\nSelected option: 2\n\nFrom then on the value is updated and working as expected. This behavior is 100% reproducible for me but only happening after I updated the selected option once i.e. directly after the start of the application it works fine and expected once. Afterward I need to double select the options.\n\n### Reproducible Code Example\n\n```Python\napp.py:\nimport streamlit as st\n\ndef main():\n    pg = st.navigation([st.Page(\"page1.py\")])\n    pg.run()\n\n\nif __name__ == \"__main__\":\n    main()\n\n\npage1.py:\nimport streamlit as st\n\n\ndef page():\n    if \"selectedIndex\" not in st.session_state:\n        st.session_state[\"selectedIndex\"] = 0\n    \n    selectedIndex = st.selectbox(\n        label=\"Select something:\", \n        options=range(0, 5),\n        index=st.session_state[\"selectedIndex\"]\n    )\n    \n    st.session_state[\"selectedIndex\"] = selectedIndex\n    \n    st.write(f\"You selected {selectedIndex}.\")\n    st.write(f\"Session state {st.session_state[\"selectedIndex\"]}.\")\n\n\npage()\n```\n\n### Steps To Reproduce\n\n1. Start the application `streamlit run app.py`\n2. Update the select box value to 3.\n4. Select option 1.\n6. Select option 1 again.\n\nYou can repeat steps 4-7 as often as you want; it will happen every time.\n\n### Expected Behavior\n\n1. Start the application `streamlit run app.py`\n2. Update the select box value to 3.\n3. The value is now correctly set as 3.\n4. Select option 1.6. \n5. The value is now correctly set as 1.\n\n### Current Behavior\n\nNo error messages.\n\n1. Start the application `streamlit run app.py`\n2. Update the select box value to 3.\n3. The value is now correctly set as 3.\n4. Select option 1.\n5. The selected value will jump back to 3. The return value and session state value also don't update.\n6. Select option 1 again.\n7. The value is now correctly set as 1.\nYou can repeat steps 4-7 as often as you want; it will happen every time.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.56\n- Python version: 3.12.7\n- Operating System: Windows 11\n- Browser: Firefox 149.0.2\n\n\n### Additional Information\n\n_No response_",
+    "initial_facts": {},
+    "initial_checks": [],
+    "allowed_decisions": [
+      "answer",
+      "ask"
+    ],
+    "relevant_source_ids": [
+      "docs:widget-behavior",
+      "docs:widget-updating-session-state"
+    ],
+    "oracle_note": "هویت ویجت و کلید صریح با مقدار پیش‌فرض متغیر بررسی شود.",
+    "annotation_method": "manual prospective rubric; not final state/labels",
+    "evaluation_time_policy": "current frozen snapshot; not a historical replay",
+    "missing_information": [
+      "exact failing environment",
+      "independent minimal reproduction result"
+    ],
+    "forbidden_conclusions": [
+      "unverified fixed version",
+      "closed means resolved",
+      "similar issue proves same cause"
+    ]
+  },
+  {
+    "id": "GH16388",
+    "issue_number": 16388,
+    "url": "https://github.com/streamlit/streamlit/issues/16388",
+    "split": "dev",
+    "family_id": "family-7338",
+    "category": "ambiguous",
+    "topic": "session_state",
+    "initial_message": "Deleting a widget's session_state key leaves the frontend showing the stale value (backend/frontend divergence for one rerun)\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nDeleting a keyed widget's entry from `st.session_state` (e.g. `del st.session_state[\"foo\"]` inside a callback) does not reset the widget, but can lead to an inconsistency between frontend and backend.\n\nThe Python side returns the widget's *default* value for that run, but the frontend keeps displaying the old value, so backend and frontend disagree.\n\nOn the **next** rerun the backend silently re-adopts the stale frontend value, so the deletion is effectively undone.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\ntext = st.text_input(\"Foo\", value=\"default\", key=\"foo\")\n\nst.write(\"widget returned:\", repr(text))\n\ndef populate():\n    st.session_state[\"foo\"] = \"hello\"\n\ndef delete():\n    del st.session_state[\"foo\"]\n\nst.button(\"Populate\", on_click=populate)\nst.button(\"Delete\", on_click=delete)\nst.button(\"Noop\")\n\n```\n\n### Steps To Reproduce\n\n1. Run the app.\n2. Click **Populate** (callback sets `st.session_state[\"foo\"] = \"hello\"`). The text input now shows `hello` and `widget returned: 'hello'`.\n3. Click **Delete** (callback runs `del st.session_state[\"foo\"]`).\n4. Observe the text input on screen vs. the `widget returned:` line.\n5. Click **Noop** (any interaction that triggers a plain rerun) and observe again.\n\n### Expected Behavior\n\nThe widget value in the frontent and backend should be consistent. After deleting a widget's key in session state, it should presumably fall back to its default value.\n\n### Current Behavior\n\n- After clicking Delete, the backend returns `widget returned: \"default''` , but the frontend widget still displays `\"hello\"`.\n- After the next rerun (step 5), the backend re-adopts the stale frontend value, and both show `\"hello\"`.\n\n### Screenshot\n\n[IMAGE OMITTED: not inspected]\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.59.2\n- Python version: 3.14.6\n- Operating System: Ubuntu 22.04\n- Browser: Chromium\n\n\n### Additional Information\n\nLikely related: #5442",
+    "initial_facts": {},
+    "initial_checks": [],
+    "allowed_decisions": [
+      "ask",
+      "escalate"
+    ],
+    "relevant_source_ids": [
+      "docs:session_state",
+      "docs:widget-behavior"
+    ],
+    "oracle_note": "تفاوت حذف کلید و وضعیت سمت مرورگر در اجرای بعدی بررسی شود.",
+    "annotation_method": "manual prospective rubric; not final state/labels",
+    "evaluation_time_policy": "current frozen snapshot; not a historical replay",
+    "missing_information": [
+      "exact failing environment",
+      "independent minimal reproduction result"
+    ],
+    "forbidden_conclusions": [
+      "unverified fixed version",
+      "closed means resolved",
+      "similar issue proves same cause"
+    ]
+  },
+  {
+    "id": "GH16732",
+    "issue_number": 16732,
+    "url": "https://github.com/streamlit/streamlit/issues/16732",
+    "split": "dev",
+    "family_id": "family-14710",
+    "category": "ambiguous",
+    "topic": "widget",
+    "initial_message": "`setTriggerValue` called during mount is dropped ~1 in 4 times when the component remounts, despite an explicit `key`\n\n### Summary\n\nWhen a Components V2 component calls `setTriggerValue` during mount (inside the default function, rather than from a user event handler), values are silently lost if the component remounts because its `data` changed — even when an explicit `key` is passed, which keeps the element id stable.\n\nMeasured roughly a quarter loss: **5 of 21 values sent were never received by Python at all.** They are not late — a scan of the entire session log shows they never arrive in any subsequent run.\n\nThis is split out of #14710, where it surfaced during investigation. It is distinct from the two by-design mechanisms discussed there (`data` participating in element identity for unkeyed components, and trigger values resetting after each run).\n\n**Update — measured root cause.** A frontend race in `WidgetStateManager.removeInactive`: it destroys the synthetic trigger-aggregator widget state while that state is still awaiting its batched flush, so the app reruns with no trigger at all. Not a backend discard. Measured on a production build with the repro below: 10/85 values lost unpatched vs 0/85 patched, and with instrumentation, 14/14 losses correlated exactly with the destroying call. Mechanism and open question under Additional Information.\n\n### Reproducible Code Example\n\n```python\nimport streamlit as st\n\ncomp = st.components.v2.component(\n    \"repro.mount_trigger\",\n    js=\"\"\"\n    export default function (component) {\n        const v = \"val\" + component.data.nonce;\n        console.log(\"SEND \" + v);\n        component.setTriggerValue(\"v\", v);\n    }\n    \"\"\",\n)\n\nif \"clicks\" not in st.session_state:\n    st.session_state.clicks = 0\nif st.button(\"bump\"):\n    st.session_state.clicks += 1\n\nnonce = f\"c{st.session_state.clicks}\"\nresult = comp(data={\"nonce\": nonce}, key=\"stable_key\")\n\nreceived = result.get(\"v\")\nst.write(f\"data nonce {nonce} -> received {received!r}\")\nprint(f\"nonce={nonce} received={received!r}\", flush=True)\n```\n\n### Steps To Reproduce\n\n1. Run the app and open the browser console.\n2. Click **bump** ~20 times, letting the app settle between clicks. Each click changes `data`, so the component remounts and sends one value.\n3. Compare the `SEND val…` lines in the console against the `received=…` lines in the terminal.\n4. Roughly one in four sent values never appears on the Python side.\n\n### Expected Behavior\n\nEvery value the mounted component sends is readable on the following script run. The explicit `key` makes the element id stable, so a changing `data` payload should not affect delivery.\n\n### Current Behavior\n\nAbout 25% of values are never delivered. Verified as lost rather than late by scanning the full backend log after all clicks — 0 arrived in a later run.\n\nThe element id was logged each run and confirmed identical throughout (`$$ID-b4c118c7288cf7d656c205e58a384db6-stable_key`), so this is not the identity churn that affects unkeyed components.\n\nThree controls on the same harness came out clean. They do not isolate the bug to trigger-on-mount — see Additional Information — but they do narrow which write path is affected:\n\n| Variant | Result |\n|---|---|\n| `setStateValue` on mount, same conditions | 21/21 delivered |\n| `setTriggerValue` from a user event handler, stable `data` | 20/20 delivered |\n| `setTriggerValue` from a user event handler, churning `data` | 20/20 delivered |\n| **`setTriggerValue` on mount, churning `data`** | **5 of 21 lost** |\n\n### Additional Information\n\n**Mechanism.** `setTriggerValue` writes to a synthetic aggregator widget id (`makeTriggerAggregatorId` → `$$STREAMLIT_INTERNAL_KEY_<componentId>__events`) and the flush is deferred to a `setTimeout(…, 0)` macrotask. `App.removeInactiveWidgetState()` runs from the `ScriptFinished` → `clearStaleNodes` setState callback and deletes every widget state whose id is not an active *element* id — the aggregator id never is, because it isn't part of the element tree. When that lands before the flush, the trigger is deleted but the rerun is still sent (`sendUpdateWidgetsMessage` uses unfiltered `createWidgetStatesMsg()`), so the script reruns with no trigger.\n\nMount-time triggers are the most exposed path: the component's `default function` runs behind `await loadAndRunModule(...)` (dynamic `import()` of a blob URL), so it executes a macrotask or more after the commit that mounted it. This also explains the control table — `setStateValue` is immune because it writes the component's real element id, and the event-handler controls passed because letting the app settle means `removeInactive` has already run.\n\n**The `_pending_resets` theory is ruled out.** It is only populated by `mark_page_switch_drops`, which runs on page transitions and skips widgets whose recorded page is the current page, so a single-page app never populates it. (For the record, the original hypothesis was that `_pending_resets` in `lib/streamlit/runtime/state/session_state.py` discarded a frontend-resent value on re-registration, which would have made this by design.)\n\n**Related blind spot.** The same synthetic id is invisible to other active-id filters, not just this one: `App.tsx` `onPageChange` sends `getActiveWidgetStates(activeWidgetIds)`, which would likewise drop a pending aggregator. Reaching it would require a trigger and a page navigation in the same macrotask, and dropping a trigger while navigating away is defensible, so no change is planned there. Recorded as an observation only.\n\n**Scope of what was tested.** Measured against this repro on one machine, 235 trials total. It establishes this race as the cause of the loss seen here; it does not rule out other trigger-loss paths. The same race also appears to explain the recurring `bidi_components/basics_test.py::test_trigger_interactions` CI flake — the failure signature (counts unchanged plus `Result` reset to `None`) is what a trigger-less rerun produces — but that link is inferred from the signature, not directly observed. Two prior automated PRs (#14542, #14843) misattributed that flake to a slow iframe round-trip and raised timeouts.\n\n**Open question for Components V2** (replacing the original question here, which is now answered — the drop is a race, not intentional): should `setTriggerValue` during mount be a supported pattern at all? Fixing the race makes it reliable, but it fires on every remount, so churning `data` produces one trigger per remount. That is a semantics decision independent of this bug, and it determines whether this issue closes as fixed or splits into a fix plus a documentation/warning change.\n\n### Debug info\n\n- Streamlit version: 1.62.0 (released wheel, production frontend build)\n- Python version: 3.11 · macOS · Chromium\n- The ~25% figure is one 21-trial sample on a single machine; treat it as \"roughly a quarter\" rather than a precise rate.",
+    "initial_facts": {},
+    "initial_checks": [],
+    "allowed_decisions": [
+      "ask",
+      "escalate"
+    ],
+    "relevant_source_ids": [
+      "docs:state-and-triggers",
+      "docs:widget-behavior"
+    ],
+    "oracle_note": "بازنصب مؤلفه و callback و احتمال ازدست‌رفتن رخداد بررسی شود؛ کلید ثابت به‌تنهایی دلیل کافی نیست.",
+    "annotation_method": "manual prospective rubric; not final state/labels",
+    "evaluation_time_policy": "current frozen snapshot; not a historical replay",
+    "missing_information": [
+      "exact failing environment",
+      "independent minimal reproduction result"
+    ],
+    "forbidden_conclusions": [
+      "unverified fixed version",
+      "closed means resolved",
+      "similar issue proves same cause"
+    ]
+  },
+  {
+    "id": "GH17093",
+    "issue_number": 17093,
+    "url": "https://github.com/streamlit/streamlit/issues/17093",
+    "split": "dev",
+    "family_id": "family-7338",
+    "category": "ambiguous",
+    "topic": "widget",
+    "initial_message": "BUG: wrong value returned by backend vs frontend, when a widget is rendered after a previous page run set a default value in session state\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nIf a default value is set in session state on one page run, and then subsequently a widget is rendered with a corresponding `key`, then the default value is not picked up properly and the frontend and backend show different values for that widget.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n# Sets default on first page run\nst.session_state.setdefault(\"foo\", 100.0)\n\nif st.toggle(\"Show\"):\n    foo = st.number_input(\"Foo\", key=\"foo\")  # Shows 0.00\n    st.write(\"You entered:\", foo)  # Shows 100.0\n```\n\n### Steps To Reproduce\n\n1.Turn on the  toggle\n2. Compare the value in the widget vs the value printed underneath\n\n### Expected Behavior\n\nThe value in the widget should match the number reported underneath.\n\n### Current Behavior\n\nThe input widget displays `0.00`, but the backend reports `You entered: 100`.\n\nIf `r` is pressed to trigger a re-run, then the frontend updates to display `0.0` and the default value is lost.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version: 3.14.7\n- Operating System: Ubuntu 22.04\n- Browser: Chrome\n\n\n### Additional Information\n\nThis bug is problematic for more complex pages, where widgets may need to be \"loaded\" or \"reset\" programmatically, and some widgets may be conditionally hidden depending on a toggle or checkbox.\n\nThe bug does not happen if `persist_state=\"page\"` is passed to `number_input`.\n\nPossibly related: #15660 seems to have fixed a similar bug for when persist_state is passed, but not for when persist_state=None.",
+    "initial_facts": {},
+    "initial_checks": [],
+    "allowed_decisions": [
+      "ask",
+      "escalate"
+    ],
+    "relevant_source_ids": [
+      "docs:widget-behavior",
+      "docs:session_state"
+    ],
+    "oracle_note": "بررسی مقدار پیش‌فرض نوشته‌شده در اجرای پیشین و نخستین نمایش ویجت.",
+    "annotation_method": "manual prospective rubric; not final state/labels",
+    "evaluation_time_policy": "current frozen snapshot; not a historical replay",
+    "missing_information": [
+      "exact failing environment",
+      "independent minimal reproduction result"
+    ],
+    "forbidden_conclusions": [
+      "unverified fixed version",
+      "closed means resolved",
+      "similar issue proves same cause"
+    ]
+  },
+  {
+    "id": "GH17119",
+    "issue_number": 17119,
+    "url": "https://github.com/streamlit/streamlit/issues/17119",
+    "split": "dev",
+    "family_id": "family-7338",
+    "category": "ambiguous",
+    "topic": "session_state",
+    "initial_message": "Keyed persist_state=None remount can reset the UI while st.session_state[key] still holds the previous value\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nA keyed `persist_state=None` widget that has already registered, is then hidden, then shown again can render the widget default while `st.session_state[key]` still holds the previous value on that remount run. A follow-up rerun overwrites session state with the default. Unmount should reset **both** the UI and `st.session_state[key]` in the same run (#3512).\n\nThis is a follow-up to #17106 / #17093. That PR syncs delayed first mount to a leftover pre-registration user key. This issue is the already-registered remount path: unmount cleanup has dropped widget-id state, but a leftover user-key entry can leave the two sides out of sync for one run.\n\n### Reproducible Code Example\n\n```python\nimport streamlit as st\n\nst.session_state.setdefault(\"input2\", \"input 2\")\nst.session_state.setdefault(\"input3\", \"input 3\")\n\nselect = st.selectbox(\"select delayed input\", [\"A\", \"B\"])\nif select == \"A\":\n    value = st.text_input(\"input 2\", key=\"input2\")\nelse:\n    value = st.text_input(\"input 3\", key=\"input3\")\n\nst.write(\"widget return:\", repr(value))\nst.write(\"session_state input2:\", repr(st.session_state.get(\"input2\")))\n```\n\n### Steps To Reproduce\n\n1. Load the app. Input 2 is shown on first load with `\"input 2\"`.\n2. Switch the selectbox to B.\n3. Optionally edit input 3 and press Enter.\n4. Switch back to A.\n5. Compare the input 2 field with the printed `st.session_state.get(\"input2\")` value, then press `r`.\n\n### Expected Behavior\n\nAfter the registered widget remounts, both the rendered input and `st.session_state[\"input2\"]` are the widget default (empty) on that same run. A follow-up rerun is not required to sync them.\n\nA user key written while the widget had **never** registered remains ordinary session state: delayed first mount (and leftover-key remount after edit/hide) should still adopt that stored value on both sides. `persist_state=\"session\"` / `\"page\"` (same page) should still remount the last edit.\n\n### Current Behavior\n\nAfter switching back to A (especially after editing the sibling input 3), the input 2 **field is empty** while `st.session_state.get(\"input2\")` still prints `\"input 2\"` for that run. A follow-up rerun clears the printed backend as well.\n\nWithout the sibling edit, A→B→A can keep UI and backend aligned at `\"input 2\"`. Either interpretation of leftover keys should keep UI and printed state in sync; the #3512 unmount rule for an already-registered `persist_state=None` widget is that both sides reset in the same run.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: current develop / #17106\n- Python version: 3.13\n- Operating System: macOS\n- Browser: Chromium (Playwright)\n\n### Additional Information\n\nFound during QA of https://github.com/streamlit/streamlit/pull/17106#issuecomment-5813147965.\n\nRelated:\n\n- #3512 — unmount should reset both the widget UI and the Python value in the same run\n- #17093 / #17106 — delayed first mount after a leftover pre-registration user key (out of scope here)\n- #12880 — identity-by-key (out of scope)",
+    "initial_facts": {},
+    "initial_checks": [],
+    "allowed_decisions": [
+      "ask",
+      "escalate"
+    ],
+    "relevant_source_ids": [
+      "docs:widget-behavior",
+      "docs:session_state"
+    ],
+    "oracle_note": "بررسی زمان حذف و نمایش مجدد کلید؛ ادعای رفع در نسخه‌ای خاص مجاز نیست.",
+    "annotation_method": "manual prospective rubric; not final state/labels",
+    "evaluation_time_policy": "current frozen snapshot; not a historical replay",
+    "missing_information": [
+      "exact failing environment",
+      "independent minimal reproduction result"
+    ],
+    "forbidden_conclusions": [
+      "unverified fixed version",
+      "closed means resolved",
+      "similar issue proves same cause"
+    ]
+  },
+  {
+    "id": "GH17250",
+    "issue_number": 17250,
+    "url": "https://github.com/streamlit/streamlit/issues/17250",
+    "split": "dev",
+    "family_id": "issue-17250",
+    "category": "escalate",
+    "topic": "widget",
+    "initial_message": "AppTest: synchronize query parameters when interacting with query-bound widgets\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nPlease make AppTest's widget interaction API synchronize query parameters for widgets using `bind=\"query-params\"`. Currently, `.set_value(...).run()` changes the widget value but leaves both `at.query_params` and the app's `st.query_params` unchanged, so tests observe a different state from the browser.\n\n### Why?\n\nNative query-param binding lets apps replace manual URL callbacks. After that change, AppTest tests that verify shareable filters or inspect `st.query_params` can no longer reproduce the state reached by the same user interaction in the browser. Each test must manually mirror the binding's serialization into `at.query_params`.\n\nThe following self-contained example demonstrates the gap on Streamlit 1.65.0; it also occurs on 1.64.0:\n\n```python\nfrom streamlit.testing.v1 import AppTest\n\nat = AppTest.from_string(\"\"\"\nimport streamlit as st\n\nst.selectbox(\"FC\", [\"A\", \"B\"], key=\"fc\", bind=\"query-params\")\nst.session_state[\"seen_query\"] = dict(st.query_params)\n\"\"\").run()\n\nat.selectbox[0].set_value(\"B\").run()\nassert not at.exception\nprint(\"Widget:\", at.selectbox[0].value)\nprint(\"AppTest query params:\", at.query_params)\nprint(\"App query params:\", at.session_state[\"seen_query\"])\n```\n\nSave as `repro_query_binding.py` and run `python repro_query_binding.py` with `streamlit==1.65.0` installed. No pytest or app-specific dependencies are required.\n\nObserved:\n\n```text\nWidget: B\nAppTest query params: {}\nApp query params: {}\n```\n\nIn a browser, selecting B in the app string above updates the URL to `?fc=B` and the script sees `{\"fc\": \"B\"}`. The same AppTest gap occurs with `st.text_input(..., key=\"fc\", bind=\"query-params\")` and `at.text_input[0].set_value(\"B\").run()`.\n\n### How?\n\nUse the existing interaction API to model the bound query-param update when a widget commits a value. For the example above, the desired result after `.set_value(\"B\").run()` is:\n\n```text\nWidget: B\nAppTest query params: {'fc': 'B'}\nApp query params: {'fc': 'B'}\n```\n\nThe interaction should send a coherent widget-state/query-string pair using the widget's binding semantics, including serialization and clearing of the bound parameter. Unrelated query parameters should remain intact. This can be supported in the existing browserless AppTest API; a new browser runner is not requested.\n\nA current workaround is to set the query params manually in the test before the run:\n\n```python\nat.selectbox[0].set_value(\"B\")\nat.query_params[\"fc\"] = \"B\"\nat.run()\nassert at.session_state[\"seen_query\"][\"fc\"] == \"B\"\n```\n\nThis works, but the test must duplicate application binding logic. Keeping explicit `on_change` callbacks that write `st.query_params` also works, at the cost of retaining the application glue that native binding could replace.\n\n### Additional Context\n\n#### Environment and controls\n\n- Streamlit: 1.65.0, also reproduced on 1.64.0.\n- Python: 3.14.8.\n- OS: macOS 27.0.1, arm64.\n- Browser: Not required for the AppTest example. Browser comparisons used the Codex in-app browser on macOS and confirmed correct binding on both versions.\n- The tested Streamlit Python files match their wheel RECORD hashes; no installed source was modified.\n- Initial URL values correctly seed a bound widget in AppTest.\n- Programmatically changing `st.session_state[\"fc\"]` before rendering the bound widget correctly updates query params.\n- Manual URL-writing callbacks work in AppTest.\n\n#### Related work checked\n\n- [#16906](https://github.com/streamlit/streamlit/issues/16906) requests a first-party browser-testing API. This request targets bound-widget query serialization during existing AppTest interactions.\n- [PR #17191](https://github.com/streamlit/streamlit/pull/17191), included in 1.65.0, fixes single-value/list representation in `at.query_params`. The example still returns an empty dict after that fix.\n- [PR #16998](https://github.com/streamlit/streamlit/pull/16998) fixes browser back/forward restoration. This example changes a widget through AppTest and performs no history navigation.\n\nI did not find an existing issue requesting this specific AppTest behavior. I am using the feature-request form because this extends the test simulation; the runtime binding itself works in the tested browser examples.\n\n[LocalScriptRunner.run](https://github.com/streamlit/streamlit/blob/ac7fffe6cf8474a258b2f64c96604137cfbbb37e/lib/streamlit/testing/v1/local_script_runner.py#L170) constructs the query string from the query params passed by AppTest. The current widget interaction path does not generate the corresponding query-param update that a browser would send.",
+    "initial_facts": {},
+    "initial_checks": [],
+    "allowed_decisions": [
+      "escalate",
+      "ask"
+    ],
+    "relevant_source_ids": [
+      "docs:get-started",
+      "docs:query_params"
+    ],
+    "oracle_note": "رفتار آزمون با مرورگر واقعی مقایسه شود؛ همگام‌سازی پارامترها فرض نشود.",
+    "annotation_method": "manual prospective rubric; not final state/labels",
+    "evaluation_time_policy": "current frozen snapshot; not a historical replay",
+    "missing_information": [
+      "exact failing environment",
+      "independent minimal reproduction result"
+    ],
+    "forbidden_conclusions": [
+      "unverified fixed version",
+      "closed means resolved",
+      "similar issue proves same cause"
+    ]
+  },
+  {
+    "id": "GH6939",
+    "issue_number": 6939,
+    "topic": "session_state",
+    "url": "https://github.com/streamlit/streamlit/issues/6939",
+    "created_at": "2023-07-02T20:41:35Z",
+    "initial_message": "Unexpected Page Refresh and Lost Selection in Streamlit 1.24.0 when using image_select\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI encountered an issue with Streamlit version 1.24.0 where the page would refresh entirely, causing the loss of the selected item when using the image_select function. However, the problem was not present in Streamlit version 1.22.0. As a workaround, I am currently using Streamlit 1.22.0 to avoid the issue.\n\nSteps to Reproduce:\n\nUpgrade Streamlit to version 1.24.0.\nImplement an app that includes the image_select function.\nRun the app and observe the behavior when using image_select to select an item.\nNotice that upon selection, the entire page refreshes, leading to the loss of the selected item.\nExpected Behavior:\nWhen using image_select, the selection should be retained without causing the page to refresh entirely (session states should keep the current selection active)\n\nActual Behavior:\nIn Streamlit version 1.24.0, the page refreshes entirely, resulting in the loss of the selected item.\n\nReproduced On:\n\nStreamlit version 1.24.0\nNot Reproduced On:\n\nStreamlit version 1.22.0\nAdditional Notes:\n\nThe issue specifically affects Streamlit version 1.24.0, but it was not present in version 1.22.0.\nThe unexpected page refresh and lost selection occur specifically when using the image_select function.\nAs a temporary workaround, I am using Streamlit version 1.22.0 to avoid the issue.\nThis behavior significantly impacts user experience, as it prevents the proper selection of items within the app.\nEnvironment:\n\nOperating System: [Win 11]\nPython version: [3.10]\nStreamlit version: 1.24.0\nThis issue is submitted to report the unexpected page refresh and lost selection problem that occurs when using the image_select function in Streamlit version 1.24.0. The problem was not observed in Streamlit version 1.22.0, and for the time being, I am using that version as a workaround. It would be helpful to investigate and address this behavior to ensure the smooth functioning of applications using image_select.\n\n### Reproducible Code Example\n\n```Python\nI'm all secretive with code and stuff...but I use session_state, and I believe that may be where the problem is.\n```\n\n\n### Steps To Reproduce\n\n_No response_\n\n### Expected Behavior\n\n_No response_\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:\n- Python version:\n- Operating System:\n- Browser:\n- Virtual environment:\n\n\n### Additional Information\n\n_No response_\n\n### Are you willing to submit a PR?\n\n- [ ] Yes, I am willing to submit a PR!",
+    "initial_facts": {},
+    "initial_checks": [],
+    "split": "test_fresh",
+    "family_id": "v2-unseen-6939",
+    "annotation_pending": false,
+    "category": "ambiguous",
+    "allowed_decisions": [
+      "ask",
+      "escalate"
+    ],
+    "relevant_source_ids": [
+      "docs:session_state",
+      "docs:widget-behavior"
+    ],
+    "oracle_note": "نسخه‌های ۱٫۲۴ و ۱٫۲۲، ویندوز و پایتون مشخص‌اند؛ کد واقعی مؤلفه و روش نگه‌داری انتخاب ارائه نشده. مقایسهٔ نسخه دلیل اثبات علت نیست.",
+    "annotation_method": "Prospective AI-assisted annotation of initial report; no comments/future resolution/model outputs. Source labels are approximate investigative relevance, not a verified solution."
+  },
+  {
+    "id": "GH6798",
+    "issue_number": 6798,
+    "topic": "session_state",
+    "url": "https://github.com/streamlit/streamlit/issues/6798",
+    "created_at": "2023-06-05T06:38:20Z",
+    "initial_message": "Support multiple sidebars and put the page list into a separated sidebar\n\n### Problem\n\nIt's easy to get overcrowded when sharing a single sidebar.\n\nI need three separated sidebars for:\n\n1. page tools (original sidebar)\n2. a long list for multiple apps/pages\n3. a shared/public config panel across pages (e.g. editing `session_state`, showing ENV variables...)\n\n### Solution\n\nThe UI may look like this (three icons):\n\n[IMAGE OMITTED: not inspected]\n\nPseudo code in `app.py` (main page):\n\n```py\nimport streamlit as st\n\ndef provide_page_list():\n    ...\n    \n# name, icon_image, callback_function\nst.add_left_bar_item(\"page\", \"page.png\", provide_page_list)\n\n\ndef shared_panel():\n    ...\n    return [\"pages/about.py\", \"pages/monitor.py\",  ...]\n\n# name, icon_image, callback_function\nst.add_right_bar_item(\"tool\", \"tool.png\", shared_panel)\n```\n\nA `right_bar_item` is also a sidebar, but it shows at the right side.\n\nThe `add_left_bar_item` / `add_right_bar_item` will be shared across pages, since the traditional sidebar is used for current page only.\n\nYou can open one left sidebar and one right sidebar at the same time, but you can only open one sidebar for each side (it means that when you open the second left sidebar, it will close the first one).",
+    "initial_facts": {},
+    "initial_checks": [],
+    "split": "test_fresh",
+    "family_id": "v2-unseen-6798",
+    "annotation_pending": false,
+    "category": "escalate",
+    "allowed_decisions": [
+      "escalate",
+      "ask"
+    ],
+    "relevant_source_ids": [
+      "docs:page-and-navigation",
+      "api:navigation"
+    ],
+    "oracle_note": "درخواست چند نوار کناری است؛ توابع پیشنهادی کاربر قابلیت موجود محسوب نشوند و نیاز گفته‌شده دوباره پرسیده نشود.",
+    "annotation_method": "Prospective AI-assisted annotation of initial report; no comments/future resolution/model outputs. Source labels are approximate investigative relevance, not a verified solution."
+  },
+  {
+    "id": "GH6772",
+    "issue_number": 6772,
+    "topic": "session_state",
+    "url": "https://github.com/streamlit/streamlit/issues/6772",
+    "created_at": "2023-06-01T14:32:59Z",
+    "initial_message": "Trigger for user leaving the page\n\n### Problem\n\nI have a dynamically generated forms for user to edit different objects. To keep track of what's happening - part of info is saved to session state (like, validation results to be displayed on next script rerun). Problem is, that when user goes to another page - old data remains on the session state.\n\n### Solution\n\n**MVP:** It would be great to have some kind of `trap`, which triggers, if it is NOT reached on next rerun (i.e. run action, if it's not disarmed during the run). This would allow to clear up session_state leftovers cleanly.\n\n**Possible additions:** -\n\n**Preferred solution:** -\n\n### Additional context\n\nNope\n\n---\n\nCommunity voting on feature requests enables the Streamlit team to understand which features are most important to our users.\n\n**If you'd like the Streamlit team to prioritize this feature request, please use the 👍 (thumbs up emoji) reaction in response to the initial post.**",
+    "initial_facts": {},
+    "initial_checks": [],
+    "split": "test_fresh",
+    "family_id": "v2-unseen-6772",
+    "annotation_pending": false,
+    "category": "escalate",
+    "allowed_decisions": [
+      "escalate",
+      "ask"
+    ],
+    "relevant_source_ids": [
+      "docs:session_state",
+      "docs:widget-behavior"
+    ],
+    "oracle_note": "درخواست رخداد ترک صفحه برای پاک‌سازی است؛ ماندگاری دلخواه وضعیت با رفع اشکال اشتباه نشود.",
+    "annotation_method": "Prospective AI-assisted annotation of initial report; no comments/future resolution/model outputs. Source labels are approximate investigative relevance, not a verified solution."
+  },
+  {
+    "id": "GH10089",
+    "issue_number": 10089,
+    "topic": "widget",
+    "url": "https://github.com/streamlit/streamlit/issues/10089",
+    "created_at": "2024-12-28T00:02:20Z",
+    "initial_message": "Session State convenience function for initialization\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [X] I added a descriptive title and summary to this issue.\n\n### Summary\n\nIt'd be nice for Session State to have a convenience method for initializing it.\n\n### Why?\n\nMany apps have boilerplate code:\n```python\nif \"my_key\" not in st.session_state:\n    st.session_state.my_key = \"default_value\"\n```\nIf there are multiple keys, you might shortcut the logical test to check for one and initialize all others:\n```python\nif \"A\" not in st.session_state:\n    st.session_state.A = \"A\"\n    st.session_state.B = \"B\"\n    st.session_state.C = \"C\"\n```\nIf any of the keys were associated to a widget and the widget wasn't continuously rendered, you could have a situation will all keys initialized on session start, but maybe \"B\" or \"C\" got deleted later. Thus, to be really thorough, you'd need:\n\n```python\nsession_init = {\"A\":\"A\", \"B\":\"B\", \"C\":\"C\"}\nfor key, value in session_init.items():\n    st.session_state[key] = value\n```\n\nIt might be nice to have a convenience function to handle the latter:\n\n```python\nst.session_state.from_dict({\"A\":\"A\", \"B\":\"B\", \"C\":\"C\"})\n```\n\nA parameter could be used to distinguish between initializing (set if not exists), updating (dictionary merge), or full replacement (delete other keys).\n\n\n### How?\n\nSimilar to how `st.query_params` is a dict-like interface with a few extra functions, `st.session_state` could get a convenience function or two.\n\n### Additional Context\n\n_No response_",
+    "initial_facts": {},
+    "initial_checks": [],
+    "split": "test_fresh",
+    "family_id": "v2-unseen-10089",
+    "annotation_pending": false,
+    "category": "escalate",
+    "allowed_decisions": [
+      "escalate",
+      "ask"
+    ],
+    "relevant_source_ids": [
+      "docs:session_state",
+      "docs:widget-behavior"
+    ],
+    "oracle_note": "درخواست تابع مقداردهی اولیه است؛ کد حلقهٔ کاربر مقدارها را بی‌قید می‌نویسد. تابع فرضی به‌عنوان موجود معرفی نشود.",
+    "annotation_method": "Prospective AI-assisted annotation of initial report; no comments/future resolution/model outputs. Source labels are approximate investigative relevance, not a verified solution."
+  },
+  {
+    "id": "GH10029",
+    "issue_number": 10029,
+    "topic": "widget",
+    "url": "https://github.com/streamlit/streamlit/issues/10029",
+    "created_at": "2024-12-16T12:28:53Z",
+    "initial_message": "st.radio label alignment and label_visibility issues in the latest versions\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nThe st.radio widget has two unexpected behaviors in the latest versions of Streamlit:\n\nThe label is centered instead of left-aligned, which is inconsistent with previous versions.\nThe label_visibility option 'collapsed' does not work as expected, and the label remains visible.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n# Store the initial value of widgets in session state\nif \"visibility\" not in st.session_state:\n    st.session_state.visibility = \"visible\"\n    st.session_state.disabled = False\n    st.session_state.horizontal = False\n\ncol1, col2 = st.columns(2)\n\nwith col1:\n    st.checkbox(\"Disable radio widget\", key=\"disabled\")\n    st.checkbox(\"Orient radio options horizontally\", key=\"horizontal\")\n\nwith col2:\n    st.radio(\n        \"Set label visibility 👇\",\n        [\"visible\", \"hidden\", \"collapsed\"],\n        key=\"visibility\",\n        label_visibility=st.session_state.visibility,\n        disabled=st.session_state.disabled,\n        horizontal=st.session_state.horizontal,\n    )\n```\n\n\n### Steps To Reproduce\n\nplease play with the options of the above snippet, and inspect label\n\n### Expected Behavior\n\nThe label of the st.radio widget should be left-aligned, consistent with previous versions.\nWhen label_visibility='collapsed' is set, the label should not be visible.\n\n### Current Behavior\n\nThe label is centered.\nSetting label_visibility='collapsed' does not hide the label; it remains visible.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.41.1\n- Python version:\n- Operating System:\n- Browser:\n\n\n### Additional Information\n\n_No response_",
+    "initial_facts": {},
+    "initial_checks": [],
+    "split": "test_fresh",
+    "family_id": "v2-unseen-10029",
+    "annotation_pending": false,
+    "category": "ambiguous",
+    "allowed_decisions": [
+      "ask",
+      "escalate"
+    ],
+    "relevant_source_ids": [
+      "docs:widget-behavior",
+      "docs:widgets"
+    ],
+    "oracle_note": "نمونهٔ کامل و نسخهٔ ۱٫۴۱٫۱ موجودند؛ وضعیت گزینهٔ انتخاب‌شده و نمایی که برچسب آن مشکل دارد روشن شود؛ کد یا نسخه دوباره خواسته نشود.",
+    "annotation_method": "Prospective AI-assisted annotation of initial report; no comments/future resolution/model outputs. Source labels are approximate investigative relevance, not a verified solution."
+  },
+  {
+    "id": "GH10020",
+    "issue_number": 10020,
+    "topic": "widget",
+    "url": "https://github.com/streamlit/streamlit/issues/10020",
+    "created_at": "2024-12-13T15:02:22Z",
+    "initial_message": "AxiosError: timeout exceeded - Streamlit file uploader\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\n`AxiosError: timeout exceeded` happens when uploading a CSV file to the file uploader widget. This error happens in my app hosted on both localhost and the Streamlit community cloud. It happens when I use a different browser and different CSV files too. Doesn't work when I disabled XsrfProtection in `config.toml` either. I tried disabling like this:\n``\n[server]\nenableXsrfProtection = false\n``\n\nI tried making a new app from scratch with a new Python environment (3.11), that only has one Streamlit file uploader, but the same error happened. \n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\nst.file_uploader(\"Upload a file\")\n```\n\n\n### Steps To Reproduce\n\n1. Start the app on localhost \n2. Upload a csv file, for example, the one attached here\n[case2lignin.csv](https://github.com/user-attachments/files/18127875/case2lignin.csv)\n\n\n### Expected Behavior\n\n The csv file is successfully uploaded. \n\n### Current Behavior\n\n`AxiosError: timeout exceeded` happens and the file is not uploaded. \n\n### Is this a regression?\n\n- [X] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:  1.41.0\n- Python version: 3.11\n- Operating System: MacOS Sequoia 15.1\n- Browser: Chrome\n\n\n### Additional Information\n\n_No response_",
+    "initial_facts": {},
+    "initial_checks": [],
+    "split": "test_fresh",
+    "family_id": "v2-unseen-10020",
+    "annotation_pending": false,
+    "category": "ambiguous",
+    "allowed_decisions": [
+      "ask",
+      "escalate"
+    ],
+    "relevant_source_ids": [
+      "api:file_uploader",
+      "docs:config-toml",
+      "docs:architecture"
+    ],
+    "oracle_note": "محلی و ابری، مرورگر دیگر، فایل دیگر، محیط تازه و خاموش‌کردن حفاظت آزموده شده‌اند. خطای شبکه و سرور در لحظهٔ بارگذاری هنوز گزارش نشده؛ حفاظت خاموش پیشنهاد نشود.",
+    "annotation_method": "Prospective AI-assisted annotation of initial report; no comments/future resolution/model outputs. Source labels are approximate investigative relevance, not a verified solution."
+  },
+  {
+    "id": "GH9460",
+    "issue_number": 9460,
+    "topic": "file_uploader",
+    "url": "https://github.com/streamlit/streamlit/issues/9460",
+    "created_at": "2024-09-13T12:09:01Z",
+    "initial_message": "Code snippet to upload files to disk in chunks rather than in memory\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [X] I added a descriptive title and summary to this issue.\n\n### Summary\n\nHello,\n\nCurrently, Streamlit stores the entirety of uploaded files in memory. This limits upload size to available RAM of the machine.\n\nI managed to implement chunked multipart uploads straight to disk, allowing for arbitrary upload sizes.\nHowever my knowledge of Streamlit's inner workings is quite limited and I can't find an elegant solution worthy of a PR.\nHence I wanted to share with you parts of my solution, in the hope of someone picking it up and implementing it properly.\n\n---\n\nI started by subclassing `UploadFileRequestHandler` (`streamlit/web/server/upload_file_request_handler.py`), which handles the file upload:\n1. By decorating it with `@tornado.web.stream_request_body`, we can can define a `data_received(self, chunk)` method to receive chunked data.\n2. Using the package [`python-multipart`](https://pypi.org/project/python-multipart/), we can create a parser in the `prepare()` method, and feed it data in the previously mentionned `data_received(self, chunk)`.\n3. `python-multipart` then gives us access to a `File` instance through an `on_file()` method that we define on the class.\n\nThis is where it got very hacky and custom for me, modifying `UploadedFile`, `UploadedFileRec` etc., and where I believe an expert view would be welcomed.\n\nHere is the full code:\n```python\n@tornado.web.stream_request_body\nclass StreamingUploadRequestHandler(UploadFileRequestHandler):\n    \"\"\"Implements the POST /upload_file endpoint but streams the body in chunks directly to a file to prevent memory issues.\"\"\"\n\n    def prepare(self):\n        self.session_id = self.path_kwargs['session_id']\n        self.file_id = self.path_kwargs['file_id']\n        self.bytes_received = 0\n        self.parser = None\n\n        if self.request.method == 'DELETE':\n            return\n\n        self.parser = multipart.create_form_parser(\n            self.request.headers, self.on_field, self.on_file, trust_x_headers=True,\n            config=dict(MAX_MEMORY_FILE_SIZE=0, UPLOAD_DELETE_TMP=False)\n        )\n\n    def on_field(self, field: multipart.Field):\n        _LOGGER.info('Field received: %s = %s', field.field_name, repr(field.value))\n\n    def on_file(self, file: multipart.File):\n        if file.in_memory:\n            file.flush_to_disk()\n        self.file_name = file.file_name.decode()\n        self.file_size = file.size\n        self.file_path = file.actual_file_name.decode()\n        file.finalize()\n        _LOGGER.info('File received: %s (size: %.2f MiB)', self.file_name, self.file_size/(1024**2))\n\n    def data_received(self, chunk: bytes):\n        if self.parser is not None:\n            self.parser.write(chunk)\n        self.bytes_received += len(chunk)\n\n    def on_finish(self) -> None:\n        if self.parser is not None:\n            self.parser.close()\n        _LOGGER.info('Request finished: %.2f MiB received', self.bytes_received/(1024**2))\n\n    def put(self, **kwargs):\n        \"\"\"Receive an uploaded file and add it to our UploadedFileManager.\"\"\"\n        try:\n            if not self._is_active_session(self.session_id):\n                raise Exception(\"Invalid session_id\")\n        except Exception as e:\n            self.send_error(400, reason=str(e))\n            return\n\n        # UploadedFileToDiskRec is my hacky subclass of UploadFileRec that accepts a path to present the user\n        uploaded_files: list[UploadedFileToDiskRec] = []\n        uploaded_files.append(UploadedFileToDiskRec(\n            file_id=self.file_id,\n            name=self.file_name,\n            type=self.request.headers[\"Content-Type\"],\n            path=self.file_path,\n            size=self.file_size\n        ))\n\n        if len(uploaded_files) != 1:\n            self.send_error(\n                400, reason=f\"Expected 1 file, but got {len(uploaded_files)}\"\n            )\n            return\n\n        self.parser.finalize()\n        self._file_mgr.add_file(session_id=self.session_id, file=uploaded_files[0])\n        self.set_status(204)\n        _LOGGER.info('File added to file manager')\n\n    def delete(self, **kwargs):\n        \"\"\"Delete file request handler.\"\"\"\n        session_id = self.path_kwargs[\"session_id\"]\n        file_id = self.path_kwargs[\"file_id\"]\n\n        self._file_mgr.remove_file(session_id=session_id, file_id=file_id)\n        self.set_status(204)\n        _LOGGER.info('File removed from file manager')\n```\n\nAdding a `to_disk` keyw. arg. to `st.file_uploader` to upload files to a new endpoint would be ideal, however I have very limited front-end experience and Streamlit's widget rendering is obscure to me.\n\nI hope this can help someone to implement this feature properly.\n\n### Why?\n\n_No response_\n\n### How?\n\n_No response_\n\n### Additional Context\n\n_No response_",
+    "initial_facts": {},
+    "initial_checks": [],
+    "split": "test_fresh",
+    "family_id": "v2-unseen-9460",
+    "annotation_pending": false,
+    "category": "escalate",
+    "allowed_decisions": [
+      "escalate",
+      "ask"
+    ],
+    "relevant_source_ids": [
+      "api:file_uploader",
+      "docs:where-file-uploader-store-when-deleted"
+    ],
+    "oracle_note": "کد نمونهٔ داخلی برای جریان‌دهی روی دیسک است؛ بررسی نگه‌دارنده لازم است. اندازهٔ دلخواه یا پارامتر فرضی تضمین نشود.",
+    "annotation_method": "Prospective AI-assisted annotation of initial report; no comments/future resolution/model outputs. Source labels are approximate investigative relevance, not a verified solution."
+  },
+  {
+    "id": "GH9454",
+    "issue_number": 9454,
+    "topic": "file_uploader",
+    "url": "https://github.com/streamlit/streamlit/issues/9454",
+    "created_at": "2024-09-12T17:24:02Z",
+    "initial_message": "Add a clear all button to `st.file_uploader`\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [X] I added a descriptive title and summary to this issue.\n\n### Summary\n\nCan we have a button / icon to the top right of the file uploader widget? \n\n### Why?\n\nIn case you want to upload a fresh set of (multiple) files, you need to first delete the earlier list of (multiple) files attached to the uploader widget. It becomes impractical to individually delete the attached files.\n\n### How?\n\nSuggestion: Have a delete icon (like with st.data_editor) to do this - ref encircled 'x' in the following pix. This icon, when pressed, will clear all files attached to the widget at one go.\n\n[IMAGE OMITTED: not inspected]\n\n\n### Additional Context\n\n_No response_",
+    "initial_facts": {},
+    "initial_checks": [],
+    "split": "test_fresh",
+    "family_id": "v2-unseen-9454",
+    "annotation_pending": false,
+    "category": "escalate",
+    "allowed_decisions": [
+      "escalate",
+      "ask"
+    ],
+    "relevant_source_ids": [
+      "api:file_uploader",
+      "docs:widget-behavior"
+    ],
+    "oracle_note": "درخواست حذف دسته‌ای فایل‌ها مشخص است؛ سؤال دربارهٔ نیاز یا حذف یکی‌یکی تکراری است. تصویر خوانده نشده.",
+    "annotation_method": "Prospective AI-assisted annotation of initial report; no comments/future resolution/model outputs. Source labels are approximate investigative relevance, not a verified solution."
+  },
+  {
+    "id": "GH9362",
+    "issue_number": 9362,
+    "topic": "file_uploader",
+    "url": "https://github.com/streamlit/streamlit/issues/9362",
+    "created_at": "2024-08-29T01:22:03Z",
+    "initial_message": "Muliselect\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI am trying to use muliselect  in a line chart to add seperate columns to y-axis while retaining a single x-axis. \nThe multiselect button has no effect on the chart and the add buttons seems to do the same.\n\nI am using a plotly express chart and add a column with 'fig.add_scatter' \n\n[IMAGE OMITTED: not inspected]\n\n\n### Reproducible Code Example\n\n```Python\nimport streamlit\ndef main():\n    st.title(\"Data Analytics Dashboard\")\n    path = st.file_uploader(\"Upload file\", type=[\"csv\", \"json\", \"xlsx\", \"xls\"])\n    if path is not None:\n        df = load_file(path)\n        if df is not None:\n            st.write(\"File uploaded Successfully\")\n            st.write(df.head())\n\n            vis = Visualization()\n            chart_type = st.selectbox(\"select chart:\", [\"scatter plot\", \"line chart\", \"bar chart\", \"histogram\",\n                                                        \"area chart\", \"pie chart\", \"treemap\"])\n            x_column = st.selectbox(\"Choose X-axis: \", df.columns)\n            y_column = st.selectbox(\"Choose Y-axis: \", [\"\"] + list(df.columns))\n            add_col = []\n            if chart_type in [\"area chart\", \"line chart\"]:\n                num_col = [col for col in df.columns if col not in [x_column, y_column]\n                           and pd.api.types.is_numeric_dtype(df[col])]\n                add_col = st.multiselect(\"Select other columns \", options=num_col)\n\n            vis.visualize(df, chart_type, x_column, y_column or None, add_col=add_col)\n        else:\n            st.error(\"Failed to read file\")\n    else:\n        st.info(\"Please upload a file to start\")\n\n\nif __name__ == \"__main__\":\n    main()\n```\n\n\n### Steps To Reproduce\n\n_No response_\n\n### Expected Behavior\n\nI was expecting multiple lines with seperate colours but got nothing even after using streamlit.session_state to hold each session\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:\n- Python version:\n- Operating System:\n- Browser:\n\n\n### Additional Information\n\n_No response_",
+    "initial_facts": {},
+    "initial_checks": [],
+    "split": "test_fresh",
+    "family_id": "v2-unseen-9362",
+    "annotation_pending": false,
+    "category": "ambiguous",
+    "allowed_decisions": [
+      "ask",
+      "escalate"
+    ],
+    "relevant_source_ids": [
+      "docs:widgets",
+      "docs:session_state"
+    ],
+    "oracle_note": "کد فراخوانی چندانتخاب موجود است ولی بدنهٔ visualize ارائه نشده؛ بررسی انتقال add_col به traceهای نمودار پرسش مفید است.",
+    "annotation_method": "Prospective AI-assisted annotation of initial report; no comments/future resolution/model outputs. Source labels are approximate investigative relevance, not a verified solution."
+  },
+  {
+    "id": "GH10041",
+    "issue_number": 10041,
+    "topic": "cache_data",
+    "url": "https://github.com/streamlit/streamlit/issues/10041",
+    "created_at": "2024-12-18T02:12:59Z",
+    "initial_message": "Implement browser session API\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [X] I added a descriptive title and summary to this issue.\n\n### Summary\n\nBrowser sessions allow developers to track browser status in streamlit, so that they can implement features like authentication, persistent draft or shopping cart, which require the ability to keep user state after refreshing or reopen browsers.\n\n### Why?\n\nThe current streamlit session will lost state if users refresh or reopen their browser. And the effort of providing a API to write cookies has been pending for years. I think provide a dedicated API to track browser session would be cleaner and easier to implement.  \nWith this API developers don't need to know how it works, it can be based on cookie or local storage or anything else. And developers can use it with singleton pattern to keep state for browser to persist whatever they want in streamlit.\n\n### How?\n\nThis feature will introduce several new APIs:\n* `st.get_browser_session(gdpr_consent=False)`, which will set a unique session id in browser if it doesn't exist, and return it.\nIf `gdpr_consent` is set to True, a window will pop up to ask for user's consent before setting the session id.\n* `st.clean_browser_session()`, which will remove the session id from browser.\n\nThe below is a POC of how `get_browser_session` can be used to implement a simple authentication solution:\n\n```python\nfrom streamlit.web.server.websocket_headers import _get_websocket_headers\nfrom streamlit.components.v1 import html\nimport streamlit as st\n\nfrom http.cookies import SimpleCookie\nfrom uuid import uuid4\nfrom time import sleep\n\ndef get_cookie():\n    try:\n        headers = st.context.headers\n    except AttributeError:\n        headers = _get_websocket_headers()\n    if headers is not None:\n        cookie_str = headers.get(\"Cookie\")\n        if cookie_str:\n            return SimpleCookie(cookie_str)\n\n\ndef get_cookie_value(key):\n    cookie = get_cookie()\n    if cookie is not None:\n        cookie_value = cookie.get(key)\n        if cookie_value is not None:\n            return cookie_value.value\n    return None\n\n\ndef get_browser_session():\n    \"\"\"\n    use cookie to track browser session\n    this id is unique to each browser session\n    it won't change even if the page is refreshed or reopened\n    \"\"\"\n    if 'st_session_id' not in st.session_state:\n        session_id = get_cookie_value('ST_SESSION_ID')\n        if session_id is None:\n            session_id = uuid4().hex\n            st.session_state['st_session_id'] = session_id\n[COOKIE VALUE REDACTED]\n            sleep(0.1)  # FIXME: work around bug: Tried to use SessionInfo before it was initialized\n            st.rerun()  # FIXME: rerun immediately so that html won't be shown in the final page\n        st.session_state['st_session_id'] = session_id\n    return st.session_state['st_session_id']\n\n\n@st.cache_resource\ndef get_auth_state():\n    \"\"\"\n    A singleton to store authentication state\n    \"\"\"\n    return {}\n\n\nst.set_page_config(page_title='Browser Session Demo')\nsession_id = get_browser_session()\n\nauth_state = get_auth_state()\nif session_id not in auth_state:\n    auth_state[session_id] = False\n\nst.write(f'Your browser session ID: {session_id}')\n\nif not auth_state[session_id]:\n    st.title('Input Password')\n    token = st.text_input('Token', type='password')\n    if st.button('Submit'):\n        if token == 'passw0rd!':\n            auth_state[session_id] = True\n            st.rerun()\n        else:\n            st.error('Invalid token')\nelse:\n    st.success('Authentication success')\n    if st.button('Logout'):\n        auth_state[session_id] = False\n        st.rerun()\n    st.write('You are free to refresh or reopen this page without re-authentication')\n```\n\nA more complicated example of using this method to work with oauth2 can be tried here: https://ai4ec.ikkem.com/apps/op-elyte-emulator/ \n\n### Additional Context\n\nRelated issues:\n* https://github.com/streamlit/streamlit/issues/861\n* https://github.com/streamlit/streamlit/issues/8518",
+    "initial_facts": {},
+    "initial_checks": [],
+    "split": "test_fresh",
+    "family_id": "v2-unseen-10041",
+    "annotation_pending": false,
+    "category": "escalate",
+    "allowed_decisions": [
+      "escalate",
+      "ask"
+    ],
+    "relevant_source_ids": [
+      "docs:session_state",
+      "docs:architecture",
+      "api:cache_resource"
+    ],
+    "oracle_note": "درخواست شناسهٔ مرورگر پایدار است؛ نمونهٔ کوکی و حافظهٔ مشترک، احراز هویت امن یا قابلیت رسمی اثبات نمی‌کند.",
+    "annotation_method": "Prospective AI-assisted annotation of initial report; no comments/future resolution/model outputs. Source labels are approximate investigative relevance, not a verified solution."
+  },
+  {
+    "id": "GH10025",
+    "issue_number": 10025,
+    "topic": "cache_data",
+    "url": "https://github.com/streamlit/streamlit/issues/10025",
+    "created_at": "2024-12-15T23:46:55Z",
+    "initial_message": "`st.cache_data` can't replay `st.status.update()` effect\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nThe `.update()` call of status container can't be replayed inside a cached function with `st.cache_data`, resulting in the status stuck with the init content.\n\n### Reproducible Code Example\n\n```Python\nimport time\nimport streamlit as st\n@st.cache_data\ndef show_data():\n    with st.status(\"Downloading data...\", expanded=True) as status:\n        st.write(\"Searching for data...\")\n        time.sleep(2)\n        st.write(\"Found URL.\")\n        time.sleep(1)\n        st.write(\"Downloading data...\")\n        time.sleep(1)\n        status.update(\n            label=\"Download complete!\", state=\"complete\", expanded=False\n        )\n\nshow_data()\n```\n\n\n### Steps To Reproduce\n\nuse status container inside a cached function with st.cache_data, then call status.update\n\n### Expected Behavior\n\nWhen reruning the cached function, the status container should replay the \"Download complete!\" update after the st.write effects.\n\n### Current Behavior\n\nthe status container replays only the st.write effects, but stuck in \"Downloading data...\" because the last update is not replayed:\n[IMAGE OMITTED: not inspected]\n\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.40.1\n- Python version: 3.12\n- Operating System: Windows 10\n- Browser: Chrome\n\n\n### Additional Information\n\n_No response_",
+    "initial_facts": {},
+    "initial_checks": [],
+    "split": "test_fresh",
+    "family_id": "v2-unseen-10025",
+    "annotation_pending": false,
+    "category": "ambiguous",
+    "allowed_decisions": [
+      "ask",
+      "escalate"
+    ],
+    "relevant_source_ids": [
+      "api:cache_data",
+      "docs:caching"
+    ],
+    "oracle_note": "نسخه و کد status.update موجودند؛ آزمایش مقایسهٔ بدون کش یا رخداد cache hit تفکیک‌کننده است. نسخهٔ رفع ادعا نشود.",
+    "annotation_method": "Prospective AI-assisted annotation of initial report; no comments/future resolution/model outputs. Source labels are approximate investigative relevance, not a verified solution."
+  },
+  {
+    "id": "GH9789",
+    "issue_number": 9789,
+    "topic": "cache_data",
+    "url": "https://github.com/streamlit/streamlit/issues/9789",
+    "created_at": "2024-11-06T06:32:13Z",
+    "initial_message": "InvalidStateError: CanvasRenderingContext2D.scale: Canvas is already in error state.\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI'm getting the error in Firefox but not in Chrome.\n\nHere's how it appears with a `streamlit run .\\app.py --server.port 8080` :\n\n[IMAGE OMITTED: not inspected]\n\nAnd here is the Traceback (*as text*):\n```\nInvalidStateError: CanvasRenderingContext2D.scale: Canvas is already in error state.\n\n78170/pe</Et<@http://localhost:8080/static/js/9589.fa50c837.chunk.js:2:189843\n78170/pe</<@http://localhost:8080/static/js/9589.fa50c837.chunk.js:2:190125\nol@http://localhost:8080/static/js/main.33cac65c.js:10:2346148\nyl@http://localhost:8080/static/js/main.33cac65c.js:10:2353444\nzl@http://localhost:8080/static/js/main.33cac65c.js:10:2353288\ngl@http://localhost:8080/static/js/main.33cac65c.js:10:2352824\n73207/Ac/<@http://localhost:8080/static/js/main.33cac65c.js:10:2364661\nAc@http://localhost:8080/static/js/main.33cac65c.js:10:2365176\ncc@http://localhost:8080/static/js/main.33cac65c.js:10:2358895\nUo@http://localhost:8080/static/js/main.33cac65c.js:10:2299288\nrc@http://localhost:8080/static/js/main.33cac65c.js:10:2355780\nns@http://localhost:8080/static/js/main.33cac65c.js:10:2320925\n78170/lt</po<@http://localhost:8080/static/js/9589.fa50c837.chunk.js:2:264155\n78170/xe/L<@http://localhost:8080/static/js/9589.fa50c837.chunk.js:2:213609\n78170/xe/F<@http://localhost:8080/static/js/9589.fa50c837.chunk.js:2:213802\n78170/ye/P<@http://localhost:8080/static/js/9589.fa50c837.chunk.js:2:210332\n78170/ye/<@http://localhost:8080/static/js/9589.fa50c837.chunk.js:2:211357\n```\n\n### Reproducible Code Example\nNot a MRE but at least the configuration that triggers the error on my machine.\n\n```Python\nimport streamlit as st\n\n@st.cache_data\ndef _get_df():\n    # df is made from an sql query\n    # len(df.columns) is 94\n    return df\n\ntab_1, tab_2, tab_3 = st.tabs(3)\nwith tab_1:\n    st.dataframe(_get_df(), hide_index=True, use_container_width=True)\n    # + a pagination using `st.input_number` and `st.selectbox`\n    # + an `st.toggle` (that uses a fragment of `st.download_button`) to export the dataframe\n\n# rest of the code\n```\n\n### Debug info\n\n- Streamlit version: 1.38.0\n- Python version: 3.10.13\n- Operating System: Windows 10\n- Browser: Firefox 132.0.1",
+    "initial_facts": {},
+    "initial_checks": [],
+    "split": "test_fresh",
+    "family_id": "v2-unseen-9789",
+    "annotation_pending": false,
+    "category": "ambiguous",
+    "allowed_decisions": [
+      "ask",
+      "escalate"
+    ],
+    "relevant_source_ids": [
+      "docs:dataframes",
+      "docs:architecture"
+    ],
+    "oracle_note": "خطا فقط فایرفاکس، تعداد ۹۴ ستون و نسخه‌ها مشخص‌اند؛ مقایسهٔ حذف صفحه‌بندی یا اندازهٔ جدول آزمایش تازه است.",
+    "annotation_method": "Prospective AI-assisted annotation of initial report; no comments/future resolution/model outputs. Source labels are approximate investigative relevance, not a verified solution."
+  },
+  {
+    "id": "GH9689",
+    "issue_number": 9689,
+    "topic": "multipage",
+    "url": "https://github.com/streamlit/streamlit/issues/9689",
+    "created_at": "2024-10-20T15:12:54Z",
+    "initial_message": "Sidebar Shakes When Bookmarks Are Enabled\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nMy screen resolution is 1920 x 1080. The problem occurs when I enable bookmarks on Chrome version 130.0.6723.59 (64-bit), and the sidebar in my Streamlit app starts shaking. Could this be a bug?\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\nwith st.sidebar:\n    st.image('1024_image.jpg')\n    st.page_link('app.py', label='main_page')\n    st.page_link('pages/test.py', label='test_page')\n    st.divider()\n\n    sb1 = st.selectbox('1st sb', ['1', '2', '3'], index=None)\n    if sb1:\n        sb2 = st.selectbox('2nd sb', ['4', '5', '6'], index=None)\n```\n\n\n### Steps To Reproduce\n\n1. Run the code https://github.com/mrseongminkim/streamlit-report/tree/main\n2. Open it with Chrome 130.0.6723.59 (64-bit)\n3. Enable bookmarks\n\n### Expected Behavior\n\nNot shaking sidebar\n\n### Current Behavior\n\n[IMAGE OMITTED: not inspected]\n\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.39.0\n- Python version: Python 3.10.13\n- Operating System: Windows 10\n- Browser: Chrome 130.0.6723.59 (64-bit)\n\n\n### Additional Information\n\nI also opened a post in https://discuss.streamlit.io/t/sidebar-shakes-when-bookmarks-are-enabled/83784/1\nThank you!",
+    "initial_facts": {},
+    "initial_checks": [],
+    "split": "test_fresh",
+    "family_id": "v2-unseen-9689",
+    "annotation_pending": false,
+    "category": "ambiguous",
+    "allowed_decisions": [
+      "ask",
+      "escalate"
+    ],
+    "relevant_source_ids": [
+      "docs:page-and-navigation",
+      "docs:theming"
+    ],
+    "oracle_note": "نشانک، تفکیک‌پذیری و نسخهٔ مرورگر معلوم‌اند؛ حذف تصویر/ویجت یا مقایسهٔ بزرگنمایی تازه است. ویدیو خوانده نشده.",
+    "annotation_method": "Prospective AI-assisted annotation of initial report; no comments/future resolution/model outputs. Source labels are approximate investigative relevance, not a verified solution."
+  },
+  {
+    "id": "GH9614",
+    "issue_number": 9614,
+    "topic": "multipage",
+    "url": "https://github.com/streamlit/streamlit/issues/9614",
+    "created_at": "2024-10-07T12:38:30Z",
+    "initial_message": "The main page in dynamic navigation is loaded every time the app is refreshed\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI am building a dynamic app following instructions on this page [Create a dynamic navigation menu](https://docs.streamlit.io/develop/tutorials/multipage/dynamic-navigation).\n\nEvery time I try to refresh the app in one of the non-login pages, the login page is loaded having a \"Page not found error\" and I get logged out immediately after.\n\n[Grabación de pantalla desde 07-10-24 14:33:47.webm](https://github.com/user-attachments/assets/d013b1ed-ffab-44fb-a3c6-653de2732a89)\n\n\n### Debug info\n\n- Streamlit version: 1.39\n- Python version: 3.11.5\n- Operating System: Ubuntu 22.04.4 LTS\n- Browser: Chrome/Firefox",
+    "initial_facts": {},
+    "initial_checks": [],
+    "split": "test_fresh",
+    "family_id": "v2-unseen-9614",
+    "annotation_pending": false,
+    "category": "ambiguous",
+    "allowed_decisions": [
+      "ask",
+      "escalate"
+    ],
+    "relevant_source_ids": [
+      "docs:dynamic-navigation",
+      "docs:session_state",
+      "docs:architecture"
+    ],
+    "oracle_note": "بازخوانی صفحه و ورود و نسخه مشخص‌اند؛ کد کنترل نقش و ساخت صفحات ارائه نشده. نشست مرورگر با احراز هویت یکی فرض نشود.",
+    "annotation_method": "Prospective AI-assisted annotation of initial report; no comments/future resolution/model outputs. Source labels are approximate investigative relevance, not a verified solution."
+  },
+  {
+    "id": "GH9551",
+    "issue_number": 9551,
+    "topic": "multipage",
+    "url": "https://github.com/streamlit/streamlit/issues/9551",
+    "created_at": "2024-09-26T15:39:55Z",
+    "initial_message": "Make sections in navigation menu collapsable\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [X] I added a descriptive title and summary to this issue.\n\n### Summary\n\nA project with several/many sections and pages shows at start and all the time every entity.\nTo minimize that view for the user and to focus, it should be possible to collapse sections (with its pages below). \n\n### Why?\n\nThe app should be able to leave away, and give the user the ability to do so by itself, what is not immediately necessary or important\n\n### How?\n\nadd an optional parameter for sections in pages: collapse(true/false) which declares the inital state on load\n\nbehaviour:\n1. if the parameter itself is given, show an icon after the header title\n2. the icon depends on the value:\n    1. false: ▲\n    2. true: ▼\n\n### Additional Context\n\ntake a look on the menu on the left on https://docs.streamlit.io/",
+    "initial_facts": {},
+    "initial_checks": [],
+    "split": "test_fresh",
+    "family_id": "v2-unseen-9551",
+    "annotation_pending": false,
+    "category": "escalate",
+    "allowed_decisions": [
+      "escalate",
+      "ask"
+    ],
+    "relevant_source_ids": [
+      "api:navigation",
+      "docs:page-and-navigation"
+    ],
+    "oracle_note": "درخواست جمع‌شدن گروه‌های ناوبری است؛ پارامتر فرضی collapse یا تاریخ انتشار تضمین نشود.",
+    "annotation_method": "Prospective AI-assisted annotation of initial report; no comments/future resolution/model outputs. Source labels are approximate investigative relevance, not a verified solution."
+  }
+]

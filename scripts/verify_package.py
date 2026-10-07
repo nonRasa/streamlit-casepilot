@@ -1,5 +1,5 @@
 """Verify data isolation, hashes, notebook cells, workflow graph and artifact honesty."""
-import ast, hashlib, json, re, sys
+import ast, csv, hashlib, json, re, sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]; sys.path.insert(0,str(ROOT/'src'))
 from casepilot.common import *
@@ -50,6 +50,28 @@ def main():
     check('V2 rubric and bounds',read_json(ROOT/'policies/judge_rubric.json')['can_approve_or_execute'] is False and read_json(ROOT/'policies/execution_policy.json')['max_model_calls_per_turn']==8)
     check('V2 saved-output audit passed',read_json(ROOT/'artifacts/architecture_v2/verification.json')['passed'])
     check('V2 workflow contracts passed',read_json(ROOT/'artifacts/architecture_v2/workflow_verification.json')['passed'])
+    final_folder=ROOT/'artifacts/architecture_v2/final_evaluation'
+    if (final_folder/'manifest.json').exists():
+        final=read_json(final_folder/'manifest.json'); audit=read_json(final_folder/'verification.json')
+        ai=read_json(final_folder/'ai_review_manifest.json'); review=read_json(final_folder/'ai_review.json')
+        packets=read_json(final_folder/'ai_review_packets.json'); scenario2=read_json(final_folder/'multi_turn_results.json')
+        check('V2 final complete and audit passed',final['complete'] and audit['passed'] and final['configuration_unchanged'])
+        check('V2 final frozen files still match',all(hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==sha for name,sha in final['configuration']['files'].items()))
+        check('V2 final source answers unchanged',hashlib.sha256((final_folder/'answers.jsonl').read_bytes()).hexdigest()==ai['source_answers_sha256']==audit['answers_sha256'])
+        check('V2 final source scenarios unchanged',hashlib.sha256((final_folder/'multi_turn_results.json').read_bytes()).hexdigest()==ai['source_scenarios_sha256']==audit['scenario_answers_sha256'])
+        check('V2 final honest scenario count',len(scenario2)==10 and final['scenarios']['passed']==sum(s['passed'] for s in scenario2))
+        check('V2 final authored AI review complete',ai['completed'] and ai['rows']==len(review)==len(packets)==83 and ai['comparison_rows']==60 and ai['scenario_rows']==23)
+        check('V2 final AI review hash',hashlib.sha256((final_folder/'ai_review.json').read_bytes()).hexdigest()==ai['review_sha256'])
+        check('V2 final AI CSV hash',hashlib.sha256((final_folder/'ai_review.csv').read_bytes()).hexdigest()==ai['review_csv_sha256'])
+        check('V2 final review packet hash',hashlib.sha256((final_folder/'ai_review_packets.json').read_bytes()).hexdigest()==ai['packets_sha256'])
+        check('V2 final review provenance',{r['review_id']:r['output_sha256'] for r in review}=={p['review_id']:p['output_sha256'] for p in packets})
+        check('V2 final AI not claimed human',ai['independent_human_review'] is False and ai['additional_metis_requests']==0)
+        with (final_folder/'human_review.csv').open(encoding='utf-8-sig',newline='') as f: human=list(csv.DictReader(f))
+        hm=read_json(final_folder/'human_review_manifest.json')
+        check('V2 final human form hash',hashlib.sha256((final_folder/'human_review.csv').read_bytes()).hexdigest()==hm['form_sha256'] and hm['human_review_pending'])
+        check('V2 final human form blank distinct rows',len(human)==60 and len({r['review_id'] for r in human})==60 and all(not value for r in human for k,value in r.items() if k.startswith('human_') or k in ('reviewer','notes')))
+        check('V2 final budget respected',final['new_charged_or_reserved_usd']<=.90 and final['cost_cumulative']['charged_or_reserved_usd']<=5)
+        check('V2 final report and findings included',(ROOT/'docs/V2_FINAL_EVALUATION_FA.md').is_file() and (ROOT/'docs/V2_FINAL_FINDINGS_FA.md').is_file())
     check('materialized quote schema matches validator',read_json(ROOT/'schemas/answer.schema.json')['properties']['claims']['items']['required']==['evidence_id','quote'])
     check('no embedded credential values',not any(re.search(r'Bearer\s+[A-Za-z0-9_-]{20,}',canonical(n)) for n in wf['nodes']))
     issues=read_json(ROOT/'data'/'issues_snapshot.json')
