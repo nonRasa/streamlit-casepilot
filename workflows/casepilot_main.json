@@ -1,0 +1,389 @@
+{
+  "name": "CasePilot — Turn, Human Review, Execute",
+  "nodes": [
+    {
+      "id": "38a7abbd-9039-59ce-bae1-3a7e5a61edf6",
+      "name": "Turn Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "casepilot-turn",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "CasePilot Operator Webhook"
+        }
+      },
+      "webhookId": "50c3b0af-6e84-5592-96e4-b98257e12346"
+    },
+    {
+      "id": "04db7ca7-0b0c-571d-8283-3e7325b7eb51",
+      "name": "Turn Validate",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const b=$json.body; const required=[\"case_id\", \"message\", \"request_id\"]; const optional=[\"facts\", \"checks\", \"method\"];\nif(!b || typeof b!=='object' || Array.isArray(b) || required.some(k=>!(k in b)) || Object.keys(b).some(k=>!required.includes(k)&&!optional.includes(k))) throw new Error('Invalid request fields');\nif(typeof b.case_id!=='string'||! /^[A-Za-z0-9_-]{1,80}$/.test(b.case_id)) throw new Error('Invalid case ID');\nreturn [{json:{body:b}}];"
+      }
+    },
+    {
+      "id": "b4826e5d-e271-5f52-9158-bdb54cb335f1",
+      "name": "Turn Python API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        500,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://YOUR-CASEPILOT-BACKEND.example/api/turn",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.body) }}",
+        "options": {
+          "timeout": 90000,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true,
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "CasePilot Operator API"
+        }
+      }
+    },
+    {
+      "id": "494fdb91-d343-5071-aac2-b6cfde28be40",
+      "name": "Turn Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        760,
+        0
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json.body }}",
+        "options": {
+          "responseCode": "={{ $json.statusCode }}"
+        }
+      }
+    },
+    {
+      "id": "e2d3b1d3-47fb-5eb8-b208-03abc34a0992",
+      "name": "Review Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        320
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "casepilot-review",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "CasePilot Reviewer Webhook"
+        }
+      },
+      "webhookId": "7d77e013-8794-5bb9-a3e5-471a32cddc9a"
+    },
+    {
+      "id": "21d5c544-eec2-567a-a8e5-bab9fd4890cf",
+      "name": "Review Validate",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        320
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const b=$json.body; const required=[\"case_id\", \"proposal_id\", \"proposal_hash\", \"decision\", \"reviewer\"]; const optional=[\"edited_actions\"];\nif(!b || typeof b!=='object' || Array.isArray(b) || required.some(k=>!(k in b)) || Object.keys(b).some(k=>!required.includes(k)&&!optional.includes(k))) throw new Error('Invalid request fields');\nif(typeof b.case_id!=='string'||! /^[A-Za-z0-9_-]{1,80}$/.test(b.case_id)) throw new Error('Invalid case ID');\nreturn [{json:{body:b}}];"
+      }
+    },
+    {
+      "id": "e2f5b99c-cea9-5b6b-b7c4-9000959165bf",
+      "name": "Review Python API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        500,
+        320
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://YOUR-CASEPILOT-BACKEND.example/api/review",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.body) }}",
+        "options": {
+          "timeout": 90000,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true,
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "CasePilot Reviewer API"
+        }
+      }
+    },
+    {
+      "id": "71b12beb-3444-5bd9-be17-8ffa5da0a67a",
+      "name": "Review Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        760,
+        320
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json.body }}",
+        "options": {
+          "responseCode": "={{ $json.statusCode }}"
+        }
+      }
+    },
+    {
+      "id": "e8e1c74f-74c5-5ba7-8595-5f5aa06a65b9",
+      "name": "Execute Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        640
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "casepilot-execute",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "CasePilot Reviewer Webhook"
+        }
+      },
+      "webhookId": "2605921c-9324-5061-86a9-218e9206d49f"
+    },
+    {
+      "id": "a270a643-0b49-5c16-b042-f53d8d21dbab",
+      "name": "Execute Validate",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        640
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const b=$json.body; const required=[\"case_id\", \"proposal_id\", \"approval_id\"]; const optional=[];\nif(!b || typeof b!=='object' || Array.isArray(b) || required.some(k=>!(k in b)) || Object.keys(b).some(k=>!required.includes(k)&&!optional.includes(k))) throw new Error('Invalid request fields');\nif(typeof b.case_id!=='string'||! /^[A-Za-z0-9_-]{1,80}$/.test(b.case_id)) throw new Error('Invalid case ID');\nreturn [{json:{body:b}}];"
+      }
+    },
+    {
+      "id": "fe0f06af-2051-5e8b-bbbb-ddc1c3b421b1",
+      "name": "Execute Python API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        500,
+        640
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://YOUR-CASEPILOT-BACKEND.example/api/execute",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.body) }}",
+        "options": {
+          "timeout": 90000,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true,
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "CasePilot Reviewer API"
+        }
+      }
+    },
+    {
+      "id": "01b065a1-68ef-5e8e-880b-67d3fce24d39",
+      "name": "Execute Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        760,
+        640
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json.body }}",
+        "options": {
+          "responseCode": "={{ $json.statusCode }}"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Turn Webhook": {
+      "main": [
+        [
+          {
+            "node": "Turn Validate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Turn Validate": {
+      "main": [
+        [
+          {
+            "node": "Turn Python API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Turn Python API": {
+      "main": [
+        [
+          {
+            "node": "Turn Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Review Webhook": {
+      "main": [
+        [
+          {
+            "node": "Review Validate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Review Validate": {
+      "main": [
+        [
+          {
+            "node": "Review Python API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Review Python API": {
+      "main": [
+        [
+          {
+            "node": "Review Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Webhook": {
+      "main": [
+        [
+          {
+            "node": "Execute Validate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Validate": {
+      "main": [
+        [
+          {
+            "node": "Execute Python API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Python API": {
+      "main": [
+        [
+          {
+            "node": "Execute Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataSuccessExecution": "none",
+    "saveDataErrorExecution": "none",
+    "saveManualExecutions": false,
+    "executionTimeout": 180
+  },
+  "pinData": {},
+  "tags": [],
+  "meta": {
+    "templateCredsSetupCompleted": false
+  }
+}
