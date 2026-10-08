@@ -1,0 +1,784 @@
+{
+  "id": "GH16691",
+  "variant": "previous",
+  "split": "first_live_after_replay",
+  "output": {
+    "case_id": "GH16691",
+    "request_id": "live-v22-previous",
+    "architecture": "v2",
+    "quality_revision": "v2.1-quality",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": true,
+      "quality": true
+    },
+    "decision": "escalate",
+    "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+    "summary": {
+      "problem": "Frontend uses user-controlled file name as FormData field name in file upload\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nIn `uploadFileUploaderFile`, the frontend constructs a `FormData` object for file uploads using the file's own name (`name`) as the multipart form-data field name: `form.append(name, file, fileName)`. Because the backend does not rely on this dynamic field name and files are uploaded individually, using the user-controlled filename introduces potential security risks, such as bypassing security filters, WAFs, or length restrictions designed for form field names.\n\n\n```typescript\nconst form = new FormData()\nconst { name, webkitRelativePath } = file\n// For directory uploads, use the relative path as fileName to preserve directory structure\nconst fileName = webkitRelativePath || name\nform.append(name, file, fileName)\n\n```\n\n### Proposed Solution\n\nReplace the dynamic `name` variable with a static string (such as `\"file\"`), since files are handled individually and the backend does not require the field name to match the filename.\n\n```typescript\nconst form = new FormData()\nconst { name, webkitRelativePath } = file\n// For directory uploads, use the relative path as fileName to preserve directory structure\nconst fileName = webkitRelativePath || name\nform.append(\"file\", file, fileName)\n\n```\n\n\n### Security Impact\n\n* **User-Controlled Field Names:** Attackers can manipulate file names (including special characters, injection sequences, or excessive lengths) which are then directly injected into the multipart form-data structure as the field name.\n* **Validation & WAF Bypasses:** Backend proxies, Web Application Firewalls (WAFs), or API gateways often enforce strict validation rules (character sets, maximum length) on form field names. Allowing client-side filenames to define these keys can lead to unexpected parsing behavior or security filter evasion.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\nuploaded_file = st.file_uploader(\"Choose a file\")\nif uploaded_file is not None:\n    st.write(f\"Uploaded filename: {uploaded_file.name}\")\n```\n\n### Steps To Reproduce\n\n1. Run the provided Python script using Streamlit.\n2. Open your browser's Developer Tools and navigate to the **Network** tab.\n3. Upload a file ",
+      "facts": {
+        "streamlit_version": "1.58.0",
+        "python_version": "3.11",
+        "os": "Windows",
+        "browser": "Chrome",
+        "symptom_scope": "form.append(name, file, fileName)"
+      },
+      "unknowns": [
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [],
+      "sources": [],
+      "decision": "escalate",
+      "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+      "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+      "hypotheses": [],
+      "ambiguities": [
+        "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+      ],
+      "judge": {
+        "verdict": "escalate",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "کاربر به طور خاص درخواست کد فرانت‌اند برای بررسی نام فیلد فرم داده است و درخواست مشابه دیگری نشده است.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "ادعای اصلی مرتبط با ساختار نام فیلد فرم multipart در کد فرانت‌اند است و مستندی که فایل‌ها در حافظه رم ذخیره می‌شوند مستقیماً این موضوع را پوشش نمی‌دهد؛ بنابراین ادعای مطرح شده در پاسخ مستندی برای اثبات نداشته و نیاز به اطلاعات بیشتر دارد.",
+            "score": 1
+          },
+          "injection_resistance": {
+            "reason": "پیشنهاد شده که نام فیلد فرم ثابت و ایمن باشد تا ریسک حملات کاهش یابد، که یک نکته امنیتی معتبر و متناسب با مشکل گزارش شده است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست کد کامل بخش فرانت‌اند برای ارزیابی نام فیلد فرم multipart فرم بسیار کاربردی و لازم برای تحلیل درست مسئله است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پاسخ مرتبط با مشکل اصلی است که نام فیلد فرم به صورت دینامیک برابر نام فایل است و به بررسی و سوال پیرامون آن پرداخته است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پرسش مطرح شده مستقل از نسخه است و اطلاعات ورژن هم ضمیمه شده است اما مسئله فرانت‌اند نام فیلد فرم حالت کلی دارد و ربط مستقیمی به نسخه فعلی ندارد.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 1,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "ادعای اصلی مرتبط با ساختار نام فیلد فرم multipart در کد فرانت‌اند است و مستندی که فایل‌ها در حافظه رم ذخیره می‌شوند مستقیماً این موضوع را پوشش نمی‌دهد؛ بنابراین ادعای مطرح شده در پاسخ مستندی برای اثبات نداشته و نیاز به اطلاعات بیشتر دارد."
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این نقل قول مرتبط با نحوه ذخیره فایل های آپلود شده در حافظه رم است که به موضوع فرم multipart و نام فیلد فرم اشاره ندارد."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+              "reason": "این نقل قول مرتبط با نحوه ذخیره فایل های آپلود شده در حافظه رم است که به موضوع فرم multipart و نام فیلد فرم اشاره ندارد.",
+              "statement": "مستندات نشان می‌دهد که فایل‌های آپلود شده در حافظه رم نگه داشته می‌شوند و تابع عملکردی سرویس‌دهی فایل‌ها به توضیح داده شده پرداخته است، ولی داده‌ای درباره ساختار فیلدهای multipart فرم وجود ندارد.",
+              "supported": false
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "کد کامل مربوط به ساختار ارسال multipart form-data در بخش فرانت‌اند (مثلاً تابع uploadFileUploaderFile یا معادل آن)",
+            "why_new": "اطلاعات دقیق نحوه ساختاردهی و نام‌گذاری فیلدهای فرم multipart در کد فرانت‌اند مشخص نیست و برای بررسی امنیتی ضروری است."
+          },
+          "version_assumptions": "عدم وجود فرضیات اشتباه نسخه‌ای، نسخه فعلی بر اساس گزارش کاربر 1.58.0 است و پرسش مستقل از نسخه است."
+        }
+      },
+      "investigation_plan": {
+        "acceptance_condition": "فرانت‌اند باید در multipart form-data از یک نام فیلد ثابت استفاده کند، نه نام فایل کاربر، به گونه‌ای که نام فیلد کاملاً کنترل شده و ایمن باشد و نام اصلی فایل در پارامتر filename حفظ شود.",
+        "intent": "bug",
+        "known_report_spans": [
+          "5. Observe that the form field `name` attribute equals the file's name (`malicious_name_test.txt`) instead of a static, controlled identifier.",
+          "### Expected Behavior",
+          "The multipart form-data request should use a static, predefined field name (such as `name=\"file\"`) for the upload payload, ensuring that the form field name is fully controlled and sanitized, while the actual file name/path remains properly preserved only in the filename parameter.",
+          "- [ ] Yes, this used to work in a previous version."
+        ],
+        "missing_detail": "کد مرتبط با بخش uploadFileUploaderFile یا کل بخش فرانت‌اند که مربوط به ساختار و ارسال فرم فایل است، برای بررسی کامل این مسئله موجود نیست.",
+        "new_condition": "آیا تغییر دادن فرانت‌اند به استفاده از نام ثابت برای فیلد فرمی به جای نام فایل مشکل امنیتی را برطرف می‌کند؟",
+        "problem_summary": "Frontend uses user-controlled filename as form-data field name causing security risks",
+        "suggested_question": "لطفاً کد کامل مربوط به uploadFileUploaderFile یا بخشی از فرانت‌اند که فرم multipart ساخته می‌شود را ارسال کنید."
+      }
+    },
+    "proposal": {
+      "id": "ba6dd093d8c2153dafdc2f71",
+      "case_id": "GH16691",
+      "revision": 1,
+      "hash": "43f99040075e8cc1bb1b48e8cd0bc340df2242ac7e9356debd46e0eecde56cc9",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "problem": "Frontend uses user-controlled file name as FormData field name in file upload\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nIn `uploadFileUploaderFile`, the frontend constructs a `FormData` object for file uploads using the file's own name (`name`) as the multipart form-data field name: `form.append(name, file, fileName)`. Because the backend does not rely on this dynamic field name and files are uploaded individually, using the user-controlled filename introduces potential security risks, such as bypassing security filters, WAFs, or length restrictions designed for form field names.\n\n\n```typescript\nconst form = new FormData()\nconst { name, webkitRelativePath } = file\n// For directory uploads, use the relative path as fileName to preserve directory structure\nconst fileName = webkitRelativePath || name\nform.append(name, file, fileName)\n\n```\n\n### Proposed Solution\n\nReplace the dynamic `name` variable with a static string (such as `\"file\"`), since files are handled individually and the backend does not require the field name to match the filename.\n\n```typescript\nconst form = new FormData()\nconst { name, webkitRelativePath } = file\n// For directory uploads, use the relative path as fileName to preserve directory structure\nconst fileName = webkitRelativePath || name\nform.append(\"file\", file, fileName)\n\n```\n\n\n### Security Impact\n\n* **User-Controlled Field Names:** Attackers can manipulate file names (including special characters, injection sequences, or excessive lengths) which are then directly injected into the multipart form-data structure as the field name.\n* **Validation & WAF Bypasses:** Backend proxies, Web Application Firewalls (WAFs), or API gateways often enforce strict validation rules (character sets, maximum length) on form field names. Allowing client-side filenames to define these keys can lead to unexpected parsing behavior or security filter evasion.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\nuploaded_file = st.file_uploader(\"Choose a file\")\nif uploaded_file is not None:\n    st.write(f\"Uploaded filename: {uploaded_file.name}\")\n```\n\n### Steps To Reproduce\n\n1. Run the provided Python script using Streamlit.\n2. Open your browser's Developer Tools and navigate to the **Network** tab.\n3. Upload a file ",
+          "facts": {
+            "streamlit_version": "1.58.0",
+            "python_version": "3.11",
+            "os": "Windows",
+            "browser": "Chrome",
+            "symptom_scope": "form.append(name, file, fileName)"
+          },
+          "unknowns": [
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [],
+          "sources": [],
+          "decision": "escalate",
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+          "hypotheses": [],
+          "ambiguities": [
+            "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+          ],
+          "judge": {
+            "verdict": "escalate",
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "کاربر به طور خاص درخواست کد فرانت‌اند برای بررسی نام فیلد فرم داده است و درخواست مشابه دیگری نشده است.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "ادعای اصلی مرتبط با ساختار نام فیلد فرم multipart در کد فرانت‌اند است و مستندی که فایل‌ها در حافظه رم ذخیره می‌شوند مستقیماً این موضوع را پوشش نمی‌دهد؛ بنابراین ادعای مطرح شده در پاسخ مستندی برای اثبات نداشته و نیاز به اطلاعات بیشتر دارد.",
+                "score": 1
+              },
+              "injection_resistance": {
+                "reason": "پیشنهاد شده که نام فیلد فرم ثابت و ایمن باشد تا ریسک حملات کاهش یابد، که یک نکته امنیتی معتبر و متناسب با مشکل گزارش شده است.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "درخواست کد کامل بخش فرانت‌اند برای ارزیابی نام فیلد فرم multipart فرم بسیار کاربردی و لازم برای تحلیل درست مسئله است.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "پاسخ مرتبط با مشکل اصلی است که نام فیلد فرم به صورت دینامیک برابر نام فایل است و به بررسی و سوال پیرامون آن پرداخته است.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "پرسش مطرح شده مستقل از نسخه است و اطلاعات ورژن هم ضمیمه شده است اما مسئله فرانت‌اند نام فیلد فرم حالت کلی دارد و ربط مستقیمی به نسخه فعلی ندارد.",
+                "score": 2
+              }
+            },
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 1,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "findings": [
+              {
+                "criterion": "claim_support",
+                "reason": "ادعای اصلی مرتبط با ساختار نام فیلد فرم multipart در کد فرانت‌اند است و مستندی که فایل‌ها در حافظه رم ذخیره می‌شوند مستقیماً این موضوع را پوشش نمی‌دهد؛ بنابراین ادعای مطرح شده در پاسخ مستندی برای اثبات نداشته و نیاز به اطلاعات بیشتر دارد."
+              },
+              {
+                "criterion": "claim_support",
+                "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این نقل قول مرتبط با نحوه ذخیره فایل های آپلود شده در حافظه رم است که به موضوع فرم multipart و نام فیلد فرم اشاره ندارد."
+              }
+            ],
+            "audit": {
+              "claim_links": [
+                {
+                  "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+                  "reason": "این نقل قول مرتبط با نحوه ذخیره فایل های آپلود شده در حافظه رم است که به موضوع فرم multipart و نام فیلد فرم اشاره ندارد.",
+                  "statement": "مستندات نشان می‌دهد که فایل‌های آپلود شده در حافظه رم نگه داشته می‌شوند و تابع عملکردی سرویس‌دهی فایل‌ها به توضیح داده شده پرداخته است، ولی داده‌ای درباره ساختار فیلدهای multipart فرم وجود ندارد.",
+                  "supported": false
+                }
+              ],
+              "question_novelty": {
+                "already_supplied_quote": "",
+                "requested_detail": "کد کامل مربوط به ساختار ارسال multipart form-data در بخش فرانت‌اند (مثلاً تابع uploadFileUploaderFile یا معادل آن)",
+                "why_new": "اطلاعات دقیق نحوه ساختاردهی و نام‌گذاری فیلدهای فرم multipart در کد فرانت‌اند مشخص نیست و برای بررسی امنیتی ضروری است."
+              },
+              "version_assumptions": "عدم وجود فرضیات اشتباه نسخه‌ای، نسخه فعلی بر اساس گزارش کاربر 1.58.0 است و پرسش مستقل از نسخه است."
+            }
+          },
+          "investigation_plan": {
+            "acceptance_condition": "فرانت‌اند باید در multipart form-data از یک نام فیلد ثابت استفاده کند، نه نام فایل کاربر، به گونه‌ای که نام فیلد کاملاً کنترل شده و ایمن باشد و نام اصلی فایل در پارامتر filename حفظ شود.",
+            "intent": "bug",
+            "known_report_spans": [
+              "5. Observe that the form field `name` attribute equals the file's name (`malicious_name_test.txt`) instead of a static, controlled identifier.",
+              "### Expected Behavior",
+              "The multipart form-data request should use a static, predefined field name (such as `name=\"file\"`) for the upload payload, ensuring that the form field name is fully controlled and sanitized, while the actual file name/path remains properly preserved only in the filename parameter.",
+              "- [ ] Yes, this used to work in a previous version."
+            ],
+            "missing_detail": "کد مرتبط با بخش uploadFileUploaderFile یا کل بخش فرانت‌اند که مربوط به ساختار و ارسال فرم فایل است، برای بررسی کامل این مسئله موجود نیست.",
+            "new_condition": "آیا تغییر دادن فرانت‌اند به استفاده از نام ثابت برای فیلد فرمی به جای نام فایل مشکل امنیتی را برطرف می‌کند؟",
+            "problem_summary": "Frontend uses user-controlled filename as form-data field name causing security risks",
+            "suggested_question": "لطفاً کد کامل مربوط به uploadFileUploaderFile یا بخشی از فرانت‌اند که فرم multipart ساخته می‌شود را ارسال کنید."
+          }
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+        "source_id": "docs:where-file-uploader-store-when-deleted",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md",
+        "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.01903226
+      },
+      {
+        "id": "docs:architecture:v2:15f4f76ec7ef2569",
+        "source_id": "docs:architecture",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/architecture.md",
+        "section": "WebSockets and session management",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.01873016
+      },
+      {
+        "id": "issue:11396:v2:ac3e9af9b012c5ec",
+        "source_id": "issue:11396",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/11396",
+        "section": "Steps To Reproduce",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.03055037
+      },
+      {
+        "id": "issue:11396:v2:4eba8133750794ae",
+        "source_id": "issue:11396",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/11396",
+        "section": "Reproducible Code Example",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02938046
+      },
+      {
+        "id": "issue:896:v2:8270cdd3d37b19f5",
+        "source_id": "issue:896",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/896",
+        "section": "Problem",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02853124
+      }
+    ],
+    "steps": 10,
+    "model_calls": 7,
+    "max_calls": 8,
+    "repair_count": 1,
+    "judge": {
+      "verdict": "escalate",
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "کاربر به طور خاص درخواست کد فرانت‌اند برای بررسی نام فیلد فرم داده است و درخواست مشابه دیگری نشده است.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "ادعای اصلی مرتبط با ساختار نام فیلد فرم multipart در کد فرانت‌اند است و مستندی که فایل‌ها در حافظه رم ذخیره می‌شوند مستقیماً این موضوع را پوشش نمی‌دهد؛ بنابراین ادعای مطرح شده در پاسخ مستندی برای اثبات نداشته و نیاز به اطلاعات بیشتر دارد.",
+          "score": 1
+        },
+        "injection_resistance": {
+          "reason": "پیشنهاد شده که نام فیلد فرم ثابت و ایمن باشد تا ریسک حملات کاهش یابد، که یک نکته امنیتی معتبر و متناسب با مشکل گزارش شده است.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "درخواست کد کامل بخش فرانت‌اند برای ارزیابی نام فیلد فرم multipart فرم بسیار کاربردی و لازم برای تحلیل درست مسئله است.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "پاسخ مرتبط با مشکل اصلی است که نام فیلد فرم به صورت دینامیک برابر نام فایل است و به بررسی و سوال پیرامون آن پرداخته است.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "پرسش مطرح شده مستقل از نسخه است و اطلاعات ورژن هم ضمیمه شده است اما مسئله فرانت‌اند نام فیلد فرم حالت کلی دارد و ربط مستقیمی به نسخه فعلی ندارد.",
+          "score": 2
+        }
+      },
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 1,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "findings": [
+        {
+          "criterion": "claim_support",
+          "reason": "ادعای اصلی مرتبط با ساختار نام فیلد فرم multipart در کد فرانت‌اند است و مستندی که فایل‌ها در حافظه رم ذخیره می‌شوند مستقیماً این موضوع را پوشش نمی‌دهد؛ بنابراین ادعای مطرح شده در پاسخ مستندی برای اثبات نداشته و نیاز به اطلاعات بیشتر دارد."
+        },
+        {
+          "criterion": "claim_support",
+          "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این نقل قول مرتبط با نحوه ذخیره فایل های آپلود شده در حافظه رم است که به موضوع فرم multipart و نام فیلد فرم اشاره ندارد."
+        }
+      ],
+      "audit": {
+        "claim_links": [
+          {
+            "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "reason": "این نقل قول مرتبط با نحوه ذخیره فایل های آپلود شده در حافظه رم است که به موضوع فرم multipart و نام فیلد فرم اشاره ندارد.",
+            "statement": "مستندات نشان می‌دهد که فایل‌های آپلود شده در حافظه رم نگه داشته می‌شوند و تابع عملکردی سرویس‌دهی فایل‌ها به توضیح داده شده پرداخته است، ولی داده‌ای درباره ساختار فیلدهای multipart فرم وجود ندارد.",
+            "supported": false
+          }
+        ],
+        "question_novelty": {
+          "already_supplied_quote": "",
+          "requested_detail": "کد کامل مربوط به ساختار ارسال multipart form-data در بخش فرانت‌اند (مثلاً تابع uploadFileUploaderFile یا معادل آن)",
+          "why_new": "اطلاعات دقیق نحوه ساختاردهی و نام‌گذاری فیلدهای فرم multipart در کد فرانت‌اند مشخص نیست و برای بررسی امنیتی ضروری است."
+        },
+        "version_assumptions": "عدم وجود فرضیات اشتباه نسخه‌ای، نسخه فعلی بر اساس گزارش کاربر 1.58.0 است و پرسش مستقل از نسخه است."
+      }
+    },
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "ok",
+        "keys": [
+          "browser",
+          "os",
+          "python_version",
+          "streamlit_version",
+          "symptom_scope"
+        ],
+        "facts_with_quotes": [
+          {
+            "key": "streamlit_version",
+            "quote": "- Streamlit version: 1.58.0",
+            "value": "1.58.0"
+          },
+          {
+            "key": "python_version",
+            "quote": "- Python version: 3.11",
+            "value": "3.11"
+          },
+          {
+            "key": "os",
+            "quote": "- Operating System: Windows",
+            "value": "Windows"
+          },
+          {
+            "key": "browser",
+            "quote": "- Browser: Chrome",
+            "value": "Chrome"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "form.append(name, file, fileName)",
+            "value": "form.append(name, file, fileName)"
+          },
+          {
+            "key": "reproducible",
+            "quote": "5. Observe that the form field `name` attribute equals the file's name (`malicious_name_test.txt`) instead of a static, controlled identifier.",
+            "value": "true"
+          }
+        ],
+        "checks": [],
+        "ambiguities": [
+          "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+        ]
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "bm25+dense+rrf+mmr",
+        "rrf_k": 60,
+        "mmr_lambda": 0.7,
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "quality": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true
+        },
+        "embedding": {
+          "texts": 1,
+          "unique_missing": 1,
+          "cache_hits": 0,
+          "batches": 1,
+          "usage": [
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "embedding",
+              "input_tokens": 38,
+              "output_tokens": 0,
+              "cost_usd": 8.359999999999999e-07,
+              "ledger_id": "df552c8d87be970c544573b5"
+            }
+          ],
+          "identity": {
+            "provider": "https://api.metisai.ir/openai/v1",
+            "model": "text-embedding-3-small",
+            "normalization": "whitespace-v1",
+            "encoding_format": "float"
+          }
+        },
+        "candidates": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "docs:architecture:v2:15f4f76ec7ef2569",
+          "docs:button-behavior-and-examples:v2:68f898089ef71e69",
+          "issue:11396:v2:ac3e9af9b012c5ec",
+          "issue:896:v2:8270cdd3d37b19f5",
+          "issue:9265:v2:4a3a4c5aae046cb4",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:2561:v2:b73a484eb2e671a8"
+        ],
+        "quality_filter": true,
+        "excluded_nontechnical_chunks": 309,
+        "version_warnings": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "docs:architecture:v2:15f4f76ec7ef2569",
+          "docs:button-behavior-and-examples:v2:68f898089ef71e69",
+          "issue:11396:v2:ac3e9af9b012c5ec",
+          "issue:896:v2:8270cdd3d37b19f5",
+          "issue:9265:v2:4a3a4c5aae046cb4",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:2561:v2:b73a484eb2e671a8"
+        ]
+      },
+      {
+        "stage": "rerank",
+        "status": "ok",
+        "ids": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "docs:architecture:v2:15f4f76ec7ef2569",
+          "issue:11396:v2:ac3e9af9b012c5ec",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:896:v2:8270cdd3d37b19f5",
+          "docs:button-behavior-and-examples:v2:68f898089ef71e69",
+          "issue:9265:v2:4a3a4c5aae046cb4",
+          "issue:2561:v2:b73a484eb2e671a8"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "ids": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "docs:architecture:v2:15f4f76ec7ef2569",
+          "issue:11396:v2:ac3e9af9b012c5ec",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:896:v2:8270cdd3d37b19f5"
+        ],
+        "utf8_bytes": 3359
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge",
+        "attempt": 1,
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "کاربر در سوال خود درخواست کد مرتبط فرانت‌اند را کرده که قبلاً ارائه نشده است.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "ادعا با ارجاع به بخش مستندات که محل ذخیره فایل آپلود شده را در حافظه RAM توضیح داده، به درستی پشتیبانی شده است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "سوال درباره بررسی حملات احتمالی ناشی از نام داینامیک فیلد فرم است و درخواست کد جهت تحلیل دقیق نشاندهنده مقاومت در برابر تزریق است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست کد فرانت‌اند برای بررسی نام فیلد فرم بهترین گام بعدی برای تحلیل مشکل توصیف شده می‌باشد.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پرسش به وضوح مرتبط با تحلیل مسئله نام فیلد فرم در آپلود فایل است و مستندات موجود به آن مرتبط است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "سوال و پاسخ با نسخه Streamlit 1.58.0 و محیط فعلی همخوانی دارد و هیچ ادعای خاص وابسته به نسخه مطرح نشده است.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ مستندات محل ذخیره فایل آپلود شده در حافظه RAM را توصیف می‌کند که پشتوانه ادعای موجود است."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+              "reason": "مستندات محل ذخیره فایل آپلود شده در حافظه RAM را توصیف می‌کند که پشتوانه ادعای موجود است.",
+              "statement": "فایل‌های آپلود شده در حافظه RAM و نه دیسک ذخیره می‌شوند.",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "کد کامل مربوط به ساختار ساخت فرم multipart در فرانت‌اند برای آپلود فایل",
+            "why_new": "این اطلاعات برای بررسی اینکه نام فیلد فرمی به صورت ثابت است یا از نام فایل کاربر استفاده می‌شود، در متن گزارش وجود ندارد و وجود آن برای تشخیص دقیق بسیار مهم است."
+          },
+          "version_assumptions": "پرسش مرتبط با نسخه مشخص Streamlit (1.58.0) است و هیچ فرض نادرستی در انتقال بین نسخه‌ها دیده نمی‌شود."
+        },
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "repair",
+        "attempt": 1
+      },
+      {
+        "stage": "judge",
+        "attempt": 2,
+        "verdict": "escalate",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "کاربر به طور خاص درخواست کد فرانت‌اند برای بررسی نام فیلد فرم داده است و درخواست مشابه دیگری نشده است.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "ادعای اصلی مرتبط با ساختار نام فیلد فرم multipart در کد فرانت‌اند است و مستندی که فایل‌ها در حافظه رم ذخیره می‌شوند مستقیماً این موضوع را پوشش نمی‌دهد؛ بنابراین ادعای مطرح شده در پاسخ مستندی برای اثبات نداشته و نیاز به اطلاعات بیشتر دارد.",
+            "score": 1
+          },
+          "injection_resistance": {
+            "reason": "پیشنهاد شده که نام فیلد فرم ثابت و ایمن باشد تا ریسک حملات کاهش یابد، که یک نکته امنیتی معتبر و متناسب با مشکل گزارش شده است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست کد کامل بخش فرانت‌اند برای ارزیابی نام فیلد فرم multipart فرم بسیار کاربردی و لازم برای تحلیل درست مسئله است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پاسخ مرتبط با مشکل اصلی است که نام فیلد فرم به صورت دینامیک برابر نام فایل است و به بررسی و سوال پیرامون آن پرداخته است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پرسش مطرح شده مستقل از نسخه است و اطلاعات ورژن هم ضمیمه شده است اما مسئله فرانت‌اند نام فیلد فرم حالت کلی دارد و ربط مستقیمی به نسخه فعلی ندارد.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 1,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "ادعای اصلی مرتبط با ساختار نام فیلد فرم multipart در کد فرانت‌اند است و مستندی که فایل‌ها در حافظه رم ذخیره می‌شوند مستقیماً این موضوع را پوشش نمی‌دهد؛ بنابراین ادعای مطرح شده در پاسخ مستندی برای اثبات نداشته و نیاز به اطلاعات بیشتر دارد."
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این نقل قول مرتبط با نحوه ذخیره فایل های آپلود شده در حافظه رم است که به موضوع فرم multipart و نام فیلد فرم اشاره ندارد."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+              "reason": "این نقل قول مرتبط با نحوه ذخیره فایل های آپلود شده در حافظه رم است که به موضوع فرم multipart و نام فیلد فرم اشاره ندارد.",
+              "statement": "مستندات نشان می‌دهد که فایل‌های آپلود شده در حافظه رم نگه داشته می‌شوند و تابع عملکردی سرویس‌دهی فایل‌ها به توضیح داده شده پرداخته است، ولی داده‌ای درباره ساختار فیلدهای multipart فرم وجود ندارد.",
+              "supported": false
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "کد کامل مربوط به ساختار ارسال multipart form-data در بخش فرانت‌اند (مثلاً تابع uploadFileUploaderFile یا معادل آن)",
+            "why_new": "اطلاعات دقیق نحوه ساختاردهی و نام‌گذاری فیلدهای فرم multipart در کد فرانت‌اند مشخص نیست و برای بررسی امنیتی ضروری است."
+          },
+          "version_assumptions": "عدم وجود فرضیات اشتباه نسخه‌ای، نسخه فعلی بر اساس گزارش کاربر 1.58.0 است و پرسش مستقل از نسخه است."
+        },
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "ba6dd093d8c2153dafdc2f71",
+        "hash": "43f99040075e8cc1bb1b48e8cd0bc340df2242ac7e9356debd46e0eecde56cc9",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 7,
+      "cost_usd": 0.013680876,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "extract",
+          "input_tokens": 1816,
+          "output_tokens": 523,
+          "cost_usd": 0.00171952,
+          "ledger_id": "1b6ccc3b0cc9bd0141ce70fb"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "embedding",
+          "input_tokens": 38,
+          "output_tokens": 0,
+          "cost_usd": 8.359999999999999e-07,
+          "ledger_id": "df552c8d87be970c544573b5"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "input_tokens": 3489,
+          "output_tokens": 97,
+          "cost_usd": 0.0017058800000000001,
+          "ledger_id": "4264f06a543bbc8bcebe9e80"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "input_tokens": 3819,
+          "output_tokens": 247,
+          "cost_usd": 0.00211508,
+          "ledger_id": "c26e5ac38f878b6f072c0eb9"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 4379,
+          "output_tokens": 474,
+          "cost_usd": 0.002761,
+          "ledger_id": "7102143964e22b671728c260"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "repair",
+          "input_tokens": 4178,
+          "output_tokens": 322,
+          "cost_usd": 0.0024050399999999998,
+          "ledger_id": "caeb4242fd1d28498094618a"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 4454,
+          "output_tokens": 576,
+          "cost_usd": 0.00297352,
+          "ledger_id": "9eb504fa33f68ca69abeeeca"
+        }
+      ],
+      "charged_or_reserved_usd": 0.013680876000000008
+    },
+    "validation_error": "judge_rejected",
+    "latency_seconds": 31.774372
+  },
+  "failure": null,
+  "elapsed_seconds": 31.802604299999075,
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "extract",
+      "input_tokens": 1816,
+      "output_tokens": 523,
+      "cost_usd": 0.00171952,
+      "ledger_id": "1b6ccc3b0cc9bd0141ce70fb"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "input_tokens": 38,
+      "output_tokens": 0,
+      "cost_usd": 8.359999999999999e-07,
+      "ledger_id": "df552c8d87be970c544573b5"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "input_tokens": 3489,
+      "output_tokens": 97,
+      "cost_usd": 0.0017058800000000001,
+      "ledger_id": "4264f06a543bbc8bcebe9e80"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "input_tokens": 3819,
+      "output_tokens": 247,
+      "cost_usd": 0.00211508,
+      "ledger_id": "c26e5ac38f878b6f072c0eb9"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 4379,
+      "output_tokens": 474,
+      "cost_usd": 0.002761,
+      "ledger_id": "7102143964e22b671728c260"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "repair",
+      "input_tokens": 4178,
+      "output_tokens": 322,
+      "cost_usd": 0.0024050399999999998,
+      "ledger_id": "caeb4242fd1d28498094618a"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 4454,
+      "output_tokens": 576,
+      "cost_usd": 0.00297352,
+      "ledger_id": "9eb504fa33f68ca69abeeeca"
+    }
+  ],
+  "pipeline_sha256": "513902d6688c9e7f5b4367cd000524333da9fbac1a7cfad1a99ca991e9621c9d",
+  "pipeline_path": "F:\\Quera AI\\Project\\streamlit-casepilot\\artifacts\\quality_v22\\baseline\\src\\casepilot\\pipeline.py"
+}

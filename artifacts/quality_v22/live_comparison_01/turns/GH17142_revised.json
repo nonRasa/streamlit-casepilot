@@ -1,0 +1,543 @@
+{
+  "id": "GH17142",
+  "variant": "revised",
+  "split": "first_live_after_replay",
+  "output": {
+    "case_id": "GH17142",
+    "request_id": "live-v22-revised",
+    "architecture": "v2",
+    "quality_revision": "v2.2-quality",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": true,
+      "quality": true
+    },
+    "decision": "escalate",
+    "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nperiodic server-side shared data refresh across sessions for st.cache_data\n```\n\nمحیط گزارش‌شده:\n\n```text\nsymptom_scope=non-blocking background execution spec\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\nstreamlit_version, python_version, deployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: امکان افزودن رفتار درخواستی و شرط پذیرش را بررسی و تصمیم طراحی را ثبت کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_contract_error`.",
+    "summary": {
+      "problem": "Periodic server-driven data refresh shared across sessions (vs. per-session run_every)\n\n## Summary\n\nProvide a way to refresh a data source on a **server-side schedule** — computed\nonce for the whole app and pushed to every session currently viewing it —\ninstead of each session running its own `run_every` timer and recomputing the\nsame query independently. This is the shared \"the dashboard refreshes every\nminute and everyone sees the latest\" pattern that live/ops dashboards need.\n\n## Why?\n\n`@st.fragment(run_every=…)` already gives time-driven updates, but the timer and\nthe computation are **per session**: with _N_ viewers on the same dashboard you\nget _N_ timers and _N_ executions of the same query every interval. A refresh\nthat is cheap for one user becomes _N×_ load on the warehouse/API for a shared\ninternal tool.\n\n`@st.cache_data` dedupes the *computation* across sessions, but nothing *drives*\na periodic refresh or *wakes* the sessions when a new value lands — today\n`run_every` is the driver, and it's per session. The missing piece is a refresh\nthat runs once for the whole app and updates every session viewing it.\n\n## How?\n\nMark a cached data source to refresh on a fixed interval, centrally for the\nwhole app. Any fragment that reads it shows the current value and re-renders when\na new one lands.\n\nSketch (names illustrative):\n\n```python\n# The value refreshes centrally every 60s; sessions read the current value and\n# rerun when a new one lands — no per-session timer, one shared computation.\n@st.cache_data(refresh_every=\"60s\")\ndef latest_metrics():\n    return run_warehouse_query()\n\n@st.fragment\ndef kpis():\n    df = latest_metrics()          # returns the current cached value immediately\n    st.metric(\"Orders\", len(df))\n    st.line_chart(df, x=\"ts\", y=\"orders\")\n\nkpis()\n```\n\n## Additional Context\n\n- Split out from [#12980](https://github.com/streamlit/streamlit/issues/12980)\n  (\"real-time chart updates without rerunning the entire script\"), which is being\n  closed now that fragments (`run_every`), `st.rerun(scope=…)`, and element\n  diffing cover the original per-session/live-update and flicker concerns.\n- Related in-flight work: the non-blocking background execution spec\n  ([#17067](https://github.com/streamlit/streamlit/pull/17067)) covers shared,\n  off-thread cached computation; scheduled/recurring refresh is called out there\n  as not-yet-built.\n- Companion gap: a **freshness signal**\n  ([#17141](https://github.com/streamlit/streamlit/issues/17141)) — a che",
+      "facts": {
+        "symptom_scope": "non-blocking background execution spec"
+      },
+      "unknowns": [
+        "streamlit_version",
+        "python_version",
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [],
+      "sources": [],
+      "decision": "escalate",
+      "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+      "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.",
+      "hypotheses": [],
+      "ambiguities": [
+        "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+        "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+        "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope"
+      ],
+      "judge": null,
+      "investigation_plan": {
+        "acceptance_condition": "سیستمی داشته باشند که یک داده مشترک یکبار در کل اپ به روز شود و این به روزرسانی به همه جلسات نمایش داده شود.",
+        "intent": "feature_request",
+        "known_report_spans": [
+          "instead of each session running its own `run_every` timer and recomputing the",
+          "`@st.fragment(run_every=…)` already gives time-driven updates, but the timer and",
+          "- Related in-flight work: the non-blocking background execution spec",
+          "`MAX(updated_at)`) to drive **event-driven** invalidation instead of a blind"
+        ],
+        "missing_detail": "",
+        "new_condition": "",
+        "problem_summary": "periodic server-side shared data refresh across sessions for st.cache_data",
+        "suggested_question": "آیا قابلیت بروزرسانی داده به صورت سرور-محور و یکبار برای همه جلسات در حال برنامه‌ریزی است؟"
+      },
+      "experiments": [],
+      "memory_version": 2,
+      "handoff": {
+        "request_type": "feature_request",
+        "reported_problem": "periodic server-side shared data refresh across sessions for st.cache_data",
+        "environment": {
+          "symptom_scope": "non-blocking background execution spec"
+        },
+        "experiments": [],
+        "evidence": [],
+        "unknowns": [
+          "streamlit_version",
+          "python_version",
+          "deployment",
+          "reproducible"
+        ],
+        "limitations": [
+          "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+          "محدودیت: کد توقف `judge_contract_error`."
+        ],
+        "maintainer_action": "اقدام: امکان افزودن رفتار درخواستی و شرط پذیرش را بررسی و تصمیم طراحی را ثبت کنید.",
+        "feature": {}
+      },
+      "review_failures": [
+        {
+          "kind": "judge_contract",
+          "code": "judge_contract_error",
+          "draft_version": "660586a79379246b928c11aa3efc20f9dae4cd77043cd4fc63bad9bc46f24c84"
+        }
+      ]
+    },
+    "proposal": {
+      "id": "8b681d6f1bb4ba3548faa854",
+      "case_id": "GH17142",
+      "revision": 1,
+      "hash": "bfafe0a1a20c198fbff995fdbc6a473713140a6f74d900bc98ab8bceece8ae4d",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nperiodic server-side shared data refresh across sessions for st.cache_data\n```\n\nمحیط گزارش‌شده:\n\n```text\nsymptom_scope=non-blocking background execution spec\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\nstreamlit_version, python_version, deployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: امکان افزودن رفتار درخواستی و شرط پذیرش را بررسی و تصمیم طراحی را ثبت کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_contract_error`."
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "problem": "Periodic server-driven data refresh shared across sessions (vs. per-session run_every)\n\n## Summary\n\nProvide a way to refresh a data source on a **server-side schedule** — computed\nonce for the whole app and pushed to every session currently viewing it —\ninstead of each session running its own `run_every` timer and recomputing the\nsame query independently. This is the shared \"the dashboard refreshes every\nminute and everyone sees the latest\" pattern that live/ops dashboards need.\n\n## Why?\n\n`@st.fragment(run_every=…)` already gives time-driven updates, but the timer and\nthe computation are **per session**: with _N_ viewers on the same dashboard you\nget _N_ timers and _N_ executions of the same query every interval. A refresh\nthat is cheap for one user becomes _N×_ load on the warehouse/API for a shared\ninternal tool.\n\n`@st.cache_data` dedupes the *computation* across sessions, but nothing *drives*\na periodic refresh or *wakes* the sessions when a new value lands — today\n`run_every` is the driver, and it's per session. The missing piece is a refresh\nthat runs once for the whole app and updates every session viewing it.\n\n## How?\n\nMark a cached data source to refresh on a fixed interval, centrally for the\nwhole app. Any fragment that reads it shows the current value and re-renders when\na new one lands.\n\nSketch (names illustrative):\n\n```python\n# The value refreshes centrally every 60s; sessions read the current value and\n# rerun when a new one lands — no per-session timer, one shared computation.\n@st.cache_data(refresh_every=\"60s\")\ndef latest_metrics():\n    return run_warehouse_query()\n\n@st.fragment\ndef kpis():\n    df = latest_metrics()          # returns the current cached value immediately\n    st.metric(\"Orders\", len(df))\n    st.line_chart(df, x=\"ts\", y=\"orders\")\n\nkpis()\n```\n\n## Additional Context\n\n- Split out from [#12980](https://github.com/streamlit/streamlit/issues/12980)\n  (\"real-time chart updates without rerunning the entire script\"), which is being\n  closed now that fragments (`run_every`), `st.rerun(scope=…)`, and element\n  diffing cover the original per-session/live-update and flicker concerns.\n- Related in-flight work: the non-blocking background execution spec\n  ([#17067](https://github.com/streamlit/streamlit/pull/17067)) covers shared,\n  off-thread cached computation; scheduled/recurring refresh is called out there\n  as not-yet-built.\n- Companion gap: a **freshness signal**\n  ([#17141](https://github.com/streamlit/streamlit/issues/17141)) — a che",
+          "facts": {
+            "symptom_scope": "non-blocking background execution spec"
+          },
+          "unknowns": [
+            "streamlit_version",
+            "python_version",
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [],
+          "sources": [],
+          "decision": "escalate",
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.",
+          "hypotheses": [],
+          "ambiguities": [
+            "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+            "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+            "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope"
+          ],
+          "judge": null,
+          "investigation_plan": {
+            "acceptance_condition": "سیستمی داشته باشند که یک داده مشترک یکبار در کل اپ به روز شود و این به روزرسانی به همه جلسات نمایش داده شود.",
+            "intent": "feature_request",
+            "known_report_spans": [
+              "instead of each session running its own `run_every` timer and recomputing the",
+              "`@st.fragment(run_every=…)` already gives time-driven updates, but the timer and",
+              "- Related in-flight work: the non-blocking background execution spec",
+              "`MAX(updated_at)`) to drive **event-driven** invalidation instead of a blind"
+            ],
+            "missing_detail": "",
+            "new_condition": "",
+            "problem_summary": "periodic server-side shared data refresh across sessions for st.cache_data",
+            "suggested_question": "آیا قابلیت بروزرسانی داده به صورت سرور-محور و یکبار برای همه جلسات در حال برنامه‌ریزی است؟"
+          },
+          "experiments": [],
+          "memory_version": 2,
+          "handoff": {
+            "request_type": "feature_request",
+            "reported_problem": "periodic server-side shared data refresh across sessions for st.cache_data",
+            "environment": {
+              "symptom_scope": "non-blocking background execution spec"
+            },
+            "experiments": [],
+            "evidence": [],
+            "unknowns": [
+              "streamlit_version",
+              "python_version",
+              "deployment",
+              "reproducible"
+            ],
+            "limitations": [
+              "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+              "محدودیت: کد توقف `judge_contract_error`."
+            ],
+            "maintainer_action": "اقدام: امکان افزودن رفتار درخواستی و شرط پذیرش را بررسی و تصمیم طراحی را ثبت کنید.",
+            "feature": {}
+          },
+          "review_failures": [
+            {
+              "kind": "judge_contract",
+              "code": "judge_contract_error",
+              "draft_version": "660586a79379246b928c11aa3efc20f9dae4cd77043cd4fc63bad9bc46f24c84"
+            }
+          ]
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "docs:fragments:v2:a4afc7c293035d17",
+        "source_id": "docs:fragments",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+        "section": "Automate fragment reruns",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.03746976
+      },
+      {
+        "id": "docs:caching:v2:4b745e4fbe5d3685",
+        "source_id": "docs:caching",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+        "section": "Examples",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.0360831
+      },
+      {
+        "id": "docs:caching:v2:5ff8b72948761052",
+        "source_id": "docs:caching",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+        "section": "st.cache_resource",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.03372117
+      },
+      {
+        "id": "api:cache_data:v2:f31a213ee0aa9fe7",
+        "source_id": "api:cache_data",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/runtime/caching/cache_data_api.py",
+        "section": "_decorator (line 384)",
+        "product_version": "1.49.0",
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.03630769
+      },
+      {
+        "id": "api:cache_resource:v2:10aa154c50edf12d",
+        "source_id": "api:cache_resource",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/runtime/caching/cache_resource_api.py",
+        "section": "_decorator (line 259)",
+        "product_version": "1.49.0",
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.03261251
+      }
+    ],
+    "steps": 9,
+    "model_calls": 5,
+    "max_calls": 8,
+    "repair_count": 0,
+    "judge": null,
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "ok",
+        "keys": [
+          "symptom_scope"
+        ],
+        "facts_with_quotes": [
+          {
+            "key": "symptom_scope",
+            "quote": "`@st.fragment(run_every=…)` already gives time-driven updates, but the timer and the computation are **per session**",
+            "value": "per session"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "instead of each session running its own `run_every` timer and recomputing the same query independently",
+            "value": "per session run_every"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "- Related in-flight work: the non-blocking background execution spec",
+            "value": "non-blocking background execution spec"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "`MAX(updated_at)`) to drive **event-driven** invalidation instead of a blind",
+            "value": "event-driven invalidation"
+          }
+        ],
+        "checks": [],
+        "ambiguities": [
+          "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+          "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+          "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope"
+        ]
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "bm25+dense+rrf+mmr",
+        "rrf_k": 60,
+        "mmr_lambda": 0.7,
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "quality": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true
+        },
+        "embedding": {
+          "texts": 1,
+          "unique_missing": 1,
+          "cache_hits": 0,
+          "batches": 1,
+          "usage": [
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "embedding",
+              "input_tokens": 294,
+              "output_tokens": 0,
+              "cost_usd": 6.468e-06,
+              "ledger_id": "c97a6024e67e61471ab841a5"
+            }
+          ],
+          "identity": {
+            "provider": "https://api.metisai.ir/openai/v1",
+            "model": "text-embedding-3-small",
+            "normalization": "whitespace-v1",
+            "encoding_format": "float"
+          }
+        },
+        "candidates": [
+          "docs:fragments:v2:a4afc7c293035d17",
+          "api:cache_data:v2:f31a213ee0aa9fe7",
+          "docs:caching:v2:4b745e4fbe5d3685",
+          "docs:caching:v2:5ff8b72948761052",
+          "docs:cache-data:v2:579ec7eddcc73008",
+          "docs:config-toml:v2:ac17071ef08c5110",
+          "docs:cache-data:v2:2d852be1ef02439a",
+          "api:cache_resource:v2:10aa154c50edf12d"
+        ],
+        "quality_filter": true,
+        "excluded_chunks": 2100,
+        "as_of": null,
+        "temporal_policy": "current_snapshot",
+        "version_warnings": [
+          "docs:fragments:v2:a4afc7c293035d17",
+          "api:cache_data:v2:f31a213ee0aa9fe7",
+          "docs:caching:v2:4b745e4fbe5d3685",
+          "docs:caching:v2:5ff8b72948761052",
+          "docs:cache-data:v2:579ec7eddcc73008",
+          "docs:config-toml:v2:ac17071ef08c5110",
+          "docs:cache-data:v2:2d852be1ef02439a",
+          "api:cache_resource:v2:10aa154c50edf12d"
+        ]
+      },
+      {
+        "stage": "rerank",
+        "status": "ok",
+        "ids": [
+          "docs:fragments:v2:a4afc7c293035d17",
+          "docs:caching:v2:4b745e4fbe5d3685",
+          "docs:caching:v2:5ff8b72948761052",
+          "api:cache_data:v2:f31a213ee0aa9fe7",
+          "api:cache_resource:v2:10aa154c50edf12d",
+          "docs:cache-data:v2:579ec7eddcc73008",
+          "docs:cache-data:v2:2d852be1ef02439a",
+          "docs:config-toml:v2:ac17071ef08c5110"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "ids": [
+          "docs:fragments:v2:a4afc7c293035d17",
+          "docs:caching:v2:4b745e4fbe5d3685",
+          "docs:caching:v2:5ff8b72948761052",
+          "api:cache_data:v2:f31a213ee0aa9fe7",
+          "api:cache_resource:v2:10aa154c50edf12d"
+        ],
+        "utf8_bytes": 6638
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge_contract_failure",
+        "kind": "judge_contract",
+        "code": "judge_contract_error",
+        "draft_version": "660586a79379246b928c11aa3efc20f9dae4cd77043cd4fc63bad9bc46f24c84"
+      },
+      {
+        "stage": "safe_escalation",
+        "error": "judge_contract_error"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "8b681d6f1bb4ba3548faa854",
+        "hash": "bfafe0a1a20c198fbff995fdbc6a473713140a6f74d900bc98ab8bceece8ae4d",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 5,
+      "cost_usd": 0.011167068,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "extract",
+          "input_tokens": 1954,
+          "output_tokens": 339,
+          "cost_usd": 0.0014564,
+          "ledger_id": "601e3438fa774f31acbcf787"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "embedding",
+          "input_tokens": 294,
+          "output_tokens": 0,
+          "cost_usd": 6.468e-06,
+          "ledger_id": "c97a6024e67e61471ab841a5"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "input_tokens": 5637,
+          "output_tokens": 138,
+          "cost_usd": 0.0027231600000000005,
+          "ledger_id": "41ddf6d590bd32c91d324c4c"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "input_tokens": 4898,
+          "output_tokens": 519,
+          "cost_usd": 0.00306856,
+          "ledger_id": "375c2325e8020001b688e455"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 5844,
+          "output_tokens": 762,
+          "cost_usd": 0.00391248,
+          "ledger_id": "aa4d374581599607eb829c40"
+        }
+      ],
+      "charged_or_reserved_usd": 0.011167068000000002
+    },
+    "validation_error": "judge_contract_error",
+    "review_failures": [
+      {
+        "kind": "judge_contract",
+        "code": "judge_contract_error",
+        "draft_version": "660586a79379246b928c11aa3efc20f9dae4cd77043cd4fc63bad9bc46f24c84"
+      }
+    ],
+    "reviewed_draft": {
+      "draft_version": "660586a79379246b928c11aa3efc20f9dae4cd77043cd4fc63bad9bc46f24c84",
+      "case_id": "GH17142",
+      "case_revision": 1,
+      "generation": 0,
+      "units": [
+        {
+          "unit_id": "u_2b983142660995016e117139",
+          "field": "question",
+          "text": "آیا قابلیت بروزرسانی داده به صورت سرور-محور و یکبار برای همه جلسات در حال برنامه‌ریزی است؟",
+          "start": 0,
+          "end": 90
+        },
+        {
+          "unit_id": "u_f2473b135013170cab8de074",
+          "field": "next_step",
+          "text": "پرسش از تیم توسعه درباره برنامه‌ای برای پشتیبانی از به‌روزرسانی داده به صورت سرور-محور و به اشتراک گذاشته شده بین همه‌ی جلسات.",
+          "start": 0,
+          "end": 126
+        },
+        {
+          "unit_id": "u_19f4ad6734cafde62707132e",
+          "field": "rationale",
+          "text": "در مستندات موجود مشخص شده است که `st.fragment(run_every=…)` به صورت مستقل برای هر جلسه تایمر و پردازش مستقل اجرا می‌کند و هیچ اشاره‌ای به امکان یکبار اجرای مرکزی و به اشتراک گذاری نتایج بین جلسه‌ها نشده است. بنابراین، سوال اصلی برای تکمیل این موضوع پرسش درباره برنامه‌ریزی این قابلیت است.",
+          "start": 0,
+          "end": 288
+        },
+        {
+          "unit_id": "u_4ac7ae697a2a38e3ff2c5808",
+          "field": "hypotheses.0",
+          "text": "آیا برنامه‌ای برای سنجش یا ارائه این قابلیت در نسخه‌های آینده وجود دارد؟",
+          "start": 0,
+          "end": 72
+        }
+      ]
+    },
+    "latency_seconds": 25.48419
+  },
+  "failure": null,
+  "elapsed_seconds": 25.517657299991697,
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "extract",
+      "input_tokens": 1954,
+      "output_tokens": 339,
+      "cost_usd": 0.0014564,
+      "ledger_id": "601e3438fa774f31acbcf787"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "input_tokens": 294,
+      "output_tokens": 0,
+      "cost_usd": 6.468e-06,
+      "ledger_id": "c97a6024e67e61471ab841a5"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "input_tokens": 5637,
+      "output_tokens": 138,
+      "cost_usd": 0.0027231600000000005,
+      "ledger_id": "41ddf6d590bd32c91d324c4c"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "input_tokens": 4898,
+      "output_tokens": 519,
+      "cost_usd": 0.00306856,
+      "ledger_id": "375c2325e8020001b688e455"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 5844,
+      "output_tokens": 762,
+      "cost_usd": 0.00391248,
+      "ledger_id": "aa4d374581599607eb829c40"
+    }
+  ],
+  "pipeline_sha256": "74e3565717fbc2869493f2ac06869bc720af340896ac68302df71981ef2a97a8",
+  "pipeline_path": "F:\\Quera AI\\Project\\streamlit-casepilot\\src\\casepilot\\pipeline.py"
+}

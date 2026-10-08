@@ -1,0 +1,568 @@
+{
+  "id": "GH17234",
+  "variant": "revised",
+  "split": "first_live_after_replay",
+  "output": {
+    "case_id": "GH17234",
+    "request_id": "live-v22-revised",
+    "architecture": "v2",
+    "quality_revision": "v2.2-quality",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": true,
+      "quality": true
+    },
+    "decision": "escalate",
+    "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nst.file_uploader does not upload *.ini files when part of a folder using Chrome 155.0.8059.27 starting from Streamlit version 1.61.0\n```\n\nمحیط گزارش‌شده:\n\n```text\nstreamlit_version=1.64.0؛ python_version=3.13.1؛ os=Windows 11؛ browser=Chrome (Version 155.0.8059.27)؛ symptom_scope=*.ini files not uploaded when part of a folder\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\ndeployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_contract_error`.",
+    "summary": {
+      "problem": "*.ini files not uploaded when part of a folder with st.file_uploader, but upload fine as single file\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen uploading a folder containing a *.ini file using st.file_uploader the *.ini file is not uploaded.\nUploading the file when not part of a folder works\nThis is an issue with Chrome, but not an issue in firefox\nIt works in Streamlit version <=1.60.0\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\nfolder_path = st.file_uploader(\"**Upload files:**\",accept_multiple_files = True, type=[\".ini\", \".txt\"],)\n```\n\n### Steps To Reproduce\n\nDrag and drop a folder containing a *.ini file into a streamlit app (Streamlit v1.61.0 or later)running Chrome\n\n[IMAGE OMITTED: not inspected]\n\n### Expected Behavior\n\nAll the files in the folder should be uploaded\n\n### Current Behavior\n\nOnly non *.ini files are uploaded\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version:3.13.1\n- Operating System:Windows 11\n- Browser: Chrome (Version 155.0.8059.27). Works with FireFox(157.0)\n\n\n### Additional Information\n\n_No response_",
+      "facts": {
+        "streamlit_version": "1.64.0",
+        "python_version": "3.13.1",
+        "os": "Windows 11",
+        "browser": "Chrome (Version 155.0.8059.27)",
+        "symptom_scope": "*.ini files not uploaded when part of a folder"
+      },
+      "unknowns": [
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [
+        "Uploading the file when not part of a folder works",
+        "It works in Streamlit version <=1.60.0"
+      ],
+      "sources": [],
+      "decision": "escalate",
+      "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+      "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.",
+      "hypotheses": [],
+      "ambiguities": [
+        "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+      ],
+      "judge": null,
+      "investigation_plan": {
+        "acceptance_condition": "فایل‌های *.ini در هنگام آپلود پوشه با st.file_uploader به درستی آپلود شوند.",
+        "intent": "bug",
+        "known_report_spans": [
+          "Uploading the file when not part of a folder works",
+          "It works in Streamlit version <=1.60.0",
+          "- [x] Yes, this used to work in a previous version.",
+          "- Streamlit version: 1.64.0"
+        ],
+        "missing_detail": "لاگ‌های دقیق یا پیغام خطا هنگام آپلود فایل‌ها در کروم نسخه 155.0.8059.27",
+        "new_condition": "تست مشابه با نسخه‌های مختلف مرورگر کروم کمتر یا بیشتر از 155.0.8059.27",
+        "problem_summary": "st.file_uploader does not upload *.ini files when part of a folder using Chrome 155.0.8059.27 starting from Streamlit version 1.61.0",
+        "suggested_question": "آیا می‌توانید لاگ‌های دقیق آپلود فایل *.ini در کروم ارائه دهید؟"
+      },
+      "experiments": [],
+      "memory_version": 2,
+      "handoff": {
+        "request_type": "bug",
+        "reported_problem": "st.file_uploader does not upload *.ini files when part of a folder using Chrome 155.0.8059.27 starting from Streamlit version 1.61.0",
+        "environment": {
+          "streamlit_version": "1.64.0",
+          "python_version": "3.13.1",
+          "os": "Windows 11",
+          "browser": "Chrome (Version 155.0.8059.27)",
+          "symptom_scope": "*.ini files not uploaded when part of a folder"
+        },
+        "experiments": [],
+        "evidence": [],
+        "unknowns": [
+          "deployment",
+          "reproducible"
+        ],
+        "limitations": [
+          "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+          "محدودیت: کد توقف `judge_contract_error`."
+        ],
+        "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+        "feature": {}
+      },
+      "review_failures": [
+        {
+          "kind": "judge_contract",
+          "code": "judge_contract_error",
+          "draft_version": "85696886858b947e1527541f0bf4d385d18a8e9e4715c4ca63fa5bf6698ff465"
+        }
+      ]
+    },
+    "proposal": {
+      "id": "f56c92a2e8bbb626b5634894",
+      "case_id": "GH17234",
+      "revision": 1,
+      "hash": "3897b6382970f2ffca29da1e537b0a8c9d1858c369cfa9e136bfad457b414d03",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nst.file_uploader does not upload *.ini files when part of a folder using Chrome 155.0.8059.27 starting from Streamlit version 1.61.0\n```\n\nمحیط گزارش‌شده:\n\n```text\nstreamlit_version=1.64.0؛ python_version=3.13.1؛ os=Windows 11؛ browser=Chrome (Version 155.0.8059.27)؛ symptom_scope=*.ini files not uploaded when part of a folder\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\ndeployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_contract_error`."
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "problem": "*.ini files not uploaded when part of a folder with st.file_uploader, but upload fine as single file\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen uploading a folder containing a *.ini file using st.file_uploader the *.ini file is not uploaded.\nUploading the file when not part of a folder works\nThis is an issue with Chrome, but not an issue in firefox\nIt works in Streamlit version <=1.60.0\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\nfolder_path = st.file_uploader(\"**Upload files:**\",accept_multiple_files = True, type=[\".ini\", \".txt\"],)\n```\n\n### Steps To Reproduce\n\nDrag and drop a folder containing a *.ini file into a streamlit app (Streamlit v1.61.0 or later)running Chrome\n\n[IMAGE OMITTED: not inspected]\n\n### Expected Behavior\n\nAll the files in the folder should be uploaded\n\n### Current Behavior\n\nOnly non *.ini files are uploaded\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version:3.13.1\n- Operating System:Windows 11\n- Browser: Chrome (Version 155.0.8059.27). Works with FireFox(157.0)\n\n\n### Additional Information\n\n_No response_",
+          "facts": {
+            "streamlit_version": "1.64.0",
+            "python_version": "3.13.1",
+            "os": "Windows 11",
+            "browser": "Chrome (Version 155.0.8059.27)",
+            "symptom_scope": "*.ini files not uploaded when part of a folder"
+          },
+          "unknowns": [
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [
+            "Uploading the file when not part of a folder works",
+            "It works in Streamlit version <=1.60.0"
+          ],
+          "sources": [],
+          "decision": "escalate",
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.",
+          "hypotheses": [],
+          "ambiguities": [
+            "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+          ],
+          "judge": null,
+          "investigation_plan": {
+            "acceptance_condition": "فایل‌های *.ini در هنگام آپلود پوشه با st.file_uploader به درستی آپلود شوند.",
+            "intent": "bug",
+            "known_report_spans": [
+              "Uploading the file when not part of a folder works",
+              "It works in Streamlit version <=1.60.0",
+              "- [x] Yes, this used to work in a previous version.",
+              "- Streamlit version: 1.64.0"
+            ],
+            "missing_detail": "لاگ‌های دقیق یا پیغام خطا هنگام آپلود فایل‌ها در کروم نسخه 155.0.8059.27",
+            "new_condition": "تست مشابه با نسخه‌های مختلف مرورگر کروم کمتر یا بیشتر از 155.0.8059.27",
+            "problem_summary": "st.file_uploader does not upload *.ini files when part of a folder using Chrome 155.0.8059.27 starting from Streamlit version 1.61.0",
+            "suggested_question": "آیا می‌توانید لاگ‌های دقیق آپلود فایل *.ini در کروم ارائه دهید؟"
+          },
+          "experiments": [],
+          "memory_version": 2,
+          "handoff": {
+            "request_type": "bug",
+            "reported_problem": "st.file_uploader does not upload *.ini files when part of a folder using Chrome 155.0.8059.27 starting from Streamlit version 1.61.0",
+            "environment": {
+              "streamlit_version": "1.64.0",
+              "python_version": "3.13.1",
+              "os": "Windows 11",
+              "browser": "Chrome (Version 155.0.8059.27)",
+              "symptom_scope": "*.ini files not uploaded when part of a folder"
+            },
+            "experiments": [],
+            "evidence": [],
+            "unknowns": [
+              "deployment",
+              "reproducible"
+            ],
+            "limitations": [
+              "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+              "محدودیت: کد توقف `judge_contract_error`."
+            ],
+            "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+            "feature": {}
+          },
+          "review_failures": [
+            {
+              "kind": "judge_contract",
+              "code": "judge_contract_error",
+              "draft_version": "85696886858b947e1527541f0bf4d385d18a8e9e4715c4ca63fa5bf6698ff465"
+            }
+          ]
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+        "source_id": "docs:where-file-uploader-store-when-deleted",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md",
+        "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.02721093
+      },
+      {
+        "id": "issue:11259:v2:e460775a2a24e2f7",
+        "source_id": "issue:11259",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/11259",
+        "section": "Expected Behavior",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "retrieval_score": 0.03062179
+      },
+      {
+        "id": "issue:11259:v2:1f5169a839de7b0b",
+        "source_id": "issue:11259",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/11259",
+        "section": "Reproducible Code Example",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "retrieval_score": 0.02854251
+      },
+      {
+        "id": "issue:4877:v2:d623ecf8955dead3",
+        "source_id": "issue:4877",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/4877",
+        "section": "Debug info",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "retrieval_score": 0.02599156
+      },
+      {
+        "id": "issue:5706:v2:9850416fa81a5598",
+        "source_id": "issue:5706",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/5706",
+        "section": "Summary",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "retrieval_score": 0.02567694
+      }
+    ],
+    "steps": 9,
+    "model_calls": 5,
+    "max_calls": 8,
+    "repair_count": 0,
+    "judge": null,
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "ok",
+        "keys": [
+          "browser",
+          "os",
+          "python_version",
+          "streamlit_version",
+          "symptom_scope"
+        ],
+        "facts_with_quotes": [
+          {
+            "key": "streamlit_version",
+            "quote": "- Streamlit version: 1.64.0",
+            "value": "1.64.0"
+          },
+          {
+            "key": "python_version",
+            "quote": "- Python version:3.13.1",
+            "value": "3.13.1"
+          },
+          {
+            "key": "os",
+            "quote": "- Operating System:Windows 11",
+            "value": "Windows 11"
+          },
+          {
+            "key": "browser",
+            "quote": "- Browser: Chrome (Version 155.0.8059.27). Works with FireFox(157.0)",
+            "value": "Chrome (Version 155.0.8059.27)"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "*.ini files not uploaded when part of a folder with st.file_uploader",
+            "value": "*.ini files not uploaded when part of a folder"
+          },
+          {
+            "key": "reproducible",
+            "quote": "Drag and drop a folder containing a *.ini file into a streamlit app (Streamlit v1.61.0 or later)running Chrome",
+            "value": "Drag and drop a folder containing a *.ini file into a streamlit app"
+          }
+        ],
+        "checks": [
+          "Uploading the file when not part of a folder works",
+          "It works in Streamlit version <=1.60.0"
+        ],
+        "ambiguities": [
+          "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+        ]
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "bm25+dense+rrf+mmr",
+        "rrf_k": 60,
+        "mmr_lambda": 0.7,
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "quality": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true
+        },
+        "embedding": {
+          "texts": 1,
+          "unique_missing": 1,
+          "cache_hits": 0,
+          "batches": 1,
+          "usage": [
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "embedding",
+              "input_tokens": 67,
+              "output_tokens": 0,
+              "cost_usd": 1.474e-06,
+              "ledger_id": "b58f1eb1a4b06981ba316dd3"
+            }
+          ],
+          "identity": {
+            "provider": "https://api.metisai.ir/openai/v1",
+            "model": "text-embedding-3-small",
+            "normalization": "whitespace-v1",
+            "encoding_format": "float"
+          }
+        },
+        "candidates": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "issue:11259:v2:e460775a2a24e2f7",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:5706:v2:9850416fa81a5598",
+          "issue:4877:v2:d623ecf8955dead3",
+          "issue:11259:v2:1f5169a839de7b0b",
+          "issue:1298:v2:398a47680ef7653f",
+          "issue:3531:v2:8598912df8e6f8d3"
+        ],
+        "quality_filter": true,
+        "excluded_chunks": 2090,
+        "as_of": null,
+        "temporal_policy": "current_snapshot",
+        "version_warnings": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "issue:11259:v2:e460775a2a24e2f7",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:5706:v2:9850416fa81a5598",
+          "issue:4877:v2:d623ecf8955dead3",
+          "issue:11259:v2:1f5169a839de7b0b",
+          "issue:1298:v2:398a47680ef7653f",
+          "issue:3531:v2:8598912df8e6f8d3"
+        ]
+      },
+      {
+        "stage": "rerank",
+        "status": "ok",
+        "ids": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "issue:11259:v2:e460775a2a24e2f7",
+          "issue:11259:v2:1f5169a839de7b0b",
+          "issue:4877:v2:d623ecf8955dead3",
+          "issue:5706:v2:9850416fa81a5598",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:3531:v2:8598912df8e6f8d3",
+          "issue:1298:v2:398a47680ef7653f"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "ids": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "issue:11259:v2:e460775a2a24e2f7",
+          "issue:11259:v2:1f5169a839de7b0b",
+          "issue:4877:v2:d623ecf8955dead3",
+          "issue:5706:v2:9850416fa81a5598"
+        ],
+        "utf8_bytes": 1910
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge_contract_failure",
+        "kind": "judge_contract",
+        "code": "judge_contract_error",
+        "draft_version": "85696886858b947e1527541f0bf4d385d18a8e9e4715c4ca63fa5bf6698ff465"
+      },
+      {
+        "stage": "safe_escalation",
+        "error": "judge_contract_error"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "f56c92a2e8bbb626b5634894",
+        "hash": "3897b6382970f2ffca29da1e537b0a8c9d1858c369cfa9e136bfad457b414d03",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 5,
+      "cost_usd": 0.009252474,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "extract",
+          "input_tokens": 1637,
+          "output_tokens": 471,
+          "cost_usd": 0.00154924,
+          "ledger_id": "d082032449509971e509d6c2"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "embedding",
+          "input_tokens": 67,
+          "output_tokens": 0,
+          "cost_usd": 1.474e-06,
+          "ledger_id": "b58f1eb1a4b06981ba316dd3"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "input_tokens": 3277,
+          "output_tokens": 146,
+          "cost_usd": 0.00169884,
+          "ledger_id": "7e90877b307ea83a4b443646"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "input_tokens": 3532,
+          "output_tokens": 598,
+          "cost_usd": 0.00260656,
+          "ledger_id": "2f302b692be68ef548cc68aa"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 4855,
+          "output_tokens": 716,
+          "cost_usd": 0.0033963599999999997,
+          "ledger_id": "afbb6165031a25f01d1be45b"
+        }
+      ],
+      "charged_or_reserved_usd": 0.009252473999999955
+    },
+    "validation_error": "judge_contract_error",
+    "review_failures": [
+      {
+        "kind": "judge_contract",
+        "code": "judge_contract_error",
+        "draft_version": "85696886858b947e1527541f0bf4d385d18a8e9e4715c4ca63fa5bf6698ff465"
+      }
+    ],
+    "reviewed_draft": {
+      "draft_version": "85696886858b947e1527541f0bf4d385d18a8e9e4715c4ca63fa5bf6698ff465",
+      "case_id": "GH17234",
+      "case_revision": 1,
+      "generation": 0,
+      "units": [
+        {
+          "unit_id": "u_edc552297c5608157df6eb15",
+          "field": "question",
+          "text": "آیا امکان دارد لاگ‌ها یا پیغام‌های خطای دقیق هنگام آپلود فایل *.ini از پوشه در مرورگر کروم نسخه 155.0.8059.27 را به اشتراک بگذارید تا بتوان این مشکل خاص را بهتر تحلیل کرد؟",
+          "start": 0,
+          "end": 171
+        },
+        {
+          "unit_id": "u_a82a2e0cfd6605964540306d",
+          "field": "next_step",
+          "text": "لطفاً لاگ‌های دقیق هنگام آپلود فایل *.ini داخل پوشه در مرورگر کروم نسخه 155.0.8059.27 ارائه دهید تا علت مشکل بررسی شود.",
+          "start": 0,
+          "end": 119
+        },
+        {
+          "unit_id": "u_05ffe03486112adaa7dc876e",
+          "field": "rationale",
+          "text": "شناخته شده است که آپلود فایل‌های *.ini در پوشه با `st.file_uploader` در نسخه‌های قدیمی‌تر کروم و Streamlit (<=1.60.0) به درستی کار می‌کند ولی در نسخه 1.64.0 و کروم 155.0.8059.27 مشکل دارد. برای تشخیص دقیق‌تر ریشه مشکل، دریافت لاگ‌های آپلود در این نسخه مرورگر ضروری است تا مشخص شود این نقص مربوط به نسخه کروم است یا به موارد دیگر مرتبط است.",
+          "start": 0,
+          "end": 339
+        },
+        {
+          "unit_id": "u_4233a5d453cbe64f2734ebf2",
+          "field": "hypotheses.0",
+          "text": "مشکل مربوط به نسخه خاصی از مرورگر کروم است که از نسخه 155.0.8059.27 به بعد رخ می‌دهد و قبل‌تر چنین مشکلی وجود نداشت.",
+          "start": 0,
+          "end": 116
+        }
+      ]
+    },
+    "latency_seconds": 28.090239
+  },
+  "failure": null,
+  "elapsed_seconds": 28.12572400001227,
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "extract",
+      "input_tokens": 1637,
+      "output_tokens": 471,
+      "cost_usd": 0.00154924,
+      "ledger_id": "d082032449509971e509d6c2"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "input_tokens": 67,
+      "output_tokens": 0,
+      "cost_usd": 1.474e-06,
+      "ledger_id": "b58f1eb1a4b06981ba316dd3"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "input_tokens": 3277,
+      "output_tokens": 146,
+      "cost_usd": 0.00169884,
+      "ledger_id": "7e90877b307ea83a4b443646"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "input_tokens": 3532,
+      "output_tokens": 598,
+      "cost_usd": 0.00260656,
+      "ledger_id": "2f302b692be68ef548cc68aa"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 4855,
+      "output_tokens": 716,
+      "cost_usd": 0.0033963599999999997,
+      "ledger_id": "afbb6165031a25f01d1be45b"
+    }
+  ],
+  "pipeline_sha256": "74e3565717fbc2869493f2ac06869bc720af340896ac68302df71981ef2a97a8",
+  "pipeline_path": "F:\\Quera AI\\Project\\streamlit-casepilot\\src\\casepilot\\pipeline.py"
+}

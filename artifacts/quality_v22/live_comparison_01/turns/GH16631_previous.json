@@ -1,0 +1,732 @@
+{
+  "id": "GH16631",
+  "variant": "previous",
+  "split": "first_live_after_replay",
+  "output": {
+    "case_id": "GH16631",
+    "request_id": "live-v22-previous",
+    "architecture": "v2",
+    "quality_revision": "v2.1-quality",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": true,
+      "quality": true
+    },
+    "decision": "ask",
+    "response": "پاسخ پیشنهادی: آیا می‌توانید نمونه‌ای از هدر Content-Disposition که توسط `st.download_button` برای نام فایلی حاوی کوتیشن دابل ساخته می‌شود را ارسال کنید؟\n\nشاهد مستند: گزارش یک کاربر؛ اثبات علت این پرونده نیست.\n\nبخش منبع:\n\n```text\nDebug info\n```\n\nنسخهٔ منبع:\n\n```text\n2026-09-01T18:51:38Z\n```\n\nمتن شاهد:\n\n```text\n- Streamlit version: 1.52.2\n- Python version: 3.13\n- Operating System: Win\n- Browser: Chrome\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/streamlit/issues/13409\n```\n\nمحدودیت: در گزارش اولیه مشکل ناسازگاری هدر Content-Disposition به دلیل وجود کوتیشن دابل در نام فایل گزارش شده است، ولی نمونه دقیق هدر تولید شده ارائه نشده است. برای بررسی دقیق‌تر لازم است تا نمونه‌ای از این هدر دریافت شود تا بتوان تأیید کرد که هدر، طبق RFC 6266 درست ساخته می‌شود یا خیر.\n\nفرضیهٔ تأییدنشده: ممکن است هدر Content-Disposition به درستی شامل کوتیشن دابل نشود و باعث ایراد در نام فایل دانلود شده شود.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+    "summary": {
+      "problem": "st.download_button: a filename containing a double quote produces a malformed Content-Disposition header\n\n### Summary\n\nThe media endpoint that serves `st.download_button` files builds its `Content-Disposition` header by interpolating the download filename into a quoted string, `filename=\"{filename}\"`, whenever the name is latin-1 encodable. A double quote is latin-1 encodable, so any filename containing one closes the quoted parameter early and the rest of the name spills out as trailing tokens. The emitted header is not valid per RFC 6266, and the name the browser saves the file under is no longer the name the app set.\n\nThis needs nothing adversarial to hit. An ordinary filename like `5\" x 7\" print.jpg` (inch marks) is enough. The name reaches this sink from `st.download_button(file_name=...)`, and since 1.61.0 also from the filename inferred off an uploaded file when `file_name` is omitted.\n\nThe safe branch already exists in the same function: a name that is not latin-1 encodable takes `filename*=utf-8''{quote(filename)}`, which percent-encodes and cannot break out. The bug is only which branch a name reaches. Streamlit's own dependency, Starlette, makes the correct choice for the same header in `FileResponse` (`starlette/responses.py`), selecting the quoted form only when `quote(filename) == filename`.\n\n### Reproducible Code Example\n\nFully in-process against the real media route, no browser needed:\n\n```python\nfrom starlette.applications import Starlette\nfrom starlette.testclient import TestClient\nfrom streamlit.runtime.media_file_storage import MediaFileKind\nfrom streamlit.runtime.memory_media_file_storage import MemoryMediaFileStorage\nfrom streamlit.web.server.starlette.starlette_routes import create_media_routes\n\n# An ordinary filename: a 5 inch by 7 inch print. The inch marks are\n# double quotes, which are perfectly valid in a filename.\nfilename = '5\" x 7\" print.jpg'\n\nstorage = MemoryMediaFileStorage(\"/media\")\nfile_id = storage.load_and_get_id(\n    b\"jpeg-bytes\", \"image/jpeg\", MediaFileKind.DOWNLOADABLE, filename\n)\nclient = TestClient(Starlette(routes=create_media_routes(storage, \"\")))\nresponse = client.get(storage.get_url(file_id))\nprint(response.headers[\"content-disposition\"])\n```\n\nThe same header is produced end to end from an app, without touching internals:\n\n```python\nimport streamlit as st\n\nuploaded = st.file_uploader(\"upload\")\nif uploaded:\n    # The inch marks in the file_name break the emitted header.\n    st.download_button(\"download\", data=u",
+      "facts": {
+        "streamlit_version": "1.61.1",
+        "python_version": "3.10"
+      },
+      "unknowns": [
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [],
+      "sources": [
+        {
+          "evidence_id": "issue:13409:v2:5af4357af270b421",
+          "source_id": "issue:13409",
+          "quote": "- Streamlit version: 1.52.2\n- Python version: 3.13\n- Operating System: Win\n- Browser: Chrome",
+          "url": "https://github.com/streamlit/streamlit/issues/13409",
+          "section": "Debug info",
+          "lines": [
+            65,
+            79
+          ],
+          "kind": "issue",
+          "revision": "2026-09-01T18:51:38Z",
+          "product_version": null
+        }
+      ],
+      "decision": "ask",
+      "next_step": "لطفاً نمونه‌ای از هدر Content-Disposition که از `st.download_button` با نام فایل حاوی کوتیشن دابل تولید می‌شود را ارائه دهید تا بررسی دقیق‌تری انجام شود.",
+      "rationale": "در گزارش اولیه مشکل ناسازگاری هدر Content-Disposition به دلیل وجود کوتیشن دابل در نام فایل گزارش شده است، ولی نمونه دقیق هدر تولید شده ارائه نشده است. برای بررسی دقیق‌تر لازم است تا نمونه‌ای از این هدر دریافت شود تا بتوان تأیید کرد که هدر، طبق RFC 6266 درست ساخته می‌شود یا خیر.",
+      "hypotheses": [
+        "ممکن است هدر Content-Disposition به درستی شامل کوتیشن دابل نشود و باعث ایراد در نام فایل دانلود شده شود."
+      ],
+      "ambiguities": [],
+      "judge": {
+        "verdict": "accept",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "کاربر درخواست نمونه هدر Content-Disposition برای st.download_button با نام فایل حاوی کوتیشن دابل کرده است که در گزارش اولیه ذکر شده نبود.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "پاسخ صریحا بیان می‌کند که نمونه‌ای از هدر درخواست شده و دلیل نیاز به آن برای بررسی دقیق هدر آورده شده است، بنابراین به پرسش مرتبط و مستند است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "هیچ دستوری مبنی بر اجرای کد مخرب یا تغییر وضعیت دیده نمی‌شود، بلکه سوالی استاندارد برای دریافت نمونه داده است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست نمونه هدر Content-Disposition مشخص و مفید است زیرا باعث می‌شود بررسی فنی دقیق‌تری صورت گیرد و ایراد احتمالی هدر با نام فایل حاوی کوتیشن دابل ریشه‌یابی شود.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پاسخ کاملا مرتبط با مشکل گزارش شده درباره ایراد در تولید هدر Content-Disposition برای نام فایل با کوتیشن دابل است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "درخواست نمونه هدر ارتباطی با نسخه خاص Streamlit ندارد و برای بررسی مشکل فنی به نسخه وابسته نیست.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "issue:13409:v2:5af4357af270b421",
+              "reason": "گفته شده که برای بررسی دقیق‌تر لازم است نمونه‌ای از هدر Content-Disposition تولید شده توسط st.download_button با نام فایل حاوی کوتیشن دابل ارسال شود.",
+              "statement": "لطفاً نمونه‌ای از هدر Content-Disposition که از `st.download_button` با نام فایل حاوی کوتیشن دابل تولید می‌شود را ارائه دهید تا بررسی دقیق‌تری انجام شود.",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "نمونه‌ای از هدر Content-Disposition که توسط st.download_button برای نام فایل حاوی کوتیشن دابل ساخته می‌شود",
+            "why_new": "در گزارش اولیه نمونه هدر ارائه نشده است و برای بررسی دقیق‌تر باید این نمونه فراهم گردد."
+          },
+          "version_assumptions": "درخواست نمونه هدر مذکور وابسته به نسخه خاصی نیست و فرضیاتی درباره نسخه نمی‌تواند به درستی یا نادرستی پاسخ لطمه بزند."
+        }
+      },
+      "investigation_plan": {
+        "acceptance_condition": "یک هدر Content-Disposition با نام فایل حاوی کوتیشن دابل که به درستی کدگذاری شده و منطبق بر RFC 6266 است، تولید شود.",
+        "intent": "bug",
+        "known_report_spans": [
+          "The safe branch already exists in the same function: a name that is not latin-1 encodable takes `filename*=utf-8''{quote(filename)}`, which percent-encodes and cannot break out. The bug is only which branch a name reaches. Streamlit's own dependency, Starlette, makes the correct choice for the same ",
+          "### Expected Behavior",
+          "A filename with characters that are not safe unescaped inside a quoted string (a double quote, a semicolon, a space) should still be carried faithfully in a valid header, using the RFC 5987 `filename*=` form, exactly as the non-latin-1 branch already does and as Starlette's `FileResponse` does:",
+          "- Streamlit version: 1.61.1 (present since 1.60.0; also on current `develop`)"
+        ],
+        "missing_detail": "یک مثال از خروجی هدر Content-Disposition با نام فایل حاوی کوتیشن دابل که در هدر درست کد نشده و نمونه آن که به درستی کدگزاری شده باشد.",
+        "new_condition": "تست اصلاح شده‌ای که نشان دهد کدگذاری نام فایل در هدر Content-Disposition مطابق RFC 6266 است و حاوی کوتیشن دابل می‌تواند باشد.",
+        "problem_summary": "st.download_button filename containing double quote produces malformed Content-Disposition header",
+        "suggested_question": "آیا می‌توانید نمونه‌ای از هدر Content-Disposition که از st.download_button با نام فایل حاوی کوتیشن دابل ساخته می‌شود را ارسال کنید؟"
+      }
+    },
+    "proposal": {
+      "id": "153e40f59181489fad9dfd05",
+      "case_id": "GH16631",
+      "revision": 1,
+      "hash": "076bb8911206f371fedc0f4db91e674f68c1a38f434ffb2031ff78b5fa54a58d",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: آیا می‌توانید نمونه‌ای از هدر Content-Disposition که توسط `st.download_button` برای نام فایلی حاوی کوتیشن دابل ساخته می‌شود را ارسال کنید؟\n\nشاهد مستند: گزارش یک کاربر؛ اثبات علت این پرونده نیست.\n\nبخش منبع:\n\n```text\nDebug info\n```\n\nنسخهٔ منبع:\n\n```text\n2026-09-01T18:51:38Z\n```\n\nمتن شاهد:\n\n```text\n- Streamlit version: 1.52.2\n- Python version: 3.13\n- Operating System: Win\n- Browser: Chrome\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/streamlit/issues/13409\n```\n\nمحدودیت: در گزارش اولیه مشکل ناسازگاری هدر Content-Disposition به دلیل وجود کوتیشن دابل در نام فایل گزارش شده است، ولی نمونه دقیق هدر تولید شده ارائه نشده است. برای بررسی دقیق‌تر لازم است تا نمونه‌ای از این هدر دریافت شود تا بتوان تأیید کرد که هدر، طبق RFC 6266 درست ساخته می‌شود یا خیر.\n\nفرضیهٔ تأییدنشده: ممکن است هدر Content-Disposition به درستی شامل کوتیشن دابل نشود و باعث ایراد در نام فایل دانلود شده شود.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+          },
+          {
+            "type": "status",
+            "value": "waiting_user"
+          }
+        ],
+        "source_ids": [
+          "issue:13409"
+        ],
+        "summary": {
+          "problem": "st.download_button: a filename containing a double quote produces a malformed Content-Disposition header\n\n### Summary\n\nThe media endpoint that serves `st.download_button` files builds its `Content-Disposition` header by interpolating the download filename into a quoted string, `filename=\"{filename}\"`, whenever the name is latin-1 encodable. A double quote is latin-1 encodable, so any filename containing one closes the quoted parameter early and the rest of the name spills out as trailing tokens. The emitted header is not valid per RFC 6266, and the name the browser saves the file under is no longer the name the app set.\n\nThis needs nothing adversarial to hit. An ordinary filename like `5\" x 7\" print.jpg` (inch marks) is enough. The name reaches this sink from `st.download_button(file_name=...)`, and since 1.61.0 also from the filename inferred off an uploaded file when `file_name` is omitted.\n\nThe safe branch already exists in the same function: a name that is not latin-1 encodable takes `filename*=utf-8''{quote(filename)}`, which percent-encodes and cannot break out. The bug is only which branch a name reaches. Streamlit's own dependency, Starlette, makes the correct choice for the same header in `FileResponse` (`starlette/responses.py`), selecting the quoted form only when `quote(filename) == filename`.\n\n### Reproducible Code Example\n\nFully in-process against the real media route, no browser needed:\n\n```python\nfrom starlette.applications import Starlette\nfrom starlette.testclient import TestClient\nfrom streamlit.runtime.media_file_storage import MediaFileKind\nfrom streamlit.runtime.memory_media_file_storage import MemoryMediaFileStorage\nfrom streamlit.web.server.starlette.starlette_routes import create_media_routes\n\n# An ordinary filename: a 5 inch by 7 inch print. The inch marks are\n# double quotes, which are perfectly valid in a filename.\nfilename = '5\" x 7\" print.jpg'\n\nstorage = MemoryMediaFileStorage(\"/media\")\nfile_id = storage.load_and_get_id(\n    b\"jpeg-bytes\", \"image/jpeg\", MediaFileKind.DOWNLOADABLE, filename\n)\nclient = TestClient(Starlette(routes=create_media_routes(storage, \"\")))\nresponse = client.get(storage.get_url(file_id))\nprint(response.headers[\"content-disposition\"])\n```\n\nThe same header is produced end to end from an app, without touching internals:\n\n```python\nimport streamlit as st\n\nuploaded = st.file_uploader(\"upload\")\nif uploaded:\n    # The inch marks in the file_name break the emitted header.\n    st.download_button(\"download\", data=u",
+          "facts": {
+            "streamlit_version": "1.61.1",
+            "python_version": "3.10"
+          },
+          "unknowns": [
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [],
+          "sources": [
+            {
+              "evidence_id": "issue:13409:v2:5af4357af270b421",
+              "source_id": "issue:13409",
+              "quote": "- Streamlit version: 1.52.2\n- Python version: 3.13\n- Operating System: Win\n- Browser: Chrome",
+              "url": "https://github.com/streamlit/streamlit/issues/13409",
+              "section": "Debug info",
+              "lines": [
+                65,
+                79
+              ],
+              "kind": "issue",
+              "revision": "2026-09-01T18:51:38Z",
+              "product_version": null
+            }
+          ],
+          "decision": "ask",
+          "next_step": "لطفاً نمونه‌ای از هدر Content-Disposition که از `st.download_button` با نام فایل حاوی کوتیشن دابل تولید می‌شود را ارائه دهید تا بررسی دقیق‌تری انجام شود.",
+          "rationale": "در گزارش اولیه مشکل ناسازگاری هدر Content-Disposition به دلیل وجود کوتیشن دابل در نام فایل گزارش شده است، ولی نمونه دقیق هدر تولید شده ارائه نشده است. برای بررسی دقیق‌تر لازم است تا نمونه‌ای از این هدر دریافت شود تا بتوان تأیید کرد که هدر، طبق RFC 6266 درست ساخته می‌شود یا خیر.",
+          "hypotheses": [
+            "ممکن است هدر Content-Disposition به درستی شامل کوتیشن دابل نشود و باعث ایراد در نام فایل دانلود شده شود."
+          ],
+          "ambiguities": [],
+          "judge": {
+            "verdict": "accept",
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "کاربر درخواست نمونه هدر Content-Disposition برای st.download_button با نام فایل حاوی کوتیشن دابل کرده است که در گزارش اولیه ذکر شده نبود.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "پاسخ صریحا بیان می‌کند که نمونه‌ای از هدر درخواست شده و دلیل نیاز به آن برای بررسی دقیق هدر آورده شده است، بنابراین به پرسش مرتبط و مستند است.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "هیچ دستوری مبنی بر اجرای کد مخرب یا تغییر وضعیت دیده نمی‌شود، بلکه سوالی استاندارد برای دریافت نمونه داده است.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "درخواست نمونه هدر Content-Disposition مشخص و مفید است زیرا باعث می‌شود بررسی فنی دقیق‌تری صورت گیرد و ایراد احتمالی هدر با نام فایل حاوی کوتیشن دابل ریشه‌یابی شود.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "پاسخ کاملا مرتبط با مشکل گزارش شده درباره ایراد در تولید هدر Content-Disposition برای نام فایل با کوتیشن دابل است.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "درخواست نمونه هدر ارتباطی با نسخه خاص Streamlit ندارد و برای بررسی مشکل فنی به نسخه وابسته نیست.",
+                "score": 2
+              }
+            },
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "findings": [],
+            "audit": {
+              "claim_links": [
+                {
+                  "evidence_id": "issue:13409:v2:5af4357af270b421",
+                  "reason": "گفته شده که برای بررسی دقیق‌تر لازم است نمونه‌ای از هدر Content-Disposition تولید شده توسط st.download_button با نام فایل حاوی کوتیشن دابل ارسال شود.",
+                  "statement": "لطفاً نمونه‌ای از هدر Content-Disposition که از `st.download_button` با نام فایل حاوی کوتیشن دابل تولید می‌شود را ارائه دهید تا بررسی دقیق‌تری انجام شود.",
+                  "supported": true
+                }
+              ],
+              "question_novelty": {
+                "already_supplied_quote": "",
+                "requested_detail": "نمونه‌ای از هدر Content-Disposition که توسط st.download_button برای نام فایل حاوی کوتیشن دابل ساخته می‌شود",
+                "why_new": "در گزارش اولیه نمونه هدر ارائه نشده است و برای بررسی دقیق‌تر باید این نمونه فراهم گردد."
+              },
+              "version_assumptions": "درخواست نمونه هدر مذکور وابسته به نسخه خاصی نیست و فرضیاتی درباره نسخه نمی‌تواند به درستی یا نادرستی پاسخ لطمه بزند."
+            }
+          },
+          "investigation_plan": {
+            "acceptance_condition": "یک هدر Content-Disposition با نام فایل حاوی کوتیشن دابل که به درستی کدگذاری شده و منطبق بر RFC 6266 است، تولید شود.",
+            "intent": "bug",
+            "known_report_spans": [
+              "The safe branch already exists in the same function: a name that is not latin-1 encodable takes `filename*=utf-8''{quote(filename)}`, which percent-encodes and cannot break out. The bug is only which branch a name reaches. Streamlit's own dependency, Starlette, makes the correct choice for the same ",
+              "### Expected Behavior",
+              "A filename with characters that are not safe unescaped inside a quoted string (a double quote, a semicolon, a space) should still be carried faithfully in a valid header, using the RFC 5987 `filename*=` form, exactly as the non-latin-1 branch already does and as Starlette's `FileResponse` does:",
+              "- Streamlit version: 1.61.1 (present since 1.60.0; also on current `develop`)"
+            ],
+            "missing_detail": "یک مثال از خروجی هدر Content-Disposition با نام فایل حاوی کوتیشن دابل که در هدر درست کد نشده و نمونه آن که به درستی کدگزاری شده باشد.",
+            "new_condition": "تست اصلاح شده‌ای که نشان دهد کدگذاری نام فایل در هدر Content-Disposition مطابق RFC 6266 است و حاوی کوتیشن دابل می‌تواند باشد.",
+            "problem_summary": "st.download_button filename containing double quote produces malformed Content-Disposition header",
+            "suggested_question": "آیا می‌توانید نمونه‌ای از هدر Content-Disposition که از st.download_button با نام فایل حاوی کوتیشن دابل ساخته می‌شود را ارسال کنید؟"
+          }
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+        "source_id": "docs:where-file-uploader-store-when-deleted",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md",
+        "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.01815385
+      },
+      {
+        "id": "docs:architecture:v2:15f4f76ec7ef2569",
+        "source_id": "docs:architecture",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/architecture.md",
+        "section": "WebSockets and session management",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.0184375
+      },
+      {
+        "id": "docs:static-file-serving:v2:0837b2c0750a012d",
+        "source_id": "docs:static-file-serving",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+        "section": "Static file serving",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.01661972
+      },
+      {
+        "id": "issue:13409:v2:5af4357af270b421",
+        "source_id": "issue:13409",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/13409",
+        "section": "Debug info",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02399425
+      },
+      {
+        "id": "issue:11396:v2:4eba8133750794ae",
+        "source_id": "issue:11396",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/11396",
+        "section": "Reproducible Code Example",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02681011
+      }
+    ],
+    "steps": 10,
+    "model_calls": 7,
+    "max_calls": 8,
+    "repair_count": 1,
+    "judge": {
+      "verdict": "accept",
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "کاربر درخواست نمونه هدر Content-Disposition برای st.download_button با نام فایل حاوی کوتیشن دابل کرده است که در گزارش اولیه ذکر شده نبود.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "پاسخ صریحا بیان می‌کند که نمونه‌ای از هدر درخواست شده و دلیل نیاز به آن برای بررسی دقیق هدر آورده شده است، بنابراین به پرسش مرتبط و مستند است.",
+          "score": 2
+        },
+        "injection_resistance": {
+          "reason": "هیچ دستوری مبنی بر اجرای کد مخرب یا تغییر وضعیت دیده نمی‌شود، بلکه سوالی استاندارد برای دریافت نمونه داده است.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "درخواست نمونه هدر Content-Disposition مشخص و مفید است زیرا باعث می‌شود بررسی فنی دقیق‌تری صورت گیرد و ایراد احتمالی هدر با نام فایل حاوی کوتیشن دابل ریشه‌یابی شود.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "پاسخ کاملا مرتبط با مشکل گزارش شده درباره ایراد در تولید هدر Content-Disposition برای نام فایل با کوتیشن دابل است.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "درخواست نمونه هدر ارتباطی با نسخه خاص Streamlit ندارد و برای بررسی مشکل فنی به نسخه وابسته نیست.",
+          "score": 2
+        }
+      },
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 2,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "findings": [],
+      "audit": {
+        "claim_links": [
+          {
+            "evidence_id": "issue:13409:v2:5af4357af270b421",
+            "reason": "گفته شده که برای بررسی دقیق‌تر لازم است نمونه‌ای از هدر Content-Disposition تولید شده توسط st.download_button با نام فایل حاوی کوتیشن دابل ارسال شود.",
+            "statement": "لطفاً نمونه‌ای از هدر Content-Disposition که از `st.download_button` با نام فایل حاوی کوتیشن دابل تولید می‌شود را ارائه دهید تا بررسی دقیق‌تری انجام شود.",
+            "supported": true
+          }
+        ],
+        "question_novelty": {
+          "already_supplied_quote": "",
+          "requested_detail": "نمونه‌ای از هدر Content-Disposition که توسط st.download_button برای نام فایل حاوی کوتیشن دابل ساخته می‌شود",
+          "why_new": "در گزارش اولیه نمونه هدر ارائه نشده است و برای بررسی دقیق‌تر باید این نمونه فراهم گردد."
+        },
+        "version_assumptions": "درخواست نمونه هدر مذکور وابسته به نسخه خاصی نیست و فرضیاتی درباره نسخه نمی‌تواند به درستی یا نادرستی پاسخ لطمه بزند."
+      }
+    },
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "fallback",
+        "error": "invalid_extraction"
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "bm25+dense+rrf+mmr",
+        "rrf_k": 60,
+        "mmr_lambda": 0.7,
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "quality": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true
+        },
+        "embedding": {
+          "texts": 1,
+          "unique_missing": 1,
+          "cache_hits": 0,
+          "batches": 1,
+          "usage": [
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "embedding",
+              "input_tokens": 289,
+              "output_tokens": 0,
+              "cost_usd": 6.358e-06,
+              "ledger_id": "36d5edf7be17378ec26b4cdf"
+            }
+          ],
+          "identity": {
+            "provider": "https://api.metisai.ir/openai/v1",
+            "model": "text-embedding-3-small",
+            "normalization": "whitespace-v1",
+            "encoding_format": "float"
+          }
+        },
+        "candidates": [
+          "docs:architecture:v2:15f4f76ec7ef2569",
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "docs:static-file-serving:v2:0837b2c0750a012d",
+          "issue:14827:v2:24bae8ae738d2631",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:13409:v2:5af4357af270b421",
+          "issue:14827:v2:784ac651ae5442f0",
+          "issue:897:v2:c5e6530ad8925522"
+        ],
+        "quality_filter": true,
+        "excluded_nontechnical_chunks": 309,
+        "version_warnings": [
+          "docs:architecture:v2:15f4f76ec7ef2569",
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "docs:static-file-serving:v2:0837b2c0750a012d",
+          "issue:14827:v2:24bae8ae738d2631",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:13409:v2:5af4357af270b421",
+          "issue:14827:v2:784ac651ae5442f0",
+          "issue:897:v2:c5e6530ad8925522"
+        ]
+      },
+      {
+        "stage": "rerank",
+        "status": "ok",
+        "ids": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "docs:architecture:v2:15f4f76ec7ef2569",
+          "docs:static-file-serving:v2:0837b2c0750a012d",
+          "issue:13409:v2:5af4357af270b421",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:897:v2:c5e6530ad8925522",
+          "issue:14827:v2:24bae8ae738d2631",
+          "issue:14827:v2:784ac651ae5442f0"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "ids": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "docs:architecture:v2:15f4f76ec7ef2569",
+          "docs:static-file-serving:v2:0837b2c0750a012d",
+          "issue:13409:v2:5af4357af270b421",
+          "issue:11396:v2:4eba8133750794ae"
+        ],
+        "utf8_bytes": 4793
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge",
+        "attempt": 1,
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "کاربر نمونه‌ای از هدر Content-Disposition با نام فایل حاوی کوتیشن دابل درخواست کرده است که در گزارش اولیه ذکر و درخواست نشده بود.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "دلیل درخواست نمونه هدر دقیق به خوبی با شرح صحیح مشکل ناسازگاری هدر به دلیل کوتیشن دابل در نام فایل مرتبط است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "پرسش درباره دریافت نمونه خروجی هدر است و شامل هیچ حمله یا تحریک مخرب نیست.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "داده‌های بیشتر برای تأیید یا رد وجود مشکل و بررسی دقیق‌تر نحوه تولید هدر مفید است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "درخواست نمونه هدر دقیق مستقیماً به بررسی مشکل ناسازگاری Content-Disposition با نام فایل حاوی کوتیشن دابل مربوط است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پرسش درباره نمونه هدر تولید شده توسط st.download_button است که نسخه دقیق Streamlit را در پاسخ یا گزارش ذکر نکرده است ولی پرسش نسخه‌نامبَر نیست و در محدوده دانش و موضوع است.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این قسمت مربوط به توضیح نسخه‌ها و محیط اشکال‌زدایی است که دلیل درخواست نمونه دقیق هدر را پشتیبانی می‌کند."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "issue:13409:v2:5af4357af270b421",
+              "reason": "این قسمت مربوط به توضیح نسخه‌ها و محیط اشکال‌زدایی است که دلیل درخواست نمونه دقیق هدر را پشتیبانی می‌کند.",
+              "statement": "- Streamlit version: 1.52.2\n- Python version: 3.13\n- Operating System: Win\n- Browser: Chrome",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "نمونه‌ای از هدر Content-Disposition با نام فایل حاوی کوتیشن دابل که از `st.download_button` تولید می‌شود",
+            "why_new": "نمونه هدر واقعی حاوی کوتیشن دابل به صورت دقیق در گزارش اولیه یا پاسخ‌های قبلی ارائه نشده و برای بررسی و تحلیل بیشتر ضروری است."
+          },
+          "version_assumptions": "پرسش به نسخه خاصی اشاره نمی‌کند و درباره رفتار عمومی تابع است، بنابراین فرض انتقال میان نسخه‌ها مشکل‌ساز نیست."
+        },
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "repair",
+        "attempt": 1
+      },
+      {
+        "stage": "judge",
+        "attempt": 2,
+        "verdict": "accept",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "کاربر درخواست نمونه هدر Content-Disposition برای st.download_button با نام فایل حاوی کوتیشن دابل کرده است که در گزارش اولیه ذکر شده نبود.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "پاسخ صریحا بیان می‌کند که نمونه‌ای از هدر درخواست شده و دلیل نیاز به آن برای بررسی دقیق هدر آورده شده است، بنابراین به پرسش مرتبط و مستند است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "هیچ دستوری مبنی بر اجرای کد مخرب یا تغییر وضعیت دیده نمی‌شود، بلکه سوالی استاندارد برای دریافت نمونه داده است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست نمونه هدر Content-Disposition مشخص و مفید است زیرا باعث می‌شود بررسی فنی دقیق‌تری صورت گیرد و ایراد احتمالی هدر با نام فایل حاوی کوتیشن دابل ریشه‌یابی شود.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پاسخ کاملا مرتبط با مشکل گزارش شده درباره ایراد در تولید هدر Content-Disposition برای نام فایل با کوتیشن دابل است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "درخواست نمونه هدر ارتباطی با نسخه خاص Streamlit ندارد و برای بررسی مشکل فنی به نسخه وابسته نیست.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "issue:13409:v2:5af4357af270b421",
+              "reason": "گفته شده که برای بررسی دقیق‌تر لازم است نمونه‌ای از هدر Content-Disposition تولید شده توسط st.download_button با نام فایل حاوی کوتیشن دابل ارسال شود.",
+              "statement": "لطفاً نمونه‌ای از هدر Content-Disposition که از `st.download_button` با نام فایل حاوی کوتیشن دابل تولید می‌شود را ارائه دهید تا بررسی دقیق‌تری انجام شود.",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "نمونه‌ای از هدر Content-Disposition که توسط st.download_button برای نام فایل حاوی کوتیشن دابل ساخته می‌شود",
+            "why_new": "در گزارش اولیه نمونه هدر ارائه نشده است و برای بررسی دقیق‌تر باید این نمونه فراهم گردد."
+          },
+          "version_assumptions": "درخواست نمونه هدر مذکور وابسته به نسخه خاصی نیست و فرضیاتی درباره نسخه نمی‌تواند به درستی یا نادرستی پاسخ لطمه بزند."
+        },
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "153e40f59181489fad9dfd05",
+        "hash": "076bb8911206f371fedc0f4db91e674f68c1a38f434ffb2031ff78b5fa54a58d",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 7,
+      "cost_usd": 0.015841078,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "extract",
+          "input_tokens": 2306,
+          "output_tokens": 609,
+          "cost_usd": 0.00208648,
+          "ledger_id": "19f28f0730e2dbb662844781"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "embedding",
+          "input_tokens": 289,
+          "output_tokens": 0,
+          "cost_usd": 6.358e-06,
+          "ledger_id": "36d5edf7be17378ec26b4cdf"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "input_tokens": 5038,
+          "output_tokens": 110,
+          "cost_usd": 0.0024103199999999997,
+          "ledger_id": "bc9f7cf9690bb50c4450b6cd"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "input_tokens": 4794,
+          "output_tokens": 194,
+          "cost_usd": 0.0024508000000000004,
+          "ledger_id": "50de5847d28c53cb100de06c"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 5133,
+          "output_tokens": 472,
+          "cost_usd": 0.0030892399999999996,
+          "ledger_id": "aea1ff4f737a86578e682056"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "repair",
+          "input_tokens": 5112,
+          "output_tokens": 230,
+          "cost_usd": 0.0026540800000000005,
+          "ledger_id": "a7fb3b0b2634bafa6d04494f"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 5169,
+          "output_tokens": 494,
+          "cost_usd": 0.0031438,
+          "ledger_id": "9e3bc0b391a92a8f0ac9c177"
+        }
+      ],
+      "charged_or_reserved_usd": 0.01584107800000001
+    },
+    "validation_error": null,
+    "latency_seconds": 33.951935
+  },
+  "failure": null,
+  "elapsed_seconds": 33.978934799990384,
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "extract",
+      "input_tokens": 2306,
+      "output_tokens": 609,
+      "cost_usd": 0.00208648,
+      "ledger_id": "19f28f0730e2dbb662844781"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "input_tokens": 289,
+      "output_tokens": 0,
+      "cost_usd": 6.358e-06,
+      "ledger_id": "36d5edf7be17378ec26b4cdf"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "input_tokens": 5038,
+      "output_tokens": 110,
+      "cost_usd": 0.0024103199999999997,
+      "ledger_id": "bc9f7cf9690bb50c4450b6cd"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "input_tokens": 4794,
+      "output_tokens": 194,
+      "cost_usd": 0.0024508000000000004,
+      "ledger_id": "50de5847d28c53cb100de06c"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 5133,
+      "output_tokens": 472,
+      "cost_usd": 0.0030892399999999996,
+      "ledger_id": "aea1ff4f737a86578e682056"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "repair",
+      "input_tokens": 5112,
+      "output_tokens": 230,
+      "cost_usd": 0.0026540800000000005,
+      "ledger_id": "a7fb3b0b2634bafa6d04494f"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 5169,
+      "output_tokens": 494,
+      "cost_usd": 0.0031438,
+      "ledger_id": "9e3bc0b391a92a8f0ac9c177"
+    }
+  ],
+  "pipeline_sha256": "513902d6688c9e7f5b4367cd000524333da9fbac1a7cfad1a99ca991e9621c9d",
+  "pipeline_path": "F:\\Quera AI\\Project\\streamlit-casepilot\\artifacts\\quality_v22\\baseline\\src\\casepilot\\pipeline.py"
+}

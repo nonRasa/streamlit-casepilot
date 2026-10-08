@@ -1,0 +1,684 @@
+{
+  "id": "GH16773",
+  "variant": "previous",
+  "split": "first_live_after_replay",
+  "output": {
+    "case_id": "GH16773",
+    "request_id": "live-v22-previous",
+    "architecture": "v2",
+    "quality_revision": "v2.1-quality",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": true,
+      "quality": true
+    },
+    "decision": "escalate",
+    "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `invalid_citation`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+    "summary": {
+      "problem": "Clarify st.number_input return type when value= int | None\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nPassing a typed variable of int | None to the value parameter for number_input returns a float | None type.\n\nI expected this to be int | None, and that this is how you are expected to create an empty input field, that accepts integers only, assuming the step parameter would default to 1, but it appears that strictly requires value to be int.\n\nIf you set step=1, then static type checking works as expected, resolving to int | None.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\ndefault_value: int | None = None\n\nnumber = st.number_input(\n    \"Input number\",\n    value=default_value,\n)\n\nif number:\n    assert isinstance(number, int)\n    print('Number is an int')\n```\n\n### Steps To Reproduce\n\n1. Run example\n2. Input number\n\n### Expected Behavior\n\nPrints 'Number is an int'\n\n### Current Behavior\n\nAssertion fails.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.59.1\n- Python version: 3.12\n- Operating System: Windows\n- Browser: Edge\n\n\n### Additional Information\n\n_No response_",
+      "facts": {
+        "streamlit_version": "1.59.1",
+        "python_version": "3.12",
+        "os": "Windows",
+        "browser": "Edge"
+      },
+      "unknowns": [
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [],
+      "sources": [],
+      "decision": "escalate",
+      "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+      "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `invalid_citation`.",
+      "hypotheses": [],
+      "ambiguities": [],
+      "judge": {
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "کاربر درخواست کرد کدی برای بررسی رفتار استریم‌لیت با step=1 ارسال شود که در گزارش اولیه وجود نداشت.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "ادعای تغییر نوع بازگشتی با تنظیم step=1 توسط کاربر مطرح شده و درخواست شده بطور آزمایشی بررسی شود، بنابراین پاسخ مناسب است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "در پاسخ درخواست کد نمونه داده شده و مسئله تایپ بررسی می‌شود که کاملاً ایمن است و فاقد تزریق است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست ارائه کدی که پارامتر step=1 را تنظیم کند و نوع بازگشتی st.number_input را بررسی کند، دقیق و بنابه مسأله اصلی مفید است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "جواب مشخصاً به موضوع بررسی نوع بازگشتی عدد ورودی با توجه به پارامتر step می‌پردازد که مرتبط است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "مسأله مرتبط با نسخه 1.59.1 است ولی بررسی رفتار تایپ با توجه به پارامتر step در نسخه‌های متعدد احتمالا مشابه است و سوال عمومی درباره آن می‌باشد، کد نمونه درخواست شده، تناقض نسخه خاص ندارد.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این قطعه توضیح می‌دهد که نوع بازگشتی selectbox ممکن است None باشد و این مربوط به تنظیمات اندیس است که مشابه بحث درباره number_input با step=1 است."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "issue:8717:v2:9e72ce5fdca38e86",
+              "reason": "این قطعه توضیح می‌دهد که نوع بازگشتی selectbox ممکن است None باشد و این مربوط به تنظیمات اندیس است که مشابه بحث درباره number_input با step=1 است.",
+              "statement": "Currently, the return type of selectbox is T | None. As far as I know, the only way for selectbox to return None is if index is None or if OptionSequence[T] is empty...",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "کد نمونه که در آن پارامتر step=1 به st.number_input داده شده و نوع بازگشتی دقیق بررسی شده است.",
+            "why_new": "در گزارش و علائم اولیه اشاره شده نوع بازگشتی بدون step=1 اشتباه است ولی کد نمونه با step=1 ارائه نشده است لذا این جزئیات کاملاً جدید است."
+          },
+          "version_assumptions": "گزارش به نسخه 1.59.1 استریم‌لیت اشاره دارد ولی درخواست کد نمونه برای تایید رفتار تایپ با step=1 در نسخه‌های دیگر ممکن است مشابه باشد و نیاز به فرض خاص نسخه ندارد."
+        }
+      },
+      "investigation_plan": {
+        "acceptance_condition": "مشخص شود که مقدار بازگشتی st.number_input هنگام مقداردهی value با int | None دقیقا از نوع int | None باشد و نه float | None.",
+        "intent": "bug",
+        "known_report_spans": [
+          "I expected this to be int | None, and that this is how you are expected to create an empty input field, that accepts integers only, assuming the step parameter would default to 1, but it appears that strictly requires value to be int.",
+          "If you set step=1, then static type checking works as expected, resolving to int | None.",
+          "### Expected Behavior",
+          "Assertion fails."
+        ],
+        "missing_detail": "آیا کد تست شده با مقدار step=1 به درستی مقدار بازگشتی int | None را نشان می‌دهد؟",
+        "new_condition": "کد نمونه با مقدار step=1 بررسی شود تا صحت بازگشت int | None تایید شود.",
+        "problem_summary": "st.number_input returns float | None instead of int | None when value parameter is int | None without step=1",
+        "suggested_question": "آیا می‌توانید کد نمونه‌ای که مقدار step=1 را مشخص می‌کند و مقدار بازگشتی type را تایید می‌کند ارسال کنید؟"
+      }
+    },
+    "proposal": {
+      "id": "bce69d3a1c51ccbbe480c64a",
+      "case_id": "GH16773",
+      "revision": 1,
+      "hash": "2d4e5b099bd47afc05f94b09aacdfb80d52883b600d88732ffdbbb0ec97a12ca",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `invalid_citation`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "problem": "Clarify st.number_input return type when value= int | None\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nPassing a typed variable of int | None to the value parameter for number_input returns a float | None type.\n\nI expected this to be int | None, and that this is how you are expected to create an empty input field, that accepts integers only, assuming the step parameter would default to 1, but it appears that strictly requires value to be int.\n\nIf you set step=1, then static type checking works as expected, resolving to int | None.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\ndefault_value: int | None = None\n\nnumber = st.number_input(\n    \"Input number\",\n    value=default_value,\n)\n\nif number:\n    assert isinstance(number, int)\n    print('Number is an int')\n```\n\n### Steps To Reproduce\n\n1. Run example\n2. Input number\n\n### Expected Behavior\n\nPrints 'Number is an int'\n\n### Current Behavior\n\nAssertion fails.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.59.1\n- Python version: 3.12\n- Operating System: Windows\n- Browser: Edge\n\n\n### Additional Information\n\n_No response_",
+          "facts": {
+            "streamlit_version": "1.59.1",
+            "python_version": "3.12",
+            "os": "Windows",
+            "browser": "Edge"
+          },
+          "unknowns": [
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [],
+          "sources": [],
+          "decision": "escalate",
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `invalid_citation`.",
+          "hypotheses": [],
+          "ambiguities": [],
+          "judge": {
+            "verdict": "repair",
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "کاربر درخواست کرد کدی برای بررسی رفتار استریم‌لیت با step=1 ارسال شود که در گزارش اولیه وجود نداشت.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "ادعای تغییر نوع بازگشتی با تنظیم step=1 توسط کاربر مطرح شده و درخواست شده بطور آزمایشی بررسی شود، بنابراین پاسخ مناسب است.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "در پاسخ درخواست کد نمونه داده شده و مسئله تایپ بررسی می‌شود که کاملاً ایمن است و فاقد تزریق است.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "درخواست ارائه کدی که پارامتر step=1 را تنظیم کند و نوع بازگشتی st.number_input را بررسی کند، دقیق و بنابه مسأله اصلی مفید است.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "جواب مشخصاً به موضوع بررسی نوع بازگشتی عدد ورودی با توجه به پارامتر step می‌پردازد که مرتبط است.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "مسأله مرتبط با نسخه 1.59.1 است ولی بررسی رفتار تایپ با توجه به پارامتر step در نسخه‌های متعدد احتمالا مشابه است و سوال عمومی درباره آن می‌باشد، کد نمونه درخواست شده، تناقض نسخه خاص ندارد.",
+                "score": 2
+              }
+            },
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "findings": [
+              {
+                "criterion": "claim_support",
+                "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این قطعه توضیح می‌دهد که نوع بازگشتی selectbox ممکن است None باشد و این مربوط به تنظیمات اندیس است که مشابه بحث درباره number_input با step=1 است."
+              }
+            ],
+            "audit": {
+              "claim_links": [
+                {
+                  "evidence_id": "issue:8717:v2:9e72ce5fdca38e86",
+                  "reason": "این قطعه توضیح می‌دهد که نوع بازگشتی selectbox ممکن است None باشد و این مربوط به تنظیمات اندیس است که مشابه بحث درباره number_input با step=1 است.",
+                  "statement": "Currently, the return type of selectbox is T | None. As far as I know, the only way for selectbox to return None is if index is None or if OptionSequence[T] is empty...",
+                  "supported": true
+                }
+              ],
+              "question_novelty": {
+                "already_supplied_quote": "",
+                "requested_detail": "کد نمونه که در آن پارامتر step=1 به st.number_input داده شده و نوع بازگشتی دقیق بررسی شده است.",
+                "why_new": "در گزارش و علائم اولیه اشاره شده نوع بازگشتی بدون step=1 اشتباه است ولی کد نمونه با step=1 ارائه نشده است لذا این جزئیات کاملاً جدید است."
+              },
+              "version_assumptions": "گزارش به نسخه 1.59.1 استریم‌لیت اشاره دارد ولی درخواست کد نمونه برای تایید رفتار تایپ با step=1 در نسخه‌های دیگر ممکن است مشابه باشد و نیاز به فرض خاص نسخه ندارد."
+            }
+          },
+          "investigation_plan": {
+            "acceptance_condition": "مشخص شود که مقدار بازگشتی st.number_input هنگام مقداردهی value با int | None دقیقا از نوع int | None باشد و نه float | None.",
+            "intent": "bug",
+            "known_report_spans": [
+              "I expected this to be int | None, and that this is how you are expected to create an empty input field, that accepts integers only, assuming the step parameter would default to 1, but it appears that strictly requires value to be int.",
+              "If you set step=1, then static type checking works as expected, resolving to int | None.",
+              "### Expected Behavior",
+              "Assertion fails."
+            ],
+            "missing_detail": "آیا کد تست شده با مقدار step=1 به درستی مقدار بازگشتی int | None را نشان می‌دهد؟",
+            "new_condition": "کد نمونه با مقدار step=1 بررسی شود تا صحت بازگشت int | None تایید شود.",
+            "problem_summary": "st.number_input returns float | None instead of int | None when value parameter is int | None without step=1",
+            "suggested_question": "آیا می‌توانید کد نمونه‌ای که مقدار step=1 را مشخص می‌کند و مقدار بازگشتی type را تایید می‌کند ارسال کنید؟"
+          }
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "docs:get-started:v2:eb38eeac1369113c",
+        "source_id": "docs:get-started",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-testing/get-started.md",
+        "section": "How to inspect elements",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02747529
+      },
+      {
+        "id": "issue:8717:v2:9e72ce5fdca38e86",
+        "source_id": "issue:8717",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/8717",
+        "section": "Summary",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02433693
+      },
+      {
+        "id": "docs:2026:v2:62fe4b630d58b24d",
+        "source_id": "docs:2026",
+        "kind": "release",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2026.md",
+        "section": "**Version 1.64.0**",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02232143
+      },
+      {
+        "id": "docs:dataframes:v2:714d56619319abdd",
+        "source_id": "docs:dataframes",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+        "section": "Validate input",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02690836
+      },
+      {
+        "id": "docs:widget-behavior:v2:ee0cfe9fcf250b2f",
+        "source_id": "docs:widget-behavior",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+        "section": "Widgets return simple Python data types",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02116385
+      }
+    ],
+    "steps": 9,
+    "model_calls": 6,
+    "max_calls": 8,
+    "repair_count": 1,
+    "judge": {
+      "verdict": "repair",
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "کاربر درخواست کرد کدی برای بررسی رفتار استریم‌لیت با step=1 ارسال شود که در گزارش اولیه وجود نداشت.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "ادعای تغییر نوع بازگشتی با تنظیم step=1 توسط کاربر مطرح شده و درخواست شده بطور آزمایشی بررسی شود، بنابراین پاسخ مناسب است.",
+          "score": 2
+        },
+        "injection_resistance": {
+          "reason": "در پاسخ درخواست کد نمونه داده شده و مسئله تایپ بررسی می‌شود که کاملاً ایمن است و فاقد تزریق است.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "درخواست ارائه کدی که پارامتر step=1 را تنظیم کند و نوع بازگشتی st.number_input را بررسی کند، دقیق و بنابه مسأله اصلی مفید است.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "جواب مشخصاً به موضوع بررسی نوع بازگشتی عدد ورودی با توجه به پارامتر step می‌پردازد که مرتبط است.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "مسأله مرتبط با نسخه 1.59.1 است ولی بررسی رفتار تایپ با توجه به پارامتر step در نسخه‌های متعدد احتمالا مشابه است و سوال عمومی درباره آن می‌باشد، کد نمونه درخواست شده، تناقض نسخه خاص ندارد.",
+          "score": 2
+        }
+      },
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 2,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "findings": [
+        {
+          "criterion": "claim_support",
+          "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این قطعه توضیح می‌دهد که نوع بازگشتی selectbox ممکن است None باشد و این مربوط به تنظیمات اندیس است که مشابه بحث درباره number_input با step=1 است."
+        }
+      ],
+      "audit": {
+        "claim_links": [
+          {
+            "evidence_id": "issue:8717:v2:9e72ce5fdca38e86",
+            "reason": "این قطعه توضیح می‌دهد که نوع بازگشتی selectbox ممکن است None باشد و این مربوط به تنظیمات اندیس است که مشابه بحث درباره number_input با step=1 است.",
+            "statement": "Currently, the return type of selectbox is T | None. As far as I know, the only way for selectbox to return None is if index is None or if OptionSequence[T] is empty...",
+            "supported": true
+          }
+        ],
+        "question_novelty": {
+          "already_supplied_quote": "",
+          "requested_detail": "کد نمونه که در آن پارامتر step=1 به st.number_input داده شده و نوع بازگشتی دقیق بررسی شده است.",
+          "why_new": "در گزارش و علائم اولیه اشاره شده نوع بازگشتی بدون step=1 اشتباه است ولی کد نمونه با step=1 ارائه نشده است لذا این جزئیات کاملاً جدید است."
+        },
+        "version_assumptions": "گزارش به نسخه 1.59.1 استریم‌لیت اشاره دارد ولی درخواست کد نمونه برای تایید رفتار تایپ با step=1 در نسخه‌های دیگر ممکن است مشابه باشد و نیاز به فرض خاص نسخه ندارد."
+      }
+    },
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "ok",
+        "keys": [
+          "browser",
+          "os",
+          "python_version",
+          "streamlit_version"
+        ],
+        "facts_with_quotes": [
+          {
+            "key": "streamlit_version",
+            "quote": "- Streamlit version: 1.59.1",
+            "value": "1.59.1"
+          },
+          {
+            "key": "python_version",
+            "quote": "- Python version: 3.12",
+            "value": "3.12"
+          },
+          {
+            "key": "os",
+            "quote": "- Operating System: Windows",
+            "value": "Windows"
+          },
+          {
+            "key": "browser",
+            "quote": "- Browser: Edge",
+            "value": "Edge"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "Passing a typed variable of int | None to the value parameter for number_input returns a float | None type.",
+            "value": "Passing a typed variable of int | None to the value parameter for number_input returns a float | None type."
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "Assertion fails.",
+            "value": "Assertion fails."
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "If you set step=1, then static type checking works as expected, resolving to int | None.",
+            "value": "If you set step=1, then static type checking works as expected, resolving to int | None."
+          }
+        ],
+        "checks": [],
+        "ambiguities": []
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "bm25+dense+rrf+mmr",
+        "rrf_k": 60,
+        "mmr_lambda": 0.7,
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "quality": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true
+        },
+        "embedding": {
+          "texts": 1,
+          "unique_missing": 1,
+          "cache_hits": 0,
+          "batches": 1,
+          "usage": [
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "embedding",
+              "input_tokens": 43,
+              "output_tokens": 0,
+              "cost_usd": 9.459999999999999e-07,
+              "ledger_id": "4570747060946b03dff92ade"
+            }
+          ],
+          "identity": {
+            "provider": "https://api.metisai.ir/openai/v1",
+            "model": "text-embedding-3-small",
+            "normalization": "whitespace-v1",
+            "encoding_format": "float"
+          }
+        },
+        "candidates": [
+          "docs:get-started:v2:eb38eeac1369113c",
+          "docs:dataframes:v2:714d56619319abdd",
+          "docs:widget-behavior:v2:ee0cfe9fcf250b2f",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:9267:v2:5171feff5427edcd",
+          "issue:8717:v2:9e72ce5fdca38e86",
+          "docs:2026:v2:62fe4b630d58b24d",
+          "docs:caching:v2:32f926d02df11120"
+        ],
+        "quality_filter": true,
+        "excluded_nontechnical_chunks": 309,
+        "version_warnings": [
+          "docs:get-started:v2:eb38eeac1369113c",
+          "docs:dataframes:v2:714d56619319abdd",
+          "docs:widget-behavior:v2:ee0cfe9fcf250b2f",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:9267:v2:5171feff5427edcd",
+          "issue:8717:v2:9e72ce5fdca38e86",
+          "docs:2026:v2:62fe4b630d58b24d",
+          "docs:caching:v2:32f926d02df11120"
+        ]
+      },
+      {
+        "stage": "rerank",
+        "status": "ok",
+        "ids": [
+          "docs:get-started:v2:eb38eeac1369113c",
+          "issue:8717:v2:9e72ce5fdca38e86",
+          "docs:2026:v2:62fe4b630d58b24d",
+          "docs:dataframes:v2:714d56619319abdd",
+          "docs:widget-behavior:v2:ee0cfe9fcf250b2f",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:9267:v2:5171feff5427edcd",
+          "docs:caching:v2:32f926d02df11120"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "ids": [
+          "docs:get-started:v2:eb38eeac1369113c",
+          "issue:8717:v2:9e72ce5fdca38e86",
+          "docs:2026:v2:62fe4b630d58b24d",
+          "docs:dataframes:v2:714d56619319abdd",
+          "docs:widget-behavior:v2:ee0cfe9fcf250b2f"
+        ],
+        "utf8_bytes": 5313
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge",
+        "attempt": 1,
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "کاربر درخواست کرد کدی برای بررسی رفتار استریم‌لیت با step=1 ارسال شود که در گزارش اولیه وجود نداشت.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "ادعای تغییر نوع بازگشتی با تنظیم step=1 توسط کاربر مطرح شده و درخواست شده بطور آزمایشی بررسی شود، بنابراین پاسخ مناسب است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "در پاسخ درخواست کد نمونه داده شده و مسئله تایپ بررسی می‌شود که کاملاً ایمن است و فاقد تزریق است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست ارائه کدی که پارامتر step=1 را تنظیم کند و نوع بازگشتی st.number_input را بررسی کند، دقیق و بنابه مسأله اصلی مفید است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "جواب مشخصاً به موضوع بررسی نوع بازگشتی عدد ورودی با توجه به پارامتر step می‌پردازد که مرتبط است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "مسأله مرتبط با نسخه 1.59.1 است ولی بررسی رفتار تایپ با توجه به پارامتر step در نسخه‌های متعدد احتمالا مشابه است و سوال عمومی درباره آن می‌باشد، کد نمونه درخواست شده، تناقض نسخه خاص ندارد.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این قطعه توضیح می‌دهد که نوع بازگشتی selectbox ممکن است None باشد و این مربوط به تنظیمات اندیس است که مشابه بحث درباره number_input با step=1 است."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "issue:8717:v2:9e72ce5fdca38e86",
+              "reason": "این قطعه توضیح می‌دهد که نوع بازگشتی selectbox ممکن است None باشد و این مربوط به تنظیمات اندیس است که مشابه بحث درباره number_input با step=1 است.",
+              "statement": "Currently, the return type of selectbox is T | None. As far as I know, the only way for selectbox to return None is if index is None or if OptionSequence[T] is empty...",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "کد نمونه که در آن پارامتر step=1 به st.number_input داده شده و نوع بازگشتی دقیق بررسی شده است.",
+            "why_new": "در گزارش و علائم اولیه اشاره شده نوع بازگشتی بدون step=1 اشتباه است ولی کد نمونه با step=1 ارائه نشده است لذا این جزئیات کاملاً جدید است."
+          },
+          "version_assumptions": "گزارش به نسخه 1.59.1 استریم‌لیت اشاره دارد ولی درخواست کد نمونه برای تایید رفتار تایپ با step=1 در نسخه‌های دیگر ممکن است مشابه باشد و نیاز به فرض خاص نسخه ندارد."
+        },
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "safe_escalation",
+        "error": "invalid_citation"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "bce69d3a1c51ccbbe480c64a",
+        "hash": "2d4e5b099bd47afc05f94b09aacdfb80d52883b600d88732ffdbbb0ec97a12ca",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 6,
+      "cost_usd": 0.010730785999999999,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "extract",
+          "input_tokens": 1325,
+          "output_tokens": 525,
+          "cost_usd": 0.001507,
+          "ledger_id": "877bc007f9363b3c1ddfc192"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "embedding",
+          "input_tokens": 43,
+          "output_tokens": 0,
+          "cost_usd": 9.459999999999999e-07,
+          "ledger_id": "4570747060946b03dff92ade"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "input_tokens": 3960,
+          "output_tokens": 57,
+          "cost_usd": 0.00184272,
+          "ledger_id": "7dcb6ca3d88f1274ca32bb84"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "input_tokens": 3951,
+          "output_tokens": 218,
+          "cost_usd": 0.00212212,
+          "ledger_id": "cfc79750e73d77f13fd94d8f"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 4470,
+          "output_tokens": 543,
+          "cost_usd": 0.00292248,
+          "ledger_id": "14b7ad6cd59d0ce0aa8311d3"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "repair",
+          "input_tokens": 4308,
+          "output_tokens": 250,
+          "cost_usd": 0.00233552,
+          "ledger_id": "92366e8c37ce607cdd4fb441"
+        }
+      ],
+      "charged_or_reserved_usd": 0.010730785999999881
+    },
+    "validation_error": "invalid_citation",
+    "latency_seconds": 26.072585
+  },
+  "failure": null,
+  "elapsed_seconds": 26.09777180000674,
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "extract",
+      "input_tokens": 1325,
+      "output_tokens": 525,
+      "cost_usd": 0.001507,
+      "ledger_id": "877bc007f9363b3c1ddfc192"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "input_tokens": 43,
+      "output_tokens": 0,
+      "cost_usd": 9.459999999999999e-07,
+      "ledger_id": "4570747060946b03dff92ade"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "input_tokens": 3960,
+      "output_tokens": 57,
+      "cost_usd": 0.00184272,
+      "ledger_id": "7dcb6ca3d88f1274ca32bb84"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "input_tokens": 3951,
+      "output_tokens": 218,
+      "cost_usd": 0.00212212,
+      "ledger_id": "cfc79750e73d77f13fd94d8f"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 4470,
+      "output_tokens": 543,
+      "cost_usd": 0.00292248,
+      "ledger_id": "14b7ad6cd59d0ce0aa8311d3"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "repair",
+      "input_tokens": 4308,
+      "output_tokens": 250,
+      "cost_usd": 0.00233552,
+      "ledger_id": "92366e8c37ce607cdd4fb441"
+    }
+  ],
+  "pipeline_sha256": "513902d6688c9e7f5b4367cd000524333da9fbac1a7cfad1a99ca991e9621c9d",
+  "pipeline_path": "F:\\Quera AI\\Project\\streamlit-casepilot\\artifacts\\quality_v22\\baseline\\src\\casepilot\\pipeline.py"
+}

@@ -1,0 +1,793 @@
+{
+  "id": "GH17006",
+  "variant": "previous",
+  "split": "first_live_after_replay",
+  "output": {
+    "case_id": "GH17006",
+    "request_id": "live-v22-previous",
+    "architecture": "v2",
+    "quality_revision": "v2.1-quality",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": true,
+      "quality": true
+    },
+    "decision": "escalate",
+    "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+    "summary": {
+      "problem": "st.map - autodetection of lat/long columns picks one out of the list\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nHi, \n\nstumbled across the ambiguity of the detecting of the geo columns for st.map.\n\n*current behavior*: When users do not specify coordinate column, st.map looks for following columns: \n`_DEFAULT_LAT_COL_NAMES: Final = {\"lat\", \"latitude\", \"LAT\", \"LATITUDE\"}\n_DEFAULT_LON_COL_NAMES: Final = {\"lon\", \"longitude\", \"LON\", \"LONGITUDE\"}\n`\n.\n\nApparently, if the dataframe contains more than one of those columns, st.map picks one of them.\nThis leads to different views per run, it can mix combinations. \n\nExpectation would be that there is a warning / error in this case , instead of silently accepting the input.\n\n`import streamlit as st\nimport pandas as pd\n\n# Sample DataFrame with latitude, longitude, color, and size columns\ndata = {\n    \"latitude\": [34.0522, 37.7749, 40.7128],\n    \"longitude\": [-118.2437, -122.4194, -74.0060],\n    \"lat\": [0, 0, 0],\n    \"lon\": [-0, 0, 0],\n    \"size\": [10, 20, 15],\n}\n\ndf = pd.DataFrame(data)\nst.map(df)\n`\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\nimport pandas as pd\n\n# Sample DataFrame with latitude, longitude, color, and size columns\ndata = {\n    \"latitude\": [34.0522, 37.7749, 40.7128],\n    \"longitude\": [-118.2437, -122.4194, -74.0060],\n    \"lat\": [0, 0, 0],\n    \"lon\": [-0, 0, 0],\n    \"size\": [10, 20, 15],\n}\n\ndf = pd.DataFrame(data)\nst.map(df)\n```\n\n### Steps To Reproduce\n\n[IMAGE OMITTED: not inspected] (lat,lon) is selected\n\n[IMAGE OMITTED: not inspected] (latitude,lon) is selected\n\n[IMAGE OMITTED: not inspected] (lat, longitude)\n\n \n\n### Expected Behavior\n\n_No response_\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:1.59.2\n- Python version: 3.11.3\n- Operating System: MacOS\n- Browser: Chrome\n\n\n### Additional Information\n\n_No response_",
+      "facts": {
+        "streamlit_version": "1.59.2",
+        "python_version": "3.11.3",
+        "os": "MacOS",
+        "browser": "Chrome",
+        "symptom_scope": "st.map looks for following columns"
+      },
+      "unknowns": [
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [],
+      "sources": [],
+      "decision": "escalate",
+      "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+      "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+      "hypotheses": [],
+      "ambiguities": [
+        "Expectation would be that there is a warning / error in this case , instead of silently accepting the input.",
+        "Current Behavior: _No response_",
+        "Expected Behavior: _No response_",
+        "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+      ],
+      "judge": {
+        "verdict": "escalate",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "سوال درخواستی درباره بررسی رفتار st.map در نسخه‌های دیگر است که قبلا مطرح نشده است.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "ادعا مبنی بر رفتار st.map بودن هشدار یا خطا در صورت چند ستون مختصات در پاسخ دیده نمی‌شود و منابع ارائه شده نیز این موضوع را پشتیبانی نمی‌کنند.",
+            "score": 0
+          },
+          "injection_resistance": {
+            "reason": "پاسخ شامل درخواست بررسی نسخه‌های دیگر بدون اجرای کد یا تغییر وضعیت نیست و تهدیدی ندارد.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست بررسی رفتار در نسخه‌های دیگر برای فهم چگونگی هشدار یا خطا دادن در شرایط چند ستون جغرافیایی مفید و منطقی است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پاسخ مرتبط با گزارش اصلی است و سوال مطرح شده مستقیما به موضوع لاگیک st.map و تشخیص ستون‌های مختصاتی مربوط است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پرسش درباره رفتار در نسخه‌های دیگر است که هیچ ادعای خاص نسخه‌ای ندارد و بنابرین صحیح است.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 0,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "ادعا مبنی بر رفتار st.map بودن هشدار یا خطا در صورت چند ستون مختصات در پاسخ دیده نمی‌شود و منابع ارائه شده نیز این موضوع را پشتیبانی نمی‌کنند."
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این مدرک توضیح می‌دهد که چگونه پارامترها در streamlit در حالت عادی وقتی چند مقدار دارند فقط آخرین مقدار خوانده می‌شود و حالتی برای لیست همه مقدارها وجود دارد. این مرتبط با سوال درباره رفتار st.map نیست."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "issue:7665:v2:040e983611a93949",
+              "reason": "این مدرک توضیح می‌دهد که چگونه پارامترها در streamlit در حالت عادی وقتی چند مقدار دارند فقط آخرین مقدار خوانده می‌شود و حالتی برای لیست همه مقدارها وجود دارد. این مرتبط با سوال درباره رفتار st.map نیست.",
+              "statement": "آیا هنگام وجود چند ستون مختصات جغرافیایی در دیتافریم، `st.map` در نسخه‌های دیگر Streamlit هشدار یا خطا تولید می‌کند؟",
+              "supported": false
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "رفتار هشدار یا خطا دادن `st.map` در صورت وجود چند ستون مختصات جغرافیایی در دیتافریم در نسخه‌های مختلف Streamlit",
+            "why_new": "کاربر می‌خواهد بداند آیا این ویژگی که در گزارش نسخه 1.59.2 هیچ هشدار یا خطایی نمی‌دهد، در نسخه‌های دیگر متفاوت است یا خیر که قبلا در گزارش اشاره نشده است."
+          },
+          "version_assumptions": "سوال درباره تفاوت رفتار st.map در نسخه‌های مختلف Streamlit است، بدون فرضیات غیرمستند درباره نسخه‌های خاص."
+        }
+      },
+      "investigation_plan": {
+        "acceptance_condition": "در صورتی که دیتافریم بیش از یک ستون مختصات جغرافیایی داشته باشد، هشدار یا خطا هنگام استفاده از st.map داده شود.",
+        "intent": "bug",
+        "known_report_spans": [
+          "Expectation would be that there is a warning / error in this case , instead of silently accepting the input.",
+          "- Streamlit version:1.59.2",
+          "- Python version: 3.11.3",
+          "- [x] I have provided sufficient information below to help reproduce this issue."
+        ],
+        "missing_detail": "آیا تاکنون اعلام هشدار یا خطا در چنین شرایطی تست شده است؟",
+        "new_condition": "آیا رفتار مشابه در نسخه‌های دیگر Streamlit مشاهده شده است؟",
+        "problem_summary": "st.map ambiguous autodetection of lat/lon columns with multiple candidates",
+        "suggested_question": "آیا هنگام وجود چند ستون مختصات جغرافیایی در دیتافریم، st.map هشدار یا خطا تولید نمی‌کند؟"
+      }
+    },
+    "proposal": {
+      "id": "3282ca6477ea40a02e9c9ac8",
+      "case_id": "GH17006",
+      "revision": 1,
+      "hash": "40e8eca007956267e00a5e6b07095b592d129154158530e58af6067ab1ddf6e7",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "problem": "st.map - autodetection of lat/long columns picks one out of the list\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nHi, \n\nstumbled across the ambiguity of the detecting of the geo columns for st.map.\n\n*current behavior*: When users do not specify coordinate column, st.map looks for following columns: \n`_DEFAULT_LAT_COL_NAMES: Final = {\"lat\", \"latitude\", \"LAT\", \"LATITUDE\"}\n_DEFAULT_LON_COL_NAMES: Final = {\"lon\", \"longitude\", \"LON\", \"LONGITUDE\"}\n`\n.\n\nApparently, if the dataframe contains more than one of those columns, st.map picks one of them.\nThis leads to different views per run, it can mix combinations. \n\nExpectation would be that there is a warning / error in this case , instead of silently accepting the input.\n\n`import streamlit as st\nimport pandas as pd\n\n# Sample DataFrame with latitude, longitude, color, and size columns\ndata = {\n    \"latitude\": [34.0522, 37.7749, 40.7128],\n    \"longitude\": [-118.2437, -122.4194, -74.0060],\n    \"lat\": [0, 0, 0],\n    \"lon\": [-0, 0, 0],\n    \"size\": [10, 20, 15],\n}\n\ndf = pd.DataFrame(data)\nst.map(df)\n`\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\nimport pandas as pd\n\n# Sample DataFrame with latitude, longitude, color, and size columns\ndata = {\n    \"latitude\": [34.0522, 37.7749, 40.7128],\n    \"longitude\": [-118.2437, -122.4194, -74.0060],\n    \"lat\": [0, 0, 0],\n    \"lon\": [-0, 0, 0],\n    \"size\": [10, 20, 15],\n}\n\ndf = pd.DataFrame(data)\nst.map(df)\n```\n\n### Steps To Reproduce\n\n[IMAGE OMITTED: not inspected] (lat,lon) is selected\n\n[IMAGE OMITTED: not inspected] (latitude,lon) is selected\n\n[IMAGE OMITTED: not inspected] (lat, longitude)\n\n \n\n### Expected Behavior\n\n_No response_\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:1.59.2\n- Python version: 3.11.3\n- Operating System: MacOS\n- Browser: Chrome\n\n\n### Additional Information\n\n_No response_",
+          "facts": {
+            "streamlit_version": "1.59.2",
+            "python_version": "3.11.3",
+            "os": "MacOS",
+            "browser": "Chrome",
+            "symptom_scope": "st.map looks for following columns"
+          },
+          "unknowns": [
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [],
+          "sources": [],
+          "decision": "escalate",
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+          "hypotheses": [],
+          "ambiguities": [
+            "Expectation would be that there is a warning / error in this case , instead of silently accepting the input.",
+            "Current Behavior: _No response_",
+            "Expected Behavior: _No response_",
+            "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+          ],
+          "judge": {
+            "verdict": "escalate",
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "سوال درخواستی درباره بررسی رفتار st.map در نسخه‌های دیگر است که قبلا مطرح نشده است.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "ادعا مبنی بر رفتار st.map بودن هشدار یا خطا در صورت چند ستون مختصات در پاسخ دیده نمی‌شود و منابع ارائه شده نیز این موضوع را پشتیبانی نمی‌کنند.",
+                "score": 0
+              },
+              "injection_resistance": {
+                "reason": "پاسخ شامل درخواست بررسی نسخه‌های دیگر بدون اجرای کد یا تغییر وضعیت نیست و تهدیدی ندارد.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "درخواست بررسی رفتار در نسخه‌های دیگر برای فهم چگونگی هشدار یا خطا دادن در شرایط چند ستون جغرافیایی مفید و منطقی است.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "پاسخ مرتبط با گزارش اصلی است و سوال مطرح شده مستقیما به موضوع لاگیک st.map و تشخیص ستون‌های مختصاتی مربوط است.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "پرسش درباره رفتار در نسخه‌های دیگر است که هیچ ادعای خاص نسخه‌ای ندارد و بنابرین صحیح است.",
+                "score": 2
+              }
+            },
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 0,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "findings": [
+              {
+                "criterion": "claim_support",
+                "reason": "ادعا مبنی بر رفتار st.map بودن هشدار یا خطا در صورت چند ستون مختصات در پاسخ دیده نمی‌شود و منابع ارائه شده نیز این موضوع را پشتیبانی نمی‌کنند."
+              },
+              {
+                "criterion": "claim_support",
+                "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این مدرک توضیح می‌دهد که چگونه پارامترها در streamlit در حالت عادی وقتی چند مقدار دارند فقط آخرین مقدار خوانده می‌شود و حالتی برای لیست همه مقدارها وجود دارد. این مرتبط با سوال درباره رفتار st.map نیست."
+              }
+            ],
+            "audit": {
+              "claim_links": [
+                {
+                  "evidence_id": "issue:7665:v2:040e983611a93949",
+                  "reason": "این مدرک توضیح می‌دهد که چگونه پارامترها در streamlit در حالت عادی وقتی چند مقدار دارند فقط آخرین مقدار خوانده می‌شود و حالتی برای لیست همه مقدارها وجود دارد. این مرتبط با سوال درباره رفتار st.map نیست.",
+                  "statement": "آیا هنگام وجود چند ستون مختصات جغرافیایی در دیتافریم، `st.map` در نسخه‌های دیگر Streamlit هشدار یا خطا تولید می‌کند؟",
+                  "supported": false
+                }
+              ],
+              "question_novelty": {
+                "already_supplied_quote": "",
+                "requested_detail": "رفتار هشدار یا خطا دادن `st.map` در صورت وجود چند ستون مختصات جغرافیایی در دیتافریم در نسخه‌های مختلف Streamlit",
+                "why_new": "کاربر می‌خواهد بداند آیا این ویژگی که در گزارش نسخه 1.59.2 هیچ هشدار یا خطایی نمی‌دهد، در نسخه‌های دیگر متفاوت است یا خیر که قبلا در گزارش اشاره نشده است."
+              },
+              "version_assumptions": "سوال درباره تفاوت رفتار st.map در نسخه‌های مختلف Streamlit است، بدون فرضیات غیرمستند درباره نسخه‌های خاص."
+            }
+          },
+          "investigation_plan": {
+            "acceptance_condition": "در صورتی که دیتافریم بیش از یک ستون مختصات جغرافیایی داشته باشد، هشدار یا خطا هنگام استفاده از st.map داده شود.",
+            "intent": "bug",
+            "known_report_spans": [
+              "Expectation would be that there is a warning / error in this case , instead of silently accepting the input.",
+              "- Streamlit version:1.59.2",
+              "- Python version: 3.11.3",
+              "- [x] I have provided sufficient information below to help reproduce this issue."
+            ],
+            "missing_detail": "آیا تاکنون اعلام هشدار یا خطا در چنین شرایطی تست شده است؟",
+            "new_condition": "آیا رفتار مشابه در نسخه‌های دیگر Streamlit مشاهده شده است؟",
+            "problem_summary": "st.map ambiguous autodetection of lat/lon columns with multiple candidates",
+            "suggested_question": "آیا هنگام وجود چند ستون مختصات جغرافیایی در دیتافریم، st.map هشدار یا خطا تولید نمی‌کند؟"
+          }
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "docs:forms:v2:9f5be0245c76591c",
+        "source_id": "docs:forms",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/forms.md",
+        "section": "Example",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.03228965
+      },
+      {
+        "id": "docs:dataframes:v2:f433bd8d48ee0691",
+        "source_id": "docs:dataframes",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+        "section": "Configuring columns",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02957393
+      },
+      {
+        "id": "docs:caching:v2:fc7121d6dc70df6b",
+        "source_id": "docs:caching",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+        "section": "Copying behavior",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02433502
+      },
+      {
+        "id": "docs:caching:v2:759cb49b44d1b6a2",
+        "source_id": "docs:caching",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+        "section": "Copying behavior",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02654145
+      },
+      {
+        "id": "issue:7665:v2:040e983611a93949",
+        "source_id": "issue:7665",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/7665",
+        "section": "Handling lists and multiple values",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.01911002
+      }
+    ],
+    "steps": 10,
+    "model_calls": 7,
+    "max_calls": 8,
+    "repair_count": 1,
+    "judge": {
+      "verdict": "escalate",
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "سوال درخواستی درباره بررسی رفتار st.map در نسخه‌های دیگر است که قبلا مطرح نشده است.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "ادعا مبنی بر رفتار st.map بودن هشدار یا خطا در صورت چند ستون مختصات در پاسخ دیده نمی‌شود و منابع ارائه شده نیز این موضوع را پشتیبانی نمی‌کنند.",
+          "score": 0
+        },
+        "injection_resistance": {
+          "reason": "پاسخ شامل درخواست بررسی نسخه‌های دیگر بدون اجرای کد یا تغییر وضعیت نیست و تهدیدی ندارد.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "درخواست بررسی رفتار در نسخه‌های دیگر برای فهم چگونگی هشدار یا خطا دادن در شرایط چند ستون جغرافیایی مفید و منطقی است.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "پاسخ مرتبط با گزارش اصلی است و سوال مطرح شده مستقیما به موضوع لاگیک st.map و تشخیص ستون‌های مختصاتی مربوط است.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "پرسش درباره رفتار در نسخه‌های دیگر است که هیچ ادعای خاص نسخه‌ای ندارد و بنابرین صحیح است.",
+          "score": 2
+        }
+      },
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 0,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "findings": [
+        {
+          "criterion": "claim_support",
+          "reason": "ادعا مبنی بر رفتار st.map بودن هشدار یا خطا در صورت چند ستون مختصات در پاسخ دیده نمی‌شود و منابع ارائه شده نیز این موضوع را پشتیبانی نمی‌کنند."
+        },
+        {
+          "criterion": "claim_support",
+          "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این مدرک توضیح می‌دهد که چگونه پارامترها در streamlit در حالت عادی وقتی چند مقدار دارند فقط آخرین مقدار خوانده می‌شود و حالتی برای لیست همه مقدارها وجود دارد. این مرتبط با سوال درباره رفتار st.map نیست."
+        }
+      ],
+      "audit": {
+        "claim_links": [
+          {
+            "evidence_id": "issue:7665:v2:040e983611a93949",
+            "reason": "این مدرک توضیح می‌دهد که چگونه پارامترها در streamlit در حالت عادی وقتی چند مقدار دارند فقط آخرین مقدار خوانده می‌شود و حالتی برای لیست همه مقدارها وجود دارد. این مرتبط با سوال درباره رفتار st.map نیست.",
+            "statement": "آیا هنگام وجود چند ستون مختصات جغرافیایی در دیتافریم، `st.map` در نسخه‌های دیگر Streamlit هشدار یا خطا تولید می‌کند؟",
+            "supported": false
+          }
+        ],
+        "question_novelty": {
+          "already_supplied_quote": "",
+          "requested_detail": "رفتار هشدار یا خطا دادن `st.map` در صورت وجود چند ستون مختصات جغرافیایی در دیتافریم در نسخه‌های مختلف Streamlit",
+          "why_new": "کاربر می‌خواهد بداند آیا این ویژگی که در گزارش نسخه 1.59.2 هیچ هشدار یا خطایی نمی‌دهد، در نسخه‌های دیگر متفاوت است یا خیر که قبلا در گزارش اشاره نشده است."
+        },
+        "version_assumptions": "سوال درباره تفاوت رفتار st.map در نسخه‌های مختلف Streamlit است، بدون فرضیات غیرمستند درباره نسخه‌های خاص."
+      }
+    },
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "ok",
+        "keys": [
+          "browser",
+          "os",
+          "python_version",
+          "streamlit_version",
+          "symptom_scope"
+        ],
+        "facts_with_quotes": [
+          {
+            "key": "streamlit_version",
+            "quote": "- Streamlit version:1.59.2",
+            "value": "1.59.2"
+          },
+          {
+            "key": "python_version",
+            "quote": "- Python version: 3.11.3",
+            "value": "3.11.3"
+          },
+          {
+            "key": "os",
+            "quote": "- Operating System: MacOS",
+            "value": "MacOS"
+          },
+          {
+            "key": "browser",
+            "quote": "- Browser: Chrome",
+            "value": "Chrome"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "st.map looks for following columns",
+            "value": "st.map looks for following columns"
+          },
+          {
+            "key": "reproducible",
+            "quote": "I have provided sufficient information below to help reproduce this issue.",
+            "value": "true"
+          }
+        ],
+        "checks": [],
+        "ambiguities": [
+          "Expectation would be that there is a warning / error in this case , instead of silently accepting the input.",
+          "Current Behavior: _No response_",
+          "Expected Behavior: _No response_",
+          "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+        ]
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "bm25+dense+rrf+mmr",
+        "rrf_k": 60,
+        "mmr_lambda": 0.7,
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "quality": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true
+        },
+        "embedding": {
+          "texts": 1,
+          "unique_missing": 1,
+          "cache_hits": 0,
+          "batches": 1,
+          "usage": [
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "embedding",
+              "input_tokens": 37,
+              "output_tokens": 0,
+              "cost_usd": 8.14e-07,
+              "ledger_id": "65f2c6ba31164455e39493ed"
+            }
+          ],
+          "identity": {
+            "provider": "https://api.metisai.ir/openai/v1",
+            "model": "text-embedding-3-small",
+            "normalization": "whitespace-v1",
+            "encoding_format": "float"
+          }
+        },
+        "candidates": [
+          "docs:forms:v2:9f5be0245c76591c",
+          "docs:dataframes:v2:f433bd8d48ee0691",
+          "docs:caching:v2:759cb49b44d1b6a2",
+          "issue:14953:v2:51d3cd23e0449cdc",
+          "issue:16721:v2:d415cbbe3527e623",
+          "issue:7665:v2:040e983611a93949",
+          "issue:14989:v2:643bfd14ef0d16dc",
+          "docs:caching:v2:fc7121d6dc70df6b"
+        ],
+        "quality_filter": true,
+        "excluded_nontechnical_chunks": 309,
+        "version_warnings": [
+          "docs:forms:v2:9f5be0245c76591c",
+          "docs:dataframes:v2:f433bd8d48ee0691",
+          "docs:caching:v2:759cb49b44d1b6a2",
+          "issue:14953:v2:51d3cd23e0449cdc",
+          "issue:16721:v2:d415cbbe3527e623",
+          "issue:7665:v2:040e983611a93949",
+          "issue:14989:v2:643bfd14ef0d16dc",
+          "docs:caching:v2:fc7121d6dc70df6b"
+        ]
+      },
+      {
+        "stage": "rerank",
+        "status": "ok",
+        "ids": [
+          "docs:forms:v2:9f5be0245c76591c",
+          "docs:dataframes:v2:f433bd8d48ee0691",
+          "docs:caching:v2:fc7121d6dc70df6b",
+          "docs:caching:v2:759cb49b44d1b6a2",
+          "issue:7665:v2:040e983611a93949",
+          "issue:16721:v2:d415cbbe3527e623",
+          "issue:14953:v2:51d3cd23e0449cdc",
+          "issue:14989:v2:643bfd14ef0d16dc"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "ids": [
+          "docs:forms:v2:9f5be0245c76591c",
+          "docs:dataframes:v2:f433bd8d48ee0691",
+          "docs:caching:v2:fc7121d6dc70df6b",
+          "docs:caching:v2:759cb49b44d1b6a2",
+          "issue:7665:v2:040e983611a93949"
+        ],
+        "utf8_bytes": 5909
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge",
+        "attempt": 1,
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "بازپرسش مشابه سوال اصلی نیست و سؤال جدید مرتبط با رفتار نسخه‌های دیگر است.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "ادعای پاسخ به مسئله هشدار یا خطا در st.map هنگام وجود چند ستون مختصات را دارد و مستقیماً به این موضوع رفرنس می‌دهد.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "پاسخ فاقد دستورالعمل یا کد مخرب داخلی است و صرفاً تحقیقی است در مورد رفتار نسخه‌های دیگر.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "پیشنهاد گام بعدی به بررسی در نسخه‌های دیگر جهت تحلیل علت و رفتار مشابهی است که کمک کننده است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "سوال مطرح شده کاملاً مرتبط با مشکلی است که در گزارش داده شده و درباره هشدار یا خطای st.map بحث می‌کند.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "سوال درباره رفتار در نسخه‌های مختلف است و بدون ادعای خاص نسخه-محور است، بنابراین کاملاً مناسب است.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "avoids_repeated_check",
+            "reason": "ممیزی: نقل‌قول تکرار در متن کاربر وجود ندارد."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "issue:7665:v2:040e983611a93949",
+              "reason": "این نقل قول به وضوح بیان می‌کند که st.map هنگام داشتن چند ستون مختصات یکی را بدون هشدار انتخاب می‌کند، مرتبط با سوال مطرح شده است.",
+              "statement": "آیا هنگام وجود چند ستون مختصات جغرافیایی در دیتافریم، `st.map` هشدار یا خطا تولید نمی‌کند؟",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "در گزارش مطرح شده، اشاره ای به این است که `st.map` وقتی چند ستون مختصات در دیتافریم هست، یکی را انتخاب می‌کند بدون اینکه هشدار یا خطا بدهد.",
+            "requested_detail": "رفتار یا ایجاد هشدار/خطا در نسخه‌های دیگر Streamlit هنگام وجود چند ستون مختصات جغرافیایی در دیتافریم",
+            "why_new": "این سوال جدید است چون رفتار در نسخه‌های مختلف ذکر نشده و برای تحلیل دقیق‌تر مسئله مطرح شده است."
+          },
+          "version_assumptions": "سوال در مورد رفتار در نسخه‌های مختلف مطرح شده ولی هیچ ادعای صریح عدم پشتیبانی یا تغییر API تاریخی نشده است."
+        },
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "repair",
+        "attempt": 1
+      },
+      {
+        "stage": "judge",
+        "attempt": 2,
+        "verdict": "escalate",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "سوال درخواستی درباره بررسی رفتار st.map در نسخه‌های دیگر است که قبلا مطرح نشده است.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "ادعا مبنی بر رفتار st.map بودن هشدار یا خطا در صورت چند ستون مختصات در پاسخ دیده نمی‌شود و منابع ارائه شده نیز این موضوع را پشتیبانی نمی‌کنند.",
+            "score": 0
+          },
+          "injection_resistance": {
+            "reason": "پاسخ شامل درخواست بررسی نسخه‌های دیگر بدون اجرای کد یا تغییر وضعیت نیست و تهدیدی ندارد.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست بررسی رفتار در نسخه‌های دیگر برای فهم چگونگی هشدار یا خطا دادن در شرایط چند ستون جغرافیایی مفید و منطقی است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پاسخ مرتبط با گزارش اصلی است و سوال مطرح شده مستقیما به موضوع لاگیک st.map و تشخیص ستون‌های مختصاتی مربوط است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پرسش درباره رفتار در نسخه‌های دیگر است که هیچ ادعای خاص نسخه‌ای ندارد و بنابرین صحیح است.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 0,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "ادعا مبنی بر رفتار st.map بودن هشدار یا خطا در صورت چند ستون مختصات در پاسخ دیده نمی‌شود و منابع ارائه شده نیز این موضوع را پشتیبانی نمی‌کنند."
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این مدرک توضیح می‌دهد که چگونه پارامترها در streamlit در حالت عادی وقتی چند مقدار دارند فقط آخرین مقدار خوانده می‌شود و حالتی برای لیست همه مقدارها وجود دارد. این مرتبط با سوال درباره رفتار st.map نیست."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "issue:7665:v2:040e983611a93949",
+              "reason": "این مدرک توضیح می‌دهد که چگونه پارامترها در streamlit در حالت عادی وقتی چند مقدار دارند فقط آخرین مقدار خوانده می‌شود و حالتی برای لیست همه مقدارها وجود دارد. این مرتبط با سوال درباره رفتار st.map نیست.",
+              "statement": "آیا هنگام وجود چند ستون مختصات جغرافیایی در دیتافریم، `st.map` در نسخه‌های دیگر Streamlit هشدار یا خطا تولید می‌کند؟",
+              "supported": false
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "رفتار هشدار یا خطا دادن `st.map` در صورت وجود چند ستون مختصات جغرافیایی در دیتافریم در نسخه‌های مختلف Streamlit",
+            "why_new": "کاربر می‌خواهد بداند آیا این ویژگی که در گزارش نسخه 1.59.2 هیچ هشدار یا خطایی نمی‌دهد، در نسخه‌های دیگر متفاوت است یا خیر که قبلا در گزارش اشاره نشده است."
+          },
+          "version_assumptions": "سوال درباره تفاوت رفتار st.map در نسخه‌های مختلف Streamlit است، بدون فرضیات غیرمستند درباره نسخه‌های خاص."
+        },
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "3282ca6477ea40a02e9c9ac8",
+        "hash": "40e8eca007956267e00a5e6b07095b592d129154158530e58af6067ab1ddf6e7",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 7,
+      "cost_usd": 0.014509814000000001,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "extract",
+          "input_tokens": 1594,
+          "output_tokens": 444,
+          "cost_usd": 0.0014828000000000003,
+          "ledger_id": "920e872442d6ea321e1d9c00"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "embedding",
+          "input_tokens": 37,
+          "output_tokens": 0,
+          "cost_usd": 8.14e-07,
+          "ledger_id": "65f2c6ba31164455e39493ed"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "input_tokens": 4088,
+          "output_tokens": 135,
+          "cost_usd": 0.00203632,
+          "ledger_id": "166cd062217043586a47dfea"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "input_tokens": 4486,
+          "output_tokens": 235,
+          "cost_usd": 0.0023874400000000002,
+          "ledger_id": "0ba6691bb892bea99fa2f3a1"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 4954,
+          "output_tokens": 486,
+          "cost_usd": 0.0030351200000000005,
+          "ledger_id": "834b55538aa11f79eb50a7fd"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "repair",
+          "input_tokens": 4760,
+          "output_tokens": 226,
+          "cost_usd": 0.0024921599999999998,
+          "ledger_id": "2c7bfc34d8a11406bea05f6a"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 4945,
+          "output_tokens": 511,
+          "cost_usd": 0.0030751600000000004,
+          "ledger_id": "9db98cd0839bca4e3763af34"
+        }
+      ],
+      "charged_or_reserved_usd": 0.014509813999999954
+    },
+    "validation_error": "judge_rejected",
+    "latency_seconds": 42.159091
+  },
+  "failure": null,
+  "elapsed_seconds": 42.18293340000673,
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "extract",
+      "input_tokens": 1594,
+      "output_tokens": 444,
+      "cost_usd": 0.0014828000000000003,
+      "ledger_id": "920e872442d6ea321e1d9c00"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "input_tokens": 37,
+      "output_tokens": 0,
+      "cost_usd": 8.14e-07,
+      "ledger_id": "65f2c6ba31164455e39493ed"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "input_tokens": 4088,
+      "output_tokens": 135,
+      "cost_usd": 0.00203632,
+      "ledger_id": "166cd062217043586a47dfea"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "input_tokens": 4486,
+      "output_tokens": 235,
+      "cost_usd": 0.0023874400000000002,
+      "ledger_id": "0ba6691bb892bea99fa2f3a1"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 4954,
+      "output_tokens": 486,
+      "cost_usd": 0.0030351200000000005,
+      "ledger_id": "834b55538aa11f79eb50a7fd"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "repair",
+      "input_tokens": 4760,
+      "output_tokens": 226,
+      "cost_usd": 0.0024921599999999998,
+      "ledger_id": "2c7bfc34d8a11406bea05f6a"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 4945,
+      "output_tokens": 511,
+      "cost_usd": 0.0030751600000000004,
+      "ledger_id": "9db98cd0839bca4e3763af34"
+    }
+  ],
+  "pipeline_sha256": "513902d6688c9e7f5b4367cd000524333da9fbac1a7cfad1a99ca991e9621c9d",
+  "pipeline_path": "F:\\Quera AI\\Project\\streamlit-casepilot\\artifacts\\quality_v22\\baseline\\src\\casepilot\\pipeline.py"
+}

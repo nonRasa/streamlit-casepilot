@@ -1,7 +1,11 @@
 from .common import *
 
 def validate_answer(answer,evidence):
-    require(isinstance(answer,dict) and set(answer)=={'decision','claims','question','next_step','rationale','hypotheses'},'invalid_model_output','ساختار پاسخ مدل معتبر نیست.')
+    required={'decision','claims','question','next_step','rationale','hypotheses'}
+    require(isinstance(answer,dict) and required<=set(answer)<=required|{'diagnostic','feature_proposal'},'invalid_model_output','ساختار پاسخ مدل معتبر نیست.')
+    from .memory import validate_diagnostic
+    from .routing import validate_feature
+    validate_diagnostic(answer.get('diagnostic')); validate_feature(answer.get('feature_proposal'))
     require(answer['decision'] in ('ask','answer','escalate'),'invalid_model_output','تصمیم مدل معتبر نیست.')
     for key in ('question','next_step','rationale'):
         require(isinstance(answer[key],str) and len(answer[key])<=1800,'invalid_model_output','متن پاسخ بیش از حد مجاز است.')

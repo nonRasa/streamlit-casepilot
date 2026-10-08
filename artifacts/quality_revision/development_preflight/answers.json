@@ -1,0 +1,2517 @@
+[
+  {
+    "id": "GH9218",
+    "split": "dev",
+    "variant": "revised",
+    "output": {
+      "case_id": "GH9218",
+      "request_id": "quality-revised",
+      "architecture": "v2",
+      "quality_revision": "v2.1-quality",
+      "mode": "replay",
+      "method": "final",
+      "components": {
+        "dense": true,
+        "mmr": true,
+        "rerank": true,
+        "judge": true,
+        "rewrite": true,
+        "quality": true
+      },
+      "decision": "ask",
+      "response": "پاسخ پیشنهادی: پرسش بعدی: نسخهٔ دقیق `Streamlit` در محیطی که خطا رخ می‌دهد چیست؟\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nfile_uploader (line 252)\n```\n\nنسخهٔ منبع:\n\n```text\n1.49.0\n```\n\nمتن شاهد:\n\n```text\n>>> import streamlit as st\n>>>\n>>> uploaded_files = st.file_uploader(\n...\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/elements/widgets/file_uploader.py\n```\n\nشاهد مستند: گزارش یک کاربر؛ اثبات علت این پرونده نیست.\n\nبخش منبع:\n\n```text\nProblem\n```\n\nنسخهٔ منبع:\n\n```text\n2025-12-08T11:24:35Z\n```\n\nمتن شاهد:\n\n```text\nMy issue is that I expect large files (up to GBs), and thus reading them directly into memory is not acceptable for me.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/streamlit/issues/904\n```\n\nمحدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+      "summary": {
+        "problem": "file_uploader with large file results in server getting killed\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI am using st.file_uploader to upload ~3.5gb file into my streamlit dashboard. This however, results in the server getting killed.\nWhen I inspect using btop, Upon file upload, the server starts using an astronomic amount of RAM.\n\nEDIT: I tried imposing a RAM limit by dockerizing the dashboard and settting a 4gb RAM limit, but it just gets killed in the container.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\nuploaded_file = st.file_uploader(\"Choose a video file\", type=[\"mp4\", \"mov\", \"avi\"])\n```\n\n\n### Steps To Reproduce\n\nstreamlit run dashboard.py --maxUploadSize=5000\n\n### Expected Behavior\n\nIt's probably better to stream it in chunks to disk when clicking an 'upload file' button.\n\n### Current Behavior\n\nThe server gets killed.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:\n- Python version:\n- Operating System:\n- Browser:\n\n\n### Additional Information\n\n_No response_",
+        "facts": {},
+        "unknowns": [
+          "streamlit_version",
+          "python_version",
+          "deployment",
+          "reproducible"
+        ],
+        "completed_checks": [],
+        "sources": [
+          {
+            "evidence_id": "api:file_uploader:v2:b6a9200a36afcf3e",
+            "source_id": "api:file_uploader",
+            "quote": ">>> import streamlit as st\n>>>\n>>> uploaded_files = st.file_uploader(\n...",
+            "url": "https://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/elements/widgets/file_uploader.py",
+            "section": "file_uploader (line 252)",
+            "lines": [
+              168,
+              178
+            ],
+            "kind": "docs",
+            "revision": "1.49.0",
+            "product_version": "1.49.0"
+          },
+          {
+            "evidence_id": "issue:904:v2:04dc5059cf066a38",
+            "source_id": "issue:904",
+            "quote": "My issue is that I expect large files (up to GBs), and thus reading them directly into memory is not acceptable for me.",
+            "url": "https://github.com/streamlit/streamlit/issues/904",
+            "section": "Problem",
+            "lines": [
+              5,
+              7
+            ],
+            "kind": "issue",
+            "revision": "2025-12-08T11:24:35Z",
+            "product_version": null
+          }
+        ],
+        "decision": "ask",
+        "next_step": "پرسش بعدی: نسخهٔ دقیق `Streamlit` در محیطی که خطا رخ می‌دهد چیست؟",
+        "rationale": "محدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.",
+        "hypotheses": [],
+        "ambiguities": [],
+        "judge": {
+          "verdict": "accept",
+          "assessments": {
+            "relevance": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "claim_support": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "version_fit": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "next_step_usefulness": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "avoids_repeated_check": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "injection_resistance": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            }
+          },
+          "scores": {
+            "relevance": 2,
+            "claim_support": 2,
+            "version_fit": 2,
+            "next_step_usefulness": 2,
+            "avoids_repeated_check": 2,
+            "injection_resistance": 2
+          },
+          "findings": []
+        }
+      },
+      "proposal": {
+        "id": "904d8aa9bd91f9ecaec59336",
+        "case_id": "GH9218",
+        "revision": 1,
+        "hash": "efac5989c03e8f11e81bf7ae1750c945ae98e9f682b113d98ef4badc3d25e73a",
+        "payload": {
+          "actions": [
+            {
+              "type": "comment",
+              "body": "پاسخ پیشنهادی: پرسش بعدی: نسخهٔ دقیق `Streamlit` در محیطی که خطا رخ می‌دهد چیست؟\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nfile_uploader (line 252)\n```\n\nنسخهٔ منبع:\n\n```text\n1.49.0\n```\n\nمتن شاهد:\n\n```text\n>>> import streamlit as st\n>>>\n>>> uploaded_files = st.file_uploader(\n...\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/elements/widgets/file_uploader.py\n```\n\nشاهد مستند: گزارش یک کاربر؛ اثبات علت این پرونده نیست.\n\nبخش منبع:\n\n```text\nProblem\n```\n\nنسخهٔ منبع:\n\n```text\n2025-12-08T11:24:35Z\n```\n\nمتن شاهد:\n\n```text\nMy issue is that I expect large files (up to GBs), and thus reading them directly into memory is not acceptable for me.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/streamlit/issues/904\n```\n\nمحدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+            },
+            {
+              "type": "status",
+              "value": "waiting_user"
+            }
+          ],
+          "source_ids": [
+            "api:file_uploader",
+            "issue:904"
+          ],
+          "summary": {
+            "problem": "file_uploader with large file results in server getting killed\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI am using st.file_uploader to upload ~3.5gb file into my streamlit dashboard. This however, results in the server getting killed.\nWhen I inspect using btop, Upon file upload, the server starts using an astronomic amount of RAM.\n\nEDIT: I tried imposing a RAM limit by dockerizing the dashboard and settting a 4gb RAM limit, but it just gets killed in the container.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\nuploaded_file = st.file_uploader(\"Choose a video file\", type=[\"mp4\", \"mov\", \"avi\"])\n```\n\n\n### Steps To Reproduce\n\nstreamlit run dashboard.py --maxUploadSize=5000\n\n### Expected Behavior\n\nIt's probably better to stream it in chunks to disk when clicking an 'upload file' button.\n\n### Current Behavior\n\nThe server gets killed.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:\n- Python version:\n- Operating System:\n- Browser:\n\n\n### Additional Information\n\n_No response_",
+            "facts": {},
+            "unknowns": [
+              "streamlit_version",
+              "python_version",
+              "deployment",
+              "reproducible"
+            ],
+            "completed_checks": [],
+            "sources": [
+              {
+                "evidence_id": "api:file_uploader:v2:b6a9200a36afcf3e",
+                "source_id": "api:file_uploader",
+                "quote": ">>> import streamlit as st\n>>>\n>>> uploaded_files = st.file_uploader(\n...",
+                "url": "https://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/elements/widgets/file_uploader.py",
+                "section": "file_uploader (line 252)",
+                "lines": [
+                  168,
+                  178
+                ],
+                "kind": "docs",
+                "revision": "1.49.0",
+                "product_version": "1.49.0"
+              },
+              {
+                "evidence_id": "issue:904:v2:04dc5059cf066a38",
+                "source_id": "issue:904",
+                "quote": "My issue is that I expect large files (up to GBs), and thus reading them directly into memory is not acceptable for me.",
+                "url": "https://github.com/streamlit/streamlit/issues/904",
+                "section": "Problem",
+                "lines": [
+                  5,
+                  7
+                ],
+                "kind": "issue",
+                "revision": "2025-12-08T11:24:35Z",
+                "product_version": null
+              }
+            ],
+            "decision": "ask",
+            "next_step": "پرسش بعدی: نسخهٔ دقیق `Streamlit` در محیطی که خطا رخ می‌دهد چیست؟",
+            "rationale": "محدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.",
+            "hypotheses": [],
+            "ambiguities": [],
+            "judge": {
+              "verdict": "accept",
+              "assessments": {
+                "relevance": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "claim_support": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "version_fit": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "next_step_usefulness": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "avoids_repeated_check": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "injection_resistance": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                }
+              },
+              "scores": {
+                "relevance": 2,
+                "claim_support": 2,
+                "version_fit": 2,
+                "next_step_usefulness": 2,
+                "avoids_repeated_check": 2,
+                "injection_resistance": 2
+              },
+              "findings": []
+            }
+          }
+        },
+        "status": "pending"
+      },
+      "retrieved": [
+        {
+          "id": "api:file_uploader:v2:b6a9200a36afcf3e",
+          "source_id": "api:file_uploader",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/elements/widgets/file_uploader.py",
+          "section": "file_uploader (line 252)",
+          "product_version": "1.49.0",
+          "version_relation": "unknown",
+          "retrieval_score": 0.02349649
+        },
+        {
+          "id": "issue:904:v2:04dc5059cf066a38",
+          "source_id": "issue:904",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/904",
+          "section": "Problem",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02825871
+        },
+        {
+          "id": "issue:5938:v2:a861777a980e3ac7",
+          "source_id": "issue:5938",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/5938",
+          "section": "Reproducible Code Example",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.0290404
+        },
+        {
+          "id": "issue:5938:v2:2830a6d01721a174",
+          "source_id": "issue:5938",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/5938",
+          "section": "Steps To Reproduce",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02815815
+        },
+        {
+          "id": "issue:9265:v2:4a3a4c5aae046cb4",
+          "source_id": "issue:9265",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/9265",
+          "section": "Why?",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02532046
+        }
+      ],
+      "steps": 8,
+      "model_calls": 4,
+      "max_calls": 8,
+      "repair_count": 0,
+      "judge": {
+        "verdict": "accept",
+        "assessments": {
+          "relevance": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "claim_support": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "version_fit": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "next_step_usefulness": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "avoids_repeated_check": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "injection_resistance": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          }
+        },
+        "scores": {
+          "relevance": 2,
+          "claim_support": 2,
+          "version_fit": 2,
+          "next_step_usefulness": 2,
+          "avoids_repeated_check": 2,
+          "injection_resistance": 2
+        },
+        "findings": []
+      },
+      "pipeline": [
+        {
+          "stage": "extract",
+          "status": "ok",
+          "keys": [],
+          "facts_with_quotes": [],
+          "checks": [],
+          "ambiguities": []
+        },
+        {
+          "stage": "read_case",
+          "revision": 1
+        },
+        {
+          "stage": "retrieve",
+          "method": "bm25+dense+rrf+mmr",
+          "rrf_k": 60,
+          "mmr_lambda": 0.7,
+          "components": {
+            "dense": true,
+            "mmr": true,
+            "quality": true,
+            "rerank": true,
+            "judge": true,
+            "rewrite": true
+          },
+          "embedding": {
+            "texts": 1,
+            "unique_missing": 1,
+            "cache_hits": 0,
+            "batches": 1,
+            "usage": [
+              {
+                "mode": "replay",
+                "provider_requests": 0,
+                "cost_usd": 0
+              }
+            ],
+            "identity": {
+              "provider": "offline-test-fixture",
+              "model": "hash-features-v2",
+              "dimensions": 128,
+              "normalization": "whitespace-v1"
+            }
+          },
+          "candidates": [
+            "api:file_uploader:v2:b6a9200a36afcf3e",
+            "issue:904:v2:04dc5059cf066a38",
+            "issue:5938:v2:a861777a980e3ac7",
+            "issue:5938:v2:2830a6d01721a174",
+            "issue:9265:v2:4a3a4c5aae046cb4",
+            "issue:3557:v2:fef790922c7e0673",
+            "issue:10000:v2:713779bb904f28d5",
+            "issue:4789:v2:693e8e7f15c2723c"
+          ],
+          "quality_filter": true,
+          "excluded_nontechnical_chunks": 309,
+          "version_warnings": [
+            "api:file_uploader:v2:b6a9200a36afcf3e",
+            "issue:904:v2:04dc5059cf066a38",
+            "issue:5938:v2:a861777a980e3ac7",
+            "issue:5938:v2:2830a6d01721a174",
+            "issue:9265:v2:4a3a4c5aae046cb4",
+            "issue:3557:v2:fef790922c7e0673",
+            "issue:10000:v2:713779bb904f28d5",
+            "issue:4789:v2:693e8e7f15c2723c"
+          ]
+        },
+        {
+          "stage": "rerank",
+          "status": "ok",
+          "ids": [
+            "api:file_uploader:v2:b6a9200a36afcf3e",
+            "issue:904:v2:04dc5059cf066a38",
+            "issue:5938:v2:a861777a980e3ac7",
+            "issue:5938:v2:2830a6d01721a174",
+            "issue:9265:v2:4a3a4c5aae046cb4",
+            "issue:3557:v2:fef790922c7e0673",
+            "issue:10000:v2:713779bb904f28d5",
+            "issue:4789:v2:693e8e7f15c2723c"
+          ]
+        },
+        {
+          "stage": "context_pack",
+          "ids": [
+            "api:file_uploader:v2:b6a9200a36afcf3e",
+            "issue:904:v2:04dc5059cf066a38",
+            "issue:5938:v2:a861777a980e3ac7",
+            "issue:5938:v2:2830a6d01721a174",
+            "issue:9265:v2:4a3a4c5aae046cb4"
+          ],
+          "utf8_bytes": 973
+        },
+        {
+          "stage": "draft",
+          "status": "produced"
+        },
+        {
+          "stage": "judge",
+          "attempt": 1,
+          "verdict": "accept",
+          "assessments": {
+            "relevance": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "claim_support": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "version_fit": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "next_step_usefulness": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "avoids_repeated_check": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "injection_resistance": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            }
+          },
+          "scores": {
+            "relevance": 2,
+            "claim_support": 2,
+            "version_fit": 2,
+            "next_step_usefulness": 2,
+            "avoids_repeated_check": 2,
+            "injection_resistance": 2
+          },
+          "findings": [],
+          "evaluation_kind": "test_fixture"
+        },
+        {
+          "stage": "prepare_proposal",
+          "id": "904d8aa9bd91f9ecaec59336",
+          "hash": "efac5989c03e8f11e81bf7ae1750c945ae98e9f682b113d98ef4badc3d25e73a",
+          "auto_execute": false
+        }
+      ],
+      "usage": {
+        "mode": "replay",
+        "provider_requests": 0,
+        "cost_usd": 0,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0,
+            "kind": "extract"
+          },
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0
+          },
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0,
+            "kind": "rerank"
+          },
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0,
+            "kind": "rerank"
+          },
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0,
+            "kind": "judge"
+          }
+        ]
+      },
+      "validation_error": null,
+      "latency_seconds": 0.386886
+    },
+    "failure": null
+  },
+  {
+    "id": "GH11528",
+    "split": "dev",
+    "variant": "revised",
+    "output": {
+      "case_id": "GH11528",
+      "request_id": "quality-revised",
+      "architecture": "v2",
+      "quality_revision": "v2.1-quality",
+      "mode": "replay",
+      "method": "final",
+      "components": {
+        "dense": true,
+        "mmr": true,
+        "rerank": true,
+        "judge": true,
+        "rewrite": true,
+        "quality": true
+      },
+      "decision": "ask",
+      "response": "پاسخ پیشنهادی: پرسش بعدی: خطا روی اجرای محلی هم رخ می‌دهد یا فقط روی محیط استقرار؟ نام محیط و خروجی خطای همان اجرا را بفرستید.\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nst.cache_resource\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\n`st.cache_resource` is the right command to cache “resources\" that should be available globally across all users, sessions, and reruns.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md\n```\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\ncache-data\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\n`st.cache_data` implicitly uses the `pickle` module, which is known to be insecure.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-data.md\n```\n\nمحدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+      "summary": {
+        "problem": "cache_data failing to serialize classes from v1.44.0\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI noticed in the upgrade from 1.43.0 to 1.44.0 that we are getting UnserializableReturnValueError when calling cache_data with a self defined class. I can confirm pickle dumps and loads works fine for this class when I run it outside of streamlit. \n\nFull error:\n> streamlit.runtime.caching.cache_errors.UnserializableReturnValueError: Cannot serialize the return value (of type __main__.Example) in test(). st.cache_data uses pickle to serialize the function's return value and safely store it in the cache without mutating the original object. Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences).\n\n### Reproducible Code Example\n\n```Python\nfrom streamlit import cache_data\nimport datetime as dt\n\nclass Example:\n    def __init__(self, name):\n        self.name = name\n\n@cache_data(ttl=dt.timedelta(minutes=60))\ndef test():\n    name = \"andy\"\n    return Example(name)\n\nif __name__ == '__main__':\n\n    b = test()\n```\n\n### Steps To Reproduce\n\nRun the code above in streamlit\n\n### Expected Behavior\n\nThe class should be pickled and be stored in the cache\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.44.0\n- Python version: 3.10\n- Operating System: Linux\n- Browser: Chrome\n\n\n### Additional Information\n\n_No response_",
+        "facts": {
+          "streamlit_version": "1.44.0",
+          "python_version": "3.10"
+        },
+        "unknowns": [
+          "deployment",
+          "reproducible"
+        ],
+        "completed_checks": [],
+        "sources": [
+          {
+            "evidence_id": "docs:caching:v2:5ff8b72948761052",
+            "source_id": "docs:caching",
+            "quote": "`st.cache_resource` is the right command to cache “resources\" that should be available globally across all users, sessions, and reruns.",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+            "section": "st.cache_resource",
+            "lines": [
+              174,
+              176
+            ],
+            "kind": "docs",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null
+          },
+          {
+            "evidence_id": "docs:cache-data:v2:2d852be1ef02439a",
+            "source_id": "docs:cache-data",
+            "quote": "`st.cache_data` implicitly uses the `pickle` module, which is known to be insecure.",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-data.md",
+            "section": "cache-data",
+            "lines": [
+              8,
+              22
+            ],
+            "kind": "docs",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null
+          }
+        ],
+        "decision": "ask",
+        "next_step": "پرسش بعدی: خطا روی اجرای محلی هم رخ می‌دهد یا فقط روی محیط استقرار؟ نام محیط و خروجی خطای همان اجرا را بفرستید.",
+        "rationale": "محدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.",
+        "hypotheses": [],
+        "ambiguities": [],
+        "judge": {
+          "verdict": "accept",
+          "assessments": {
+            "relevance": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "claim_support": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "version_fit": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "next_step_usefulness": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "avoids_repeated_check": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "injection_resistance": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            }
+          },
+          "scores": {
+            "relevance": 2,
+            "claim_support": 2,
+            "version_fit": 2,
+            "next_step_usefulness": 2,
+            "avoids_repeated_check": 2,
+            "injection_resistance": 2
+          },
+          "findings": []
+        }
+      },
+      "proposal": {
+        "id": "74b16bab2d482faecc570797",
+        "case_id": "GH11528",
+        "revision": 1,
+        "hash": "2e5d064f014964e3fbda15e4d637e6e3a0d7abfe2f9dcb07aba6aac9f8514e23",
+        "payload": {
+          "actions": [
+            {
+              "type": "comment",
+              "body": "پاسخ پیشنهادی: پرسش بعدی: خطا روی اجرای محلی هم رخ می‌دهد یا فقط روی محیط استقرار؟ نام محیط و خروجی خطای همان اجرا را بفرستید.\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nst.cache_resource\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\n`st.cache_resource` is the right command to cache “resources\" that should be available globally across all users, sessions, and reruns.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md\n```\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\ncache-data\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\n`st.cache_data` implicitly uses the `pickle` module, which is known to be insecure.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-data.md\n```\n\nمحدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+            },
+            {
+              "type": "status",
+              "value": "waiting_user"
+            }
+          ],
+          "source_ids": [
+            "docs:caching",
+            "docs:cache-data"
+          ],
+          "summary": {
+            "problem": "cache_data failing to serialize classes from v1.44.0\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI noticed in the upgrade from 1.43.0 to 1.44.0 that we are getting UnserializableReturnValueError when calling cache_data with a self defined class. I can confirm pickle dumps and loads works fine for this class when I run it outside of streamlit. \n\nFull error:\n> streamlit.runtime.caching.cache_errors.UnserializableReturnValueError: Cannot serialize the return value (of type __main__.Example) in test(). st.cache_data uses pickle to serialize the function's return value and safely store it in the cache without mutating the original object. Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences).\n\n### Reproducible Code Example\n\n```Python\nfrom streamlit import cache_data\nimport datetime as dt\n\nclass Example:\n    def __init__(self, name):\n        self.name = name\n\n@cache_data(ttl=dt.timedelta(minutes=60))\ndef test():\n    name = \"andy\"\n    return Example(name)\n\nif __name__ == '__main__':\n\n    b = test()\n```\n\n### Steps To Reproduce\n\nRun the code above in streamlit\n\n### Expected Behavior\n\nThe class should be pickled and be stored in the cache\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.44.0\n- Python version: 3.10\n- Operating System: Linux\n- Browser: Chrome\n\n\n### Additional Information\n\n_No response_",
+            "facts": {
+              "streamlit_version": "1.44.0",
+              "python_version": "3.10"
+            },
+            "unknowns": [
+              "deployment",
+              "reproducible"
+            ],
+            "completed_checks": [],
+            "sources": [
+              {
+                "evidence_id": "docs:caching:v2:5ff8b72948761052",
+                "source_id": "docs:caching",
+                "quote": "`st.cache_resource` is the right command to cache “resources\" that should be available globally across all users, sessions, and reruns.",
+                "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+                "section": "st.cache_resource",
+                "lines": [
+                  174,
+                  176
+                ],
+                "kind": "docs",
+                "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+                "product_version": null
+              },
+              {
+                "evidence_id": "docs:cache-data:v2:2d852be1ef02439a",
+                "source_id": "docs:cache-data",
+                "quote": "`st.cache_data` implicitly uses the `pickle` module, which is known to be insecure.",
+                "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-data.md",
+                "section": "cache-data",
+                "lines": [
+                  8,
+                  22
+                ],
+                "kind": "docs",
+                "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+                "product_version": null
+              }
+            ],
+            "decision": "ask",
+            "next_step": "پرسش بعدی: خطا روی اجرای محلی هم رخ می‌دهد یا فقط روی محیط استقرار؟ نام محیط و خروجی خطای همان اجرا را بفرستید.",
+            "rationale": "محدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.",
+            "hypotheses": [],
+            "ambiguities": [],
+            "judge": {
+              "verdict": "accept",
+              "assessments": {
+                "relevance": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "claim_support": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "version_fit": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "next_step_usefulness": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "avoids_repeated_check": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "injection_resistance": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                }
+              },
+              "scores": {
+                "relevance": 2,
+                "claim_support": 2,
+                "version_fit": 2,
+                "next_step_usefulness": 2,
+                "avoids_repeated_check": 2,
+                "injection_resistance": 2
+              },
+              "findings": []
+            }
+          }
+        },
+        "status": "pending"
+      },
+      "retrieved": [
+        {
+          "id": "docs:caching:v2:5ff8b72948761052",
+          "source_id": "docs:caching",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+          "section": "st.cache_resource",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.0366442
+        },
+        {
+          "id": "docs:cache-data:v2:2d852be1ef02439a",
+          "source_id": "docs:cache-data",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-data.md",
+          "section": "cache-data",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03356113
+        },
+        {
+          "id": "docs:cache-resource:v2:da940d2f1867420b",
+          "source_id": "docs:cache-resource",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-resource.md",
+          "section": "cache-resource",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02441613
+        },
+        {
+          "id": "docs:caching:v2:5f9d0af6e9be6f58",
+          "source_id": "docs:caching",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+          "section": "Deciding which caching decorator to use",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03309056
+        },
+        {
+          "id": "issue:6138:v2:5d27e46b800d4f4b",
+          "source_id": "issue:6138",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/6138",
+          "section": "Expected Behavior",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02574442
+        }
+      ],
+      "steps": 8,
+      "model_calls": 4,
+      "max_calls": 8,
+      "repair_count": 0,
+      "judge": {
+        "verdict": "accept",
+        "assessments": {
+          "relevance": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "claim_support": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "version_fit": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "next_step_usefulness": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "avoids_repeated_check": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "injection_resistance": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          }
+        },
+        "scores": {
+          "relevance": 2,
+          "claim_support": 2,
+          "version_fit": 2,
+          "next_step_usefulness": 2,
+          "avoids_repeated_check": 2,
+          "injection_resistance": 2
+        },
+        "findings": []
+      },
+      "pipeline": [
+        {
+          "stage": "extract",
+          "status": "ok",
+          "keys": [
+            "python_version",
+            "streamlit_version"
+          ],
+          "facts_with_quotes": [
+            {
+              "key": "streamlit_version",
+              "value": "1.44.0",
+              "quote": "cache_data failing to serialize classes from v1.44.0\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI noticed in the upgrade from 1.43.0 to 1.44.0 that we are getting UnserializableReturnValueError when calling cache_data with a self defined class. I can confirm pickle dumps and loads works fine for this class when I run it outside of streamlit. \n\nFull error:\n> streamlit.runtime.caching.cache_errors.UnserializableReturnValueError: Cannot serialize the return value (of type __main__.Example) in test(). st.cache_data uses pickle to serialize the function's return value and safely store it in the cache without mutating the original object. Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences).\n\n### Reproducible Code Example\n\n```Python\nfrom streamlit import cache_data\nimport datetime as dt\n\nclass Example:\n    def __init__(self, name):\n        self.name = name\n\n@cache_data(ttl=dt.timedelta(minutes=60))\ndef test():\n    name = \"andy\"\n    return Example(name)\n\nif __name__ == '__main__':\n\n    b = test()\n```\n\n### Steps To Reproduce\n\nRun the code above in streamlit\n\n### Expected Behavior\n\nThe class should be pickled and be stored in the cache\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.44.0\n- Python version: 3.10\n- Operating System: Linux\n- Browser: Chrome\n\n\n### Additional Informat"
+            },
+            {
+              "key": "python_version",
+              "value": "3.10",
+              "quote": "cache_data failing to serialize classes from v1.44.0\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI noticed in the upgrade from 1.43.0 to 1.44.0 that we are getting UnserializableReturnValueError when calling cache_data with a self defined class. I can confirm pickle dumps and loads works fine for this class when I run it outside of streamlit. \n\nFull error:\n> streamlit.runtime.caching.cache_errors.UnserializableReturnValueError: Cannot serialize the return value (of type __main__.Example) in test(). st.cache_data uses pickle to serialize the function's return value and safely store it in the cache without mutating the original object. Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences).\n\n### Reproducible Code Example\n\n```Python\nfrom streamlit import cache_data\nimport datetime as dt\n\nclass Example:\n    def __init__(self, name):\n        self.name = name\n\n@cache_data(ttl=dt.timedelta(minutes=60))\ndef test():\n    name = \"andy\"\n    return Example(name)\n\nif __name__ == '__main__':\n\n    b = test()\n```\n\n### Steps To Reproduce\n\nRun the code above in streamlit\n\n### Expected Behavior\n\nThe class should be pickled and be stored in the cache\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.44.0\n- Python version: 3.10\n- Operating System: Linux\n- Browser: Chrome\n\n\n### Additional Informat"
+            }
+          ],
+          "checks": [],
+          "ambiguities": []
+        },
+        {
+          "stage": "read_case",
+          "revision": 1
+        },
+        {
+          "stage": "retrieve",
+          "method": "bm25+dense+rrf+mmr",
+          "rrf_k": 60,
+          "mmr_lambda": 0.7,
+          "components": {
+            "dense": true,
+            "mmr": true,
+            "quality": true,
+            "rerank": true,
+            "judge": true,
+            "rewrite": true
+          },
+          "embedding": {
+            "texts": 1,
+            "unique_missing": 1,
+            "cache_hits": 0,
+            "batches": 1,
+            "usage": [
+              {
+                "mode": "replay",
+                "provider_requests": 0,
+                "cost_usd": 0
+              }
+            ],
+            "identity": {
+              "provider": "offline-test-fixture",
+              "model": "hash-features-v2",
+              "dimensions": 128,
+              "normalization": "whitespace-v1"
+            }
+          },
+          "candidates": [
+            "docs:caching:v2:5ff8b72948761052",
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:cache-resource:v2:da940d2f1867420b",
+            "docs:caching:v2:5f9d0af6e9be6f58",
+            "issue:6138:v2:5d27e46b800d4f4b",
+            "docs:config-toml:v2:ac17071ef08c5110",
+            "issue:7353:v2:2740c157633becab",
+            "issue:7911:v2:7a733a748b020a93"
+          ],
+          "quality_filter": true,
+          "excluded_nontechnical_chunks": 309,
+          "version_warnings": [
+            "docs:caching:v2:5ff8b72948761052",
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:cache-resource:v2:da940d2f1867420b",
+            "docs:caching:v2:5f9d0af6e9be6f58",
+            "issue:6138:v2:5d27e46b800d4f4b",
+            "docs:config-toml:v2:ac17071ef08c5110",
+            "issue:7353:v2:2740c157633becab",
+            "issue:7911:v2:7a733a748b020a93"
+          ]
+        },
+        {
+          "stage": "rerank",
+          "status": "ok",
+          "ids": [
+            "docs:caching:v2:5ff8b72948761052",
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:cache-resource:v2:da940d2f1867420b",
+            "docs:caching:v2:5f9d0af6e9be6f58",
+            "issue:6138:v2:5d27e46b800d4f4b",
+            "docs:config-toml:v2:ac17071ef08c5110",
+            "issue:7353:v2:2740c157633becab",
+            "issue:7911:v2:7a733a748b020a93"
+          ]
+        },
+        {
+          "stage": "context_pack",
+          "ids": [
+            "docs:caching:v2:5ff8b72948761052",
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:cache-resource:v2:da940d2f1867420b",
+            "docs:caching:v2:5f9d0af6e9be6f58",
+            "issue:6138:v2:5d27e46b800d4f4b"
+          ],
+          "utf8_bytes": 7475
+        },
+        {
+          "stage": "draft",
+          "status": "produced"
+        },
+        {
+          "stage": "judge",
+          "attempt": 1,
+          "verdict": "accept",
+          "assessments": {
+            "relevance": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "claim_support": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "version_fit": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "next_step_usefulness": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "avoids_repeated_check": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "injection_resistance": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            }
+          },
+          "scores": {
+            "relevance": 2,
+            "claim_support": 2,
+            "version_fit": 2,
+            "next_step_usefulness": 2,
+            "avoids_repeated_check": 2,
+            "injection_resistance": 2
+          },
+          "findings": [],
+          "evaluation_kind": "test_fixture"
+        },
+        {
+          "stage": "prepare_proposal",
+          "id": "74b16bab2d482faecc570797",
+          "hash": "2e5d064f014964e3fbda15e4d637e6e3a0d7abfe2f9dcb07aba6aac9f8514e23",
+          "auto_execute": false
+        }
+      ],
+      "usage": {
+        "mode": "replay",
+        "provider_requests": 0,
+        "cost_usd": 0,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0,
+            "kind": "extract"
+          },
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0
+          },
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0,
+            "kind": "rerank"
+          },
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0,
+            "kind": "rerank"
+          },
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0,
+            "kind": "judge"
+          }
+        ]
+      },
+      "validation_error": null,
+      "latency_seconds": 0.15561
+    },
+    "failure": null
+  },
+  {
+    "id": "GH12607",
+    "split": "dev",
+    "variant": "revised",
+    "output": {
+      "case_id": "GH12607",
+      "request_id": "quality-revised",
+      "architecture": "v2",
+      "quality_revision": "v2.1-quality",
+      "mode": "replay",
+      "method": "final",
+      "components": {
+        "dense": true,
+        "mmr": true,
+        "rerank": true,
+        "judge": true,
+        "rewrite": true,
+        "quality": true
+      },
+      "decision": "escalate",
+      "response": "پاسخ پیشنهادی: اقدام بعدی: نیاز رفتاری و محدودیت فعلی را برای بررسی نگه‌دارنده ثبت کنید؛ قابلیت جدید تضمین نشده است.\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nNesting a process inside a button without saving to session state\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nif st.button('Get data'):\n    df = pd.read_csv(file)\n    # This display will go away with the user's next action.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/button-behavior-and-examples.md\n```\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nWhere does st.file_uploader store uploaded files and when do they get deleted?\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nWhen you upload a file using [`st.file_uploader`](/develop/api-reference/widgets/st.file_uploader), the data are copied to the Streamlit backend via the browser, and contained in a BytesIO buffer in Python memory (i.e.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md\n```\n\nمحدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+      "summary": {
+        "problem": "After File Upload the file stays in RAM\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWatch discuss Topic:\nhttps://discuss.streamlit.io/t/after-upload-file-stays-in-ram/119453/2\n\nStreamlit Version 1.49.1\nPython Version 3.13.7\n\nI searched for the issue on all known databases without success\n\nI am facing the following issue with st.file_uploader:\n\nWhen I am uploading a File about 600MB the RAM usage is after I selected the File about 660 MB.\nAt the moment I pressed the upload button the RAM usage increases up to 1800MB.\nAfter the Upload is done, the RAM usage stays at 660MB.\nIf I close the browsertab it stays at 660MB, only when I close the streamlit instance the RAM gets free.\n\nI tryed several solutions:\n\nclear_on_submit=True\nworking with session state keys\ngc.collect()\nst.rerun()\n\nThe phenomenon is:\nIf I set the clear_on_submit=false and deactivate the st.rerun() I am able to delete the File in the Widget and only then the file gets deleted from the RAM.\n\nI tested it with a simple Upload code with the same result in different browsers on 2 different PCs and different streamlit versions.\n\nActually I have no idea how to fix this, can somebody help?\n\n### Reproducible Code Example\n\n```Python\n-------- Upload-Helper --------\n\ndef save_uploaded_file(file, folder):\nos.makedirs(folder, exist_ok=True)\nsave_path = os.path.join(folder, file.name)\n\nwith open(save_path, \"wb\") as f:\n    shutil.copyfileobj(file, f)\n\nreturn save_path\ndef unified_upload(device_id):\nst.subheader(“:open_file_folder: Dokument hochladen”)\n\n# Dokumenttypen + erlaubte Dateiendungen\ndoc_types = {\n    \"Firmware\": {\"label\": \"💾 Firmware\", \"allowed_types\": [\"zip\", \"pdf\"]},\n    \"Manual\": {\"label\": \"📘 Servicemanual\", \"allowed_types\": [\"pdf\"]},\n    \"Partslist\": {\"label\": \"🛠️ Partslist\", \"allowed_types\": [\"pdf\"]},\n    \"Bulletin\": {\"label\": \"📑 Bulletin\", \"allowed_types\": [\"pdf\"]},\n}\n\n# Upload-Counter initialisieren\nif \"upload_counter\" not in st.session_state:\n    st.session_state.upload_counter = {}\n\nif device_id not in st.session_state.upload_counter:\n    st.session_state.upload_counter[device_id] = 0\n\n# Dropdown zur Auswahl des Dokumententyps\ndoc_choice = st.selectbox(\n    \"Dokumenttyp auswählen\",\n    options=list(doc_types.keys()),\n    format_func=lambda x: doc_types[x][\"label\"",
+        "facts": {
+          "streamlit_version": "1.49.1",
+          "python_version": "3.13.7"
+        },
+        "unknowns": [
+          "deployment",
+          "reproducible"
+        ],
+        "completed_checks": [],
+        "sources": [
+          {
+            "evidence_id": "docs:button-behavior-and-examples:v2:68f898089ef71e69",
+            "source_id": "docs:button-behavior-and-examples",
+            "quote": "if st.button('Get data'):\n    df = pd.read_csv(file)\n    # This display will go away with the user's next action.",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/button-behavior-and-examples.md",
+            "section": "Nesting a process inside a button without saving to session state",
+            "lines": [
+              405,
+              421
+            ],
+            "kind": "docs",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null
+          },
+          {
+            "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "source_id": "docs:where-file-uploader-store-when-deleted",
+            "quote": "When you upload a file using [`st.file_uploader`](/develop/api-reference/widgets/st.file_uploader), the data are copied to the Streamlit backend via the browser, and contained in a BytesIO buffer in Python memory (i.e.",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md",
+            "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+            "lines": [
+              6,
+              21
+            ],
+            "kind": "docs",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null
+          }
+        ],
+        "decision": "escalate",
+        "next_step": "اقدام بعدی: نیاز رفتاری و محدودیت فعلی را برای بررسی نگه‌دارنده ثبت کنید؛ قابلیت جدید تضمین نشده است.",
+        "rationale": "محدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.",
+        "hypotheses": [],
+        "ambiguities": [],
+        "judge": {
+          "verdict": "accept",
+          "assessments": {
+            "relevance": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "claim_support": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "version_fit": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "next_step_usefulness": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "avoids_repeated_check": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "injection_resistance": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            }
+          },
+          "scores": {
+            "relevance": 2,
+            "claim_support": 2,
+            "version_fit": 2,
+            "next_step_usefulness": 2,
+            "avoids_repeated_check": 2,
+            "injection_resistance": 2
+          },
+          "findings": []
+        }
+      },
+      "proposal": {
+        "id": "88fce02b477056985bd2c44c",
+        "case_id": "GH12607",
+        "revision": 1,
+        "hash": "b27ad8a1fe51b647a755cb5174a309df5f14fbe0a2370477e77a8ed7773a3607",
+        "payload": {
+          "actions": [
+            {
+              "type": "comment",
+              "body": "پاسخ پیشنهادی: اقدام بعدی: نیاز رفتاری و محدودیت فعلی را برای بررسی نگه‌دارنده ثبت کنید؛ قابلیت جدید تضمین نشده است.\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nNesting a process inside a button without saving to session state\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nif st.button('Get data'):\n    df = pd.read_csv(file)\n    # This display will go away with the user's next action.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/button-behavior-and-examples.md\n```\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nWhere does st.file_uploader store uploaded files and when do they get deleted?\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nWhen you upload a file using [`st.file_uploader`](/develop/api-reference/widgets/st.file_uploader), the data are copied to the Streamlit backend via the browser, and contained in a BytesIO buffer in Python memory (i.e.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md\n```\n\nمحدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+            },
+            {
+              "type": "status",
+              "value": "escalated"
+            }
+          ],
+          "source_ids": [
+            "docs:button-behavior-and-examples",
+            "docs:where-file-uploader-store-when-deleted"
+          ],
+          "summary": {
+            "problem": "After File Upload the file stays in RAM\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWatch discuss Topic:\nhttps://discuss.streamlit.io/t/after-upload-file-stays-in-ram/119453/2\n\nStreamlit Version 1.49.1\nPython Version 3.13.7\n\nI searched for the issue on all known databases without success\n\nI am facing the following issue with st.file_uploader:\n\nWhen I am uploading a File about 600MB the RAM usage is after I selected the File about 660 MB.\nAt the moment I pressed the upload button the RAM usage increases up to 1800MB.\nAfter the Upload is done, the RAM usage stays at 660MB.\nIf I close the browsertab it stays at 660MB, only when I close the streamlit instance the RAM gets free.\n\nI tryed several solutions:\n\nclear_on_submit=True\nworking with session state keys\ngc.collect()\nst.rerun()\n\nThe phenomenon is:\nIf I set the clear_on_submit=false and deactivate the st.rerun() I am able to delete the File in the Widget and only then the file gets deleted from the RAM.\n\nI tested it with a simple Upload code with the same result in different browsers on 2 different PCs and different streamlit versions.\n\nActually I have no idea how to fix this, can somebody help?\n\n### Reproducible Code Example\n\n```Python\n-------- Upload-Helper --------\n\ndef save_uploaded_file(file, folder):\nos.makedirs(folder, exist_ok=True)\nsave_path = os.path.join(folder, file.name)\n\nwith open(save_path, \"wb\") as f:\n    shutil.copyfileobj(file, f)\n\nreturn save_path\ndef unified_upload(device_id):\nst.subheader(“:open_file_folder: Dokument hochladen”)\n\n# Dokumenttypen + erlaubte Dateiendungen\ndoc_types = {\n    \"Firmware\": {\"label\": \"💾 Firmware\", \"allowed_types\": [\"zip\", \"pdf\"]},\n    \"Manual\": {\"label\": \"📘 Servicemanual\", \"allowed_types\": [\"pdf\"]},\n    \"Partslist\": {\"label\": \"🛠️ Partslist\", \"allowed_types\": [\"pdf\"]},\n    \"Bulletin\": {\"label\": \"📑 Bulletin\", \"allowed_types\": [\"pdf\"]},\n}\n\n# Upload-Counter initialisieren\nif \"upload_counter\" not in st.session_state:\n    st.session_state.upload_counter = {}\n\nif device_id not in st.session_state.upload_counter:\n    st.session_state.upload_counter[device_id] = 0\n\n# Dropdown zur Auswahl des Dokumententyps\ndoc_choice = st.selectbox(\n    \"Dokumenttyp auswählen\",\n    options=list(doc_types.keys()),\n    format_func=lambda x: doc_types[x][\"label\"",
+            "facts": {
+              "streamlit_version": "1.49.1",
+              "python_version": "3.13.7"
+            },
+            "unknowns": [
+              "deployment",
+              "reproducible"
+            ],
+            "completed_checks": [],
+            "sources": [
+              {
+                "evidence_id": "docs:button-behavior-and-examples:v2:68f898089ef71e69",
+                "source_id": "docs:button-behavior-and-examples",
+                "quote": "if st.button('Get data'):\n    df = pd.read_csv(file)\n    # This display will go away with the user's next action.",
+                "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/button-behavior-and-examples.md",
+                "section": "Nesting a process inside a button without saving to session state",
+                "lines": [
+                  405,
+                  421
+                ],
+                "kind": "docs",
+                "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+                "product_version": null
+              },
+              {
+                "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+                "source_id": "docs:where-file-uploader-store-when-deleted",
+                "quote": "When you upload a file using [`st.file_uploader`](/develop/api-reference/widgets/st.file_uploader), the data are copied to the Streamlit backend via the browser, and contained in a BytesIO buffer in Python memory (i.e.",
+                "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md",
+                "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+                "lines": [
+                  6,
+                  21
+                ],
+                "kind": "docs",
+                "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+                "product_version": null
+              }
+            ],
+            "decision": "escalate",
+            "next_step": "اقدام بعدی: نیاز رفتاری و محدودیت فعلی را برای بررسی نگه‌دارنده ثبت کنید؛ قابلیت جدید تضمین نشده است.",
+            "rationale": "محدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.",
+            "hypotheses": [],
+            "ambiguities": [],
+            "judge": {
+              "verdict": "accept",
+              "assessments": {
+                "relevance": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "claim_support": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "version_fit": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "next_step_usefulness": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "avoids_repeated_check": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "injection_resistance": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                }
+              },
+              "scores": {
+                "relevance": 2,
+                "claim_support": 2,
+                "version_fit": 2,
+                "next_step_usefulness": 2,
+                "avoids_repeated_check": 2,
+                "injection_resistance": 2
+              },
+              "findings": []
+            }
+          }
+        },
+        "status": "pending"
+      },
+      "retrieved": [
+        {
+          "id": "docs:button-behavior-and-examples:v2:68f898089ef71e69",
+          "source_id": "docs:button-behavior-and-examples",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/button-behavior-and-examples.md",
+          "section": "Nesting a process inside a button without saving to session state",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02937229
+        },
+        {
+          "id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "source_id": "docs:where-file-uploader-store-when-deleted",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md",
+          "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02771306
+        },
+        {
+          "id": "docs:widget-behavior:v2:ee0cfe9fcf250b2f",
+          "source_id": "docs:widget-behavior",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "section": "Widgets return simple Python data types",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02186105
+        },
+        {
+          "id": "issue:4877:v2:cd5fba9651a80b06",
+          "source_id": "issue:4877",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/4877",
+          "section": "Steps to reproduce",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03030999
+        },
+        {
+          "id": "issue:12146:v2:71c12fd168534c0d",
+          "source_id": "issue:12146",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/12146",
+          "section": "Reproducible Code Example",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03011775
+        }
+      ],
+      "steps": 8,
+      "model_calls": 4,
+      "max_calls": 8,
+      "repair_count": 0,
+      "judge": {
+        "verdict": "accept",
+        "assessments": {
+          "relevance": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "claim_support": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "version_fit": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "next_step_usefulness": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "avoids_repeated_check": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "injection_resistance": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          }
+        },
+        "scores": {
+          "relevance": 2,
+          "claim_support": 2,
+          "version_fit": 2,
+          "next_step_usefulness": 2,
+          "avoids_repeated_check": 2,
+          "injection_resistance": 2
+        },
+        "findings": []
+      },
+      "pipeline": [
+        {
+          "stage": "extract",
+          "status": "ok",
+          "keys": [
+            "python_version",
+            "streamlit_version"
+          ],
+          "facts_with_quotes": [
+            {
+              "key": "streamlit_version",
+              "value": "1.49.1",
+              "quote": "After File Upload the file stays in RAM\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWatch discuss Topic:\nhttps://discuss.streamlit.io/t/after-upload-file-stays-in-ram/119453/2\n\nStreamlit Version 1.49.1\nPython Version 3.13.7\n\nI searched for the issue on all known databases without success\n\nI am facing the following issue with st.file_uploader:\n\nWhen I am uploading a File about 600MB the RAM usage is after I selected the File about 660 MB.\nAt the moment I pressed the upload button the RAM usage increases up to 1800MB.\nAfter the Upload is done, the RAM usage stays at 660MB.\nIf I close the browsertab it stays at 660MB, only when I close the streamlit instance the RAM gets free.\n\nI tryed several solutions:\n\nclear_on_submit=True\nworking with session state keys\ngc.collect()\nst.rerun()\n\nThe phenomenon is:\nIf I set the clear_on_submit=false and deactivate the st.rerun() I am able to delete the File in the Widget and only then the file gets deleted from the RAM.\n\nI tested it with a simple Upload code with the same result in different browsers on 2 different PCs and different streamlit versions.\n\nActually I have no idea how to fix this, can somebody help?\n\n### Reproducible Code Example\n\n```Python\n-------- Upload-Helper --------\n\ndef save_uploaded_file(file, folder):\nos.makedirs(folder, exist_ok=True)\nsave_path = os.path.join(folder, file.name)\n\nwith open(save_path, \"wb\") as f:\n    shutil.copyfileobj(file, f)\n\nreturn save_path\ndef unified_upload(device_id):\nst.subheader(“:open_file_folder: Dokument hochladen”)\n\n# Dokumenttypen + erlaubte Dateiendungen\ndo"
+            },
+            {
+              "key": "python_version",
+              "value": "3.13.7",
+              "quote": "After File Upload the file stays in RAM\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWatch discuss Topic:\nhttps://discuss.streamlit.io/t/after-upload-file-stays-in-ram/119453/2\n\nStreamlit Version 1.49.1\nPython Version 3.13.7\n\nI searched for the issue on all known databases without success\n\nI am facing the following issue with st.file_uploader:\n\nWhen I am uploading a File about 600MB the RAM usage is after I selected the File about 660 MB.\nAt the moment I pressed the upload button the RAM usage increases up to 1800MB.\nAfter the Upload is done, the RAM usage stays at 660MB.\nIf I close the browsertab it stays at 660MB, only when I close the streamlit instance the RAM gets free.\n\nI tryed several solutions:\n\nclear_on_submit=True\nworking with session state keys\ngc.collect()\nst.rerun()\n\nThe phenomenon is:\nIf I set the clear_on_submit=false and deactivate the st.rerun() I am able to delete the File in the Widget and only then the file gets deleted from the RAM.\n\nI tested it with a simple Upload code with the same result in different browsers on 2 different PCs and different streamlit versions.\n\nActually I have no idea how to fix this, can somebody help?\n\n### Reproducible Code Example\n\n```Python\n-------- Upload-Helper --------\n\ndef save_uploaded_file(file, folder):\nos.makedirs(folder, exist_ok=True)\nsave_path = os.path.join(folder, file.name)\n\nwith open(save_path, \"wb\") as f:\n    shutil.copyfileobj(file, f)\n\nreturn save_path\ndef unified_upload(device_id):\nst.subheader(“:open_file_folder: Dokument hochladen”)\n\n# Dokumenttypen + erlaubte Dateiendungen\ndo"
+            }
+          ],
+          "checks": [],
+          "ambiguities": []
+        },
+        {
+          "stage": "read_case",
+          "revision": 1
+        },
+        {
+          "stage": "retrieve",
+          "method": "bm25+dense+rrf+mmr",
+          "rrf_k": 60,
+          "mmr_lambda": 0.7,
+          "components": {
+            "dense": true,
+            "mmr": true,
+            "quality": true,
+            "rerank": true,
+            "judge": true,
+            "rewrite": true
+          },
+          "embedding": {
+            "texts": 1,
+            "unique_missing": 1,
+            "cache_hits": 0,
+            "batches": 1,
+            "usage": [
+              {
+                "mode": "replay",
+                "provider_requests": 0,
+                "cost_usd": 0
+              }
+            ],
+            "identity": {
+              "provider": "offline-test-fixture",
+              "model": "hash-features-v2",
+              "dimensions": 128,
+              "normalization": "whitespace-v1"
+            }
+          },
+          "candidates": [
+            "docs:button-behavior-and-examples:v2:68f898089ef71e69",
+            "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "docs:widget-behavior:v2:ee0cfe9fcf250b2f",
+            "issue:4877:v2:cd5fba9651a80b06",
+            "issue:12146:v2:71c12fd168534c0d",
+            "issue:5938:v2:6b17d70c89125c0d",
+            "issue:11259:v2:1f5169a839de7b0b",
+            "issue:4877:v2:ecd69bc4f94aaa38"
+          ],
+          "quality_filter": true,
+          "excluded_nontechnical_chunks": 309,
+          "version_warnings": [
+            "docs:button-behavior-and-examples:v2:68f898089ef71e69",
+            "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "docs:widget-behavior:v2:ee0cfe9fcf250b2f",
+            "issue:4877:v2:cd5fba9651a80b06",
+            "issue:12146:v2:71c12fd168534c0d",
+            "issue:5938:v2:6b17d70c89125c0d",
+            "issue:11259:v2:1f5169a839de7b0b",
+            "issue:4877:v2:ecd69bc4f94aaa38"
+          ]
+        },
+        {
+          "stage": "rerank",
+          "status": "ok",
+          "ids": [
+            "docs:button-behavior-and-examples:v2:68f898089ef71e69",
+            "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "docs:widget-behavior:v2:ee0cfe9fcf250b2f",
+            "issue:4877:v2:cd5fba9651a80b06",
+            "issue:12146:v2:71c12fd168534c0d",
+            "issue:5938:v2:6b17d70c89125c0d",
+            "issue:11259:v2:1f5169a839de7b0b",
+            "issue:4877:v2:ecd69bc4f94aaa38"
+          ]
+        },
+        {
+          "stage": "context_pack",
+          "ids": [
+            "docs:button-behavior-and-examples:v2:68f898089ef71e69",
+            "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "docs:widget-behavior:v2:ee0cfe9fcf250b2f",
+            "issue:4877:v2:cd5fba9651a80b06",
+            "issue:12146:v2:71c12fd168534c0d"
+          ],
+          "utf8_bytes": 4036
+        },
+        {
+          "stage": "draft",
+          "status": "produced"
+        },
+        {
+          "stage": "judge",
+          "attempt": 1,
+          "verdict": "accept",
+          "assessments": {
+            "relevance": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "claim_support": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "version_fit": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "next_step_usefulness": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "avoids_repeated_check": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "injection_resistance": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            }
+          },
+          "scores": {
+            "relevance": 2,
+            "claim_support": 2,
+            "version_fit": 2,
+            "next_step_usefulness": 2,
+            "avoids_repeated_check": 2,
+            "injection_resistance": 2
+          },
+          "findings": [],
+          "evaluation_kind": "test_fixture"
+        },
+        {
+          "stage": "prepare_proposal",
+          "id": "88fce02b477056985bd2c44c",
+          "hash": "b27ad8a1fe51b647a755cb5174a309df5f14fbe0a2370477e77a8ed7773a3607",
+          "auto_execute": false
+        }
+      ],
+      "usage": {
+        "mode": "replay",
+        "provider_requests": 0,
+        "cost_usd": 0,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0,
+            "kind": "extract"
+          },
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0
+          },
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0,
+            "kind": "rerank"
+          },
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0,
+            "kind": "rerank"
+          },
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0,
+            "kind": "judge"
+          }
+        ]
+      },
+      "validation_error": null,
+      "latency_seconds": 0.163288
+    },
+    "failure": null
+  },
+  {
+    "id": "GH14593",
+    "split": "dev",
+    "variant": "revised",
+    "output": {
+      "case_id": "GH14593",
+      "request_id": "quality-revised",
+      "architecture": "v2",
+      "quality_revision": "v2.1-quality",
+      "mode": "replay",
+      "method": "final",
+      "components": {
+        "dense": true,
+        "mmr": true,
+        "rerank": true,
+        "judge": true,
+        "rewrite": true,
+        "quality": true
+      },
+      "decision": "ask",
+      "response": "پاسخ پیشنهادی: پرسش بعدی: خطا روی اجرای محلی هم رخ می‌دهد یا فقط روی محیط استقرار؟ نام محیط و خروجی خطای همان اجرا را بفرستید.\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nExample 2: Hashing a Pydantic model\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nIn the version below, we define a custom hash function `hash_func` that takes the `Person` instance as input and returns the name attribute.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md\n```\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nExample\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nIn the example below, pressing the \"Clear All\" button will clear memoized values from all functions decorated with `@st.cache_data`.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-data.md\n```\n\nمحدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+      "summary": {
+        "problem": "st.cache_data on class methods intermittently raises UnserializableReturnValueError\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen `@st.cache_data` decorates a method that returns a custom class instance, `pickle.dumps()` intermittently fails with `PicklingError: Can't pickle <class 'X'>: it's not the same object as X`. This happens because Streamlit's `LocalSourcesWatcher` deletes watched modules from `sys.modules` on file changes, creating a class identity mismatch between the instance being pickled and the class found by pickle's resolution mechanism.\n\n### Reproducible Code Example\n\n```Python\n### `repro_model.py`\n\n\n\"\"\"Local module — simulates any user-defined class in a local .py file.\"\"\"\n\nclass MyResult:\n    def __init__(self, output: str = \"\", value: int = 0):\n        self.output = output\n        self.value = value\n\n\n### `repro_agent.py`\n\n\n\"\"\"\nHelper module imported once by repro.py.\nSimulates agents/__init__.py — only loaded once, holds a stale class reference\nafter sys.modules is invalidated by the file watcher.\n\"\"\"\nimport streamlit as st\nfrom repro_model import MyResult  # bound once at import time\n\n\n@st.cache_data(show_spinner=False)\ndef get_result(key: str) -> MyResult:\n    import time\n    time.sleep(0.1)\n    return MyResult(output=f\"result for {key}\", value=42)\n\n\n### `repro.py` — run with `streamlit run repro.py`\n\n\nimport streamlit as st\nimport sys\nimport importlib\nimport repro_agent  # imported once — simulates agents/__init__.py\n\n\nst.title(\"cache_data pickle race condition repro\")\n\nif st.button(\"1) Normal call (works)\"):\n    try:\n        result = repro_agent.get_result(\"test\")\n        st.success(f\"Got: {result.output}\")\n    except Exception as e:\n        st.error(f\"{type(e).__name__}: {e}\")\n\nif st.button(\"2) Simulate file-watcher then call (fails, and keeps failing)\"):\n    # This is exactly what LocalSourcesWatcher.on_path_changed does:\n    #   for wm in self._watched_modules.values():\n    #       del sys.modules[wm.module_name]\n    if \"repro_model\" in sys.modules:\n        del sys.modules[\"repro_model\"]\n\n    # Re-import creates a NEW class object in sys.modules\n    importlib.import_module(\"repro_model\")\n\n    # Clear cache so pickle.dumps is attempted again\n    repro_agent.get_result.clear()\n\n    try:\n        # rep",
+        "facts": {
+          "streamlit_version": "1.55.0",
+          "python_version": "3.13.7"
+        },
+        "unknowns": [
+          "deployment",
+          "reproducible"
+        ],
+        "completed_checks": [],
+        "sources": [
+          {
+            "evidence_id": "docs:caching:v2:d0dd756481131d32",
+            "source_id": "docs:caching",
+            "quote": "In the version below, we define a custom hash function `hash_func` that takes the `Person` instance as input and returns the name attribute.",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+            "section": "Example 2: Hashing a Pydantic model",
+            "lines": [
+              526,
+              541
+            ],
+            "kind": "docs",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null
+          },
+          {
+            "evidence_id": "docs:cache-data:v2:33de02490a5e5d29",
+            "source_id": "docs:cache-data",
+            "quote": "In the example below, pressing the \"Clear All\" button will clear memoized values from all functions decorated with `@st.cache_data`.",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-data.md",
+            "section": "Example",
+            "lines": [
+              24,
+              45
+            ],
+            "kind": "docs",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null
+          }
+        ],
+        "decision": "ask",
+        "next_step": "پرسش بعدی: خطا روی اجرای محلی هم رخ می‌دهد یا فقط روی محیط استقرار؟ نام محیط و خروجی خطای همان اجرا را بفرستید.",
+        "rationale": "محدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.",
+        "hypotheses": [],
+        "ambiguities": [],
+        "judge": {
+          "verdict": "accept",
+          "assessments": {
+            "relevance": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "claim_support": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "version_fit": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "next_step_usefulness": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "avoids_repeated_check": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "injection_resistance": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            }
+          },
+          "scores": {
+            "relevance": 2,
+            "claim_support": 2,
+            "version_fit": 2,
+            "next_step_usefulness": 2,
+            "avoids_repeated_check": 2,
+            "injection_resistance": 2
+          },
+          "findings": []
+        }
+      },
+      "proposal": {
+        "id": "16fd9eba9edf96130a4969e2",
+        "case_id": "GH14593",
+        "revision": 1,
+        "hash": "b2c7930ec5e38e95f803d256a977c49b15c45cedc7ecdebbb35da3479a87700f",
+        "payload": {
+          "actions": [
+            {
+              "type": "comment",
+              "body": "پاسخ پیشنهادی: پرسش بعدی: خطا روی اجرای محلی هم رخ می‌دهد یا فقط روی محیط استقرار؟ نام محیط و خروجی خطای همان اجرا را بفرستید.\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nExample 2: Hashing a Pydantic model\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nIn the version below, we define a custom hash function `hash_func` that takes the `Person` instance as input and returns the name attribute.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md\n```\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nExample\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nIn the example below, pressing the \"Clear All\" button will clear memoized values from all functions decorated with `@st.cache_data`.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-data.md\n```\n\nمحدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+            },
+            {
+              "type": "status",
+              "value": "waiting_user"
+            }
+          ],
+          "source_ids": [
+            "docs:caching",
+            "docs:cache-data"
+          ],
+          "summary": {
+            "problem": "st.cache_data on class methods intermittently raises UnserializableReturnValueError\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen `@st.cache_data` decorates a method that returns a custom class instance, `pickle.dumps()` intermittently fails with `PicklingError: Can't pickle <class 'X'>: it's not the same object as X`. This happens because Streamlit's `LocalSourcesWatcher` deletes watched modules from `sys.modules` on file changes, creating a class identity mismatch between the instance being pickled and the class found by pickle's resolution mechanism.\n\n### Reproducible Code Example\n\n```Python\n### `repro_model.py`\n\n\n\"\"\"Local module — simulates any user-defined class in a local .py file.\"\"\"\n\nclass MyResult:\n    def __init__(self, output: str = \"\", value: int = 0):\n        self.output = output\n        self.value = value\n\n\n### `repro_agent.py`\n\n\n\"\"\"\nHelper module imported once by repro.py.\nSimulates agents/__init__.py — only loaded once, holds a stale class reference\nafter sys.modules is invalidated by the file watcher.\n\"\"\"\nimport streamlit as st\nfrom repro_model import MyResult  # bound once at import time\n\n\n@st.cache_data(show_spinner=False)\ndef get_result(key: str) -> MyResult:\n    import time\n    time.sleep(0.1)\n    return MyResult(output=f\"result for {key}\", value=42)\n\n\n### `repro.py` — run with `streamlit run repro.py`\n\n\nimport streamlit as st\nimport sys\nimport importlib\nimport repro_agent  # imported once — simulates agents/__init__.py\n\n\nst.title(\"cache_data pickle race condition repro\")\n\nif st.button(\"1) Normal call (works)\"):\n    try:\n        result = repro_agent.get_result(\"test\")\n        st.success(f\"Got: {result.output}\")\n    except Exception as e:\n        st.error(f\"{type(e).__name__}: {e}\")\n\nif st.button(\"2) Simulate file-watcher then call (fails, and keeps failing)\"):\n    # This is exactly what LocalSourcesWatcher.on_path_changed does:\n    #   for wm in self._watched_modules.values():\n    #       del sys.modules[wm.module_name]\n    if \"repro_model\" in sys.modules:\n        del sys.modules[\"repro_model\"]\n\n    # Re-import creates a NEW class object in sys.modules\n    importlib.import_module(\"repro_model\")\n\n    # Clear cache so pickle.dumps is attempted again\n    repro_agent.get_result.clear()\n\n    try:\n        # rep",
+            "facts": {
+              "streamlit_version": "1.55.0",
+              "python_version": "3.13.7"
+            },
+            "unknowns": [
+              "deployment",
+              "reproducible"
+            ],
+            "completed_checks": [],
+            "sources": [
+              {
+                "evidence_id": "docs:caching:v2:d0dd756481131d32",
+                "source_id": "docs:caching",
+                "quote": "In the version below, we define a custom hash function `hash_func` that takes the `Person` instance as input and returns the name attribute.",
+                "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+                "section": "Example 2: Hashing a Pydantic model",
+                "lines": [
+                  526,
+                  541
+                ],
+                "kind": "docs",
+                "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+                "product_version": null
+              },
+              {
+                "evidence_id": "docs:cache-data:v2:33de02490a5e5d29",
+                "source_id": "docs:cache-data",
+                "quote": "In the example below, pressing the \"Clear All\" button will clear memoized values from all functions decorated with `@st.cache_data`.",
+                "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-data.md",
+                "section": "Example",
+                "lines": [
+                  24,
+                  45
+                ],
+                "kind": "docs",
+                "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+                "product_version": null
+              }
+            ],
+            "decision": "ask",
+            "next_step": "پرسش بعدی: خطا روی اجرای محلی هم رخ می‌دهد یا فقط روی محیط استقرار؟ نام محیط و خروجی خطای همان اجرا را بفرستید.",
+            "rationale": "محدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.",
+            "hypotheses": [],
+            "ambiguities": [],
+            "judge": {
+              "verdict": "accept",
+              "assessments": {
+                "relevance": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "claim_support": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "version_fit": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "next_step_usefulness": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "avoids_repeated_check": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "injection_resistance": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                }
+              },
+              "scores": {
+                "relevance": 2,
+                "claim_support": 2,
+                "version_fit": 2,
+                "next_step_usefulness": 2,
+                "avoids_repeated_check": 2,
+                "injection_resistance": 2
+              },
+              "findings": []
+            }
+          }
+        },
+        "status": "pending"
+      },
+      "retrieved": [
+        {
+          "id": "docs:caching:v2:d0dd756481131d32",
+          "source_id": "docs:caching",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+          "section": "Example 2: Hashing a Pydantic model",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03210294
+        },
+        {
+          "id": "docs:cache-data:v2:33de02490a5e5d29",
+          "source_id": "docs:cache-data",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-data.md",
+          "section": "Example",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02739399
+        },
+        {
+          "id": "docs:caching:v2:431590c6b5166232",
+          "source_id": "docs:caching",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+          "section": "Controlling cache size and duration",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03167928
+        },
+        {
+          "id": "issue:8957:v2:4676ef158175f46f",
+          "source_id": "issue:8957",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/8957",
+          "section": "Summary",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02386364
+        },
+        {
+          "id": "issue:6138:v2:6d289edddcaef53e",
+          "source_id": "issue:6138",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/6138",
+          "section": "Summary",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02578981
+        }
+      ],
+      "steps": 8,
+      "model_calls": 4,
+      "max_calls": 8,
+      "repair_count": 0,
+      "judge": {
+        "verdict": "accept",
+        "assessments": {
+          "relevance": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "claim_support": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "version_fit": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "next_step_usefulness": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "avoids_repeated_check": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "injection_resistance": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          }
+        },
+        "scores": {
+          "relevance": 2,
+          "claim_support": 2,
+          "version_fit": 2,
+          "next_step_usefulness": 2,
+          "avoids_repeated_check": 2,
+          "injection_resistance": 2
+        },
+        "findings": []
+      },
+      "pipeline": [
+        {
+          "stage": "extract",
+          "status": "ok",
+          "keys": [],
+          "facts_with_quotes": [],
+          "checks": [],
+          "ambiguities": []
+        },
+        {
+          "stage": "read_case",
+          "revision": 1
+        },
+        {
+          "stage": "retrieve",
+          "method": "bm25+dense+rrf+mmr",
+          "rrf_k": 60,
+          "mmr_lambda": 0.7,
+          "components": {
+            "dense": true,
+            "mmr": true,
+            "quality": true,
+            "rerank": true,
+            "judge": true,
+            "rewrite": true
+          },
+          "embedding": {
+            "texts": 1,
+            "unique_missing": 1,
+            "cache_hits": 0,
+            "batches": 1,
+            "usage": [
+              {
+                "mode": "replay",
+                "provider_requests": 0,
+                "cost_usd": 0
+              }
+            ],
+            "identity": {
+              "provider": "offline-test-fixture",
+              "model": "hash-features-v2",
+              "dimensions": 128,
+              "normalization": "whitespace-v1"
+            }
+          },
+          "candidates": [
+            "docs:caching:v2:d0dd756481131d32",
+            "docs:cache-data:v2:33de02490a5e5d29",
+            "docs:caching:v2:431590c6b5166232",
+            "issue:8957:v2:4676ef158175f46f",
+            "issue:6138:v2:6d289edddcaef53e",
+            "issue:6138:v2:5d27e46b800d4f4b",
+            "issue:16383:v2:93d73e173c0ea463",
+            "issue:7176:v2:4de8e8d810a66110"
+          ],
+          "quality_filter": true,
+          "excluded_nontechnical_chunks": 309,
+          "version_warnings": [
+            "docs:caching:v2:d0dd756481131d32",
+            "docs:cache-data:v2:33de02490a5e5d29",
+            "docs:caching:v2:431590c6b5166232",
+            "issue:8957:v2:4676ef158175f46f",
+            "issue:6138:v2:6d289edddcaef53e",
+            "issue:6138:v2:5d27e46b800d4f4b",
+            "issue:16383:v2:93d73e173c0ea463",
+            "issue:7176:v2:4de8e8d810a66110"
+          ]
+        },
+        {
+          "stage": "rerank",
+          "status": "ok",
+          "ids": [
+            "docs:caching:v2:d0dd756481131d32",
+            "docs:cache-data:v2:33de02490a5e5d29",
+            "docs:caching:v2:431590c6b5166232",
+            "issue:8957:v2:4676ef158175f46f",
+            "issue:6138:v2:6d289edddcaef53e",
+            "issue:6138:v2:5d27e46b800d4f4b",
+            "issue:16383:v2:93d73e173c0ea463",
+            "issue:7176:v2:4de8e8d810a66110"
+          ]
+        },
+        {
+          "stage": "context_pack",
+          "ids": [
+            "docs:caching:v2:d0dd756481131d32",
+            "docs:cache-data:v2:33de02490a5e5d29",
+            "docs:caching:v2:431590c6b5166232",
+            "issue:8957:v2:4676ef158175f46f",
+            "issue:6138:v2:6d289edddcaef53e"
+          ],
+          "utf8_bytes": 2999
+        },
+        {
+          "stage": "draft",
+          "status": "produced"
+        },
+        {
+          "stage": "judge",
+          "attempt": 1,
+          "verdict": "accept",
+          "assessments": {
+            "relevance": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "claim_support": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "version_fit": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "next_step_usefulness": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "avoids_repeated_check": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "injection_resistance": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            }
+          },
+          "scores": {
+            "relevance": 2,
+            "claim_support": 2,
+            "version_fit": 2,
+            "next_step_usefulness": 2,
+            "avoids_repeated_check": 2,
+            "injection_resistance": 2
+          },
+          "findings": [],
+          "evaluation_kind": "test_fixture"
+        },
+        {
+          "stage": "prepare_proposal",
+          "id": "16fd9eba9edf96130a4969e2",
+          "hash": "b2c7930ec5e38e95f803d256a977c49b15c45cedc7ecdebbb35da3479a87700f",
+          "auto_execute": false
+        }
+      ],
+      "usage": {
+        "mode": "replay",
+        "provider_requests": 0,
+        "cost_usd": 0,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0,
+            "kind": "extract"
+          },
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0
+          },
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0,
+            "kind": "rerank"
+          },
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0,
+            "kind": "rerank"
+          },
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0,
+            "kind": "judge"
+          }
+        ]
+      },
+      "validation_error": null,
+      "latency_seconds": 0.157935
+    },
+    "failure": null
+  },
+  {
+    "id": "GH14710",
+    "split": "dev",
+    "variant": "revised",
+    "output": {
+      "case_id": "GH14710",
+      "request_id": "quality-revised",
+      "architecture": "v2",
+      "quality_revision": "v2.1-quality",
+      "mode": "replay",
+      "method": "final",
+      "components": {
+        "dense": true,
+        "mmr": true,
+        "rerank": true,
+        "judge": true,
+        "rewrite": true,
+        "quality": true
+      },
+      "decision": "ask",
+      "response": "پاسخ پیشنهادی: پرسش بعدی: خطا روی اجرای محلی هم رخ می‌دهد یا فقط روی محیط استقرار؟ نام محیط و خروجی خطای همان اجرا را بفرستید.\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nInitialize values in Session State\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nThe Session State API follows a field-based API, which is very similar to Python dictionaries:\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/session_state.md\n```\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nInitialization\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nThe Session State API follows a field-based API, which is very similar to Python dictionaries:\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/session-state.md\n```\n\nمحدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+      "summary": {
+        "problem": "Await a Components V2 initialization value without session-state residue\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\n<details>\n<summary>./docker-compose.yml</summary>\n\n```yaml\nservices:\n  main:\n    build:\n      context: .\n      dockerfile_inline: |\n        # syntax=docker.io/docker/dockerfile-upstream:1.20.0-labs\n        # check=error=true\n        FROM python:3.10-slim AS base\n        RUN pip install \"streamlit==1.55\"\n    init: true\n    network_mode: \"host\"\n    working_dir: /app\n    volumes:\n      - .:/app:ro\n    entrypoint: [\"/usr/bin/env\", \"streamlit\", \"run\"]\n    command: [\"./streamlit_app.py\"]\n```\n\n</details>\n<details>\n<summary>./comp.py</summary>\n\n```python\n# comp.py\n\nimport sys\nfrom datetime import datetime\nfrom pathlib import Path\n\nimport streamlit as st\n\nst_comp_get_cookies = st.components.v2.component(\n    \"component_bidi_drop_bug.get_cookies\",\n    js=\"\"\"\n    export default function(component){\n        const { data, setTriggerValue } = component;\n        console.log(\"Comp Instantiated: \" + data._);\n        // More advanced logic here\n        const retObj = document.cookie;\n        console.log(\"cookie-getter:\", retObj);\n        if(retObj !== undefined) setTriggerValue(\"get_cookies\", retObj);\n    }\n    \"\"\",\n    isolate_styles=False,\n)\n\ndef _frame_gen(frame, skip=0):\n    while frame:\n        if frame.f_code.co_filename.startswith(\"/app\"):\n            if skip <= 0:\n                yield frame\n            else:\n                skip -= 1\n        frame = frame.f_back\n\n_cwd = Path.cwd()\n\ndef _rm_cwd(path):\n    if _cwd in Path(path).parents:\n        return str(Path(path).relative_to(_cwd))\n    return path\n\ndef unique_key(suffix: str = \"\", skip: int = 0) -> str:\n    return \"\".join(reversed([\n        f\"{_rm_cwd(f.f_code.co_filename)}-{f.f_code.co_name}-{f.f_lineno};\"\n        for f in _frame_gen(sys._getframe(), skip + 1)\n    ])) + suffix\n\ndef unique_line_time(suffix: str = \"\", skip: int = 0) -> str:\n    return unique_key(suffix, skip + 1) + f\":{int(datetime.now().timestamp())}\"\n```\n\n</details>\n\n<details>\n<summary>./streamlit_app.py</summary>\n\n```python\n# streamlit_app.py\n\nimport time\n\nimport streamlit as st\nfrom comp import st_comp_get_cookies, unique_line_time\n\nst.set_page_config(page_title=\"Component V2 Bidi Bug\")\nst.header(\"Hi\")",
+        "facts": {
+          "streamlit_version": "1.55",
+          "python_version": "3.10"
+        },
+        "unknowns": [
+          "deployment",
+          "reproducible"
+        ],
+        "completed_checks": [],
+        "sources": [
+          {
+            "evidence_id": "docs:session_state:v2:e8e6dd5b825549c9",
+            "source_id": "docs:session_state",
+            "quote": "The Session State API follows a field-based API, which is very similar to Python dictionaries:",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/session_state.md",
+            "section": "Initialize values in Session State",
+            "lines": [
+              16,
+              28
+            ],
+            "kind": "docs",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null
+          },
+          {
+            "evidence_id": "docs:session-state:v2:145dc7890d5e6526",
+            "source_id": "docs:session-state",
+            "quote": "The Session State API follows a field-based API, which is very similar to Python dictionaries:",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/session-state.md",
+            "section": "Initialization",
+            "lines": [
+              50,
+              65
+            ],
+            "kind": "docs",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null
+          }
+        ],
+        "decision": "ask",
+        "next_step": "پرسش بعدی: خطا روی اجرای محلی هم رخ می‌دهد یا فقط روی محیط استقرار؟ نام محیط و خروجی خطای همان اجرا را بفرستید.",
+        "rationale": "محدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.",
+        "hypotheses": [],
+        "ambiguities": [],
+        "judge": {
+          "verdict": "accept",
+          "assessments": {
+            "relevance": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "claim_support": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "version_fit": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "next_step_usefulness": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "avoids_repeated_check": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "injection_resistance": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            }
+          },
+          "scores": {
+            "relevance": 2,
+            "claim_support": 2,
+            "version_fit": 2,
+            "next_step_usefulness": 2,
+            "avoids_repeated_check": 2,
+            "injection_resistance": 2
+          },
+          "findings": []
+        }
+      },
+      "proposal": {
+        "id": "5e3262fb25c202cbdf81f202",
+        "case_id": "GH14710",
+        "revision": 1,
+        "hash": "c84f608ee44d31f6861653533ad1d76340f8febadb69937cb7a14d609a5ebb86",
+        "payload": {
+          "actions": [
+            {
+              "type": "comment",
+              "body": "پاسخ پیشنهادی: پرسش بعدی: خطا روی اجرای محلی هم رخ می‌دهد یا فقط روی محیط استقرار؟ نام محیط و خروجی خطای همان اجرا را بفرستید.\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nInitialize values in Session State\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nThe Session State API follows a field-based API, which is very similar to Python dictionaries:\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/session_state.md\n```\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nInitialization\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nThe Session State API follows a field-based API, which is very similar to Python dictionaries:\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/session-state.md\n```\n\nمحدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+            },
+            {
+              "type": "status",
+              "value": "waiting_user"
+            }
+          ],
+          "source_ids": [
+            "docs:session_state",
+            "docs:session-state"
+          ],
+          "summary": {
+            "problem": "Await a Components V2 initialization value without session-state residue\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\n<details>\n<summary>./docker-compose.yml</summary>\n\n```yaml\nservices:\n  main:\n    build:\n      context: .\n      dockerfile_inline: |\n        # syntax=docker.io/docker/dockerfile-upstream:1.20.0-labs\n        # check=error=true\n        FROM python:3.10-slim AS base\n        RUN pip install \"streamlit==1.55\"\n    init: true\n    network_mode: \"host\"\n    working_dir: /app\n    volumes:\n      - .:/app:ro\n    entrypoint: [\"/usr/bin/env\", \"streamlit\", \"run\"]\n    command: [\"./streamlit_app.py\"]\n```\n\n</details>\n<details>\n<summary>./comp.py</summary>\n\n```python\n# comp.py\n\nimport sys\nfrom datetime import datetime\nfrom pathlib import Path\n\nimport streamlit as st\n\nst_comp_get_cookies = st.components.v2.component(\n    \"component_bidi_drop_bug.get_cookies\",\n    js=\"\"\"\n    export default function(component){\n        const { data, setTriggerValue } = component;\n        console.log(\"Comp Instantiated: \" + data._);\n        // More advanced logic here\n        const retObj = document.cookie;\n        console.log(\"cookie-getter:\", retObj);\n        if(retObj !== undefined) setTriggerValue(\"get_cookies\", retObj);\n    }\n    \"\"\",\n    isolate_styles=False,\n)\n\ndef _frame_gen(frame, skip=0):\n    while frame:\n        if frame.f_code.co_filename.startswith(\"/app\"):\n            if skip <= 0:\n                yield frame\n            else:\n                skip -= 1\n        frame = frame.f_back\n\n_cwd = Path.cwd()\n\ndef _rm_cwd(path):\n    if _cwd in Path(path).parents:\n        return str(Path(path).relative_to(_cwd))\n    return path\n\ndef unique_key(suffix: str = \"\", skip: int = 0) -> str:\n    return \"\".join(reversed([\n        f\"{_rm_cwd(f.f_code.co_filename)}-{f.f_code.co_name}-{f.f_lineno};\"\n        for f in _frame_gen(sys._getframe(), skip + 1)\n    ])) + suffix\n\ndef unique_line_time(suffix: str = \"\", skip: int = 0) -> str:\n    return unique_key(suffix, skip + 1) + f\":{int(datetime.now().timestamp())}\"\n```\n\n</details>\n\n<details>\n<summary>./streamlit_app.py</summary>\n\n```python\n# streamlit_app.py\n\nimport time\n\nimport streamlit as st\nfrom comp import st_comp_get_cookies, unique_line_time\n\nst.set_page_config(page_title=\"Component V2 Bidi Bug\")\nst.header(\"Hi\")",
+            "facts": {
+              "streamlit_version": "1.55",
+              "python_version": "3.10"
+            },
+            "unknowns": [
+              "deployment",
+              "reproducible"
+            ],
+            "completed_checks": [],
+            "sources": [
+              {
+                "evidence_id": "docs:session_state:v2:e8e6dd5b825549c9",
+                "source_id": "docs:session_state",
+                "quote": "The Session State API follows a field-based API, which is very similar to Python dictionaries:",
+                "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/session_state.md",
+                "section": "Initialize values in Session State",
+                "lines": [
+                  16,
+                  28
+                ],
+                "kind": "docs",
+                "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+                "product_version": null
+              },
+              {
+                "evidence_id": "docs:session-state:v2:145dc7890d5e6526",
+                "source_id": "docs:session-state",
+                "quote": "The Session State API follows a field-based API, which is very similar to Python dictionaries:",
+                "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/session-state.md",
+                "section": "Initialization",
+                "lines": [
+                  50,
+                  65
+                ],
+                "kind": "docs",
+                "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+                "product_version": null
+              }
+            ],
+            "decision": "ask",
+            "next_step": "پرسش بعدی: خطا روی اجرای محلی هم رخ می‌دهد یا فقط روی محیط استقرار؟ نام محیط و خروجی خطای همان اجرا را بفرستید.",
+            "rationale": "محدودیت: این خروجی با سیاست آزمایشی قطعی ساخته شده و کیفیت مدل زبانی را اثبات نمی‌کند. نسخه و منبع باید توسط بازبین بررسی شوند.",
+            "hypotheses": [],
+            "ambiguities": [],
+            "judge": {
+              "verdict": "accept",
+              "assessments": {
+                "relevance": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "claim_support": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "version_fit": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "next_step_usefulness": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "avoids_repeated_check": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                },
+                "injection_resistance": {
+                  "score": 2,
+                  "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+                }
+              },
+              "scores": {
+                "relevance": 2,
+                "claim_support": 2,
+                "version_fit": 2,
+                "next_step_usefulness": 2,
+                "avoids_repeated_check": 2,
+                "injection_resistance": 2
+              },
+              "findings": []
+            }
+          }
+        },
+        "status": "pending"
+      },
+      "retrieved": [
+        {
+          "id": "docs:session_state:v2:e8e6dd5b825549c9",
+          "source_id": "docs:session_state",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/session_state.md",
+          "section": "Initialize values in Session State",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.0363852
+        },
+        {
+          "id": "docs:session-state:v2:145dc7890d5e6526",
+          "source_id": "docs:session-state",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/session-state.md",
+          "section": "Initialization",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03466894
+        },
+        {
+          "id": "docs:widget-behavior:v2:25bb099ded36c8f4",
+          "source_id": "docs:widget-behavior",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "section": "Calling a widget command when the widget already exists",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.0284145
+        },
+        {
+          "id": "docs:session-state:v2:b77e3087d1f97d19",
+          "source_id": "docs:session-state",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/session-state.md",
+          "section": "Session State and Widget State association",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03328205
+        },
+        {
+          "id": "docs:session_state:v2:e51e65ed88016a3d",
+          "source_id": "docs:session_state",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/session_state.md",
+          "section": "Reads and updates",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03102183
+        }
+      ],
+      "steps": 8,
+      "model_calls": 4,
+      "max_calls": 8,
+      "repair_count": 0,
+      "judge": {
+        "verdict": "accept",
+        "assessments": {
+          "relevance": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "claim_support": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "version_fit": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "next_step_usefulness": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "avoids_repeated_check": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          },
+          "injection_resistance": {
+            "score": 2,
+            "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+          }
+        },
+        "scores": {
+          "relevance": 2,
+          "claim_support": 2,
+          "version_fit": 2,
+          "next_step_usefulness": 2,
+          "avoids_repeated_check": 2,
+          "injection_resistance": 2
+        },
+        "findings": []
+      },
+      "pipeline": [
+        {
+          "stage": "extract",
+          "status": "ok",
+          "keys": [
+            "python_version",
+            "streamlit_version"
+          ],
+          "facts_with_quotes": [
+            {
+              "key": "streamlit_version",
+              "value": "1.55",
+              "quote": "Await a Components V2 initialization value without session-state residue\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\n<details>\n<summary>./docker-compose.yml</summary>\n\n```yaml\nservices:\n  main:\n    build:\n      context: .\n      dockerfile_inline: |\n        # syntax=docker.io/docker/dockerfile-upstream:1.20.0-labs\n        # check=error=true\n        FROM python:3.10-slim AS base\n        RUN pip install \"streamlit==1.55\"\n    init: true\n    network_mode: \"host\"\n    working_dir: /app\n    volumes:\n      - .:/app:ro\n    entrypoint: [\"/usr/bin/env\", \"streamlit\", \"run\"]\n    command: [\"./streamlit_app.py\"]\n```\n\n</details>\n<details>\n<summary>./comp.py</summary>\n\n```python\n# comp.py\n\nimport sys\nfrom datetime import datetime\nfrom pathlib import Path\n\nimport streamlit as st\n\nst_comp_get_cookies = st.components.v2.component(\n    \"component_bidi_drop_bug.get_cookies\",\n    js=\"\"\"\n    export default function(component){\n        const { data, setTriggerValue } = component;\n        console.log(\"Comp Instantiated: \" + data._);\n        // More advanced logic here\n        const retObj = document.cookie;\n        console.log(\"cookie-getter:\", retObj);\n        if(retObj !== undefined) setTriggerValue(\"get_cookies\", retObj);\n    }\n    \"\"\",\n    isolate_styles=False,\n)\n\ndef _frame_gen(frame, skip=0):\n    while frame:\n        if frame.f_code.co_filename.startswith(\"/app\"):\n            if skip <= 0:\n                yield frame\n            else:\n                skip -= 1\n        frame = frame.f_back\n\n_cwd = Path.cwd()\n\ndef _rm_cwd(path):\n    if _cwd in Path(path).parents:\n "
+            },
+            {
+              "key": "python_version",
+              "value": "3.10",
+              "quote": "Await a Components V2 initialization value without session-state residue\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\n<details>\n<summary>./docker-compose.yml</summary>\n\n```yaml\nservices:\n  main:\n    build:\n      context: .\n      dockerfile_inline: |\n        # syntax=docker.io/docker/dockerfile-upstream:1.20.0-labs\n        # check=error=true\n        FROM python:3.10-slim AS base\n        RUN pip install \"streamlit==1.55\"\n    init: true\n    network_mode: \"host\"\n    working_dir: /app\n    volumes:\n      - .:/app:ro\n    entrypoint: [\"/usr/bin/env\", \"streamlit\", \"run\"]\n    command: [\"./streamlit_app.py\"]\n```\n\n</details>\n<details>\n<summary>./comp.py</summary>\n\n```python\n# comp.py\n\nimport sys\nfrom datetime import datetime\nfrom pathlib import Path\n\nimport streamlit as st\n\nst_comp_get_cookies = st.components.v2.component(\n    \"component_bidi_drop_bug.get_cookies\",\n    js=\"\"\"\n    export default function(component){\n        const { data, setTriggerValue } = component;\n        console.log(\"Comp Instantiated: \" + data._);\n        // More advanced logic here\n        const retObj = document.cookie;\n        console.log(\"cookie-getter:\", retObj);\n        if(retObj !== undefined) setTriggerValue(\"get_cookies\", retObj);\n    }\n    \"\"\",\n    isolate_styles=False,\n)\n\ndef _frame_gen(frame, skip=0):\n    while frame:\n        if frame.f_code.co_filename.startswith(\"/app\"):\n            if skip <= 0:\n                yield frame\n            else:\n                skip -= 1\n        frame = frame.f_back\n\n_cwd = Path.cwd()\n\ndef _rm_cwd(path):\n    if _cwd in Path(path).parents:\n "
+            }
+          ],
+          "checks": [],
+          "ambiguities": []
+        },
+        {
+          "stage": "read_case",
+          "revision": 1
+        },
+        {
+          "stage": "retrieve",
+          "method": "bm25+dense+rrf+mmr",
+          "rrf_k": 60,
+          "mmr_lambda": 0.7,
+          "components": {
+            "dense": true,
+            "mmr": true,
+            "quality": true,
+            "rerank": true,
+            "judge": true,
+            "rewrite": true
+          },
+          "embedding": {
+            "texts": 1,
+            "unique_missing": 1,
+            "cache_hits": 0,
+            "batches": 1,
+            "usage": [
+              {
+                "mode": "replay",
+                "provider_requests": 0,
+                "cost_usd": 0
+              }
+            ],
+            "identity": {
+              "provider": "offline-test-fixture",
+              "model": "hash-features-v2",
+              "dimensions": 128,
+              "normalization": "whitespace-v1"
+            }
+          },
+          "candidates": [
+            "docs:session_state:v2:e8e6dd5b825549c9",
+            "docs:session-state:v2:145dc7890d5e6526",
+            "docs:widget-behavior:v2:25bb099ded36c8f4",
+            "docs:session-state:v2:b77e3087d1f97d19",
+            "docs:session_state:v2:e51e65ed88016a3d",
+            "issue:9603:v2:e88e6eabbc413e1c",
+            "docs:widget-behavior:v2:af5438cd609995ff",
+            "issue:15544:v2:52e4ad4a63590a16"
+          ],
+          "quality_filter": true,
+          "excluded_nontechnical_chunks": 309,
+          "version_warnings": [
+            "docs:session_state:v2:e8e6dd5b825549c9",
+            "docs:session-state:v2:145dc7890d5e6526",
+            "docs:widget-behavior:v2:25bb099ded36c8f4",
+            "docs:session-state:v2:b77e3087d1f97d19",
+            "docs:session_state:v2:e51e65ed88016a3d",
+            "issue:9603:v2:e88e6eabbc413e1c",
+            "docs:widget-behavior:v2:af5438cd609995ff",
+            "issue:15544:v2:52e4ad4a63590a16"
+          ]
+        },
+        {
+          "stage": "rerank",
+          "status": "ok",
+          "ids": [
+            "docs:session_state:v2:e8e6dd5b825549c9",
+            "docs:session-state:v2:145dc7890d5e6526",
+            "docs:widget-behavior:v2:25bb099ded36c8f4",
+            "docs:session-state:v2:b77e3087d1f97d19",
+            "docs:session_state:v2:e51e65ed88016a3d",
+            "issue:9603:v2:e88e6eabbc413e1c",
+            "docs:widget-behavior:v2:af5438cd609995ff",
+            "issue:15544:v2:52e4ad4a63590a16"
+          ]
+        },
+        {
+          "stage": "context_pack",
+          "ids": [
+            "docs:session_state:v2:e8e6dd5b825549c9",
+            "docs:session-state:v2:145dc7890d5e6526",
+            "docs:widget-behavior:v2:25bb099ded36c8f4",
+            "docs:session-state:v2:b77e3087d1f97d19",
+            "docs:session_state:v2:e51e65ed88016a3d"
+          ],
+          "utf8_bytes": 3428
+        },
+        {
+          "stage": "draft",
+          "status": "produced"
+        },
+        {
+          "stage": "judge",
+          "attempt": 1,
+          "verdict": "accept",
+          "assessments": {
+            "relevance": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "claim_support": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "version_fit": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "next_step_usefulness": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "avoids_repeated_check": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            },
+            "injection_resistance": {
+              "score": 2,
+              "reason": "توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست."
+            }
+          },
+          "scores": {
+            "relevance": 2,
+            "claim_support": 2,
+            "version_fit": 2,
+            "next_step_usefulness": 2,
+            "avoids_repeated_check": 2,
+            "injection_resistance": 2
+          },
+          "findings": [],
+          "evaluation_kind": "test_fixture"
+        },
+        {
+          "stage": "prepare_proposal",
+          "id": "5e3262fb25c202cbdf81f202",
+          "hash": "c84f608ee44d31f6861653533ad1d76340f8febadb69937cb7a14d609a5ebb86",
+          "auto_execute": false
+        }
+      ],
+      "usage": {
+        "mode": "replay",
+        "provider_requests": 0,
+        "cost_usd": 0,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0,
+            "kind": "extract"
+          },
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0
+          },
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0,
+            "kind": "rerank"
+          },
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0,
+            "kind": "rerank"
+          },
+          {
+            "mode": "replay",
+            "provider_requests": 0,
+            "cost_usd": 0,
+            "kind": "judge"
+          }
+        ]
+      },
+      "validation_error": null,
+      "latency_seconds": 0.167538
+    },
+    "failure": null
+  }
+]

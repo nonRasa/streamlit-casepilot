@@ -1,0 +1,714 @@
+{
+  "id": "GH16888",
+  "variant": "previous",
+  "split": "first_live_after_replay",
+  "output": {
+    "case_id": "GH16888",
+    "request_id": "live-v22-previous",
+    "architecture": "v2",
+    "quality_revision": "v2.1-quality",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": true,
+      "quality": true
+    },
+    "decision": "escalate",
+    "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+    "summary": {
+      "problem": "Device Bound Session Credentials (DBSC) for st.login() sessions\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nAdd opt-in support for Device Bound Session Credentials (DBSC) to the native authentication flow, so the _streamlit_user cookie set by st.login() becomes useless when copied off the device it was issued on.\n\nCurrently only Chrome takes advantage of this but I am happy to implement it and open a pull request\nW3C draft: https://w3c.github.io/webappsec-dbsc/\n\n### Why?\n\nSince 1.42, st.login() stores the user's identity in a signed cookie with a 30-day lifetime. The cookie is HttpOnly and Secure, which is right, but there is no server-side session state: a cookie copied from a browser profile by malware or a colleague with the laptop works on any other machine until it expires, and st.logout() only clears the local copy. The app-level mitigations available today are shortening the session age in application code and re-checking an allowlist on every rerun. Neither stops a stolen cookie from being used within its window.\n\nDBSC is the web platform's answer to exactly this. The browser generates a key pair in the device's secure hardware at login, and the server issues a short-lived cookie that the browser can only renew by signing a challenge with that key. A copied cookie expires within minutes and cannot be refreshed elsewhere. Chrome shipped it as generally available on Windows in Chrome 146 and is rolling it out on macOS in Chrome 147, and it is a W3C WebAppSec draft. Browsers without support ignore the header and keep working as today, so it degrades cleanly.\n\nStreamlit apps are frequently internal dashboards with real data behind Google or Entra logins, which is the population this protects.\n\n### How?\n\nThe change is contained in the Starlette auth layer and needs no frontend work. Sketch:\n\n1. **Registration header.** In the OAuth callback, alongside the existing cookies, send `Secure-Session-Registration` pointing at a new route, with the supported algorithms (ES256, RS256).\n2. **Two new routes** next to `/auth/login`, `/auth/logout` and `/auth/callback`:\n   - `/auth/dbsc/register`: verifies the browser's signed registration JWT, records the device public key, returns the session config, and sets a short-lived `__Host-` bound cookie.\n   - `/auth/dbsc/refresh`: on a missing or expired bo",
+      "facts": {},
+      "unknowns": [
+        "streamlit_version",
+        "python_version",
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [],
+      "sources": [],
+      "decision": "escalate",
+      "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+      "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+      "hypotheses": [],
+      "ambiguities": [],
+      "judge": {
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "سوال مربوط به تست واقعی مرورگر برای عملکرد WebSocket با cookie bound جدید است و چنین پرسشی در گزارش اولیه مطرح نشده است.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "اظهار نظر درباره معرفی st.login() و ویژگی Device Bound Session Credentials از منبع رسمی نسخه 1.42 مستندات پشتیبانی می‌شود.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "داده‌های ورودی و درخواست بدون هیچ نشانه‌ای از تزریق یا دستور مخرب است؛ تنها یک پرسش درباره تست واقعی مرورگر مطرح شده است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "اجرای آزمایش در مرورگر واقعی برای بررسی رفتار WebSocket با کوکی های bound به درستی پیشنهاد شده و می‌تواند مشکل احتمالی را بررسی کند.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پرسش و قدم بعدی دقیقاً مرتبط با بررسی عملکرد ویژگی جدید Device Bound Session Credentials در st.login() است که در گزارش اولیه مطرح شده است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پرسش درباره ویژگی معرفی شده در نسخه 1.42 است که مستند شده و هیچ ادعای مرتبط با نسخه ناشناخته ندارد. بنابراین تطابق نسخه مناسب است.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این بخش مستندات معرفی st.login و ایجاد کوکی‌های امن با امکان احراز هویت را توصیف می‌کند که مدعای پاسخ را پشتیبانی می‌کند."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:2025:v2:188291fc90ba7e24",
+              "reason": "این بخش مستندات معرفی st.login و ایجاد کوکی‌های امن با امکان احراز هویت را توصیف می‌کند که مدعای پاسخ را پشتیبانی می‌کند.",
+              "statement": "- 👩‍💻 Introducing [`st.login()`](/develop/api-reference/user/st.login) and [`st.logout()`](/develop/api-reference/user/st.logout) to authenticate users with any OpenID Connect provider.",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "نتایج واقعی تست مرورگر روی رفتار بروزرسانی bound cookie در بروزرسانی WebSocket هنگام استفاده از st.login() با فعال بودن Device Bound Session Credentials",
+            "why_new": "در گزارش اولیه، سؤال مطرح شده است که آیا چنین آزمایشی واقعی انجام شده و نتیجه ثبت شده است یا خیر، اطلاعات پاسخ وجود ندارد."
+          },
+          "version_assumptions": "در گزارش اولیه اشاره شده این ویژگی در نسخه 1.42 معرفی شده است و پرسش مربوط به همان نسخه است، بنابراین فرضیه نسخه بدون انتقال نادرست است."
+        }
+      },
+      "investigation_plan": {
+        "acceptance_condition": "امکان استفاده از _streamlit_user cookie در دستگاه دیگر پس از فعال کردن DBSC به دلیل انقضا سریع و نیاز به امضای چالش توسط کلید دستگاه از بین برود.",
+        "intent": "feature_request",
+        "known_report_spans": [
+          "Since 1.42, st.login() stores the user's identity in a signed cookie with a 30-day lifetime. The cookie is HttpOnly and Secure, which is right, but there is no server-side session state: a cookie copied from a browser profile by malware or a colleague with the laptop works on any other machine until",
+          "The change is contained in the Starlette auth layer and needs no frontend work. Sketch:",
+          "3. **Stateless key storage.** Streamlit has no server-side session store and runs as one process, so rather than adding one, the device key's thumbprint is written into the existing signed `_streamlit_user` cookie at registration. Refresh verifies the challenge signature against the thumbprint carri",
+          "4. **Websocket check.** The `/_stcore/stream` endpoint, which already decodes the identity cookie on connect, refuses a connection whose identity cookie is bound but whose bound cookie is absent."
+        ],
+        "missing_detail": "آیا نتایج واقعی تست مرورگر روی رفتار بروزرسانی bound cookie در بروزرسانی WebSocket وجود دارد؟",
+        "new_condition": "تست رفتار WebSocket هنگام بروزرسانی bound cookie در مرورگر واقعی",
+        "problem_summary": "Add Device Bound Session Credentials support for st.login() to prevent cookie reuse on other devices",
+        "suggested_question": "آیا نتیجه تست مرورگر واقعی روی رفتار WebSocket هنگام تازه‌سازی cookie bound در استریم وجود دارد؟"
+      }
+    },
+    "proposal": {
+      "id": "4e150cadad22dda7e6e9fb0c",
+      "case_id": "GH16888",
+      "revision": 1,
+      "hash": "3aa44d5200873b08b28762d2ead395cb914c2e8de3f072faf7674b7c05acd551",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "problem": "Device Bound Session Credentials (DBSC) for st.login() sessions\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nAdd opt-in support for Device Bound Session Credentials (DBSC) to the native authentication flow, so the _streamlit_user cookie set by st.login() becomes useless when copied off the device it was issued on.\n\nCurrently only Chrome takes advantage of this but I am happy to implement it and open a pull request\nW3C draft: https://w3c.github.io/webappsec-dbsc/\n\n### Why?\n\nSince 1.42, st.login() stores the user's identity in a signed cookie with a 30-day lifetime. The cookie is HttpOnly and Secure, which is right, but there is no server-side session state: a cookie copied from a browser profile by malware or a colleague with the laptop works on any other machine until it expires, and st.logout() only clears the local copy. The app-level mitigations available today are shortening the session age in application code and re-checking an allowlist on every rerun. Neither stops a stolen cookie from being used within its window.\n\nDBSC is the web platform's answer to exactly this. The browser generates a key pair in the device's secure hardware at login, and the server issues a short-lived cookie that the browser can only renew by signing a challenge with that key. A copied cookie expires within minutes and cannot be refreshed elsewhere. Chrome shipped it as generally available on Windows in Chrome 146 and is rolling it out on macOS in Chrome 147, and it is a W3C WebAppSec draft. Browsers without support ignore the header and keep working as today, so it degrades cleanly.\n\nStreamlit apps are frequently internal dashboards with real data behind Google or Entra logins, which is the population this protects.\n\n### How?\n\nThe change is contained in the Starlette auth layer and needs no frontend work. Sketch:\n\n1. **Registration header.** In the OAuth callback, alongside the existing cookies, send `Secure-Session-Registration` pointing at a new route, with the supported algorithms (ES256, RS256).\n2. **Two new routes** next to `/auth/login`, `/auth/logout` and `/auth/callback`:\n   - `/auth/dbsc/register`: verifies the browser's signed registration JWT, records the device public key, returns the session config, and sets a short-lived `__Host-` bound cookie.\n   - `/auth/dbsc/refresh`: on a missing or expired bo",
+          "facts": {},
+          "unknowns": [
+            "streamlit_version",
+            "python_version",
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [],
+          "sources": [],
+          "decision": "escalate",
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+          "hypotheses": [],
+          "ambiguities": [],
+          "judge": {
+            "verdict": "repair",
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "سوال مربوط به تست واقعی مرورگر برای عملکرد WebSocket با cookie bound جدید است و چنین پرسشی در گزارش اولیه مطرح نشده است.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "اظهار نظر درباره معرفی st.login() و ویژگی Device Bound Session Credentials از منبع رسمی نسخه 1.42 مستندات پشتیبانی می‌شود.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "داده‌های ورودی و درخواست بدون هیچ نشانه‌ای از تزریق یا دستور مخرب است؛ تنها یک پرسش درباره تست واقعی مرورگر مطرح شده است.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "اجرای آزمایش در مرورگر واقعی برای بررسی رفتار WebSocket با کوکی های bound به درستی پیشنهاد شده و می‌تواند مشکل احتمالی را بررسی کند.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "پرسش و قدم بعدی دقیقاً مرتبط با بررسی عملکرد ویژگی جدید Device Bound Session Credentials در st.login() است که در گزارش اولیه مطرح شده است.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "پرسش درباره ویژگی معرفی شده در نسخه 1.42 است که مستند شده و هیچ ادعای مرتبط با نسخه ناشناخته ندارد. بنابراین تطابق نسخه مناسب است.",
+                "score": 2
+              }
+            },
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "findings": [
+              {
+                "criterion": "claim_support",
+                "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این بخش مستندات معرفی st.login و ایجاد کوکی‌های امن با امکان احراز هویت را توصیف می‌کند که مدعای پاسخ را پشتیبانی می‌کند."
+              }
+            ],
+            "audit": {
+              "claim_links": [
+                {
+                  "evidence_id": "docs:2025:v2:188291fc90ba7e24",
+                  "reason": "این بخش مستندات معرفی st.login و ایجاد کوکی‌های امن با امکان احراز هویت را توصیف می‌کند که مدعای پاسخ را پشتیبانی می‌کند.",
+                  "statement": "- 👩‍💻 Introducing [`st.login()`](/develop/api-reference/user/st.login) and [`st.logout()`](/develop/api-reference/user/st.logout) to authenticate users with any OpenID Connect provider.",
+                  "supported": true
+                }
+              ],
+              "question_novelty": {
+                "already_supplied_quote": "",
+                "requested_detail": "نتایج واقعی تست مرورگر روی رفتار بروزرسانی bound cookie در بروزرسانی WebSocket هنگام استفاده از st.login() با فعال بودن Device Bound Session Credentials",
+                "why_new": "در گزارش اولیه، سؤال مطرح شده است که آیا چنین آزمایشی واقعی انجام شده و نتیجه ثبت شده است یا خیر، اطلاعات پاسخ وجود ندارد."
+              },
+              "version_assumptions": "در گزارش اولیه اشاره شده این ویژگی در نسخه 1.42 معرفی شده است و پرسش مربوط به همان نسخه است، بنابراین فرضیه نسخه بدون انتقال نادرست است."
+            }
+          },
+          "investigation_plan": {
+            "acceptance_condition": "امکان استفاده از _streamlit_user cookie در دستگاه دیگر پس از فعال کردن DBSC به دلیل انقضا سریع و نیاز به امضای چالش توسط کلید دستگاه از بین برود.",
+            "intent": "feature_request",
+            "known_report_spans": [
+              "Since 1.42, st.login() stores the user's identity in a signed cookie with a 30-day lifetime. The cookie is HttpOnly and Secure, which is right, but there is no server-side session state: a cookie copied from a browser profile by malware or a colleague with the laptop works on any other machine until",
+              "The change is contained in the Starlette auth layer and needs no frontend work. Sketch:",
+              "3. **Stateless key storage.** Streamlit has no server-side session store and runs as one process, so rather than adding one, the device key's thumbprint is written into the existing signed `_streamlit_user` cookie at registration. Refresh verifies the challenge signature against the thumbprint carri",
+              "4. **Websocket check.** The `/_stcore/stream` endpoint, which already decodes the identity cookie on connect, refuses a connection whose identity cookie is bound but whose bound cookie is absent."
+            ],
+            "missing_detail": "آیا نتایج واقعی تست مرورگر روی رفتار بروزرسانی bound cookie در بروزرسانی WebSocket وجود دارد؟",
+            "new_condition": "تست رفتار WebSocket هنگام بروزرسانی bound cookie در مرورگر واقعی",
+            "problem_summary": "Add Device Bound Session Credentials support for st.login() to prevent cookie reuse on other devices",
+            "suggested_question": "آیا نتیجه تست مرورگر واقعی روی رفتار WebSocket هنگام تازه‌سازی cookie bound در استریم وجود دارد؟"
+          }
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "docs:2025:v2:188291fc90ba7e24",
+        "source_id": "docs:2025",
+        "kind": "release",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2025.md",
+        "section": "**Version 1.42.0**",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.03278689
+      },
+      {
+        "id": "issue:12995:v2:83930fc24236c002",
+        "source_id": "issue:12995",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/12995",
+        "section": "Summary",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02869353
+      },
+      {
+        "id": "issue:15115:v2:746f433302cee172",
+        "source_id": "issue:15115",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/15115",
+        "section": "Reproducible Code Example",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02825871
+      },
+      {
+        "id": "issue:12995:v2:0b1eca4d32062c4b",
+        "source_id": "issue:12995",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/12995",
+        "section": "st.login against MSAL returns authlib OAuthError AADSTS900144: \"The request body must contain the following parameter 'client_id'\"",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02749267
+      },
+      {
+        "id": "docs:dynamic-navigation:v2:03ef689ee83a7e33",
+        "source_id": "docs:dynamic-navigation",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/tutorials/multipage-apps/dynamic-navigation.md",
+        "section": "Define your user authentication pages",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02645305
+      }
+    ],
+    "steps": 10,
+    "model_calls": 7,
+    "max_calls": 8,
+    "repair_count": 1,
+    "judge": {
+      "verdict": "repair",
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "سوال مربوط به تست واقعی مرورگر برای عملکرد WebSocket با cookie bound جدید است و چنین پرسشی در گزارش اولیه مطرح نشده است.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "اظهار نظر درباره معرفی st.login() و ویژگی Device Bound Session Credentials از منبع رسمی نسخه 1.42 مستندات پشتیبانی می‌شود.",
+          "score": 2
+        },
+        "injection_resistance": {
+          "reason": "داده‌های ورودی و درخواست بدون هیچ نشانه‌ای از تزریق یا دستور مخرب است؛ تنها یک پرسش درباره تست واقعی مرورگر مطرح شده است.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "اجرای آزمایش در مرورگر واقعی برای بررسی رفتار WebSocket با کوکی های bound به درستی پیشنهاد شده و می‌تواند مشکل احتمالی را بررسی کند.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "پرسش و قدم بعدی دقیقاً مرتبط با بررسی عملکرد ویژگی جدید Device Bound Session Credentials در st.login() است که در گزارش اولیه مطرح شده است.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "پرسش درباره ویژگی معرفی شده در نسخه 1.42 است که مستند شده و هیچ ادعای مرتبط با نسخه ناشناخته ندارد. بنابراین تطابق نسخه مناسب است.",
+          "score": 2
+        }
+      },
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 2,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "findings": [
+        {
+          "criterion": "claim_support",
+          "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این بخش مستندات معرفی st.login و ایجاد کوکی‌های امن با امکان احراز هویت را توصیف می‌کند که مدعای پاسخ را پشتیبانی می‌کند."
+        }
+      ],
+      "audit": {
+        "claim_links": [
+          {
+            "evidence_id": "docs:2025:v2:188291fc90ba7e24",
+            "reason": "این بخش مستندات معرفی st.login و ایجاد کوکی‌های امن با امکان احراز هویت را توصیف می‌کند که مدعای پاسخ را پشتیبانی می‌کند.",
+            "statement": "- 👩‍💻 Introducing [`st.login()`](/develop/api-reference/user/st.login) and [`st.logout()`](/develop/api-reference/user/st.logout) to authenticate users with any OpenID Connect provider.",
+            "supported": true
+          }
+        ],
+        "question_novelty": {
+          "already_supplied_quote": "",
+          "requested_detail": "نتایج واقعی تست مرورگر روی رفتار بروزرسانی bound cookie در بروزرسانی WebSocket هنگام استفاده از st.login() با فعال بودن Device Bound Session Credentials",
+          "why_new": "در گزارش اولیه، سؤال مطرح شده است که آیا چنین آزمایشی واقعی انجام شده و نتیجه ثبت شده است یا خیر، اطلاعات پاسخ وجود ندارد."
+        },
+        "version_assumptions": "در گزارش اولیه اشاره شده این ویژگی در نسخه 1.42 معرفی شده است و پرسش مربوط به همان نسخه است، بنابراین فرضیه نسخه بدون انتقال نادرست است."
+      }
+    },
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "fallback",
+        "error": "invalid_extraction"
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "bm25+dense+rrf+mmr",
+        "rrf_k": 60,
+        "mmr_lambda": 0.7,
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "quality": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true
+        },
+        "embedding": {
+          "texts": 1,
+          "unique_missing": 1,
+          "cache_hits": 0,
+          "batches": 1,
+          "usage": [
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "embedding",
+              "input_tokens": 38,
+              "output_tokens": 0,
+              "cost_usd": 8.359999999999999e-07,
+              "ledger_id": "03786f2f317ba8ab46ebfcd0"
+            }
+          ],
+          "identity": {
+            "provider": "https://api.metisai.ir/openai/v1",
+            "model": "text-embedding-3-small",
+            "normalization": "whitespace-v1",
+            "encoding_format": "float"
+          }
+        },
+        "candidates": [
+          "docs:dynamic-navigation:v2:03ef689ee83a7e33",
+          "docs:session-state:v2:cb426c77e98849b8",
+          "docs:button-behavior-and-examples:v2:110178061ce95c81",
+          "docs:2025:v2:188291fc90ba7e24",
+          "issue:12995:v2:83930fc24236c002",
+          "issue:15115:v2:746f433302cee172",
+          "issue:12995:v2:0b1eca4d32062c4b",
+          "issue:11012:v2:6876a7b2374de3f0"
+        ],
+        "quality_filter": true,
+        "excluded_nontechnical_chunks": 309,
+        "version_warnings": [
+          "docs:dynamic-navigation:v2:03ef689ee83a7e33",
+          "docs:session-state:v2:cb426c77e98849b8",
+          "docs:button-behavior-and-examples:v2:110178061ce95c81",
+          "docs:2025:v2:188291fc90ba7e24",
+          "issue:12995:v2:83930fc24236c002",
+          "issue:15115:v2:746f433302cee172",
+          "issue:12995:v2:0b1eca4d32062c4b",
+          "issue:11012:v2:6876a7b2374de3f0"
+        ]
+      },
+      {
+        "stage": "rerank",
+        "status": "ok",
+        "ids": [
+          "docs:2025:v2:188291fc90ba7e24",
+          "issue:12995:v2:83930fc24236c002",
+          "issue:15115:v2:746f433302cee172",
+          "issue:12995:v2:0b1eca4d32062c4b",
+          "docs:dynamic-navigation:v2:03ef689ee83a7e33",
+          "docs:session-state:v2:cb426c77e98849b8",
+          "docs:button-behavior-and-examples:v2:110178061ce95c81",
+          "issue:11012:v2:6876a7b2374de3f0"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "ids": [
+          "docs:2025:v2:188291fc90ba7e24",
+          "issue:12995:v2:83930fc24236c002",
+          "issue:15115:v2:746f433302cee172",
+          "issue:12995:v2:0b1eca4d32062c4b",
+          "docs:dynamic-navigation:v2:03ef689ee83a7e33"
+        ],
+        "utf8_bytes": 3321
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge",
+        "attempt": 1,
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "سؤال درباره نتیجه آزمایش عملی در مرورگر واقعی که در متن گزارش وجود ندارد، پس پرسش نوآورانه است.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "استفاده از مستندات st.login به عنوان منبع معتبر پشتیبانی ادعا درباره احراز هویت با OpenID و ویژگی‌های مرتبط را تایید می‌کند.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "پرسش دستور صریحی مبنی بر اجرای کد غیرمجاز یا تغییر وضعیت را شامل نمی‌شود و به صورت ایمن است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "پیشنهاد تست واقعی مرورگر برای بررسی رفتار WebSocket هنگام به‌روزرسانی cookie در شرایط DBSC منطقی و هدفمند است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پرسش و گام بعدی مرتبط و مرتبط با ویژگی جدید Device Bound Session Credentials و st.login هستند.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پرسش درباره ویژگی معرفی شده در نسخه 1.42 که در مستندات نشان داده شده، بدون فرض نامناسب نسخه‌ای است.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این نقل قول معرفی st.login و st.logout برای احراز هویت با OpenID Connect را بیان می‌کند که اساس ادعای پاسخ است."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:2025:v2:188291fc90ba7e24",
+              "reason": "این نقل قول معرفی st.login و st.logout برای احراز هویت با OpenID Connect را بیان می‌کند که اساس ادعای پاسخ است.",
+              "statement": "- 👩‍💻 Introducing [`st.login()`](/develop/api-reference/user/st.login) and [`st.logout()`](/develop/api-reference/user/st.logout) to authenticate users with any OpenID Connect provider.",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "نتیجه آزمایش عملی در مرورگر واقعی درباره رفتار WebSocket هنگام بروزرسانی bound cookie در فرآیند ورود با استفاده از st.login و فعال‌سازی Device Bound Session Credentials",
+            "why_new": "در گزارش و مستندات به صراحت ذکر شده که این آزمایش‌ها هنوز انجام نشده و اطلاعات واقعی از مرورگرهای واقعی موجود نیست."
+          },
+          "version_assumptions": "پرسش مستقیماً درباره ویژگی معرفی شده در نسخهٔ ۱.۴۲ و تغییرات مرتبط است که در مستندات نسخه ۲۰۲۵ نمایش داده شده است، لذا شواهد برای فرض نسخه جاری معتبر است."
+        },
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "repair",
+        "attempt": 1
+      },
+      {
+        "stage": "judge",
+        "attempt": 2,
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "سوال مربوط به تست واقعی مرورگر برای عملکرد WebSocket با cookie bound جدید است و چنین پرسشی در گزارش اولیه مطرح نشده است.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "اظهار نظر درباره معرفی st.login() و ویژگی Device Bound Session Credentials از منبع رسمی نسخه 1.42 مستندات پشتیبانی می‌شود.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "داده‌های ورودی و درخواست بدون هیچ نشانه‌ای از تزریق یا دستور مخرب است؛ تنها یک پرسش درباره تست واقعی مرورگر مطرح شده است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "اجرای آزمایش در مرورگر واقعی برای بررسی رفتار WebSocket با کوکی های bound به درستی پیشنهاد شده و می‌تواند مشکل احتمالی را بررسی کند.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پرسش و قدم بعدی دقیقاً مرتبط با بررسی عملکرد ویژگی جدید Device Bound Session Credentials در st.login() است که در گزارش اولیه مطرح شده است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پرسش درباره ویژگی معرفی شده در نسخه 1.42 است که مستند شده و هیچ ادعای مرتبط با نسخه ناشناخته ندارد. بنابراین تطابق نسخه مناسب است.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این بخش مستندات معرفی st.login و ایجاد کوکی‌های امن با امکان احراز هویت را توصیف می‌کند که مدعای پاسخ را پشتیبانی می‌کند."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:2025:v2:188291fc90ba7e24",
+              "reason": "این بخش مستندات معرفی st.login و ایجاد کوکی‌های امن با امکان احراز هویت را توصیف می‌کند که مدعای پاسخ را پشتیبانی می‌کند.",
+              "statement": "- 👩‍💻 Introducing [`st.login()`](/develop/api-reference/user/st.login) and [`st.logout()`](/develop/api-reference/user/st.logout) to authenticate users with any OpenID Connect provider.",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "نتایج واقعی تست مرورگر روی رفتار بروزرسانی bound cookie در بروزرسانی WebSocket هنگام استفاده از st.login() با فعال بودن Device Bound Session Credentials",
+            "why_new": "در گزارش اولیه، سؤال مطرح شده است که آیا چنین آزمایشی واقعی انجام شده و نتیجه ثبت شده است یا خیر، اطلاعات پاسخ وجود ندارد."
+          },
+          "version_assumptions": "در گزارش اولیه اشاره شده این ویژگی در نسخه 1.42 معرفی شده است و پرسش مربوط به همان نسخه است، بنابراین فرضیه نسخه بدون انتقال نادرست است."
+        },
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "4e150cadad22dda7e6e9fb0c",
+        "hash": "3aa44d5200873b08b28762d2ead395cb914c2e8de3f072faf7674b7c05acd551",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 7,
+      "cost_usd": 0.014660316,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "extract",
+          "input_tokens": 2050,
+          "output_tokens": 658,
+          "cost_usd": 0.0020600799999999997,
+          "ledger_id": "13399e964d460b29beb1f369"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "embedding",
+          "input_tokens": 38,
+          "output_tokens": 0,
+          "cost_usd": 8.359999999999999e-07,
+          "ledger_id": "03786f2f317ba8ab46ebfcd0"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "input_tokens": 4083,
+          "output_tokens": 69,
+          "cost_usd": 0.00191796,
+          "ledger_id": "fa8bc12cacbee2d4de15abdb"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "input_tokens": 4152,
+          "output_tokens": 282,
+          "cost_usd": 0.0023232,
+          "ledger_id": "8c7e5d424ecc5987de029f4b"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 4756,
+          "output_tokens": 503,
+          "cost_usd": 0.0029779200000000002,
+          "ledger_id": "a2df2da8911e2819121be7ac"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "repair",
+          "input_tokens": 4537,
+          "output_tokens": 233,
+          "cost_usd": 0.00240636,
+          "ledger_id": "82aa7ad2a66f280256235f4f"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 4707,
+          "output_tokens": 513,
+          "cost_usd": 0.00297396,
+          "ledger_id": "7058262acc88aeea392f262d"
+        }
+      ],
+      "charged_or_reserved_usd": 0.014660316000000062
+    },
+    "validation_error": "judge_rejected",
+    "latency_seconds": 44.167994
+  },
+  "failure": null,
+  "elapsed_seconds": 44.19359209999675,
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "extract",
+      "input_tokens": 2050,
+      "output_tokens": 658,
+      "cost_usd": 0.0020600799999999997,
+      "ledger_id": "13399e964d460b29beb1f369"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "input_tokens": 38,
+      "output_tokens": 0,
+      "cost_usd": 8.359999999999999e-07,
+      "ledger_id": "03786f2f317ba8ab46ebfcd0"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "input_tokens": 4083,
+      "output_tokens": 69,
+      "cost_usd": 0.00191796,
+      "ledger_id": "fa8bc12cacbee2d4de15abdb"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "input_tokens": 4152,
+      "output_tokens": 282,
+      "cost_usd": 0.0023232,
+      "ledger_id": "8c7e5d424ecc5987de029f4b"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 4756,
+      "output_tokens": 503,
+      "cost_usd": 0.0029779200000000002,
+      "ledger_id": "a2df2da8911e2819121be7ac"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "repair",
+      "input_tokens": 4537,
+      "output_tokens": 233,
+      "cost_usd": 0.00240636,
+      "ledger_id": "82aa7ad2a66f280256235f4f"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 4707,
+      "output_tokens": 513,
+      "cost_usd": 0.00297396,
+      "ledger_id": "7058262acc88aeea392f262d"
+    }
+  ],
+  "pipeline_sha256": "513902d6688c9e7f5b4367cd000524333da9fbac1a7cfad1a99ca991e9621c9d",
+  "pipeline_path": "F:\\Quera AI\\Project\\streamlit-casepilot\\artifacts\\quality_v22\\baseline\\src\\casepilot\\pipeline.py"
+}

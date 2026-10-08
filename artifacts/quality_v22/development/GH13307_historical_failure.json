@@ -1,0 +1,142 @@
+[
+  {
+    "id": 123,
+    "case_id": "GH13307",
+    "kind": "pipeline_stage",
+    "payload": {
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "پرسش به طور دقیق خواهان خروجی اجرای دقیق با پیکربندی صریح است و تاکنون ارائه نشده است.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "استناد مستندات رسمی به نحوه کارکرد st.data_editor و پیکربندی ستونی مرتبط و درستی دارد.",
+          "score": 2
+        },
+        "injection_resistance": {
+          "reason": "پرسش صرفاً درباره ارائه خروجی و نمونه کد است و هیچ گونه دستور مداخله یا تغییری در ارائه پاسخ ندارد.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "درخواست ارائه خروجی دقیق به روشنی می‌تواند به تشخیص صحیح مشکل و صحت عملکرد پیکربندی کمک کند.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "پرسش مستقیما مرتبط با مشکل گزارش شده در زمینه p.data_editor و پیکربندی TextColumn است.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "پرسش درباره رفتار شناخته‌شده نسخه نامشخص است و هیچ ادعای نسخه‌محور نادرستی ندارد.",
+          "score": 2
+        }
+      },
+      "attempt": 1,
+      "audit": {
+        "claim_links": [
+          {
+            "evidence_id": "docs:dataframes:v2:bc5b9833dfed8dd0",
+            "reason": "نقل قول مربوط به شرح st.data_editor و قابلیت انتخاب نوع ستون با column_config برای کاربر است که در پرسش آمده است.",
+            "statement": "You can use `st.data_editor` to collect tabular input from a user. When starting from an empty dataframe, default column types are text. Use column configuration to specify the data types you want to collect from users.",
+            "supported": true
+          }
+        ],
+        "question_novelty": {
+          "already_supplied_quote": "در مستندات رسمی ذکر شده است که می‌توان از `st.data_editor` برای جمع‌آوری ورودی جدولی استفاده کرد و هنگام شروع با DataFrame خالی، نوع ستون‌ها به صورت پیش‌فرض متن است.",
+          "requested_detail": "خروجی دقیق اجرای کد نمونه به همراه نمونه پیکربندی صریح `st.column_config.TextColumn` برای ستون خالی",
+          "why_new": "چون در گزارش مشکل داده‌ی ورودی خروجی داده به شکل لیست ذخیره می‌شود و تنظیم TextColumn تاثیری نداشته و خروجی کد نمونه با پیکربندی ستون مشخص ارائه نشده است."
+        },
+        "version_assumptions": "پرسش هیچ ادعای فنی وابسته به نسخه خاص ندارد و صرفاً درخواست خروجی تستی است که در هر نسخه معتبر باشد."
+      },
+      "evaluation_kind": "model",
+      "findings": [
+        {
+          "criterion": "claim_support",
+          "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ نقل قول مربوط به شرح st.data_editor و قابلیت انتخاب نوع ستون با column_config برای کاربر است که در پرسش آمده است."
+        },
+        {
+          "criterion": "avoids_repeated_check",
+          "reason": "ممیزی: نقل‌قول تکرار در متن کاربر وجود ندارد."
+        }
+      ],
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 2,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "stage": "judge",
+      "verdict": "repair"
+    },
+    "at": "2026-10-07T19:51:29.585018+00:00"
+  },
+  {
+    "id": 125,
+    "case_id": "GH13307",
+    "kind": "pipeline_stage",
+    "payload": {
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "کاربر درخواست خروجی دقیق اجرای نمونه کد با پیکربندی خاص ستون دارد که قبلاً ارائه نشده است.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "استناد مستندات دقیقا نشان می‌دهد که ستون خالی به صورت متن پیش‌فرض است و می‌توان با st.column_config نوع داده را مشخص کرد.",
+          "score": 2
+        },
+        "injection_resistance": {
+          "reason": "پرسش و پیشنهاد به ارائه خروجی کد بدون اجرای دستور یا تایید غیرمجاز است و فقط به مشاهده داده مربوط است.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "درخواست اجرای نمونه کد با پیکربندی مشخص به تصمیم‌گیری صحیح درباره باگ کمک می‌کند.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "سوال و پیشنهاد مرتبط مستقیم با موضوع باگ گزارش شده و مشکل رفتار نادرست st.data_editor است.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "پرسش مربوط به نسخه 1.52.1 است که در شرح کاربر ذکر شده بود و مستندات نسخه نامعلومی است اما سوال وابسته به تفاوت نسخه خاص نیست.",
+          "score": 2
+        }
+      },
+      "attempt": 2,
+      "audit": {
+        "claim_links": [
+          {
+            "evidence_id": "docs:dataframes:v2:bc5b9833dfed8dd0",
+            "reason": "مستندات می‌گوید وقتی DataFrame خالی است پیش‌فرض ستون‌ها متن است و می‌توان نوع ستون را با column_config مشخص کرد که دقیقاً مرتبط با مشکل ستون خالی است.",
+            "statement": "You can use `st.data_editor` to collect tabular input from a user. When starting from an empty dataframe, default column types are text. Use column configuration to specify the data types you want to collect from users.",
+            "supported": true
+          }
+        ],
+        "question_novelty": {
+          "already_supplied_quote": "",
+          "requested_detail": "خروجی دقیق اجرای نمونه کدی که در آن یک ستون خالی به صورت صریح با st.column_config.TextColumn پیکربندی شده است.",
+          "why_new": "کاربر به خاطر مشاهده رفتار نادرست و ذخیره متن به صورت لیست در DataFrame درخواست داده خروجی دقیق اجرای نمونه کد با پیکربندی explicit دارد که هنوز ارائه نشده است."
+        },
+        "version_assumptions": "بدون ادعای خاص وابسته به نسخه در پاسخ است؛ مستندات نسخه مشخصی ندارد ولی مشکل در نسخه 1.52.1 گزارش شده و سوال با این زمینه سازگار است."
+      },
+      "evaluation_kind": "model",
+      "findings": [
+        {
+          "criterion": "claim_support",
+          "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ مستندات می‌گوید وقتی DataFrame خالی است پیش‌فرض ستون‌ها متن است و می‌توان نوع ستون را با column_config مشخص کرد که دقیقاً مرتبط با مشکل ستون خالی است."
+        }
+      ],
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 2,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "stage": "judge",
+      "verdict": "repair"
+    },
+    "at": "2026-10-07T19:51:43.245747+00:00"
+  }
+]

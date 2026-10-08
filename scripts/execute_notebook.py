@@ -1,9 +1,10 @@
 """Execute the shipped notebook in a temporary local kernel. Never enables live mode."""
-import json, os, sys, tempfile, time
+import argparse, json, os, sys, tempfile, time
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]; sys.path.insert(0,str(ROOT/'src'))
 from casepilot.common import write_json, utcnow
 if __name__=='__main__':
+    parser=argparse.ArgumentParser(); parser.add_argument('--output-dir',type=Path,default=ROOT/'artifacts'); args=parser.parse_args()
     os.environ.setdefault('IPYTHONDIR',str(ROOT/'runtime'/'ipython'))
     import nbformat
     from nbclient import NotebookClient
@@ -16,5 +17,5 @@ if __name__=='__main__':
     executed=client.execute()
     nbformat.write(executed,ROOT/'CasePilot_project.ipynb')
     errors=[out for cell in executed.cells if cell.cell_type=='code' for out in cell.get('outputs',[]) if out.output_type=='error']
-    write_json(ROOT/'artifacts'/'notebook_execution.json',{'at':utcnow(),'passed':not errors,'executed_cells':sum(c.cell_type=='code' and c.execution_count is not None for c in executed.cells),'errors':len(errors),'elapsed_seconds':time.perf_counter()-started,'live_enabled':False})
+    write_json(args.output_dir/'notebook_execution.json',{'at':utcnow(),'passed':not errors,'executed_cells':sum(c.cell_type=='code' and c.execution_count is not None for c in executed.cells),'errors':len(errors),'elapsed_seconds':time.perf_counter()-started,'live_enabled':False})
     print('وضعیت: نوت‌بوک بدون کلید اجرا شد؛ خطاها:',len(errors))

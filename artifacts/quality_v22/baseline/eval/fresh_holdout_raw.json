@@ -1,0 +1,844 @@
+[
+  {
+    "number": 7336,
+    "html_url": "https://github.com/streamlit/streamlit/issues/7336",
+    "title": "Streamlit Crashing with Error: `free(): double free detected in tcache 2`",
+    "body": "### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\n**UPDATE**: I believe the culprit is a bug in the `[USER].cache_resource` logic and/or the way streamlit handles db connections that try to persist (had same issues using `session_state`). See my follow-up message below. \n\nMy initial issue:\n\nUnfortunately I have a fairly complicated app. My streamlit application is crashing and I'm not sure why. The error seems somewhat ominous, but there's really not much information that helps me figure out what's going on, which is why I've made this issue. \n\nI've seen this error on rare occasion when building my complex application. Normally, this happens after I update the file and hit 'rerun', so I just chalk it up to: something happens when I hot-reload a new version of the file that breaks things. Nothing I'm concerned about since I don't expect to do this in production.\n\nHowever, after adding a normal [selectbox](https://docs.streamlit.io/library/api-reference/widgets/st.selectbox), streamlit intermittently crashes when I use [this](https://github.com/hoggatt/st-combobox) simple custom component that gives me the ability to define my own auto complete function. I don't actually think it's related to the combobox itself, it's just that when the combobox is auto-completing, it's rerunning a lot. This was working before I added a normal `st.textbox`, but now it's completely broken. However, the fact that I saw it very infrequently before indicates to me it's probably not directly related to the selectbox. \n\n\n### Reproducible Code Example\n\n```Python\n# THIS IS PSEUDO-CODE #\n\nsearch_input = st.text_input()\n\n...\nmany conditional statements doing something with the search input including setting st.experimental_set_query_params at one point\nalso queries the database using a cached_resource mysql connector (see below)\n...\n\nvalue = st.selectbox(items based on search_input)\n\n# allow selecting something using a combobox (st-combobox) with autocomplete\ndef search_files(searchterm):\n  refine search based (in part) on value\nselected_value = st_combobox(search_files, ...)\n\n# this method is cached\nfile = get_file(selected_value)\n\n...\nsetting up controls for the plot based on the file loaded\nuses st.experimental_set_query_params at some point\nno database or complex cached stuff\n...\n\n# make plotly plot(s) here\n```\n\n\n### Steps To Reproduce\n\nUnfortunately I'm not able to figure out exactly why this happens. It doesn't seem to happen consistently. \n\nHowever, often I see this error nearby: `2013 (HY000): Lost connection to MySQL server during query`. \n\nI have a method that looks like this:\n```\n[USER].cache_resource\ndef loaddb():\n    creds = ...\n    dbconn = SQL(\"EXAMPLE\", \"example.com\", creds[\"username\"], creds[\"password\"], True)\n    return dbconn\n```\n\n### Expected Behavior\n\nI expect this crash not to happen. \n\n### Current Behavior\n\nThis is all that happens. Streamlit prints out two lines in the console, then hard-crashes:\n```\nfree(): double free detected in tcache 2\nAborted\n```\n\nSometimes I see this error too (maybe it's related to the cache_resource having issues?):\n```\n2013 (HY000): Lost connection to MySQL server during query\n```\nThis error doesn't seem to crash outright, but something tells me it's related. \n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.26.0\n- Python version: 3.11\n- Operating System: Ubuntu 20.04\n- Browser: Brave Version 1.57.62, Chromium: 116.0.5845.180 (Official Build) (64-bit)\n\n\n### Additional Information\n\nI'm going to be trying to nail down exactly why this issue is happening over the next few days (try to figure out how to reproduce it) but I wanted to make the issue now since it seems like a very strange error someone on the team might have insight into.",
+    "created_at": "2023-09-14T22:39:07Z",
+    "updated_at": "2025-06-09T09:35:20Z",
+    "closed_at": "2025-06-09T09:35:19Z",
+    "state": "closed",
+    "state_reason": "completed",
+    "comments": 5,
+    "comments_url": "https://api.github.com/repos/streamlit/streamlit/issues/7336/comments",
+    "topic": "session_state",
+    "labels": [
+      "type:bug",
+      "feature:cache",
+      "status:cannot-reproduce"
+    ],
+    "comments_data": [
+      {
+        "id": 1720246669,
+        "body": "**If this issue affects you, please react with a 👍 (thumbs up emoji) to the initial post.**\n\nYour feedback helps us prioritize which bugs to investigate and address first.\n\n![Views](https://api.views-badge.org/badge/st-issue-7336)\n",
+        "created_at": "2023-09-14T22:39:20Z",
+        "updated_at": "2025-03-26T17:59:09Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/7336#issuecomment-1720246669",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 1720590950,
+        "body": "With some further digging, I've found out two very useful pieces of information:\r\n\r\n1. If I type slowly into the combobox (so the app reloads less frequently), it does not crash nearly as often. \r\n2. If I remove the `@st.cache_resource` decorator from the `loaddb()` method described above, the app seems to work without any issues no matter how quickly/often it reloads (although the db connection is no longer cached). For those of you looking for a more satisfactory solution than \"don't use cache\", unfortunately the [st.session_state](https://docs.streamlit.io/library/api-reference/session-state) api causes the same issues.\r\n\r\n### My non-expert opinion\r\n\r\nThis `free(): double free detected in tcache 2` error is being generated in c++ or c code (possibly cpython stuff). My guess is that something in the `cache_resource` logic doesn't like very rapidly reloading the app (especially when the app has more complexity). My initial research indicates some variable is being freed in memory, then some other variable is being assigned to it. However, this only seems to happen in situations with more complex applications and frequent reloads. Since the `cache_resource` function is newer, my guess is there is some bug that shows up under these conditions with multiple threads/restarts. I hope this helps someone figure out what is going on. ",
+        "created_at": "2023-09-15T04:31:18Z",
+        "updated_at": "2023-09-15T16:00:14Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/7336#issuecomment-1720590950",
+        "author_association": "NONE"
+      },
+      {
+        "id": 1721512652,
+        "body": "I ran into the same error/behavior when trying to use `session_state` to store the database connection. This is strange and points to something a big deeper than just the cache_resource logic. Looks like restarting quickly in general + database connections that try to persist in any way cause issues. ",
+        "created_at": "2023-09-15T15:59:43Z",
+        "updated_at": "2023-09-15T15:59:43Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/7336#issuecomment-1721512652",
+        "author_association": "NONE"
+      },
+      {
+        "id": 1882174291,
+        "body": "I agree with your guess that it is coming from some C/C++ code, probably triggered by many reruns starting in separate threads at the same time and accessing the same database connection instance. Unfortunately this will be difficult to debug, and it isn't clear what we could do about it.",
+        "created_at": "2024-01-09T02:05:10Z",
+        "updated_at": "2024-01-09T02:05:10Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/7336#issuecomment-1882174291",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 2955240112,
+        "body": "Closing this issue due to inactivity and it appears that it might not be directly related to Streamlit. ",
+        "created_at": "2025-06-09T09:35:19Z",
+        "updated_at": "2025-06-09T09:35:19Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/7336#issuecomment-2955240112",
+        "author_association": "COLLABORATOR"
+      }
+    ],
+    "comments_complete": true
+  },
+  {
+    "number": 10701,
+    "html_url": "https://github.com/streamlit/streamlit/issues/10701",
+    "title": "Preserve Selection, Sorting and Scrolling Position in st.dataframe",
+    "body": "### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nToday, when a page is refreshed / app gets rerun / data for dataframe changes, the dataframe completely refreshes. Selection, Sorting and Scrolling Position are lost. \n\nThis makes it hard to work with data within the dataframe and change it by means of a Master Detail View for example.\n\nIdea is: Preserve Selection, Sorting and Scrolling Position in st.dataframe when data is reloaded / the page is rerun.\n\n\n### Why?\n\nScenario: A Master Detail View: The dataframe is part of the Master View within the page, and the Detail View enables the user to edit certain fields (not all are visible in the dataframe). After changing some data, the dataframe is reloaded and selection, sorting, scrolling position are lost.\n\n### How?\n\nThe selection currently is set in the session, but it is not considered when the page is reloaded. \n\nSorting is not part of the state.\n\nScrolling position is preserved for st.container today, but not for st.dataframe.\n\nSolution idea:\n- Store selection and sorting in session_state and use this information when the page is rerun and the dataframe is rendered.\n- Use the implementation of st.container to preserve scrolling position.\n\n### Additional Context\n\n\nThis issue is related to, however they only cover parts of this idea. \n\nhttps://github.com/streamlit/streamlit/issues/8851\nhttps://github.com/streamlit/streamlit/issues/10128",
+    "created_at": "2025-03-09T22:14:24Z",
+    "updated_at": "2025-03-26T18:25:55Z",
+    "closed_at": null,
+    "state": "open",
+    "state_reason": null,
+    "comments": 1,
+    "comments_url": "https://api.github.com/repos/streamlit/streamlit/issues/10701/comments",
+    "topic": "session_state",
+    "labels": [
+      "type:enhancement",
+      "feature:st.dataframe",
+      "feature:st.data_editor"
+    ],
+    "comments_data": [
+      {
+        "id": 2709097472,
+        "body": "**To help Streamlit prioritize this feature, react with a 👍 (thumbs up emoji) to the initial post.**\n\nYour vote helps us identify which enhancements matter most to our users.\n\n![Views](https://api.views-badge.org/badge/st-issue-10701)\n",
+        "created_at": "2025-03-09T22:14:34Z",
+        "updated_at": "2025-03-26T18:25:55Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/10701#issuecomment-2709097472",
+        "author_association": "CONTRIBUTOR"
+      }
+    ],
+    "comments_complete": true
+  },
+  {
+    "number": 8608,
+    "html_url": "https://github.com/streamlit/streamlit/issues/8608",
+    "title": "Callbacks for custom components latest streamlit update (1.34.0)",
+    "body": "### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nIn attempt to create a dynamic filter in a dialog box, I stumbled on the fact updating a session_state variable via a custom component is not possible. \n\n### Reproducible Code Example\n\n```Python\nSomething as simple as this code does not execute:\n\nif \"test_text\" not in st.session_state:\n    st.session_state[\"test_text\"] = None \n\n[USER].experimental_dialog(title=\"Test\", width=\"small\")\ndef test_dialog():\n\n    import streamlit_antd_components as sac\n\n    def onChangeTest():\n\n        st.session_state[\"test_text\"] = st.session_state[\"testing123\"] \n    \n\n    sac.chip(\n        items=[\n            sac.ChipItem(label='apple'),\n            sac.ChipItem(label='google'),\n            sac.ChipItem(label='github', icon='github'),\n            sac.ChipItem(label='twitter', icon='twitter'),\n        ], label='label', index=0, align='center', radius='md', multiple=False, key=\"testing123\", on_change=onChangeTest\n    )\n    st.write(st.session_state[\"test_text\"])\n\nst.button(\"Test\", key=\"test_btn\")\n\nif st.session_state[\"test_btn\"]:\n    test_dialog()\n\n\n```\n\nBut it works with native widgets:\n```\nif \"test_text\" not in st.session_state:\n    st.session_state[\"test_text\"] = None \n\n[USER].experimental_dialog(title=\"Test\", width=\"small\")\ndef test_dialog():\n\n    import streamlit_antd_components as sac\n\n    def onChangeTest():\n\n       st.session_state[\"test_text\"] = st.session_state[\"testing123\"] \n    \n       st.radio(\"dummy label\", [\"one\", \"two\", \"three\", \"four\"], key=\"testing123\",on_change=onChangeTest )\n\n   \n       st.write(st.session_state[\"test_text\"])\n\n\nst.button(\"Test\", key=\"test_btn\")\n\nif st.session_state[\"test_btn\"]:\n    test_dialog()\n\n```\n```\n\n\n### Steps To Reproduce\n\n_No response_\n\n### Expected Behavior\n\nJust like the native code updates in the dialog, I expect custom components to also update in the dialog. But it only works for native widgets and not the custom components. \n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.34.0\n- Python version: 3.9\n- Operating System: Windows 11\n- Browser: Chrome\n\n\n### Additional Information\n\n_No response_",
+    "created_at": "2024-05-04T11:46:03Z",
+    "updated_at": "2024-05-09T22:14:59Z",
+    "closed_at": "2024-05-09T22:14:59Z",
+    "state": "closed",
+    "state_reason": "completed",
+    "comments": 5,
+    "comments_url": "https://api.github.com/repos/streamlit/streamlit/issues/8608/comments",
+    "topic": "session_state",
+    "labels": [
+      "type:bug",
+      "feature:custom-components",
+      "priority:P3",
+      "feature:st.session_state",
+      "feature:st.dialog"
+    ],
+    "comments_data": [
+      {
+        "id": 2094133668,
+        "body": "**If this issue affects you, please react with a 👍 (thumbs up emoji) to the initial post.**\n\nYour feedback helps us prioritize which bugs to investigate and address first.\n\n![Visits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fstreamlit%2Fstreamlit%2Fissues%2F8608&title=visits&edge_flat=false)\n",
+        "created_at": "2024-05-04T11:46:14Z",
+        "updated_at": "2024-05-04T11:46:14Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/8608#issuecomment-2094133668",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 2096548706,
+        "body": "Hey @Socvest , thank you for opening this issue!\r\n\r\nIn general, we don't have an official way to support callbacks on custom components (https://github.com/streamlit/streamlit/issues/3977), but it looks like the latest release broke some workarounds that worked previously (https://github.com/victoryhb/streamlit-option-menu/issues/70). (I saw your comment under the last issue.) \r\n\r\n@raethlein could have more information about this, but as far as I understood, this particular case doesn't connect with `st.experimental_dialog` behavior. ",
+        "created_at": "2024-05-06T17:27:12Z",
+        "updated_at": "2024-05-06T17:27:12Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/8608#issuecomment-2096548706",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 2097834913,
+        "body": "Hey @kajarenc thanks for getting back to me. Yeah, I did further investigations and its more related to the callback work arounds for custom components than st.experimental_dialog. ",
+        "created_at": "2024-05-07T09:18:20Z",
+        "updated_at": "2024-05-07T09:18:20Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/8608#issuecomment-2097834913",
+        "author_association": "NONE"
+      },
+      {
+        "id": 2097915019,
+        "body": "Hey @Socvest, the internal package structure has changed due to a refactoring; if you change the import in the `streamlit_callback.py` to `from streamlit.components.v1 import custom_component as _components`, it should work again. If you are not the author of `sac`, this might be something to bring to them.\r\n\r\nThat being written, this is not an official API we are going to guarantee from Streamlit-side 😉 However, we will look into this more closely and try to come up with a clean API for the future so that this patch is not needed anymore. In the meantime, I hope this^ unblocks you (for now).",
+        "created_at": "2024-05-07T09:57:47Z",
+        "updated_at": "2024-05-07T09:58:39Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/8608#issuecomment-2097915019",
+        "author_association": "COLLABORATOR"
+      },
+      {
+        "id": 2098078292,
+        "body": "Thank you! Appreciate this very much guys, thanks!\r\n",
+        "created_at": "2024-05-07T10:51:57Z",
+        "updated_at": "2024-05-07T10:51:57Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/8608#issuecomment-2098078292",
+        "author_association": "NONE"
+      }
+    ],
+    "comments_complete": true
+  },
+  {
+    "number": 16474,
+    "html_url": "https://github.com/streamlit/streamlit/issues/16474",
+    "title": "st.slider silently mis-represents dates outside the frontend number range",
+    "body": "### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\n`st.slider` accepts `date`/`datetime` bounds that the frontend cannot represent exactly, and silently snaps them to a different instant instead of reporting the problem. The `int` and `float` paths already validate and raise a helpful `StreamlitAPIException`; the timelike path does not.\n\nTimelike values are serialized as microseconds since the epoch and held in a JavaScript number on the frontend, so only about **1684-07-28 to 2255-06-05** round-trips exactly. Outside that, precision is lost.\n\n`lib/streamlit/elements/widgets/slider.py` acknowledges the gap:\n\n```python\nelif all_timelikes:\n    # No validation yet. TODO: check between 0001-01-01 to 9999-12-31\n    pass\n```\n\nWorth noting the TODO's own target range is wrong — most of `0001`–`9999` is not representable, so validating to those limits would not have fixed it.\n\n### Reproducible Code Example\n\n```python\nimport datetime as dt\nimport streamlit as st\n\n# Silently accepted, but min_value cannot be represented exactly:\nst.slider(\"historical\", min_value=dt.date(1600, 1, 1), max_value=dt.date(1700, 1, 1),\n          value=dt.date(1600, 1, 1))\n\n# Also silently accepted, both bounds unrepresentable:\nst.slider(\"projection\", min_value=dt.date(2300, 1, 1), max_value=dt.date(2400, 1, 1),\n          value=dt.date(2300, 1, 1))\n\n# Raises a bare OverflowError instead of a StreamlitAPIException:\nst.slider(\"ancient\", value=dt.date(1, 1, 1))\n```\n\n### Actual Behavior\n\nInspecting the serialized proto shows the bounds exceeding JavaScript's `MAX_SAFE_INTEGER` with no error raised:\n\n```\nin-range 1900..2000      -> NO ERROR. min=-2208988800000000 max=946684800000000  JS-unsafe: none\nhistorical 1600..1700    -> NO ERROR. min=-11676096000000000                      JS-unsafe: ['min']\nfar future 2300..2400    -> NO ERROR. min=10413792000000000 max=13569465600000000 JS-unsafe: ['min', 'max']\nmin date 0001..0002      -> OverflowError: date value out of range\n```\n\nTwo distinct problems:\n\n1. **Moderately out-of-range values are accepted and lose precision.** Years like 1600 or 2300 are ordinary in historical datasets and long-range projections, so this is not just an exotic edge case.\n2. **Extreme values raise a bare `OverflowError`.** It comes from `prepared_value[0] - timedelta(days=14)`, which computes the *default* `min_value`/`max_value` even when the caller supplied both explicitly, and overflows next to `date.min`/`date.max`. This is not a `StreamlitAPIException`, so it surfaces as an unhandled Python error rather than actionable guidance.\n\n### Expected Behavior\n\nOut-of-range timelike bounds should raise a `StreamlitAPIException` naming the representable range, matching how the int and float paths already behave. Extreme values should produce that same message rather than an `OverflowError`.\n\n### Debug info\n\n- Streamlit version: `develop` (reproduced at `f2648d7237`)\n- Python version: 3.14.5\n- OS: macOS 15.5\n\n### Additional Information\n\nContrast with the existing int path, which is what the timelike path should mirror:\n\n```\n`max_value` (9007199254740992) must be <= (1 << 53) - 1\n```",
+    "created_at": "2026-08-11T16:32:50Z",
+    "updated_at": "2026-08-14T03:08:00Z",
+    "closed_at": "2026-08-14T03:08:00Z",
+    "state": "closed",
+    "state_reason": "completed",
+    "comments": 1,
+    "comments_url": "https://api.github.com/repos/streamlit/streamlit/issues/16474/comments",
+    "topic": "widget",
+    "labels": [
+      "type:bug",
+      "area:widgets",
+      "feature:st.slider"
+    ],
+    "comments_data": [
+      {
+        "id": 5256204588,
+        "body": "This is a valid bug in `st.slider`'s date/datetime path. Timelike values are serialized as microseconds since the epoch and sent as JavaScript numbers, which only preserve exact integers within `Number.MAX_SAFE_INTEGER` (~±2^53, roughly 1684–2255). Int/float sliders already reject out-of-range bounds via `JSNumber.validate_*_bounds`, but the timelike branch is explicitly a no-op (`# No validation yet`), so moderately out-of-range dates are accepted and silently lose precision. Separately, default `min_value`/`max_value` are always computed as `value ± timedelta(days=14)` before checking whether the caller supplied bounds, which raises a bare `OverflowError` near `date.min`/`date.max` instead of a `StreamlitAPIException`. Fixing this should validate the microsecond form against JS safe-integer limits (not the incorrect 0001–9999 TODO range) and avoid computing unused default bounds that can overflow.\n\n### Related Issues\n\n- [#7427](https://github.com/streamlit/streamlit/issues/7427) — `st.date_input` overflows when computing default selectable bounds near `datetime.max` (similar “default range buffer overflows date extrema” pattern; different widget).\n- [#5099](https://github.com/streamlit/streamlit/issues/5099) — `st.slider` bounds-validation inconsistency vs `st.number_input` when `value` is outside `min`/`max` (related to slider bound checking, but not about JS safe-integer / date precision).\n\nNo duplicate found for silent JS-precision loss on date/datetime `st.slider` values.\n\n---\n*This is an automated triage comment using `cursor-grok-4.5-high`. Please verify the suggested labels and related issues.*\n",
+        "created_at": "2026-08-11T16:54:32Z",
+        "updated_at": "2026-08-11T16:54:32Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/16474#issuecomment-5256204588",
+        "author_association": "CONTRIBUTOR"
+      }
+    ],
+    "comments_complete": true
+  },
+  {
+    "number": 16375,
+    "html_url": "https://github.com/streamlit/streamlit/issues/16375",
+    "title": "Add a button group widget with trigger (click) mode",
+    "body": "### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nProvide a button group that supports **trigger (click) mode** instead of selection mode — i.e. a horizontal group of buttons that returns the clicked value once (like `st.button`) and clears after the rerun, rather than persisting a selection. This can either be a new `st.button_group` command or an extension of the existing `st.pills` / `st.segmented_control`.\n\n### Why?\n\nIt's currently a bit complicated to build things like quick selections / quick replies for chat UIs (a major need for LLM-powered apps), button toolbars, dialog action rows (Confirm / Cancel / Clear), or clickable example grids. Today you have to combine many individual `st.button`s across `st.columns`, which is a lot of boilerplate and looks messy because wrapping depends on each button's label length.\n\n### How?\n\nTwo main options:\n\n**Option 1 — Extend `st.pills` / `st.segmented_control` with a trigger mode:**\n\n```python\nst.pills(..., selection_mode=\"single\" | \"multi\" | \"trigger\")\n```\n\nIn `trigger` mode the widget doesn't keep state: it returns the clicked value and clears it after the rerun (like a button), returning `None` otherwise. `default` wouldn't be allowed in this mode.\n\n**Option 2 — Add a dedicated `st.button_group` command (preferred):**\n\n```python\nst.button_group(\n    options,\n    *,\n    format_func=None,\n    key=None,\n    on_click=None,\n    args=None,\n    kwargs=None,\n    disabled=False,\n    type=\"default\" | \"rounded\",\n    wrap=True,\n)\n```\n\nBehaves like `st.pills` but tailored for triggers: no top label/help (not needed for quick selections), `on_click` instead of `on_change` (aligns with `st.button`), a `type` option for a rounded pill-like look, and a `wrap` option. Keeping triggers in a separate command avoids overloading the selection API (e.g. `selection_mode=\"trigger\"` reads oddly, `default` becomes incompatible, and typing gets awkward).\n\n### Additional Context\n\n- Related: #8318 (quick replies/suggestions for chat responses) — one of the primary motivating use cases.\n- Other use cases: button toolbars, dialog action rows, and clickable example grids.",
+    "created_at": "2026-08-06T10:24:40Z",
+    "updated_at": "2026-08-06T10:35:13Z",
+    "closed_at": null,
+    "state": "open",
+    "state_reason": null,
+    "comments": 2,
+    "comments_url": "https://api.github.com/repos/streamlit/streamlit/issues/16375/comments",
+    "topic": "widget",
+    "labels": [
+      "type:enhancement",
+      "feature:st.button",
+      "feature:st.segmented_control",
+      "feature:st.pills"
+    ],
+    "comments_data": [
+      {
+        "id": 5203397998,
+        "body": "**To help Streamlit prioritize this feature, react with a 👍 (thumbs up emoji) to the initial post.**\n\nYour vote helps us identify which enhancements matter most to our users.\n\n![Views](https://api.views-badge.org/badge/st-issue-16375)\n",
+        "created_at": "2026-08-06T10:24:59Z",
+        "updated_at": "2026-08-06T10:24:59Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/16375#issuecomment-5203397998",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 5203514450,
+        "body": "This is an enhancement request for a **trigger-mode button group**: a horizontal set of options that behaves like `st.button` (returns the clicked value once, then clears) rather than like `st.pills` / `st.segmented_control` (persistent selection). The preferred shape is a dedicated `st.button_group` API; an alternative is extending `selection_mode` with `\"trigger\"`. Today, workarounds require many `st.button`s in `st.columns`, which is boilerplate-heavy and wraps poorly. Internally, `st.pills` / `st.segmented_control` already share `button_group.py` with only `single`/`multi` click modes, so this would either add a third click mode or a thin trigger-oriented public command on that shared implementation.\n\n### Related Issues\n\n- [#8318 – Quick replies/suggestions for chat user response](https://github.com/streamlit/streamlit/issues/8318): Explicitly cited in the issue; a primary motivating use case (suggestion chips / quick replies) that a trigger-mode button group would enable.\n- [#10740 – Add a configurable toolbar or clickable actions to `st.chat_message`](https://github.com/streamlit/streamlit/issues/10740): Related chat UI need for clickable action rows; a trigger button group could be a building block for message-level actions.\n- [#16240 – Add a stateful button](https://github.com/streamlit/streamlit/issues/16240): Complementary button-semantics proposal (persistent toggle-styled button vs. this issue’s ephemeral click group); not a duplicate, but adjacent API design.\n\nNo exact duplicate found among open issues.\n\n---\n*This is an automated triage comment using `cursor-grok-4.5-high`. Please verify the suggested labels and related issues.*\n",
+        "created_at": "2026-08-06T10:35:13Z",
+        "updated_at": "2026-08-06T10:35:13Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/16375#issuecomment-5203514450",
+        "author_association": "CONTRIBUTOR"
+      }
+    ],
+    "comments_complete": true
+  },
+  {
+    "number": 16495,
+    "html_url": "https://github.com/streamlit/streamlit/issues/16495",
+    "title": "Add a `type=\"cards\"` variant to `st.radio` for a card/bordered design",
+    "body": "### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nAdd a `type` parameter to `st.radio` with a `\"cards\"` variant that renders each option as a bordered, selectable card (with the selected card highlighted) instead of the default radio-button list. Same widget behavior — only the visual style changes. See [Tremor's Radio Card Group](https://www.tremor.so/docs/inputs/radio-card-group) for the look.\n\n### Why?\n\nCard-style single-select is a very common, more prominent and touch-friendly pattern for choosing between a few richer options (e.g. plans, payment methods, layouts, modes). Today users approximate it with columns + bordered containers + buttons/`st.radio` and a lot of manual state/CSS work. A built-in `\"cards\"` variant makes this polished pattern a one-liner.\n\n### How?\n\nAdd a `type` parameter (default preserves today's look):\n\n```python\nchoice = st.radio(\n    \"Choose a plan\",\n    [\"Starter\", \"Pro\", \"Enterprise\"],\n    captions=[\n        \"For individuals getting started\",\n        \"For growing teams\",\n        \"Advanced controls & support\",\n    ],\n    type=\"cards\",\n)\n```\n\n- `type=\"default\"` — current radio-button list.\n- `type=\"cards\"` — render each option as a bordered card; the selected option is visually highlighted.\n- Keep existing params working (`captions`, `horizontal`, `format_func`, `index=None`, etc.). Captions map naturally to a description line inside each card.\n\n**Alternative solution — a `border: bool` parameter:** Instead of a `type` enum, just add `st.radio(..., border=True)` that wraps each option in a bordered card. This mirrors the `border` parameter on `st.container` and keeps the API minimal. Downside: it's less extensible than a `type` enum if we later want more visual variants (e.g. `\"pills\"`), and it's a boolean rather than a named style.\n\n### Additional Context\n\n- Reference designs:\n  - [Tremor — Radio Card Group](https://www.tremor.so/docs/inputs/radio-card-group)\n  - [Tailwind Plus — Radio Groups (card designs)](https://tailwindcss.com/plus/ui-blocks/application-ui/forms/radio-groups)\n  - [streamlit-extras — Card Selector](https://extras.streamlit.app/?extra=%F0%9F%83%8F+Card+Selector) (existing community implementation)\n- Related: #2325 (`st.radio` with sections), #7184 (stretch horizontal radio), #11959 (consistent API for selectbox/pills/segmented_control/radio).",
+    "created_at": "2026-08-12T10:12:53Z",
+    "updated_at": "2026-08-22T10:33:27Z",
+    "closed_at": null,
+    "state": "open",
+    "state_reason": null,
+    "comments": 2,
+    "comments_url": "https://api.github.com/repos/streamlit/streamlit/issues/16495/comments",
+    "topic": "widget",
+    "labels": [
+      "type:enhancement",
+      "area:styling",
+      "feature:st.radio"
+    ],
+    "comments_data": [
+      {
+        "id": 5265342406,
+        "body": "**To help Streamlit prioritize this feature, react with a 👍 (thumbs up emoji) to the initial post.**\n\nYour vote helps us identify which enhancements matter most to our users.\n\n![Views](https://api.views-badge.org/badge/st-issue-16495)\n",
+        "created_at": "2026-08-12T10:13:05Z",
+        "updated_at": "2026-08-12T10:13:05Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/16495#issuecomment-5265342406",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 5265387197,
+        "body": "Enhancement request to add an optional `type` parameter to `st.radio` (`\"default\"` | `\"cards\"`) so options can render as bordered, selectable cards (Tremor-style radio card group) while keeping existing radio semantics and params (`captions`, `horizontal`, `format_func`, etc.). This is a visual/presentation variant, not a new selection model; users currently approximate it with columns, borders, buttons, and custom CSS. No exact duplicate was found among open issues.\n\n### Related Issues\n\n- https://github.com/streamlit/streamlit/issues/12255 — Asks for a larger, more prominent `st.segmented_control` for high-level single-select; same product need for a more card-like / touch-friendly choice UI, but on a different widget.\n- https://github.com/streamlit/streamlit/issues/7184 — Horizontal `st.radio` layout/styling request (full-width stretch); related `st.radio` presentation enhancement, not a cards variant.\n- https://github.com/streamlit/streamlit/issues/16481 — Parallel proposal to add a `type=\"pills\"` visual variant to `st.tabs`; same `type`-based styling pattern as this radio cards request.\n\n---\n*This is an automated triage comment using `cursor-grok-4.5-high`. Please verify the suggested labels and related issues.*\n",
+        "created_at": "2026-08-12T10:17:24Z",
+        "updated_at": "2026-08-12T10:17:24Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/16495#issuecomment-5265387197",
+        "author_association": "CONTRIBUTOR"
+      }
+    ],
+    "comments_complete": true
+  },
+  {
+    "number": 2311,
+    "html_url": "https://github.com/streamlit/streamlit/issues/2311",
+    "title": "File_uploader() - ValueError: I/O operation on closed file.",
+    "body": "# Summary\n\nI upgraded Streamlit and file_uploader() haven't the expected behavior. I'm trying to load a file, then use a dropdown menu to select the right column to analyse. I adapted the proposed solution [here ](https://github.com/streamlit/streamlit/issues/2266), but I still have  \"ValueError: I/O operation on closed file.\" when I select a value in the dropdown menu.\n\n# Steps to reproduce\n\nWhat are the steps we should take to reproduce the bug:\n\n1. Select a file to upload\n2. Select a value in the dropdown menu\n\n[Screencast](https://drive.google.com/file/d/1Mw33AsLPKugGS4k_dg1JlE55b4_Yy9uK/view?usp=sharing)\n\n## Expected behavior:\n\nExplain what you expect to happen when you go through the steps above, assuming there were no bugs.\n\n## Is this a regression?\n\nThat is, did this use to work the way you expected in the past?\nyes \n\n# Debug info\n\nstreamlit==0.70.0\nstreamlit-nightly==0.70.1.dev20201101\n\n# Additional information\n\nHere is my code : \n\n```\ndef upload_file():\n    file = st.sidebar.file_uploader(\"Choisir un fichier\", type=[\"csv\"])\n    if file is None:\n        return None,None,None,None,None,None\n    file.seek(0)\n    df = pd.read_csv(file, sep=';',index_col=None, encoding = \"utf-8\")\n    menu_value = st.sidebar.selectbox('Quelle colonne correspond au texte à analyser ?',df.columns)\n    language,remove_hashtags,remove_usernames,ncomponents=sidebar()\n    return(df,menu_value,language,remove_hashtags,remove_usernames,ncomponents)\n\ndef sidebar():\n    language = st.sidebar.selectbox('Quelle est la langue du corpus ?',['french','english'])\n    remove_hashtags=st.sidebar.checkbox('Supprimer les hashtags',value=False)\n    remove_usernames=st.sidebar.checkbox('Supprimer les mentions',value=False)\n    ncomponents=st.sidebar.slider(\"Combien de topics à détecter\", min_value=0, max_value=100, value=20, step=1, format=None, key=None)\n    return language,remove_hashtags,remove_usernames,ncomponents\n    \ndef main():\n    st.set_page_config(\n        page_title=\"Topic Modeling\",\n        page_icon=\"🧊\",\n        layout=\"wide\",\n        initial_sidebar_state=\"expanded\",\n    )\n    st.set_option('deprecation.showfileUploaderEncoding', False)\n\n    st.sidebar.title('Paramètres')\n    st.title('Topic Modelling')\n    projet=st.sidebar.text_input(\"Donner un nom de projet\", value='monProjet', max_chars=None, key=None, type='default')\n    \n    \n    df,menu_value,language,remove_hashtags,remove_usernames,ncomponents=upload_file()\n   \n    if st.sidebar.button('Valider'):\n        analyse(projet,language,remove_hashtags,remove_usernames,ncomponents,df_input,menu_value)\n        list_results(path=\"./\"+projet+\"/\")\n\n```",
+    "created_at": "2020-11-03T09:34:07Z",
+    "updated_at": "2020-12-16T05:31:10Z",
+    "closed_at": "2020-12-08T18:33:10Z",
+    "state": "closed",
+    "state_reason": "completed",
+    "comments": 7,
+    "comments_url": "https://api.github.com/repos/streamlit/streamlit/issues/2311/comments",
+    "topic": "file_uploader",
+    "labels": [
+      "type:bug",
+      "feature:st.file_uploader"
+    ],
+    "comments_data": [
+      {
+        "id": 725201912,
+        "body": "I have the similar requirement and I am facing the same issue as mentioned above. Is there a workaround?",
+        "created_at": "2020-11-11T05:09:40Z",
+        "updated_at": "2020-11-11T05:09:40Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/2311#issuecomment-725201912",
+        "author_association": "NONE"
+      },
+      {
+        "id": 728655815,
+        "body": "Closing as a duplicate #2235. Also resolved in #2279",
+        "created_at": "2020-11-17T03:03:47Z",
+        "updated_at": "2020-11-17T03:03:47Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/2311#issuecomment-728655815",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 731361813,
+        "body": "It looks like this is still happening intermittently in v0.71.0. Reopening",
+        "created_at": "2020-11-20T19:21:35Z",
+        "updated_at": "2020-11-20T19:21:35Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/2311#issuecomment-731361813",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 731490921,
+        "body": "From Thiago:\r\n> My 100% blind guess is we're creating a single file-like-object on upload and reusing it on every run — so if the file is closed and then gets reused it will brerak. To fix, we'd create a new file-like object each time.",
+        "created_at": "2020-11-21T02:09:49Z",
+        "updated_at": "2020-11-21T02:09:49Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/2311#issuecomment-731490921",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 731519687,
+        "body": "Yup, the only thing is we aren't closing the file. My guess is the memory is being reclaimed and the file is getting closed for us. However, I was testing with a 189B file and though I wasn't able to repro consistently, I was able to do so and my machine should not be complaining about 189B. Definitely need to do more research to confirm. For sure we'll add better error handling, to recreate if possible but that to me is a bandaid. \r\n\r\nAdditionally, re-creating a new file-like object each run when we have the file seems very suboptimal to me and a waste of memory... ",
+        "created_at": "2020-11-21T06:58:10Z",
+        "updated_at": "2020-11-21T06:58:10Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/2311#issuecomment-731519687",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 745693462,
+        "body": "I think this is the best thread to leave this -- I am encountering this error when using the `file_uploader` in combination with `st.radio()`, and `uploaded_file.seek(0)` does not solve the problem. Ill admit, I honestly do not understand what `seek(0)` is fundamentally doing, so maybe I am missing something obvious. Here is a minimal reproducible example:\r\n\r\n```python3\r\nimport streamlit as st\r\nimport io\r\n\r\noption = st.radio(\r\n    'Choose method of submitting sequence:',\r\n    [\"Upload a file (.txt)\", \"Enter a sequence\"])\r\n\r\ntxt = None\r\n\r\nif option == \"Upload a file (.txt)\":\r\n\r\n    uploaded_file = st.file_uploader(\"Choose a file:\", type=['txt'])\r\n\r\n    if uploaded_file is not None:\r\n        uploaded_file.seek(0) #does not do anything\r\n        text_io = io.TextIOWrapper(uploaded_file,encoding='UTF-8')\r\n        txt=list(text_io.readlines())\r\n\r\nelif option == \"Enter a sequence\":\r\n    txt = st.text_area('Input sequence here:')\r\n\r\nif txt:\r\n    st.write(txt)\r\n```\r\nstreamlit 0.71.0 and 0.72.0\r\n\r\nWhen users upload a file, switch to manually entering text, and then try to upload again, the `ValueError: I/O operation on closed file` is thrown. This is a regression, as I did not encounter this error with a much older version of streamlit\r\n\r\nany help would be much appreciated!",
+        "created_at": "2020-12-16T00:56:50Z",
+        "updated_at": "2020-12-16T01:00:02Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/2311#issuecomment-745693462",
+        "author_association": "NONE"
+      },
+      {
+        "id": 745774600,
+        "body": "Thanks for sending this along. The fix was recently merged and will be available in version 0.73 that will be coming out this week. If you would like to get the latest, you can use our [`streamlit-nightly` package](https://pypi.org/project/streamlit-nightly/) that is updated with the latest changes every day. ",
+        "created_at": "2020-12-16T05:31:10Z",
+        "updated_at": "2020-12-16T05:31:10Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/2311#issuecomment-745774600",
+        "author_association": "CONTRIBUTOR"
+      }
+    ],
+    "comments_complete": true
+  },
+  {
+    "number": 3122,
+    "html_url": "https://github.com/streamlit/streamlit/issues/3122",
+    "title": "st.sidebar.beta_expander does not read a st.sidebar.file_uploader",
+    "body": "### Summary\n\nIn the main page, we can have a `file_uploader` within a `beta_expander`, however this does not seem to work as soon as it is put in the `sidebar`.\n\n### Steps to reproduce\n\nTry to run this code snippet:\n\n```\nwith st.sidebar.beta_expander(\"Input file\", expanded=True):\n    input_file = st.sidebar.file_uploader(\n        \"Input your file\", type=[\".csv\"]\n    )\n```\nyou will see that the `file_uploader` is outside of the `beta_expander` box, and that the `beta_expander` box is empty.\nInstead, when running on the main page and not on the sidebar, everythng works fine:\n```\nwith st.beta_expander(\"Input file\", expanded=True):\n    input_file = st.file_uploader(\n        \"Input your file\", type=[\".csv\"]\n    )\n```\n\nIt is not a regression to my knowledge, but I have only started to use the `beta_expander` recently - so I may be wrong. \n\n### Debug info\n\n- Streamlit version: 0.79.0\n- Python version: 3.7.6\n- Using Conda",
+    "created_at": "2021-04-13T09:09:03Z",
+    "updated_at": "2023-07-30T11:45:52Z",
+    "closed_at": "2021-05-03T05:45:11Z",
+    "state": "closed",
+    "state_reason": "completed",
+    "comments": 5,
+    "comments_url": "https://api.github.com/repos/streamlit/streamlit/issues/3122/comments",
+    "topic": "file_uploader",
+    "labels": [
+      "type:bug",
+      "type:docs"
+    ],
+    "comments_data": [
+      {
+        "id": 828823271,
+        "body": "Hi @ElenaBossolini ! Thanks for the report. I see how this does not work, and it may benefit from some more clarity. We should probably show some warning when in a `with` syntax as that determines the location of an element when you use `st`.\r\n\r\nWill tag `docs` on this just so they are aware this might benefit from clarity in the docs.",
+        "created_at": "2021-04-28T22:29:42Z",
+        "updated_at": "2021-04-28T22:29:42Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/3122#issuecomment-828823271",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 829024321,
+        "body": "Hi @kmcgrady , thank you for taking a look at the issue.\r\nAs I understand from your reply, it is fine by you that we cannot have a `file_uploader` within a `beta_expander` in the `sidebar`. But that is a functionality that in my opinion it would be really nice to have! \r\nI usually use the `sidebar` as the input area, while in the main page I show the results of the simulation.\r\nWhile my application grows bigger, also the number of inputs grows, and my users are keen in keeping an easy-to-read input sidebar. The `beta_expander` would be such a good way to do that, so that one can collapse all `file_uploaders` within it!",
+        "created_at": "2021-04-29T08:01:32Z",
+        "updated_at": "2021-04-29T08:01:32Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/3122#issuecomment-829024321",
+        "author_association": "NONE"
+      },
+      {
+        "id": 829229984,
+        "body": "Hey @ElenaBossolini,\r\n\r\nWhat @kmcgrady means with:\r\n\r\n> We should probably show some warning when in a with syntax as that determines the location of an element when you use st.\r\n\r\nis when you write the following:\r\n\r\n```python\r\nwith st.sidebar.beta_expander(\"Input file\", expanded=True):\r\n    xxx\r\n```\r\n\r\nany `st` call at the **xxx** level will place Streamlit elements inside the sidebar beta_expander, because you're in the `with st.sidebar.beta_expander` with block.\r\n\r\nSo when you write:\r\n\r\n```python\r\nwith st.sidebar.beta_expander(\"Input file\", expanded=True):\r\n    input_file = st.sidebar.file_uploader(\r\n        \"Input your file\", type=[\".csv\"]\r\n    )\r\n```\r\n\r\nyou're trying to define a sidebar inside the sidebar beta_expander, which results in a nested sidebar (which is not possible in Streamlit), and then put a file_uploader in this nested sidebar which does not exist, so it seems to just appear from nowhere.\r\n\r\nHence the correct syntax is:\r\n\r\n```python\r\nwith st.sidebar.beta_expander(\"Input file\", expanded=True):\r\n    input_file = st.file_uploader(\r\n        \"Input your file\", type=[\".csv\"]\r\n    )\r\n```\r\n\r\nWe will try to document this behavior better, context managers is a powerful feature that may not be as understood as other Python native features :) \r\n\r\nHave a nice day,\r\nFanilo",
+        "created_at": "2021-04-29T13:17:47Z",
+        "updated_at": "2021-04-29T13:17:47Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/3122#issuecomment-829229984",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 831034080,
+        "body": "Hi @andfanilo, thanks a lot for the explanation! ",
+        "created_at": "2021-05-03T05:45:11Z",
+        "updated_at": "2021-05-03T05:45:11Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/3122#issuecomment-831034080",
+        "author_association": "NONE"
+      },
+      {
+        "id": 1657118126,
+        "body": "I tried the solution but I'm facing this error \"module 'streamlit' has no attribute 'beta_expander'\"",
+        "created_at": "2023-07-30T11:45:52Z",
+        "updated_at": "2023-07-30T11:45:52Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/3122#issuecomment-1657118126",
+        "author_association": "NONE"
+      }
+    ],
+    "comments_complete": true
+  },
+  {
+    "number": 8151,
+    "html_url": "https://github.com/streamlit/streamlit/issues/8151",
+    "title": "`file_uploader` provides UI feedback on hover-over the upload dropzone",
+    "body": "### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [X] I added a descriptive title and summary to this issue.\n\n### Summary\n\nSomething like Ant designs upload component (though this is a subtle version).\n\n[IMAGE OMITTED: not inspected]\n\n\n### Why?\n\nProvides user feedback that their drag and drop interaction is successfully over the dropzone.\n\n### How?\n\nWould either modify the component and expose a param e.g `st.file_uploader(... highlight_on_hover=True` or allow for arbitrary CSS.\n\n### Additional Context\n\n_No response_",
+    "created_at": "2024-02-13T16:59:39Z",
+    "updated_at": "2026-03-18T00:31:32Z",
+    "closed_at": "2026-03-18T00:31:32Z",
+    "state": "closed",
+    "state_reason": "completed",
+    "comments": 2,
+    "comments_url": "https://api.github.com/repos/streamlit/streamlit/issues/8151/comments",
+    "topic": "file_uploader",
+    "labels": [
+      "type:enhancement",
+      "feature:st.file_uploader"
+    ],
+    "comments_data": [
+      {
+        "id": 1942010719,
+        "body": "**To help Streamlit prioritize this feature, react with a 👍 (thumbs up emoji) to the initial post.**\n\nYour vote helps us identify which enhancements matter most to our users.\n\n![Views](https://api.views-badge.org/badge/st-issue-8151)\n",
+        "created_at": "2024-02-13T16:59:49Z",
+        "updated_at": "2025-03-26T18:38:42Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/8151#issuecomment-1942010719",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 3505270588,
+        "body": "This should use the same design as we already use for `st.chat_input`, i.e. like this:\n\n<img width=\"1408\" height=\"200\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/8ba052da-8f90-40ee-b32e-ecc2e133b221\" />",
+        "created_at": "2025-11-07T22:40:40Z",
+        "updated_at": "2025-11-07T22:40:40Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/8151#issuecomment-3505270588",
+        "author_association": "COLLABORATOR"
+      }
+    ],
+    "comments_complete": true
+  },
+  {
+    "number": 6182,
+    "html_url": "https://github.com/streamlit/streamlit/issues/6182",
+    "title": "When using the unique method of pandas, the st.cache_data method is invalid  in some cases.",
+    "body": "### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen I take the result of pandas' unique method as the parameter of the cache_data function, the function will always be triggered again. In addition, it is puzzling that the cache is valid when the data type of pd.Series is numeric or each row is only a single letter, for example, df ['str ']=['a', 'a', 'b', 'c']. But the cache is invalid when df ['str ']=['be', 'a', 'be', 'c'].\n\n### Reproducible Code Example\n\n[[IMAGE OMITTED: not inspected]](https://issues.streamlitapp.com/?issue=gh-6182)\n\n```Python\nimport numpy as np\nimport streamlit as st\nimport time\nimport pandas as pd\n\n'''\nstreamlit == 1.18.1\npandas == 1.5.0\n'''\n\n[USER].cache_data()\ndef get_data():\n    df = pd.DataFrame({\"num\":[112,112,2,3],\"str\":['be','a','be','c']})\n    return df\n\n[USER].cache_data()\ndef show_data(data):\n    time.sleep(1)\n    return data\n\ndf = get_data()\ndata = df['str'].unique()\n\nindex_daily_data = show_data(data)\nst.dataframe(index_daily_data)\nst.button(\"rerun\")\n```\n\n\n### Steps To Reproduce\n\n1.Use streamlit to run the above program.\n2.You will see that the show_data function will be called repeatedly.\n3.Remove the unique function or modify the df = pd.DataFrame({\"num\":[112,112,2,3],\"str\":['b','a','b','c']}) or  modify data = df['num'].unique(), the cache will take effect normally.\n\n### Expected Behavior\n\n_No response_\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:\n- Python version:\n- Operating System:\n- Browser:\n- Virtual environment:\n\n\n### Additional Information\n\n_No response_\n\n### Are you willing to submit a PR?\n\n- [ ] Yes, I am willing to submit a PR!",
+    "created_at": "2023-02-24T02:54:58Z",
+    "updated_at": "2024-07-30T17:01:40Z",
+    "closed_at": "2024-07-30T17:01:40Z",
+    "state": "closed",
+    "state_reason": "completed",
+    "comments": 6,
+    "comments_url": "https://api.github.com/repos/streamlit/streamlit/issues/6182/comments",
+    "topic": "cache_data",
+    "labels": [
+      "type:bug",
+      "feature:cache",
+      "feature:cache-hash-func",
+      "status:confirmed",
+      "priority:P3"
+    ],
+    "comments_data": [
+      {
+        "id": 1443504635,
+        "body": "I have the same issue. Never thought it is due to unique method. I can track from the logs it is triggered again and already discussed in forum, but can't find the problem.",
+        "created_at": "2023-02-24T10:58:23Z",
+        "updated_at": "2023-02-24T10:58:23Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/6182#issuecomment-1443504635",
+        "author_association": "NONE"
+      },
+      {
+        "id": 1453244144,
+        "body": "+1",
+        "created_at": "2023-03-03T09:40:58Z",
+        "updated_at": "2023-03-03T09:40:58Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/6182#issuecomment-1453244144",
+        "author_association": "NONE"
+      },
+      {
+        "id": 1473908588,
+        "body": "@PierXuY Thanks for reporting this issue. I was able to reproduce this [here](https://issues.streamlit.app/?issue=gh-6182). I believe that this is the same root issue as https://github.com/streamlit/streamlit/issues/6236.",
+        "created_at": "2023-03-17T14:13:36Z",
+        "updated_at": "2023-03-17T15:30:16Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/6182#issuecomment-1473908588",
+        "author_association": "COLLABORATOR"
+      },
+      {
+        "id": 1592764467,
+        "body": "Hey @PierXuY @koftezz @benjamin-breton-loreal 👋 \r\n\r\nGood news! In the next Streamlit release (1.24.0), we're bringing back `hash_funcs` but to the new caching primitives 😄 (added by #6502).\r\n\r\nThat allows you to override Streamlit's hashing of `numpy.ndarray` based on its id (note: df.unique() returns a numpy array). Here's an example you can use to verify it works.. available in `streamlit-nightly==1.23.2.dev20230614`:\r\n\r\n```python\r\nimport numpy as np\r\nimport pandas as pd\r\nimport streamlit as st\r\n\r\n@st.cache_data\r\ndef get_data():\r\n    df = pd.DataFrame({\"num\":[112,112,2,3],\"str\":['be','a','be','c']})\r\n    return df\r\n\r\n@st.cache_data(hash_funcs={np.ndarray: str})\r\ndef show_data(data):\r\n    time.sleep(1)\r\n    return data\r\n\r\ndf = get_data()\r\ndata = df['str'].unique()\r\n\r\nindex_daily_data = show_data(data)\r\nst.dataframe(index_daily_data)\r\nst.button(\"rerun\")\r\n```\r\n\r\nNotice how `show_data` is **_not called_** repeatedly 👇 \r\n\r\n![hash_numpy](https://github.com/streamlit/streamlit/assets/20672874/8abe74c6-c365-4d77-aaf4-a5bfdb990415)\r\n",
+        "created_at": "2023-06-15T10:15:08Z",
+        "updated_at": "2023-06-27T13:16:16Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/6182#issuecomment-1592764467",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 1766900333,
+        "body": "Hey hey @PierXuY @koftezz @benjamin-breton-loreal, @LukasMasuch  my 2 cents here\r\n\r\nAfter some investigation I found that problem you facing here happens because of pandas `Series.unique()` in conjuction with python string data type returns numpy array with dtype=\"object\" . \r\n\r\nAnd the memory buffer for the corresponding array is different on each subsequent rerun. So numpy_array.tobytes() returns new bytes that could not be cached deterministically (we use .tobytes() for internal hashing here). \r\n\r\nThis happens only when type of corresponding column is \"object\", and works correctly for primitive types. \r\nSo if you cast your unique result to string dtype, it would work as expected:\r\n\r\n```python\r\n...\r\ndf = get_data()\r\n\r\ndata = df['str'].unique()\r\ndata = data.astype(\"str\")\r\n\r\nindex_daily_data = show_data(data)\r\n...\r\n```",
+        "created_at": "2023-10-17T17:57:34Z",
+        "updated_at": "2023-10-17T17:58:13Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/6182#issuecomment-1766900333",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 2258809092,
+        "body": "Hey @PierXuY \r\n\r\nAfter discussing this internally, we decided to close this issue. The problem is with the `unique` method when it applies to the Python str type. \r\n\r\nThe solutions described in the comments should work!",
+        "created_at": "2024-07-30T17:01:40Z",
+        "updated_at": "2024-07-30T17:01:40Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/6182#issuecomment-2258809092",
+        "author_association": "CONTRIBUTOR"
+      }
+    ],
+    "comments_complete": true
+  },
+  {
+    "number": 6215,
+    "html_url": "https://github.com/streamlit/streamlit/issues/6215",
+    "title": "Support Altair 5",
+    "body": "### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nThe [first release candidate for Altair 5](https://github.com/altair-viz/altair/issues/2937) was just released on pip. Streamlit does currently not work for Altair 5 as it imports from `altair.vegalite.v4` which does no longer exist. I assume this was done to prevent Streamlit from breaking once Altair 5 was released. However, we decided to no longer support previous vegalite versions and so these imports will need to be changed to import directly from the top-level `altair` module. \n\nYou can find the full release notes [here](https://altair-viz.github.io/releases/changes.html#version-5-0-0-unreleased). For context on why we removed support for previous vegalite versions see https://github.com/altair-viz/altair/issues/2817.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\nimport pandas as pd\nimport numpy as np\nimport altair as alt\n\nchart_data = pd.DataFrame(\n    np.random.randn(20, 3),\n    columns=['a', 'b', 'c'])\n\nc = alt.Chart(chart_data).mark_circle().encode(\n    x='a', y='b', size='c', color='c', tooltip=['a', 'b', 'c'])\n\nst.altair_chart(c, use_container_width=True)\n```\n\n\n### Steps To Reproduce\n\n1. Install Altair 5 rc1 with `pip install altair==5.0.0rc1`\n1. Execute reproducible example\n\n### Expected Behavior\n\nStreamlit app starts and Altair chart shows up as it has done with Altair 4\n\n### Current Behavior\n\n```\nModuleNotFoundError                       Traceback (most recent call last)\nCell In[1], line 1\n----> 1 import streamlit as st\n      2 import pandas as pd\n      3 import numpy as np\n\nFile ~/.local/lib/python3.11/site-packages/streamlit/__init__.py:55\n     52 # Give the package a version.\n     53 __version__ = _STREAMLIT_VERSION_STRING\n---> 55 from streamlit.delta_generator import DeltaGenerator as _DeltaGenerator\n     56 from streamlit.proto.RootContainer_pb2 import RootContainer as _RootContainer\n     57 from streamlit.runtime.caching import (\n     58     cache_resource as _cache_resource,\n     59     cache_data as _cache_data,\n     60     experimental_singleton as _experimental_singleton,\n     61     experimental_memo as _experimental_memo,\n     62 )\n\nFile ~/.local/lib/python3.11/site-packages/streamlit/delta_generator.py:43\n     40 # DataFrame elements come in two flavors: \"Legacy\" and \"Arrow\".\n     41 # We select between them with the DataFrameElementSelectorMixin.\n     42 from streamlit.elements.arrow import ArrowMixin\n---> 43 from streamlit.elements.arrow_altair import ArrowAltairMixin\n     44 from streamlit.elements.arrow_vega_lite import ArrowVegaLiteMixin\n     45 from streamlit.elements.balloons import BalloonsMixin\n\nFile ~/.local/lib/python3.11/site-packages/streamlit/elements/arrow_altair.py:36\n     34 import altair as alt\n     35 import pandas as pd\n---> 36 from altair.vegalite.v4.api import Chart\n     37 from pandas.api.types import infer_dtype, is_integer_dtype\n     38 from typing_extensions import Literal\n\nModuleNotFoundError: No module named 'altair.vegalite.v4'\n```\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:\n- Python version:\n- Operating System:\n- Browser:\n- Virtual environment:\n\n\n### Additional Information\n\n_No response_\n\n### Are you willing to submit a PR?\n\n- [ ] Yes, I am willing to submit a PR!",
+    "created_at": "2023-03-03T07:48:09Z",
+    "updated_at": "2023-06-19T00:52:31Z",
+    "closed_at": "2023-05-23T18:22:57Z",
+    "state": "closed",
+    "state_reason": "completed",
+    "comments": 9,
+    "comments_url": "https://api.github.com/repos/streamlit/streamlit/issues/6215/comments",
+    "topic": "cache_data",
+    "labels": [
+      "type:enhancement",
+      "status:confirmed",
+      "feature:st.altair_chart",
+      "status:likely"
+    ],
+    "comments_data": [
+      {
+        "id": 1453419505,
+        "body": "@binste Thanks a lot for reporting this before the actual release! I created a quick fix to pin the major Altair version to `<5` and we will start investigating supporting/upgrading to Altair version 5. I believe our frontend is anyways already using vega 5 and the breaking changes don't look too problematic. ",
+        "created_at": "2023-03-03T11:53:36Z",
+        "updated_at": "2023-03-03T11:53:52Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/6215#issuecomment-1453419505",
+        "author_association": "COLLABORATOR"
+      },
+      {
+        "id": 1453630342,
+        "body": "@binste Do you know when Altair 5 is planned to be released? ",
+        "created_at": "2023-03-03T14:40:40Z",
+        "updated_at": "2023-03-03T14:40:40Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/6215#issuecomment-1453630342",
+        "author_association": "COLLABORATOR"
+      },
+      {
+        "id": 1453763179,
+        "body": "Great, thank you for looking into it! There is no fixed release date yet but it's likely going to be a few weeks. There are some limitations with the current Altair 5 release candidate which are documented [here](https://github.com/altair-viz/altair/issues/2937#issue-1605677103). They require changes in Vega-Lite which are ongoing. Once there is a new VL version (likely to be 5.7) the Altair 5 release will be built against it. Not sure how you pinned VL in your frontend but it might make sense to then upgrade Streamlit as well to use the newest VL version.\r\n\r\nFeel free to ping me if you have any questions on the changes or on the depedency on the VL release!",
+        "created_at": "2023-03-03T16:11:37Z",
+        "updated_at": "2023-03-03T16:11:37Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/6215#issuecomment-1453763179",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 1526074862,
+        "body": "@LukasMasuch Just fyi, the current plan is to have another release candidate (RC2) out this weekend and then the official release of Altair 5 around 08/09.05. If nothing comes up, the official release will be what is currently in master so you can use RC2 or the current master branch for testing.\r\n\r\nApart from the change to top-level import which is described further above in the issue, it would be awesome if the frontend could be upgraded to VL 5.7.1 I think it currently uses VL 5.6 and there have been some changes in 5.7 which are important for more complex charts in Altair such as layered repeat charts.\r\n\r\nUpdate: RC2 is out now.",
+        "created_at": "2023-04-27T17:31:20Z",
+        "updated_at": "2023-05-01T06:36:55Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/6215#issuecomment-1526074862",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 1532369897,
+        "body": "@binste Thanks for the update 👍 I started a draft PR https://github.com/streamlit/streamlit/pull/6618. I haven't looked too much into it yet, but it seems that the Altair tests are consistently failing with:\r\n\r\n```\r\n>       self.assertEqual(chart_spec[\"mark\"], \"line\")\r\nE       AssertionError: {'type': 'line'} != 'line'\r\n```\r\nfor example in this line: https://github.com/streamlit/streamlit/blob/cec1c141f7858e31f8200a9cdc42b8ddd09ab0e7/lib/tests/streamlit/elements/arrow_altair_test.py#L145\r\n\r\nThis is probably something that has changed in the chart spec, or? \r\n\r\n",
+        "created_at": "2023-05-03T02:03:52Z",
+        "updated_at": "2023-05-03T02:03:52Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/6215#issuecomment-1532369897",
+        "author_association": "COLLABORATOR"
+      },
+      {
+        "id": 1532447403,
+        "body": "Exactly. Prior to version 5, if a mark did not have any additional options (`alt.Chart().mark_line()`) Altair used the shorthand mark spec: `\"mark\": \"line\"`. Once a mark option was added (`alt.Chart().mark_line(color=\"blue\")`), the spec got expanded into `\"mark\": {\"type\": \"line\", \"color\": \"blue\"}`. This was changed in https://github.com/altair-viz/altair/pull/2823 so that the expanded mark spec is always used. You can find the reasoning in that PR but in short it was about making it easier to write these kind of tests that you have, e.g. for autograding of student assignments.\r\n\r\n-> You can now always access the type of the mark with `chart_spec[\"mark\"][\"type\"]`.",
+        "created_at": "2023-05-03T04:42:13Z",
+        "updated_at": "2023-05-03T04:42:13Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/6215#issuecomment-1532447403",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 1532449182,
+        "body": "Altair RC3 is out. Changes compared to RC2 are that it's built against [VL 5.8](https://github.com/vega/vega-lite/releases/tag/v5.8.0) which just came out and that we set a minimum required jsonschema version of `>=4.0.1`. Previously it was `>=3`.",
+        "created_at": "2023-05-03T04:46:46Z",
+        "updated_at": "2023-05-03T04:47:00Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/6215#issuecomment-1532449182",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 1533294137,
+        "body": "@binste Thanks :) that makes sense! One more question: which import would you recommend us within Streamlit:\r\n\r\n1. `from altair.vegalite.v5.api import Chart`\r\n2. `from altair.vegalite.api import Chart`\r\n3. `from altair import Chart`\r\n\r\nI have updated everything to `from altair.vegalite.api import Chart` in https://github.com/streamlit/streamlit/pull/6618, but I'm wondering if `from altair import Chart` is the more stable/official import?",
+        "created_at": "2023-05-03T15:56:08Z",
+        "updated_at": "2023-05-03T15:57:20Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/6215#issuecomment-1533294137",
+        "author_association": "COLLABORATOR"
+      },
+      {
+        "id": 1533335485,
+        "body": "I agree, from altair import chart is very unlikely to be changed and the best option for streamlit. :)",
+        "created_at": "2023-05-03T16:20:15Z",
+        "updated_at": "2023-05-03T16:20:15Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/6215#issuecomment-1533335485",
+        "author_association": "CONTRIBUTOR"
+      }
+    ],
+    "comments_complete": true
+  },
+  {
+    "number": 6109,
+    "html_url": "https://github.com/streamlit/streamlit/issues/6109",
+    "title": "No longer able to st.cache_data instance methods",
+    "body": "### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nPreviously using experimental_memo the following worked fine. After deprecation and changing to cache_data, the methos isn't called with underscored parameters anymore.\nInterestingly, using experimental_memo ALSO fails now.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\nclass MyView:\n    def __init__(self, txt):\n        self.txt = txt\n\n        self.view()\n\n    def view(self):\n        st.write(self.txt)\n\n        st.write(self.load_data())\n\n    [USER].cache_data(ttl=60)\n    def load_data(_self):\n        return _self.txt\n\n\nMyView(\"OH YES\")\n```\n\n\n### Steps To Reproduce\n\nstreamlit run code.py\n\n### Expected Behavior\n\nWorking\n\n### Current Behavior\n\nTypeError: load_data() missing 1 required positional argument: '_self'\n\n### Is this a regression?\n\n- [X] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.18.1 (working with 1.14.0)\n- Python version:\n- Operating System:\n- Browser:\n- Virtual environment:\n\n\n### Additional Information\n\n_No response_\n\n### Are you willing to submit a PR?\n\n- [ ] Yes, I am willing to submit a PR!",
+    "created_at": "2023-02-13T10:30:59Z",
+    "updated_at": "2024-08-15T20:55:03Z",
+    "closed_at": "2023-02-14T19:40:49Z",
+    "state": "closed",
+    "state_reason": "completed",
+    "comments": 3,
+    "comments_url": "https://api.github.com/repos/streamlit/streamlit/issues/6109/comments",
+    "topic": "cache_data",
+    "labels": [
+      "type:bug",
+      "priority:P1"
+    ],
+    "comments_data": [
+      {
+        "id": 1427713285,
+        "body": "Definitely broke from 1.17 -> 1.18",
+        "created_at": "2023-02-13T10:39:17Z",
+        "updated_at": "2023-02-13T10:39:17Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/6109#issuecomment-1427713285",
+        "author_association": "NONE"
+      },
+      {
+        "id": 1428428295,
+        "body": "Hi @Zahlii thank you for reporting this. We are investigating it now, we have seen a few other reports about it. Will share updates soon.",
+        "created_at": "2023-02-13T18:13:05Z",
+        "updated_at": "2023-02-13T18:13:05Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/6109#issuecomment-1428428295",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 1523362976,
+        "body": "At 19th Feb I made [this post on ST community](https://discuss.streamlit.io/t/new-caching-decorators-not-working-with-classes-with-init/37954/), talking about this problem and a mod called [snehankekre](https://discuss.streamlit.io/u/snehankekre) said that on version v1.19.0 it would be solved, linking this PR on the comment. But it still causes the error.\r\n\r\nThe best solution I found so far was by [this reply](https://discuss.streamlit.io/t/new-caching-decorators-not-working-with-classes-with-init/37954/7?u=eduardochaves) on the post I said previously. Using a underscore before the `self` parameter.",
+        "created_at": "2023-04-26T12:47:46Z",
+        "updated_at": "2023-04-26T12:47:46Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/6109#issuecomment-1523362976",
+        "author_association": "NONE"
+      }
+    ],
+    "comments_complete": true
+  },
+  {
+    "number": 6525,
+    "html_url": "https://github.com/streamlit/streamlit/issues/6525",
+    "title": "Issue with Streamlit button",
+    "body": "### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI've created a multipage app in Streamlit where user can select different option, and it will navigate between pages. However, I need to double-click on the \"Submit\" and \"Back to Home\" button to navigate. Which is not the expected behavior. In general, by single-click, it should take the request. \n\nAlso, I'm using the latest Streamlit version and currently testing it locally.  \n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n# Define the home page\ndef home():\n    st.title(\"Home Page\")\n    dataset = st.selectbox(\"Select a dataset\", [\"Dataset 1\", \"Dataset 2\"])\n    option = st.selectbox(\"Select an option\", [\"Data Visualization\", \"Model Interaction\"])\n    if st.button(\"Submit\"):\n        if dataset == \"Dataset 1\" and option == \"Data Visualization\":\n            st.session_state.page = \"data_viz\"\n            st.session_state.dataset = dataset\n        elif dataset == \"Dataset 1\" and option == \"Model Interaction\":\n            st.session_state.page = \"model_interaction\"\n            st.session_state.dataset = dataset\n        elif dataset == \"Dataset 2\" and option == \"Data Visualization\":\n            st.session_state.page = \"data_viz\"\n            st.session_state.dataset = dataset\n        elif dataset == \"Dataset 2\" and option == \"Model Interaction\":\n            st.session_state.page = \"model_interaction\"\n            st.session_state.dataset = dataset\n\n# Define the data visualization page\ndef data_viz():\n    st.title(f\"Data Visualization for {st.session_state.dataset}\")\n    # Add your code for data visualization here\n    if st.button(\"Back to Home\"):\n        st.session_state.page = \"home\"\n```\n\n\n### Steps To Reproduce\n\n_No response_\n\n### Expected Behavior\n\n_No response_\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.21.0\n- Python version: 3.8.16\n- Operating System: Windows\n- Browser: Chrome\n- Virtual environment: anaconda\n\n\n### Additional Information\n\n_No response_\n\n### Are you willing to submit a PR?\n\n- [ ] Yes, I am willing to submit a PR!",
+    "created_at": "2023-04-20T13:16:44Z",
+    "updated_at": "2024-08-15T20:53:57Z",
+    "closed_at": "2023-04-20T18:22:59Z",
+    "state": "closed",
+    "state_reason": "completed",
+    "comments": 1,
+    "comments_url": "https://api.github.com/repos/streamlit/streamlit/issues/6525/comments",
+    "topic": "multipage",
+    "labels": [
+      "type:bug"
+    ],
+    "comments_data": [
+      {
+        "id": 1516761290,
+        "body": "Hi @rakeshku93,\r\n\r\nThis seems like expected behavior to me. Your issue is that the script run has already completed after the button `if` statement has been run, so changing session state values won't update the page at that point. The mechanism that you're looking for to ensure this happens before the next script run is `st.button`'s  `on_click` parameter. See the [st.button documentation](https://docs.streamlit.io/library/api-reference/widgets/st.button).",
+        "created_at": "2023-04-20T18:22:58Z",
+        "updated_at": "2023-04-20T18:23:46Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/6525#issuecomment-1516761290",
+        "author_association": "CONTRIBUTOR"
+      }
+    ],
+    "comments_complete": true
+  },
+  {
+    "number": 7338,
+    "html_url": "https://github.com/streamlit/streamlit/issues/7338",
+    "title": "Widget display value depends on ScriptRunner completing execution of a different page (or not)",
+    "body": "### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen using `st.session_state` to pre-set the value of a widget, the widget will sometimes appear to have a blank/0 value that does not match the value returned by the DeltaGenerator function call, and this behavior depends on the user switching from a different Streamlit \"page\" which did or did not finish running to completion.\n\n### Reproducible Code Example\n\n```Python\n# Create a multipage streamlit app\n\n# -- in testpage1.py\nimport streamlit as st\n\nst.write(\"Starting\")\nst.session_state.setdefault(\"my_widget\", \"Hello World\")\ntext_value = st.text_input(\"Enter some text\", key=\"my_widget\")\nst.write(text_value)\nst.button(\"press to refresh\")\n\n# -- in testpage2.py\nimport streamlit as st\nfrom time import sleep\n\nst.write(\"starting\")\nsleep(10)\nst.write(\"finished\")\n```\n\n\n### Steps To Reproduce\n\n1. Start streamlit with a fresh session on testpage1.py\n2. See: \"Hello World\" in the `my_widget` text_input and \"Hello World\" printed below it via `st.write`\n3. Change the text of the `my_widget` text_input to something else. This step is not strictly required to reproduce the bug but allows you to verify that A) the `.setdefault` call is working as expected and B) that the value has \"reset\" to the default \"Hello World\" later on.\n4. Navigate to testpage2. Allow 10 seconds for the script to run to completion, so that \"Finished\" is displayed\n5. Navigate back to testpage1.\n6. See: \"Hello World\" in the `my_widget` text_input and \"Hello World\" printed below it via `st.write`. The input and display state of the widget has been reset to it's default value, and this makes sense, since widgets do not retain their state across page changes.\n7. Navigate to testpage2. Before the 10 seconds has elapsed, navigate back to testpage1.\n8. See \"\" (blank) in the `my_widget` text_input, and \"Hello World\" printed below it via `st.write`. This is unexpected, as the widget visual state does not match the returned value nor the pre-set value that it should have because of the `st.session_state.setdefault` call right before it.\n9. Clicking the \"press to refresh\" button causes the \"Hello World\" written by `st.write` to disappear (due to the fact that the front-end sends the blank widget state to the backend as part of the ReRun Data for the button press)\n\n### Expected Behavior\n\nWidget visual state on testpage1 reload does not depend on when testpage2 execution was interrupted.\n\n### Current Behavior\n\nWidget visual state on testpage1 reload DOES seem to depend on when testpage2 execution was interrupted.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.26.0\n- Python version: 3.11.4\n- Operating System: Centos Stream 9 and Windows 11\n- Browser: Chrome v116, opera v101.0.4843.43\n\n\n### Additional Information\n\nThis issue may be related to https://github.com/streamlit/streamlit/issues/6146 and/or https://github.com/streamlit/streamlit/issues/6074, but I believe it is distinct (or at least a distinct manifestation of an underlying issue that has not been completely resolved) due to the behavior dependence on the lack of completion of a prior ScriptRunner.",
+    "created_at": "2023-09-15T04:53:41Z",
+    "updated_at": "2024-04-12T16:56:38Z",
+    "closed_at": "2024-04-12T16:56:37Z",
+    "state": "closed",
+    "state_reason": "completed",
+    "comments": 12,
+    "comments_url": "https://api.github.com/repos/streamlit/streamlit/issues/7338/comments",
+    "topic": "multipage",
+    "labels": [
+      "type:bug",
+      "status:confirmed",
+      "priority:P2",
+      "feature:st.session_state"
+    ],
+    "comments_data": [
+      {
+        "id": 1720655761,
+        "body": "**If this issue affects you, please react with a 👍 (thumbs up emoji) to the initial post.**\n\nYour feedback helps us prioritize which bugs to investigate and address first.\n\n![Visits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fstreamlit%2Fstreamlit%2Fissues%2F7338&title=visits&edge_flat=false)\n",
+        "created_at": "2023-09-15T04:53:56Z",
+        "updated_at": "2023-09-15T04:53:56Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/7338#issuecomment-1720655761",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 1732335299,
+        "body": "I believe this is fixed with #7264.\r\n\r\nSince being in the middle of a sleep count makes buttons and navigation inoperable, I changed the test script for page 2 to:\r\n```\r\n# -- in testpage2.py\r\nimport streamlit as st\r\nfrom time import sleep\r\n\r\nst.write(\"starting\")\r\nfor i in range(5):\r\n    sleep(1)\r\n    st.write(i)\r\nst.write(\"finished\")\r\n```\r\n\r\nI correctly observe the widget on page1 to reset if I switch between page1 and page2, even if I prematurely navigate back before the script completes.",
+        "created_at": "2023-09-23T14:53:00Z",
+        "updated_at": "2023-09-23T14:53:00Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/7338#issuecomment-1732335299",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 1740162538,
+        "body": "Hmm, I'm still seeing the behavior even with the changes in #7264. @MathCatsAnd could it be that you currently have the `runner.fastReruns` config option off? This behavior doesn't seem to appear with the option off + the sleep doesn't disable buttons and navigation with the option on, so I'm guessing this is the case.\r\n\r\nI do think this may be related to some work we're looking into in #7373, though (CC @AnOctopus)",
+        "created_at": "2023-09-29T00:39:52Z",
+        "updated_at": "2023-09-29T00:39:52Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/7338#issuecomment-1740162538",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 1811550025,
+        "body": "This is an unfortunate consequence of how we handle the transience of widget state, and can't be fixed until we address widget persistence.\r\n\r\nStreamlit used to work by always doing cleanup of \"stale widgets\" after a script run finished, even if it finished because it was interrupted. This would usually not be noticed because a rerun request would include the state of the widgets in the web app, even if they were just around because the active script run hadn't gotten to them yet. For fast reruns, we changed it so that interrupted runs wouldn't do the cleanup, though I can't recall exactly our reasoning for it and couldn't readily find it. We later made fast reruns the default.\r\n\r\nThat is the story for a single page app. For MPA, both [widgets on other pages persist] and [widgets on other pages reset] are perfect for some apps but would break others, and addressing it will be a big project, so we haven't done it yet. In the meantime, we get this awkward middle ground, where the persistence of widget state on another page depends on if the current page finished running before you switch back. We could try to fix it, but that would break other apps. A proper fix will require a notion of widget persistence.\r\n\r\nIn the meantime, as @vdonato notes, this behavior can be worked around by turning off fast reruns, though that will generally reduce responsiveness of script reruns. ",
+        "created_at": "2023-11-14T23:23:04Z",
+        "updated_at": "2023-11-14T23:23:04Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/7338#issuecomment-1811550025",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 1811998089,
+        "body": "@AnOctopus Thanks for the run through --  it in line with my own understanding of how widgets and state interact with the \"fast\" reruns.  Like you said, you can't really call the current behavior of widget state in the python application a \"bug\" vs a \"feature\".\r\n\r\nI do, however, want to re-focus on this particular line from the recreation steps:\r\n\r\n> See \"\" (blank) in the my_widget text_input, and \"Hello World\" printed below it via st.write. \r\n\r\n_After_ the fast re-run happens, it seems like there is a disconnect between the _python value of a widget_ and the _frontend value of a widget_. This seems like a \"true\" bug; if the widget state has persisted thru the page change (as indicated by the \"Hello World\" printed via `st.write`) then should not also the front end component that renders the `text_input` UI element receive a protobuf with that \"Hello World\" state in it and render it to the DOM with the text filled out? That's how it works in most other cases when a fast page change _doesn't_ happen.\r\n\r\nIn my estimation this particular aspect seems more like a front-end / back-end communication issue, but I will admit I do not know how the front-end receives, queues, and handles protobuf messages on page changes.\r\n\r\nIn other words, _any_ of the following outcomes would be consistent with your explanation above, but _none_ of them is what's actually happening.\r\n\r\n> Set the text_input widget value to \"Hello Octopus\" on testpage1.\r\n> Navigate to testpage2. Before the 10 seconds has elapsed, navigate back to testpage1.\r\n\r\n1. **Outcome 1:** See \"\" (blank) in the my_widget text_input, and \"\" (blank) printed below it via st.write. This indicates that the widget state has been somehow been \"lost\" but that the front-end is in control of the (now blank) value.\r\n2. **Outcome 2:** See \"Hello World\" in the my_widget text_input, and \"Hello World\" printed below it via st.write. This indicates that the widget state has been reset and the back-end is in control of the value.\r\n3. **Outcome 3:** See \"Hello Octopus\" in the my_widget text_input, and \"Hello Octopus\" printed below it via st.write. This indicates that the widget state has been persisted, and the back-end is in control of the value.",
+        "created_at": "2023-11-15T08:21:53Z",
+        "updated_at": "2023-11-15T08:30:36Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/7338#issuecomment-1811998089",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 1813105404,
+        "body": "@Asaurus1 You're right, I totally missed that. Or rather, I forgot about it in the time between first looking at this issue and coming back to comment on it. I should have reviewed it first, instead of assuming from just the title.\r\n\r\nI'm going to investigate this probably later today, but my hunch based on the behavior is that the frontend-backend desync is because the page change causes the frontend to drop its local state for the text input, but because that script run doesn't finish and clean up the state, the new script run with the text input thinks the frontend already has the state and so doesn't send it again.\r\n\r\nIf my hunch is correct, this will be tricky to fix, since the semantics of frontend and backend state interacting can be subtle and it would be easy to accidentally introduce a bug in the opposite direction. Maybe I can make the backend always send the state it knows about after a page change.",
+        "created_at": "2023-11-15T19:08:08Z",
+        "updated_at": "2023-11-15T19:08:08Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/7338#issuecomment-1813105404",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 1813878154,
+        "body": "Some thoughts that I thought would paint a more complete picture but ended up not actually leading me anywhere...\r\n\r\n1. Text_input widgets only forward a new value to the front-end as part of the proto when the value has been detected to have changed (https://github.com/streamlit/streamlit/blob/develop/lib/streamlit/elements/widgets/text_widgets.py#L332)\r\n2. This value_changed flag is set when the widget is registered, and depends on whether the user_key for the widget is already present in _new_session_state or not (https://github.com/streamlit/streamlit/blob/develop/lib/streamlit/runtime/state/session_state.py#L621). \r\n4. This would appear to possibly relate to the whole \"session state preservation thing\", but I can't quite piece together why there is a difference in behavior between waiting for testpage2 to run to completion or not.\r\n\r\nIs there an easy way to turn on debug Protobuffer logging either on the Python or JS side to see what's getting sent over?\r\n\r\nEDIT:\r\n* Is it possible the Runtime _thinks_ that the client has a FwdMessage cached on it's side when in actuality the Client does not? The Runtime seems to only remove expired entries when a SCRIPT_FINISHED message is received, which might be what's not happening when testpage2 doesn't run to completion. (https://github.com/streamlit/streamlit/blob/develop/lib/streamlit/runtime/runtime.py#L692)",
+        "created_at": "2023-11-16T06:48:01Z",
+        "updated_at": "2023-11-16T07:07:11Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/7338#issuecomment-1813878154",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 1815385139,
+        "body": "There is no builtin way to turn on outgoing protobuf logging, but adding a print line in `ScriptRunner._enqueue_forward_msg` is easy and effective.\r\n\r\nI don't think the forward message cache will be relevant here, IIRC it only gets used for messages over some size threshold.\r\n\r\nI have some vague ideas about possible causes and am debugging this now.",
+        "created_at": "2023-11-16T22:02:30Z",
+        "updated_at": "2023-11-16T22:02:30Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/7338#issuecomment-1815385139",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 1815565735,
+        "body": "My trace of what is happening:\r\n1. the script runs, putting \"Hello World\" in the new session state\r\n2. this is seen as new information, so it is sent as part of the protobuf for the text_input, and is used as the initial value\r\n3. We put a new value in the text_input, which saves it in the `WidgetStateManager` and sends the rerun request with that value\r\n4. We click the radio to change pages, sending a rerun request for that page\r\n5. this rerun triggers a new session, and since the page has changed, `clearAppState` is called, which removes the value from WidgetStateManager\r\n6. as setup for the rerun, the widget value for the text input is moved to old session state\r\n7. we click the radio to go back to the first page\r\n8. the text input is registered in the script rerun, where it gets the value from old session state, but it does not put that value in the protobuf, because it is not new (and assumes the frontend would have it)\r\n9. the text input is rendered, but it has no value in the WidgetStateManager, and we did not set a default value, so it initializes with a `null` value, which renders as blank\r\n\r\nBased on this, changing the frontend reset somehow is probably the right kind of fix, but it would need to be done cautiously, to avoid other situations keeping around state they shouldn't.",
+        "created_at": "2023-11-17T00:55:12Z",
+        "updated_at": "2023-11-17T00:55:12Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/7338#issuecomment-1815565735",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 1975527033,
+        "body": "@AnOctopus Did you or the team figure out yet what the long-term behavior of SessionState should be around page changes? \r\n\r\nI did some testing/logging of this too, I believe the behavior you describe is correct. \r\nWhen the user clicks on a page-change link, the frontend sends the re-run request to the backend and immediately clears its WidgetStateManager of inactive widgets (e.g. all of them, because the page is changing). However, the backend does not clear out old widget states until the active script_runner hits a \"script finished\" point. When this doesn't happen (because the user changed pages mid-run and fast-reruns are enabled), the old widget states are not removed.\r\n\r\nThere are two \"root\" issues going on:\r\n\r\n### Issue 1: value-retention for widgets with user keys depends on previous script-runner finishing while active. \r\nThis one is pretty easy to fix; but requires a choice.\r\n\r\n> A. If the desire is to have user_key'd widgets retain their value across page changes the same way that custom user entries in `session_state` do, then the logic which cleans up widget states at the end of a script run needs to preserve those widgets' values -- it does not do so at present.\r\n\r\n> B. If the desire is to have user_key'd widgets not retain their value across page changes, like widgets without a user_key, then ALL widget state needs to be cleared as soon as a re-run with a different page hash than the current one is requested.\r\n\r\n### Issue 2: The desynchronization of WidgetStateManager (frontend) and SessionState (backend) when a page change occurs.\r\nThis is easy if you go with option B and commit to clearing ALL backend widget state every time a page changes. Nothing needs to get changed on the frontend because it's _already_ clearing it's widget state as soon as the page changes.\r\n\r\nIf you go with option A, then this is a lot tricker. Either, as you said above, the backend needs to send all the widget states it knows about to the front-end at the start of a re-run, OR the frontend WidgetStateManager needs to keep track of which widgets have a user_key, and purposefully avoid clearing those widgets' state when a page change is requested.",
+        "created_at": "2024-03-04T02:05:46Z",
+        "updated_at": "2024-03-04T03:00:20Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/7338#issuecomment-1975527033",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 2033297631,
+        "body": "@Asaurus1 We haven't revisited the behavior of session state and page changes, no. The persistence of widgets is a very tricky design area with many competing use cases and we haven't wanted to open Pandora's box yet.\r\n\r\nFor issue 1, option B is the current intent, and I think you're right that we should fully clear the state of widgets from other pages. I will look into fixing this soon.\r\n\r\n",
+        "created_at": "2024-04-02T23:56:12Z",
+        "updated_at": "2024-04-02T23:56:12Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/7338#issuecomment-2033297631",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 2052128112,
+        "body": "Just merged a fix, will be in the next release.",
+        "created_at": "2024-04-12T16:56:37Z",
+        "updated_at": "2024-04-12T16:56:37Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/7338#issuecomment-2052128112",
+        "author_association": "CONTRIBUTOR"
+      }
+    ],
+    "comments_complete": true
+  },
+  {
+    "number": 8815,
+    "html_url": "https://github.com/streamlit/streamlit/issues/8815",
+    "title": "st.logo image blinks on each new page navigation",
+    "body": "### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [X] I added a descriptive title and summary to this issue.\n\n### Summary\n\nPlease make the image in st.logo not blink when navigating to new pages from the sidebar.\n\n### Why?\n\nI understand that the call to st.logo() is being run separately on each page of my multipage app, but is there some way to make the image not blink when I navigate to a new page from the sidebar? The sidebar itself (with all its page links) does not blink, so it seems possible despite the new call on each page. It's quite noticeable and can be disturbing/unexpected for many users.\n\n### How?\n\nOut of my scope of expertise, it's just a UI thing.\n\n### Additional Context\n\n_No response_",
+    "created_at": "2024-06-03T21:32:46Z",
+    "updated_at": "2024-08-30T20:16:39Z",
+    "closed_at": "2024-08-30T20:16:39Z",
+    "state": "closed",
+    "state_reason": "completed",
+    "comments": 3,
+    "comments_url": "https://api.github.com/repos/streamlit/streamlit/issues/8815/comments",
+    "topic": "multipage",
+    "labels": [
+      "type:enhancement",
+      "feature:st.logo"
+    ],
+    "comments_data": [
+      {
+        "id": 2146162491,
+        "body": "**To help Streamlit prioritize this feature, react with a 👍 (thumbs up emoji) to the initial post.**\n\nYour vote helps us identify which enhancements matter most to our users.\n\n![Visits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fstreamlit%2Fstreamlit%2Fissues%2F8815&title=visits&edge_flat=false)\n",
+        "created_at": "2024-06-03T21:32:58Z",
+        "updated_at": "2024-06-03T21:32:58Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/8815#issuecomment-2146162491",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 2223478333,
+        "body": "Thanks for bringing this up!\r\n\r\nI believe this only happens if you create the multipage app with the `pages/` directory. If you use `st.navigation` and declare the logo in the entrypoint file, it should not flicker.\r\n\r\nSee: https://docs.streamlit.io/develop/concepts/multipage-apps/page-and-navigation\r\n\r\nWith that said, I agree we should fix this for use with `pages/`",
+        "created_at": "2024-07-11T17:15:26Z",
+        "updated_at": "2024-07-11T17:15:26Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/8815#issuecomment-2223478333",
+        "author_association": "CONTRIBUTOR"
+      },
+      {
+        "id": 2223537751,
+        "body": "You might be right; I submitted this before multipage 2.0 went live. I think for now I'm sticking to pages/, it would be great to get a fix if possible. Thanks!",
+        "created_at": "2024-07-11T17:51:43Z",
+        "updated_at": "2024-07-11T17:51:43Z",
+        "html_url": "https://github.com/streamlit/streamlit/issues/8815#issuecomment-2223537751",
+        "author_association": "NONE"
+      }
+    ],
+    "comments_complete": true
+  }
+]

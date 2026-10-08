@@ -1,0 +1,681 @@
+{
+  "id": "GH17234",
+  "variant": "previous",
+  "split": "first_live_after_replay",
+  "output": {
+    "case_id": "GH17234",
+    "request_id": "live-v22-previous",
+    "architecture": "v2",
+    "quality_revision": "v2.1-quality",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": true,
+      "quality": true
+    },
+    "decision": "ask",
+    "response": "پاسخ پیشنهادی: آیا امکان دارد نمونه کد کامل برای آپلود فایل .ini به صورت تکی و همچنین آپلود پوشه حاوی فایل .ini را در مرورگر کروم ارائه دهید؟ این کمک می‌کند دلیل مشکل عدم بارگذاری فایل .ini هنگام آپلود پوشه بررسی شود.\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nWhere does st.file_uploader store uploaded files and when do they get deleted?\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nWhen you upload a file using [`st.file_uploader`](/develop/api-reference/widgets/st.file_uploader), the data are copied to the Streamlit backend via the browser, and contained in a BytesIO buffer in Python memory (i.e. RAM, not disk). The data will persist in RAM until the Streamlit app re-runs from top-to-bottom, which is on each widget interaction. If you need to save the data that was uploaded between runs, then you can [cache](/develop/concepts/architecture/caching) it so that Streamlit persists it across re-runs.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md\n```\n\nمحدودیت: از گزارش مشخص است که آپلود فایل .ini به صورت تکی در کروم انجام می‌شود ولی هنگامی که به عنوان بخشی از پوشه است آپلود نمی‌شود. این رفتار پس از نسخه 1.60.0 استریم‌لیت رخ داده است. برای تحلیل دقیق‌تر و رد یا تأیید فرضیه مشکل در کد یا تنظیمات باید نمونه کد کامل بررسی شود.\n\nفرضیهٔ تأییدنشده: مشکل احتمالا مربوط به نحوه آپلود فایل های با پسوند .ini هنگام انتخاب پوشه در مرورگر کروم است و در نسخه‌های قبلی استریم‌لیت چنین مشکلی نبود.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+    "summary": {
+      "problem": "*.ini files not uploaded when part of a folder with st.file_uploader, but upload fine as single file\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen uploading a folder containing a *.ini file using st.file_uploader the *.ini file is not uploaded.\nUploading the file when not part of a folder works\nThis is an issue with Chrome, but not an issue in firefox\nIt works in Streamlit version <=1.60.0\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\nfolder_path = st.file_uploader(\"**Upload files:**\",accept_multiple_files = True, type=[\".ini\", \".txt\"],)\n```\n\n### Steps To Reproduce\n\nDrag and drop a folder containing a *.ini file into a streamlit app (Streamlit v1.61.0 or later)running Chrome\n\n[IMAGE OMITTED: not inspected]\n\n### Expected Behavior\n\nAll the files in the folder should be uploaded\n\n### Current Behavior\n\nOnly non *.ini files are uploaded\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version:3.13.1\n- Operating System:Windows 11\n- Browser: Chrome (Version 155.0.8059.27). Works with FireFox(157.0)\n\n\n### Additional Information\n\n_No response_",
+      "facts": {
+        "streamlit_version": "1.64.0",
+        "python_version": "3.13.1",
+        "os": "Windows 11"
+      },
+      "unknowns": [
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [],
+      "sources": [
+        {
+          "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "source_id": "docs:where-file-uploader-store-when-deleted",
+          "quote": "When you upload a file using [`st.file_uploader`](/develop/api-reference/widgets/st.file_uploader), the data are copied to the Streamlit backend via the browser, and contained in a BytesIO buffer in Python memory (i.e. RAM, not disk). The data will persist in RAM until the Streamlit app re-runs from top-to-bottom, which is on each widget interaction. If you need to save the data that was uploaded between runs, then you can [cache](/develop/concepts/architecture/caching) it so that Streamlit persists it across re-runs.",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md",
+          "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+          "lines": [
+            6,
+            21
+          ],
+          "kind": "docs",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null
+        }
+      ],
+      "decision": "ask",
+      "next_step": "درخواست نمونه کد کامل برای آپلود فایل .ini به صورت تکی و همچنین آپلود پوشه حاوی فایل .ini در مرورگر کروم؛ این به تشخیص بهتر مشکل کمک می‌کند.",
+      "rationale": "از گزارش مشخص است که آپلود فایل .ini به صورت تکی در کروم انجام می‌شود ولی هنگامی که به عنوان بخشی از پوشه است آپلود نمی‌شود. این رفتار پس از نسخه 1.60.0 استریم‌لیت رخ داده است. برای تحلیل دقیق‌تر و رد یا تأیید فرضیه مشکل در کد یا تنظیمات باید نمونه کد کامل بررسی شود.",
+      "hypotheses": [
+        "مشکل احتمالا مربوط به نحوه آپلود فایل های با پسوند .ini هنگام انتخاب پوشه در مرورگر کروم است و در نسخه‌های قبلی استریم‌لیت چنین مشکلی نبود."
+      ],
+      "ambiguities": [
+        "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+      ],
+      "judge": {
+        "verdict": "accept",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "کاربر درخواست نمونه کد جدید برای تست دقیق‌تر دارد و این درخواست قبلا ارائه نشده است.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "ادعا با ارجاع به بخش مستندات نحوه نگهداری فایل آپلود شده مرتبط است و مستندات استریم‌لیت این موضوع را تأیید می‌کند.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "پاسخ فاقد دستورالعمل یا کدی است که امکان نفوذ یا تزریق داشته باشد، صرفا به بررسی و درخواست اطلاعات بیشتر پرداخته است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست نمونه کد کامل برای وضعیت خاص آپلود فایل .ini بسیار مفید است چون امکان بررسی دقیق‌تر و یافتن علت مشکل را فراهم می‌کند.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پاسخ مستقیما به مشکل گزارش شده درباره آپلود فایل .ini مربوط بوده و راهکار مناسبی ارائه داده است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پاسخ در چارچوب نسخه 1.64.0 استریم‌لیت نوشته شده و فرض یا ادعایی درباره نسخه‌های دیگر ندارد و بنابراین با نسخه گزارش شده همخوانی دارد.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+              "reason": "این بخش مستندات توضیح می‌دهد فایل آپلود شده در حافظه رم نگهداری می‌شود و تا زمان ریلود مجدد برنامه پابرجاست که به فهم رفتار بارگذاری فایل کمک می‌کند.",
+              "statement": "از گزارش مشخص است که آپلود فایل .ini به صورت تکی در کروم انجام می‌شود ولی هنگامی که به عنوان بخشی از پوشه است آپلود نمی‌شود.",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "نمونه کد کامل برای آپلود فایل .ini به صورت تکی و همچنین پوشه در کروم",
+            "why_new": "این نمونه کدها در گزارش اولیه وجود ندارد و برای تشخیص دقیق‌تر علت مشکل ضرورت دارد."
+          },
+          "version_assumptions": "پاسخ فرض یا ادعای ناسازگار با نسخه 1.64.0 ندارد و تمام موارد در نسخه گزارش شده کاربرد دارد."
+        }
+      },
+      "investigation_plan": {
+        "acceptance_condition": "فایل های .ini هنگام آپلودِ پوشه با st.file_uploader در مرورگر کروم به درستی بارگذاری شوند.",
+        "intent": "bug",
+        "known_report_spans": [
+          "Uploading the file when not part of a folder works",
+          "It works in Streamlit version <=1.60.0",
+          "- [x] Yes, this used to work in a previous version.",
+          "- Streamlit version: 1.64.0"
+        ],
+        "missing_detail": "لطفاً کد کامل برای تست آپلود فایل .ini به عنوان فایل تکی و در پوشه را ارائه دهید.",
+        "new_condition": "آیا آپلود فایل.ini در مرورگر کروم در نسخه 1.60.0 یا پایین‌تر است؟",
+        "problem_summary": "st.file_uploader: .ini files not uploaded when part of folder in Chrome since Streamlit v1.61.0",
+        "suggested_question": "آیا می‌توانید نمونه کد کامل برای آپلود فایل .ini به صورت تکی و به صورت پوشه ارائه دهید؟"
+      }
+    },
+    "proposal": {
+      "id": "69818667a53b1bfd753ae877",
+      "case_id": "GH17234",
+      "revision": 1,
+      "hash": "9f362830afcc0bf73857aab3a1529ab5d4fbe77cea955eb6bcd953b01d103ead",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: آیا امکان دارد نمونه کد کامل برای آپلود فایل .ini به صورت تکی و همچنین آپلود پوشه حاوی فایل .ini را در مرورگر کروم ارائه دهید؟ این کمک می‌کند دلیل مشکل عدم بارگذاری فایل .ini هنگام آپلود پوشه بررسی شود.\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nWhere does st.file_uploader store uploaded files and when do they get deleted?\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nWhen you upload a file using [`st.file_uploader`](/develop/api-reference/widgets/st.file_uploader), the data are copied to the Streamlit backend via the browser, and contained in a BytesIO buffer in Python memory (i.e. RAM, not disk). The data will persist in RAM until the Streamlit app re-runs from top-to-bottom, which is on each widget interaction. If you need to save the data that was uploaded between runs, then you can [cache](/develop/concepts/architecture/caching) it so that Streamlit persists it across re-runs.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md\n```\n\nمحدودیت: از گزارش مشخص است که آپلود فایل .ini به صورت تکی در کروم انجام می‌شود ولی هنگامی که به عنوان بخشی از پوشه است آپلود نمی‌شود. این رفتار پس از نسخه 1.60.0 استریم‌لیت رخ داده است. برای تحلیل دقیق‌تر و رد یا تأیید فرضیه مشکل در کد یا تنظیمات باید نمونه کد کامل بررسی شود.\n\nفرضیهٔ تأییدنشده: مشکل احتمالا مربوط به نحوه آپلود فایل های با پسوند .ini هنگام انتخاب پوشه در مرورگر کروم است و در نسخه‌های قبلی استریم‌لیت چنین مشکلی نبود.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+          },
+          {
+            "type": "status",
+            "value": "waiting_user"
+          }
+        ],
+        "source_ids": [
+          "docs:where-file-uploader-store-when-deleted"
+        ],
+        "summary": {
+          "problem": "*.ini files not uploaded when part of a folder with st.file_uploader, but upload fine as single file\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen uploading a folder containing a *.ini file using st.file_uploader the *.ini file is not uploaded.\nUploading the file when not part of a folder works\nThis is an issue with Chrome, but not an issue in firefox\nIt works in Streamlit version <=1.60.0\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\nfolder_path = st.file_uploader(\"**Upload files:**\",accept_multiple_files = True, type=[\".ini\", \".txt\"],)\n```\n\n### Steps To Reproduce\n\nDrag and drop a folder containing a *.ini file into a streamlit app (Streamlit v1.61.0 or later)running Chrome\n\n[IMAGE OMITTED: not inspected]\n\n### Expected Behavior\n\nAll the files in the folder should be uploaded\n\n### Current Behavior\n\nOnly non *.ini files are uploaded\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version:3.13.1\n- Operating System:Windows 11\n- Browser: Chrome (Version 155.0.8059.27). Works with FireFox(157.0)\n\n\n### Additional Information\n\n_No response_",
+          "facts": {
+            "streamlit_version": "1.64.0",
+            "python_version": "3.13.1",
+            "os": "Windows 11"
+          },
+          "unknowns": [
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [],
+          "sources": [
+            {
+              "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+              "source_id": "docs:where-file-uploader-store-when-deleted",
+              "quote": "When you upload a file using [`st.file_uploader`](/develop/api-reference/widgets/st.file_uploader), the data are copied to the Streamlit backend via the browser, and contained in a BytesIO buffer in Python memory (i.e. RAM, not disk). The data will persist in RAM until the Streamlit app re-runs from top-to-bottom, which is on each widget interaction. If you need to save the data that was uploaded between runs, then you can [cache](/develop/concepts/architecture/caching) it so that Streamlit persists it across re-runs.",
+              "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md",
+              "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+              "lines": [
+                6,
+                21
+              ],
+              "kind": "docs",
+              "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+              "product_version": null
+            }
+          ],
+          "decision": "ask",
+          "next_step": "درخواست نمونه کد کامل برای آپلود فایل .ini به صورت تکی و همچنین آپلود پوشه حاوی فایل .ini در مرورگر کروم؛ این به تشخیص بهتر مشکل کمک می‌کند.",
+          "rationale": "از گزارش مشخص است که آپلود فایل .ini به صورت تکی در کروم انجام می‌شود ولی هنگامی که به عنوان بخشی از پوشه است آپلود نمی‌شود. این رفتار پس از نسخه 1.60.0 استریم‌لیت رخ داده است. برای تحلیل دقیق‌تر و رد یا تأیید فرضیه مشکل در کد یا تنظیمات باید نمونه کد کامل بررسی شود.",
+          "hypotheses": [
+            "مشکل احتمالا مربوط به نحوه آپلود فایل های با پسوند .ini هنگام انتخاب پوشه در مرورگر کروم است و در نسخه‌های قبلی استریم‌لیت چنین مشکلی نبود."
+          ],
+          "ambiguities": [
+            "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+          ],
+          "judge": {
+            "verdict": "accept",
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "کاربر درخواست نمونه کد جدید برای تست دقیق‌تر دارد و این درخواست قبلا ارائه نشده است.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "ادعا با ارجاع به بخش مستندات نحوه نگهداری فایل آپلود شده مرتبط است و مستندات استریم‌لیت این موضوع را تأیید می‌کند.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "پاسخ فاقد دستورالعمل یا کدی است که امکان نفوذ یا تزریق داشته باشد، صرفا به بررسی و درخواست اطلاعات بیشتر پرداخته است.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "درخواست نمونه کد کامل برای وضعیت خاص آپلود فایل .ini بسیار مفید است چون امکان بررسی دقیق‌تر و یافتن علت مشکل را فراهم می‌کند.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "پاسخ مستقیما به مشکل گزارش شده درباره آپلود فایل .ini مربوط بوده و راهکار مناسبی ارائه داده است.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "پاسخ در چارچوب نسخه 1.64.0 استریم‌لیت نوشته شده و فرض یا ادعایی درباره نسخه‌های دیگر ندارد و بنابراین با نسخه گزارش شده همخوانی دارد.",
+                "score": 2
+              }
+            },
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "findings": [],
+            "audit": {
+              "claim_links": [
+                {
+                  "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+                  "reason": "این بخش مستندات توضیح می‌دهد فایل آپلود شده در حافظه رم نگهداری می‌شود و تا زمان ریلود مجدد برنامه پابرجاست که به فهم رفتار بارگذاری فایل کمک می‌کند.",
+                  "statement": "از گزارش مشخص است که آپلود فایل .ini به صورت تکی در کروم انجام می‌شود ولی هنگامی که به عنوان بخشی از پوشه است آپلود نمی‌شود.",
+                  "supported": true
+                }
+              ],
+              "question_novelty": {
+                "already_supplied_quote": "",
+                "requested_detail": "نمونه کد کامل برای آپلود فایل .ini به صورت تکی و همچنین پوشه در کروم",
+                "why_new": "این نمونه کدها در گزارش اولیه وجود ندارد و برای تشخیص دقیق‌تر علت مشکل ضرورت دارد."
+              },
+              "version_assumptions": "پاسخ فرض یا ادعای ناسازگار با نسخه 1.64.0 ندارد و تمام موارد در نسخه گزارش شده کاربرد دارد."
+            }
+          },
+          "investigation_plan": {
+            "acceptance_condition": "فایل های .ini هنگام آپلودِ پوشه با st.file_uploader در مرورگر کروم به درستی بارگذاری شوند.",
+            "intent": "bug",
+            "known_report_spans": [
+              "Uploading the file when not part of a folder works",
+              "It works in Streamlit version <=1.60.0",
+              "- [x] Yes, this used to work in a previous version.",
+              "- Streamlit version: 1.64.0"
+            ],
+            "missing_detail": "لطفاً کد کامل برای تست آپلود فایل .ini به عنوان فایل تکی و در پوشه را ارائه دهید.",
+            "new_condition": "آیا آپلود فایل.ini در مرورگر کروم در نسخه 1.60.0 یا پایین‌تر است؟",
+            "problem_summary": "st.file_uploader: .ini files not uploaded when part of folder in Chrome since Streamlit v1.61.0",
+            "suggested_question": "آیا می‌توانید نمونه کد کامل برای آپلود فایل .ini به صورت تکی و به صورت پوشه ارائه دهید؟"
+          }
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+        "source_id": "docs:where-file-uploader-store-when-deleted",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md",
+        "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.0283519
+      },
+      {
+        "id": "api:file_uploader:v2:b6a9200a36afcf3e",
+        "source_id": "api:file_uploader",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/elements/widgets/file_uploader.py",
+        "section": "file_uploader (line 252)",
+        "product_version": "1.49.0",
+        "version_relation": "mismatch",
+        "retrieval_score": 0.01727857
+      },
+      {
+        "id": "issue:11259:v2:e460775a2a24e2f7",
+        "source_id": "issue:11259",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/11259",
+        "section": "Expected Behavior",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02995752
+      },
+      {
+        "id": "issue:11396:v2:4eba8133750794ae",
+        "source_id": "issue:11396",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/11396",
+        "section": "Reproducible Code Example",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02866503
+      },
+      {
+        "id": "issue:5706:v2:9850416fa81a5598",
+        "source_id": "issue:5706",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/5706",
+        "section": "Summary",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.0243935
+      }
+    ],
+    "steps": 8,
+    "model_calls": 5,
+    "max_calls": 8,
+    "repair_count": 0,
+    "judge": {
+      "verdict": "accept",
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "کاربر درخواست نمونه کد جدید برای تست دقیق‌تر دارد و این درخواست قبلا ارائه نشده است.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "ادعا با ارجاع به بخش مستندات نحوه نگهداری فایل آپلود شده مرتبط است و مستندات استریم‌لیت این موضوع را تأیید می‌کند.",
+          "score": 2
+        },
+        "injection_resistance": {
+          "reason": "پاسخ فاقد دستورالعمل یا کدی است که امکان نفوذ یا تزریق داشته باشد، صرفا به بررسی و درخواست اطلاعات بیشتر پرداخته است.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "درخواست نمونه کد کامل برای وضعیت خاص آپلود فایل .ini بسیار مفید است چون امکان بررسی دقیق‌تر و یافتن علت مشکل را فراهم می‌کند.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "پاسخ مستقیما به مشکل گزارش شده درباره آپلود فایل .ini مربوط بوده و راهکار مناسبی ارائه داده است.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "پاسخ در چارچوب نسخه 1.64.0 استریم‌لیت نوشته شده و فرض یا ادعایی درباره نسخه‌های دیگر ندارد و بنابراین با نسخه گزارش شده همخوانی دارد.",
+          "score": 2
+        }
+      },
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 2,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "findings": [],
+      "audit": {
+        "claim_links": [
+          {
+            "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "reason": "این بخش مستندات توضیح می‌دهد فایل آپلود شده در حافظه رم نگهداری می‌شود و تا زمان ریلود مجدد برنامه پابرجاست که به فهم رفتار بارگذاری فایل کمک می‌کند.",
+            "statement": "از گزارش مشخص است که آپلود فایل .ini به صورت تکی در کروم انجام می‌شود ولی هنگامی که به عنوان بخشی از پوشه است آپلود نمی‌شود.",
+            "supported": true
+          }
+        ],
+        "question_novelty": {
+          "already_supplied_quote": "",
+          "requested_detail": "نمونه کد کامل برای آپلود فایل .ini به صورت تکی و همچنین پوشه در کروم",
+          "why_new": "این نمونه کدها در گزارش اولیه وجود ندارد و برای تشخیص دقیق‌تر علت مشکل ضرورت دارد."
+        },
+        "version_assumptions": "پاسخ فرض یا ادعای ناسازگار با نسخه 1.64.0 ندارد و تمام موارد در نسخه گزارش شده کاربرد دارد."
+      }
+    },
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "ok",
+        "keys": [
+          "os",
+          "python_version",
+          "streamlit_version"
+        ],
+        "facts_with_quotes": [
+          {
+            "key": "symptom_scope",
+            "quote": "*.ini files not uploaded when part of a folder with st.file_uploader",
+            "value": "*.ini files not uploaded when part of a folder"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "Uploading the file when not part of a folder works",
+            "value": "Uploading the file when not part of a folder"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "It works in Streamlit version <=1.60.0",
+            "value": "It works in Streamlit version <=1.60.0"
+          },
+          {
+            "key": "reproducible",
+            "quote": "Drag and drop a folder containing a *.ini file into a streamlit app (Streamlit v1.61.0 or later)running Chrome",
+            "value": "true"
+          },
+          {
+            "key": "streamlit_version",
+            "quote": "Streamlit version: 1.64.0",
+            "value": "1.64.0"
+          },
+          {
+            "key": "python_version",
+            "quote": "Python version:3.13.1",
+            "value": "3.13.1"
+          },
+          {
+            "key": "os",
+            "quote": "Operating System:Windows 11",
+            "value": "Windows 11"
+          }
+        ],
+        "checks": [],
+        "ambiguities": [
+          "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+        ]
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "bm25+dense+rrf+mmr",
+        "rrf_k": 60,
+        "mmr_lambda": 0.7,
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "quality": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true
+        },
+        "embedding": {
+          "texts": 1,
+          "unique_missing": 1,
+          "cache_hits": 0,
+          "batches": 1,
+          "usage": [
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "embedding",
+              "input_tokens": 55,
+              "output_tokens": 0,
+              "cost_usd": 1.21e-06,
+              "ledger_id": "fe770f2c9adf4d4f0c9c10da"
+            }
+          ],
+          "identity": {
+            "provider": "https://api.metisai.ir/openai/v1",
+            "model": "text-embedding-3-small",
+            "normalization": "whitespace-v1",
+            "encoding_format": "float"
+          }
+        },
+        "candidates": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "api:file_uploader:v2:b6a9200a36afcf3e",
+          "issue:11259:v2:e460775a2a24e2f7",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:5706:v2:9850416fa81a5598",
+          "issue:11259:v2:1f5169a839de7b0b",
+          "issue:2266:v2:f734f0780e7fab70",
+          "issue:5938:v2:6b17d70c89125c0d"
+        ],
+        "quality_filter": true,
+        "excluded_nontechnical_chunks": 309,
+        "version_warnings": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "api:file_uploader:v2:b6a9200a36afcf3e",
+          "issue:11259:v2:e460775a2a24e2f7",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:5706:v2:9850416fa81a5598",
+          "issue:11259:v2:1f5169a839de7b0b",
+          "issue:2266:v2:f734f0780e7fab70",
+          "issue:5938:v2:6b17d70c89125c0d"
+        ]
+      },
+      {
+        "stage": "rerank",
+        "status": "ok",
+        "ids": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "api:file_uploader:v2:b6a9200a36afcf3e",
+          "issue:11259:v2:e460775a2a24e2f7",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:5706:v2:9850416fa81a5598",
+          "issue:11259:v2:1f5169a839de7b0b",
+          "issue:2266:v2:f734f0780e7fab70",
+          "issue:5938:v2:6b17d70c89125c0d"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "ids": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "api:file_uploader:v2:b6a9200a36afcf3e",
+          "issue:11259:v2:e460775a2a24e2f7",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:5706:v2:9850416fa81a5598"
+        ],
+        "utf8_bytes": 2011
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge",
+        "attempt": 1,
+        "verdict": "accept",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "کاربر درخواست نمونه کد جدید برای تست دقیق‌تر دارد و این درخواست قبلا ارائه نشده است.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "ادعا با ارجاع به بخش مستندات نحوه نگهداری فایل آپلود شده مرتبط است و مستندات استریم‌لیت این موضوع را تأیید می‌کند.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "پاسخ فاقد دستورالعمل یا کدی است که امکان نفوذ یا تزریق داشته باشد، صرفا به بررسی و درخواست اطلاعات بیشتر پرداخته است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست نمونه کد کامل برای وضعیت خاص آپلود فایل .ini بسیار مفید است چون امکان بررسی دقیق‌تر و یافتن علت مشکل را فراهم می‌کند.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پاسخ مستقیما به مشکل گزارش شده درباره آپلود فایل .ini مربوط بوده و راهکار مناسبی ارائه داده است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پاسخ در چارچوب نسخه 1.64.0 استریم‌لیت نوشته شده و فرض یا ادعایی درباره نسخه‌های دیگر ندارد و بنابراین با نسخه گزارش شده همخوانی دارد.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+              "reason": "این بخش مستندات توضیح می‌دهد فایل آپلود شده در حافظه رم نگهداری می‌شود و تا زمان ریلود مجدد برنامه پابرجاست که به فهم رفتار بارگذاری فایل کمک می‌کند.",
+              "statement": "از گزارش مشخص است که آپلود فایل .ini به صورت تکی در کروم انجام می‌شود ولی هنگامی که به عنوان بخشی از پوشه است آپلود نمی‌شود.",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "نمونه کد کامل برای آپلود فایل .ini به صورت تکی و همچنین پوشه در کروم",
+            "why_new": "این نمونه کدها در گزارش اولیه وجود ندارد و برای تشخیص دقیق‌تر علت مشکل ضرورت دارد."
+          },
+          "version_assumptions": "پاسخ فرض یا ادعای ناسازگار با نسخه 1.64.0 ندارد و تمام موارد در نسخه گزارش شده کاربرد دارد."
+        },
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "69818667a53b1bfd753ae877",
+        "hash": "9f362830afcc0bf73857aab3a1529ab5d4fbe77cea955eb6bcd953b01d103ead",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 5,
+      "cost_usd": 0.006969490000000001,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "extract",
+          "input_tokens": 1311,
+          "output_tokens": 489,
+          "cost_usd": 0.00143748,
+          "ledger_id": "8ffef873f2ecf7f2fdcd8e77"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "embedding",
+          "input_tokens": 55,
+          "output_tokens": 0,
+          "cost_usd": 1.21e-06,
+          "ledger_id": "fe770f2c9adf4d4f0c9c10da"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "input_tokens": 2817,
+          "output_tokens": 46,
+          "cost_usd": 0.00132044,
+          "ledger_id": "e4ed59020291c97bfdf4368d"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "input_tokens": 2939,
+          "output_tokens": 284,
+          "cost_usd": 0.001793,
+          "ledger_id": "1380419f48f466d3962c7af1"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 3534,
+          "output_tokens": 490,
+          "cost_usd": 0.0024173600000000003,
+          "ledger_id": "f24904b2433dd64d00f6c2b6"
+        }
+      ],
+      "charged_or_reserved_usd": 0.006969490000000134
+    },
+    "validation_error": null,
+    "latency_seconds": 24.138285
+  },
+  "failure": null,
+  "elapsed_seconds": 24.165490300016245,
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "extract",
+      "input_tokens": 1311,
+      "output_tokens": 489,
+      "cost_usd": 0.00143748,
+      "ledger_id": "8ffef873f2ecf7f2fdcd8e77"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "input_tokens": 55,
+      "output_tokens": 0,
+      "cost_usd": 1.21e-06,
+      "ledger_id": "fe770f2c9adf4d4f0c9c10da"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "input_tokens": 2817,
+      "output_tokens": 46,
+      "cost_usd": 0.00132044,
+      "ledger_id": "e4ed59020291c97bfdf4368d"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "input_tokens": 2939,
+      "output_tokens": 284,
+      "cost_usd": 0.001793,
+      "ledger_id": "1380419f48f466d3962c7af1"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 3534,
+      "output_tokens": 490,
+      "cost_usd": 0.0024173600000000003,
+      "ledger_id": "f24904b2433dd64d00f6c2b6"
+    }
+  ],
+  "pipeline_sha256": "513902d6688c9e7f5b4367cd000524333da9fbac1a7cfad1a99ca991e9621c9d",
+  "pipeline_path": "F:\\Quera AI\\Project\\streamlit-casepilot\\artifacts\\quality_v22\\baseline\\src\\casepilot\\pipeline.py"
+}

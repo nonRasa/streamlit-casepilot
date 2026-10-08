@@ -1,0 +1,586 @@
+{
+  "id": "GH17133",
+  "variant": "previous",
+  "split": "first_live_after_replay",
+  "output": {
+    "case_id": "GH17133",
+    "request_id": "live-v22-previous",
+    "architecture": "v2",
+    "quality_revision": "v2.1-quality",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": true,
+      "quality": true
+    },
+    "decision": "escalate",
+    "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+    "summary": {
+      "problem": "Add to cache decorators last time of cached.\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nCurrently, the cache decorators are just simple decorators of a hashable saving with the possibility of clearing the cache.\n\nHowever, a key component in caching is when the cache was saved.\n\nCurrently the only method to now this is by caching the result with a timestamp, which is unpractical.\n\nSo I'm thinking about a ´´´cached_function.time()´´´ method for knowing when it was last cached.\n\n### Why?\n\nBecause knowing the time of the cache would be very comprehensive for:\n- Not clearing cache everytime an update is needed, checking first if the time of the cache is soon enough\n- Simply adding a display of Last Updated at\n\n### How?\n\nWhen saving the cache save the timestamp as well and implement a .time method to the cached function for retrieving the time as a time.time() timestamp.\n\n### Additional Context\n\n_No response_",
+      "facts": {},
+      "unknowns": [
+        "streamlit_version",
+        "python_version",
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [],
+      "sources": [],
+      "decision": "escalate",
+      "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+      "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+      "hypotheses": [],
+      "ambiguities": [],
+      "judge": {
+        "verdict": "escalate",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "در متن پرسش جدید درخواست قابلیت مشاهده زمان آخرین کش شدن داده‌ها مطرح شده، که در متن اصلی گزارش نیست.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "گزارش به درستی بیان می‌کند که مستندات استریم‌لیت تنها به امکان پاک کردن کش اشاره دارند و متدی برای مشاهده زمان کش شدن ارائه نشده است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "سوال مطرح شده در حوزه افزودن قابلیتی جدید و درخواستی است و خطری از تزریق بدافزار یا دستور به کد یا افشای اسرار ندارد.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست ارتقا قابلیت مشاهده زمان کش شدن داده‌ها به تیم توسعه استریم‌لیت، گام منطقی و کاربردی است که امکان‌سنجی و توسعه توسط خود تیم را می‌دهد.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "تمام محتوای پاسخ، پرسش و گام بعدی مرتبط با درخواست افزودن قابلیت نمایش زمان کش شدن داده‌ها است و منطبق بر موضوع است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "درخواست قابلیت جدید و عدم اشاره به محدودیت نسخه، به راحتی قابل تطبیق با نسخه‌های فعلی و آینده است؛ مورد تناقض/mismatch نسخه دیده نمی‌شود.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این نقل قول به وضوح می‌گوید تنها گزینه‌های مربوط کنترل و پاکسازی کش وجود دارد اما متدی برای مشاهده زمان کش شدن نیست."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "api:cache_data:v2:f31a213ee0aa9fe7",
+              "reason": "این نقل قول به وضوح می‌گوید تنها گزینه‌های مربوط کنترل و پاکسازی کش وجود دارد اما متدی برای مشاهده زمان کش شدن نیست.",
+              "statement": "You can clear a function's cache with ``func.clear()`` or clear the entire\ncache with ``st.cache_data.clear()``.",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "افزودن قابلیت مشاهده زمان آخرین کش شدن داده‌ها در دکوراتورهای کش شده استریم‌لیت",
+            "why_new": "مستندات رسمی و پاسخ موجود دلیلی بر عدم وجود چنین متدی دارد و این درخواست قابلیت جدید و پیشنهادی تاکنون اعلام نشده است و بنابراین دارای نوآوری است."
+          },
+          "version_assumptions": "در بررسی مستندات ارائه شده نسخه 1.49.0 مورد بررسی قرار گرفته و درخواست قابلیت جدید است که بر اساس اطلاعات فعلی، نسخه خاصی برای این قابلیت ذکر نشده است؛ بنابراین فرض بر عدم وابستگی به نسخه خاص است."
+        }
+      },
+      "investigation_plan": {}
+    },
+    "proposal": {
+      "id": "ba809fe309ad148153848df9",
+      "case_id": "GH17133",
+      "revision": 1,
+      "hash": "164eeb60db38b1426c49202cf6dde2b43f4ec4244fa8703d2bb6d4aa7475c9fb",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "problem": "Add to cache decorators last time of cached.\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nCurrently, the cache decorators are just simple decorators of a hashable saving with the possibility of clearing the cache.\n\nHowever, a key component in caching is when the cache was saved.\n\nCurrently the only method to now this is by caching the result with a timestamp, which is unpractical.\n\nSo I'm thinking about a ´´´cached_function.time()´´´ method for knowing when it was last cached.\n\n### Why?\n\nBecause knowing the time of the cache would be very comprehensive for:\n- Not clearing cache everytime an update is needed, checking first if the time of the cache is soon enough\n- Simply adding a display of Last Updated at\n\n### How?\n\nWhen saving the cache save the timestamp as well and implement a .time method to the cached function for retrieving the time as a time.time() timestamp.\n\n### Additional Context\n\n_No response_",
+          "facts": {},
+          "unknowns": [
+            "streamlit_version",
+            "python_version",
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [],
+          "sources": [],
+          "decision": "escalate",
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+          "hypotheses": [],
+          "ambiguities": [],
+          "judge": {
+            "verdict": "escalate",
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "در متن پرسش جدید درخواست قابلیت مشاهده زمان آخرین کش شدن داده‌ها مطرح شده، که در متن اصلی گزارش نیست.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "گزارش به درستی بیان می‌کند که مستندات استریم‌لیت تنها به امکان پاک کردن کش اشاره دارند و متدی برای مشاهده زمان کش شدن ارائه نشده است.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "سوال مطرح شده در حوزه افزودن قابلیتی جدید و درخواستی است و خطری از تزریق بدافزار یا دستور به کد یا افشای اسرار ندارد.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "درخواست ارتقا قابلیت مشاهده زمان کش شدن داده‌ها به تیم توسعه استریم‌لیت، گام منطقی و کاربردی است که امکان‌سنجی و توسعه توسط خود تیم را می‌دهد.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "تمام محتوای پاسخ، پرسش و گام بعدی مرتبط با درخواست افزودن قابلیت نمایش زمان کش شدن داده‌ها است و منطبق بر موضوع است.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "درخواست قابلیت جدید و عدم اشاره به محدودیت نسخه، به راحتی قابل تطبیق با نسخه‌های فعلی و آینده است؛ مورد تناقض/mismatch نسخه دیده نمی‌شود.",
+                "score": 2
+              }
+            },
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "findings": [
+              {
+                "criterion": "claim_support",
+                "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این نقل قول به وضوح می‌گوید تنها گزینه‌های مربوط کنترل و پاکسازی کش وجود دارد اما متدی برای مشاهده زمان کش شدن نیست."
+              }
+            ],
+            "audit": {
+              "claim_links": [
+                {
+                  "evidence_id": "api:cache_data:v2:f31a213ee0aa9fe7",
+                  "reason": "این نقل قول به وضوح می‌گوید تنها گزینه‌های مربوط کنترل و پاکسازی کش وجود دارد اما متدی برای مشاهده زمان کش شدن نیست.",
+                  "statement": "You can clear a function's cache with ``func.clear()`` or clear the entire\ncache with ``st.cache_data.clear()``.",
+                  "supported": true
+                }
+              ],
+              "question_novelty": {
+                "already_supplied_quote": "",
+                "requested_detail": "افزودن قابلیت مشاهده زمان آخرین کش شدن داده‌ها در دکوراتورهای کش شده استریم‌لیت",
+                "why_new": "مستندات رسمی و پاسخ موجود دلیلی بر عدم وجود چنین متدی دارد و این درخواست قابلیت جدید و پیشنهادی تاکنون اعلام نشده است و بنابراین دارای نوآوری است."
+              },
+              "version_assumptions": "در بررسی مستندات ارائه شده نسخه 1.49.0 مورد بررسی قرار گرفته و درخواست قابلیت جدید است که بر اساس اطلاعات فعلی، نسخه خاصی برای این قابلیت ذکر نشده است؛ بنابراین فرض بر عدم وابستگی به نسخه خاص است."
+            }
+          },
+          "investigation_plan": {}
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "api:cache_data:v2:f31a213ee0aa9fe7",
+        "source_id": "api:cache_data",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/runtime/caching/cache_data_api.py",
+        "section": "_decorator (line 384)",
+        "product_version": "1.49.0",
+        "version_relation": "unknown",
+        "retrieval_score": 0.03476559
+      },
+      {
+        "id": "api:cache_data:v2:648c9ef5e042e72d",
+        "source_id": "api:cache_data",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/runtime/caching/cache_data_api.py",
+        "section": "_decorator (line 384)",
+        "product_version": "1.49.0",
+        "version_relation": "unknown",
+        "retrieval_score": 0.03522388
+      },
+      {
+        "id": "api:cache_resource:v2:33cffc6bc6e1f376",
+        "source_id": "api:cache_resource",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/runtime/caching/cache_resource_api.py",
+        "section": "_decorator (line 259)",
+        "product_version": "1.49.0",
+        "version_relation": "unknown",
+        "retrieval_score": 0.03807442
+      },
+      {
+        "id": "api:cache_resource:v2:62c2f8ab3afe7cf8",
+        "source_id": "api:cache_resource",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/runtime/caching/cache_resource_api.py",
+        "section": "_decorator (line 259)",
+        "product_version": "1.49.0",
+        "version_relation": "unknown",
+        "retrieval_score": 0.03470588
+      },
+      {
+        "id": "docs:caching:v2:b4d789665b4ffefb",
+        "source_id": "docs:caching",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+        "section": "Controlling cache size and duration",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.0371861
+      }
+    ],
+    "steps": 8,
+    "model_calls": 5,
+    "max_calls": 8,
+    "repair_count": 0,
+    "judge": {
+      "verdict": "escalate",
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "در متن پرسش جدید درخواست قابلیت مشاهده زمان آخرین کش شدن داده‌ها مطرح شده، که در متن اصلی گزارش نیست.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "گزارش به درستی بیان می‌کند که مستندات استریم‌لیت تنها به امکان پاک کردن کش اشاره دارند و متدی برای مشاهده زمان کش شدن ارائه نشده است.",
+          "score": 2
+        },
+        "injection_resistance": {
+          "reason": "سوال مطرح شده در حوزه افزودن قابلیتی جدید و درخواستی است و خطری از تزریق بدافزار یا دستور به کد یا افشای اسرار ندارد.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "درخواست ارتقا قابلیت مشاهده زمان کش شدن داده‌ها به تیم توسعه استریم‌لیت، گام منطقی و کاربردی است که امکان‌سنجی و توسعه توسط خود تیم را می‌دهد.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "تمام محتوای پاسخ، پرسش و گام بعدی مرتبط با درخواست افزودن قابلیت نمایش زمان کش شدن داده‌ها است و منطبق بر موضوع است.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "درخواست قابلیت جدید و عدم اشاره به محدودیت نسخه، به راحتی قابل تطبیق با نسخه‌های فعلی و آینده است؛ مورد تناقض/mismatch نسخه دیده نمی‌شود.",
+          "score": 2
+        }
+      },
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 2,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "findings": [
+        {
+          "criterion": "claim_support",
+          "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این نقل قول به وضوح می‌گوید تنها گزینه‌های مربوط کنترل و پاکسازی کش وجود دارد اما متدی برای مشاهده زمان کش شدن نیست."
+        }
+      ],
+      "audit": {
+        "claim_links": [
+          {
+            "evidence_id": "api:cache_data:v2:f31a213ee0aa9fe7",
+            "reason": "این نقل قول به وضوح می‌گوید تنها گزینه‌های مربوط کنترل و پاکسازی کش وجود دارد اما متدی برای مشاهده زمان کش شدن نیست.",
+            "statement": "You can clear a function's cache with ``func.clear()`` or clear the entire\ncache with ``st.cache_data.clear()``.",
+            "supported": true
+          }
+        ],
+        "question_novelty": {
+          "already_supplied_quote": "",
+          "requested_detail": "افزودن قابلیت مشاهده زمان آخرین کش شدن داده‌ها در دکوراتورهای کش شده استریم‌لیت",
+          "why_new": "مستندات رسمی و پاسخ موجود دلیلی بر عدم وجود چنین متدی دارد و این درخواست قابلیت جدید و پیشنهادی تاکنون اعلام نشده است و بنابراین دارای نوآوری است."
+        },
+        "version_assumptions": "در بررسی مستندات ارائه شده نسخه 1.49.0 مورد بررسی قرار گرفته و درخواست قابلیت جدید است که بر اساس اطلاعات فعلی، نسخه خاصی برای این قابلیت ذکر نشده است؛ بنابراین فرض بر عدم وابستگی به نسخه خاص است."
+      }
+    },
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "fallback",
+        "error": "invalid_extraction"
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "bm25+dense+rrf+mmr",
+        "rrf_k": 60,
+        "mmr_lambda": 0.7,
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "quality": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true
+        },
+        "embedding": {
+          "texts": 1,
+          "unique_missing": 1,
+          "cache_hits": 0,
+          "batches": 1,
+          "usage": [
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "embedding",
+              "input_tokens": 13,
+              "output_tokens": 0,
+              "cost_usd": 2.86e-07,
+              "ledger_id": "da8add25f0acc2ca68b9a785"
+            }
+          ],
+          "identity": {
+            "provider": "https://api.metisai.ir/openai/v1",
+            "model": "text-embedding-3-small",
+            "normalization": "whitespace-v1",
+            "encoding_format": "float"
+          }
+        },
+        "candidates": [
+          "api:cache_resource:v2:33cffc6bc6e1f376",
+          "docs:caching:v2:b4d789665b4ffefb",
+          "api:cache_data:v2:648c9ef5e042e72d",
+          "docs:caching:v2:e6829bd5089a51c5",
+          "docs:cache-data:v2:579ec7eddcc73008",
+          "api:cache_data:v2:f31a213ee0aa9fe7",
+          "api:cache_resource:v2:62c2f8ab3afe7cf8",
+          "docs:cache-resource:v2:eb2199cf1c54fbb7"
+        ],
+        "quality_filter": true,
+        "excluded_nontechnical_chunks": 309,
+        "version_warnings": [
+          "api:cache_resource:v2:33cffc6bc6e1f376",
+          "docs:caching:v2:b4d789665b4ffefb",
+          "api:cache_data:v2:648c9ef5e042e72d",
+          "docs:caching:v2:e6829bd5089a51c5",
+          "docs:cache-data:v2:579ec7eddcc73008",
+          "api:cache_data:v2:f31a213ee0aa9fe7",
+          "api:cache_resource:v2:62c2f8ab3afe7cf8",
+          "docs:cache-resource:v2:eb2199cf1c54fbb7"
+        ]
+      },
+      {
+        "stage": "rerank",
+        "status": "ok",
+        "ids": [
+          "api:cache_data:v2:f31a213ee0aa9fe7",
+          "api:cache_data:v2:648c9ef5e042e72d",
+          "api:cache_resource:v2:33cffc6bc6e1f376",
+          "api:cache_resource:v2:62c2f8ab3afe7cf8",
+          "docs:caching:v2:b4d789665b4ffefb",
+          "docs:caching:v2:e6829bd5089a51c5",
+          "docs:cache-data:v2:579ec7eddcc73008",
+          "docs:cache-resource:v2:eb2199cf1c54fbb7"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "ids": [
+          "api:cache_data:v2:f31a213ee0aa9fe7",
+          "api:cache_data:v2:648c9ef5e042e72d",
+          "api:cache_resource:v2:33cffc6bc6e1f376",
+          "api:cache_resource:v2:62c2f8ab3afe7cf8",
+          "docs:caching:v2:b4d789665b4ffefb"
+        ],
+        "utf8_bytes": 7691
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge",
+        "attempt": 1,
+        "verdict": "escalate",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "در متن پرسش جدید درخواست قابلیت مشاهده زمان آخرین کش شدن داده‌ها مطرح شده، که در متن اصلی گزارش نیست.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "گزارش به درستی بیان می‌کند که مستندات استریم‌لیت تنها به امکان پاک کردن کش اشاره دارند و متدی برای مشاهده زمان کش شدن ارائه نشده است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "سوال مطرح شده در حوزه افزودن قابلیتی جدید و درخواستی است و خطری از تزریق بدافزار یا دستور به کد یا افشای اسرار ندارد.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست ارتقا قابلیت مشاهده زمان کش شدن داده‌ها به تیم توسعه استریم‌لیت، گام منطقی و کاربردی است که امکان‌سنجی و توسعه توسط خود تیم را می‌دهد.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "تمام محتوای پاسخ، پرسش و گام بعدی مرتبط با درخواست افزودن قابلیت نمایش زمان کش شدن داده‌ها است و منطبق بر موضوع است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "درخواست قابلیت جدید و عدم اشاره به محدودیت نسخه، به راحتی قابل تطبیق با نسخه‌های فعلی و آینده است؛ مورد تناقض/mismatch نسخه دیده نمی‌شود.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این نقل قول به وضوح می‌گوید تنها گزینه‌های مربوط کنترل و پاکسازی کش وجود دارد اما متدی برای مشاهده زمان کش شدن نیست."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "api:cache_data:v2:f31a213ee0aa9fe7",
+              "reason": "این نقل قول به وضوح می‌گوید تنها گزینه‌های مربوط کنترل و پاکسازی کش وجود دارد اما متدی برای مشاهده زمان کش شدن نیست.",
+              "statement": "You can clear a function's cache with ``func.clear()`` or clear the entire\ncache with ``st.cache_data.clear()``.",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "افزودن قابلیت مشاهده زمان آخرین کش شدن داده‌ها در دکوراتورهای کش شده استریم‌لیت",
+            "why_new": "مستندات رسمی و پاسخ موجود دلیلی بر عدم وجود چنین متدی دارد و این درخواست قابلیت جدید و پیشنهادی تاکنون اعلام نشده است و بنابراین دارای نوآوری است."
+          },
+          "version_assumptions": "در بررسی مستندات ارائه شده نسخه 1.49.0 مورد بررسی قرار گرفته و درخواست قابلیت جدید است که بر اساس اطلاعات فعلی، نسخه خاصی برای این قابلیت ذکر نشده است؛ بنابراین فرض بر عدم وابستگی به نسخه خاص است."
+        },
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "ba809fe309ad148153848df9",
+        "hash": "164eeb60db38b1426c49202cf6dde2b43f4ec4244fa8703d2bb6d4aa7475c9fb",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 5,
+      "cost_usd": 0.008127526,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "extract",
+          "input_tokens": 1084,
+          "output_tokens": 265,
+          "cost_usd": 0.0009433599999999999,
+          "ledger_id": "784ef1124d2f1bec8e2f5748"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "embedding",
+          "input_tokens": 13,
+          "output_tokens": 0,
+          "cost_usd": 2.86e-07,
+          "ledger_id": "da8add25f0acc2ca68b9a785"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "input_tokens": 4335,
+          "output_tokens": 142,
+          "cost_usd": 0.0021573200000000003,
+          "ledger_id": "6cf86b6f49d4b41a3d279cf8"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "input_tokens": 4104,
+          "output_tokens": 215,
+          "cost_usd": 0.0021841599999999997,
+          "ledger_id": "cdc1631b546d9f006229d739"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 4360,
+          "output_tokens": 525,
+          "cost_usd": 0.0028424,
+          "ledger_id": "5ce187af664ac196702ff4ee"
+        }
+      ],
+      "charged_or_reserved_usd": 0.008127525999999996
+    },
+    "validation_error": "judge_rejected",
+    "latency_seconds": 19.440115
+  },
+  "failure": null,
+  "elapsed_seconds": 19.464982099976623,
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "extract",
+      "input_tokens": 1084,
+      "output_tokens": 265,
+      "cost_usd": 0.0009433599999999999,
+      "ledger_id": "784ef1124d2f1bec8e2f5748"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "input_tokens": 13,
+      "output_tokens": 0,
+      "cost_usd": 2.86e-07,
+      "ledger_id": "da8add25f0acc2ca68b9a785"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "input_tokens": 4335,
+      "output_tokens": 142,
+      "cost_usd": 0.0021573200000000003,
+      "ledger_id": "6cf86b6f49d4b41a3d279cf8"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "input_tokens": 4104,
+      "output_tokens": 215,
+      "cost_usd": 0.0021841599999999997,
+      "ledger_id": "cdc1631b546d9f006229d739"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 4360,
+      "output_tokens": 525,
+      "cost_usd": 0.0028424,
+      "ledger_id": "5ce187af664ac196702ff4ee"
+    }
+  ],
+  "pipeline_sha256": "513902d6688c9e7f5b4367cd000524333da9fbac1a7cfad1a99ca991e9621c9d",
+  "pipeline_path": "F:\\Quera AI\\Project\\streamlit-casepilot\\artifacts\\quality_v22\\baseline\\src\\casepilot\\pipeline.py"
+}

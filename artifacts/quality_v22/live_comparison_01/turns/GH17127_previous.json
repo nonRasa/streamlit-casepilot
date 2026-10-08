@@ -1,0 +1,768 @@
+{
+  "id": "GH17127",
+  "variant": "previous",
+  "split": "first_live_after_replay",
+  "output": {
+    "case_id": "GH17127",
+    "request_id": "live-v22-previous",
+    "architecture": "v2",
+    "quality_revision": "v2.1-quality",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": true,
+      "quality": true
+    },
+    "decision": "escalate",
+    "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+    "summary": {
+      "problem": "`st.dataframe` toolbar buttons are 22.4px, below the WCAG 2.2 24px minimum target size (axe `target-size`)\n\n### Checklist\n- [x] I have searched the existing issues for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\nThe hover toolbar that `st.dataframe` draws (Show/hide columns, Download as CSV, Search, Fullscreen)\nrenders each button at 22.4 x 22.4 CSS px, and the buttons sit next to each other, so axe-core's\n`target-size` rule (impact: serious, WCAG 2.2 AA, SC 2.5.8 Target Size (Minimum)) fails. Cause:\n`StyledElementToolbarButton` in `frontend/lib/src/components/shared/BaseButton/styled-components.ts`\n(1.64.0, line ~524) sets `padding: theme.spacing.twoXS` and `minHeight: \"unset\"` around a small icon.\n\n### Reproducible Code Example\nSame app as above (the `st.dataframe` line is enough).\n\n### Steps To Reproduce\n1. `streamlit run app.py`\n2. Hover the dataframe so the toolbar appears.\n3. Run axe-core 4.13 with the `wcag22aa` tag.\n\n### Expected Behavior\nEach toolbar button is at least 24 x 24 CSS px (or spaced so a 24px circle around each does not overlap\nanother target).\n\n### Current Behavior\n```\ntarget-size (serious, wcag22aa, wcag258) — 4 nodes\n<button kind=\"elementToolbar\" data-testid=\"stBaseButton-elementToolbar\" aria-label=\"Show/hide columns\" class=\"st-emotion-cache-18ac3gt eqzt73c20\">\n  Target has insufficient size (22.4px by 22.4px, should be at least 24px by 24px)\n<button ... aria-label=\"Download as CSV\" ...>   (same)\n<button ... aria-label=\"Search\" ...>            (same)\n<button ... aria-label=\"Fullscreen\" ...>        (same)\n```\n\n### Suggested fix\nGive `StyledElementToolbarButton` `minWidth: \"1.5rem\"` and `minHeight: \"1.5rem\"` (24px) instead of\n`minHeight: \"unset\"`, or raise the padding one step. The toolbar is already an overlay above the element,\nso the extra 1.6px per button does not move page layout. The same styled button is used by other element\ntoolbars (charts, `st.data_editor`), which would all pass with the one change.\n\nIn the same minimal app, axe also reports `target-size` on the `st.date_input` month/day spinbutton\nsegments (17.9 x 19.6px); that may deserve its own look but is secondary.\n\n### Is this a regression?\n- [ ] Yes, this used to work in a previous version.\n- [x] No.\n\n### Debug info\n- Streamlit version: 1.64.0 (latest)\n- Python version: 3.12\n- OS: Linux (CI) and Windows 11\n- Browser: Chromium (Playwright bundled)\n-",
+      "facts": {
+        "streamlit_version": "1.64.0",
+        "python_version": "3.12",
+        "os": "Linux (CI) and Windows 11",
+        "browser": "Chromium"
+      },
+      "unknowns": [
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [],
+      "sources": [],
+      "decision": "escalate",
+      "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+      "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+      "hypotheses": [],
+      "ambiguities": [
+        "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+        "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+      ],
+      "judge": {
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "کاربر نمونه کد کامل را خواسته که در متن وجود نداشت.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "پاسخ مستندات و جمله در مورد استفاده internal از glide-data-grid را به درستی مرتبط کرده است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "هیچ دستورالعمل آسیب‌پذیر یا تزریق فرمانی در پاسخ دیده نمی‌شود.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست نمونه کد کامل برای بازتولید مشکل اندازه دکمه‌ها کاملا منطقی و مفید است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پاسخ مستقیما به مشکل اندازه دکمه‌ها در st.dataframe مرتبط است و مفصل توضیح داده است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "ارائه پاسخ بدون وابستگی به نسخه خاص و با هدف رفع مشکل عمومی در نسخه فعلی مناسب است.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این جمله به درستی مستندات استفاده از glide-data-grid در st.dataframe را توضیح می‌دهد."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:dataframes:v2:9e1cf50e36fae6d0",
+              "reason": "این جمله به درستی مستندات استفاده از glide-data-grid در st.dataframe را توضیح می‌دهد.",
+              "statement": "`st.dataframe` provides additional functionality by using [glide-data-grid](https://github.com/glideapps/glide-data-grid) under the hood:",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "نمونه کامل کد app.py که دکمه‌های نوار ابزار st.dataframe کوچکتر از 24x24 پیکسل را تولید کند",
+            "why_new": "نمونه کد کامل برای بررسی دقیق و تایید اندازه دکمه‌ها ضروری است و در متن اولیه ارائه نشده است."
+          },
+          "version_assumptions": "پاسخ به صورت نسخه‌agnostic است و هیچ فرض نادرستی در انتقال به نسخه فعلی مشاهده نمی‌شود."
+        }
+      },
+      "investigation_plan": {
+        "acceptance_condition": "دکمه های نوار ابزار حداقل اندازه 24 در 24 پیکسل CSS داشته باشند تا نیازمندی WCAG 2.2 SC 2.5.8 را برآورده کنند.",
+        "intent": "bug",
+        "known_report_spans": [
+          "`target-size` rule (impact: serious, WCAG 2.2 AA, SC 2.5.8 Target Size (Minimum)) fails. Cause:",
+          "### Expected Behavior",
+          "Give `StyledElementToolbarButton` `minWidth: \"1.5rem\"` and `minHeight: \"1.5rem\"` (24px) instead of",
+          "`minHeight: \"unset\"`, or raise the padding one step. The toolbar is already an overlay above the element,"
+        ],
+        "missing_detail": "یک نمونه کامل کد app.py برای بازتولید مشکل که فقط خط st.dataframe دارد",
+        "new_condition": "اندازه دکمه ها را بعد از معرفی تغییرات پیشنهادی اندازه اندازه‌گیری و با axe-core دوباره ارزیابی کنید",
+        "problem_summary": "st.dataframe toolbar buttons target-size WCAG 2.2 minimum size violation",
+        "suggested_question": "لطفاً نمونه کامل کد app.py که منجر به این خطا می‌شود را ارسال کنید."
+      }
+    },
+    "proposal": {
+      "id": "fd160b539e3186360a052eb5",
+      "case_id": "GH17127",
+      "revision": 1,
+      "hash": "0f0d86815fd5611a080a63df7bbfc784c40dfb28ff41fdc61ad1b7352039f3d3",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "problem": "`st.dataframe` toolbar buttons are 22.4px, below the WCAG 2.2 24px minimum target size (axe `target-size`)\n\n### Checklist\n- [x] I have searched the existing issues for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\nThe hover toolbar that `st.dataframe` draws (Show/hide columns, Download as CSV, Search, Fullscreen)\nrenders each button at 22.4 x 22.4 CSS px, and the buttons sit next to each other, so axe-core's\n`target-size` rule (impact: serious, WCAG 2.2 AA, SC 2.5.8 Target Size (Minimum)) fails. Cause:\n`StyledElementToolbarButton` in `frontend/lib/src/components/shared/BaseButton/styled-components.ts`\n(1.64.0, line ~524) sets `padding: theme.spacing.twoXS` and `minHeight: \"unset\"` around a small icon.\n\n### Reproducible Code Example\nSame app as above (the `st.dataframe` line is enough).\n\n### Steps To Reproduce\n1. `streamlit run app.py`\n2. Hover the dataframe so the toolbar appears.\n3. Run axe-core 4.13 with the `wcag22aa` tag.\n\n### Expected Behavior\nEach toolbar button is at least 24 x 24 CSS px (or spaced so a 24px circle around each does not overlap\nanother target).\n\n### Current Behavior\n```\ntarget-size (serious, wcag22aa, wcag258) — 4 nodes\n<button kind=\"elementToolbar\" data-testid=\"stBaseButton-elementToolbar\" aria-label=\"Show/hide columns\" class=\"st-emotion-cache-18ac3gt eqzt73c20\">\n  Target has insufficient size (22.4px by 22.4px, should be at least 24px by 24px)\n<button ... aria-label=\"Download as CSV\" ...>   (same)\n<button ... aria-label=\"Search\" ...>            (same)\n<button ... aria-label=\"Fullscreen\" ...>        (same)\n```\n\n### Suggested fix\nGive `StyledElementToolbarButton` `minWidth: \"1.5rem\"` and `minHeight: \"1.5rem\"` (24px) instead of\n`minHeight: \"unset\"`, or raise the padding one step. The toolbar is already an overlay above the element,\nso the extra 1.6px per button does not move page layout. The same styled button is used by other element\ntoolbars (charts, `st.data_editor`), which would all pass with the one change.\n\nIn the same minimal app, axe also reports `target-size` on the `st.date_input` month/day spinbutton\nsegments (17.9 x 19.6px); that may deserve its own look but is secondary.\n\n### Is this a regression?\n- [ ] Yes, this used to work in a previous version.\n- [x] No.\n\n### Debug info\n- Streamlit version: 1.64.0 (latest)\n- Python version: 3.12\n- OS: Linux (CI) and Windows 11\n- Browser: Chromium (Playwright bundled)\n-",
+          "facts": {
+            "streamlit_version": "1.64.0",
+            "python_version": "3.12",
+            "os": "Linux (CI) and Windows 11",
+            "browser": "Chromium"
+          },
+          "unknowns": [
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [],
+          "sources": [],
+          "decision": "escalate",
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+          "hypotheses": [],
+          "ambiguities": [
+            "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+            "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+          ],
+          "judge": {
+            "verdict": "repair",
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "کاربر نمونه کد کامل را خواسته که در متن وجود نداشت.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "پاسخ مستندات و جمله در مورد استفاده internal از glide-data-grid را به درستی مرتبط کرده است.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "هیچ دستورالعمل آسیب‌پذیر یا تزریق فرمانی در پاسخ دیده نمی‌شود.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "درخواست نمونه کد کامل برای بازتولید مشکل اندازه دکمه‌ها کاملا منطقی و مفید است.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "پاسخ مستقیما به مشکل اندازه دکمه‌ها در st.dataframe مرتبط است و مفصل توضیح داده است.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "ارائه پاسخ بدون وابستگی به نسخه خاص و با هدف رفع مشکل عمومی در نسخه فعلی مناسب است.",
+                "score": 2
+              }
+            },
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "findings": [
+              {
+                "criterion": "claim_support",
+                "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این جمله به درستی مستندات استفاده از glide-data-grid در st.dataframe را توضیح می‌دهد."
+              }
+            ],
+            "audit": {
+              "claim_links": [
+                {
+                  "evidence_id": "docs:dataframes:v2:9e1cf50e36fae6d0",
+                  "reason": "این جمله به درستی مستندات استفاده از glide-data-grid در st.dataframe را توضیح می‌دهد.",
+                  "statement": "`st.dataframe` provides additional functionality by using [glide-data-grid](https://github.com/glideapps/glide-data-grid) under the hood:",
+                  "supported": true
+                }
+              ],
+              "question_novelty": {
+                "already_supplied_quote": "",
+                "requested_detail": "نمونه کامل کد app.py که دکمه‌های نوار ابزار st.dataframe کوچکتر از 24x24 پیکسل را تولید کند",
+                "why_new": "نمونه کد کامل برای بررسی دقیق و تایید اندازه دکمه‌ها ضروری است و در متن اولیه ارائه نشده است."
+              },
+              "version_assumptions": "پاسخ به صورت نسخه‌agnostic است و هیچ فرض نادرستی در انتقال به نسخه فعلی مشاهده نمی‌شود."
+            }
+          },
+          "investigation_plan": {
+            "acceptance_condition": "دکمه های نوار ابزار حداقل اندازه 24 در 24 پیکسل CSS داشته باشند تا نیازمندی WCAG 2.2 SC 2.5.8 را برآورده کنند.",
+            "intent": "bug",
+            "known_report_spans": [
+              "`target-size` rule (impact: serious, WCAG 2.2 AA, SC 2.5.8 Target Size (Minimum)) fails. Cause:",
+              "### Expected Behavior",
+              "Give `StyledElementToolbarButton` `minWidth: \"1.5rem\"` and `minHeight: \"1.5rem\"` (24px) instead of",
+              "`minHeight: \"unset\"`, or raise the padding one step. The toolbar is already an overlay above the element,"
+            ],
+            "missing_detail": "یک نمونه کامل کد app.py برای بازتولید مشکل که فقط خط st.dataframe دارد",
+            "new_condition": "اندازه دکمه ها را بعد از معرفی تغییرات پیشنهادی اندازه اندازه‌گیری و با axe-core دوباره ارزیابی کنید",
+            "problem_summary": "st.dataframe toolbar buttons target-size WCAG 2.2 minimum size violation",
+            "suggested_question": "لطفاً نمونه کامل کد app.py که منجر به این خطا می‌شود را ارسال کنید."
+          }
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "docs:dataframes:v2:9e1cf50e36fae6d0",
+        "source_id": "docs:dataframes",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+        "section": "`st.dataframe` UI features",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.03165956
+      },
+      {
+        "id": "docs:dataframes:v2:2bc5764b033f45b5",
+        "source_id": "docs:dataframes",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+        "section": "Edit data with st.data_editor",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.03142504
+      },
+      {
+        "id": "issue:17026:v2:bc8310223233b291",
+        "source_id": "issue:17026",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/17026",
+        "section": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.0279734
+      },
+      {
+        "id": "issue:17026:v2:64349a8f42245102",
+        "source_id": "issue:17026",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/17026",
+        "section": "Debug info",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02512255
+      },
+      {
+        "id": "docs:2026:v2:c7bb1ead9db9a42f",
+        "source_id": "docs:2026",
+        "kind": "release",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2026.md",
+        "section": "**Version 1.60.0**",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.0238129
+      }
+    ],
+    "steps": 10,
+    "model_calls": 7,
+    "max_calls": 8,
+    "repair_count": 1,
+    "judge": {
+      "verdict": "repair",
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "کاربر نمونه کد کامل را خواسته که در متن وجود نداشت.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "پاسخ مستندات و جمله در مورد استفاده internal از glide-data-grid را به درستی مرتبط کرده است.",
+          "score": 2
+        },
+        "injection_resistance": {
+          "reason": "هیچ دستورالعمل آسیب‌پذیر یا تزریق فرمانی در پاسخ دیده نمی‌شود.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "درخواست نمونه کد کامل برای بازتولید مشکل اندازه دکمه‌ها کاملا منطقی و مفید است.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "پاسخ مستقیما به مشکل اندازه دکمه‌ها در st.dataframe مرتبط است و مفصل توضیح داده است.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "ارائه پاسخ بدون وابستگی به نسخه خاص و با هدف رفع مشکل عمومی در نسخه فعلی مناسب است.",
+          "score": 2
+        }
+      },
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 2,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "findings": [
+        {
+          "criterion": "claim_support",
+          "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این جمله به درستی مستندات استفاده از glide-data-grid در st.dataframe را توضیح می‌دهد."
+        }
+      ],
+      "audit": {
+        "claim_links": [
+          {
+            "evidence_id": "docs:dataframes:v2:9e1cf50e36fae6d0",
+            "reason": "این جمله به درستی مستندات استفاده از glide-data-grid در st.dataframe را توضیح می‌دهد.",
+            "statement": "`st.dataframe` provides additional functionality by using [glide-data-grid](https://github.com/glideapps/glide-data-grid) under the hood:",
+            "supported": true
+          }
+        ],
+        "question_novelty": {
+          "already_supplied_quote": "",
+          "requested_detail": "نمونه کامل کد app.py که دکمه‌های نوار ابزار st.dataframe کوچکتر از 24x24 پیکسل را تولید کند",
+          "why_new": "نمونه کد کامل برای بررسی دقیق و تایید اندازه دکمه‌ها ضروری است و در متن اولیه ارائه نشده است."
+        },
+        "version_assumptions": "پاسخ به صورت نسخه‌agnostic است و هیچ فرض نادرستی در انتقال به نسخه فعلی مشاهده نمی‌شود."
+      }
+    },
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "ok",
+        "keys": [
+          "browser",
+          "os",
+          "python_version",
+          "streamlit_version"
+        ],
+        "facts_with_quotes": [
+          {
+            "key": "streamlit_version",
+            "quote": "- Streamlit version: 1.64.0 (latest)",
+            "value": "1.64.0"
+          },
+          {
+            "key": "python_version",
+            "quote": "- Python version: 3.12",
+            "value": "3.12"
+          },
+          {
+            "key": "os",
+            "quote": "- OS: Linux (CI) and Windows 11",
+            "value": "Linux (CI) and Windows 11"
+          },
+          {
+            "key": "browser",
+            "quote": "- Browser: Chromium (Playwright bundled)",
+            "value": "Chromium"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "`target-size` rule (impact: serious, WCAG 2.2 AA, SC 2.5.8 Target Size (Minimum)) fails",
+            "value": "target-size rule fails"
+          },
+          {
+            "key": "reproducible",
+            "quote": "1. `streamlit run app.py`\n2. Hover the dataframe so the toolbar appears.\n3. Run axe-core 4.13 with the `wcag22aa` tag.",
+            "value": "true"
+          }
+        ],
+        "checks": [],
+        "ambiguities": [
+          "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+          "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+        ]
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "bm25+dense+rrf+mmr",
+        "rrf_k": 60,
+        "mmr_lambda": 0.7,
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "quality": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true
+        },
+        "embedding": {
+          "texts": 1,
+          "unique_missing": 1,
+          "cache_hits": 0,
+          "batches": 1,
+          "usage": [
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "embedding",
+              "input_tokens": 63,
+              "output_tokens": 0,
+              "cost_usd": 1.386e-06,
+              "ledger_id": "d0b0623366a8ac2bbfc66b8d"
+            }
+          ],
+          "identity": {
+            "provider": "https://api.metisai.ir/openai/v1",
+            "model": "text-embedding-3-small",
+            "normalization": "whitespace-v1",
+            "encoding_format": "float"
+          }
+        },
+        "candidates": [
+          "docs:dataframes:v2:9e1cf50e36fae6d0",
+          "issue:17126:v2:9752ff49a3ad1c88",
+          "issue:16389:v2:0e874337a74c6e41",
+          "docs:dataframes:v2:2bc5764b033f45b5",
+          "issue:17026:v2:bc8310223233b291",
+          "issue:17126:v2:79fc1c33f4867901",
+          "docs:2026:v2:c7bb1ead9db9a42f",
+          "issue:17026:v2:64349a8f42245102"
+        ],
+        "quality_filter": true,
+        "excluded_nontechnical_chunks": 309,
+        "version_warnings": [
+          "docs:dataframes:v2:9e1cf50e36fae6d0",
+          "issue:17126:v2:9752ff49a3ad1c88",
+          "issue:16389:v2:0e874337a74c6e41",
+          "docs:dataframes:v2:2bc5764b033f45b5",
+          "issue:17026:v2:bc8310223233b291",
+          "issue:17126:v2:79fc1c33f4867901",
+          "docs:2026:v2:c7bb1ead9db9a42f",
+          "issue:17026:v2:64349a8f42245102"
+        ]
+      },
+      {
+        "stage": "rerank",
+        "status": "ok",
+        "ids": [
+          "docs:dataframes:v2:9e1cf50e36fae6d0",
+          "docs:dataframes:v2:2bc5764b033f45b5",
+          "issue:17026:v2:bc8310223233b291",
+          "issue:17026:v2:64349a8f42245102",
+          "docs:2026:v2:c7bb1ead9db9a42f",
+          "issue:16389:v2:0e874337a74c6e41",
+          "issue:17126:v2:9752ff49a3ad1c88",
+          "issue:17126:v2:79fc1c33f4867901"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "ids": [
+          "docs:dataframes:v2:9e1cf50e36fae6d0",
+          "docs:dataframes:v2:2bc5764b033f45b5",
+          "issue:17026:v2:bc8310223233b291",
+          "issue:17026:v2:64349a8f42245102",
+          "docs:2026:v2:c7bb1ead9db9a42f"
+        ],
+        "utf8_bytes": 5655
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge",
+        "attempt": 1,
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "پرسش برای اندازه دکمه‌های نوار ابزار جدید است و قبلا چنین سوالی نپرسیده بود.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "ادعا براساس مستندات دقیق st.dataframe است که وجود دکمه‌ها و نوار ابزار را تایید می‌کند.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "هیچ نشانه‌ای از تلاش برای تزریق دستورات وجود ندارد. پاسخ به شکل امن و مستند ارائه شده است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "گام بعدی پیشنهادی اندازه‌گیری و تنظیم حداقل اندازه دکمه‌ها برای رفع مشکل دسترسی است، که بسیار مفید و کاربردی است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پاسخ کاملا مرتبط با سوال اندازه دکمه‌های ابزارک st.dataframe و استانداردهای WCAG است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پاسخ به صورت عمومی مطرح شده است و مستقل از نسخه Streamlit ارائه شده است، بنابراین محدودیت نسخه ندارد.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ نقل قول به وضوح می‌گوید st.dataframe دارای نوار ابزار است و دکمه‌هایی را شامل می‌شود که در پاسخ به آن اشاره شده است."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:dataframes:v2:9e1cf50e36fae6d0",
+              "reason": "نقل قول به وضوح می‌گوید st.dataframe دارای نوار ابزار است و دکمه‌هایی را شامل می‌شود که در پاسخ به آن اشاره شده است.",
+              "statement": "`st.dataframe` provides additional functionality by using [glide-data-grid](https://github.com/glideapps/glide-data-grid) under the hood:",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "نمونه کامل کد app.py برای بازتولید مشکل در مورد اندازه دکمه‌ها",
+            "why_new": "بررسی ابعاد دقیق دکمه‌های ترولبار در app.py برای تایید کمبود اندازه حداقل 24px الزامی است که در گزارش ارائه نشده است."
+          },
+          "version_assumptions": "هیچ فرضیه انتقال نسخه‌ای نادرست مشاهده نشد. اطلاعات نسخه اصلی به روز است یا بی‌تاثیر است."
+        },
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "repair",
+        "attempt": 1
+      },
+      {
+        "stage": "judge",
+        "attempt": 2,
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "کاربر نمونه کد کامل را خواسته که در متن وجود نداشت.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "پاسخ مستندات و جمله در مورد استفاده internal از glide-data-grid را به درستی مرتبط کرده است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "هیچ دستورالعمل آسیب‌پذیر یا تزریق فرمانی در پاسخ دیده نمی‌شود.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست نمونه کد کامل برای بازتولید مشکل اندازه دکمه‌ها کاملا منطقی و مفید است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پاسخ مستقیما به مشکل اندازه دکمه‌ها در st.dataframe مرتبط است و مفصل توضیح داده است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "ارائه پاسخ بدون وابستگی به نسخه خاص و با هدف رفع مشکل عمومی در نسخه فعلی مناسب است.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این جمله به درستی مستندات استفاده از glide-data-grid در st.dataframe را توضیح می‌دهد."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:dataframes:v2:9e1cf50e36fae6d0",
+              "reason": "این جمله به درستی مستندات استفاده از glide-data-grid در st.dataframe را توضیح می‌دهد.",
+              "statement": "`st.dataframe` provides additional functionality by using [glide-data-grid](https://github.com/glideapps/glide-data-grid) under the hood:",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "نمونه کامل کد app.py که دکمه‌های نوار ابزار st.dataframe کوچکتر از 24x24 پیکسل را تولید کند",
+            "why_new": "نمونه کد کامل برای بررسی دقیق و تایید اندازه دکمه‌ها ضروری است و در متن اولیه ارائه نشده است."
+          },
+          "version_assumptions": "پاسخ به صورت نسخه‌agnostic است و هیچ فرض نادرستی در انتقال به نسخه فعلی مشاهده نمی‌شود."
+        },
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "fd160b539e3186360a052eb5",
+        "hash": "0f0d86815fd5611a080a63df7bbfc784c40dfb28ff41fdc61ad1b7352039f3d3",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 7,
+      "cost_usd": 0.014786266,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "extract",
+          "input_tokens": 1733,
+          "output_tokens": 528,
+          "cost_usd": 0.0016918,
+          "ledger_id": "2281ad8e77a0063a3ad077be"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "embedding",
+          "input_tokens": 63,
+          "output_tokens": 0,
+          "cost_usd": 1.386e-06,
+          "ledger_id": "d0b0623366a8ac2bbfc66b8d"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "input_tokens": 4230,
+          "output_tokens": 143,
+          "cost_usd": 0.00211288,
+          "ledger_id": "5ff589094589da740e7accb6"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "input_tokens": 4570,
+          "output_tokens": 236,
+          "cost_usd": 0.0024261599999999997,
+          "ledger_id": "912c30f5a7ffada3ad6714a5"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 5005,
+          "output_tokens": 453,
+          "cost_usd": 0.0029994799999999997,
+          "ledger_id": "be62a12da2711810b9c9502a"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "repair",
+          "input_tokens": 4875,
+          "output_tokens": 268,
+          "cost_usd": 0.0026166799999999997,
+          "ledger_id": "c75a2c9b8b8167f62e6d39bb"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 5037,
+          "output_tokens": 410,
+          "cost_usd": 0.00293788,
+          "ledger_id": "0a6fae42341d8779a725ff1a"
+        }
+      ],
+      "charged_or_reserved_usd": 0.014786265999999992
+    },
+    "validation_error": "judge_rejected",
+    "latency_seconds": 39.343925
+  },
+  "failure": null,
+  "elapsed_seconds": 39.36737780002295,
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "extract",
+      "input_tokens": 1733,
+      "output_tokens": 528,
+      "cost_usd": 0.0016918,
+      "ledger_id": "2281ad8e77a0063a3ad077be"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "input_tokens": 63,
+      "output_tokens": 0,
+      "cost_usd": 1.386e-06,
+      "ledger_id": "d0b0623366a8ac2bbfc66b8d"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "input_tokens": 4230,
+      "output_tokens": 143,
+      "cost_usd": 0.00211288,
+      "ledger_id": "5ff589094589da740e7accb6"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "input_tokens": 4570,
+      "output_tokens": 236,
+      "cost_usd": 0.0024261599999999997,
+      "ledger_id": "912c30f5a7ffada3ad6714a5"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 5005,
+      "output_tokens": 453,
+      "cost_usd": 0.0029994799999999997,
+      "ledger_id": "be62a12da2711810b9c9502a"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "repair",
+      "input_tokens": 4875,
+      "output_tokens": 268,
+      "cost_usd": 0.0026166799999999997,
+      "ledger_id": "c75a2c9b8b8167f62e6d39bb"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 5037,
+      "output_tokens": 410,
+      "cost_usd": 0.00293788,
+      "ledger_id": "0a6fae42341d8779a725ff1a"
+    }
+  ],
+  "pipeline_sha256": "513902d6688c9e7f5b4367cd000524333da9fbac1a7cfad1a99ca991e9621c9d",
+  "pipeline_path": "F:\\Quera AI\\Project\\streamlit-casepilot\\artifacts\\quality_v22\\baseline\\src\\casepilot\\pipeline.py"
+}

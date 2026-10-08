@@ -9,32 +9,37 @@ ROOT=Path(__file__).resolve().parents[1]; sys.path.insert(0,str(ROOT/'src'))
 from casepilot.common import utcnow, write_json
 from check_mapbox_tokens import scan
 
-ARCHIVE='streamlit-casepilot_submission.zip'
-MANIFEST='submission_manifest.json'
+ARCHIVE='streamlit-casepilot_quality_v22_submission.zip'
+MANIFEST='quality_v22_submission_manifest.json'
 
 def included(path):
     rel=path.relative_to(ROOT); parts=rel.parts
     if any(x in {'.git','.venv','__pycache__','.ipynb_checkpoints','runtime','dist','build'} or x.endswith('.egg-info') for x in parts): return False
     if parts[:2] in {('data','raw'),('artifacts','live_cache'),('artifacts','pilot_smoke')}: return False
     if rel.as_posix()=='data/fresh_holdout_raw.json': return False
-    if path.name in {ARCHIVE,MANIFEST}: return False
+    if path.suffix=='.zip' or path.name in {ARCHIVE,MANIFEST,'submission_manifest.json'}: return False
     if path.name.startswith('.env') and path.name!='.env.example': return False
     return path.suffix not in {'.pyc','.pyo','.sqlite3','.db'}
 
 def main(destination=None):
     if scan(ROOT,include_archives=False): raise RuntimeError('Mapbox-shaped credentials remain in submission files.')
     files=sorted(p for p in ROOT.rglob('*') if p.is_file() and included(p))
-    required=['CasePilot_project.ipynb','report.md','README.md','artifacts/notebook_execution.json','artifacts/offline/test/evaluation_metrics.json']
+    required=['CasePilot_project.ipynb','report.md','README.md','artifacts/quality_v22/notebook_execution.json','artifacts/quality_v22/offline_comparison_01/metrics.json','docs/QUALITY_V22_FA.md']
     for name in required:
         if not (ROOT/name).is_file(): raise RuntimeError('Missing required deliverable: '+name)
-    verified=json.loads((ROOT/'artifacts/package_verification.json').read_text(encoding='utf-8'))
+    verified=json.loads((ROOT/'artifacts/quality_v22/package_verification.json').read_text(encoding='utf-8'))
     if not verified['passed']: raise RuntimeError('Package verification must pass first.')
+    if (ROOT/ARCHIVE).exists() or (ROOT/MANIFEST).exists(): raise RuntimeError('Existing revision package cannot be overwritten.')
+    from check_deliverable_secrets import scan as scan_credentials
+    if scan_credentials(): raise RuntimeError('Credential-shaped data remain in submission files.')
     manifest={'at':utcnow(),'files':{p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in files},'excluded':'Git metadata, secrets, environments, runtime DBs, live cache, raw acquisition and retired pilot outputs'}
     write_json(ROOT/MANIFEST,manifest); files.append(ROOT/MANIFEST)
     with zipfile.ZipFile(ROOT/ARCHIVE,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as archive:
         for path in files: archive.write(path,'streamlit-casepilot/'+path.relative_to(ROOT).as_posix())
     with zipfile.ZipFile(ROOT/ARCHIVE) as archive:
         if archive.testzip() is not None: raise RuntimeError('Archive verification failed.')
+        from check_deliverable_secrets import check
+        if any(check(archive.read(name),name) for name in archive.namelist()): raise RuntimeError('Credential-shaped data remain in archive.')
     if scan(ROOT): raise RuntimeError('Mapbox-shaped credentials remain in archive contents.')
     if destination:
         dest=Path(destination).resolve()

@@ -1,0 +1,688 @@
+{
+  "id": "GH17011",
+  "variant": "previous",
+  "split": "first_live_after_replay",
+  "output": {
+    "case_id": "GH17011",
+    "request_id": "live-v22-previous",
+    "architecture": "v2",
+    "quality_revision": "v2.1-quality",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": true,
+      "quality": true
+    },
+    "decision": "ask",
+    "response": "پاسخ پیشنهادی: آیا می‌توانید لاگ کامل استریم‌لیت را پس از باز کردن دیالوگ و پس از اجرای مجدد فرگمنت که منجر به غیرقابل واکنش شدن دیالوگ می‌شود، ارسال کنید؟\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nRestricted commands during parallel execution\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nBecause parallel fragments run concurrently on separate threads during the initial (full-app) run, a few Streamlit commands aren't safe to call from inside them and will raise an error. These include:\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md\n```\n\nمحدودیت: با توجه به منابع مرتبط، اجرای موازی فرگمنت‌ها ممکن است باعث شود برخی دستورات از جمله `st.dialog` در حالت ناایمن اجرا شوند و باعث خطا شوند. لاگ کامل می‌تواند مشخص کند آیا چنین خطایی ثبت شده است یا خیر و به تشخیص علت مشکل کمک می‌کند.\n\nفرضیهٔ تأییدنشده: احتمالاً محدودیت‌های مربوط به فراخوانی دستورات خاص مانند `st.dialog` در درون فرگمنت‌های موازی باعث بروز مشکل در واکنش‌گرایی دیالوگ پس از اجرای مجدد می‌شود.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+    "summary": {
+      "problem": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+      "facts": {
+        "streamlit_version": "1.64.0",
+        "python_version": "3.13.13",
+        "os": "Linux 7.1.4-arch1-1",
+        "browser": "Firefox",
+        "symptom_scope": "dialog stops being responsive"
+      },
+      "unknowns": [
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [
+        "- [x] Yes, this used to work in a previous version."
+      ],
+      "sources": [
+        {
+          "evidence_id": "docs:fragments:v2:cb48967ad96007e2",
+          "source_id": "docs:fragments",
+          "quote": "Because parallel fragments run concurrently on separate threads during the initial (full-app) run, a few Streamlit commands aren't safe to call from inside them and will raise an error. These include:",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "section": "Restricted commands during parallel execution",
+          "lines": [
+            153,
+            173
+          ],
+          "kind": "docs",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null
+        }
+      ],
+      "decision": "ask",
+      "next_step": "لطفاً گزارش کامل لاگ استریم‌لیت پس از باز شدن دیالوگ و اجرای مجدد فرگمنت را ارسال کنید تا بررسی کنیم آیا خطایی ثبت شده که مربوط به از دست رفتن شناسه فرگمنت باشد.",
+      "rationale": "با توجه به منابع مرتبط، اجرای موازی فرگمنت‌ها ممکن است باعث شود برخی دستورات از جمله `st.dialog` در حالت ناایمن اجرا شوند و باعث خطا شوند. لاگ کامل می‌تواند مشخص کند آیا چنین خطایی ثبت شده است یا خیر و به تشخیص علت مشکل کمک می‌کند.",
+      "hypotheses": [
+        "احتمالاً محدودیت‌های مربوط به فراخوانی دستورات خاص مانند `st.dialog` در درون فرگمنت‌های موازی باعث بروز مشکل در واکنش‌گرایی دیالوگ پس از اجرای مجدد می‌شود."
+      ],
+      "ambiguities": [
+        "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+      ],
+      "judge": {
+        "verdict": "accept",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "کاربر درخواست لاگ کامل بعد از باز شدن دیالوگ و اجرای مجدد فرگمنت را کرده که اطلاعات جدیدی برای بررسی مشکل است.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "ادعای محدود بودن فراخوانی برخی دستورات در فرگمنت‌های موازی دقیقاً با نقل قول از مستندات مرتبط تایید شده است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "داده‌های ورودی صرفاً شامل لاگ‌ها و شرح مشکل است و پاسخ حاوی بدلائل منطقی و درخواست اطلاعات اضافی است که از تزریق دستور جلوگیری می‌کند.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست لاگ کامل برای بررسی خطا پس از باز شدن دیالوگ و اجرای مجدد فرگمنت برای فهمیدن علت دقیق بسیار مفید و منطقی است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پاسخ مستقیماً مربوط به مشکل گزارش شده یعنی واکنش‌گرایی دیالوگ پس از اجرای مجدد فرگمنت است و مستندات مربوطه را بررسی می‌کند.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پاسخ به نسخه گزارش شده (Streamlit 1.64.0) ربط دارد و اشاره‌ای به محدودیت نسخه‌های قبلی یا آینده ندارد، فقط مستندات عمومی را مطرح کرده است.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:fragments:v2:cb48967ad96007e2",
+              "reason": "پشتیبانی مستندات نشان می‌دهد که فراخوانی‌های ناایمن مانند st.dialog در فرگمنت‌های موازی ممکن است خطا ایجاد کند که علت احتمالی مشکل است.",
+              "statement": "احتمالاً محدودیت‌های مربوط به فراخوانی دستورات خاص مانند `st.dialog` در درون فرگمنت‌های موازی باعث بروز مشکل در واکنش‌گرایی دیالوگ پس از اجرای مجدد می‌شود.",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "لاگ کامل استریم‌لیت پس از باز شدن دیالوگ و اجرای مجدد فرگمنت که منجر به غیرقابل واکنش شدن دیالوگ می‌شود",
+            "why_new": "اطلاعات لاگ برای شناسایی خطاها و تأیید یا رد فرضیه محدودیت‌های فراخوانی دستور ضروری است و تا کنون ارائه نشده است."
+          },
+          "version_assumptions": "پاسخ با نسخه گزارش شده (Streamlit 1.64.0) منطبق است و فرض نامعتبر مرتبط با نسخه‌های دیگر ندارد."
+        }
+      },
+      "investigation_plan": {
+        "acceptance_condition": "دیالوگ به صورت واکنش‌گرا و فعال بعد از اجرای مجدد فرگمنت نمایش داده شود.",
+        "intent": "bug",
+        "known_report_spans": [
+          "### Expected Behavior",
+          "- [x] Yes, this used to work in a previous version.",
+          "- Streamlit version: 1.64.0",
+          "- Python version: Python 3.13.13"
+        ],
+        "missing_detail": "لطفا گزارش لاگ کامل استریم‌لیت بعد از باز شدن دیالوگ و اجرای مجدد فرگمنت را ارسال کنید.",
+        "new_condition": "تست اجرای مثال با نسخه‌های دیگر استریم‌لیت و بررسی رفتار هنگام باز و بسته کردن دیالوگ بدون اجرای مجدد فرگمنت.",
+        "problem_summary": "st.dialog conditionally created inside st.fragment stops responding after fragment rerun",
+        "suggested_question": "آیا لاگ کامل استریم‌لیت بعد از باز شدن دیالوگ و اجرای مجدد فرگمنت را می‌توانید ارسال کنید؟"
+      }
+    },
+    "proposal": {
+      "id": "5e3c15ca40310d3da6361af4",
+      "case_id": "GH17011",
+      "revision": 1,
+      "hash": "c394861a2f2aaba81c0a80b64655075ebe5d21e516f7d4afda8412b4c3afee43",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: آیا می‌توانید لاگ کامل استریم‌لیت را پس از باز کردن دیالوگ و پس از اجرای مجدد فرگمنت که منجر به غیرقابل واکنش شدن دیالوگ می‌شود، ارسال کنید؟\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nRestricted commands during parallel execution\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nBecause parallel fragments run concurrently on separate threads during the initial (full-app) run, a few Streamlit commands aren't safe to call from inside them and will raise an error. These include:\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md\n```\n\nمحدودیت: با توجه به منابع مرتبط، اجرای موازی فرگمنت‌ها ممکن است باعث شود برخی دستورات از جمله `st.dialog` در حالت ناایمن اجرا شوند و باعث خطا شوند. لاگ کامل می‌تواند مشخص کند آیا چنین خطایی ثبت شده است یا خیر و به تشخیص علت مشکل کمک می‌کند.\n\nفرضیهٔ تأییدنشده: احتمالاً محدودیت‌های مربوط به فراخوانی دستورات خاص مانند `st.dialog` در درون فرگمنت‌های موازی باعث بروز مشکل در واکنش‌گرایی دیالوگ پس از اجرای مجدد می‌شود.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+          },
+          {
+            "type": "status",
+            "value": "waiting_user"
+          }
+        ],
+        "source_ids": [
+          "docs:fragments"
+        ],
+        "summary": {
+          "problem": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+          "facts": {
+            "streamlit_version": "1.64.0",
+            "python_version": "3.13.13",
+            "os": "Linux 7.1.4-arch1-1",
+            "browser": "Firefox",
+            "symptom_scope": "dialog stops being responsive"
+          },
+          "unknowns": [
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [
+            "- [x] Yes, this used to work in a previous version."
+          ],
+          "sources": [
+            {
+              "evidence_id": "docs:fragments:v2:cb48967ad96007e2",
+              "source_id": "docs:fragments",
+              "quote": "Because parallel fragments run concurrently on separate threads during the initial (full-app) run, a few Streamlit commands aren't safe to call from inside them and will raise an error. These include:",
+              "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+              "section": "Restricted commands during parallel execution",
+              "lines": [
+                153,
+                173
+              ],
+              "kind": "docs",
+              "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+              "product_version": null
+            }
+          ],
+          "decision": "ask",
+          "next_step": "لطفاً گزارش کامل لاگ استریم‌لیت پس از باز شدن دیالوگ و اجرای مجدد فرگمنت را ارسال کنید تا بررسی کنیم آیا خطایی ثبت شده که مربوط به از دست رفتن شناسه فرگمنت باشد.",
+          "rationale": "با توجه به منابع مرتبط، اجرای موازی فرگمنت‌ها ممکن است باعث شود برخی دستورات از جمله `st.dialog` در حالت ناایمن اجرا شوند و باعث خطا شوند. لاگ کامل می‌تواند مشخص کند آیا چنین خطایی ثبت شده است یا خیر و به تشخیص علت مشکل کمک می‌کند.",
+          "hypotheses": [
+            "احتمالاً محدودیت‌های مربوط به فراخوانی دستورات خاص مانند `st.dialog` در درون فرگمنت‌های موازی باعث بروز مشکل در واکنش‌گرایی دیالوگ پس از اجرای مجدد می‌شود."
+          ],
+          "ambiguities": [
+            "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+          ],
+          "judge": {
+            "verdict": "accept",
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "کاربر درخواست لاگ کامل بعد از باز شدن دیالوگ و اجرای مجدد فرگمنت را کرده که اطلاعات جدیدی برای بررسی مشکل است.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "ادعای محدود بودن فراخوانی برخی دستورات در فرگمنت‌های موازی دقیقاً با نقل قول از مستندات مرتبط تایید شده است.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "داده‌های ورودی صرفاً شامل لاگ‌ها و شرح مشکل است و پاسخ حاوی بدلائل منطقی و درخواست اطلاعات اضافی است که از تزریق دستور جلوگیری می‌کند.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "درخواست لاگ کامل برای بررسی خطا پس از باز شدن دیالوگ و اجرای مجدد فرگمنت برای فهمیدن علت دقیق بسیار مفید و منطقی است.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "پاسخ مستقیماً مربوط به مشکل گزارش شده یعنی واکنش‌گرایی دیالوگ پس از اجرای مجدد فرگمنت است و مستندات مربوطه را بررسی می‌کند.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "پاسخ به نسخه گزارش شده (Streamlit 1.64.0) ربط دارد و اشاره‌ای به محدودیت نسخه‌های قبلی یا آینده ندارد، فقط مستندات عمومی را مطرح کرده است.",
+                "score": 2
+              }
+            },
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "findings": [],
+            "audit": {
+              "claim_links": [
+                {
+                  "evidence_id": "docs:fragments:v2:cb48967ad96007e2",
+                  "reason": "پشتیبانی مستندات نشان می‌دهد که فراخوانی‌های ناایمن مانند st.dialog در فرگمنت‌های موازی ممکن است خطا ایجاد کند که علت احتمالی مشکل است.",
+                  "statement": "احتمالاً محدودیت‌های مربوط به فراخوانی دستورات خاص مانند `st.dialog` در درون فرگمنت‌های موازی باعث بروز مشکل در واکنش‌گرایی دیالوگ پس از اجرای مجدد می‌شود.",
+                  "supported": true
+                }
+              ],
+              "question_novelty": {
+                "already_supplied_quote": "",
+                "requested_detail": "لاگ کامل استریم‌لیت پس از باز شدن دیالوگ و اجرای مجدد فرگمنت که منجر به غیرقابل واکنش شدن دیالوگ می‌شود",
+                "why_new": "اطلاعات لاگ برای شناسایی خطاها و تأیید یا رد فرضیه محدودیت‌های فراخوانی دستور ضروری است و تا کنون ارائه نشده است."
+              },
+              "version_assumptions": "پاسخ با نسخه گزارش شده (Streamlit 1.64.0) منطبق است و فرض نامعتبر مرتبط با نسخه‌های دیگر ندارد."
+            }
+          },
+          "investigation_plan": {
+            "acceptance_condition": "دیالوگ به صورت واکنش‌گرا و فعال بعد از اجرای مجدد فرگمنت نمایش داده شود.",
+            "intent": "bug",
+            "known_report_spans": [
+              "### Expected Behavior",
+              "- [x] Yes, this used to work in a previous version.",
+              "- Streamlit version: 1.64.0",
+              "- Python version: Python 3.13.13"
+            ],
+            "missing_detail": "لطفا گزارش لاگ کامل استریم‌لیت بعد از باز شدن دیالوگ و اجرای مجدد فرگمنت را ارسال کنید.",
+            "new_condition": "تست اجرای مثال با نسخه‌های دیگر استریم‌لیت و بررسی رفتار هنگام باز و بسته کردن دیالوگ بدون اجرای مجدد فرگمنت.",
+            "problem_summary": "st.dialog conditionally created inside st.fragment stops responding after fragment rerun",
+            "suggested_question": "آیا لاگ کامل استریم‌لیت بعد از باز شدن دیالوگ و اجرای مجدد فرگمنت را می‌توانید ارسال کنید؟"
+          }
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "docs:fragments:v2:cb48967ad96007e2",
+        "source_id": "docs:fragments",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+        "section": "Restricted commands during parallel execution",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.03868852
+      },
+      {
+        "id": "docs:fragments:v2:4e15dac87ccfdf07",
+        "source_id": "docs:fragments",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+        "section": "Fragment execution flow",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.03382473
+      },
+      {
+        "id": "issue:11266:v2:b66fdd8b569a13f9",
+        "source_id": "issue:11266",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/11266",
+        "section": "Rerun() inside an st.fragment resets widget values to defaults.",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.03079839
+      },
+      {
+        "id": "issue:11266:v2:5df5b300853d70e7",
+        "source_id": "issue:11266",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/11266",
+        "section": "Reproducible Code Example",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.03100962
+      },
+      {
+        "id": "issue:16005:v2:e620d4c5f982acfd",
+        "source_id": "issue:16005",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/16005",
+        "section": "Reproducible Code Example",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.03030999
+      }
+    ],
+    "steps": 8,
+    "model_calls": 5,
+    "max_calls": 8,
+    "repair_count": 0,
+    "judge": {
+      "verdict": "accept",
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "کاربر درخواست لاگ کامل بعد از باز شدن دیالوگ و اجرای مجدد فرگمنت را کرده که اطلاعات جدیدی برای بررسی مشکل است.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "ادعای محدود بودن فراخوانی برخی دستورات در فرگمنت‌های موازی دقیقاً با نقل قول از مستندات مرتبط تایید شده است.",
+          "score": 2
+        },
+        "injection_resistance": {
+          "reason": "داده‌های ورودی صرفاً شامل لاگ‌ها و شرح مشکل است و پاسخ حاوی بدلائل منطقی و درخواست اطلاعات اضافی است که از تزریق دستور جلوگیری می‌کند.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "درخواست لاگ کامل برای بررسی خطا پس از باز شدن دیالوگ و اجرای مجدد فرگمنت برای فهمیدن علت دقیق بسیار مفید و منطقی است.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "پاسخ مستقیماً مربوط به مشکل گزارش شده یعنی واکنش‌گرایی دیالوگ پس از اجرای مجدد فرگمنت است و مستندات مربوطه را بررسی می‌کند.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "پاسخ به نسخه گزارش شده (Streamlit 1.64.0) ربط دارد و اشاره‌ای به محدودیت نسخه‌های قبلی یا آینده ندارد، فقط مستندات عمومی را مطرح کرده است.",
+          "score": 2
+        }
+      },
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 2,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "findings": [],
+      "audit": {
+        "claim_links": [
+          {
+            "evidence_id": "docs:fragments:v2:cb48967ad96007e2",
+            "reason": "پشتیبانی مستندات نشان می‌دهد که فراخوانی‌های ناایمن مانند st.dialog در فرگمنت‌های موازی ممکن است خطا ایجاد کند که علت احتمالی مشکل است.",
+            "statement": "احتمالاً محدودیت‌های مربوط به فراخوانی دستورات خاص مانند `st.dialog` در درون فرگمنت‌های موازی باعث بروز مشکل در واکنش‌گرایی دیالوگ پس از اجرای مجدد می‌شود.",
+            "supported": true
+          }
+        ],
+        "question_novelty": {
+          "already_supplied_quote": "",
+          "requested_detail": "لاگ کامل استریم‌لیت پس از باز شدن دیالوگ و اجرای مجدد فرگمنت که منجر به غیرقابل واکنش شدن دیالوگ می‌شود",
+          "why_new": "اطلاعات لاگ برای شناسایی خطاها و تأیید یا رد فرضیه محدودیت‌های فراخوانی دستور ضروری است و تا کنون ارائه نشده است."
+        },
+        "version_assumptions": "پاسخ با نسخه گزارش شده (Streamlit 1.64.0) منطبق است و فرض نامعتبر مرتبط با نسخه‌های دیگر ندارد."
+      }
+    },
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "ok",
+        "keys": [
+          "browser",
+          "os",
+          "python_version",
+          "streamlit_version",
+          "symptom_scope"
+        ],
+        "facts_with_quotes": [
+          {
+            "key": "streamlit_version",
+            "quote": "- Streamlit version: 1.64.0",
+            "value": "1.64.0"
+          },
+          {
+            "key": "python_version",
+            "quote": "- Python version: Python 3.13.13",
+            "value": "3.13.13"
+          },
+          {
+            "key": "os",
+            "quote": "- Operating System: Linux 7.1.4-arch1-1",
+            "value": "Linux 7.1.4-arch1-1"
+          },
+          {
+            "key": "browser",
+            "quote": "- Browser: Firefox",
+            "value": "Firefox"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "dialog stops being responsive",
+            "value": "dialog stops being responsive"
+          },
+          {
+            "key": "reproducible",
+            "quote": "stopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+            "value": "true"
+          }
+        ],
+        "checks": [
+          "- [x] Yes, this used to work in a previous version."
+        ],
+        "ambiguities": [
+          "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+        ]
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "bm25+dense+rrf+mmr",
+        "rrf_k": 60,
+        "mmr_lambda": 0.7,
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "quality": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true
+        },
+        "embedding": {
+          "texts": 1,
+          "unique_missing": 1,
+          "cache_hits": 0,
+          "batches": 1,
+          "usage": [
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "embedding",
+              "input_tokens": 55,
+              "output_tokens": 0,
+              "cost_usd": 1.21e-06,
+              "ledger_id": "d94e237414ba105e216ae329"
+            }
+          ],
+          "identity": {
+            "provider": "https://api.metisai.ir/openai/v1",
+            "model": "text-embedding-3-small",
+            "normalization": "whitespace-v1",
+            "encoding_format": "float"
+          }
+        },
+        "candidates": [
+          "docs:fragments:v2:cb48967ad96007e2",
+          "docs:button-behavior-and-examples:v2:23fc4ba7cf4cae18",
+          "docs:fragments:v2:4e15dac87ccfdf07",
+          "issue:16005:v2:e620d4c5f982acfd",
+          "issue:11266:v2:b66fdd8b569a13f9",
+          "issue:11266:v2:5df5b300853d70e7",
+          "issue:16708:v2:7b2f3e555aef7fe6",
+          "issue:15893:v2:cf5854d263783d24"
+        ],
+        "quality_filter": true,
+        "excluded_nontechnical_chunks": 309,
+        "version_warnings": [
+          "docs:fragments:v2:cb48967ad96007e2",
+          "docs:button-behavior-and-examples:v2:23fc4ba7cf4cae18",
+          "docs:fragments:v2:4e15dac87ccfdf07",
+          "issue:16005:v2:e620d4c5f982acfd",
+          "issue:11266:v2:b66fdd8b569a13f9",
+          "issue:11266:v2:5df5b300853d70e7",
+          "issue:16708:v2:7b2f3e555aef7fe6",
+          "issue:15893:v2:cf5854d263783d24"
+        ]
+      },
+      {
+        "stage": "rerank",
+        "status": "ok",
+        "ids": [
+          "docs:fragments:v2:cb48967ad96007e2",
+          "docs:fragments:v2:4e15dac87ccfdf07",
+          "issue:11266:v2:b66fdd8b569a13f9",
+          "issue:11266:v2:5df5b300853d70e7",
+          "issue:16005:v2:e620d4c5f982acfd",
+          "docs:button-behavior-and-examples:v2:23fc4ba7cf4cae18",
+          "issue:16708:v2:7b2f3e555aef7fe6",
+          "issue:15893:v2:cf5854d263783d24"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "ids": [
+          "docs:fragments:v2:cb48967ad96007e2",
+          "docs:fragments:v2:4e15dac87ccfdf07",
+          "issue:11266:v2:b66fdd8b569a13f9",
+          "issue:11266:v2:5df5b300853d70e7",
+          "issue:16005:v2:e620d4c5f982acfd"
+        ],
+        "utf8_bytes": 3106
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge",
+        "attempt": 1,
+        "verdict": "accept",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "کاربر درخواست لاگ کامل بعد از باز شدن دیالوگ و اجرای مجدد فرگمنت را کرده که اطلاعات جدیدی برای بررسی مشکل است.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "ادعای محدود بودن فراخوانی برخی دستورات در فرگمنت‌های موازی دقیقاً با نقل قول از مستندات مرتبط تایید شده است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "داده‌های ورودی صرفاً شامل لاگ‌ها و شرح مشکل است و پاسخ حاوی بدلائل منطقی و درخواست اطلاعات اضافی است که از تزریق دستور جلوگیری می‌کند.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست لاگ کامل برای بررسی خطا پس از باز شدن دیالوگ و اجرای مجدد فرگمنت برای فهمیدن علت دقیق بسیار مفید و منطقی است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پاسخ مستقیماً مربوط به مشکل گزارش شده یعنی واکنش‌گرایی دیالوگ پس از اجرای مجدد فرگمنت است و مستندات مربوطه را بررسی می‌کند.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پاسخ به نسخه گزارش شده (Streamlit 1.64.0) ربط دارد و اشاره‌ای به محدودیت نسخه‌های قبلی یا آینده ندارد، فقط مستندات عمومی را مطرح کرده است.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:fragments:v2:cb48967ad96007e2",
+              "reason": "پشتیبانی مستندات نشان می‌دهد که فراخوانی‌های ناایمن مانند st.dialog در فرگمنت‌های موازی ممکن است خطا ایجاد کند که علت احتمالی مشکل است.",
+              "statement": "احتمالاً محدودیت‌های مربوط به فراخوانی دستورات خاص مانند `st.dialog` در درون فرگمنت‌های موازی باعث بروز مشکل در واکنش‌گرایی دیالوگ پس از اجرای مجدد می‌شود.",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "لاگ کامل استریم‌لیت پس از باز شدن دیالوگ و اجرای مجدد فرگمنت که منجر به غیرقابل واکنش شدن دیالوگ می‌شود",
+            "why_new": "اطلاعات لاگ برای شناسایی خطاها و تأیید یا رد فرضیه محدودیت‌های فراخوانی دستور ضروری است و تا کنون ارائه نشده است."
+          },
+          "version_assumptions": "پاسخ با نسخه گزارش شده (Streamlit 1.64.0) منطبق است و فرض نامعتبر مرتبط با نسخه‌های دیگر ندارد."
+        },
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "5e3c15ca40310d3da6361af4",
+        "hash": "c394861a2f2aaba81c0a80b64655075ebe5d21e516f7d4afda8412b4c3afee43",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 5,
+      "cost_usd": 0.00784905,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "extract",
+          "input_tokens": 1469,
+          "output_tokens": 460,
+          "cost_usd": 0.00145596,
+          "ledger_id": "8e7f556862724648bb165518"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "embedding",
+          "input_tokens": 55,
+          "output_tokens": 0,
+          "cost_usd": 1.21e-06,
+          "ledger_id": "d94e237414ba105e216ae329"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "input_tokens": 3455,
+          "output_tokens": 91,
+          "cost_usd": 0.00168036,
+          "ledger_id": "2d09cde72823ee8578a0d66a"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "input_tokens": 3530,
+          "output_tokens": 262,
+          "cost_usd": 0.00201432,
+          "ledger_id": "90b5f98c9906a7e3f59ce937"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 3938,
+          "output_tokens": 548,
+          "cost_usd": 0.0026972,
+          "ledger_id": "51bd7e4f4eb61182e1bc7387"
+        }
+      ],
+      "charged_or_reserved_usd": 0.007849049999999913
+    },
+    "validation_error": null,
+    "latency_seconds": 22.024453
+  },
+  "failure": null,
+  "elapsed_seconds": 22.04739019999397,
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "extract",
+      "input_tokens": 1469,
+      "output_tokens": 460,
+      "cost_usd": 0.00145596,
+      "ledger_id": "8e7f556862724648bb165518"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "input_tokens": 55,
+      "output_tokens": 0,
+      "cost_usd": 1.21e-06,
+      "ledger_id": "d94e237414ba105e216ae329"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "input_tokens": 3455,
+      "output_tokens": 91,
+      "cost_usd": 0.00168036,
+      "ledger_id": "2d09cde72823ee8578a0d66a"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "input_tokens": 3530,
+      "output_tokens": 262,
+      "cost_usd": 0.00201432,
+      "ledger_id": "90b5f98c9906a7e3f59ce937"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 3938,
+      "output_tokens": 548,
+      "cost_usd": 0.0026972,
+      "ledger_id": "51bd7e4f4eb61182e1bc7387"
+    }
+  ],
+  "pipeline_sha256": "513902d6688c9e7f5b4367cd000524333da9fbac1a7cfad1a99ca991e9621c9d",
+  "pipeline_path": "F:\\Quera AI\\Project\\streamlit-casepilot\\artifacts\\quality_v22\\baseline\\src\\casepilot\\pipeline.py"
+}

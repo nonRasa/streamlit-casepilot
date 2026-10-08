@@ -17,6 +17,8 @@ CREATE TABLE IF NOT EXISTS turns(case_id TEXT NOT NULL, request_id TEXT NOT NULL
  output TEXT NOT NULL, PRIMARY KEY(case_id,request_id));
 CREATE TABLE IF NOT EXISTS turn_inputs(case_id TEXT NOT NULL, request_id TEXT NOT NULL, input_hash TEXT NOT NULL,
  revision INTEGER NOT NULL, PRIMARY KEY(case_id,request_id));
+CREATE TABLE IF NOT EXISTS turn_jobs(case_id TEXT NOT NULL, request_id TEXT NOT NULL, input_hash TEXT NOT NULL,
+ input TEXT NOT NULL, status TEXT NOT NULL, error TEXT, PRIMARY KEY(case_id,request_id));
 '''
 
 class Store:
@@ -55,7 +57,8 @@ class Store:
     def _load(self,db,cid):
         row=db.execute('SELECT state FROM cases WHERE id=?',(cid,)).fetchone()
         require(row is not None,'not_found','پرونده یافت نشد.')
-        return json.loads(row['state'])
+        from .memory import migrate
+        return migrate(json.loads(row['state']))
 
     def get(self,cid):
         identifier(cid)
@@ -66,7 +69,7 @@ class Store:
             for p in state['proposals']: p['payload']=json.loads(p['payload'])
             return state
 
-    def update(self,cid,message,facts=None,checks=None,expected_revision=None,request_id=None,input_hash=None):
+    def update(self,cid,message,facts=None,checks=None,expected_revision=None,request_id=None,input_hash=None,experiment_events=None):
         identifier(cid); message=bounded_text(message); facts=facts_input(facts or {}); checks=checks or []
         require(isinstance(checks,list) and len(checks)<=30,'invalid_checks','بررسی‌ها نامعتبرند.')
         checks=[bounded_text(x,'check',1000) for x in checks]
@@ -80,21 +83,45 @@ class Store:
                     return state
             row=db.execute('SELECT state FROM cases WHERE id=?',(cid,)).fetchone()
             state=json.loads(row['state']) if row else {'id':cid,'revision':0,'facts':{},'fact_history':[], 'checks':[], 'messages':[], 'status':'open','labels':[], 'source_ids':[], 'pending_proposal':None,'action_results':[]}
+            from .memory import migrate, checked_events, append_events
+            migrate(state)
+            events=checked_events(experiment_events or [],message,state['experiments'])
             if expected_revision is not None: require(state['revision']==expected_revision,'conflict','وضعیت پرونده تغییر کرده است.')
             for key,value in facts.items():
                 if key in state['facts'] and state['facts'][key]!=value:
                     state['fact_history'].append({'key':key,'old':state['facts'][key],'new':value,'at':utcnow()})
                 state['facts'][key]=value
+                state['fact_provenance'][key]={'kind':'current_user_input','message_index':len(state['messages']),'at':utcnow(),'value':value}
             state['checks']=list(dict.fromkeys(state['checks']+checks))
             state['messages'].append({'role':'user','text':message,'at':utcnow()})
             require(len(state['messages'])<=100,'turn_limit','سقف نوبت‌های پرونده رسیده است؛ پرونده را برای بررسی انسانی ارجاع دهید.')
             state['revision']+=1; state['pending_proposal']=None
+            append_events(state,events,state['messages'][-1]['at'])
             db.execute("UPDATE proposals SET status='stale' WHERE case_id=? AND status IN ('pending','approved')",(cid,))
             db.execute('INSERT INTO cases VALUES(?,?,?) ON CONFLICT(id) DO UPDATE SET revision=excluded.revision,state=excluded.state',
                        (cid,state['revision'],canonical(state)))
             self._event(db,cid,'user_update',{'revision':state['revision'],'message':message,'facts':facts,'checks':checks})
             if request_id: db.execute('INSERT INTO turn_inputs VALUES(?,?,?,?)',(cid,request_id,input_hash,state['revision']))
             return state
+
+    def save_plan(self,cid,revision,plan):
+        """Persist read-only investigation state without granting tracker effects."""
+        with self.tx() as db:
+            state=self._load(db,cid)
+            require(state['revision']==revision,'conflict','اطلاعات پرونده تغییر کرده است.')
+            state['investigation_plan']=plan
+            db.execute('UPDATE cases SET state=? WHERE id=?',(canonical(state),cid))
+
+    def remember_proposed_check(self,cid,revision,diagnostic,text):
+        if not diagnostic or not diagnostic.get('action'): return
+        from .memory import append_events
+        with self.tx() as db:
+            state=self._load(db,cid)
+            require(state['revision']==revision,'conflict','اطلاعات پرونده تغییر کرده است.')
+            row={'action':diagnostic['action'],'conditions':diagnostic['conditions'],'status':'proposed',
+                 'result':'','quote':text,'supersedes':''}
+            append_events(state,[row],utcnow(),'assistant_proposal')
+            db.execute('UPDATE cases SET state=? WHERE id=?',(canonical(state),cid))
 
     def propose(self,cid,revision,payload):
         validate_actions(payload)
@@ -183,8 +210,26 @@ class Store:
                 require(row['input_hash']==input_hash,'request_conflict','شناسهٔ درخواست با ورودی دیگری استفاده شده است.')
                 return json.loads(row['output'])
 
+    def begin_turn(self,cid,rid,input_hash,inputs):
+        with self.tx() as db:
+            old=db.execute('SELECT input_hash FROM turn_jobs WHERE case_id=? AND request_id=?',(cid,rid)).fetchone()
+            require(old is None or old['input_hash']==input_hash,'request_conflict','شناسهٔ نوبت برای ورودی دیگری محفوظ است.')
+            db.execute("INSERT INTO turn_jobs VALUES(?,?,?,?,?,NULL) ON CONFLICT(case_id,request_id) DO UPDATE SET status='started',error=NULL",(cid,rid,input_hash,canonical(inputs),'started'))
+
+    def interrupted_turn(self,cid,rid,error):
+        with self.tx() as db: db.execute("UPDATE turn_jobs SET status='interrupted',error=? WHERE case_id=? AND request_id=?",(error,cid,rid))
+
+    def pending_turn(self,cid,rid):
+        identifier(cid); identifier(rid)
+        with self.connect() as db:
+            row=db.execute('SELECT * FROM turn_jobs WHERE case_id=? AND request_id=?',(cid,rid)).fetchone()
+            require(row is not None,'not_found','نوبت محفوظ یافت نشد.')
+            return dict(row,input=json.loads(row['input']))
+
     def save_turn(self,cid,rid,h,output):
-        with self.tx() as db: db.execute('INSERT INTO turns VALUES(?,?,?,?)',(cid,rid,h,canonical(output)))
+        with self.tx() as db:
+            db.execute('INSERT INTO turns VALUES(?,?,?,?)',(cid,rid,h,canonical(output)))
+            db.execute("UPDATE turn_jobs SET status='completed',error=NULL WHERE case_id=? AND request_id=?",(cid,rid))
 
     def traces(self):
         with self.connect() as db: return [dict(r,payload=json.loads(r['payload'])) for r in db.execute('SELECT * FROM events ORDER BY id')]

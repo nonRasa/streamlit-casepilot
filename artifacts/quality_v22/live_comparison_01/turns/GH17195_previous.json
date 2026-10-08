@@ -1,0 +1,783 @@
+{
+  "id": "GH17195",
+  "variant": "previous",
+  "split": "first_live_after_replay",
+  "output": {
+    "case_id": "GH17195",
+    "request_id": "live-v22-previous",
+    "architecture": "v2",
+    "quality_revision": "v2.1-quality",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": true,
+      "quality": true
+    },
+    "decision": "ask",
+    "response": "پاسخ پیشنهادی: آیا پس از کلیک روی دکمه \"Select no row\"، خروجی نمایش داده شده توسط st.code(event.selection) واقعا خالی است؟\n\nشاهد مستند: گزارش یک کاربر؛ اثبات علت این پرونده نیست.\n\nبخش منبع:\n\n```text\nReproducible Code Example\n```\n\nنسخهٔ منبع:\n\n```text\n2026-09-28T00:58:38Z\n```\n\nمتن شاهد:\n\n```text\nevent = st.dataframe(df, key=\"queue\", on_select=\"rerun\", selection_mode=\"single-row\")\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/streamlit/issues/17026\n```\n\nمحدودیت: بر اساس کدی که کاربر ارائه کرده است، selection از st.dataframe در event.selection برگردانده می شود. پرسش درباره مقدار دقیق این selection پس از کلیک روی دکمه حذف انتخاب، برای تشخیص اینکه آیا نقص مربوط به عدم به‌روزرسانی داده‌های selection است یا صرفاً نمایشی، حیاتی است. بدون این اطلاعات، نمی توان به صورت قطعی تشخیص داد که مشکل در کجاست.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+    "summary": {
+      "problem": "Programmatically set selections fail for empty selection\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nThe example in https://docs.streamlit.io/develop/api-reference/data/st.dataframe titled: \"Example 2: Programmatically set selections\" does not work if we try with empty selections.\n\n### Reproducible Code Example\n\n```Python\nimport pandas as pd\nimport streamlit as st\nfrom numpy.random import default_rng as rng\n\ndf = pd.DataFrame(rng(0).standard_normal((12, 5)), columns=[\"a\", \"b\", \"c\", \"d\", \"e\"])\n\nif st.button(\"Select the first row\"):\n    st.session_state[\"data\"] = {\"selection\": {\"rows\": [0], \"columns\": [], \"cells\": []}}\nif st.button(\"Select no row\"):\n    st.session_state[\"data\"] = {\"selection\": {\"rows\": [], \"columns\": [], \"cells\": []}}\n\nevent = st.dataframe(\n    df,\n    key=\"data\",\n    on_select=\"rerun\",\n    selection_mode=[\"single-row\"],\n)\n\nst.code(event.selection)\n```\n\n### Steps To Reproduce\n\n1. Run the code\n2. Select a row\n3. Click on the button \"Select the first row\", it works as expected\n4. Select a row again\n5. Click on the button \"Select no row\", the dataframe selection state is empty but the table keeps the previous selection.\n\n### Expected Behavior\n\nThe row selection should match the dataframe selection state and be empty.\n\n### Current Behavior\n\nThe dataframe selection state is empty but the table keeps the previous selection and is not empty.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.63.0\n- Python version: 3.12\n- Operating System: WSL Docker\n- Browser: Edge\n\n\n### Additional Information\n\nI remember it worked in Streamlit version 1.57.0 but I am not sure, I may be mistaken.",
+      "facts": {
+        "streamlit_version": "1.63.0",
+        "python_version": "3.12",
+        "os": "WSL Docker",
+        "browser": "Edge",
+        "symptom_scope": "empty selection"
+      },
+      "unknowns": [
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [],
+      "sources": [
+        {
+          "evidence_id": "issue:17026:v2:e97c7bda597602a6",
+          "source_id": "issue:17026",
+          "quote": "event = st.dataframe(df, key=\"queue\", on_select=\"rerun\", selection_mode=\"single-row\")",
+          "url": "https://github.com/streamlit/streamlit/issues/17026",
+          "section": "Reproducible Code Example",
+          "lines": [
+            13,
+            40
+          ],
+          "kind": "issue",
+          "revision": "2026-09-28T00:58:38Z",
+          "product_version": null
+        }
+      ],
+      "decision": "ask",
+      "next_step": "لطفاً تأیید کنید که پس از کلیک روی دکمه \"Select no row\"، مقدار خروجی نمایش داده شده توسط st.code(event.selection) واقعاً خالی است یا خیر؟ این آزمایش به تفکیک بین نقص در حالت داخلی انتخاب و نقص در نمایش کمک خواهد کرد.",
+      "rationale": "بر اساس کدی که کاربر ارائه کرده است، selection از st.dataframe در event.selection برگردانده می شود. پرسش درباره مقدار دقیق این selection پس از کلیک روی دکمه حذف انتخاب، برای تشخیص اینکه آیا نقص مربوط به عدم به‌روزرسانی داده‌های selection است یا صرفاً نمایشی، حیاتی است. بدون این اطلاعات، نمی توان به صورت قطعی تشخیص داد که مشکل در کجاست.",
+      "hypotheses": [],
+      "ambiguities": [
+        "I remember it worked in Streamlit version 1.57.0 but I am not sure, I may be mistaken.",
+        "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+      ],
+      "judge": {
+        "verdict": "accept",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "کاربر هنوز تایید داده خروجی selection پس از کلیک روی دکمه را نیاورده است.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "سوال به طور دقیق پرسیده شده و مرتبط با بررسی نقص گزارش شده است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "پرسش صرفا در مورد تایید یک مقدار خروجی است و شامل دستورالعمل خطرناک یا غیرمجاز نیست.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "پرسش برای تفکیک علت نقص و تصمیم گیری در مراحل بعدی کاملا مفید است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پرسش مستقیما متناسب با مشکل گزارش شده درباره پاک شدن انتخاب خالی در st.dataframe است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "سوال مربوط به رفتاری کلی است که به نسخه Streamlit 1.63.0 اشاره شده و هیچ ادعای ناسازگار با نسخه های دیگر ندارد.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "issue:17026:v2:e97c7bda597602a6",
+              "reason": "این متن سوال دقیقاً پرسش درباره مقدار خروجی st.code(event.selection) پس از کلیک \"Select no row\" را مطرح می کند که به بررسی نقص مورد نظر کمک می کند.",
+              "statement": "آیا پس از کلیک روی دکمه \"Select no row\"، خروجی نمایش داده شده توسط st.code(event.selection) واقعا خالی است؟",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "تایید مقدار دقیق event.selection پس از کلیک روی دکمه \"Select no row\" در st.code",
+            "why_new": "این اطلاعات برای تفکیک علت نقص و تعیین گام بعدی در بررسی مشکل ضروری و هنوز ارائه نشده است."
+          },
+          "version_assumptions": "پرسش به یک رفتار کلی منطقی وابسته است و ادعایی خلاف سیاست های نسخه های Streamlit نشده؛ در نتیجه بدون فرضیه نسخه ای خاص پذیرفتنی است."
+        }
+      },
+      "investigation_plan": {
+        "acceptance_condition": "زمانی که دکمه \"Select no row\" فشرده می شود، انتخاب ردیف ها در جدول داده باید خالی شود و هیچ ردیفی انتخاب‌نشده نمایش داده شود.",
+        "intent": "bug",
+        "known_report_spans": [
+          "Programmatically set selections fail for empty selection",
+          "The example in https://docs.streamlit.io/develop/api-reference/data/st.dataframe titled: \"Example 2: Programmatically set selections\" does not work if we try with empty selections.",
+          "3. Click on the button \"Select the first row\", it works as expected",
+          "- Streamlit version: 1.63.0"
+        ],
+        "missing_detail": "لطفاً اعلام کنید آیا پس از کلیک روی دکمه \"Select no row\"، خروجی نمایش داده شده توسط st.code(event.selection) واقعاً خالی است؟ همچنین آیا تست در مرورگرهای دیگر انجام شده است؟",
+        "new_condition": "آیا این مشکل در نسخه‌های متفاوت Streamlit به جز 1.63.0 نیز مشاهده شده است؟",
+        "problem_summary": "st.dataframe programmatic selection fails to clear selection when empty",
+        "suggested_question": "آیا پس از کلیک روی دکمه \"Select no row\"، مقدار event.selection در خروجی st.code خالی نمایش داده می شود؟"
+      }
+    },
+    "proposal": {
+      "id": "bb63ee2b0096f3b30638ef64",
+      "case_id": "GH17195",
+      "revision": 1,
+      "hash": "42081c3f84874b63a0c65593b5ca52b1c92dffe183954f5c1ab6fe67cf16e7f5",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: آیا پس از کلیک روی دکمه \"Select no row\"، خروجی نمایش داده شده توسط st.code(event.selection) واقعا خالی است؟\n\nشاهد مستند: گزارش یک کاربر؛ اثبات علت این پرونده نیست.\n\nبخش منبع:\n\n```text\nReproducible Code Example\n```\n\nنسخهٔ منبع:\n\n```text\n2026-09-28T00:58:38Z\n```\n\nمتن شاهد:\n\n```text\nevent = st.dataframe(df, key=\"queue\", on_select=\"rerun\", selection_mode=\"single-row\")\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/streamlit/issues/17026\n```\n\nمحدودیت: بر اساس کدی که کاربر ارائه کرده است، selection از st.dataframe در event.selection برگردانده می شود. پرسش درباره مقدار دقیق این selection پس از کلیک روی دکمه حذف انتخاب، برای تشخیص اینکه آیا نقص مربوط به عدم به‌روزرسانی داده‌های selection است یا صرفاً نمایشی، حیاتی است. بدون این اطلاعات، نمی توان به صورت قطعی تشخیص داد که مشکل در کجاست.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+          },
+          {
+            "type": "status",
+            "value": "waiting_user"
+          }
+        ],
+        "source_ids": [
+          "issue:17026"
+        ],
+        "summary": {
+          "problem": "Programmatically set selections fail for empty selection\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nThe example in https://docs.streamlit.io/develop/api-reference/data/st.dataframe titled: \"Example 2: Programmatically set selections\" does not work if we try with empty selections.\n\n### Reproducible Code Example\n\n```Python\nimport pandas as pd\nimport streamlit as st\nfrom numpy.random import default_rng as rng\n\ndf = pd.DataFrame(rng(0).standard_normal((12, 5)), columns=[\"a\", \"b\", \"c\", \"d\", \"e\"])\n\nif st.button(\"Select the first row\"):\n    st.session_state[\"data\"] = {\"selection\": {\"rows\": [0], \"columns\": [], \"cells\": []}}\nif st.button(\"Select no row\"):\n    st.session_state[\"data\"] = {\"selection\": {\"rows\": [], \"columns\": [], \"cells\": []}}\n\nevent = st.dataframe(\n    df,\n    key=\"data\",\n    on_select=\"rerun\",\n    selection_mode=[\"single-row\"],\n)\n\nst.code(event.selection)\n```\n\n### Steps To Reproduce\n\n1. Run the code\n2. Select a row\n3. Click on the button \"Select the first row\", it works as expected\n4. Select a row again\n5. Click on the button \"Select no row\", the dataframe selection state is empty but the table keeps the previous selection.\n\n### Expected Behavior\n\nThe row selection should match the dataframe selection state and be empty.\n\n### Current Behavior\n\nThe dataframe selection state is empty but the table keeps the previous selection and is not empty.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.63.0\n- Python version: 3.12\n- Operating System: WSL Docker\n- Browser: Edge\n\n\n### Additional Information\n\nI remember it worked in Streamlit version 1.57.0 but I am not sure, I may be mistaken.",
+          "facts": {
+            "streamlit_version": "1.63.0",
+            "python_version": "3.12",
+            "os": "WSL Docker",
+            "browser": "Edge",
+            "symptom_scope": "empty selection"
+          },
+          "unknowns": [
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [],
+          "sources": [
+            {
+              "evidence_id": "issue:17026:v2:e97c7bda597602a6",
+              "source_id": "issue:17026",
+              "quote": "event = st.dataframe(df, key=\"queue\", on_select=\"rerun\", selection_mode=\"single-row\")",
+              "url": "https://github.com/streamlit/streamlit/issues/17026",
+              "section": "Reproducible Code Example",
+              "lines": [
+                13,
+                40
+              ],
+              "kind": "issue",
+              "revision": "2026-09-28T00:58:38Z",
+              "product_version": null
+            }
+          ],
+          "decision": "ask",
+          "next_step": "لطفاً تأیید کنید که پس از کلیک روی دکمه \"Select no row\"، مقدار خروجی نمایش داده شده توسط st.code(event.selection) واقعاً خالی است یا خیر؟ این آزمایش به تفکیک بین نقص در حالت داخلی انتخاب و نقص در نمایش کمک خواهد کرد.",
+          "rationale": "بر اساس کدی که کاربر ارائه کرده است، selection از st.dataframe در event.selection برگردانده می شود. پرسش درباره مقدار دقیق این selection پس از کلیک روی دکمه حذف انتخاب، برای تشخیص اینکه آیا نقص مربوط به عدم به‌روزرسانی داده‌های selection است یا صرفاً نمایشی، حیاتی است. بدون این اطلاعات، نمی توان به صورت قطعی تشخیص داد که مشکل در کجاست.",
+          "hypotheses": [],
+          "ambiguities": [
+            "I remember it worked in Streamlit version 1.57.0 but I am not sure, I may be mistaken.",
+            "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+          ],
+          "judge": {
+            "verdict": "accept",
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "کاربر هنوز تایید داده خروجی selection پس از کلیک روی دکمه را نیاورده است.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "سوال به طور دقیق پرسیده شده و مرتبط با بررسی نقص گزارش شده است.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "پرسش صرفا در مورد تایید یک مقدار خروجی است و شامل دستورالعمل خطرناک یا غیرمجاز نیست.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "پرسش برای تفکیک علت نقص و تصمیم گیری در مراحل بعدی کاملا مفید است.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "پرسش مستقیما متناسب با مشکل گزارش شده درباره پاک شدن انتخاب خالی در st.dataframe است.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "سوال مربوط به رفتاری کلی است که به نسخه Streamlit 1.63.0 اشاره شده و هیچ ادعای ناسازگار با نسخه های دیگر ندارد.",
+                "score": 2
+              }
+            },
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "findings": [],
+            "audit": {
+              "claim_links": [
+                {
+                  "evidence_id": "issue:17026:v2:e97c7bda597602a6",
+                  "reason": "این متن سوال دقیقاً پرسش درباره مقدار خروجی st.code(event.selection) پس از کلیک \"Select no row\" را مطرح می کند که به بررسی نقص مورد نظر کمک می کند.",
+                  "statement": "آیا پس از کلیک روی دکمه \"Select no row\"، خروجی نمایش داده شده توسط st.code(event.selection) واقعا خالی است؟",
+                  "supported": true
+                }
+              ],
+              "question_novelty": {
+                "already_supplied_quote": "",
+                "requested_detail": "تایید مقدار دقیق event.selection پس از کلیک روی دکمه \"Select no row\" در st.code",
+                "why_new": "این اطلاعات برای تفکیک علت نقص و تعیین گام بعدی در بررسی مشکل ضروری و هنوز ارائه نشده است."
+              },
+              "version_assumptions": "پرسش به یک رفتار کلی منطقی وابسته است و ادعایی خلاف سیاست های نسخه های Streamlit نشده؛ در نتیجه بدون فرضیه نسخه ای خاص پذیرفتنی است."
+            }
+          },
+          "investigation_plan": {
+            "acceptance_condition": "زمانی که دکمه \"Select no row\" فشرده می شود، انتخاب ردیف ها در جدول داده باید خالی شود و هیچ ردیفی انتخاب‌نشده نمایش داده شود.",
+            "intent": "bug",
+            "known_report_spans": [
+              "Programmatically set selections fail for empty selection",
+              "The example in https://docs.streamlit.io/develop/api-reference/data/st.dataframe titled: \"Example 2: Programmatically set selections\" does not work if we try with empty selections.",
+              "3. Click on the button \"Select the first row\", it works as expected",
+              "- Streamlit version: 1.63.0"
+            ],
+            "missing_detail": "لطفاً اعلام کنید آیا پس از کلیک روی دکمه \"Select no row\"، خروجی نمایش داده شده توسط st.code(event.selection) واقعاً خالی است؟ همچنین آیا تست در مرورگرهای دیگر انجام شده است؟",
+            "new_condition": "آیا این مشکل در نسخه‌های متفاوت Streamlit به جز 1.63.0 نیز مشاهده شده است؟",
+            "problem_summary": "st.dataframe programmatic selection fails to clear selection when empty",
+            "suggested_question": "آیا پس از کلیک روی دکمه \"Select no row\"، مقدار event.selection در خروجی st.code خالی نمایش داده می شود؟"
+          }
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "issue:17026:v2:e97c7bda597602a6",
+        "source_id": "issue:17026",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/17026",
+        "section": "Reproducible Code Example",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.03109932
+      },
+      {
+        "id": "issue:17026:v2:bc8310223233b291",
+        "source_id": "issue:17026",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/17026",
+        "section": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.03021354
+      },
+      {
+        "id": "docs:session-state:v2:c152a6ec053bc999",
+        "source_id": "docs:session-state",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/session-state.md",
+        "section": "Session State and Widget State association",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.01934426
+      },
+      {
+        "id": "docs:session_state:v2:591e0e3aca4fc910",
+        "source_id": "docs:session_state",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/session_state.md",
+        "section": "Caveats and limitations",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.0187912
+      },
+      {
+        "id": "docs:widget-behavior:v2:baed8384f45c1a16",
+        "source_id": "docs:widget-behavior",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+        "section": "Behavior details",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.0184375
+      }
+    ],
+    "steps": 10,
+    "model_calls": 7,
+    "max_calls": 8,
+    "repair_count": 1,
+    "judge": {
+      "verdict": "accept",
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "کاربر هنوز تایید داده خروجی selection پس از کلیک روی دکمه را نیاورده است.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "سوال به طور دقیق پرسیده شده و مرتبط با بررسی نقص گزارش شده است.",
+          "score": 2
+        },
+        "injection_resistance": {
+          "reason": "پرسش صرفا در مورد تایید یک مقدار خروجی است و شامل دستورالعمل خطرناک یا غیرمجاز نیست.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "پرسش برای تفکیک علت نقص و تصمیم گیری در مراحل بعدی کاملا مفید است.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "پرسش مستقیما متناسب با مشکل گزارش شده درباره پاک شدن انتخاب خالی در st.dataframe است.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "سوال مربوط به رفتاری کلی است که به نسخه Streamlit 1.63.0 اشاره شده و هیچ ادعای ناسازگار با نسخه های دیگر ندارد.",
+          "score": 2
+        }
+      },
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 2,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "findings": [],
+      "audit": {
+        "claim_links": [
+          {
+            "evidence_id": "issue:17026:v2:e97c7bda597602a6",
+            "reason": "این متن سوال دقیقاً پرسش درباره مقدار خروجی st.code(event.selection) پس از کلیک \"Select no row\" را مطرح می کند که به بررسی نقص مورد نظر کمک می کند.",
+            "statement": "آیا پس از کلیک روی دکمه \"Select no row\"، خروجی نمایش داده شده توسط st.code(event.selection) واقعا خالی است؟",
+            "supported": true
+          }
+        ],
+        "question_novelty": {
+          "already_supplied_quote": "",
+          "requested_detail": "تایید مقدار دقیق event.selection پس از کلیک روی دکمه \"Select no row\" در st.code",
+          "why_new": "این اطلاعات برای تفکیک علت نقص و تعیین گام بعدی در بررسی مشکل ضروری و هنوز ارائه نشده است."
+        },
+        "version_assumptions": "پرسش به یک رفتار کلی منطقی وابسته است و ادعایی خلاف سیاست های نسخه های Streamlit نشده؛ در نتیجه بدون فرضیه نسخه ای خاص پذیرفتنی است."
+      }
+    },
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "ok",
+        "keys": [
+          "browser",
+          "os",
+          "python_version",
+          "streamlit_version",
+          "symptom_scope"
+        ],
+        "facts_with_quotes": [
+          {
+            "key": "streamlit_version",
+            "quote": "- Streamlit version: 1.63.0",
+            "value": "1.63.0"
+          },
+          {
+            "key": "python_version",
+            "quote": "- Python version: 3.12",
+            "value": "3.12"
+          },
+          {
+            "key": "os",
+            "quote": "- Operating System: WSL Docker",
+            "value": "WSL Docker"
+          },
+          {
+            "key": "browser",
+            "quote": "- Browser: Edge",
+            "value": "Edge"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "Programmatically set selections fail for empty selection",
+            "value": "empty selection"
+          },
+          {
+            "key": "reproducible",
+            "quote": "3. Click on the button \"Select the first row\", it works as expected",
+            "value": "true"
+          }
+        ],
+        "checks": [],
+        "ambiguities": [
+          "I remember it worked in Streamlit version 1.57.0 but I am not sure, I may be mistaken.",
+          "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+        ]
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "bm25+dense+rrf+mmr",
+        "rrf_k": 60,
+        "mmr_lambda": 0.7,
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "quality": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true
+        },
+        "embedding": {
+          "texts": 1,
+          "unique_missing": 1,
+          "cache_hits": 0,
+          "batches": 1,
+          "usage": [
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "embedding",
+              "input_tokens": 34,
+              "output_tokens": 0,
+              "cost_usd": 7.48e-07,
+              "ledger_id": "5b2e8095ae53d782a110f9b2"
+            }
+          ],
+          "identity": {
+            "provider": "https://api.metisai.ir/openai/v1",
+            "model": "text-embedding-3-small",
+            "normalization": "whitespace-v1",
+            "encoding_format": "float"
+          }
+        },
+        "candidates": [
+          "docs:session-state:v2:c152a6ec053bc999",
+          "docs:session_state:v2:591e0e3aca4fc910",
+          "docs:widget-behavior:v2:baed8384f45c1a16",
+          "issue:17026:v2:bc8310223233b291",
+          "issue:17026:v2:e97c7bda597602a6",
+          "issue:12305:v2:11c163694eff1561",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:14280:v2:0707c756c69e65cb"
+        ],
+        "quality_filter": true,
+        "excluded_nontechnical_chunks": 309,
+        "version_warnings": [
+          "docs:session-state:v2:c152a6ec053bc999",
+          "docs:session_state:v2:591e0e3aca4fc910",
+          "docs:widget-behavior:v2:baed8384f45c1a16",
+          "issue:17026:v2:bc8310223233b291",
+          "issue:17026:v2:e97c7bda597602a6",
+          "issue:12305:v2:11c163694eff1561",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:14280:v2:0707c756c69e65cb"
+        ]
+      },
+      {
+        "stage": "rerank",
+        "status": "ok",
+        "ids": [
+          "issue:17026:v2:e97c7bda597602a6",
+          "issue:17026:v2:bc8310223233b291",
+          "docs:session-state:v2:c152a6ec053bc999",
+          "docs:session_state:v2:591e0e3aca4fc910",
+          "docs:widget-behavior:v2:baed8384f45c1a16",
+          "issue:12305:v2:11c163694eff1561",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:14280:v2:0707c756c69e65cb"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "ids": [
+          "issue:17026:v2:e97c7bda597602a6",
+          "issue:17026:v2:bc8310223233b291",
+          "docs:session-state:v2:c152a6ec053bc999",
+          "docs:session_state:v2:591e0e3aca4fc910",
+          "docs:widget-behavior:v2:baed8384f45c1a16"
+        ],
+        "utf8_bytes": 2638
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge",
+        "attempt": 1,
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "پرسش جدید درباره خروجی پس از کلیک روی دکمه \"Select no row\" است که در گزارش اولیه پرسیده نشده بود.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "کاربر بیان کرده است انتخاب برنامه‌ای خالی در جدول پاک نمی‌شود، پس پرسش درباره مقدار خروجی event.selection مرتبط و پشتیبانی شده است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "داده‌ها یا دستورالعمل مشکوک یا تزریقی در متن وجود ندارد.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "پرسی که درخواست شده کمک می‌کند نقص داخلی یا نمایشی بودن مشکل تفکیک شود، پرسش مفید است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پرسش دقیقاً درباره مشکل اصلی انتخاب برنامه‌ای خالی در st.dataframe است، مرتبط است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پرسش درباره نسخه خاصی نیست و می‌تواند در نسخه‌های مختلف اعمال شود، با توجه به نسخه 1.63.0 گزارش شده.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ قسمت مربوط به دستور event = st.dataframe(df, key=\"queue\", on_select=\"rerun\", selection_mode=\"single-row\") مستقیماً از کد نمونه برای پشتیبانی فرضیه استفاده شده است."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "issue:17026:v2:e97c7bda597602a6",
+              "reason": "قسمت مربوط به دستور event = st.dataframe(df, key=\"queue\", on_select=\"rerun\", selection_mode=\"single-row\") مستقیماً از کد نمونه برای پشتیبانی فرضیه استفاده شده است.",
+              "statement": "event = st.dataframe(df, key=\"queue\", on_select=\"rerun\", selection_mode=\"single-row\")",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "آیا پس از کلیک روی دکمه \"Select no row\"، خروجی نمایش داده شده توسط st.code(event.selection) واقعا خالی است؟",
+            "why_new": "این پرسش جزئیاتی از وضعیت خروجی در حین اجرای مشکل را درخواست می‌کند که گزارش اولیه آن را مشخص نکرده بود و به تفکیک نقص داخلی یا نمایشی کمک می‌کند."
+          },
+          "version_assumptions": "پرسش هیچ فرض نسخه خاصی در مورد ویژگی یا رفتار جدید ندارد و مشکل مربوط به نسخه 1.63.0 گزارش شده است. بنابراین فرض نسخه مناسب است."
+        },
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "repair",
+        "attempt": 1
+      },
+      {
+        "stage": "judge",
+        "attempt": 2,
+        "verdict": "accept",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "کاربر هنوز تایید داده خروجی selection پس از کلیک روی دکمه را نیاورده است.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "سوال به طور دقیق پرسیده شده و مرتبط با بررسی نقص گزارش شده است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "پرسش صرفا در مورد تایید یک مقدار خروجی است و شامل دستورالعمل خطرناک یا غیرمجاز نیست.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "پرسش برای تفکیک علت نقص و تصمیم گیری در مراحل بعدی کاملا مفید است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پرسش مستقیما متناسب با مشکل گزارش شده درباره پاک شدن انتخاب خالی در st.dataframe است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "سوال مربوط به رفتاری کلی است که به نسخه Streamlit 1.63.0 اشاره شده و هیچ ادعای ناسازگار با نسخه های دیگر ندارد.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "issue:17026:v2:e97c7bda597602a6",
+              "reason": "این متن سوال دقیقاً پرسش درباره مقدار خروجی st.code(event.selection) پس از کلیک \"Select no row\" را مطرح می کند که به بررسی نقص مورد نظر کمک می کند.",
+              "statement": "آیا پس از کلیک روی دکمه \"Select no row\"، خروجی نمایش داده شده توسط st.code(event.selection) واقعا خالی است؟",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "تایید مقدار دقیق event.selection پس از کلیک روی دکمه \"Select no row\" در st.code",
+            "why_new": "این اطلاعات برای تفکیک علت نقص و تعیین گام بعدی در بررسی مشکل ضروری و هنوز ارائه نشده است."
+          },
+          "version_assumptions": "پرسش به یک رفتار کلی منطقی وابسته است و ادعایی خلاف سیاست های نسخه های Streamlit نشده؛ در نتیجه بدون فرضیه نسخه ای خاص پذیرفتنی است."
+        },
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "bb63ee2b0096f3b30638ef64",
+        "hash": "42081c3f84874b63a0c65593b5ca52b1c92dffe183954f5c1ab6fe67cf16e7f5",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 7,
+      "cost_usd": 0.012265307999999999,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "extract",
+          "input_tokens": 1507,
+          "output_tokens": 502,
+          "cost_usd": 0.0015466,
+          "ledger_id": "a4445042ee3100b8e13d1be2"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "embedding",
+          "input_tokens": 34,
+          "output_tokens": 0,
+          "cost_usd": 7.48e-07,
+          "ledger_id": "5b2e8095ae53d782a110f9b2"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "input_tokens": 3671,
+          "output_tokens": 37,
+          "cost_usd": 0.00168036,
+          "ledger_id": "e08400ad212b4bb1298f4edd"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "input_tokens": 3390,
+          "output_tokens": 233,
+          "cost_usd": 0.0019016799999999998,
+          "ledger_id": "74afda75c959cb4a5d0e3e1a"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 3937,
+          "output_tokens": 473,
+          "cost_usd": 0.00256476,
+          "ledger_id": "823816819794708547231d78"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "repair",
+          "input_tokens": 3725,
+          "output_tokens": 240,
+          "cost_usd": 0.0020614,
+          "ledger_id": "4996ac3e70215391a9cc5ac5"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 3944,
+          "output_tokens": 440,
+          "cost_usd": 0.0025097599999999998,
+          "ledger_id": "8187db222702a1c1dcae6039"
+        }
+      ],
+      "charged_or_reserved_usd": 0.01226530799999992
+    },
+    "validation_error": null,
+    "latency_seconds": 31.179358
+  },
+  "failure": null,
+  "elapsed_seconds": 31.205480299977353,
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "extract",
+      "input_tokens": 1507,
+      "output_tokens": 502,
+      "cost_usd": 0.0015466,
+      "ledger_id": "a4445042ee3100b8e13d1be2"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "input_tokens": 34,
+      "output_tokens": 0,
+      "cost_usd": 7.48e-07,
+      "ledger_id": "5b2e8095ae53d782a110f9b2"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "input_tokens": 3671,
+      "output_tokens": 37,
+      "cost_usd": 0.00168036,
+      "ledger_id": "e08400ad212b4bb1298f4edd"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "input_tokens": 3390,
+      "output_tokens": 233,
+      "cost_usd": 0.0019016799999999998,
+      "ledger_id": "74afda75c959cb4a5d0e3e1a"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 3937,
+      "output_tokens": 473,
+      "cost_usd": 0.00256476,
+      "ledger_id": "823816819794708547231d78"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "repair",
+      "input_tokens": 3725,
+      "output_tokens": 240,
+      "cost_usd": 0.0020614,
+      "ledger_id": "4996ac3e70215391a9cc5ac5"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 3944,
+      "output_tokens": 440,
+      "cost_usd": 0.0025097599999999998,
+      "ledger_id": "8187db222702a1c1dcae6039"
+    }
+  ],
+  "pipeline_sha256": "513902d6688c9e7f5b4367cd000524333da9fbac1a7cfad1a99ca991e9621c9d",
+  "pipeline_path": "F:\\Quera AI\\Project\\streamlit-casepilot\\artifacts\\quality_v22\\baseline\\src\\casepilot\\pipeline.py"
+}

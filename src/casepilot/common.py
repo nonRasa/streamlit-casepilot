@@ -49,4 +49,4 @@ def facts_input(facts):
     for key,value in facts.items():
         require(value is None or isinstance(value,(str,bool)), 'invalid_facts','نوع واقعیت معتبر نیست.')
         if isinstance(value,str): require(len(value)<=500,'invalid_facts','مقدار واقعیت طولانی است.')
-    return {k:redact(v) if isinstance(v,str) else v for k,v in facts.items()}
+    return {k:(redact(v) if v.strip() and v.strip().casefold() not in ('_no response_','n/a','unknown','نامعلوم','نامشخص') else None) if isinstance(v,str) else v for k,v in facts.items()}

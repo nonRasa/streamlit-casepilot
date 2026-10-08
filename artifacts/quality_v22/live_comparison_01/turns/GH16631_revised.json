@@ -1,0 +1,508 @@
+{
+  "id": "GH16631",
+  "variant": "revised",
+  "split": "first_live_after_replay",
+  "output": {
+    "case_id": "GH16631",
+    "request_id": "live-v22-revised",
+    "architecture": "v2",
+    "quality_revision": "v2.2-quality",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": true,
+      "quality": true
+    },
+    "decision": "escalate",
+    "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nmalformed Content-Disposition header in st.download_button with double quote in filename\n```\n\nمحیط گزارش‌شده:\n\n```text\nstreamlit_version=None؛ python_version=None\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\nstreamlit_version, python_version, deployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_contract_error`.",
+    "summary": {
+      "problem": "st.download_button: a filename containing a double quote produces a malformed Content-Disposition header\n\n### Summary\n\nThe media endpoint that serves `st.download_button` files builds its `Content-Disposition` header by interpolating the download filename into a quoted string, `filename=\"{filename}\"`, whenever the name is latin-1 encodable. A double quote is latin-1 encodable, so any filename containing one closes the quoted parameter early and the rest of the name spills out as trailing tokens. The emitted header is not valid per RFC 6266, and the name the browser saves the file under is no longer the name the app set.\n\nThis needs nothing adversarial to hit. An ordinary filename like `5\" x 7\" print.jpg` (inch marks) is enough. The name reaches this sink from `st.download_button(file_name=...)`, and since 1.61.0 also from the filename inferred off an uploaded file when `file_name` is omitted.\n\nThe safe branch already exists in the same function: a name that is not latin-1 encodable takes `filename*=utf-8''{quote(filename)}`, which percent-encodes and cannot break out. The bug is only which branch a name reaches. Streamlit's own dependency, Starlette, makes the correct choice for the same header in `FileResponse` (`starlette/responses.py`), selecting the quoted form only when `quote(filename) == filename`.\n\n### Reproducible Code Example\n\nFully in-process against the real media route, no browser needed:\n\n```python\nfrom starlette.applications import Starlette\nfrom starlette.testclient import TestClient\nfrom streamlit.runtime.media_file_storage import MediaFileKind\nfrom streamlit.runtime.memory_media_file_storage import MemoryMediaFileStorage\nfrom streamlit.web.server.starlette.starlette_routes import create_media_routes\n\n# An ordinary filename: a 5 inch by 7 inch print. The inch marks are\n# double quotes, which are perfectly valid in a filename.\nfilename = '5\" x 7\" print.jpg'\n\nstorage = MemoryMediaFileStorage(\"/media\")\nfile_id = storage.load_and_get_id(\n    b\"jpeg-bytes\", \"image/jpeg\", MediaFileKind.DOWNLOADABLE, filename\n)\nclient = TestClient(Starlette(routes=create_media_routes(storage, \"\")))\nresponse = client.get(storage.get_url(file_id))\nprint(response.headers[\"content-disposition\"])\n```\n\nThe same header is produced end to end from an app, without touching internals:\n\n```python\nimport streamlit as st\n\nuploaded = st.file_uploader(\"upload\")\nif uploaded:\n    # The inch marks in the file_name break the emitted header.\n    st.download_button(\"download\", data=u",
+      "facts": {
+        "streamlit_version": null,
+        "python_version": null
+      },
+      "unknowns": [
+        "streamlit_version",
+        "python_version",
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [],
+      "sources": [],
+      "decision": "escalate",
+      "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+      "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.",
+      "hypotheses": [],
+      "ambiguities": [
+        "ابهام: بیش از یک مقدار صریح برای streamlit_version وجود دارد.",
+        "ابهام: بیش از یک مقدار صریح برای python_version وجود دارد."
+      ],
+      "judge": null,
+      "investigation_plan": {
+        "acceptance_condition": "نام فایل شامل علامت دابل کوتیشن یا سایر کاراکترهای ناامن در رشته نقل‌قول‌شده در هدر Content-Disposition، باعث تولید هدر معتبر و صحیح مطابق RFC 6266 شود.",
+        "intent": "bug",
+        "known_report_spans": [
+          "The safe branch already exists in the same function: a name that is not latin-1 encodable takes `filename*=utf-8''{quote(filename)}`, which percent-encodes and cannot break out. The bug is only which branch a name reaches. Streamlit's own dependency, Starlette, makes the correct choice for the same ",
+          "### Expected Behavior",
+          "A filename with characters that are not safe unescaped inside a quoted string (a double quote, a semicolon, a space) should still be carried faithfully in a valid header, using the RFC 5987 `filename*=` form, exactly as the non-latin-1 branch already does and as Starlette's `FileResponse` does:",
+          "- Streamlit version: 1.61.1 (present since 1.60.0; also on current `develop`)"
+        ],
+        "missing_detail": "مشاهده نتیجه آزمایش تولید هدر Content-Disposition اصلاح‌شده بعد از اعمال تغییر پیشنهاد شده در محیط واقعی یا تست شده با Starlette تست کلاینت.",
+        "new_condition": "اجرای کدی که هدر Content-Disposition را بعد از تغییر شرط انتخاب شاخه بر اساس quote(filename) == filename تولید کند و بررسی صحت فرمت آن هدر.",
+        "problem_summary": "malformed Content-Disposition header in st.download_button with double quote in filename",
+        "suggested_question": "آیا می‌توانید نتیجه اجرای کد با اصلاح شرط انتخاب شاخه در تولید هدر Content-Disposition را ارائه دهید؟"
+      },
+      "experiments": [],
+      "memory_version": 2,
+      "handoff": {
+        "request_type": "bug",
+        "reported_problem": "malformed Content-Disposition header in st.download_button with double quote in filename",
+        "environment": {
+          "streamlit_version": null,
+          "python_version": null
+        },
+        "experiments": [],
+        "evidence": [],
+        "unknowns": [
+          "streamlit_version",
+          "python_version",
+          "deployment",
+          "reproducible"
+        ],
+        "limitations": [
+          "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+          "محدودیت: کد توقف `judge_contract_error`."
+        ],
+        "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+        "feature": {}
+      },
+      "review_failures": [
+        {
+          "kind": "judge_contract",
+          "code": "judge_contract_error",
+          "draft_version": "fb4c35bfed57bff38c6a732c934068f70c4748fc7d5e80cda8cb9d3909f8f2b1"
+        }
+      ]
+    },
+    "proposal": {
+      "id": "6d35066dd713d1ce8a5395f0",
+      "case_id": "GH16631",
+      "revision": 1,
+      "hash": "2a4ea14d0dbdc1c4a670a0d4c327f90b4f147cc851bf69311ece3f2fb7862f43",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nmalformed Content-Disposition header in st.download_button with double quote in filename\n```\n\nمحیط گزارش‌شده:\n\n```text\nstreamlit_version=None؛ python_version=None\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\nstreamlit_version, python_version, deployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_contract_error`."
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "problem": "st.download_button: a filename containing a double quote produces a malformed Content-Disposition header\n\n### Summary\n\nThe media endpoint that serves `st.download_button` files builds its `Content-Disposition` header by interpolating the download filename into a quoted string, `filename=\"{filename}\"`, whenever the name is latin-1 encodable. A double quote is latin-1 encodable, so any filename containing one closes the quoted parameter early and the rest of the name spills out as trailing tokens. The emitted header is not valid per RFC 6266, and the name the browser saves the file under is no longer the name the app set.\n\nThis needs nothing adversarial to hit. An ordinary filename like `5\" x 7\" print.jpg` (inch marks) is enough. The name reaches this sink from `st.download_button(file_name=...)`, and since 1.61.0 also from the filename inferred off an uploaded file when `file_name` is omitted.\n\nThe safe branch already exists in the same function: a name that is not latin-1 encodable takes `filename*=utf-8''{quote(filename)}`, which percent-encodes and cannot break out. The bug is only which branch a name reaches. Streamlit's own dependency, Starlette, makes the correct choice for the same header in `FileResponse` (`starlette/responses.py`), selecting the quoted form only when `quote(filename) == filename`.\n\n### Reproducible Code Example\n\nFully in-process against the real media route, no browser needed:\n\n```python\nfrom starlette.applications import Starlette\nfrom starlette.testclient import TestClient\nfrom streamlit.runtime.media_file_storage import MediaFileKind\nfrom streamlit.runtime.memory_media_file_storage import MemoryMediaFileStorage\nfrom streamlit.web.server.starlette.starlette_routes import create_media_routes\n\n# An ordinary filename: a 5 inch by 7 inch print. The inch marks are\n# double quotes, which are perfectly valid in a filename.\nfilename = '5\" x 7\" print.jpg'\n\nstorage = MemoryMediaFileStorage(\"/media\")\nfile_id = storage.load_and_get_id(\n    b\"jpeg-bytes\", \"image/jpeg\", MediaFileKind.DOWNLOADABLE, filename\n)\nclient = TestClient(Starlette(routes=create_media_routes(storage, \"\")))\nresponse = client.get(storage.get_url(file_id))\nprint(response.headers[\"content-disposition\"])\n```\n\nThe same header is produced end to end from an app, without touching internals:\n\n```python\nimport streamlit as st\n\nuploaded = st.file_uploader(\"upload\")\nif uploaded:\n    # The inch marks in the file_name break the emitted header.\n    st.download_button(\"download\", data=u",
+          "facts": {
+            "streamlit_version": null,
+            "python_version": null
+          },
+          "unknowns": [
+            "streamlit_version",
+            "python_version",
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [],
+          "sources": [],
+          "decision": "escalate",
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.",
+          "hypotheses": [],
+          "ambiguities": [
+            "ابهام: بیش از یک مقدار صریح برای streamlit_version وجود دارد.",
+            "ابهام: بیش از یک مقدار صریح برای python_version وجود دارد."
+          ],
+          "judge": null,
+          "investigation_plan": {
+            "acceptance_condition": "نام فایل شامل علامت دابل کوتیشن یا سایر کاراکترهای ناامن در رشته نقل‌قول‌شده در هدر Content-Disposition، باعث تولید هدر معتبر و صحیح مطابق RFC 6266 شود.",
+            "intent": "bug",
+            "known_report_spans": [
+              "The safe branch already exists in the same function: a name that is not latin-1 encodable takes `filename*=utf-8''{quote(filename)}`, which percent-encodes and cannot break out. The bug is only which branch a name reaches. Streamlit's own dependency, Starlette, makes the correct choice for the same ",
+              "### Expected Behavior",
+              "A filename with characters that are not safe unescaped inside a quoted string (a double quote, a semicolon, a space) should still be carried faithfully in a valid header, using the RFC 5987 `filename*=` form, exactly as the non-latin-1 branch already does and as Starlette's `FileResponse` does:",
+              "- Streamlit version: 1.61.1 (present since 1.60.0; also on current `develop`)"
+            ],
+            "missing_detail": "مشاهده نتیجه آزمایش تولید هدر Content-Disposition اصلاح‌شده بعد از اعمال تغییر پیشنهاد شده در محیط واقعی یا تست شده با Starlette تست کلاینت.",
+            "new_condition": "اجرای کدی که هدر Content-Disposition را بعد از تغییر شرط انتخاب شاخه بر اساس quote(filename) == filename تولید کند و بررسی صحت فرمت آن هدر.",
+            "problem_summary": "malformed Content-Disposition header in st.download_button with double quote in filename",
+            "suggested_question": "آیا می‌توانید نتیجه اجرای کد با اصلاح شرط انتخاب شاخه در تولید هدر Content-Disposition را ارائه دهید؟"
+          },
+          "experiments": [],
+          "memory_version": 2,
+          "handoff": {
+            "request_type": "bug",
+            "reported_problem": "malformed Content-Disposition header in st.download_button with double quote in filename",
+            "environment": {
+              "streamlit_version": null,
+              "python_version": null
+            },
+            "experiments": [],
+            "evidence": [],
+            "unknowns": [
+              "streamlit_version",
+              "python_version",
+              "deployment",
+              "reproducible"
+            ],
+            "limitations": [
+              "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+              "محدودیت: کد توقف `judge_contract_error`."
+            ],
+            "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+            "feature": {}
+          },
+          "review_failures": [
+            {
+              "kind": "judge_contract",
+              "code": "judge_contract_error",
+              "draft_version": "fb4c35bfed57bff38c6a732c934068f70c4748fc7d5e80cda8cb9d3909f8f2b1"
+            }
+          ]
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "docs:architecture:v2:5dae00178469eb99",
+        "source_id": "docs:architecture",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/architecture.md",
+        "section": "Session affinity or stickiness",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.02231092
+      },
+      {
+        "id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+        "source_id": "docs:where-file-uploader-store-when-deleted",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md",
+        "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.01815385
+      },
+      {
+        "id": "api:file_uploader:v2:26f5eb70aec7e236",
+        "source_id": "api:file_uploader",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/elements/widgets/file_uploader.py",
+        "section": "file_uploader (line 252)",
+        "product_version": "1.49.0",
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.01873488
+      },
+      {
+        "id": "issue:11396:v2:4eba8133750794ae",
+        "source_id": "issue:11396",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/11396",
+        "section": "Reproducible Code Example",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "retrieval_score": 0.02628968
+      },
+      {
+        "id": "issue:897:v2:c5e6530ad8925522",
+        "source_id": "issue:897",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/897",
+        "section": "Summary",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "retrieval_score": 0.02442002
+      }
+    ],
+    "steps": 9,
+    "model_calls": 5,
+    "max_calls": 8,
+    "repair_count": 0,
+    "judge": null,
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "fallback",
+        "error": "invalid_extraction"
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "bm25+dense+rrf+mmr",
+        "rrf_k": 60,
+        "mmr_lambda": 0.7,
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "quality": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true
+        },
+        "embedding": {
+          "texts": 1,
+          "unique_missing": 1,
+          "cache_hits": 0,
+          "batches": 1,
+          "usage": [
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "embedding",
+              "input_tokens": 291,
+              "output_tokens": 0,
+              "cost_usd": 6.401999999999999e-06,
+              "ledger_id": "f7ad32b8fd466473142a729b"
+            }
+          ],
+          "identity": {
+            "provider": "https://api.metisai.ir/openai/v1",
+            "model": "text-embedding-3-small",
+            "normalization": "whitespace-v1",
+            "encoding_format": "float"
+          }
+        },
+        "candidates": [
+          "docs:architecture:v2:5dae00178469eb99",
+          "api:file_uploader:v2:26f5eb70aec7e236",
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "issue:14827:v2:24bae8ae738d2631",
+          "issue:13409:v2:5af4357af270b421",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:14827:v2:784ac651ae5442f0",
+          "issue:897:v2:c5e6530ad8925522"
+        ],
+        "quality_filter": true,
+        "excluded_chunks": 2084,
+        "as_of": null,
+        "temporal_policy": "current_snapshot",
+        "version_warnings": [
+          "docs:architecture:v2:5dae00178469eb99",
+          "api:file_uploader:v2:26f5eb70aec7e236",
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "issue:14827:v2:24bae8ae738d2631",
+          "issue:13409:v2:5af4357af270b421",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:14827:v2:784ac651ae5442f0",
+          "issue:897:v2:c5e6530ad8925522"
+        ]
+      },
+      {
+        "stage": "rerank",
+        "status": "ok",
+        "ids": [
+          "docs:architecture:v2:5dae00178469eb99",
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "api:file_uploader:v2:26f5eb70aec7e236",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:897:v2:c5e6530ad8925522",
+          "issue:13409:v2:5af4357af270b421",
+          "issue:14827:v2:784ac651ae5442f0",
+          "issue:14827:v2:24bae8ae738d2631"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "ids": [
+          "docs:architecture:v2:5dae00178469eb99",
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "api:file_uploader:v2:26f5eb70aec7e236",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:897:v2:c5e6530ad8925522"
+        ],
+        "utf8_bytes": 6327
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge_contract_failure",
+        "kind": "judge_contract",
+        "code": "judge_contract_error",
+        "draft_version": "fb4c35bfed57bff38c6a732c934068f70c4748fc7d5e80cda8cb9d3909f8f2b1"
+      },
+      {
+        "stage": "safe_escalation",
+        "error": "judge_contract_error"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "6d35066dd713d1ce8a5395f0",
+        "hash": "2a4ea14d0dbdc1c4a670a0d4c327f90b4f147cc851bf69311ece3f2fb7862f43",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 5,
+      "cost_usd": 0.012777402,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "extract",
+          "input_tokens": 2632,
+          "output_tokens": 652,
+          "cost_usd": 0.0023056,
+          "ledger_id": "89c0061d73e83870d603c72b"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "embedding",
+          "input_tokens": 291,
+          "output_tokens": 0,
+          "cost_usd": 6.401999999999999e-06,
+          "ledger_id": "f7ad32b8fd466473142a729b"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "input_tokens": 5516,
+          "output_tokens": 137,
+          "cost_usd": 0.0026681599999999997,
+          "ledger_id": "4de3beff26695c33fe2bee07"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "input_tokens": 5721,
+          "output_tokens": 632,
+          "cost_usd": 0.0036295600000000004,
+          "ledger_id": "71fdc2b6ba096b314bce3c14"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 6760,
+          "output_tokens": 678,
+          "cost_usd": 0.00416768,
+          "ledger_id": "b9285a7bf91ae22f7ae21118"
+        }
+      ],
+      "charged_or_reserved_usd": 0.012777401999999993
+    },
+    "validation_error": "judge_contract_error",
+    "review_failures": [
+      {
+        "kind": "judge_contract",
+        "code": "judge_contract_error",
+        "draft_version": "fb4c35bfed57bff38c6a732c934068f70c4748fc7d5e80cda8cb9d3909f8f2b1"
+      }
+    ],
+    "reviewed_draft": {
+      "draft_version": "fb4c35bfed57bff38c6a732c934068f70c4748fc7d5e80cda8cb9d3909f8f2b1",
+      "case_id": "GH16631",
+      "case_revision": 1,
+      "generation": 0,
+      "units": [
+        {
+          "unit_id": "u_ef35e1f17957552dc6b0ca98",
+          "field": "question",
+          "text": "آیا می‌توانید نتیجه اجرای کدی که شرط انتخاب شاخه برای تولید هدر Content-Disposition را بر اساس مقایسه quote(filename) با filename اصلاح کرده است، ارائه نمایید؟ این به تشخیص اینکه آیا هدر به درستی ساخته می‌شود کمک خواهد کرد.",
+          "start": 0,
+          "end": 223
+        },
+        {
+          "unit_id": "u_aefe8384cec8b438803cd45f",
+          "field": "next_step",
+          "text": "لطفاً نتیجه اجرای کدی که پس از اعمال اصلاح شرط انتخاب شاخه در تولید هدر Content-Disposition اجرا می‌شود را ارائه دهید تا صحت و درستی هدر تایید شود.",
+          "start": 0,
+          "end": 147
+        },
+        {
+          "unit_id": "u_e1c32d6f0b9c169b89985ddb",
+          "field": "rationale",
+          "text": "مشکل گزارش شده مربوط به هدر Content-Disposition تولید شده در `st.download_button` است که شامل نام فایل حاوی دابل کوتیشن است و باعث تولید هدر نامعتبر می‌شود. راه‌حل پیشنهادی اصلاح شرط انتخاب شاخه تولید هدر برای استفاده از شرط quote(filename) == filename است که Starlette نیز این روش را دارد. برای تایید این اصلاح نیازمند اجرای کدی هستیم که این شرط را اعمال کرده و نتیجه هدر را بررسی کند.",
+          "start": 0,
+          "end": 386
+        }
+      ]
+    },
+    "latency_seconds": 43.846397
+  },
+  "failure": null,
+  "elapsed_seconds": 43.884149000019534,
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "extract",
+      "input_tokens": 2632,
+      "output_tokens": 652,
+      "cost_usd": 0.0023056,
+      "ledger_id": "89c0061d73e83870d603c72b"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "input_tokens": 291,
+      "output_tokens": 0,
+      "cost_usd": 6.401999999999999e-06,
+      "ledger_id": "f7ad32b8fd466473142a729b"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "input_tokens": 5516,
+      "output_tokens": 137,
+      "cost_usd": 0.0026681599999999997,
+      "ledger_id": "4de3beff26695c33fe2bee07"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "input_tokens": 5721,
+      "output_tokens": 632,
+      "cost_usd": 0.0036295600000000004,
+      "ledger_id": "71fdc2b6ba096b314bce3c14"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 6760,
+      "output_tokens": 678,
+      "cost_usd": 0.00416768,
+      "ledger_id": "b9285a7bf91ae22f7ae21118"
+    }
+  ],
+  "pipeline_sha256": "74e3565717fbc2869493f2ac06869bc720af340896ac68302df71981ef2a97a8",
+  "pipeline_path": "F:\\Quera AI\\Project\\streamlit-casepilot\\src\\casepilot\\pipeline.py"
+}

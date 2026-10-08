@@ -8,11 +8,19 @@ from .model import make_client
 from .grounding import validate_answer, fallback, render_response
 
 def version_observations(message):
+    from .evidence import VERSION
+    plain=re.sub(r'```.*?```',' ',message,flags=re.S).replace('`','').replace('**','')
     patterns={
-        'streamlit_version':r'(?i)(?:streamlit(?:\s+version)?\s*[:|=]?\s*`?|streamlit==)(\d+\.\d+(?:\.\d+)?)',
-        'python_version':r'(?i)python(?:\s+version)?\s*[:|=]?\s*`?(\d+\.\d+(?:\.\d+)?)',
+        'streamlit_version':r'(?i)(?:streamlit(?:-nightly)?(?:\s+version)?\s*[:|=]?\s*`?|streamlit==)('+VERSION+r')(?![\w.+-])',
+        'python_version':r'(?i)python(?:\s+version)?\s*[:|=]?\s*`?('+VERSION+r')(?![\w.+-])',
     }
-    return {key:set(re.findall(pat,message)) for key,pat in patterns.items()}
+    values={}
+    for key,pat in patterns.items():
+        name='streamlit' if key=='streamlit_version' else 'python'
+        labeled_lines=re.findall(r'(?im)^\s*(?:[-*]\s*)?'+name+r'\s+version\s*[:|=]\s*([^\n]*)',plain)
+        labeled={v for line in labeled_lines for v in re.findall(r'('+VERSION+r')(?![\w.+-])',line)}
+        values[key]=labeled if labeled else set(re.findall(pat,plain))
+    return values
 
 def extract_facts(message):
     return {key:next(iter(values)) for key,values in version_observations(message).items() if len(values)==1}
@@ -41,7 +49,11 @@ class Agent:
             if prior: return dict(prior,request_replayed=True)
             if self.architecture=='v2' and method=='final':
                 from .pipeline import run
-                return run(self,case_id,message,request_id,facts,checks,h,self.components)
+                self.store.begin_turn(case_id,request_id,h,{'message':message,'facts':facts,'checks':checks,'method':method})
+                try: return run(self,case_id,message,request_id,facts,checks,h,self.components)
+                except BaseException as exc:
+                    self.store.interrupted_turn(case_id,request_id,getattr(exc,'code',type(exc).__name__))
+                    raise
             start=time.perf_counter(); combined=extract_facts(message); combined.update(facts)
             state=self.store.update(case_id,message,combined,checks,request_id=request_id,input_hash=h)
             self.store.event(case_id,'tool_result',{'tool':'read_case','revision':state['revision']})
@@ -80,3 +92,7 @@ class Agent:
             self.store.save_turn(case_id,request_id,h,result)
             self.store.event(case_id,'turn_completed',{k:v for k,v in result.items() if k not in ('response','summary','proposal')})
             return result
+
+    def resume(self,case_id,request_id):
+        job=self.store.pending_turn(case_id,request_id)
+        return self.turn(case_id,request_id=request_id,**job['input'])

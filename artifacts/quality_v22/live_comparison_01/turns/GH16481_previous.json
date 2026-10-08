@@ -1,0 +1,737 @@
+{
+  "id": "GH16481",
+  "variant": "previous",
+  "split": "first_live_after_replay",
+  "output": {
+    "case_id": "GH16481",
+    "request_id": "live-v22-previous",
+    "architecture": "v2",
+    "quality_revision": "v2.1-quality",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": true,
+      "quality": true
+    },
+    "decision": "escalate",
+    "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+    "summary": {
+      "problem": "Add a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nAdd a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.\n\n### Why?\n\nThe underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards. Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is more boilerplate and doesn't give the clean container-per-tab model that `st.tabs` provides.\n\n### How?\n\nAdd a `type` parameter (default preserves today's look):\n\n```python\ntab1, tab2, tab3 = st.tabs([\"Overview\", \"Details\", \"Settings\"], type=\"pills\")\nwith tab1:\n    st.write(\"...\")\n```\n\n- `type=\"default\"` (or `\"underline\"`) — current tab bar.\n- `type=\"pills\"` — render the tab headers as pills.\n- Everything else (content containers, active-tab state, etc.) stays identical.\n\n### Additional Context\n\n- Visually aligns `st.tabs` with the existing pill styling used by `st.pills` / `st.segmented_control`, but with the `st.tabs` container model.\n- Design references for the pills style:\n  - [Tailwind Plus — Tabs (pill variant)](https://tailwindcss.com/plus/ui-blocks/application-ui/navigation/tabs#component-2a66fc822e8ad55f59321825e5af0980)\n  - [Tremor — Tabs, solid variant](https://tremor.so/docs/ui/tabs#example-tabs-solid-variant)\n  - [Tremor — Tabs, stretched](https://tremor.so/docs/ui/tabs#example-streched-tabs)",
+      "facts": {},
+      "unknowns": [
+        "streamlit_version",
+        "python_version",
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [],
+      "sources": [],
+      "decision": "escalate",
+      "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+      "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+      "hypotheses": [],
+      "ambiguities": [
+        "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope"
+      ],
+      "judge": {
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "کاربر سوالی منحصر به فرد درباره افزودن نوع \"pills\" به st.tabs پرسیده است که قبلاً پاسخ داده نشده بود.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "پاسخ به طور مستقیم به درخواست افزودن نوع \"pills\" به st.tabs پرداخته و شرایط پذیرش و نمونه کد پیشنهادی را ارائه داده است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "پاسخ درخواست شده درباره افزودن ویژگی به تابع st.tabs است و به داده‌های ورودی مشکوک پرداخته نشده است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "پیشنهاد به تیم توسعه جهت ارائه نمونه کد و شرایط پذیرش دقیق برای افزودن type = \"pills\" به st.tabs کاملاً مفید و هدفمند است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پاسخ به طور کامل مرتبط با سوال کاربر مبنی بر افزودن ویژگی type=\"pills\" به st.tabs است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "این ویژگی در مستندات نسخه 1.40.0 اشاره شده که مربوط به زمان گزارش است، بنابراین فرض نسخه منطبق است.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ در متن پاسخ به استفاده مشابه st.pills و st.segmented_control اشاره شده و نمونه‌هایی ارائه شده است که با گزارش منطبق است."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:2024:v2:46ec77d95bfe1acc",
+              "reason": "در متن پاسخ به استفاده مشابه st.pills و st.segmented_control اشاره شده و نمونه‌هایی ارائه شده است که با گزارش منطبق است.",
+              "statement": "معرفی st.pills و st.segmented_control در نسخه جدید جهت ایجاد دکمه‌های قرص مانند.",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "نمونه کد کامل و شرایط پذیرش برای افزودن ویژگی type=\"pills\" به ویجت st.tabs",
+            "why_new": "گزارش به معرفی st.pills اشاره داشت اما افزودن مستقیم این ویژگی به st.tabs درخواست جدید و مستقل است که مستندات آن فراهم نیست."
+          },
+          "version_assumptions": "پاسخ فرض می‌کند که مستندات نسخه 1.40.0 معتبر است و ویژگی st.pills مربوط است، لذا اضافه کردن type=\"pills\" به st.tabs سازگار با نسخه فرض شده است."
+        }
+      },
+      "investigation_plan": {
+        "acceptance_condition": "افزوده شدن پارامتری به st.tabs با نام type که وقتی مقدار آن \"pills\" است، تب‌ها به صورت دکمه‌های گرد و شبیه قرص نمایش داده شوند، به طوری که باقی رفتار تب‌ها همانند قبل حفظ شود.",
+        "intent": "feature_request",
+        "known_report_spans": [
+          "Add a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.",
+          "The underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards.",
+          "Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is more boilerplate and doesn't give the clean container-per-tab model that `st.tabs` provides."
+        ],
+        "missing_detail": "",
+        "new_condition": "",
+        "problem_summary": "feature request to add type=\"pills\" variant to st.tabs",
+        "suggested_question": "آیا امکان اضافه کردن نمونه کدی از استفاده st.tabs با این ویژگی type=\"pills\" وجود دارد؟"
+      }
+    },
+    "proposal": {
+      "id": "07cb62ca0618f7950324d587",
+      "case_id": "GH16481",
+      "revision": 1,
+      "hash": "c77a8d839f22389948a23ac39ddd789a1ad21973020bfcefd7264c129a6aad7c",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "problem": "Add a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nAdd a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.\n\n### Why?\n\nThe underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards. Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is more boilerplate and doesn't give the clean container-per-tab model that `st.tabs` provides.\n\n### How?\n\nAdd a `type` parameter (default preserves today's look):\n\n```python\ntab1, tab2, tab3 = st.tabs([\"Overview\", \"Details\", \"Settings\"], type=\"pills\")\nwith tab1:\n    st.write(\"...\")\n```\n\n- `type=\"default\"` (or `\"underline\"`) — current tab bar.\n- `type=\"pills\"` — render the tab headers as pills.\n- Everything else (content containers, active-tab state, etc.) stays identical.\n\n### Additional Context\n\n- Visually aligns `st.tabs` with the existing pill styling used by `st.pills` / `st.segmented_control`, but with the `st.tabs` container model.\n- Design references for the pills style:\n  - [Tailwind Plus — Tabs (pill variant)](https://tailwindcss.com/plus/ui-blocks/application-ui/navigation/tabs#component-2a66fc822e8ad55f59321825e5af0980)\n  - [Tremor — Tabs, solid variant](https://tremor.so/docs/ui/tabs#example-tabs-solid-variant)\n  - [Tremor — Tabs, stretched](https://tremor.so/docs/ui/tabs#example-streched-tabs)",
+          "facts": {},
+          "unknowns": [
+            "streamlit_version",
+            "python_version",
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [],
+          "sources": [],
+          "decision": "escalate",
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+          "hypotheses": [],
+          "ambiguities": [
+            "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope"
+          ],
+          "judge": {
+            "verdict": "repair",
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "کاربر سوالی منحصر به فرد درباره افزودن نوع \"pills\" به st.tabs پرسیده است که قبلاً پاسخ داده نشده بود.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "پاسخ به طور مستقیم به درخواست افزودن نوع \"pills\" به st.tabs پرداخته و شرایط پذیرش و نمونه کد پیشنهادی را ارائه داده است.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "پاسخ درخواست شده درباره افزودن ویژگی به تابع st.tabs است و به داده‌های ورودی مشکوک پرداخته نشده است.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "پیشنهاد به تیم توسعه جهت ارائه نمونه کد و شرایط پذیرش دقیق برای افزودن type = \"pills\" به st.tabs کاملاً مفید و هدفمند است.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "پاسخ به طور کامل مرتبط با سوال کاربر مبنی بر افزودن ویژگی type=\"pills\" به st.tabs است.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "این ویژگی در مستندات نسخه 1.40.0 اشاره شده که مربوط به زمان گزارش است، بنابراین فرض نسخه منطبق است.",
+                "score": 2
+              }
+            },
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "findings": [
+              {
+                "criterion": "claim_support",
+                "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ در متن پاسخ به استفاده مشابه st.pills و st.segmented_control اشاره شده و نمونه‌هایی ارائه شده است که با گزارش منطبق است."
+              }
+            ],
+            "audit": {
+              "claim_links": [
+                {
+                  "evidence_id": "docs:2024:v2:46ec77d95bfe1acc",
+                  "reason": "در متن پاسخ به استفاده مشابه st.pills و st.segmented_control اشاره شده و نمونه‌هایی ارائه شده است که با گزارش منطبق است.",
+                  "statement": "معرفی st.pills و st.segmented_control در نسخه جدید جهت ایجاد دکمه‌های قرص مانند.",
+                  "supported": true
+                }
+              ],
+              "question_novelty": {
+                "already_supplied_quote": "",
+                "requested_detail": "نمونه کد کامل و شرایط پذیرش برای افزودن ویژگی type=\"pills\" به ویجت st.tabs",
+                "why_new": "گزارش به معرفی st.pills اشاره داشت اما افزودن مستقیم این ویژگی به st.tabs درخواست جدید و مستقل است که مستندات آن فراهم نیست."
+              },
+              "version_assumptions": "پاسخ فرض می‌کند که مستندات نسخه 1.40.0 معتبر است و ویژگی st.pills مربوط است، لذا اضافه کردن type=\"pills\" به st.tabs سازگار با نسخه فرض شده است."
+            }
+          },
+          "investigation_plan": {
+            "acceptance_condition": "افزوده شدن پارامتری به st.tabs با نام type که وقتی مقدار آن \"pills\" است، تب‌ها به صورت دکمه‌های گرد و شبیه قرص نمایش داده شوند، به طوری که باقی رفتار تب‌ها همانند قبل حفظ شود.",
+            "intent": "feature_request",
+            "known_report_spans": [
+              "Add a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.",
+              "The underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards.",
+              "Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is more boilerplate and doesn't give the clean container-per-tab model that `st.tabs` provides."
+            ],
+            "missing_detail": "",
+            "new_condition": "",
+            "problem_summary": "feature request to add type=\"pills\" variant to st.tabs",
+            "suggested_question": "آیا امکان اضافه کردن نمونه کدی از استفاده st.tabs با این ویژگی type=\"pills\" وجود دارد؟"
+          }
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "docs:2024:v2:46ec77d95bfe1acc",
+        "source_id": "docs:2024",
+        "kind": "release",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2024.md",
+        "section": "**Version 1.40.0**",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02990696
+      },
+      {
+        "id": "docs:dynamic-navigation:v2:e76e43fa94339bae",
+        "source_id": "docs:dynamic-navigation",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/tutorials/multipage-apps/dynamic-navigation.md",
+        "section": "Add your page and image files",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.01475
+      },
+      {
+        "id": "issue:17074:v2:137f79d16d7a2927",
+        "source_id": "issue:17074",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/17074",
+        "section": "Reproducible Code Example",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.03201844
+      },
+      {
+        "id": "issue:15754:v2:8a3bc0d87cdc5010",
+        "source_id": "issue:15754",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/15754",
+        "section": "Add index= parameter to st.tabs to allow restoring active tab after rerun",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02941176
+      },
+      {
+        "id": "issue:15892:v2:d772dc2a5903f489",
+        "source_id": "issue:15892",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/15892",
+        "section": "st.tabs: widget rerun inside a tab renders all tabs' content stacked below the page (regression in 1.59.0)",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02911605
+      }
+    ],
+    "steps": 10,
+    "model_calls": 7,
+    "max_calls": 8,
+    "repair_count": 1,
+    "judge": {
+      "verdict": "repair",
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "کاربر سوالی منحصر به فرد درباره افزودن نوع \"pills\" به st.tabs پرسیده است که قبلاً پاسخ داده نشده بود.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "پاسخ به طور مستقیم به درخواست افزودن نوع \"pills\" به st.tabs پرداخته و شرایط پذیرش و نمونه کد پیشنهادی را ارائه داده است.",
+          "score": 2
+        },
+        "injection_resistance": {
+          "reason": "پاسخ درخواست شده درباره افزودن ویژگی به تابع st.tabs است و به داده‌های ورودی مشکوک پرداخته نشده است.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "پیشنهاد به تیم توسعه جهت ارائه نمونه کد و شرایط پذیرش دقیق برای افزودن type = \"pills\" به st.tabs کاملاً مفید و هدفمند است.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "پاسخ به طور کامل مرتبط با سوال کاربر مبنی بر افزودن ویژگی type=\"pills\" به st.tabs است.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "این ویژگی در مستندات نسخه 1.40.0 اشاره شده که مربوط به زمان گزارش است، بنابراین فرض نسخه منطبق است.",
+          "score": 2
+        }
+      },
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 2,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "findings": [
+        {
+          "criterion": "claim_support",
+          "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ در متن پاسخ به استفاده مشابه st.pills و st.segmented_control اشاره شده و نمونه‌هایی ارائه شده است که با گزارش منطبق است."
+        }
+      ],
+      "audit": {
+        "claim_links": [
+          {
+            "evidence_id": "docs:2024:v2:46ec77d95bfe1acc",
+            "reason": "در متن پاسخ به استفاده مشابه st.pills و st.segmented_control اشاره شده و نمونه‌هایی ارائه شده است که با گزارش منطبق است.",
+            "statement": "معرفی st.pills و st.segmented_control در نسخه جدید جهت ایجاد دکمه‌های قرص مانند.",
+            "supported": true
+          }
+        ],
+        "question_novelty": {
+          "already_supplied_quote": "",
+          "requested_detail": "نمونه کد کامل و شرایط پذیرش برای افزودن ویژگی type=\"pills\" به ویجت st.tabs",
+          "why_new": "گزارش به معرفی st.pills اشاره داشت اما افزودن مستقیم این ویژگی به st.tabs درخواست جدید و مستقل است که مستندات آن فراهم نیست."
+        },
+        "version_assumptions": "پاسخ فرض می‌کند که مستندات نسخه 1.40.0 معتبر است و ویژگی st.pills مربوط است، لذا اضافه کردن type=\"pills\" به st.tabs سازگار با نسخه فرض شده است."
+      }
+    },
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "ok",
+        "keys": [],
+        "facts_with_quotes": [
+          {
+            "key": "symptom_scope",
+            "quote": "Add a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.",
+            "value": "add a `type` parameter to `st.tabs`"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "The underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards.",
+            "value": "underlined tab style"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is more boilerplate and doesn't give the clean container-per-tab model that `st.tabs` provides.",
+            "value": "approximate with `st.pills`/`st.segmented_control` plus manual conditional rendering"
+          }
+        ],
+        "checks": [],
+        "ambiguities": [
+          "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope"
+        ]
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "bm25+dense+rrf+mmr",
+        "rrf_k": 60,
+        "mmr_lambda": 0.7,
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "quality": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true
+        },
+        "embedding": {
+          "texts": 1,
+          "unique_missing": 1,
+          "cache_hits": 0,
+          "batches": 1,
+          "usage": [
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "embedding",
+              "input_tokens": 47,
+              "output_tokens": 0,
+              "cost_usd": 1.034e-06,
+              "ledger_id": "028c3f62223dceb0ba0903ff"
+            }
+          ],
+          "identity": {
+            "provider": "https://api.metisai.ir/openai/v1",
+            "model": "text-embedding-3-small",
+            "normalization": "whitespace-v1",
+            "encoding_format": "float"
+          }
+        },
+        "candidates": [
+          "docs:dynamic-navigation:v2:e76e43fa94339bae",
+          "issue:17074:v2:137f79d16d7a2927",
+          "issue:15754:v2:8a3bc0d87cdc5010",
+          "docs:2024:v2:46ec77d95bfe1acc",
+          "issue:15892:v2:d772dc2a5903f489",
+          "issue:17074:v2:01c0fa0561780945",
+          "issue:15754:v2:dca7b57a4c0f42d9",
+          "issue:15892:v2:992603a3aa337169"
+        ],
+        "quality_filter": true,
+        "excluded_nontechnical_chunks": 309,
+        "version_warnings": [
+          "docs:dynamic-navigation:v2:e76e43fa94339bae",
+          "issue:17074:v2:137f79d16d7a2927",
+          "issue:15754:v2:8a3bc0d87cdc5010",
+          "docs:2024:v2:46ec77d95bfe1acc",
+          "issue:15892:v2:d772dc2a5903f489",
+          "issue:17074:v2:01c0fa0561780945",
+          "issue:15754:v2:dca7b57a4c0f42d9",
+          "issue:15892:v2:992603a3aa337169"
+        ]
+      },
+      {
+        "stage": "rerank",
+        "status": "ok",
+        "ids": [
+          "docs:2024:v2:46ec77d95bfe1acc",
+          "docs:dynamic-navigation:v2:e76e43fa94339bae",
+          "issue:17074:v2:137f79d16d7a2927",
+          "issue:15754:v2:8a3bc0d87cdc5010",
+          "issue:15892:v2:d772dc2a5903f489",
+          "issue:17074:v2:01c0fa0561780945",
+          "issue:15754:v2:dca7b57a4c0f42d9",
+          "issue:15892:v2:992603a3aa337169"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "ids": [
+          "docs:2024:v2:46ec77d95bfe1acc",
+          "docs:dynamic-navigation:v2:e76e43fa94339bae",
+          "issue:17074:v2:137f79d16d7a2927",
+          "issue:15754:v2:8a3bc0d87cdc5010",
+          "issue:15892:v2:d772dc2a5903f489"
+        ],
+        "utf8_bytes": 3044
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge",
+        "attempt": 1,
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "پرسش شکل جدیدی از افزودن ویژگی است و قبلاً چنین پیشنهادی کامل ارائه نشده است.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "متن پاسخ پیشنهادی دقیق برای اضافه کردن نوع \"pills\" به st.tabs ارائه داده است که با درخواست کاربر کاملاً مطابقت دارد.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "پرسش سالم بوده و پاسخ شامل دستور کد نمونه بدون اجرای مخرب است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "پیشنهاد دقیق با نمونه کد و شرایط پذیرش شرایط لازم برای توسعه در تیم را مشخص می‌کند.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پاسخ دقیقاً به پرسش کاربر درباره اضافه کردن ویژگی type=\"pills\" به st.tabs مربوط است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پیشنهاد به صورت عمومی و بدون اتکا به نسخه خاص نوشته شده است و در نتیجه با نسخه‌های مختلف احتمالی هم‌خوان است.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ در نسخه 1.40.0 معرفی ویجت st.pills و استایل‌هایی شبیه قرص اشاره شده که مشابه ویژگی درخواستی است."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:2024:v2:46ec77d95bfe1acc",
+              "reason": "در نسخه 1.40.0 معرفی ویجت st.pills و استایل‌هایی شبیه قرص اشاره شده که مشابه ویژگی درخواستی است.",
+              "statement": "Add a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "نمونه کد کامل همراه با شروط پذیرش برای افزودن type=\"pills\" به st.tabs",
+            "why_new": "بدلیل نو بودن ویژگی type=\"pills\" در st.tabs و عدم وجود مستندات رسمی، چنین نمونه کدی در مکالمات قبلی یا مستندات دیده نشده است."
+          },
+          "version_assumptions": "پیشنهاد ارائه شده به شکل عمومی است و دلالتی بر وابستگی به نسخه مشخص ندارد؛ بنابراین فرضیات نسخه مشکلی ایجاد نمی‌کند."
+        },
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "repair",
+        "attempt": 1
+      },
+      {
+        "stage": "judge",
+        "attempt": 2,
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "کاربر سوالی منحصر به فرد درباره افزودن نوع \"pills\" به st.tabs پرسیده است که قبلاً پاسخ داده نشده بود.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "پاسخ به طور مستقیم به درخواست افزودن نوع \"pills\" به st.tabs پرداخته و شرایط پذیرش و نمونه کد پیشنهادی را ارائه داده است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "پاسخ درخواست شده درباره افزودن ویژگی به تابع st.tabs است و به داده‌های ورودی مشکوک پرداخته نشده است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "پیشنهاد به تیم توسعه جهت ارائه نمونه کد و شرایط پذیرش دقیق برای افزودن type = \"pills\" به st.tabs کاملاً مفید و هدفمند است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پاسخ به طور کامل مرتبط با سوال کاربر مبنی بر افزودن ویژگی type=\"pills\" به st.tabs است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "این ویژگی در مستندات نسخه 1.40.0 اشاره شده که مربوط به زمان گزارش است، بنابراین فرض نسخه منطبق است.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ در متن پاسخ به استفاده مشابه st.pills و st.segmented_control اشاره شده و نمونه‌هایی ارائه شده است که با گزارش منطبق است."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:2024:v2:46ec77d95bfe1acc",
+              "reason": "در متن پاسخ به استفاده مشابه st.pills و st.segmented_control اشاره شده و نمونه‌هایی ارائه شده است که با گزارش منطبق است.",
+              "statement": "معرفی st.pills و st.segmented_control در نسخه جدید جهت ایجاد دکمه‌های قرص مانند.",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "نمونه کد کامل و شرایط پذیرش برای افزودن ویژگی type=\"pills\" به ویجت st.tabs",
+            "why_new": "گزارش به معرفی st.pills اشاره داشت اما افزودن مستقیم این ویژگی به st.tabs درخواست جدید و مستقل است که مستندات آن فراهم نیست."
+          },
+          "version_assumptions": "پاسخ فرض می‌کند که مستندات نسخه 1.40.0 معتبر است و ویژگی st.pills مربوط است، لذا اضافه کردن type=\"pills\" به st.tabs سازگار با نسخه فرض شده است."
+        },
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "07cb62ca0618f7950324d587",
+        "hash": "c77a8d839f22389948a23ac39ddd789a1ad21973020bfcefd7264c129a6aad7c",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 7,
+      "cost_usd": 0.012628154,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "extract",
+          "input_tokens": 1480,
+          "output_tokens": 483,
+          "cost_usd": 0.0015012800000000002,
+          "ledger_id": "754d9726d161e2cb1b2fda6e"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "embedding",
+          "input_tokens": 47,
+          "output_tokens": 0,
+          "cost_usd": 1.034e-06,
+          "ledger_id": "028c3f62223dceb0ba0903ff"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "input_tokens": 3310,
+          "output_tokens": 22,
+          "cost_usd": 0.0014951200000000002,
+          "ledger_id": "eaed84efd402ab104ef98ee2"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "input_tokens": 3573,
+          "output_tokens": 334,
+          "cost_usd": 0.00215996,
+          "ledger_id": "72a1342a3a199d7c21155c45"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 4153,
+          "output_tokens": 469,
+          "cost_usd": 0.00265276,
+          "ledger_id": "bc8290a472306a2ebbf99a3a"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "repair",
+          "input_tokens": 3928,
+          "output_tokens": 259,
+          "cost_usd": 0.0021841599999999997,
+          "ledger_id": "5d811fdc341b96f904e3d5db"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 4078,
+          "output_tokens": 477,
+          "cost_usd": 0.00263384,
+          "ledger_id": "bf28077be9f13c90ae5b2f9e"
+        }
+      ],
+      "charged_or_reserved_usd": 0.012628154000000169
+    },
+    "validation_error": "judge_rejected",
+    "latency_seconds": 31.300593
+  },
+  "failure": null,
+  "elapsed_seconds": 31.326029000018025,
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "extract",
+      "input_tokens": 1480,
+      "output_tokens": 483,
+      "cost_usd": 0.0015012800000000002,
+      "ledger_id": "754d9726d161e2cb1b2fda6e"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "input_tokens": 47,
+      "output_tokens": 0,
+      "cost_usd": 1.034e-06,
+      "ledger_id": "028c3f62223dceb0ba0903ff"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "input_tokens": 3310,
+      "output_tokens": 22,
+      "cost_usd": 0.0014951200000000002,
+      "ledger_id": "eaed84efd402ab104ef98ee2"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "input_tokens": 3573,
+      "output_tokens": 334,
+      "cost_usd": 0.00215996,
+      "ledger_id": "72a1342a3a199d7c21155c45"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 4153,
+      "output_tokens": 469,
+      "cost_usd": 0.00265276,
+      "ledger_id": "bc8290a472306a2ebbf99a3a"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "repair",
+      "input_tokens": 3928,
+      "output_tokens": 259,
+      "cost_usd": 0.0021841599999999997,
+      "ledger_id": "5d811fdc341b96f904e3d5db"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 4078,
+      "output_tokens": 477,
+      "cost_usd": 0.00263384,
+      "ledger_id": "bf28077be9f13c90ae5b2f9e"
+    }
+  ],
+  "pipeline_sha256": "513902d6688c9e7f5b4367cd000524333da9fbac1a7cfad1a99ca991e9621c9d",
+  "pipeline_path": "F:\\Quera AI\\Project\\streamlit-casepilot\\artifacts\\quality_v22\\baseline\\src\\casepilot\\pipeline.py"
+}

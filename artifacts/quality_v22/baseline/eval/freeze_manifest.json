@@ -1,0 +1,95 @@
+{
+  "at": "2026-10-06T23:26:55.608730+00:00",
+  "reason": "Earlier test used for smoke inspection; retired before development changes. Fresh holdout selected after freezing retrieval/model/agent/grounding code.",
+  "code_sha256": {
+    "src/casepilot/__init__.py": "14297a2fe955613daf489c47801aa269af0d134b433e082ed99f93e1febe18ef",
+    "src/casepilot/accounting.py": "099208d90b5a7dcc1e2f04c790613e3ddf33dffd0fd7d03994479beeb2cdad0d",
+    "src/casepilot/agent.py": "3334aa459e3d640d8d6c249e766a5d381e0d2212a52ed507653b293dcd3b22ba",
+    "src/casepilot/cli.py": "b9b2253c47a826fe57476c77c52a34d23460fb5985dae6a65ed8df8f21775dc9",
+    "src/casepilot/common.py": "5fd56b4e58d13b0555cc574a9921134aac8f5958f9a8d3ae326028df74652567",
+    "src/casepilot/grounding.py": "5878886ac2af23c180a6d57b7c4ec57af7c1fb329bd68ed1834e8bb3c3f7dee6",
+    "src/casepilot/model.py": "48b37979de99e4c7e560eb4c89a3ac83d27f53a7d807e43a5e2d16ebb5fe5673",
+    "src/casepilot/retrieval.py": "767d56e39f6780806447ae9e8956d15291e2a864fea606e093c2ba9a9a6f3984",
+    "src/casepilot/server.py": "b2c9fc974670d2b32c18736e31985eea7e7e74d1eeee1bf75ffc982ef578137d",
+    "src/casepilot/store.py": "84cbf3cb95e5ce24c65cc39e7423137ab3b382cc433b1327f76523feca494b5e"
+  },
+  "new_test_issue_numbers": [
+    7336,
+    10701,
+    8608,
+    16474,
+    16375,
+    16495,
+    2311,
+    3122,
+    8151,
+    6182,
+    6215,
+    6109,
+    6525,
+    6237,
+    8815
+  ],
+  "retired_test_issue_numbers": [
+    16914,
+    17112,
+    16269,
+    17290,
+    16977,
+    17249,
+    10049,
+    12189,
+    8534,
+    11157,
+    6620,
+    10615,
+    14031,
+    11922,
+    11920
+  ],
+  "family_replacement": {
+    "excluded": 7338,
+    "replacement": 6237,
+    "reason": "Initial report and comments reveal frontend/backend widget-state family related to development cases; replaced before final evaluation, not on performance."
+  },
+  "post_freeze_correctness_fixes": [
+    {
+      "files": [
+        "src/casepilot/model.py",
+        "src/casepilot/grounding.py"
+      ],
+      "reason": "Browser QA found mock quotations selecting Markdown headings, nested fences and long English text outside blocks. Fixed mock quote formatting before final holdout run. Retrieval and live system prompt unchanged.",
+      "previous_sha256": {
+        "src/casepilot/model.py": "77c180e084716298aa7dfeaa303d56fb300e7ded69ffdfd5d40ea60309b892d6",
+        "src/casepilot/grounding.py": "54168b792f15c08fb6e84e5224b531290aa26430b0a5ee163b1f790b5f511b06"
+      }
+    },
+    {
+      "files": [
+        "src/casepilot/store.py"
+      ],
+      "reason": "Notebook development evaluation exposed regex redaction corrupting serialized JSON escapes before email addresses. Redact decoded values before JSON encoding; regression test added. No retrieval, live prompt or holdout outcome tuning.",
+      "previous_sha256": {
+        "src/casepilot/store.py": "66b479c251280c2bf7f32cfff0e0128c8647e8b1a27263ef810b5277339af9d8"
+      }
+    },
+    {
+      "files": [
+        "src/casepilot/common.py"
+      ],
+      "reason": "Security sanitization after original evaluation: a Mapbox token from public issue 1530 was retained in source/corpus and blocked GitHub push. Redact Mapbox token shapes and rebuild artifacts; no retrieval, prompt, labels or model tuning.",
+      "previous_sha256": {
+        "src/casepilot/common.py": "93720df65e9dbc6c5637c8c43a1ee167d1135c3ecbc7b12af125525d72aa9825"
+      }
+    },
+    {
+      "files": [
+        "src/casepilot/model.py"
+      ],
+      "reason": "Live citation selection protocol changed after offline holdout evaluation, based exclusively on the failed GH9218 development response: model stripped a Markdown link from an exact quote. Model now selects bounded same-source quote IDs and the application inserts original spans. Strict citation validation unchanged. Prior offline metrics exercise ReplayClient, not the revised live prompt; real holdout evaluation remains pending. First prompt-only selection attempt failed output validation on dev; enforce strict JSON schema at transport and cache private raw JSON for zero-cost inspection. No automatic retry or schema relaxation.",
+      "previous_sha256": {
+        "src/casepilot/model.py": "3d5a0ca9487e33a94654bde88bbdc9d22b120b8c9d958c78ff16af968dbc5f09"
+      }
+    }
+  ]
+}

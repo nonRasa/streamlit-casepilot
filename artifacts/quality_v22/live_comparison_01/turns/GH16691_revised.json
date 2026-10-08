@@ -1,0 +1,557 @@
+{
+  "id": "GH16691",
+  "variant": "revised",
+  "split": "first_live_after_replay",
+  "output": {
+    "case_id": "GH16691",
+    "request_id": "live-v22-revised",
+    "architecture": "v2",
+    "quality_revision": "v2.2-quality",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": true,
+      "quality": true
+    },
+    "decision": "escalate",
+    "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nFrontend uses user-controlled file name as FormData field name in file upload\n```\n\nمحیط گزارش‌شده:\n\n```text\nstreamlit_version=1.58.0؛ python_version=3.11؛ os=Windows؛ browser=Chrome\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\ndeployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_contract_error`.",
+    "summary": {
+      "problem": "Frontend uses user-controlled file name as FormData field name in file upload\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nIn `uploadFileUploaderFile`, the frontend constructs a `FormData` object for file uploads using the file's own name (`name`) as the multipart form-data field name: `form.append(name, file, fileName)`. Because the backend does not rely on this dynamic field name and files are uploaded individually, using the user-controlled filename introduces potential security risks, such as bypassing security filters, WAFs, or length restrictions designed for form field names.\n\n\n```typescript\nconst form = new FormData()\nconst { name, webkitRelativePath } = file\n// For directory uploads, use the relative path as fileName to preserve directory structure\nconst fileName = webkitRelativePath || name\nform.append(name, file, fileName)\n\n```\n\n### Proposed Solution\n\nReplace the dynamic `name` variable with a static string (such as `\"file\"`), since files are handled individually and the backend does not require the field name to match the filename.\n\n```typescript\nconst form = new FormData()\nconst { name, webkitRelativePath } = file\n// For directory uploads, use the relative path as fileName to preserve directory structure\nconst fileName = webkitRelativePath || name\nform.append(\"file\", file, fileName)\n\n```\n\n\n### Security Impact\n\n* **User-Controlled Field Names:** Attackers can manipulate file names (including special characters, injection sequences, or excessive lengths) which are then directly injected into the multipart form-data structure as the field name.\n* **Validation & WAF Bypasses:** Backend proxies, Web Application Firewalls (WAFs), or API gateways often enforce strict validation rules (character sets, maximum length) on form field names. Allowing client-side filenames to define these keys can lead to unexpected parsing behavior or security filter evasion.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\nuploaded_file = st.file_uploader(\"Choose a file\")\nif uploaded_file is not None:\n    st.write(f\"Uploaded filename: {uploaded_file.name}\")\n```\n\n### Steps To Reproduce\n\n1. Run the provided Python script using Streamlit.\n2. Open your browser's Developer Tools and navigate to the **Network** tab.\n3. Upload a file ",
+      "facts": {
+        "streamlit_version": "1.58.0",
+        "python_version": "3.11",
+        "os": "Windows",
+        "browser": "Chrome"
+      },
+      "unknowns": [
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [],
+      "sources": [],
+      "decision": "escalate",
+      "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+      "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.",
+      "hypotheses": [],
+      "ambiguities": [
+        "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+        "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+      ],
+      "judge": null,
+      "investigation_plan": {
+        "acceptance_condition": "در درخواست multipart form-data، نام فیلد به صورت یک رشته ثابت و کنترل شده (مثلاً \"file\") ارسال شود، نه برابر با نام فایل کاربر.",
+        "intent": "bug",
+        "known_report_spans": [
+          "5. Observe that the form field `name` attribute equals the file's name (`malicious_name_test.txt`) instead of a static, controlled identifier.",
+          "### Expected Behavior",
+          "The multipart form-data request should use a static, predefined field name (such as `name=\"file\"`) for the upload payload, ensuring that the form field name is fully controlled and sanitized, while the actual file name/path remains properly preserved only in the filename parameter.",
+          "- [ ] Yes, this used to work in a previous version."
+        ],
+        "missing_detail": "",
+        "new_condition": "",
+        "problem_summary": "Frontend uses user-controlled file name as FormData field name in file upload",
+        "suggested_question": "آیا این مشکل در نسخه‌های قبلی استریم‌لیت نیز مشاهده شده است؟"
+      },
+      "experiments": [],
+      "memory_version": 2,
+      "handoff": {
+        "request_type": "bug",
+        "reported_problem": "Frontend uses user-controlled file name as FormData field name in file upload",
+        "environment": {
+          "streamlit_version": "1.58.0",
+          "python_version": "3.11",
+          "os": "Windows",
+          "browser": "Chrome"
+        },
+        "experiments": [],
+        "evidence": [],
+        "unknowns": [
+          "deployment",
+          "reproducible"
+        ],
+        "limitations": [
+          "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+          "محدودیت: کد توقف `judge_contract_error`."
+        ],
+        "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+        "feature": {}
+      },
+      "review_failures": [
+        {
+          "kind": "judge_contract",
+          "code": "judge_contract_error",
+          "draft_version": "c6bbf2524a9023e5138adcf2a0b4cf64df17940bb09562515940a75ee098508f"
+        }
+      ]
+    },
+    "proposal": {
+      "id": "c0b52aed19f34685d17387d1",
+      "case_id": "GH16691",
+      "revision": 1,
+      "hash": "25543049a2e4c34aa7fca0c33b719295768a321e19308a72b26ec7d9ad19ff9e",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nFrontend uses user-controlled file name as FormData field name in file upload\n```\n\nمحیط گزارش‌شده:\n\n```text\nstreamlit_version=1.58.0؛ python_version=3.11؛ os=Windows؛ browser=Chrome\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\ndeployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_contract_error`."
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "problem": "Frontend uses user-controlled file name as FormData field name in file upload\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nIn `uploadFileUploaderFile`, the frontend constructs a `FormData` object for file uploads using the file's own name (`name`) as the multipart form-data field name: `form.append(name, file, fileName)`. Because the backend does not rely on this dynamic field name and files are uploaded individually, using the user-controlled filename introduces potential security risks, such as bypassing security filters, WAFs, or length restrictions designed for form field names.\n\n\n```typescript\nconst form = new FormData()\nconst { name, webkitRelativePath } = file\n// For directory uploads, use the relative path as fileName to preserve directory structure\nconst fileName = webkitRelativePath || name\nform.append(name, file, fileName)\n\n```\n\n### Proposed Solution\n\nReplace the dynamic `name` variable with a static string (such as `\"file\"`), since files are handled individually and the backend does not require the field name to match the filename.\n\n```typescript\nconst form = new FormData()\nconst { name, webkitRelativePath } = file\n// For directory uploads, use the relative path as fileName to preserve directory structure\nconst fileName = webkitRelativePath || name\nform.append(\"file\", file, fileName)\n\n```\n\n\n### Security Impact\n\n* **User-Controlled Field Names:** Attackers can manipulate file names (including special characters, injection sequences, or excessive lengths) which are then directly injected into the multipart form-data structure as the field name.\n* **Validation & WAF Bypasses:** Backend proxies, Web Application Firewalls (WAFs), or API gateways often enforce strict validation rules (character sets, maximum length) on form field names. Allowing client-side filenames to define these keys can lead to unexpected parsing behavior or security filter evasion.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\nuploaded_file = st.file_uploader(\"Choose a file\")\nif uploaded_file is not None:\n    st.write(f\"Uploaded filename: {uploaded_file.name}\")\n```\n\n### Steps To Reproduce\n\n1. Run the provided Python script using Streamlit.\n2. Open your browser's Developer Tools and navigate to the **Network** tab.\n3. Upload a file ",
+          "facts": {
+            "streamlit_version": "1.58.0",
+            "python_version": "3.11",
+            "os": "Windows",
+            "browser": "Chrome"
+          },
+          "unknowns": [
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [],
+          "sources": [],
+          "decision": "escalate",
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.",
+          "hypotheses": [],
+          "ambiguities": [
+            "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+            "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+          ],
+          "judge": null,
+          "investigation_plan": {
+            "acceptance_condition": "در درخواست multipart form-data، نام فیلد به صورت یک رشته ثابت و کنترل شده (مثلاً \"file\") ارسال شود، نه برابر با نام فایل کاربر.",
+            "intent": "bug",
+            "known_report_spans": [
+              "5. Observe that the form field `name` attribute equals the file's name (`malicious_name_test.txt`) instead of a static, controlled identifier.",
+              "### Expected Behavior",
+              "The multipart form-data request should use a static, predefined field name (such as `name=\"file\"`) for the upload payload, ensuring that the form field name is fully controlled and sanitized, while the actual file name/path remains properly preserved only in the filename parameter.",
+              "- [ ] Yes, this used to work in a previous version."
+            ],
+            "missing_detail": "",
+            "new_condition": "",
+            "problem_summary": "Frontend uses user-controlled file name as FormData field name in file upload",
+            "suggested_question": "آیا این مشکل در نسخه‌های قبلی استریم‌لیت نیز مشاهده شده است؟"
+          },
+          "experiments": [],
+          "memory_version": 2,
+          "handoff": {
+            "request_type": "bug",
+            "reported_problem": "Frontend uses user-controlled file name as FormData field name in file upload",
+            "environment": {
+              "streamlit_version": "1.58.0",
+              "python_version": "3.11",
+              "os": "Windows",
+              "browser": "Chrome"
+            },
+            "experiments": [],
+            "evidence": [],
+            "unknowns": [
+              "deployment",
+              "reproducible"
+            ],
+            "limitations": [
+              "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+              "محدودیت: کد توقف `judge_contract_error`."
+            ],
+            "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+            "feature": {}
+          },
+          "review_failures": [
+            {
+              "kind": "judge_contract",
+              "code": "judge_contract_error",
+              "draft_version": "c6bbf2524a9023e5138adcf2a0b4cf64df17940bb09562515940a75ee098508f"
+            }
+          ]
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+        "source_id": "docs:where-file-uploader-store-when-deleted",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md",
+        "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.0291776
+      },
+      {
+        "id": "api:file_uploader:v2:26f5eb70aec7e236",
+        "source_id": "api:file_uploader",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/elements/widgets/file_uploader.py",
+        "section": "file_uploader (line 252)",
+        "product_version": "1.49.0",
+        "version_relation": "mismatch",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.02035691
+      },
+      {
+        "id": "docs:architecture:v2:15f4f76ec7ef2569",
+        "source_id": "docs:architecture",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/architecture.md",
+        "section": "WebSockets and session management",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.01903226
+      },
+      {
+        "id": "issue:9265:v2:4a3a4c5aae046cb4",
+        "source_id": "issue:9265",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/9265",
+        "section": "Why?",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "retrieval_score": 0.03077652
+      },
+      {
+        "id": "issue:896:v2:8270cdd3d37b19f5",
+        "source_id": "issue:896",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/896",
+        "section": "Problem",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "retrieval_score": 0.0292735
+      }
+    ],
+    "steps": 9,
+    "model_calls": 5,
+    "max_calls": 8,
+    "repair_count": 0,
+    "judge": null,
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "ok",
+        "keys": [
+          "browser",
+          "os",
+          "python_version",
+          "streamlit_version"
+        ],
+        "facts_with_quotes": [
+          {
+            "key": "streamlit_version",
+            "quote": "- Streamlit version: 1.58.0",
+            "value": "1.58.0"
+          },
+          {
+            "key": "python_version",
+            "quote": "- Python version: 3.11",
+            "value": "3.11"
+          },
+          {
+            "key": "os",
+            "quote": "- Operating System: Windows",
+            "value": "Windows"
+          },
+          {
+            "key": "browser",
+            "quote": "- Browser: Chrome",
+            "value": "Chrome"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "Observe that the form field `name` attribute equals the file's name (`malicious_name_test.txt`) instead of a static, controlled identifier.",
+            "value": "form field name equals the file's name"
+          },
+          {
+            "key": "reproducible",
+            "quote": "I have provided sufficient information below to help reproduce this issue.",
+            "value": "true"
+          }
+        ],
+        "checks": [],
+        "ambiguities": [
+          "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+          "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+        ]
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "bm25+dense+rrf+mmr",
+        "rrf_k": 60,
+        "mmr_lambda": 0.7,
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "quality": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true
+        },
+        "embedding": {
+          "texts": 1,
+          "unique_missing": 1,
+          "cache_hits": 0,
+          "batches": 1,
+          "usage": [
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "embedding",
+              "input_tokens": 38,
+              "output_tokens": 0,
+              "cost_usd": 8.359999999999999e-07,
+              "ledger_id": "27be0fa3d2ff860a248df50f"
+            }
+          ],
+          "identity": {
+            "provider": "https://api.metisai.ir/openai/v1",
+            "model": "text-embedding-3-small",
+            "normalization": "whitespace-v1",
+            "encoding_format": "float"
+          }
+        },
+        "candidates": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "api:file_uploader:v2:26f5eb70aec7e236",
+          "docs:architecture:v2:15f4f76ec7ef2569",
+          "issue:9265:v2:4a3a4c5aae046cb4",
+          "issue:896:v2:8270cdd3d37b19f5",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:11331:v2:2ca126bdfe64a2e6",
+          "issue:4877:v2:e200204da1c02604"
+        ],
+        "quality_filter": true,
+        "excluded_chunks": 2083,
+        "as_of": null,
+        "temporal_policy": "current_snapshot",
+        "version_warnings": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "api:file_uploader:v2:26f5eb70aec7e236",
+          "docs:architecture:v2:15f4f76ec7ef2569",
+          "issue:9265:v2:4a3a4c5aae046cb4",
+          "issue:896:v2:8270cdd3d37b19f5",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:11331:v2:2ca126bdfe64a2e6",
+          "issue:4877:v2:e200204da1c02604"
+        ]
+      },
+      {
+        "stage": "rerank",
+        "status": "ok",
+        "ids": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "api:file_uploader:v2:26f5eb70aec7e236",
+          "docs:architecture:v2:15f4f76ec7ef2569",
+          "issue:9265:v2:4a3a4c5aae046cb4",
+          "issue:896:v2:8270cdd3d37b19f5",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:11331:v2:2ca126bdfe64a2e6",
+          "issue:4877:v2:e200204da1c02604"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "ids": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "api:file_uploader:v2:26f5eb70aec7e236",
+          "docs:architecture:v2:15f4f76ec7ef2569",
+          "issue:9265:v2:4a3a4c5aae046cb4",
+          "issue:896:v2:8270cdd3d37b19f5"
+        ],
+        "utf8_bytes": 4407
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge_contract_failure",
+        "kind": "judge_contract",
+        "code": "judge_contract_error",
+        "draft_version": "c6bbf2524a9023e5138adcf2a0b4cf64df17940bb09562515940a75ee098508f"
+      },
+      {
+        "stage": "safe_escalation",
+        "error": "judge_contract_error"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "c0b52aed19f34685d17387d1",
+        "hash": "25543049a2e4c34aa7fca0c33b719295768a321e19308a72b26ec7d9ad19ff9e",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 5,
+      "cost_usd": 0.010029756,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "extract",
+          "input_tokens": 2142,
+          "output_tokens": 431,
+          "cost_usd": 0.00170104,
+          "ledger_id": "38e336db3d0938c08065a138"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "embedding",
+          "input_tokens": 38,
+          "output_tokens": 0,
+          "cost_usd": 8.359999999999999e-07,
+          "ledger_id": "27be0fa3d2ff860a248df50f"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "input_tokens": 3859,
+          "output_tokens": 62,
+          "cost_usd": 0.00180708,
+          "ledger_id": "ed2fd21e1fd287073271eaf2"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "input_tokens": 4615,
+          "output_tokens": 520,
+          "cost_usd": 0.0029458,
+          "ledger_id": "5a31bd4cf6ef5d3be0f119bd"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 5553,
+          "output_tokens": 643,
+          "cost_usd": 0.003575,
+          "ledger_id": "d7046242def40a7f6d668c11"
+        }
+      ],
+      "charged_or_reserved_usd": 0.010029756
+    },
+    "validation_error": "judge_contract_error",
+    "review_failures": [
+      {
+        "kind": "judge_contract",
+        "code": "judge_contract_error",
+        "draft_version": "c6bbf2524a9023e5138adcf2a0b4cf64df17940bb09562515940a75ee098508f"
+      }
+    ],
+    "reviewed_draft": {
+      "draft_version": "c6bbf2524a9023e5138adcf2a0b4cf64df17940bb09562515940a75ee098508f",
+      "case_id": "GH16691",
+      "case_revision": 1,
+      "generation": 0,
+      "units": [
+        {
+          "unit_id": "u_2a3f9f667363a02aa4b76132",
+          "field": "question",
+          "text": "آیا این مشکل استفاده از نام فایل به عنوان نام فیلد در فرم multipart در نسخه‌های قبلی استریم‌لیت نیز وجود داشته است؟",
+          "start": 0,
+          "end": 115
+        },
+        {
+          "unit_id": "u_b39e384f29bada799ba9755c",
+          "field": "next_step",
+          "text": "بررسی اینکه آیا این مشکل در نسخه‌های قبلی استریم‌لیت نیز مشاهده شده است تا بتوانیم تشخیص دهیم این یک رگرسیون است یا خیر.",
+          "start": 0,
+          "end": 120
+        },
+        {
+          "unit_id": "u_17a0a90557cb413d10532b58",
+          "field": "rationale",
+          "text": "در گزارش آمده است که نام فیلد در فرم multipart برابر با نام فایل آپلود شده توسط کاربر است که ممکن است باعث مشکلات امنیتی شود. اما مشخص نیست که این مشکل جدید است یا قبلا هم بوده است. برای بررسی بهتر علت و مسیر رفع مشکل، باید دانست این مشکل در نسخه‌های قبلی استریم‌لیت وجود داشته است یا خیر.",
+          "start": 0,
+          "end": 289
+        },
+        {
+          "unit_id": "u_8fff2673ff1f50f9e4a3abbf",
+          "field": "hypotheses.0",
+          "text": "ممکن است نسخه‌های قدیمی‌تری از استریم‌لیت این رفتار را نداشته باشند و در نسخه جدید اتفاق افتاده باشد.",
+          "start": 0,
+          "end": 101
+        }
+      ]
+    },
+    "latency_seconds": 29.700337
+  },
+  "failure": null,
+  "elapsed_seconds": 29.73894510001992,
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "extract",
+      "input_tokens": 2142,
+      "output_tokens": 431,
+      "cost_usd": 0.00170104,
+      "ledger_id": "38e336db3d0938c08065a138"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "input_tokens": 38,
+      "output_tokens": 0,
+      "cost_usd": 8.359999999999999e-07,
+      "ledger_id": "27be0fa3d2ff860a248df50f"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "input_tokens": 3859,
+      "output_tokens": 62,
+      "cost_usd": 0.00180708,
+      "ledger_id": "ed2fd21e1fd287073271eaf2"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "input_tokens": 4615,
+      "output_tokens": 520,
+      "cost_usd": 0.0029458,
+      "ledger_id": "5a31bd4cf6ef5d3be0f119bd"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 5553,
+      "output_tokens": 643,
+      "cost_usd": 0.003575,
+      "ledger_id": "d7046242def40a7f6d668c11"
+    }
+  ],
+  "pipeline_sha256": "74e3565717fbc2869493f2ac06869bc720af340896ac68302df71981ef2a97a8",
+  "pipeline_path": "F:\\Quera AI\\Project\\streamlit-casepilot\\src\\casepilot\\pipeline.py"
+}

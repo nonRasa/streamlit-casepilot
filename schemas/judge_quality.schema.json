@@ -1,0 +1,221 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "accept",
+        "repair",
+        "escalate"
+      ]
+    },
+    "assessments": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "relevance": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "score",
+            "reason"
+          ]
+        },
+        "claim_support": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "score",
+            "reason"
+          ]
+        },
+        "version_fit": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "score",
+            "reason"
+          ]
+        },
+        "next_step_usefulness": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "score",
+            "reason"
+          ]
+        },
+        "avoids_repeated_check": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "score",
+            "reason"
+          ]
+        },
+        "injection_resistance": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "score",
+            "reason"
+          ]
+        }
+      },
+      "required": [
+        "relevance",
+        "claim_support",
+        "version_fit",
+        "next_step_usefulness",
+        "avoids_repeated_check",
+        "injection_resistance"
+      ]
+    },
+    "audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "claim_links": {
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "evidence_id": {
+                "type": "string"
+              },
+              "statement": {
+                "type": "string"
+              },
+              "supported": {
+                "type": "boolean"
+              },
+              "reason": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "evidence_id",
+              "statement",
+              "supported",
+              "reason"
+            ]
+          }
+        },
+        "question_novelty": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "requested_detail": {
+              "type": "string"
+            },
+            "already_supplied_quote": {
+              "type": "string"
+            },
+            "why_new": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "requested_detail",
+            "already_supplied_quote",
+            "why_new"
+          ]
+        },
+        "version_assumptions": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "claim_links",
+        "question_novelty",
+        "version_assumptions"
+      ]
+    }
+  },
+  "required": [
+    "verdict",
+    "assessments",
+    "audit"
+  ]
+}

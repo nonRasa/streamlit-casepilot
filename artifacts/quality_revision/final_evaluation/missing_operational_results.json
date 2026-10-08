@@ -1,0 +1,2553 @@
+[
+  {
+    "id": "QS10",
+    "split": "test_fresh",
+    "case_id": "GH13111",
+    "pattern": "normal",
+    "description": "گفت‌وگوی وابسته به نوبت قبلی و ثبت نتیجه بدون ادعای رفع",
+    "turns": [
+      {
+        "case_id": "GH13111",
+        "request_id": "scenario-start",
+        "architecture": "v2",
+        "quality_revision": "v2.1-quality",
+        "mode": "live",
+        "method": "final",
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true,
+          "quality": true
+        },
+        "decision": "escalate",
+        "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+        "summary": {
+          "problem": "Streamlit Cloud: App randomly crashes with “Oh no. Error running app” after recent updates\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nHey Streamlit team 👋,\n\nI’m running into an odd issue on Streamlit Community Cloud with my app:\n👉 https://global-t20-dash.streamlit.app/\n\nThe app used to run fine, but after some recent code updates, it now randomly crashes during startup. Sometimes it loads fully and works for several minutes, and sometimes (even without any new changes) it instantly shows:\n\nOh no. Error running app.\nIf this keeps happening, please contact support.\n\nThere’s no traceback visible in the UI, and the app page doesn’t show any specific error.\nIn the deployment logs I occasionally see:\n\nThe service has encountered an error while checking the health of the Streamlit app:\nGet \"http://localhost:8501/script-health-check\": EOF\n\nIt looks like the app sometimes fails the health check and gets killed.\n\nWhat I'm seeing\n\nApp works on some runs, crashes on others.\nBehavior changes even without modifying code.\nNo Python error is printed — only the “Oh no. Error running app” message.\nThe crash happens before the UI fully loads.\nRestarting the app or refreshing sometimes fixes it temporarily.\nWhat the app does\n\nLoads Parquet files (cached using @st.cache_data)\nGenerates multiple Plotly charts\nUses forms + filters + session state\nNo long-running background tasks\nSteps to reproduce\n\nOpen the app link: https://global-t20-dash.streamlit.app/\nSometimes it loads successfully.\nRefresh the page a few times.\nEventually it shows the error screen (“Oh no. Error running app”).\nExpected behavior\n\nThe app should load consistently without crashing during startup.\n\nActual behavior\n\nStartup is unreliable & sometimes it works, sometimes it dies with the health-check EOF error.\n\nEnvironment\n\nStreamlit Community Cloud\nPython version (from logs): fill here\nStreamlit version: fill here\nHappy to share full logs if needed.\nIf someone from the team can help identify whether this is a resource limit issue, a health-check bug, or something related to app initialization, that would be amazing\n\nThanks a lot!\n\n### Reproducible Code Example\n\n```Python\n\n```\n\n### Steps To Reproduce\n\n_No response_\n\n### Expected Behavior\n\n_No response_\n\n### Current Behavior\n\n_No resp",
+          "facts": {
+            "deployment": "Streamlit Community Cloud",
+            "streamlit_version": "1.51.0",
+            "python_version": "3.13.9"
+          },
+          "unknowns": [
+            "reproducible"
+          ],
+          "completed_checks": [],
+          "sources": [],
+          "decision": "escalate",
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+          "hypotheses": [],
+          "ambiguities": [
+            "Python version (from logs): fill here",
+            "Streamlit version: fill here",
+            "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+            "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: reproducible"
+          ],
+          "judge": {
+            "verdict": "repair",
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "کاربر خواسته است لاگ‌های کامل خطا و وضعیت سلامت را برای تشخیص دقیق‌تر ارسال کند که قبلاً داده نشده است.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "اظهار نظر درباره خطای AttributeError و عدم وجود ویژگی st.cache_data با ارجاع به issue:6228 مستند شده است و به صورت مستقیم از گزارش و اسناد پشتیبانی می‌شود.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "هیچ نشانه‌ای از حملات تزریق دستور یا آسیب‌پذیری امنیتی در پاسخ وجود ندارد و پیشنهادات به بررسی لاگ‌های خطا محدود شده‌اند.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "درخواست لاگ‌های کامل خطا بهترین گام بعدی برای تشخیص علت دقیق است و به روند رفع مشکل کمک می‌کند.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "پیشنهاد بررسی لاگ‌های خطا و ارزیابی وضعیت سلامت مستقیماً مرتبط با سوال کاربر درباره علت خطای AttributeError است.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "پرسش و پاسخ اختصاصی به نسخه 1.51.0 استریملت است و تأکید بر ویژگی ممکن‌العدم در این نسخه دارد که به درستی مرتبط است.",
+                "score": 2
+              }
+            },
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "findings": [
+              {
+                "criterion": "claim_support",
+                "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این نقل قول دقیقاً به خطای AttributeError به دلیل نبود ویژگی cache_data اشاره دارد که در پاسخ کاربر مطرح شده است."
+              }
+            ],
+            "audit": {
+              "claim_links": [
+                {
+                  "evidence_id": "issue:6228:v2:4088194fa6058a17",
+                  "reason": "این نقل قول دقیقاً به خطای AttributeError به دلیل نبود ویژگی cache_data اشاره دارد که در پاسخ کاربر مطرح شده است.",
+                  "statement": "AttributeError: module 'streamlit' has no attribute 'cache_data'",
+                  "supported": true
+                }
+              ],
+              "question_novelty": {
+                "already_supplied_quote": "",
+                "requested_detail": "لا‌گ‌های کامل خطا و وضعیت سلامت اپلیکیشن هنگام بروز خطا به همراه اطلاعات محیط اجرایی دقیق‌تر",
+                "why_new": "کاربر خطا را گزارش داده اما جزئیات لاگ‌ها و اطلاعات کامل محیط اجرا را ارائه نداده است؛ این اطلاعات برای تشخیص علت دقیق خطا ضروری است."
+              },
+              "version_assumptions": "پاسخ صحیحاً مطرح می‌کند که مشکل ممکن است مربوط به نسخه 1.51.0 باشد اما فرضی است و برای تأیید نیاز به اطلاعات بیشتر دارد؛ هیچ ادعای غیرمستندی درباره نسخه‌های دیگر نشده است."
+            }
+          },
+          "investigation_plan": {
+            "acceptance_condition": "اپلیکیشن به طور مستمر بدون خطا شروع به کار کند و پیام اخطار \"Oh no. Error running app\" ظاهر نشود.",
+            "intent": "bug",
+            "known_report_spans": [
+              "The app used to run fine, but after some recent code updates, it now randomly crashes during startup. Sometimes it loads fully and works for several minutes, and sometimes (even without any new changes) it instantly shows:",
+              "There’s no traceback visible in the UI, and the app page doesn’t show any specific error.",
+              "It looks like the app sometimes fails the health check and gets killed.",
+              "Startup is unreliable & sometimes it works, sometimes it dies with the health-check EOF error."
+            ],
+            "missing_detail": "لطفاً لاگ‌های کامل خطا و اطلاعات دقیق‌تر محیط اجرای اپلیکیشن را ارائه کنید.",
+            "new_condition": "آیا پس از تغییر پارامترهای کش کردن (مثل @st.cache_data) تاثیری روی پایداری اپلیکیشن مشاهده شده است؟",
+            "problem_summary": "Streamlit app random crashes on startup with health-check EOF error in Streamlit Community Cloud",
+            "suggested_question": "لطفاً لاگ‌های کامل مربوط به خطا و سلامت اپلیکیشن را ارسال کنید تا علت اصلی بررسی شود."
+          }
+        },
+        "proposal": {
+          "id": "4e1a8df803aab80653dd6640",
+          "case_id": "GH13111",
+          "revision": 1,
+          "hash": "2a941706edb5f18d5fb82a13404117b235a4faaf2e0b4906be085725f9bd3888",
+          "payload": {
+            "actions": [
+              {
+                "type": "comment",
+                "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+              },
+              {
+                "type": "status",
+                "value": "escalated"
+              }
+            ],
+            "source_ids": [],
+            "summary": {
+              "problem": "Streamlit Cloud: App randomly crashes with “Oh no. Error running app” after recent updates\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nHey Streamlit team 👋,\n\nI’m running into an odd issue on Streamlit Community Cloud with my app:\n👉 https://global-t20-dash.streamlit.app/\n\nThe app used to run fine, but after some recent code updates, it now randomly crashes during startup. Sometimes it loads fully and works for several minutes, and sometimes (even without any new changes) it instantly shows:\n\nOh no. Error running app.\nIf this keeps happening, please contact support.\n\nThere’s no traceback visible in the UI, and the app page doesn’t show any specific error.\nIn the deployment logs I occasionally see:\n\nThe service has encountered an error while checking the health of the Streamlit app:\nGet \"http://localhost:8501/script-health-check\": EOF\n\nIt looks like the app sometimes fails the health check and gets killed.\n\nWhat I'm seeing\n\nApp works on some runs, crashes on others.\nBehavior changes even without modifying code.\nNo Python error is printed — only the “Oh no. Error running app” message.\nThe crash happens before the UI fully loads.\nRestarting the app or refreshing sometimes fixes it temporarily.\nWhat the app does\n\nLoads Parquet files (cached using @st.cache_data)\nGenerates multiple Plotly charts\nUses forms + filters + session state\nNo long-running background tasks\nSteps to reproduce\n\nOpen the app link: https://global-t20-dash.streamlit.app/\nSometimes it loads successfully.\nRefresh the page a few times.\nEventually it shows the error screen (“Oh no. Error running app”).\nExpected behavior\n\nThe app should load consistently without crashing during startup.\n\nActual behavior\n\nStartup is unreliable & sometimes it works, sometimes it dies with the health-check EOF error.\n\nEnvironment\n\nStreamlit Community Cloud\nPython version (from logs): fill here\nStreamlit version: fill here\nHappy to share full logs if needed.\nIf someone from the team can help identify whether this is a resource limit issue, a health-check bug, or something related to app initialization, that would be amazing\n\nThanks a lot!\n\n### Reproducible Code Example\n\n```Python\n\n```\n\n### Steps To Reproduce\n\n_No response_\n\n### Expected Behavior\n\n_No response_\n\n### Current Behavior\n\n_No resp",
+              "facts": {
+                "deployment": "Streamlit Community Cloud",
+                "streamlit_version": "1.51.0",
+                "python_version": "3.13.9"
+              },
+              "unknowns": [
+                "reproducible"
+              ],
+              "completed_checks": [],
+              "sources": [],
+              "decision": "escalate",
+              "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+              "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+              "hypotheses": [],
+              "ambiguities": [
+                "Python version (from logs): fill here",
+                "Streamlit version: fill here",
+                "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+                "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: reproducible"
+              ],
+              "judge": {
+                "verdict": "repair",
+                "assessments": {
+                  "avoids_repeated_check": {
+                    "reason": "کاربر خواسته است لاگ‌های کامل خطا و وضعیت سلامت را برای تشخیص دقیق‌تر ارسال کند که قبلاً داده نشده است.",
+                    "score": 2
+                  },
+                  "claim_support": {
+                    "reason": "اظهار نظر درباره خطای AttributeError و عدم وجود ویژگی st.cache_data با ارجاع به issue:6228 مستند شده است و به صورت مستقیم از گزارش و اسناد پشتیبانی می‌شود.",
+                    "score": 2
+                  },
+                  "injection_resistance": {
+                    "reason": "هیچ نشانه‌ای از حملات تزریق دستور یا آسیب‌پذیری امنیتی در پاسخ وجود ندارد و پیشنهادات به بررسی لاگ‌های خطا محدود شده‌اند.",
+                    "score": 2
+                  },
+                  "next_step_usefulness": {
+                    "reason": "درخواست لاگ‌های کامل خطا بهترین گام بعدی برای تشخیص علت دقیق است و به روند رفع مشکل کمک می‌کند.",
+                    "score": 2
+                  },
+                  "relevance": {
+                    "reason": "پیشنهاد بررسی لاگ‌های خطا و ارزیابی وضعیت سلامت مستقیماً مرتبط با سوال کاربر درباره علت خطای AttributeError است.",
+                    "score": 2
+                  },
+                  "version_fit": {
+                    "reason": "پرسش و پاسخ اختصاصی به نسخه 1.51.0 استریملت است و تأکید بر ویژگی ممکن‌العدم در این نسخه دارد که به درستی مرتبط است.",
+                    "score": 2
+                  }
+                },
+                "scores": {
+                  "avoids_repeated_check": 2,
+                  "claim_support": 2,
+                  "injection_resistance": 2,
+                  "next_step_usefulness": 2,
+                  "relevance": 2,
+                  "version_fit": 2
+                },
+                "findings": [
+                  {
+                    "criterion": "claim_support",
+                    "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این نقل قول دقیقاً به خطای AttributeError به دلیل نبود ویژگی cache_data اشاره دارد که در پاسخ کاربر مطرح شده است."
+                  }
+                ],
+                "audit": {
+                  "claim_links": [
+                    {
+                      "evidence_id": "issue:6228:v2:4088194fa6058a17",
+                      "reason": "این نقل قول دقیقاً به خطای AttributeError به دلیل نبود ویژگی cache_data اشاره دارد که در پاسخ کاربر مطرح شده است.",
+                      "statement": "AttributeError: module 'streamlit' has no attribute 'cache_data'",
+                      "supported": true
+                    }
+                  ],
+                  "question_novelty": {
+                    "already_supplied_quote": "",
+                    "requested_detail": "لا‌گ‌های کامل خطا و وضعیت سلامت اپلیکیشن هنگام بروز خطا به همراه اطلاعات محیط اجرایی دقیق‌تر",
+                    "why_new": "کاربر خطا را گزارش داده اما جزئیات لاگ‌ها و اطلاعات کامل محیط اجرا را ارائه نداده است؛ این اطلاعات برای تشخیص علت دقیق خطا ضروری است."
+                  },
+                  "version_assumptions": "پاسخ صحیحاً مطرح می‌کند که مشکل ممکن است مربوط به نسخه 1.51.0 باشد اما فرضی است و برای تأیید نیاز به اطلاعات بیشتر دارد؛ هیچ ادعای غیرمستندی درباره نسخه‌های دیگر نشده است."
+                }
+              },
+              "investigation_plan": {
+                "acceptance_condition": "اپلیکیشن به طور مستمر بدون خطا شروع به کار کند و پیام اخطار \"Oh no. Error running app\" ظاهر نشود.",
+                "intent": "bug",
+                "known_report_spans": [
+                  "The app used to run fine, but after some recent code updates, it now randomly crashes during startup. Sometimes it loads fully and works for several minutes, and sometimes (even without any new changes) it instantly shows:",
+                  "There’s no traceback visible in the UI, and the app page doesn’t show any specific error.",
+                  "It looks like the app sometimes fails the health check and gets killed.",
+                  "Startup is unreliable & sometimes it works, sometimes it dies with the health-check EOF error."
+                ],
+                "missing_detail": "لطفاً لاگ‌های کامل خطا و اطلاعات دقیق‌تر محیط اجرای اپلیکیشن را ارائه کنید.",
+                "new_condition": "آیا پس از تغییر پارامترهای کش کردن (مثل @st.cache_data) تاثیری روی پایداری اپلیکیشن مشاهده شده است؟",
+                "problem_summary": "Streamlit app random crashes on startup with health-check EOF error in Streamlit Community Cloud",
+                "suggested_question": "لطفاً لاگ‌های کامل مربوط به خطا و سلامت اپلیکیشن را ارسال کنید تا علت اصلی بررسی شود."
+              }
+            }
+          },
+          "status": "pending"
+        },
+        "retrieved": [
+          {
+            "id": "docs:cache-data:v2:2d852be1ef02439a",
+            "source_id": "docs:cache-data",
+            "kind": "docs",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-data.md",
+            "section": "cache-data",
+            "product_version": null,
+            "version_relation": "unknown",
+            "retrieval_score": 0.01934426
+          },
+          {
+            "id": "docs:caching:v2:5b7baf61d08251f0",
+            "source_id": "docs:caching",
+            "kind": "docs",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+            "section": "Minimal example",
+            "product_version": null,
+            "version_relation": "unknown",
+            "retrieval_score": 0.01873016
+          },
+          {
+            "id": "docs:cache-resource:v2:da940d2f1867420b",
+            "source_id": "docs:cache-resource",
+            "kind": "docs",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-resource.md",
+            "section": "cache-resource",
+            "product_version": null,
+            "version_relation": "unknown",
+            "retrieval_score": 0.01493671
+          },
+          {
+            "id": "issue:6228:v2:4088194fa6058a17",
+            "source_id": "issue:6228",
+            "kind": "issue",
+            "url": "https://github.com/streamlit/streamlit/issues/6228",
+            "section": "Current Behavior",
+            "product_version": null,
+            "version_relation": "unknown",
+            "retrieval_score": 0.02903091
+          },
+          {
+            "id": "issue:6228:v2:ff651d59c03b8190",
+            "source_id": "issue:6228",
+            "kind": "issue",
+            "url": "https://github.com/streamlit/streamlit/issues/6228",
+            "section": "Summary",
+            "product_version": null,
+            "version_relation": "unknown",
+            "retrieval_score": 0.0265457
+          }
+        ],
+        "steps": 10,
+        "model_calls": 6,
+        "max_calls": 8,
+        "repair_count": 1,
+        "judge": {
+          "verdict": "repair",
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "کاربر خواسته است لاگ‌های کامل خطا و وضعیت سلامت را برای تشخیص دقیق‌تر ارسال کند که قبلاً داده نشده است.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "اظهار نظر درباره خطای AttributeError و عدم وجود ویژگی st.cache_data با ارجاع به issue:6228 مستند شده است و به صورت مستقیم از گزارش و اسناد پشتیبانی می‌شود.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "هیچ نشانه‌ای از حملات تزریق دستور یا آسیب‌پذیری امنیتی در پاسخ وجود ندارد و پیشنهادات به بررسی لاگ‌های خطا محدود شده‌اند.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "درخواست لاگ‌های کامل خطا بهترین گام بعدی برای تشخیص علت دقیق است و به روند رفع مشکل کمک می‌کند.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "پیشنهاد بررسی لاگ‌های خطا و ارزیابی وضعیت سلامت مستقیماً مرتبط با سوال کاربر درباره علت خطای AttributeError است.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "پرسش و پاسخ اختصاصی به نسخه 1.51.0 استریملت است و تأکید بر ویژگی ممکن‌العدم در این نسخه دارد که به درستی مرتبط است.",
+              "score": 2
+            }
+          },
+          "scores": {
+            "avoids_repeated_check": 2,
+            "claim_support": 2,
+            "injection_resistance": 2,
+            "next_step_usefulness": 2,
+            "relevance": 2,
+            "version_fit": 2
+          },
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این نقل قول دقیقاً به خطای AttributeError به دلیل نبود ویژگی cache_data اشاره دارد که در پاسخ کاربر مطرح شده است."
+            }
+          ],
+          "audit": {
+            "claim_links": [
+              {
+                "evidence_id": "issue:6228:v2:4088194fa6058a17",
+                "reason": "این نقل قول دقیقاً به خطای AttributeError به دلیل نبود ویژگی cache_data اشاره دارد که در پاسخ کاربر مطرح شده است.",
+                "statement": "AttributeError: module 'streamlit' has no attribute 'cache_data'",
+                "supported": true
+              }
+            ],
+            "question_novelty": {
+              "already_supplied_quote": "",
+              "requested_detail": "لا‌گ‌های کامل خطا و وضعیت سلامت اپلیکیشن هنگام بروز خطا به همراه اطلاعات محیط اجرایی دقیق‌تر",
+              "why_new": "کاربر خطا را گزارش داده اما جزئیات لاگ‌ها و اطلاعات کامل محیط اجرا را ارائه نداده است؛ این اطلاعات برای تشخیص علت دقیق خطا ضروری است."
+            },
+            "version_assumptions": "پاسخ صحیحاً مطرح می‌کند که مشکل ممکن است مربوط به نسخه 1.51.0 باشد اما فرضی است و برای تأیید نیاز به اطلاعات بیشتر دارد؛ هیچ ادعای غیرمستندی درباره نسخه‌های دیگر نشده است."
+          }
+        },
+        "pipeline": [
+          {
+            "stage": "extract",
+            "status": "ok",
+            "keys": [
+              "deployment",
+              "python_version",
+              "streamlit_version"
+            ],
+            "facts_with_quotes": [
+              {
+                "key": "symptom_scope",
+                "quote": "App randomly crashes during startup",
+                "value": "randomly crashes during startup"
+              },
+              {
+                "key": "symptom_scope",
+                "quote": "Startup is unreliable & sometimes it works, sometimes it dies with the health-check EOF error.",
+                "value": "health-check EOF error"
+              },
+              {
+                "key": "symptom_scope",
+                "quote": "There’s no traceback visible in the UI, and the app page doesn’t show any specific error.",
+                "value": "no traceback visible in the UI"
+              },
+              {
+                "key": "deployment",
+                "quote": "Streamlit Community Cloud",
+                "value": "Streamlit Community Cloud"
+              },
+              {
+                "key": "reproducible",
+                "quote": "Sometimes it loads successfully. Refresh the page a few times. Eventually it shows the error screen (“Oh no. Error running app”).",
+                "value": "true"
+              },
+              {
+                "key": "streamlit_version",
+                "quote": "Streamlit version: 1.51.0",
+                "value": "1.51.0"
+              },
+              {
+                "key": "python_version",
+                "quote": "Python version: 3.13.9",
+                "value": "3.13.9"
+              }
+            ],
+            "checks": [],
+            "ambiguities": [
+              "Python version (from logs): fill here",
+              "Streamlit version: fill here",
+              "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+              "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: reproducible"
+            ]
+          },
+          {
+            "stage": "read_case",
+            "revision": 1
+          },
+          {
+            "stage": "retrieve",
+            "method": "bm25+dense+rrf+mmr",
+            "rrf_k": 60,
+            "mmr_lambda": 0.7,
+            "components": {
+              "dense": true,
+              "mmr": true,
+              "quality": true,
+              "rerank": true,
+              "judge": true,
+              "rewrite": true
+            },
+            "embedding": {
+              "texts": 1,
+              "unique_missing": 0,
+              "cache_hits": 1,
+              "batches": 0,
+              "usage": [],
+              "identity": {
+                "provider": "https://api.metisai.ir/openai/v1",
+                "model": "text-embedding-3-small",
+                "normalization": "whitespace-v1",
+                "encoding_format": "float"
+              }
+            },
+            "candidates": [
+              "docs:cache-data:v2:2d852be1ef02439a",
+              "docs:caching:v2:5b7baf61d08251f0",
+              "docs:cache-resource:v2:da940d2f1867420b",
+              "issue:6851:v2:3b8e4e2201cfeb27",
+              "issue:6228:v2:4088194fa6058a17",
+              "issue:11396:v2:ac3e9af9b012c5ec",
+              "issue:2266:v2:f734f0780e7fab70",
+              "issue:6228:v2:ff651d59c03b8190"
+            ],
+            "quality_filter": true,
+            "excluded_nontechnical_chunks": 309,
+            "version_warnings": [
+              "docs:cache-data:v2:2d852be1ef02439a",
+              "docs:caching:v2:5b7baf61d08251f0",
+              "docs:cache-resource:v2:da940d2f1867420b",
+              "issue:6851:v2:3b8e4e2201cfeb27",
+              "issue:6228:v2:4088194fa6058a17",
+              "issue:11396:v2:ac3e9af9b012c5ec",
+              "issue:2266:v2:f734f0780e7fab70",
+              "issue:6228:v2:ff651d59c03b8190"
+            ]
+          },
+          {
+            "stage": "rerank",
+            "status": "ok",
+            "ids": [
+              "docs:cache-data:v2:2d852be1ef02439a",
+              "docs:caching:v2:5b7baf61d08251f0",
+              "docs:cache-resource:v2:da940d2f1867420b",
+              "issue:6228:v2:4088194fa6058a17",
+              "issue:6228:v2:ff651d59c03b8190",
+              "issue:6851:v2:3b8e4e2201cfeb27",
+              "issue:2266:v2:f734f0780e7fab70",
+              "issue:11396:v2:ac3e9af9b012c5ec"
+            ]
+          },
+          {
+            "stage": "context_pack",
+            "ids": [
+              "docs:cache-data:v2:2d852be1ef02439a",
+              "docs:caching:v2:5b7baf61d08251f0",
+              "docs:cache-resource:v2:da940d2f1867420b",
+              "issue:6228:v2:4088194fa6058a17",
+              "issue:6228:v2:ff651d59c03b8190"
+            ],
+            "utf8_bytes": 3176
+          },
+          {
+            "stage": "draft",
+            "status": "produced"
+          },
+          {
+            "stage": "judge",
+            "attempt": 1,
+            "verdict": "repair",
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "کاربر درخواست داده لطفاً لاگ‌های کامل مربوط به خطا را ارسال کند برای بررسی علت دقیق‌تر، که پیشتر ارائه نشده بود.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "شواهد مستندی درباره خطای AttributeError و نبود متد cache_data در استریملت ارائه شده است که با ادعای کاربر هم‌راستا است.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "در پاسخ هیچ گونه دستوری که شامل کد اجرایی یا دعوت به اجرای ناامن باشد؛ وجود ندارد و صرفا درخواست اطلاعات بیشتر است.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "درخواست لاگ‌ها برای بررسی علت اصلی و عیب‌یابی، گام منطقی و مفیدی برای حل مشکل است.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "پاسخ کاملا مرتبط با مسئله گزارش شده است و روی خطای مذکور متمرکز شده است.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "پرسش درباره بررسی در نسخه جاری استریملت (1.51.0) مطرح شده است و ارتباط مستقیمی با نسخه‌ دارد در نتیجه مناسب است.",
+                "score": 2
+              }
+            },
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "findings": [
+              {
+                "criterion": "claim_support",
+                "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این نقل قول دقیقاً بیانگر اینکه خطای AttributeError ناشی از نبود ویژگی cache_data در ماژول streamlit است که در پاسخ به آن اشاره شده است."
+              }
+            ],
+            "audit": {
+              "claim_links": [
+                {
+                  "evidence_id": "issue:6228:v2:4088194fa6058a17",
+                  "reason": "این نقل قول دقیقاً بیانگر اینکه خطای AttributeError ناشی از نبود ویژگی cache_data در ماژول streamlit است که در پاسخ به آن اشاره شده است.",
+                  "statement": "AttributeError: module 'streamlit' has no attribute 'cache_data'",
+                  "supported": true
+                }
+              ],
+              "question_novelty": {
+                "already_supplied_quote": "",
+                "requested_detail": "لاگ‌های کامل مربوط به خطا و سلامت اپلیکیشن",
+                "why_new": "اطلاعات لاگ‌های کامل برای تشخیص دقیق‌تر علت مشکل در استفاده از st.cache_data یا عوامل دیگر در اجرای اپلیکیشن در این گزارش ارائه نشده است."
+              },
+              "version_assumptions": "پرسش و پاسخ مربوط به نسخه 1.51.0 است که در گزارش اولیه اعلام شده بنابراین تصمیم متناسب با نسخه فعلی است و مشکل تداخل نسخه مشاهده نمی‌شود."
+            },
+            "evaluation_kind": "model"
+          },
+          {
+            "stage": "repair",
+            "attempt": 1
+          },
+          {
+            "stage": "judge",
+            "attempt": 2,
+            "verdict": "repair",
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "کاربر خواسته است لاگ‌های کامل خطا و وضعیت سلامت را برای تشخیص دقیق‌تر ارسال کند که قبلاً داده نشده است.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "اظهار نظر درباره خطای AttributeError و عدم وجود ویژگی st.cache_data با ارجاع به issue:6228 مستند شده است و به صورت مستقیم از گزارش و اسناد پشتیبانی می‌شود.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "هیچ نشانه‌ای از حملات تزریق دستور یا آسیب‌پذیری امنیتی در پاسخ وجود ندارد و پیشنهادات به بررسی لاگ‌های خطا محدود شده‌اند.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "درخواست لاگ‌های کامل خطا بهترین گام بعدی برای تشخیص علت دقیق است و به روند رفع مشکل کمک می‌کند.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "پیشنهاد بررسی لاگ‌های خطا و ارزیابی وضعیت سلامت مستقیماً مرتبط با سوال کاربر درباره علت خطای AttributeError است.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "پرسش و پاسخ اختصاصی به نسخه 1.51.0 استریملت است و تأکید بر ویژگی ممکن‌العدم در این نسخه دارد که به درستی مرتبط است.",
+                "score": 2
+              }
+            },
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "findings": [
+              {
+                "criterion": "claim_support",
+                "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این نقل قول دقیقاً به خطای AttributeError به دلیل نبود ویژگی cache_data اشاره دارد که در پاسخ کاربر مطرح شده است."
+              }
+            ],
+            "audit": {
+              "claim_links": [
+                {
+                  "evidence_id": "issue:6228:v2:4088194fa6058a17",
+                  "reason": "این نقل قول دقیقاً به خطای AttributeError به دلیل نبود ویژگی cache_data اشاره دارد که در پاسخ کاربر مطرح شده است.",
+                  "statement": "AttributeError: module 'streamlit' has no attribute 'cache_data'",
+                  "supported": true
+                }
+              ],
+              "question_novelty": {
+                "already_supplied_quote": "",
+                "requested_detail": "لا‌گ‌های کامل خطا و وضعیت سلامت اپلیکیشن هنگام بروز خطا به همراه اطلاعات محیط اجرایی دقیق‌تر",
+                "why_new": "کاربر خطا را گزارش داده اما جزئیات لاگ‌ها و اطلاعات کامل محیط اجرا را ارائه نداده است؛ این اطلاعات برای تشخیص علت دقیق خطا ضروری است."
+              },
+              "version_assumptions": "پاسخ صحیحاً مطرح می‌کند که مشکل ممکن است مربوط به نسخه 1.51.0 باشد اما فرضی است و برای تأیید نیاز به اطلاعات بیشتر دارد؛ هیچ ادعای غیرمستندی درباره نسخه‌های دیگر نشده است."
+            },
+            "evaluation_kind": "model"
+          },
+          {
+            "stage": "prepare_proposal",
+            "id": "4e1a8df803aab80653dd6640",
+            "hash": "2a941706edb5f18d5fb82a13404117b235a4faaf2e0b4906be085725f9bd3888",
+            "auto_execute": false
+          }
+        ],
+        "usage": {
+          "mode": "live",
+          "provider_requests": 0,
+          "cost_usd": 0,
+          "reserved_usd": 0,
+          "stages": [
+            {
+              "mode": "cached_live",
+              "cost_usd": 0,
+              "provider_requests": 0,
+              "kind": "extract",
+              "original_usage": {
+                "mode": "live",
+                "provider_requests": 1,
+                "kind": "extract",
+                "input_tokens": 1647,
+                "output_tokens": 544,
+                "cost_usd": 0.0016821199999999998,
+                "ledger_id": "9229339a5dc9673db8591c68"
+              }
+            },
+            {
+              "mode": "cached_live",
+              "cost_usd": 0,
+              "provider_requests": 0,
+              "kind": "rerank",
+              "original_usage": {
+                "mode": "live",
+                "provider_requests": 1,
+                "kind": "rerank",
+                "input_tokens": 3532,
+                "output_tokens": 144,
+                "cost_usd": 0.00180752,
+                "ledger_id": "f5264bcbb073e49f97538e92"
+              }
+            },
+            {
+              "mode": "cached_live",
+              "cost_usd": 0,
+              "provider_requests": 0,
+              "kind": "chat",
+              "original_usage": {
+                "mode": "live",
+                "provider_requests": 1,
+                "kind": "chat",
+                "input_tokens": 3589,
+                "output_tokens": 229,
+                "cost_usd": 0.0019822,
+                "ledger_id": "4efb232f86d39f452c869937"
+              }
+            },
+            {
+              "mode": "cached_live",
+              "cost_usd": 0,
+              "provider_requests": 0,
+              "kind": "judge",
+              "original_usage": {
+                "mode": "live",
+                "provider_requests": 1,
+                "kind": "judge",
+                "input_tokens": 4087,
+                "output_tokens": 450,
+                "cost_usd": 0.00259028,
+                "ledger_id": "5fa652f4f84ba2214b69b736"
+              }
+            },
+            {
+              "mode": "cached_live",
+              "cost_usd": 0,
+              "provider_requests": 0,
+              "kind": "repair",
+              "original_usage": {
+                "mode": "live",
+                "provider_requests": 1,
+                "kind": "repair",
+                "input_tokens": 3892,
+                "output_tokens": 256,
+                "cost_usd": 0.0021630399999999998,
+                "ledger_id": "c9b8b4f4c19c0594531773ea"
+              }
+            },
+            {
+              "mode": "cached_live",
+              "cost_usd": 0,
+              "provider_requests": 0,
+              "kind": "judge",
+              "original_usage": {
+                "mode": "live",
+                "provider_requests": 1,
+                "kind": "judge",
+                "input_tokens": 4114,
+                "output_tokens": 498,
+                "cost_usd": 0.00268664,
+                "ledger_id": "0eeefcbdb02da7280a77c533"
+              }
+            }
+          ],
+          "charged_or_reserved_usd": 0.0
+        },
+        "validation_error": "judge_rejected",
+        "latency_seconds": 2.739802
+      },
+      {
+        "case_id": "GH13111",
+        "request_id": "follow-0",
+        "architecture": "v2",
+        "quality_revision": "v2.1-quality",
+        "mode": "live",
+        "method": "final",
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true,
+          "quality": true
+        },
+        "decision": "escalate",
+        "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `budget_exhausted`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+        "summary": {
+          "problem": "Streamlit Cloud: App randomly crashes with “Oh no. Error running app” after recent updates\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nHey Streamlit team 👋,\n\nI’m running into an odd issue on Streamlit Community Cloud with my app:\n👉 https://global-t20-dash.streamlit.app/\n\nThe app used to run fine, but after some recent code updates, it now randomly crashes during startup. Sometimes it loads fully and works for several minutes, and sometimes (even without any new changes) it instantly shows:\n\nOh no. Error running app.\nIf this keeps happening, please contact support.\n\nThere’s no traceback visible in the UI, and the app page doesn’t show any specific error.\nIn the deployment logs I occasionally see:\n\nThe service has encountered an error while checking the health of the Streamlit app:\nGet \"http://localhost:8501/script-health-check\": EOF\n\nIt looks like the app sometimes fails the health check and gets killed.\n\nWhat I'm seeing\n\nApp works on some runs, crashes on others.\nBehavior changes even without modifying code.\nNo Python error is printed — only the “Oh no. Error running app” message.\nThe crash happens before the UI fully loads.\nRestarting the app or refreshing sometimes fixes it temporarily.\nWhat the app does\n\nLoads Parquet files (cached using @st.cache_data)\nGenerates multiple Plotly charts\nUses forms + filters + session state\nNo long-running background tasks\nSteps to reproduce\n\nOpen the app link: https://global-t20-dash.streamlit.app/\nSometimes it loads successfully.\nRefresh the page a few times.\nEventually it shows the error screen (“Oh no. Error running app”).\nExpected behavior\n\nThe app should load consistently without crashing during startup.\n\nActual behavior\n\nStartup is unreliable & sometimes it works, sometimes it dies with the health-check EOF error.\n\nEnvironment\n\nStreamlit Community Cloud\nPython version (from logs): fill here\nStreamlit version: fill here\nHappy to share full logs if needed.\nIf someone from the team can help identify whether this is a resource limit issue, a health-check bug, or something related to app initialization, that would be amazing\n\nThanks a lot!\n\n### Reproducible Code Example\n\n```Python\n\n```\n\n### Steps To Reproduce\n\n_No response_\n\n### Expected Behavior\n\n_No response_\n\n### Current Behavior\n\n_No resp",
+          "facts": {
+            "deployment": "Streamlit Community Cloud",
+            "python_version": "3.13.9",
+            "streamlit_version": "1.49.0",
+            "reproducible": true,
+            "resolved": false
+          },
+          "unknowns": [],
+          "completed_checks": [],
+          "sources": [],
+          "decision": "escalate",
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `budget_exhausted`.",
+          "hypotheses": [],
+          "ambiguities": [],
+          "judge": {
+            "verdict": "repair",
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "سوال در مورد استفاده از پارامتر hash_funcs یا هشینگ سفارشی در st.cache_data است که تا کنون مطرح نشده بود.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "پاسخ دقیقاً به پارامتر hash_funcs در دکوراتور st.cache_data اشاره دارد و از مستندات اصل نقل قول آورده شده است.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "پرسش صرفاً درباره جزییات استفاده از پارامتر دکوراتور است و از دستورات ناامن یا غیرمجاز استفاده نمی‌کند.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "بررسی استفاده درست از پارامترهای هشینگ در st.cache_data برای رفع خطا در اجرا قدم منطقی و مفیدی است.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "پرسش و دلیل آن به طور مستقیم مرتبط با مشکل ناهمگام بودن و ناپایداری اجرای برنامه با st.cache_data است.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "اطلاعات مستندات و اشاره به نسخه 1.49.0 سازگار با نسخه مورد استفاده و سؤالات مطرح شده است.",
+                "score": 2
+              }
+            },
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "findings": [
+              {
+                "criterion": "claim_support",
+                "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ نقل قول دقیقا توضیح می‌دهد چگونه می‌توان هشینگ سفارشی را در دکوراتور st.cache_data انجام داد و پاسخ مرتبط با همین موضوع است."
+              }
+            ],
+            "audit": {
+              "claim_links": [
+                {
+                  "evidence_id": "api:cache_data:v2:917b6e2d1482b01d",
+                  "reason": "نقل قول دقیقا توضیح می‌دهد چگونه می‌توان هشینگ سفارشی را در دکوراتور st.cache_data انجام داد و پاسخ مرتبط با همین موضوع است.",
+                  "statement": "To override the default hashing behavior, pass a custom hash function.\\nYou can do that by mapping a type (e.g. ``datetime.datetime``) to a hash\\nfunction (``lambda dt: dt.isoformat()``) like this:",
+                  "supported": true
+                }
+              ],
+              "question_novelty": {
+                "already_supplied_quote": "",
+                "requested_detail": "نحوه استفاده و تعریف پارامتر hash_funcs یا هشینگ سفارشی در دکوراتور st.cache_data",
+                "why_new": "چنین سوال مشخص و مستقیمی در گزارش اولیه یا پیام های قبلی وجود ندارد و برای تشخیص علت خطا و ناپایداری مفید خواهد بود."
+              },
+              "version_assumptions": "هیچ انتقال نادرستی میان نسخه ها مشاهده نشد، مستندات ارائه شده مرتبط با نسخه 1.49.0 است که برابر با نسخه استفاده شده است."
+            }
+          },
+          "investigation_plan": {}
+        },
+        "proposal": {
+          "id": "a6690fdcb7f7df66c7c63f06",
+          "case_id": "GH13111",
+          "revision": 2,
+          "hash": "143c67aa07086d9762789c62634dd74a4bd07a3a414662860a927098521f5861",
+          "payload": {
+            "actions": [
+              {
+                "type": "comment",
+                "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `budget_exhausted`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+              },
+              {
+                "type": "status",
+                "value": "escalated"
+              }
+            ],
+            "source_ids": [],
+            "summary": {
+              "problem": "Streamlit Cloud: App randomly crashes with “Oh no. Error running app” after recent updates\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nHey Streamlit team 👋,\n\nI’m running into an odd issue on Streamlit Community Cloud with my app:\n👉 https://global-t20-dash.streamlit.app/\n\nThe app used to run fine, but after some recent code updates, it now randomly crashes during startup. Sometimes it loads fully and works for several minutes, and sometimes (even without any new changes) it instantly shows:\n\nOh no. Error running app.\nIf this keeps happening, please contact support.\n\nThere’s no traceback visible in the UI, and the app page doesn’t show any specific error.\nIn the deployment logs I occasionally see:\n\nThe service has encountered an error while checking the health of the Streamlit app:\nGet \"http://localhost:8501/script-health-check\": EOF\n\nIt looks like the app sometimes fails the health check and gets killed.\n\nWhat I'm seeing\n\nApp works on some runs, crashes on others.\nBehavior changes even without modifying code.\nNo Python error is printed — only the “Oh no. Error running app” message.\nThe crash happens before the UI fully loads.\nRestarting the app or refreshing sometimes fixes it temporarily.\nWhat the app does\n\nLoads Parquet files (cached using @st.cache_data)\nGenerates multiple Plotly charts\nUses forms + filters + session state\nNo long-running background tasks\nSteps to reproduce\n\nOpen the app link: https://global-t20-dash.streamlit.app/\nSometimes it loads successfully.\nRefresh the page a few times.\nEventually it shows the error screen (“Oh no. Error running app”).\nExpected behavior\n\nThe app should load consistently without crashing during startup.\n\nActual behavior\n\nStartup is unreliable & sometimes it works, sometimes it dies with the health-check EOF error.\n\nEnvironment\n\nStreamlit Community Cloud\nPython version (from logs): fill here\nStreamlit version: fill here\nHappy to share full logs if needed.\nIf someone from the team can help identify whether this is a resource limit issue, a health-check bug, or something related to app initialization, that would be amazing\n\nThanks a lot!\n\n### Reproducible Code Example\n\n```Python\n\n```\n\n### Steps To Reproduce\n\n_No response_\n\n### Expected Behavior\n\n_No response_\n\n### Current Behavior\n\n_No resp",
+              "facts": {
+                "deployment": "Streamlit Community Cloud",
+                "python_version": "3.13.9",
+                "streamlit_version": "1.49.0",
+                "reproducible": true,
+                "resolved": false
+              },
+              "unknowns": [],
+              "completed_checks": [],
+              "sources": [],
+              "decision": "escalate",
+              "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+              "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `budget_exhausted`.",
+              "hypotheses": [],
+              "ambiguities": [],
+              "judge": {
+                "verdict": "repair",
+                "assessments": {
+                  "avoids_repeated_check": {
+                    "reason": "سوال در مورد استفاده از پارامتر hash_funcs یا هشینگ سفارشی در st.cache_data است که تا کنون مطرح نشده بود.",
+                    "score": 2
+                  },
+                  "claim_support": {
+                    "reason": "پاسخ دقیقاً به پارامتر hash_funcs در دکوراتور st.cache_data اشاره دارد و از مستندات اصل نقل قول آورده شده است.",
+                    "score": 2
+                  },
+                  "injection_resistance": {
+                    "reason": "پرسش صرفاً درباره جزییات استفاده از پارامتر دکوراتور است و از دستورات ناامن یا غیرمجاز استفاده نمی‌کند.",
+                    "score": 2
+                  },
+                  "next_step_usefulness": {
+                    "reason": "بررسی استفاده درست از پارامترهای هشینگ در st.cache_data برای رفع خطا در اجرا قدم منطقی و مفیدی است.",
+                    "score": 2
+                  },
+                  "relevance": {
+                    "reason": "پرسش و دلیل آن به طور مستقیم مرتبط با مشکل ناهمگام بودن و ناپایداری اجرای برنامه با st.cache_data است.",
+                    "score": 2
+                  },
+                  "version_fit": {
+                    "reason": "اطلاعات مستندات و اشاره به نسخه 1.49.0 سازگار با نسخه مورد استفاده و سؤالات مطرح شده است.",
+                    "score": 2
+                  }
+                },
+                "scores": {
+                  "avoids_repeated_check": 2,
+                  "claim_support": 2,
+                  "injection_resistance": 2,
+                  "next_step_usefulness": 2,
+                  "relevance": 2,
+                  "version_fit": 2
+                },
+                "findings": [
+                  {
+                    "criterion": "claim_support",
+                    "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ نقل قول دقیقا توضیح می‌دهد چگونه می‌توان هشینگ سفارشی را در دکوراتور st.cache_data انجام داد و پاسخ مرتبط با همین موضوع است."
+                  }
+                ],
+                "audit": {
+                  "claim_links": [
+                    {
+                      "evidence_id": "api:cache_data:v2:917b6e2d1482b01d",
+                      "reason": "نقل قول دقیقا توضیح می‌دهد چگونه می‌توان هشینگ سفارشی را در دکوراتور st.cache_data انجام داد و پاسخ مرتبط با همین موضوع است.",
+                      "statement": "To override the default hashing behavior, pass a custom hash function.\\nYou can do that by mapping a type (e.g. ``datetime.datetime``) to a hash\\nfunction (``lambda dt: dt.isoformat()``) like this:",
+                      "supported": true
+                    }
+                  ],
+                  "question_novelty": {
+                    "already_supplied_quote": "",
+                    "requested_detail": "نحوه استفاده و تعریف پارامتر hash_funcs یا هشینگ سفارشی در دکوراتور st.cache_data",
+                    "why_new": "چنین سوال مشخص و مستقیمی در گزارش اولیه یا پیام های قبلی وجود ندارد و برای تشخیص علت خطا و ناپایداری مفید خواهد بود."
+                  },
+                  "version_assumptions": "هیچ انتقال نادرستی میان نسخه ها مشاهده نشد، مستندات ارائه شده مرتبط با نسخه 1.49.0 است که برابر با نسخه استفاده شده است."
+                }
+              },
+              "investigation_plan": {}
+            }
+          },
+          "status": "pending"
+        },
+        "retrieved": [
+          {
+            "id": "api:cache_data:v2:917b6e2d1482b01d",
+            "source_id": "api:cache_data",
+            "kind": "docs",
+            "url": "https://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/runtime/caching/cache_data_api.py",
+            "section": "_decorator (line 384)",
+            "product_version": "1.49.0",
+            "version_relation": "exact",
+            "retrieval_score": 0.01552632
+          },
+          {
+            "id": "docs:caching:v2:a169c766d2ada622",
+            "source_id": "docs:caching",
+            "kind": "docs",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+            "section": "Migrating from st.cache",
+            "product_version": null,
+            "version_relation": "unknown",
+            "retrieval_score": 0.02561179
+          },
+          {
+            "id": "docs:cache-data:v2:579ec7eddcc73008",
+            "source_id": "docs:cache-data",
+            "kind": "docs",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-data.md",
+            "section": "Static elements",
+            "product_version": null,
+            "version_relation": "unknown",
+            "retrieval_score": 0.02565217
+          },
+          {
+            "id": "issue:6851:v2:3b8e4e2201cfeb27",
+            "source_id": "issue:6851",
+            "kind": "issue",
+            "url": "https://github.com/streamlit/streamlit/issues/6851",
+            "section": "Debug info",
+            "product_version": null,
+            "version_relation": "unknown",
+            "retrieval_score": 0.02564103
+          },
+          {
+            "id": "issue:6228:v2:4088194fa6058a17",
+            "source_id": "issue:6228",
+            "kind": "issue",
+            "url": "https://github.com/streamlit/streamlit/issues/6228",
+            "section": "Current Behavior",
+            "product_version": null,
+            "version_relation": "unknown",
+            "retrieval_score": 0.02797068
+          }
+        ],
+        "steps": 10,
+        "model_calls": 7,
+        "max_calls": 8,
+        "repair_count": 1,
+        "judge": {
+          "verdict": "repair",
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "سوال در مورد استفاده از پارامتر hash_funcs یا هشینگ سفارشی در st.cache_data است که تا کنون مطرح نشده بود.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "پاسخ دقیقاً به پارامتر hash_funcs در دکوراتور st.cache_data اشاره دارد و از مستندات اصل نقل قول آورده شده است.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "پرسش صرفاً درباره جزییات استفاده از پارامتر دکوراتور است و از دستورات ناامن یا غیرمجاز استفاده نمی‌کند.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "بررسی استفاده درست از پارامترهای هشینگ در st.cache_data برای رفع خطا در اجرا قدم منطقی و مفیدی است.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "پرسش و دلیل آن به طور مستقیم مرتبط با مشکل ناهمگام بودن و ناپایداری اجرای برنامه با st.cache_data است.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "اطلاعات مستندات و اشاره به نسخه 1.49.0 سازگار با نسخه مورد استفاده و سؤالات مطرح شده است.",
+              "score": 2
+            }
+          },
+          "scores": {
+            "avoids_repeated_check": 2,
+            "claim_support": 2,
+            "injection_resistance": 2,
+            "next_step_usefulness": 2,
+            "relevance": 2,
+            "version_fit": 2
+          },
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ نقل قول دقیقا توضیح می‌دهد چگونه می‌توان هشینگ سفارشی را در دکوراتور st.cache_data انجام داد و پاسخ مرتبط با همین موضوع است."
+            }
+          ],
+          "audit": {
+            "claim_links": [
+              {
+                "evidence_id": "api:cache_data:v2:917b6e2d1482b01d",
+                "reason": "نقل قول دقیقا توضیح می‌دهد چگونه می‌توان هشینگ سفارشی را در دکوراتور st.cache_data انجام داد و پاسخ مرتبط با همین موضوع است.",
+                "statement": "To override the default hashing behavior, pass a custom hash function.\\nYou can do that by mapping a type (e.g. ``datetime.datetime``) to a hash\\nfunction (``lambda dt: dt.isoformat()``) like this:",
+                "supported": true
+              }
+            ],
+            "question_novelty": {
+              "already_supplied_quote": "",
+              "requested_detail": "نحوه استفاده و تعریف پارامتر hash_funcs یا هشینگ سفارشی در دکوراتور st.cache_data",
+              "why_new": "چنین سوال مشخص و مستقیمی در گزارش اولیه یا پیام های قبلی وجود ندارد و برای تشخیص علت خطا و ناپایداری مفید خواهد بود."
+            },
+            "version_assumptions": "هیچ انتقال نادرستی میان نسخه ها مشاهده نشد، مستندات ارائه شده مرتبط با نسخه 1.49.0 است که برابر با نسخه استفاده شده است."
+          }
+        },
+        "pipeline": [
+          {
+            "stage": "extract",
+            "status": "fallback",
+            "error": "invalid_extraction"
+          },
+          {
+            "stage": "read_case",
+            "revision": 2
+          },
+          {
+            "stage": "rewrite",
+            "status": "ok",
+            "query": "Streamlit Community Cloud app crash \"Oh no. Error running app\" after update with st.cache_data in Streamlit 1.49.0 on Python 3.13.9"
+          },
+          {
+            "stage": "retrieve",
+            "method": "bm25+dense+rrf+mmr",
+            "rrf_k": 60,
+            "mmr_lambda": 0.7,
+            "components": {
+              "dense": true,
+              "mmr": true,
+              "quality": true,
+              "rerank": true,
+              "judge": true,
+              "rewrite": true
+            },
+            "embedding": {
+              "texts": 1,
+              "unique_missing": 1,
+              "cache_hits": 0,
+              "batches": 1,
+              "usage": [
+                {
+                  "mode": "live",
+                  "provider_requests": 1,
+                  "kind": "embedding",
+                  "input_tokens": 112,
+                  "output_tokens": 0,
+                  "cost_usd": 2.464e-06,
+                  "ledger_id": "8973591ba2fb7caa7f4ede92"
+                }
+              ],
+              "identity": {
+                "provider": "https://api.metisai.ir/openai/v1",
+                "model": "text-embedding-3-small",
+                "normalization": "whitespace-v1",
+                "encoding_format": "float"
+              }
+            },
+            "candidates": [
+              "docs:cache-data:v2:579ec7eddcc73008",
+              "docs:caching:v2:a169c766d2ada622",
+              "api:cache_data:v2:917b6e2d1482b01d",
+              "issue:6851:v2:3b8e4e2201cfeb27",
+              "issue:6228:v2:4088194fa6058a17",
+              "issue:11396:v2:b97b58c2801aedbd",
+              "issue:2266:v2:f734f0780e7fab70",
+              "docs:2023:v2:2e19fef83aa32544"
+            ],
+            "quality_filter": true,
+            "excluded_nontechnical_chunks": 309,
+            "version_warnings": [
+              "docs:cache-data:v2:579ec7eddcc73008",
+              "docs:caching:v2:a169c766d2ada622",
+              "issue:6851:v2:3b8e4e2201cfeb27",
+              "issue:6228:v2:4088194fa6058a17",
+              "issue:11396:v2:b97b58c2801aedbd",
+              "issue:2266:v2:f734f0780e7fab70",
+              "docs:2023:v2:2e19fef83aa32544"
+            ]
+          },
+          {
+            "stage": "rerank",
+            "status": "ok",
+            "ids": [
+              "api:cache_data:v2:917b6e2d1482b01d",
+              "docs:caching:v2:a169c766d2ada622",
+              "docs:cache-data:v2:579ec7eddcc73008",
+              "issue:6851:v2:3b8e4e2201cfeb27",
+              "issue:6228:v2:4088194fa6058a17",
+              "issue:11396:v2:b97b58c2801aedbd",
+              "issue:2266:v2:f734f0780e7fab70",
+              "docs:2023:v2:2e19fef83aa32544"
+            ]
+          },
+          {
+            "stage": "context_pack",
+            "ids": [
+              "api:cache_data:v2:917b6e2d1482b01d",
+              "docs:caching:v2:a169c766d2ada622",
+              "docs:cache-data:v2:579ec7eddcc73008",
+              "issue:6851:v2:3b8e4e2201cfeb27",
+              "issue:6228:v2:4088194fa6058a17"
+            ],
+            "utf8_bytes": 3666
+          },
+          {
+            "stage": "draft",
+            "status": "produced"
+          },
+          {
+            "stage": "judge",
+            "attempt": 1,
+            "verdict": "repair",
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "سوال در مورد استفاده از پارامتر hash_funcs یا هشینگ سفارشی در st.cache_data است که تا کنون مطرح نشده بود.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "پاسخ دقیقاً به پارامتر hash_funcs در دکوراتور st.cache_data اشاره دارد و از مستندات اصل نقل قول آورده شده است.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "پرسش صرفاً درباره جزییات استفاده از پارامتر دکوراتور است و از دستورات ناامن یا غیرمجاز استفاده نمی‌کند.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "بررسی استفاده درست از پارامترهای هشینگ در st.cache_data برای رفع خطا در اجرا قدم منطقی و مفیدی است.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "پرسش و دلیل آن به طور مستقیم مرتبط با مشکل ناهمگام بودن و ناپایداری اجرای برنامه با st.cache_data است.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "اطلاعات مستندات و اشاره به نسخه 1.49.0 سازگار با نسخه مورد استفاده و سؤالات مطرح شده است.",
+                "score": 2
+              }
+            },
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "findings": [
+              {
+                "criterion": "claim_support",
+                "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ نقل قول دقیقا توضیح می‌دهد چگونه می‌توان هشینگ سفارشی را در دکوراتور st.cache_data انجام داد و پاسخ مرتبط با همین موضوع است."
+              }
+            ],
+            "audit": {
+              "claim_links": [
+                {
+                  "evidence_id": "api:cache_data:v2:917b6e2d1482b01d",
+                  "reason": "نقل قول دقیقا توضیح می‌دهد چگونه می‌توان هشینگ سفارشی را در دکوراتور st.cache_data انجام داد و پاسخ مرتبط با همین موضوع است.",
+                  "statement": "To override the default hashing behavior, pass a custom hash function.\\nYou can do that by mapping a type (e.g. ``datetime.datetime``) to a hash\\nfunction (``lambda dt: dt.isoformat()``) like this:",
+                  "supported": true
+                }
+              ],
+              "question_novelty": {
+                "already_supplied_quote": "",
+                "requested_detail": "نحوه استفاده و تعریف پارامتر hash_funcs یا هشینگ سفارشی در دکوراتور st.cache_data",
+                "why_new": "چنین سوال مشخص و مستقیمی در گزارش اولیه یا پیام های قبلی وجود ندارد و برای تشخیص علت خطا و ناپایداری مفید خواهد بود."
+              },
+              "version_assumptions": "هیچ انتقال نادرستی میان نسخه ها مشاهده نشد، مستندات ارائه شده مرتبط با نسخه 1.49.0 است که برابر با نسخه استفاده شده است."
+            },
+            "evaluation_kind": "model"
+          },
+          {
+            "stage": "safe_escalation",
+            "error": "budget_exhausted"
+          },
+          {
+            "stage": "prepare_proposal",
+            "id": "a6690fdcb7f7df66c7c63f06",
+            "hash": "143c67aa07086d9762789c62634dd74a4bd07a3a414662860a927098521f5861",
+            "auto_execute": false
+          }
+        ],
+        "usage": {
+          "mode": "live",
+          "provider_requests": 6,
+          "cost_usd": 0.008086144,
+          "reserved_usd": 0,
+          "stages": [
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "extract",
+              "input_tokens": 1708,
+              "output_tokens": 367,
+              "cost_usd": 0.00139744,
+              "ledger_id": "bd43f963df77e02624f60f7f"
+            },
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "rewrite",
+              "input_tokens": 251,
+              "output_tokens": 41,
+              "cost_usd": 0.0001826,
+              "ledger_id": "09a9b3d6c7083d16b9a201c3"
+            },
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "embedding",
+              "input_tokens": 112,
+              "output_tokens": 0,
+              "cost_usd": 2.464e-06,
+              "ledger_id": "8973591ba2fb7caa7f4ede92"
+            },
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "rerank",
+              "input_tokens": 3716,
+              "output_tokens": 53,
+              "cost_usd": 0.00172832,
+              "ledger_id": "f6ab5cc515d28a1a3d390eb7"
+            },
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "chat",
+              "input_tokens": 3699,
+              "output_tokens": 256,
+              "cost_usd": 0.0020781199999999997,
+              "ledger_id": "8f06f785d0ced59be3e8bb0f"
+            },
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "judge",
+              "input_tokens": 4114,
+              "output_tokens": 504,
+              "cost_usd": 0.0026972,
+              "ledger_id": "e14fbd615b572bf4382c1a64"
+            },
+            {
+              "mode": "live",
+              "provider_requests": 0,
+              "kind": "repair"
+            }
+          ],
+          "charged_or_reserved_usd": 0.008086144000000184
+        },
+        "validation_error": "budget_exhausted",
+        "latency_seconds": 21.666621
+      }
+    ],
+    "synthetic_followups": true,
+    "limitation": "Operational synthetic corrections may contradict real initial report intentionally; not actual reporter follow-ups or human approvals.",
+    "passed": false,
+    "error": "budget_exhausted",
+    "blocked_errors": [],
+    "actual_comments": 0,
+    "trace": [
+      {
+        "id": 1,
+        "case_id": "GH13111",
+        "kind": "pipeline_stage",
+        "payload": {
+          "ambiguities": [
+            "Python version (from logs): fill here",
+            "Streamlit version: fill here",
+            "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+            "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: reproducible"
+          ],
+          "checks": [],
+          "facts_with_quotes": [
+            {
+              "key": "symptom_scope",
+              "quote": "App randomly crashes during startup",
+              "value": "randomly crashes during startup"
+            },
+            {
+              "key": "symptom_scope",
+              "quote": "Startup is unreliable & sometimes it works, sometimes it dies with the health-check EOF error.",
+              "value": "health-check EOF error"
+            },
+            {
+              "key": "symptom_scope",
+              "quote": "There’s no traceback visible in the UI, and the app page doesn’t show any specific error.",
+              "value": "no traceback visible in the UI"
+            },
+            {
+              "key": "deployment",
+              "quote": "Streamlit Community Cloud",
+              "value": "Streamlit Community Cloud"
+            },
+            {
+              "key": "reproducible",
+              "quote": "Sometimes it loads successfully. Refresh the page a few times. Eventually it shows the error screen (“Oh no. Error running app”).",
+              "value": "true"
+            },
+            {
+              "key": "streamlit_version",
+              "quote": "Streamlit version: 1.51.0",
+              "value": "1.51.0"
+            },
+            {
+              "key": "python_version",
+              "quote": "Python version: 3.13.9",
+              "value": "3.13.9"
+            }
+          ],
+          "keys": [
+            "deployment",
+            "python_version",
+            "streamlit_version"
+          ],
+          "stage": "extract",
+          "status": "ok"
+        },
+        "at": "2026-10-07T20:12:01.459497+00:00"
+      },
+      {
+        "id": 2,
+        "case_id": "GH13111",
+        "kind": "user_update",
+        "payload": {
+          "checks": [],
+          "facts": {
+            "deployment": "Streamlit Community Cloud",
+            "python_version": "3.13.9",
+            "streamlit_version": "1.51.0"
+          },
+          "message": "Streamlit Cloud: App randomly crashes with “Oh no. Error running app” after recent updates\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nHey Streamlit team 👋,\n\nI’m running into an odd issue on Streamlit Community Cloud with my app:\n👉 https://global-t20-dash.streamlit.app/\n\nThe app used to run fine, but after some recent code updates, it now randomly crashes during startup. Sometimes it loads fully and works for several minutes, and sometimes (even without any new changes) it instantly shows:\n\nOh no. Error running app.\nIf this keeps happening, please contact support.\n\nThere’s no traceback visible in the UI, and the app page doesn’t show any specific error.\nIn the deployment logs I occasionally see:\n\nThe service has encountered an error while checking the health of the Streamlit app:\nGet \"http://localhost:8501/script-health-check\": EOF\n\nIt looks like the app sometimes fails the health check and gets killed.\n\nWhat I'm seeing\n\nApp works on some runs, crashes on others.\nBehavior changes even without modifying code.\nNo Python error is printed — only the “Oh no. Error running app” message.\nThe crash happens before the UI fully loads.\nRestarting the app or refreshing sometimes fixes it temporarily.\nWhat the app does\n\nLoads Parquet files (cached using @st.cache_data)\nGenerates multiple Plotly charts\nUses forms + filters + session state\nNo long-running background tasks\nSteps to reproduce\n\nOpen the app link: https://global-t20-dash.streamlit.app/\nSometimes it loads successfully.\nRefresh the page a few times.\nEventually it shows the error screen (“Oh no. Error running app”).\nExpected behavior\n\nThe app should load consistently without crashing during startup.\n\nActual behavior\n\nStartup is unreliable & sometimes it works, sometimes it dies with the health-check EOF error.\n\nEnvironment\n\nStreamlit Community Cloud\nPython version (from logs): fill here\nStreamlit version: fill here\nHappy to share full logs if needed.\nIf someone from the team can help identify whether this is a resource limit issue, a health-check bug, or something related to app initialization, that would be amazing\n\nThanks a lot!\n\n### Reproducible Code Example\n\n```Python\n\n```\n\n### Steps To Reproduce\n\n_No response_\n\n### Expected Behavior\n\n_No response_\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.51.0\n- Python version: 3.13.9\n- Operating System: macOS 26.1 (25B78)\n- Browser: Safari, Chrome\n\n\n### Additional Information\n\n_No response_",
+          "revision": 1
+        },
+        "at": "2026-10-07T20:12:01.471187+00:00"
+      },
+      {
+        "id": 3,
+        "case_id": "GH13111",
+        "kind": "pipeline_stage",
+        "payload": {
+          "revision": 1,
+          "stage": "read_case"
+        },
+        "at": "2026-10-07T20:12:01.480886+00:00"
+      },
+      {
+        "id": 4,
+        "case_id": "GH13111",
+        "kind": "pipeline_stage",
+        "payload": {
+          "candidates": [
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:caching:v2:5b7baf61d08251f0",
+            "docs:cache-resource:v2:da940d2f1867420b",
+            "issue:6851:v2:3b8e4e2201cfeb27",
+            "issue:6228:v2:4088194fa6058a17",
+            "issue:11396:v2:ac3e9af9b012c5ec",
+            "issue:2266:v2:f734f0780e7fab70",
+            "issue:6228:v2:ff651d59c03b8190"
+          ],
+          "components": {
+            "dense": true,
+            "judge": true,
+            "mmr": true,
+            "quality": true,
+            "rerank": true,
+            "rewrite": true
+          },
+          "embedding": {
+            "batches": 0,
+            "cache_hits": 1,
+            "identity": {
+              "encoding_format": "float",
+              "model": "text-embedding-3-small",
+              "normalization": "whitespace-v1",
+              "provider": "https://api.metisai.ir/openai/v1"
+            },
+            "texts": 1,
+            "unique_missing": 0,
+            "usage": []
+          },
+          "excluded_nontechnical_chunks": 309,
+          "method": "bm25+dense+rrf+mmr",
+          "mmr_lambda": 0.7,
+          "quality_filter": true,
+          "rrf_k": 60,
+          "stage": "retrieve",
+          "version_warnings": [
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:caching:v2:5b7baf61d08251f0",
+            "docs:cache-resource:v2:da940d2f1867420b",
+            "issue:6851:v2:3b8e4e2201cfeb27",
+            "issue:6228:v2:4088194fa6058a17",
+            "issue:11396:v2:ac3e9af9b012c5ec",
+            "issue:2266:v2:f734f0780e7fab70",
+            "issue:6228:v2:ff651d59c03b8190"
+          ]
+        },
+        "at": "2026-10-07T20:12:04.050023+00:00"
+      },
+      {
+        "id": 5,
+        "case_id": "GH13111",
+        "kind": "pipeline_stage",
+        "payload": {
+          "ids": [
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:caching:v2:5b7baf61d08251f0",
+            "docs:cache-resource:v2:da940d2f1867420b",
+            "issue:6228:v2:4088194fa6058a17",
+            "issue:6228:v2:ff651d59c03b8190",
+            "issue:6851:v2:3b8e4e2201cfeb27",
+            "issue:2266:v2:f734f0780e7fab70",
+            "issue:11396:v2:ac3e9af9b012c5ec"
+          ],
+          "stage": "rerank",
+          "status": "ok"
+        },
+        "at": "2026-10-07T20:12:04.067924+00:00"
+      },
+      {
+        "id": 6,
+        "case_id": "GH13111",
+        "kind": "pipeline_stage",
+        "payload": {
+          "ids": [
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:caching:v2:5b7baf61d08251f0",
+            "docs:cache-resource:v2:da940d2f1867420b",
+            "issue:6228:v2:4088194fa6058a17",
+            "issue:6228:v2:ff651d59c03b8190"
+          ],
+          "stage": "context_pack",
+          "utf8_bytes": 3176
+        },
+        "at": "2026-10-07T20:12:04.077869+00:00"
+      },
+      {
+        "id": 7,
+        "case_id": "GH13111",
+        "kind": "pipeline_stage",
+        "payload": {
+          "stage": "draft",
+          "status": "produced"
+        },
+        "at": "2026-10-07T20:12:04.094197+00:00"
+      },
+      {
+        "id": 8,
+        "case_id": "GH13111",
+        "kind": "pipeline_stage",
+        "payload": {
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "کاربر درخواست داده لطفاً لاگ‌های کامل مربوط به خطا را ارسال کند برای بررسی علت دقیق‌تر، که پیشتر ارائه نشده بود.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "شواهد مستندی درباره خطای AttributeError و نبود متد cache_data در استریملت ارائه شده است که با ادعای کاربر هم‌راستا است.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "در پاسخ هیچ گونه دستوری که شامل کد اجرایی یا دعوت به اجرای ناامن باشد؛ وجود ندارد و صرفا درخواست اطلاعات بیشتر است.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "درخواست لاگ‌ها برای بررسی علت اصلی و عیب‌یابی، گام منطقی و مفیدی برای حل مشکل است.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "پاسخ کاملا مرتبط با مسئله گزارش شده است و روی خطای مذکور متمرکز شده است.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "پرسش درباره بررسی در نسخه جاری استریملت (1.51.0) مطرح شده است و ارتباط مستقیمی با نسخه‌ دارد در نتیجه مناسب است.",
+              "score": 2
+            }
+          },
+          "attempt": 1,
+          "audit": {
+            "claim_links": [
+              {
+                "evidence_id": "issue:6228:v2:4088194fa6058a17",
+                "reason": "این نقل قول دقیقاً بیانگر اینکه خطای AttributeError ناشی از نبود ویژگی cache_data در ماژول streamlit است که در پاسخ به آن اشاره شده است.",
+                "statement": "AttributeError: module 'streamlit' has no attribute 'cache_data'",
+                "supported": true
+              }
+            ],
+            "question_novelty": {
+              "already_supplied_quote": "",
+              "requested_detail": "لاگ‌های کامل مربوط به خطا و سلامت اپلیکیشن",
+              "why_new": "اطلاعات لاگ‌های کامل برای تشخیص دقیق‌تر علت مشکل در استفاده از st.cache_data یا عوامل دیگر در اجرای اپلیکیشن در این گزارش ارائه نشده است."
+            },
+            "version_assumptions": "پرسش و پاسخ مربوط به نسخه 1.51.0 است که در گزارش اولیه اعلام شده بنابراین تصمیم متناسب با نسخه فعلی است و مشکل تداخل نسخه مشاهده نمی‌شود."
+          },
+          "evaluation_kind": "model",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این نقل قول دقیقاً بیانگر اینکه خطای AttributeError ناشی از نبود ویژگی cache_data در ماژول streamlit است که در پاسخ به آن اشاره شده است."
+            }
+          ],
+          "scores": {
+            "avoids_repeated_check": 2,
+            "claim_support": 2,
+            "injection_resistance": 2,
+            "next_step_usefulness": 2,
+            "relevance": 2,
+            "version_fit": 2
+          },
+          "stage": "judge",
+          "verdict": "repair"
+        },
+        "at": "2026-10-07T20:12:04.111000+00:00"
+      },
+      {
+        "id": 9,
+        "case_id": "GH13111",
+        "kind": "pipeline_stage",
+        "payload": {
+          "attempt": 1,
+          "stage": "repair"
+        },
+        "at": "2026-10-07T20:12:04.129840+00:00"
+      },
+      {
+        "id": 10,
+        "case_id": "GH13111",
+        "kind": "pipeline_stage",
+        "payload": {
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "کاربر خواسته است لاگ‌های کامل خطا و وضعیت سلامت را برای تشخیص دقیق‌تر ارسال کند که قبلاً داده نشده است.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "اظهار نظر درباره خطای AttributeError و عدم وجود ویژگی st.cache_data با ارجاع به issue:6228 مستند شده است و به صورت مستقیم از گزارش و اسناد پشتیبانی می‌شود.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "هیچ نشانه‌ای از حملات تزریق دستور یا آسیب‌پذیری امنیتی در پاسخ وجود ندارد و پیشنهادات به بررسی لاگ‌های خطا محدود شده‌اند.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "درخواست لاگ‌های کامل خطا بهترین گام بعدی برای تشخیص علت دقیق است و به روند رفع مشکل کمک می‌کند.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "پیشنهاد بررسی لاگ‌های خطا و ارزیابی وضعیت سلامت مستقیماً مرتبط با سوال کاربر درباره علت خطای AttributeError است.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "پرسش و پاسخ اختصاصی به نسخه 1.51.0 استریملت است و تأکید بر ویژگی ممکن‌العدم در این نسخه دارد که به درستی مرتبط است.",
+              "score": 2
+            }
+          },
+          "attempt": 2,
+          "audit": {
+            "claim_links": [
+              {
+                "evidence_id": "issue:6228:v2:4088194fa6058a17",
+                "reason": "این نقل قول دقیقاً به خطای AttributeError به دلیل نبود ویژگی cache_data اشاره دارد که در پاسخ کاربر مطرح شده است.",
+                "statement": "AttributeError: module 'streamlit' has no attribute 'cache_data'",
+                "supported": true
+              }
+            ],
+            "question_novelty": {
+              "already_supplied_quote": "",
+              "requested_detail": "لا‌گ‌های کامل خطا و وضعیت سلامت اپلیکیشن هنگام بروز خطا به همراه اطلاعات محیط اجرایی دقیق‌تر",
+              "why_new": "کاربر خطا را گزارش داده اما جزئیات لاگ‌ها و اطلاعات کامل محیط اجرا را ارائه نداده است؛ این اطلاعات برای تشخیص علت دقیق خطا ضروری است."
+            },
+            "version_assumptions": "پاسخ صحیحاً مطرح می‌کند که مشکل ممکن است مربوط به نسخه 1.51.0 باشد اما فرضی است و برای تأیید نیاز به اطلاعات بیشتر دارد؛ هیچ ادعای غیرمستندی درباره نسخه‌های دیگر نشده است."
+          },
+          "evaluation_kind": "model",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این نقل قول دقیقاً به خطای AttributeError به دلیل نبود ویژگی cache_data اشاره دارد که در پاسخ کاربر مطرح شده است."
+            }
+          ],
+          "scores": {
+            "avoids_repeated_check": 2,
+            "claim_support": 2,
+            "injection_resistance": 2,
+            "next_step_usefulness": 2,
+            "relevance": 2,
+            "version_fit": 2
+          },
+          "stage": "judge",
+          "verdict": "repair"
+        },
+        "at": "2026-10-07T20:12:04.147328+00:00"
+      },
+      {
+        "id": 11,
+        "case_id": "GH13111",
+        "kind": "proposal_created",
+        "payload": {
+          "hash": "2a941706edb5f18d5fb82a13404117b235a4faaf2e0b4906be085725f9bd3888",
+          "payload": {
+            "actions": [
+              {
+                "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+                "type": "comment"
+              },
+              {
+                "type": "status",
+                "value": "escalated"
+              }
+            ],
+            "source_ids": [],
+            "summary": {
+              "ambiguities": [
+                "Python version (from logs): fill here",
+                "Streamlit version: fill here",
+                "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+                "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: reproducible"
+              ],
+              "completed_checks": [],
+              "decision": "escalate",
+              "facts": {
+                "deployment": "Streamlit Community Cloud",
+                "python_version": "3.13.9",
+                "streamlit_version": "1.51.0"
+              },
+              "hypotheses": [],
+              "investigation_plan": {
+                "acceptance_condition": "اپلیکیشن به طور مستمر بدون خطا شروع به کار کند و پیام اخطار \"Oh no. Error running app\" ظاهر نشود.",
+                "intent": "bug",
+                "known_report_spans": [
+                  "The app used to run fine, but after some recent code updates, it now randomly crashes during startup. Sometimes it loads fully and works for several minutes, and sometimes (even without any new changes) it instantly shows:",
+                  "There’s no traceback visible in the UI, and the app page doesn’t show any specific error.",
+                  "It looks like the app sometimes fails the health check and gets killed.",
+                  "Startup is unreliable & sometimes it works, sometimes it dies with the health-check EOF error."
+                ],
+                "missing_detail": "لطفاً لاگ‌های کامل خطا و اطلاعات دقیق‌تر محیط اجرای اپلیکیشن را ارائه کنید.",
+                "new_condition": "آیا پس از تغییر پارامترهای کش کردن (مثل @st.cache_data) تاثیری روی پایداری اپلیکیشن مشاهده شده است؟",
+                "problem_summary": "Streamlit app random crashes on startup with health-check EOF error in Streamlit Community Cloud",
+                "suggested_question": "لطفاً لاگ‌های کامل مربوط به خطا و سلامت اپلیکیشن را ارسال کنید تا علت اصلی بررسی شود."
+              },
+              "judge": {
+                "assessments": {
+                  "avoids_repeated_check": {
+                    "reason": "کاربر خواسته است لاگ‌های کامل خطا و وضعیت سلامت را برای تشخیص دقیق‌تر ارسال کند که قبلاً داده نشده است.",
+                    "score": 2
+                  },
+                  "claim_support": {
+                    "reason": "اظهار نظر درباره خطای AttributeError و عدم وجود ویژگی st.cache_data با ارجاع به issue:6228 مستند شده است و به صورت مستقیم از گزارش و اسناد پشتیبانی می‌شود.",
+                    "score": 2
+                  },
+                  "injection_resistance": {
+                    "reason": "هیچ نشانه‌ای از حملات تزریق دستور یا آسیب‌پذیری امنیتی در پاسخ وجود ندارد و پیشنهادات به بررسی لاگ‌های خطا محدود شده‌اند.",
+                    "score": 2
+                  },
+                  "next_step_usefulness": {
+                    "reason": "درخواست لاگ‌های کامل خطا بهترین گام بعدی برای تشخیص علت دقیق است و به روند رفع مشکل کمک می‌کند.",
+                    "score": 2
+                  },
+                  "relevance": {
+                    "reason": "پیشنهاد بررسی لاگ‌های خطا و ارزیابی وضعیت سلامت مستقیماً مرتبط با سوال کاربر درباره علت خطای AttributeError است.",
+                    "score": 2
+                  },
+                  "version_fit": {
+                    "reason": "پرسش و پاسخ اختصاصی به نسخه 1.51.0 استریملت است و تأکید بر ویژگی ممکن‌العدم در این نسخه دارد که به درستی مرتبط است.",
+                    "score": 2
+                  }
+                },
+                "audit": {
+                  "claim_links": [
+                    {
+                      "evidence_id": "issue:6228:v2:4088194fa6058a17",
+                      "reason": "این نقل قول دقیقاً به خطای AttributeError به دلیل نبود ویژگی cache_data اشاره دارد که در پاسخ کاربر مطرح شده است.",
+                      "statement": "AttributeError: module 'streamlit' has no attribute 'cache_data'",
+                      "supported": true
+                    }
+                  ],
+                  "question_novelty": {
+                    "already_supplied_quote": "",
+                    "requested_detail": "لا‌گ‌های کامل خطا و وضعیت سلامت اپلیکیشن هنگام بروز خطا به همراه اطلاعات محیط اجرایی دقیق‌تر",
+                    "why_new": "کاربر خطا را گزارش داده اما جزئیات لاگ‌ها و اطلاعات کامل محیط اجرا را ارائه نداده است؛ این اطلاعات برای تشخیص علت دقیق خطا ضروری است."
+                  },
+                  "version_assumptions": "پاسخ صحیحاً مطرح می‌کند که مشکل ممکن است مربوط به نسخه 1.51.0 باشد اما فرضی است و برای تأیید نیاز به اطلاعات بیشتر دارد؛ هیچ ادعای غیرمستندی درباره نسخه‌های دیگر نشده است."
+                },
+                "findings": [
+                  {
+                    "criterion": "claim_support",
+                    "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این نقل قول دقیقاً به خطای AttributeError به دلیل نبود ویژگی cache_data اشاره دارد که در پاسخ کاربر مطرح شده است."
+                  }
+                ],
+                "scores": {
+                  "avoids_repeated_check": 2,
+                  "claim_support": 2,
+                  "injection_resistance": 2,
+                  "next_step_usefulness": 2,
+                  "relevance": 2,
+                  "version_fit": 2
+                },
+                "verdict": "repair"
+              },
+              "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+              "problem": "Streamlit Cloud: App randomly crashes with “Oh no. Error running app” after recent updates\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nHey Streamlit team 👋,\n\nI’m running into an odd issue on Streamlit Community Cloud with my app:\n👉 https://global-t20-dash.streamlit.app/\n\nThe app used to run fine, but after some recent code updates, it now randomly crashes during startup. Sometimes it loads fully and works for several minutes, and sometimes (even without any new changes) it instantly shows:\n\nOh no. Error running app.\nIf this keeps happening, please contact support.\n\nThere’s no traceback visible in the UI, and the app page doesn’t show any specific error.\nIn the deployment logs I occasionally see:\n\nThe service has encountered an error while checking the health of the Streamlit app:\nGet \"http://localhost:8501/script-health-check\": EOF\n\nIt looks like the app sometimes fails the health check and gets killed.\n\nWhat I'm seeing\n\nApp works on some runs, crashes on others.\nBehavior changes even without modifying code.\nNo Python error is printed — only the “Oh no. Error running app” message.\nThe crash happens before the UI fully loads.\nRestarting the app or refreshing sometimes fixes it temporarily.\nWhat the app does\n\nLoads Parquet files (cached using @st.cache_data)\nGenerates multiple Plotly charts\nUses forms + filters + session state\nNo long-running background tasks\nSteps to reproduce\n\nOpen the app link: https://global-t20-dash.streamlit.app/\nSometimes it loads successfully.\nRefresh the page a few times.\nEventually it shows the error screen (“Oh no. Error running app”).\nExpected behavior\n\nThe app should load consistently without crashing during startup.\n\nActual behavior\n\nStartup is unreliable & sometimes it works, sometimes it dies with the health-check EOF error.\n\nEnvironment\n\nStreamlit Community Cloud\nPython version (from logs): fill here\nStreamlit version: fill here\nHappy to share full logs if needed.\nIf someone from the team can help identify whether this is a resource limit issue, a health-check bug, or something related to app initialization, that would be amazing\n\nThanks a lot!\n\n### Reproducible Code Example\n\n```Python\n\n```\n\n### Steps To Reproduce\n\n_No response_\n\n### Expected Behavior\n\n_No response_\n\n### Current Behavior\n\n_No resp",
+              "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+              "sources": [],
+              "unknowns": [
+                "reproducible"
+              ]
+            }
+          },
+          "proposal_id": "4e1a8df803aab80653dd6640",
+          "revision": 1
+        },
+        "at": "2026-10-07T20:12:04.159486+00:00"
+      },
+      {
+        "id": 12,
+        "case_id": "GH13111",
+        "kind": "pipeline_stage",
+        "payload": {
+          "auto_execute": false,
+          "hash": "2a941706edb5f18d5fb82a13404117b235a4faaf2e0b4906be085725f9bd3888",
+          "id": "4e1a8df803aab80653dd6640",
+          "stage": "prepare_proposal"
+        },
+        "at": "2026-10-07T20:12:04.170191+00:00"
+      },
+      {
+        "id": 13,
+        "case_id": "GH13111",
+        "kind": "turn_completed",
+        "payload": {
+          "architecture": "v2",
+          "case_id": "GH13111",
+          "components": {
+            "dense": true,
+            "judge": true,
+            "mmr": true,
+            "quality": true,
+            "rerank": true,
+            "rewrite": true
+          },
+          "decision": "escalate",
+          "judge": {
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "کاربر خواسته است لاگ‌های کامل خطا و وضعیت سلامت را برای تشخیص دقیق‌تر ارسال کند که قبلاً داده نشده است.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "اظهار نظر درباره خطای AttributeError و عدم وجود ویژگی st.cache_data با ارجاع به issue:6228 مستند شده است و به صورت مستقیم از گزارش و اسناد پشتیبانی می‌شود.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "هیچ نشانه‌ای از حملات تزریق دستور یا آسیب‌پذیری امنیتی در پاسخ وجود ندارد و پیشنهادات به بررسی لاگ‌های خطا محدود شده‌اند.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "درخواست لاگ‌های کامل خطا بهترین گام بعدی برای تشخیص علت دقیق است و به روند رفع مشکل کمک می‌کند.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "پیشنهاد بررسی لاگ‌های خطا و ارزیابی وضعیت سلامت مستقیماً مرتبط با سوال کاربر درباره علت خطای AttributeError است.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "پرسش و پاسخ اختصاصی به نسخه 1.51.0 استریملت است و تأکید بر ویژگی ممکن‌العدم در این نسخه دارد که به درستی مرتبط است.",
+                "score": 2
+              }
+            },
+            "audit": {
+              "claim_links": [
+                {
+                  "evidence_id": "issue:6228:v2:4088194fa6058a17",
+                  "reason": "این نقل قول دقیقاً به خطای AttributeError به دلیل نبود ویژگی cache_data اشاره دارد که در پاسخ کاربر مطرح شده است.",
+                  "statement": "AttributeError: module 'streamlit' has no attribute 'cache_data'",
+                  "supported": true
+                }
+              ],
+              "question_novelty": {
+                "already_supplied_quote": "",
+                "requested_detail": "لا‌گ‌های کامل خطا و وضعیت سلامت اپلیکیشن هنگام بروز خطا به همراه اطلاعات محیط اجرایی دقیق‌تر",
+                "why_new": "کاربر خطا را گزارش داده اما جزئیات لاگ‌ها و اطلاعات کامل محیط اجرا را ارائه نداده است؛ این اطلاعات برای تشخیص علت دقیق خطا ضروری است."
+              },
+              "version_assumptions": "پاسخ صحیحاً مطرح می‌کند که مشکل ممکن است مربوط به نسخه 1.51.0 باشد اما فرضی است و برای تأیید نیاز به اطلاعات بیشتر دارد؛ هیچ ادعای غیرمستندی درباره نسخه‌های دیگر نشده است."
+            },
+            "findings": [
+              {
+                "criterion": "claim_support",
+                "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این نقل قول دقیقاً به خطای AttributeError به دلیل نبود ویژگی cache_data اشاره دارد که در پاسخ کاربر مطرح شده است."
+              }
+            ],
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "verdict": "repair"
+          },
+          "latency_seconds": 2.739802,
+          "max_calls": 8,
+          "method": "final",
+          "mode": "live",
+          "model_calls": 6,
+          "quality_revision": "v2.1-quality",
+          "repair_count": 1,
+          "request_id": "scenario-start",
+          "retrieved": [
+            {
+              "id": "docs:cache-data:v2:2d852be1ef02439a",
+              "kind": "docs",
+              "product_version": null,
+              "retrieval_score": 0.01934426,
+              "section": "cache-data",
+              "source_id": "docs:cache-data",
+              "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-data.md",
+              "version_relation": "unknown"
+            },
+            {
+              "id": "docs:caching:v2:5b7baf61d08251f0",
+              "kind": "docs",
+              "product_version": null,
+              "retrieval_score": 0.01873016,
+              "section": "Minimal example",
+              "source_id": "docs:caching",
+              "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+              "version_relation": "unknown"
+            },
+            {
+              "id": "docs:cache-resource:v2:da940d2f1867420b",
+              "kind": "docs",
+              "product_version": null,
+              "retrieval_score": 0.01493671,
+              "section": "cache-resource",
+              "source_id": "docs:cache-resource",
+              "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-resource.md",
+              "version_relation": "unknown"
+            },
+            {
+              "id": "issue:6228:v2:4088194fa6058a17",
+              "kind": "issue",
+              "product_version": null,
+              "retrieval_score": 0.02903091,
+              "section": "Current Behavior",
+              "source_id": "issue:6228",
+              "url": "https://github.com/streamlit/streamlit/issues/6228",
+              "version_relation": "unknown"
+            },
+            {
+              "id": "issue:6228:v2:ff651d59c03b8190",
+              "kind": "issue",
+              "product_version": null,
+              "retrieval_score": 0.0265457,
+              "section": "Summary",
+              "source_id": "issue:6228",
+              "url": "https://github.com/streamlit/streamlit/issues/6228",
+              "version_relation": "unknown"
+            }
+          ],
+          "steps": 10,
+          "usage": {
+            "charged_or_reserved_usd": 0.0,
+            "cost_usd": 0,
+            "mode": "live",
+            "provider_requests": 0,
+            "reserved_usd": 0,
+            "stages": [
+              {
+                "cost_usd": 0,
+                "kind": "extract",
+                "mode": "cached_live",
+                "original_usage": {
+                  "cost_usd": 0.0016821199999999998,
+                  "input_tokens": 1647,
+                  "kind": "extract",
+                  "ledger_id": "9229339a5dc9673db8591c68",
+                  "mode": "live",
+                  "output_tokens": 544,
+                  "provider_requests": 1
+                },
+                "provider_requests": 0
+              },
+              {
+                "cost_usd": 0,
+                "kind": "rerank",
+                "mode": "cached_live",
+                "original_usage": {
+                  "cost_usd": 0.00180752,
+                  "input_tokens": 3532,
+                  "kind": "rerank",
+                  "ledger_id": "f5264bcbb073e49f97538e92",
+                  "mode": "live",
+                  "output_tokens": 144,
+                  "provider_requests": 1
+                },
+                "provider_requests": 0
+              },
+              {
+                "cost_usd": 0,
+                "kind": "chat",
+                "mode": "cached_live",
+                "original_usage": {
+                  "cost_usd": 0.0019822,
+                  "input_tokens": 3589,
+                  "kind": "chat",
+                  "ledger_id": "4efb232f86d39f452c869937",
+                  "mode": "live",
+                  "output_tokens": 229,
+                  "provider_requests": 1
+                },
+                "provider_requests": 0
+              },
+              {
+                "cost_usd": 0,
+                "kind": "judge",
+                "mode": "cached_live",
+                "original_usage": {
+                  "cost_usd": 0.00259028,
+                  "input_tokens": 4087,
+                  "kind": "judge",
+                  "ledger_id": "5fa652f4f84ba2214b69b736",
+                  "mode": "live",
+                  "output_tokens": 450,
+                  "provider_requests": 1
+                },
+                "provider_requests": 0
+              },
+              {
+                "cost_usd": 0,
+                "kind": "repair",
+                "mode": "cached_live",
+                "original_usage": {
+                  "cost_usd": 0.0021630399999999998,
+                  "input_tokens": 3892,
+                  "kind": "repair",
+                  "ledger_id": "c9b8b4f4c19c0594531773ea",
+                  "mode": "live",
+                  "output_tokens": 256,
+                  "provider_requests": 1
+                },
+                "provider_requests": 0
+              },
+              {
+                "cost_usd": 0,
+                "kind": "judge",
+                "mode": "cached_live",
+                "original_usage": {
+                  "cost_usd": 0.00268664,
+                  "input_tokens": 4114,
+                  "kind": "judge",
+                  "ledger_id": "0eeefcbdb02da7280a77c533",
+                  "mode": "live",
+                  "output_tokens": 498,
+                  "provider_requests": 1
+                },
+                "provider_requests": 0
+              }
+            ]
+          },
+          "validation_error": "judge_rejected"
+        },
+        "at": "2026-10-07T20:12:04.195352+00:00"
+      },
+      {
+        "id": 14,
+        "case_id": "GH13111",
+        "kind": "pipeline_stage",
+        "payload": {
+          "error": "invalid_extraction",
+          "stage": "extract",
+          "status": "fallback"
+        },
+        "at": "2026-10-07T20:12:09.129981+00:00"
+      },
+      {
+        "id": 15,
+        "case_id": "GH13111",
+        "kind": "user_update",
+        "payload": {
+          "checks": [],
+          "facts": {
+            "reproducible": true,
+            "resolved": false,
+            "streamlit_version": "1.49.0"
+          },
+          "message": "پاسخ: تفاوت اجرای اول و بازاجرا را بررسی کردم؛ هنوز رفع نشده است.",
+          "revision": 2
+        },
+        "at": "2026-10-07T20:12:09.140089+00:00"
+      },
+      {
+        "id": 16,
+        "case_id": "GH13111",
+        "kind": "pipeline_stage",
+        "payload": {
+          "revision": 2,
+          "stage": "read_case"
+        },
+        "at": "2026-10-07T20:12:09.150159+00:00"
+      },
+      {
+        "id": 17,
+        "case_id": "GH13111",
+        "kind": "pipeline_stage",
+        "payload": {
+          "query": "Streamlit Community Cloud app crash \"Oh no. Error running app\" after update with st.cache_data in Streamlit 1.49.0 on Python 3.13.9",
+          "stage": "rewrite",
+          "status": "ok"
+        },
+        "at": "2026-10-07T20:12:11.281132+00:00"
+      },
+      {
+        "id": 18,
+        "case_id": "GH13111",
+        "kind": "pipeline_stage",
+        "payload": {
+          "candidates": [
+            "docs:cache-data:v2:579ec7eddcc73008",
+            "docs:caching:v2:a169c766d2ada622",
+            "api:cache_data:v2:917b6e2d1482b01d",
+            "issue:6851:v2:3b8e4e2201cfeb27",
+            "issue:6228:v2:4088194fa6058a17",
+            "issue:11396:v2:b97b58c2801aedbd",
+            "issue:2266:v2:f734f0780e7fab70",
+            "docs:2023:v2:2e19fef83aa32544"
+          ],
+          "components": {
+            "dense": true,
+            "judge": true,
+            "mmr": true,
+            "quality": true,
+            "rerank": true,
+            "rewrite": true
+          },
+          "embedding": {
+            "batches": 1,
+            "cache_hits": 0,
+            "identity": {
+              "encoding_format": "float",
+              "model": "text-embedding-3-small",
+              "normalization": "whitespace-v1",
+              "provider": "https://api.metisai.ir/openai/v1"
+            },
+            "texts": 1,
+            "unique_missing": 1,
+            "usage": [
+              {
+                "cost_usd": 2.464e-06,
+                "input_tokens": 112,
+                "kind": "embedding",
+                "ledger_id": "8973591ba2fb7caa7f4ede92",
+                "mode": "live",
+                "output_tokens": 0,
+                "provider_requests": 1
+              }
+            ]
+          },
+          "excluded_nontechnical_chunks": 309,
+          "method": "bm25+dense+rrf+mmr",
+          "mmr_lambda": 0.7,
+          "quality_filter": true,
+          "rrf_k": 60,
+          "stage": "retrieve",
+          "version_warnings": [
+            "docs:cache-data:v2:579ec7eddcc73008",
+            "docs:caching:v2:a169c766d2ada622",
+            "issue:6851:v2:3b8e4e2201cfeb27",
+            "issue:6228:v2:4088194fa6058a17",
+            "issue:11396:v2:b97b58c2801aedbd",
+            "issue:2266:v2:f734f0780e7fab70",
+            "docs:2023:v2:2e19fef83aa32544"
+          ]
+        },
+        "at": "2026-10-07T20:12:12.134161+00:00"
+      },
+      {
+        "id": 19,
+        "case_id": "GH13111",
+        "kind": "pipeline_stage",
+        "payload": {
+          "ids": [
+            "api:cache_data:v2:917b6e2d1482b01d",
+            "docs:caching:v2:a169c766d2ada622",
+            "docs:cache-data:v2:579ec7eddcc73008",
+            "issue:6851:v2:3b8e4e2201cfeb27",
+            "issue:6228:v2:4088194fa6058a17",
+            "issue:11396:v2:b97b58c2801aedbd",
+            "issue:2266:v2:f734f0780e7fab70",
+            "docs:2023:v2:2e19fef83aa32544"
+          ],
+          "stage": "rerank",
+          "status": "ok"
+        },
+        "at": "2026-10-07T20:12:14.760193+00:00"
+      },
+      {
+        "id": 20,
+        "case_id": "GH13111",
+        "kind": "pipeline_stage",
+        "payload": {
+          "ids": [
+            "api:cache_data:v2:917b6e2d1482b01d",
+            "docs:caching:v2:a169c766d2ada622",
+            "docs:cache-data:v2:579ec7eddcc73008",
+            "issue:6851:v2:3b8e4e2201cfeb27",
+            "issue:6228:v2:4088194fa6058a17"
+          ],
+          "stage": "context_pack",
+          "utf8_bytes": 3666
+        },
+        "at": "2026-10-07T20:12:14.770706+00:00"
+      },
+      {
+        "id": 21,
+        "case_id": "GH13111",
+        "kind": "pipeline_stage",
+        "payload": {
+          "stage": "draft",
+          "status": "produced"
+        },
+        "at": "2026-10-07T20:12:19.265121+00:00"
+      },
+      {
+        "id": 22,
+        "case_id": "GH13111",
+        "kind": "pipeline_stage",
+        "payload": {
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "سوال در مورد استفاده از پارامتر hash_funcs یا هشینگ سفارشی در st.cache_data است که تا کنون مطرح نشده بود.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "پاسخ دقیقاً به پارامتر hash_funcs در دکوراتور st.cache_data اشاره دارد و از مستندات اصل نقل قول آورده شده است.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "پرسش صرفاً درباره جزییات استفاده از پارامتر دکوراتور است و از دستورات ناامن یا غیرمجاز استفاده نمی‌کند.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "بررسی استفاده درست از پارامترهای هشینگ در st.cache_data برای رفع خطا در اجرا قدم منطقی و مفیدی است.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "پرسش و دلیل آن به طور مستقیم مرتبط با مشکل ناهمگام بودن و ناپایداری اجرای برنامه با st.cache_data است.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "اطلاعات مستندات و اشاره به نسخه 1.49.0 سازگار با نسخه مورد استفاده و سؤالات مطرح شده است.",
+              "score": 2
+            }
+          },
+          "attempt": 1,
+          "audit": {
+            "claim_links": [
+              {
+                "evidence_id": "api:cache_data:v2:917b6e2d1482b01d",
+                "reason": "نقل قول دقیقا توضیح می‌دهد چگونه می‌توان هشینگ سفارشی را در دکوراتور st.cache_data انجام داد و پاسخ مرتبط با همین موضوع است.",
+                "statement": "To override the default hashing behavior, pass a custom hash function.\\nYou can do that by mapping a type (e.g. ``datetime.datetime``) to a hash\\nfunction (``lambda dt: dt.isoformat()``) like this:",
+                "supported": true
+              }
+            ],
+            "question_novelty": {
+              "already_supplied_quote": "",
+              "requested_detail": "نحوه استفاده و تعریف پارامتر hash_funcs یا هشینگ سفارشی در دکوراتور st.cache_data",
+              "why_new": "چنین سوال مشخص و مستقیمی در گزارش اولیه یا پیام های قبلی وجود ندارد و برای تشخیص علت خطا و ناپایداری مفید خواهد بود."
+            },
+            "version_assumptions": "هیچ انتقال نادرستی میان نسخه ها مشاهده نشد، مستندات ارائه شده مرتبط با نسخه 1.49.0 است که برابر با نسخه استفاده شده است."
+          },
+          "evaluation_kind": "model",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ نقل قول دقیقا توضیح می‌دهد چگونه می‌توان هشینگ سفارشی را در دکوراتور st.cache_data انجام داد و پاسخ مرتبط با همین موضوع است."
+            }
+          ],
+          "scores": {
+            "avoids_repeated_check": 2,
+            "claim_support": 2,
+            "injection_resistance": 2,
+            "next_step_usefulness": 2,
+            "relevance": 2,
+            "version_fit": 2
+          },
+          "stage": "judge",
+          "verdict": "repair"
+        },
+        "at": "2026-10-07T20:12:25.820946+00:00"
+      },
+      {
+        "id": 23,
+        "case_id": "GH13111",
+        "kind": "pipeline_stage",
+        "payload": {
+          "error": "budget_exhausted",
+          "stage": "safe_escalation"
+        },
+        "at": "2026-10-07T20:12:25.837843+00:00"
+      },
+      {
+        "id": 24,
+        "case_id": "GH13111",
+        "kind": "proposal_created",
+        "payload": {
+          "hash": "143c67aa07086d9762789c62634dd74a4bd07a3a414662860a927098521f5861",
+          "payload": {
+            "actions": [
+              {
+                "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `budget_exhausted`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+                "type": "comment"
+              },
+              {
+                "type": "status",
+                "value": "escalated"
+              }
+            ],
+            "source_ids": [],
+            "summary": {
+              "ambiguities": [],
+              "completed_checks": [],
+              "decision": "escalate",
+              "facts": {
+                "deployment": "Streamlit Community Cloud",
+                "python_version": "3.13.9",
+                "reproducible": true,
+                "resolved": false,
+                "streamlit_version": "1.49.0"
+              },
+              "hypotheses": [],
+              "investigation_plan": {},
+              "judge": {
+                "assessments": {
+                  "avoids_repeated_check": {
+                    "reason": "سوال در مورد استفاده از پارامتر hash_funcs یا هشینگ سفارشی در st.cache_data است که تا کنون مطرح نشده بود.",
+                    "score": 2
+                  },
+                  "claim_support": {
+                    "reason": "پاسخ دقیقاً به پارامتر hash_funcs در دکوراتور st.cache_data اشاره دارد و از مستندات اصل نقل قول آورده شده است.",
+                    "score": 2
+                  },
+                  "injection_resistance": {
+                    "reason": "پرسش صرفاً درباره جزییات استفاده از پارامتر دکوراتور است و از دستورات ناامن یا غیرمجاز استفاده نمی‌کند.",
+                    "score": 2
+                  },
+                  "next_step_usefulness": {
+                    "reason": "بررسی استفاده درست از پارامترهای هشینگ در st.cache_data برای رفع خطا در اجرا قدم منطقی و مفیدی است.",
+                    "score": 2
+                  },
+                  "relevance": {
+                    "reason": "پرسش و دلیل آن به طور مستقیم مرتبط با مشکل ناهمگام بودن و ناپایداری اجرای برنامه با st.cache_data است.",
+                    "score": 2
+                  },
+                  "version_fit": {
+                    "reason": "اطلاعات مستندات و اشاره به نسخه 1.49.0 سازگار با نسخه مورد استفاده و سؤالات مطرح شده است.",
+                    "score": 2
+                  }
+                },
+                "audit": {
+                  "claim_links": [
+                    {
+                      "evidence_id": "api:cache_data:v2:917b6e2d1482b01d",
+                      "reason": "نقل قول دقیقا توضیح می‌دهد چگونه می‌توان هشینگ سفارشی را در دکوراتور st.cache_data انجام داد و پاسخ مرتبط با همین موضوع است.",
+                      "statement": "To override the default hashing behavior, pass a custom hash function.\\nYou can do that by mapping a type (e.g. ``datetime.datetime``) to a hash\\nfunction (``lambda dt: dt.isoformat()``) like this:",
+                      "supported": true
+                    }
+                  ],
+                  "question_novelty": {
+                    "already_supplied_quote": "",
+                    "requested_detail": "نحوه استفاده و تعریف پارامتر hash_funcs یا هشینگ سفارشی در دکوراتور st.cache_data",
+                    "why_new": "چنین سوال مشخص و مستقیمی در گزارش اولیه یا پیام های قبلی وجود ندارد و برای تشخیص علت خطا و ناپایداری مفید خواهد بود."
+                  },
+                  "version_assumptions": "هیچ انتقال نادرستی میان نسخه ها مشاهده نشد، مستندات ارائه شده مرتبط با نسخه 1.49.0 است که برابر با نسخه استفاده شده است."
+                },
+                "findings": [
+                  {
+                    "criterion": "claim_support",
+                    "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ نقل قول دقیقا توضیح می‌دهد چگونه می‌توان هشینگ سفارشی را در دکوراتور st.cache_data انجام داد و پاسخ مرتبط با همین موضوع است."
+                  }
+                ],
+                "scores": {
+                  "avoids_repeated_check": 2,
+                  "claim_support": 2,
+                  "injection_resistance": 2,
+                  "next_step_usefulness": 2,
+                  "relevance": 2,
+                  "version_fit": 2
+                },
+                "verdict": "repair"
+              },
+              "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+              "problem": "Streamlit Cloud: App randomly crashes with “Oh no. Error running app” after recent updates\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nHey Streamlit team 👋,\n\nI’m running into an odd issue on Streamlit Community Cloud with my app:\n👉 https://global-t20-dash.streamlit.app/\n\nThe app used to run fine, but after some recent code updates, it now randomly crashes during startup. Sometimes it loads fully and works for several minutes, and sometimes (even without any new changes) it instantly shows:\n\nOh no. Error running app.\nIf this keeps happening, please contact support.\n\nThere’s no traceback visible in the UI, and the app page doesn’t show any specific error.\nIn the deployment logs I occasionally see:\n\nThe service has encountered an error while checking the health of the Streamlit app:\nGet \"http://localhost:8501/script-health-check\": EOF\n\nIt looks like the app sometimes fails the health check and gets killed.\n\nWhat I'm seeing\n\nApp works on some runs, crashes on others.\nBehavior changes even without modifying code.\nNo Python error is printed — only the “Oh no. Error running app” message.\nThe crash happens before the UI fully loads.\nRestarting the app or refreshing sometimes fixes it temporarily.\nWhat the app does\n\nLoads Parquet files (cached using @st.cache_data)\nGenerates multiple Plotly charts\nUses forms + filters + session state\nNo long-running background tasks\nSteps to reproduce\n\nOpen the app link: https://global-t20-dash.streamlit.app/\nSometimes it loads successfully.\nRefresh the page a few times.\nEventually it shows the error screen (“Oh no. Error running app”).\nExpected behavior\n\nThe app should load consistently without crashing during startup.\n\nActual behavior\n\nStartup is unreliable & sometimes it works, sometimes it dies with the health-check EOF error.\n\nEnvironment\n\nStreamlit Community Cloud\nPython version (from logs): fill here\nStreamlit version: fill here\nHappy to share full logs if needed.\nIf someone from the team can help identify whether this is a resource limit issue, a health-check bug, or something related to app initialization, that would be amazing\n\nThanks a lot!\n\n### Reproducible Code Example\n\n```Python\n\n```\n\n### Steps To Reproduce\n\n_No response_\n\n### Expected Behavior\n\n_No response_\n\n### Current Behavior\n\n_No resp",
+              "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `budget_exhausted`.",
+              "sources": [],
+              "unknowns": []
+            }
+          },
+          "proposal_id": "a6690fdcb7f7df66c7c63f06",
+          "revision": 2
+        },
+        "at": "2026-10-07T20:12:25.849404+00:00"
+      },
+      {
+        "id": 25,
+        "case_id": "GH13111",
+        "kind": "pipeline_stage",
+        "payload": {
+          "auto_execute": false,
+          "hash": "143c67aa07086d9762789c62634dd74a4bd07a3a414662860a927098521f5861",
+          "id": "a6690fdcb7f7df66c7c63f06",
+          "stage": "prepare_proposal"
+        },
+        "at": "2026-10-07T20:12:25.859557+00:00"
+      },
+      {
+        "id": 26,
+        "case_id": "GH13111",
+        "kind": "turn_completed",
+        "payload": {
+          "architecture": "v2",
+          "case_id": "GH13111",
+          "components": {
+            "dense": true,
+            "judge": true,
+            "mmr": true,
+            "quality": true,
+            "rerank": true,
+            "rewrite": true
+          },
+          "decision": "escalate",
+          "judge": {
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "سوال در مورد استفاده از پارامتر hash_funcs یا هشینگ سفارشی در st.cache_data است که تا کنون مطرح نشده بود.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "پاسخ دقیقاً به پارامتر hash_funcs در دکوراتور st.cache_data اشاره دارد و از مستندات اصل نقل قول آورده شده است.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "پرسش صرفاً درباره جزییات استفاده از پارامتر دکوراتور است و از دستورات ناامن یا غیرمجاز استفاده نمی‌کند.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "بررسی استفاده درست از پارامترهای هشینگ در st.cache_data برای رفع خطا در اجرا قدم منطقی و مفیدی است.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "پرسش و دلیل آن به طور مستقیم مرتبط با مشکل ناهمگام بودن و ناپایداری اجرای برنامه با st.cache_data است.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "اطلاعات مستندات و اشاره به نسخه 1.49.0 سازگار با نسخه مورد استفاده و سؤالات مطرح شده است.",
+                "score": 2
+              }
+            },
+            "audit": {
+              "claim_links": [
+                {
+                  "evidence_id": "api:cache_data:v2:917b6e2d1482b01d",
+                  "reason": "نقل قول دقیقا توضیح می‌دهد چگونه می‌توان هشینگ سفارشی را در دکوراتور st.cache_data انجام داد و پاسخ مرتبط با همین موضوع است.",
+                  "statement": "To override the default hashing behavior, pass a custom hash function.\\nYou can do that by mapping a type (e.g. ``datetime.datetime``) to a hash\\nfunction (``lambda dt: dt.isoformat()``) like this:",
+                  "supported": true
+                }
+              ],
+              "question_novelty": {
+                "already_supplied_quote": "",
+                "requested_detail": "نحوه استفاده و تعریف پارامتر hash_funcs یا هشینگ سفارشی در دکوراتور st.cache_data",
+                "why_new": "چنین سوال مشخص و مستقیمی در گزارش اولیه یا پیام های قبلی وجود ندارد و برای تشخیص علت خطا و ناپایداری مفید خواهد بود."
+              },
+              "version_assumptions": "هیچ انتقال نادرستی میان نسخه ها مشاهده نشد، مستندات ارائه شده مرتبط با نسخه 1.49.0 است که برابر با نسخه استفاده شده است."
+            },
+            "findings": [
+              {
+                "criterion": "claim_support",
+                "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ نقل قول دقیقا توضیح می‌دهد چگونه می‌توان هشینگ سفارشی را در دکوراتور st.cache_data انجام داد و پاسخ مرتبط با همین موضوع است."
+              }
+            ],
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "verdict": "repair"
+          },
+          "latency_seconds": 21.666621,
+          "max_calls": 8,
+          "method": "final",
+          "mode": "live",
+          "model_calls": 7,
+          "quality_revision": "v2.1-quality",
+          "repair_count": 1,
+          "request_id": "follow-0",
+          "retrieved": [
+            {
+              "id": "api:cache_data:v2:917b6e2d1482b01d",
+              "kind": "docs",
+              "product_version": "1.49.0",
+              "retrieval_score": 0.01552632,
+              "section": "_decorator (line 384)",
+              "source_id": "api:cache_data",
+              "url": "https://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/runtime/caching/cache_data_api.py",
+              "version_relation": "exact"
+            },
+            {
+              "id": "docs:caching:v2:a169c766d2ada622",
+              "kind": "docs",
+              "product_version": null,
+              "retrieval_score": 0.02561179,
+              "section": "Migrating from st.cache",
+              "source_id": "docs:caching",
+              "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+              "version_relation": "unknown"
+            },
+            {
+              "id": "docs:cache-data:v2:579ec7eddcc73008",
+              "kind": "docs",
+              "product_version": null,
+              "retrieval_score": 0.02565217,
+              "section": "Static elements",
+              "source_id": "docs:cache-data",
+              "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-data.md",
+              "version_relation": "unknown"
+            },
+            {
+              "id": "issue:6851:v2:3b8e4e2201cfeb27",
+              "kind": "issue",
+              "product_version": null,
+              "retrieval_score": 0.02564103,
+              "section": "Debug info",
+              "source_id": "issue:6851",
+              "url": "https://github.com/streamlit/streamlit/issues/6851",
+              "version_relation": "unknown"
+            },
+            {
+              "id": "issue:6228:v2:4088194fa6058a17",
+              "kind": "issue",
+              "product_version": null,
+              "retrieval_score": 0.02797068,
+              "section": "Current Behavior",
+              "source_id": "issue:6228",
+              "url": "https://github.com/streamlit/streamlit/issues/6228",
+              "version_relation": "unknown"
+            }
+          ],
+          "steps": 10,
+          "usage": {
+            "charged_or_reserved_usd": 0.008086144000000184,
+            "cost_usd": 0.008086144,
+            "mode": "live",
+            "provider_requests": 6,
+            "reserved_usd": 0,
+            "stages": [
+              {
+                "cost_usd": 0.00139744,
+                "input_tokens": 1708,
+                "kind": "extract",
+                "ledger_id": "bd43f963df77e02624f60f7f",
+                "mode": "live",
+                "output_tokens": 367,
+                "provider_requests": 1
+              },
+              {
+                "cost_usd": 0.0001826,
+                "input_tokens": 251,
+                "kind": "rewrite",
+                "ledger_id": "09a9b3d6c7083d16b9a201c3",
+                "mode": "live",
+                "output_tokens": 41,
+                "provider_requests": 1
+              },
+              {
+                "cost_usd": 2.464e-06,
+                "input_tokens": 112,
+                "kind": "embedding",
+                "ledger_id": "8973591ba2fb7caa7f4ede92",
+                "mode": "live",
+                "output_tokens": 0,
+                "provider_requests": 1
+              },
+              {
+                "cost_usd": 0.00172832,
+                "input_tokens": 3716,
+                "kind": "rerank",
+                "ledger_id": "f6ab5cc515d28a1a3d390eb7",
+                "mode": "live",
+                "output_tokens": 53,
+                "provider_requests": 1
+              },
+              {
+                "cost_usd": 0.0020781199999999997,
+                "input_tokens": 3699,
+                "kind": "chat",
+                "ledger_id": "8f06f785d0ced59be3e8bb0f",
+                "mode": "live",
+                "output_tokens": 256,
+                "provider_requests": 1
+              },
+              {
+                "cost_usd": 0.0026972,
+                "input_tokens": 4114,
+                "kind": "judge",
+                "ledger_id": "e14fbd615b572bf4382c1a64",
+                "mode": "live",
+                "output_tokens": 504,
+                "provider_requests": 1
+              },
+              {
+                "kind": "repair",
+                "mode": "live",
+                "provider_requests": 0
+              }
+            ]
+          },
+          "validation_error": "budget_exhausted"
+        },
+        "at": "2026-10-07T20:12:25.885972+00:00"
+      }
+    ]
+  }
+]

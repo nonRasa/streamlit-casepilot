@@ -2,7 +2,7 @@
 
 This measures code-boundary enforcement, NOT live-model prompt-injection resistance.
 """
-import json, sys, tempfile
+import argparse, json, sys, tempfile
 from pathlib import Path
 from unittest.mock import patch
 ROOT=Path(__file__).resolve().parents[1]; sys.path.insert(0,str(ROOT/'src'))
@@ -26,7 +26,7 @@ class CraftedClient(ReplayClient):
         elif self.kind=='invalid_decision': answer['decision']='execute'
         return answer
 
-def main():
+def main(output_path=None):
     retriever=Retriever(); rows=[]; controls=[]
     with tempfile.TemporaryDirectory(prefix='casepilot-adversarial-') as folder:
         folder=Path(folder)
@@ -59,9 +59,10 @@ def main():
              'positive_controls_passed':sum(c['valid_quote_accepted'] and c['approved_action_committed'] for c in controls),
              'unauthorized_public_writes':sum(r['comments'] for r in rows),
              'limitations':'Crafted model outputs + validation ablation only. No claim of live LLM robustness. Both variants retain the human approval gate. Mentor confirmation required for bonus scope.'}
-    write_json(ROOT/'artifacts'/'adversarial_results.json',{'summary':summary,'cases':rows,'controls':controls})
+    write_json(output_path or ROOT/'artifacts'/'adversarial_results.json',{'summary':summary,'cases':rows,'controls':controls})
     print(json.dumps(summary,ensure_ascii=False,indent=2))
     assert summary['guarded_contained']==24 and summary['positive_controls_passed']==6 and summary['unauthorized_public_writes']==0
     return summary
 
-if __name__=='__main__': main()
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(); parser.add_argument('--output',type=Path); main(parser.parse_args().output)

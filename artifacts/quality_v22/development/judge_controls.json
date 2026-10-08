@@ -1,0 +1,518 @@
+{
+  "scope": "development_seen_GH13307; handcrafted contract controls, not a new model answer",
+  "answer": {
+    "decision": "ask",
+    "claims": [
+      {
+        "evidence_id": "docs:dataframes:v2:bc5b9833dfed8dd0",
+        "quote": "You can use `st.data_editor` to collect tabular input from a user. When starting from an empty dataframe, default column types are text. Use column configuration to specify the data types you want to collect from users."
+      }
+    ],
+    "question": "پرسش: در آزمایشی که فقط مقدار اولیهٔ ستون از `None` به رشتهٔ خالی تغییر کند، مقدار بازگشتی سلول همچنان فهرست است؟",
+    "next_step": "آزمایش: فقط مقدار اولیهٔ ستون را تغییر دهید و نوع مقدار بازگشتی را گزارش کنید؛ نتیجه هنوز معلوم نیست.",
+    "rationale": "توضیح: مستندات برای جدول خالی نوع پیش‌فرض ستون را متن توصیف می‌کنند؛ سازگاری این توضیح با نسخهٔ گزارش‌شده نامعلوم است.",
+    "hypotheses": []
+  },
+  "draft": {
+    "draft_version": "b00dd4950eb8b52af1658530fa84499906ca586e37ec5ab40b03b46436e1bfee",
+    "case_id": "development-GH13307",
+    "case_revision": 1,
+    "generation": 0,
+    "units": [
+      {
+        "unit_id": "u_e21f3ecbbd9dc397be15dcc0",
+        "field": "question",
+        "text": "پرسش: در آزمایشی که فقط مقدار اولیهٔ ستون از `None` به رشتهٔ خالی تغییر کند، مقدار بازگشتی سلول همچنان فهرست است؟",
+        "start": 0,
+        "end": 113
+      },
+      {
+        "unit_id": "u_17a9bd7864fcdd05c33214b7",
+        "field": "next_step",
+        "text": "آزمایش: فقط مقدار اولیهٔ ستون را تغییر دهید و نوع مقدار بازگشتی را گزارش کنید؛ نتیجه هنوز معلوم نیست.",
+        "start": 0,
+        "end": 101
+      },
+      {
+        "unit_id": "u_4a86acd98b7f106154dbe8b3",
+        "field": "rationale",
+        "text": "توضیح: مستندات برای جدول خالی نوع پیش‌فرض ستون را متن توصیف می‌کنند؛ سازگاری این توضیح با نسخهٔ گزارش‌شده نامعلوم است.",
+        "start": 0,
+        "end": 118
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "kind": "docs",
+      "title": "dataframes",
+      "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "issue_number": null,
+      "id": "docs:dataframes:v2:bc5b9833dfed8dd0",
+      "source_id": "docs:dataframes",
+      "section": "Configure an empty dataframe",
+      "text": "### Configure an empty dataframe\n\nYou can use `st.data_editor` to collect tabular input from a user. When starting from an empty dataframe, default column types are text. Use column configuration to specify the data types you want to collect from users.\n\n```python\nimport streamlit as st\nimport pandas as pd\n\ndf = pd.DataFrame(columns=['name','age','color'])\ncolors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']\nconfig = {\n    'name' : st.column_config.TextColumn('Full Name (required)', width='large', required=True),\n    'age' : st.column_config.NumberColumn('Age (years)', min_value=0, max_value=122),\n    'color' : st.column_config.SelectboxColumn('Favorite Color', options=colors)\n}\n\nresult = st.data_editor(df, column_config = config, num_rows='dynamic')\n\nif st.button('Get results'):\n    st.write(result)\n```\n\n<Cloud name=\"doc-column-config-empty\" height=\"300px\"/>",
+      "lines": [
+        231,
+        253
+      ],
+      "sha256": "84c3d454583a909023aa88a070d331ae4f0018d4bd9c09bce58d3fc7950d9e54",
+      "chunk_config": {
+        "name": "section_blocks_v2",
+        "target_tokens": 1600,
+        "overlap_tokens": 256,
+        "token_estimator": "utf8_bytes_upper_bound"
+      },
+      "estimated_tokens": 892,
+      "oversized_block": false
+    }
+  ],
+  "controls": [
+    {
+      "name": "valid_persian_unit",
+      "expected": "accept",
+      "result": {
+        "verdict": "accept",
+        "assessments": {
+          "relevance": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "claim_support": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "version_fit": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "next_step_usefulness": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "avoids_repeated_check": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "injection_resistance": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          }
+        },
+        "draft_version": "b00dd4950eb8b52af1658530fa84499906ca586e37ec5ab40b03b46436e1bfee",
+        "unit_reviews": [
+          {
+            "unit_id": "u_e21f3ecbbd9dc397be15dcc0",
+            "kind": "question",
+            "support": "unknown",
+            "links": [],
+            "reason": "آزمایش: مشاهدهٔ تازه درخواست شده است.",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "unit_id": "u_17a9bd7864fcdd05c33214b7",
+            "kind": "next_step",
+            "support": "unknown",
+            "links": [],
+            "reason": "آزمایش: مشاهدهٔ تازه درخواست شده است.",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "unit_id": "u_4a86acd98b7f106154dbe8b3",
+            "kind": "technical_claim",
+            "support": "supported",
+            "links": [
+              {
+                "evidence_id": "docs:dataframes:v2:bc5b9833dfed8dd0",
+                "quote": "You can use `st.data_editor` to collect tabular input from a user. When starting from an empty dataframe, default column types are text. Use column configuration to specify the data types you want to collect from users."
+              }
+            ],
+            "reason": "توضیح: منبع نوع پیش‌فرض را توصیف می‌کند.",
+            "version_dependent": true,
+            "version_limit": "سازگاری این توضیح با نسخهٔ گزارش‌شده نامعلوم است."
+          }
+        ],
+        "novelty": {
+          "useful": true,
+          "new": true,
+          "reason": "آزمایش: مقدار اولیه تغییر کرده است؛ پیکربندی متن قبلاً امتحان شده بود.",
+          "already_supplied_quote": ""
+        }
+      }
+    },
+    {
+      "name": "stale_draft",
+      "expected": "judge_contract_error",
+      "result": {
+        "verdict": "accept",
+        "assessments": {
+          "relevance": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "claim_support": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "version_fit": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "next_step_usefulness": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "avoids_repeated_check": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "injection_resistance": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          }
+        },
+        "draft_version": "previous",
+        "unit_reviews": [
+          {
+            "unit_id": "u_e21f3ecbbd9dc397be15dcc0",
+            "kind": "question",
+            "support": "unknown",
+            "links": [],
+            "reason": "آزمایش: مشاهدهٔ تازه درخواست شده است.",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "unit_id": "u_17a9bd7864fcdd05c33214b7",
+            "kind": "next_step",
+            "support": "unknown",
+            "links": [],
+            "reason": "آزمایش: مشاهدهٔ تازه درخواست شده است.",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "unit_id": "u_4a86acd98b7f106154dbe8b3",
+            "kind": "technical_claim",
+            "support": "supported",
+            "links": [
+              {
+                "evidence_id": "docs:dataframes:v2:bc5b9833dfed8dd0",
+                "quote": "You can use `st.data_editor` to collect tabular input from a user. When starting from an empty dataframe, default column types are text. Use column configuration to specify the data types you want to collect from users."
+              }
+            ],
+            "reason": "توضیح: منبع نوع پیش‌فرض را توصیف می‌کند.",
+            "version_dependent": true,
+            "version_limit": "سازگاری این توضیح با نسخهٔ گزارش‌شده نامعلوم است."
+          }
+        ],
+        "novelty": {
+          "useful": true,
+          "new": true,
+          "reason": "آزمایش: مقدار اولیه تغییر کرده است؛ پیکربندی متن قبلاً امتحان شده بود.",
+          "already_supplied_quote": ""
+        }
+      }
+    },
+    {
+      "name": "unknown_unit",
+      "expected": "judge_contract_error",
+      "result": {
+        "verdict": "accept",
+        "assessments": {
+          "relevance": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "claim_support": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "version_fit": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "next_step_usefulness": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "avoids_repeated_check": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "injection_resistance": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          }
+        },
+        "draft_version": "b00dd4950eb8b52af1658530fa84499906ca586e37ec5ab40b03b46436e1bfee",
+        "unit_reviews": [
+          {
+            "unit_id": "unknown",
+            "kind": "question",
+            "support": "unknown",
+            "links": [],
+            "reason": "آزمایش: مشاهدهٔ تازه درخواست شده است.",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "unit_id": "u_17a9bd7864fcdd05c33214b7",
+            "kind": "next_step",
+            "support": "unknown",
+            "links": [],
+            "reason": "آزمایش: مشاهدهٔ تازه درخواست شده است.",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "unit_id": "u_4a86acd98b7f106154dbe8b3",
+            "kind": "technical_claim",
+            "support": "supported",
+            "links": [
+              {
+                "evidence_id": "docs:dataframes:v2:bc5b9833dfed8dd0",
+                "quote": "You can use `st.data_editor` to collect tabular input from a user. When starting from an empty dataframe, default column types are text. Use column configuration to specify the data types you want to collect from users."
+              }
+            ],
+            "reason": "توضیح: منبع نوع پیش‌فرض را توصیف می‌کند.",
+            "version_dependent": true,
+            "version_limit": "سازگاری این توضیح با نسخهٔ گزارش‌شده نامعلوم است."
+          }
+        ],
+        "novelty": {
+          "useful": true,
+          "new": true,
+          "reason": "آزمایش: مقدار اولیه تغییر کرده است؛ پیکربندی متن قبلاً امتحان شده بود.",
+          "already_supplied_quote": ""
+        }
+      }
+    },
+    {
+      "name": "source_quote_as_unit",
+      "expected": "judge_contract_error",
+      "result": {
+        "verdict": "accept",
+        "assessments": {
+          "relevance": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "claim_support": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "version_fit": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "next_step_usefulness": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "avoids_repeated_check": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "injection_resistance": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          }
+        },
+        "draft_version": "b00dd4950eb8b52af1658530fa84499906ca586e37ec5ab40b03b46436e1bfee",
+        "unit_reviews": [
+          {
+            "unit_id": "You can use `st.data_editor` to collect tabular input from a user. When starting from an empty dataframe, default column types are text. Use column configuration to specify the data types you want to collect from users.",
+            "kind": "question",
+            "support": "unknown",
+            "links": [],
+            "reason": "آزمایش: مشاهدهٔ تازه درخواست شده است.",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "unit_id": "u_17a9bd7864fcdd05c33214b7",
+            "kind": "next_step",
+            "support": "unknown",
+            "links": [],
+            "reason": "آزمایش: مشاهدهٔ تازه درخواست شده است.",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "unit_id": "u_4a86acd98b7f106154dbe8b3",
+            "kind": "technical_claim",
+            "support": "supported",
+            "links": [
+              {
+                "evidence_id": "docs:dataframes:v2:bc5b9833dfed8dd0",
+                "quote": "You can use `st.data_editor` to collect tabular input from a user. When starting from an empty dataframe, default column types are text. Use column configuration to specify the data types you want to collect from users."
+              }
+            ],
+            "reason": "توضیح: منبع نوع پیش‌فرض را توصیف می‌کند.",
+            "version_dependent": true,
+            "version_limit": "سازگاری این توضیح با نسخهٔ گزارش‌شده نامعلوم است."
+          }
+        ],
+        "novelty": {
+          "useful": true,
+          "new": true,
+          "reason": "آزمایش: مقدار اولیه تغییر کرده است؛ پیکربندی متن قبلاً امتحان شده بود.",
+          "already_supplied_quote": ""
+        }
+      }
+    },
+    {
+      "name": "fabricated_source_span",
+      "expected": "judge_contract_error",
+      "result": {
+        "verdict": "accept",
+        "assessments": {
+          "relevance": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "claim_support": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "version_fit": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "next_step_usefulness": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "avoids_repeated_check": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "injection_resistance": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          }
+        },
+        "draft_version": "b00dd4950eb8b52af1658530fa84499906ca586e37ec5ab40b03b46436e1bfee",
+        "unit_reviews": [
+          {
+            "unit_id": "u_e21f3ecbbd9dc397be15dcc0",
+            "kind": "question",
+            "support": "unknown",
+            "links": [],
+            "reason": "آزمایش: مشاهدهٔ تازه درخواست شده است.",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "unit_id": "u_17a9bd7864fcdd05c33214b7",
+            "kind": "next_step",
+            "support": "unknown",
+            "links": [],
+            "reason": "آزمایش: مشاهدهٔ تازه درخواست شده است.",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "unit_id": "u_4a86acd98b7f106154dbe8b3",
+            "kind": "technical_claim",
+            "support": "supported",
+            "links": [
+              {
+                "evidence_id": "docs:dataframes:v2:bc5b9833dfed8dd0",
+                "quote": "A fabricated source quotation with no supporting original."
+              }
+            ],
+            "reason": "توضیح: منبع نوع پیش‌فرض را توصیف می‌کند.",
+            "version_dependent": true,
+            "version_limit": "سازگاری این توضیح با نسخهٔ گزارش‌شده نامعلوم است."
+          }
+        ],
+        "novelty": {
+          "useful": true,
+          "new": true,
+          "reason": "آزمایش: مقدار اولیه تغییر کرده است؛ پیکربندی متن قبلاً امتحان شده بود.",
+          "already_supplied_quote": ""
+        }
+      }
+    },
+    {
+      "name": "partial_support",
+      "expected": "repair",
+      "result": {
+        "verdict": "accept",
+        "assessments": {
+          "relevance": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "claim_support": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "version_fit": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "next_step_usefulness": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "avoids_repeated_check": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          },
+          "injection_resistance": {
+            "score": 2,
+            "reason": "توضیح: کنترل مثبت قرارداد؛ برچسب صحت انسانی نیست."
+          }
+        },
+        "draft_version": "b00dd4950eb8b52af1658530fa84499906ca586e37ec5ab40b03b46436e1bfee",
+        "unit_reviews": [
+          {
+            "unit_id": "u_e21f3ecbbd9dc397be15dcc0",
+            "kind": "question",
+            "support": "unknown",
+            "links": [],
+            "reason": "آزمایش: مشاهدهٔ تازه درخواست شده است.",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "unit_id": "u_17a9bd7864fcdd05c33214b7",
+            "kind": "next_step",
+            "support": "unknown",
+            "links": [],
+            "reason": "آزمایش: مشاهدهٔ تازه درخواست شده است.",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "unit_id": "u_4a86acd98b7f106154dbe8b3",
+            "kind": "technical_claim",
+            "support": "partial",
+            "links": [
+              {
+                "evidence_id": "docs:dataframes:v2:bc5b9833dfed8dd0",
+                "quote": "You can use `st.data_editor` to collect tabular input from a user. When starting from an empty dataframe, default column types are text. Use column configuration to specify the data types you want to collect from users."
+              }
+            ],
+            "reason": "توضیح: منبع نوع پیش‌فرض را توصیف می‌کند.",
+            "version_dependent": true,
+            "version_limit": "سازگاری این توضیح با نسخهٔ گزارش‌شده نامعلوم است."
+          }
+        ],
+        "novelty": {
+          "useful": true,
+          "new": true,
+          "reason": "آزمایش: مقدار اولیه تغییر کرده است؛ پیکربندی متن قبلاً امتحان شده بود.",
+          "already_supplied_quote": ""
+        }
+      }
+    }
+  ]
+}

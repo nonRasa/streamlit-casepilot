@@ -1,0 +1,2624 @@
+[
+  {
+    "id": "GH9218",
+    "split": "dev",
+    "variant": "revised",
+    "output": {
+      "case_id": "GH9218",
+      "request_id": "quality-revised",
+      "architecture": "v2",
+      "quality_revision": "v2.1-quality",
+      "mode": "live",
+      "method": "final",
+      "components": {
+        "dense": true,
+        "mmr": true,
+        "rerank": true,
+        "judge": true,
+        "rewrite": true,
+        "quality": true
+      },
+      "decision": "ask",
+      "response": "پاسخ پیشنهادی: آیا می‌توانید نسخه دقیق Streamlit، نسخه پایتون و سیستم عامل سروری که استفاده می‌کنید را بفرمایید؟ و همچنین آیا با تنظیم maxUploadSize و بررسی دقیق مصرف RAM در هنگام آپلود فایل بزرگ، نتیجه‌ای متفاوت به دست آمده است؟\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nWhere does st.file_uploader store uploaded files and when do they get deleted?\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nWhen you upload a file using [`st.file_uploader`](/develop/api-reference/widgets/st.file_uploader), the data are copied to the Streamlit backend via the browser, and contained in a BytesIO buffer in Python memory (i.e. RAM, not disk). The data will persist in RAM until the Streamlit app re-runs from top-to-bottom, which is on each widget interaction. If you need to save the data that was uploaded between runs, then you can [cache](/develop/concepts/architecture/caching) it so that Streamlit persists it across re-runs.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md\n```\n\nمحدودیت: معلوم است که استریم‌لیت فایل‌های آپلود شده را در حافظه RAM به صورت کامل می‌خواند و نگهداری می‌کند و این باعث افزایش شدید مصرف حافظه شده و احتمالاً سرور را می‌کشد یا به مشکل می‌اندازد. نسخه‌های مختلف و سیستم عامل می‌توانند تاثیرگذار باشند و فراهم کردن اطلاعات دقیق امکان تشخیص بهتر و انجام آزمایش‌های هدفمندتر را می‌دهد.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+      "summary": {
+        "problem": "file_uploader with large file results in server getting killed\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI am using st.file_uploader to upload ~3.5gb file into my streamlit dashboard. This however, results in the server getting killed.\nWhen I inspect using btop, Upon file upload, the server starts using an astronomic amount of RAM.\n\nEDIT: I tried imposing a RAM limit by dockerizing the dashboard and settting a 4gb RAM limit, but it just gets killed in the container.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\nuploaded_file = st.file_uploader(\"Choose a video file\", type=[\"mp4\", \"mov\", \"avi\"])\n```\n\n\n### Steps To Reproduce\n\nstreamlit run dashboard.py --maxUploadSize=5000\n\n### Expected Behavior\n\nIt's probably better to stream it in chunks to disk when clicking an 'upload file' button.\n\n### Current Behavior\n\nThe server gets killed.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:\n- Python version:\n- Operating System:\n- Browser:\n\n\n### Additional Information\n\n_No response_",
+        "facts": {
+          "python_version": "Python"
+        },
+        "unknowns": [
+          "streamlit_version",
+          "deployment",
+          "reproducible"
+        ],
+        "completed_checks": [],
+        "sources": [
+          {
+            "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "source_id": "docs:where-file-uploader-store-when-deleted",
+            "quote": "When you upload a file using [`st.file_uploader`](/develop/api-reference/widgets/st.file_uploader), the data are copied to the Streamlit backend via the browser, and contained in a BytesIO buffer in Python memory (i.e. RAM, not disk). The data will persist in RAM until the Streamlit app re-runs from top-to-bottom, which is on each widget interaction. If you need to save the data that was uploaded between runs, then you can [cache](/develop/concepts/architecture/caching) it so that Streamlit persists it across re-runs.",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md",
+            "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+            "lines": [
+              6,
+              21
+            ],
+            "kind": "docs",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null
+          }
+        ],
+        "decision": "ask",
+        "next_step": "کاربر باید نسخه دقیق Streamlit و نسخه پایتون و سیستم عامل خود را ارائه دهد، سپس فایل بزرگ را با تنظیمات maxUploadSize انجام دهد و میزان مصرف RAM را گزارش نماید.",
+        "rationale": "معلوم است که استریم‌لیت فایل‌های آپلود شده را در حافظه RAM به صورت کامل می‌خواند و نگهداری می‌کند و این باعث افزایش شدید مصرف حافظه شده و احتمالاً سرور را می‌کشد یا به مشکل می‌اندازد. نسخه‌های مختلف و سیستم عامل می‌توانند تاثیرگذار باشند و فراهم کردن اطلاعات دقیق امکان تشخیص بهتر و انجام آزمایش‌های هدفمندتر را می‌دهد.",
+        "hypotheses": [],
+        "ambiguities": [
+          "سایز دقیق فایل 3.5 گیگابایت است یا تقریبی؟",
+          "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+        ],
+        "judge": {
+          "verdict": "accept",
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "پرسش درباره نسخه‌ها و تنظیم maxUploadSize برای بررسی نتیجه متفاوت است که قبلاً ارائه نشده است.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "ایجاد پرسش بر اساس مستندات رسمی است که بیان می‌کند فایل‌ها در حافظه RAM ذخیره می‌شوند و باعث افزایش مصرف حافظه می‌شوند.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "پاسخ فقط بر اساس مستندات رسمی Streamlit و اطلاعات گزارش شده است و هیچگونه دستور مخرب ندارد.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "درخواست ارائه نسخه‌ها و آزمایش با maxUploadSize و بررسی مصرف RAM می‌تواند به تشخیص مشکل کمک کند.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "پرسش مستقیماً به مشکل مصرف بیش از حد RAM و کشته شدن سرور هنگام آپلود فایل بزرگ مرتبط است.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "پرسش هیچ ادعای فنی وابسته به ورژن خاصی ندارد و صرفاً اطلاعات نسخه را می‌خواهد جهت بررسی مشکل.",
+              "score": 2
+            }
+          },
+          "scores": {
+            "avoids_repeated_check": 2,
+            "claim_support": 2,
+            "injection_resistance": 2,
+            "next_step_usefulness": 2,
+            "relevance": 2,
+            "version_fit": 2
+          },
+          "findings": [],
+          "audit": {
+            "claim_links": [
+              {
+                "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+                "reason": "پرسش درباره نسخه‌ها و بررسی تأثیر maxUploadSize مستقیماً به این جمله مرتبط است که فایل آپلود شده در RAM ذخیره می‌شود و باعث مصرف زیاد حافظه می‌شود.",
+                "statement": "معلوم است که استریم‌لیت فایل‌های آپلود شده را در حافظه RAM به صورت کامل می‌خواند و نگهداری می‌کند و این باعث افزایش شدید مصرف حافظه شده و احتمالاً سرور را می‌کشد یا به مشکل می‌اندازد.",
+                "supported": true
+              }
+            ],
+            "question_novelty": {
+              "already_supplied_quote": "",
+              "requested_detail": "نسخه دقیق Streamlit، نسخه پایتون و سیستم عامل سرور؛ نتیجه آزمایش با maxUploadSize و بررسی مصرف RAM هنگام آپلود فایل بزرگ",
+              "why_new": "این جزئیات برای تشخیص دقیق‌تر مشکل پیش آمده مورد نیاز است و در گزارش اولیه ذکر نشده است."
+            },
+            "version_assumptions": "پرسش فرض نمی‌کند رفتار خاصی در نسخه معین وجود دارد اما برای اطمینان از شرایط و نسخه‌های استفاده شده، درخواست اطلاعات نسخه‌ها را دارد."
+          }
+        },
+        "investigation_plan": {
+          "acceptance_condition": "هنگامی که یک فایل بزرگ با st.file_uploader آپلود شود، سرور بدون کشته شدن و بدون مصرف بیش از حد RAM فایل را پردازش کند.",
+          "intent": "bug",
+          "known_report_spans": [
+            "file_uploader with large file results in server getting killed",
+            "Upon file upload, the server starts using an astronomic amount of RAM",
+            "I tried imposing a RAM limit by dockerizing the dashboard and settting a 4gb RAM limit, but it just gets killed in the container",
+            "```Python\nimport streamlit as st\n\nuploaded_file = st.file_uploader(\"Choose a video file\", type=[\"mp4\", \"mov\", \"avi\"])\n```"
+          ],
+          "missing_detail": "نسخه دقیق Streamlit و نسخه پایتون و سیستم عامل اجرا کننده سرور مشخص نشده است.",
+          "new_condition": "آیا می‌توان نتیجه اجرای آپلود فایل بزرگ با تنظیمات حداکثر حجم آپلود تغییر داده شده و مشاهده میزان مصرف RAM دقیق را گزارش داد؟",
+          "problem_summary": "streamlit.file_uploader server killed on large file upload due to high RAM usage",
+          "suggested_question": "لطفاً نسخه دقیق Streamlit و پایتون و سیستم عامل خود را بفرمایید."
+        }
+      },
+      "proposal": {
+        "id": "bde61954cba03763df79bf41",
+        "case_id": "GH9218",
+        "revision": 1,
+        "hash": "3070f9eef633ccce47b05e63acf7a255123b912d0c22bb54ba545bb55bd051e6",
+        "payload": {
+          "actions": [
+            {
+              "type": "comment",
+              "body": "پاسخ پیشنهادی: آیا می‌توانید نسخه دقیق Streamlit، نسخه پایتون و سیستم عامل سروری که استفاده می‌کنید را بفرمایید؟ و همچنین آیا با تنظیم maxUploadSize و بررسی دقیق مصرف RAM در هنگام آپلود فایل بزرگ، نتیجه‌ای متفاوت به دست آمده است؟\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nWhere does st.file_uploader store uploaded files and when do they get deleted?\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nWhen you upload a file using [`st.file_uploader`](/develop/api-reference/widgets/st.file_uploader), the data are copied to the Streamlit backend via the browser, and contained in a BytesIO buffer in Python memory (i.e. RAM, not disk). The data will persist in RAM until the Streamlit app re-runs from top-to-bottom, which is on each widget interaction. If you need to save the data that was uploaded between runs, then you can [cache](/develop/concepts/architecture/caching) it so that Streamlit persists it across re-runs.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md\n```\n\nمحدودیت: معلوم است که استریم‌لیت فایل‌های آپلود شده را در حافظه RAM به صورت کامل می‌خواند و نگهداری می‌کند و این باعث افزایش شدید مصرف حافظه شده و احتمالاً سرور را می‌کشد یا به مشکل می‌اندازد. نسخه‌های مختلف و سیستم عامل می‌توانند تاثیرگذار باشند و فراهم کردن اطلاعات دقیق امکان تشخیص بهتر و انجام آزمایش‌های هدفمندتر را می‌دهد.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+            },
+            {
+              "type": "status",
+              "value": "waiting_user"
+            }
+          ],
+          "source_ids": [
+            "docs:where-file-uploader-store-when-deleted"
+          ],
+          "summary": {
+            "problem": "file_uploader with large file results in server getting killed\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI am using st.file_uploader to upload ~3.5gb file into my streamlit dashboard. This however, results in the server getting killed.\nWhen I inspect using btop, Upon file upload, the server starts using an astronomic amount of RAM.\n\nEDIT: I tried imposing a RAM limit by dockerizing the dashboard and settting a 4gb RAM limit, but it just gets killed in the container.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\nuploaded_file = st.file_uploader(\"Choose a video file\", type=[\"mp4\", \"mov\", \"avi\"])\n```\n\n\n### Steps To Reproduce\n\nstreamlit run dashboard.py --maxUploadSize=5000\n\n### Expected Behavior\n\nIt's probably better to stream it in chunks to disk when clicking an 'upload file' button.\n\n### Current Behavior\n\nThe server gets killed.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:\n- Python version:\n- Operating System:\n- Browser:\n\n\n### Additional Information\n\n_No response_",
+            "facts": {
+              "python_version": "Python"
+            },
+            "unknowns": [
+              "streamlit_version",
+              "deployment",
+              "reproducible"
+            ],
+            "completed_checks": [],
+            "sources": [
+              {
+                "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+                "source_id": "docs:where-file-uploader-store-when-deleted",
+                "quote": "When you upload a file using [`st.file_uploader`](/develop/api-reference/widgets/st.file_uploader), the data are copied to the Streamlit backend via the browser, and contained in a BytesIO buffer in Python memory (i.e. RAM, not disk). The data will persist in RAM until the Streamlit app re-runs from top-to-bottom, which is on each widget interaction. If you need to save the data that was uploaded between runs, then you can [cache](/develop/concepts/architecture/caching) it so that Streamlit persists it across re-runs.",
+                "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md",
+                "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+                "lines": [
+                  6,
+                  21
+                ],
+                "kind": "docs",
+                "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+                "product_version": null
+              }
+            ],
+            "decision": "ask",
+            "next_step": "کاربر باید نسخه دقیق Streamlit و نسخه پایتون و سیستم عامل خود را ارائه دهد، سپس فایل بزرگ را با تنظیمات maxUploadSize انجام دهد و میزان مصرف RAM را گزارش نماید.",
+            "rationale": "معلوم است که استریم‌لیت فایل‌های آپلود شده را در حافظه RAM به صورت کامل می‌خواند و نگهداری می‌کند و این باعث افزایش شدید مصرف حافظه شده و احتمالاً سرور را می‌کشد یا به مشکل می‌اندازد. نسخه‌های مختلف و سیستم عامل می‌توانند تاثیرگذار باشند و فراهم کردن اطلاعات دقیق امکان تشخیص بهتر و انجام آزمایش‌های هدفمندتر را می‌دهد.",
+            "hypotheses": [],
+            "ambiguities": [
+              "سایز دقیق فایل 3.5 گیگابایت است یا تقریبی؟",
+              "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+            ],
+            "judge": {
+              "verdict": "accept",
+              "assessments": {
+                "avoids_repeated_check": {
+                  "reason": "پرسش درباره نسخه‌ها و تنظیم maxUploadSize برای بررسی نتیجه متفاوت است که قبلاً ارائه نشده است.",
+                  "score": 2
+                },
+                "claim_support": {
+                  "reason": "ایجاد پرسش بر اساس مستندات رسمی است که بیان می‌کند فایل‌ها در حافظه RAM ذخیره می‌شوند و باعث افزایش مصرف حافظه می‌شوند.",
+                  "score": 2
+                },
+                "injection_resistance": {
+                  "reason": "پاسخ فقط بر اساس مستندات رسمی Streamlit و اطلاعات گزارش شده است و هیچگونه دستور مخرب ندارد.",
+                  "score": 2
+                },
+                "next_step_usefulness": {
+                  "reason": "درخواست ارائه نسخه‌ها و آزمایش با maxUploadSize و بررسی مصرف RAM می‌تواند به تشخیص مشکل کمک کند.",
+                  "score": 2
+                },
+                "relevance": {
+                  "reason": "پرسش مستقیماً به مشکل مصرف بیش از حد RAM و کشته شدن سرور هنگام آپلود فایل بزرگ مرتبط است.",
+                  "score": 2
+                },
+                "version_fit": {
+                  "reason": "پرسش هیچ ادعای فنی وابسته به ورژن خاصی ندارد و صرفاً اطلاعات نسخه را می‌خواهد جهت بررسی مشکل.",
+                  "score": 2
+                }
+              },
+              "scores": {
+                "avoids_repeated_check": 2,
+                "claim_support": 2,
+                "injection_resistance": 2,
+                "next_step_usefulness": 2,
+                "relevance": 2,
+                "version_fit": 2
+              },
+              "findings": [],
+              "audit": {
+                "claim_links": [
+                  {
+                    "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+                    "reason": "پرسش درباره نسخه‌ها و بررسی تأثیر maxUploadSize مستقیماً به این جمله مرتبط است که فایل آپلود شده در RAM ذخیره می‌شود و باعث مصرف زیاد حافظه می‌شود.",
+                    "statement": "معلوم است که استریم‌لیت فایل‌های آپلود شده را در حافظه RAM به صورت کامل می‌خواند و نگهداری می‌کند و این باعث افزایش شدید مصرف حافظه شده و احتمالاً سرور را می‌کشد یا به مشکل می‌اندازد.",
+                    "supported": true
+                  }
+                ],
+                "question_novelty": {
+                  "already_supplied_quote": "",
+                  "requested_detail": "نسخه دقیق Streamlit، نسخه پایتون و سیستم عامل سرور؛ نتیجه آزمایش با maxUploadSize و بررسی مصرف RAM هنگام آپلود فایل بزرگ",
+                  "why_new": "این جزئیات برای تشخیص دقیق‌تر مشکل پیش آمده مورد نیاز است و در گزارش اولیه ذکر نشده است."
+                },
+                "version_assumptions": "پرسش فرض نمی‌کند رفتار خاصی در نسخه معین وجود دارد اما برای اطمینان از شرایط و نسخه‌های استفاده شده، درخواست اطلاعات نسخه‌ها را دارد."
+              }
+            },
+            "investigation_plan": {
+              "acceptance_condition": "هنگامی که یک فایل بزرگ با st.file_uploader آپلود شود، سرور بدون کشته شدن و بدون مصرف بیش از حد RAM فایل را پردازش کند.",
+              "intent": "bug",
+              "known_report_spans": [
+                "file_uploader with large file results in server getting killed",
+                "Upon file upload, the server starts using an astronomic amount of RAM",
+                "I tried imposing a RAM limit by dockerizing the dashboard and settting a 4gb RAM limit, but it just gets killed in the container",
+                "```Python\nimport streamlit as st\n\nuploaded_file = st.file_uploader(\"Choose a video file\", type=[\"mp4\", \"mov\", \"avi\"])\n```"
+              ],
+              "missing_detail": "نسخه دقیق Streamlit و نسخه پایتون و سیستم عامل اجرا کننده سرور مشخص نشده است.",
+              "new_condition": "آیا می‌توان نتیجه اجرای آپلود فایل بزرگ با تنظیمات حداکثر حجم آپلود تغییر داده شده و مشاهده میزان مصرف RAM دقیق را گزارش داد؟",
+              "problem_summary": "streamlit.file_uploader server killed on large file upload due to high RAM usage",
+              "suggested_question": "لطفاً نسخه دقیق Streamlit و پایتون و سیستم عامل خود را بفرمایید."
+            }
+          }
+        },
+        "status": "pending"
+      },
+      "retrieved": [
+        {
+          "id": "issue:5938:v2:49b04b1eac9f87a8",
+          "source_id": "issue:5938",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/5938",
+          "section": "Additional Information",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03131882
+        },
+        {
+          "id": "issue:904:v2:04dc5059cf066a38",
+          "source_id": "issue:904",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/904",
+          "section": "Problem",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02648084
+        },
+        {
+          "id": "issue:3722:v2:71635c29cc9d28e8",
+          "source_id": "issue:3722",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/3722",
+          "section": "Steps to reproduce",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03125
+        },
+        {
+          "id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "source_id": "docs:where-file-uploader-store-when-deleted",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md",
+          "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03409426
+        },
+        {
+          "id": "api:file_uploader:v2:b6a9200a36afcf3e",
+          "source_id": "api:file_uploader",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/elements/widgets/file_uploader.py",
+          "section": "file_uploader (line 252)",
+          "product_version": "1.49.0",
+          "version_relation": "unknown",
+          "retrieval_score": 0.03105263
+        }
+      ],
+      "steps": 8,
+      "model_calls": 5,
+      "max_calls": 8,
+      "repair_count": 0,
+      "judge": {
+        "verdict": "accept",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "پرسش درباره نسخه‌ها و تنظیم maxUploadSize برای بررسی نتیجه متفاوت است که قبلاً ارائه نشده است.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "ایجاد پرسش بر اساس مستندات رسمی است که بیان می‌کند فایل‌ها در حافظه RAM ذخیره می‌شوند و باعث افزایش مصرف حافظه می‌شوند.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "پاسخ فقط بر اساس مستندات رسمی Streamlit و اطلاعات گزارش شده است و هیچگونه دستور مخرب ندارد.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست ارائه نسخه‌ها و آزمایش با maxUploadSize و بررسی مصرف RAM می‌تواند به تشخیص مشکل کمک کند.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پرسش مستقیماً به مشکل مصرف بیش از حد RAM و کشته شدن سرور هنگام آپلود فایل بزرگ مرتبط است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پرسش هیچ ادعای فنی وابسته به ورژن خاصی ندارد و صرفاً اطلاعات نسخه را می‌خواهد جهت بررسی مشکل.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+              "reason": "پرسش درباره نسخه‌ها و بررسی تأثیر maxUploadSize مستقیماً به این جمله مرتبط است که فایل آپلود شده در RAM ذخیره می‌شود و باعث مصرف زیاد حافظه می‌شود.",
+              "statement": "معلوم است که استریم‌لیت فایل‌های آپلود شده را در حافظه RAM به صورت کامل می‌خواند و نگهداری می‌کند و این باعث افزایش شدید مصرف حافظه شده و احتمالاً سرور را می‌کشد یا به مشکل می‌اندازد.",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "نسخه دقیق Streamlit، نسخه پایتون و سیستم عامل سرور؛ نتیجه آزمایش با maxUploadSize و بررسی مصرف RAM هنگام آپلود فایل بزرگ",
+            "why_new": "این جزئیات برای تشخیص دقیق‌تر مشکل پیش آمده مورد نیاز است و در گزارش اولیه ذکر نشده است."
+          },
+          "version_assumptions": "پرسش فرض نمی‌کند رفتار خاصی در نسخه معین وجود دارد اما برای اطمینان از شرایط و نسخه‌های استفاده شده، درخواست اطلاعات نسخه‌ها را دارد."
+        }
+      },
+      "pipeline": [
+        {
+          "stage": "extract",
+          "status": "ok",
+          "keys": [
+            "python_version"
+          ],
+          "facts_with_quotes": [
+            {
+              "key": "symptom_scope",
+              "quote": "file_uploader with large file results in server getting killed",
+              "value": "server getting killed"
+            },
+            {
+              "key": "symptom_scope",
+              "quote": "Upon file upload, the server starts using an astronomic amount of RAM",
+              "value": "server starts using an astronomic amount of RAM"
+            },
+            {
+              "key": "symptom_scope",
+              "quote": "I tried imposing a RAM limit by dockerizing the dashboard and settting a 4gb RAM limit, but it just gets killed in the container",
+              "value": "gets killed in the container"
+            },
+            {
+              "key": "python_version",
+              "quote": "```Python",
+              "value": "Python"
+            },
+            {
+              "key": "reproducible",
+              "quote": "I have provided sufficient information below to help reproduce this issue.",
+              "value": "true"
+            }
+          ],
+          "checks": [],
+          "ambiguities": [
+            "سایز دقیق فایل 3.5 گیگابایت است یا تقریبی؟",
+            "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+          ]
+        },
+        {
+          "stage": "read_case",
+          "revision": 1
+        },
+        {
+          "stage": "retrieve",
+          "method": "bm25+dense+rrf+mmr",
+          "rrf_k": 60,
+          "mmr_lambda": 0.7,
+          "components": {
+            "dense": true,
+            "mmr": true,
+            "quality": true,
+            "rerank": true,
+            "judge": true,
+            "rewrite": true
+          },
+          "embedding": {
+            "texts": 1,
+            "unique_missing": 1,
+            "cache_hits": 0,
+            "batches": 1,
+            "usage": [
+              {
+                "mode": "live",
+                "provider_requests": 1,
+                "kind": "embedding",
+                "input_tokens": 35,
+                "output_tokens": 0,
+                "cost_usd": 7.699999999999999e-07,
+                "ledger_id": "41823b2804f7c5e574b849ac"
+              }
+            ],
+            "identity": {
+              "provider": "https://api.metisai.ir/openai/v1",
+              "model": "text-embedding-3-small",
+              "normalization": "whitespace-v1",
+              "encoding_format": "float"
+            }
+          },
+          "candidates": [
+            "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "api:file_uploader:v2:b6a9200a36afcf3e",
+            "docs:dataframes:v2:2dd5acc4e82b25bc",
+            "issue:3722:v2:71635c29cc9d28e8",
+            "issue:5938:v2:49b04b1eac9f87a8",
+            "issue:904:v2:04dc5059cf066a38",
+            "issue:5938:v2:2830a6d01721a174",
+            "issue:2266:v2:f734f0780e7fab70"
+          ],
+          "quality_filter": true,
+          "excluded_nontechnical_chunks": 309,
+          "version_warnings": [
+            "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "api:file_uploader:v2:b6a9200a36afcf3e",
+            "docs:dataframes:v2:2dd5acc4e82b25bc",
+            "issue:3722:v2:71635c29cc9d28e8",
+            "issue:5938:v2:49b04b1eac9f87a8",
+            "issue:904:v2:04dc5059cf066a38",
+            "issue:5938:v2:2830a6d01721a174",
+            "issue:2266:v2:f734f0780e7fab70"
+          ]
+        },
+        {
+          "stage": "rerank",
+          "status": "ok",
+          "ids": [
+            "issue:5938:v2:49b04b1eac9f87a8",
+            "issue:904:v2:04dc5059cf066a38",
+            "issue:3722:v2:71635c29cc9d28e8",
+            "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "api:file_uploader:v2:b6a9200a36afcf3e",
+            "docs:dataframes:v2:2dd5acc4e82b25bc",
+            "issue:5938:v2:2830a6d01721a174",
+            "issue:2266:v2:f734f0780e7fab70"
+          ]
+        },
+        {
+          "stage": "context_pack",
+          "ids": [
+            "issue:5938:v2:49b04b1eac9f87a8",
+            "issue:904:v2:04dc5059cf066a38",
+            "issue:3722:v2:71635c29cc9d28e8",
+            "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "api:file_uploader:v2:b6a9200a36afcf3e"
+          ],
+          "utf8_bytes": 2494
+        },
+        {
+          "stage": "draft",
+          "status": "produced"
+        },
+        {
+          "stage": "judge",
+          "attempt": 1,
+          "verdict": "accept",
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "پرسش درباره نسخه‌ها و تنظیم maxUploadSize برای بررسی نتیجه متفاوت است که قبلاً ارائه نشده است.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "ایجاد پرسش بر اساس مستندات رسمی است که بیان می‌کند فایل‌ها در حافظه RAM ذخیره می‌شوند و باعث افزایش مصرف حافظه می‌شوند.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "پاسخ فقط بر اساس مستندات رسمی Streamlit و اطلاعات گزارش شده است و هیچگونه دستور مخرب ندارد.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "درخواست ارائه نسخه‌ها و آزمایش با maxUploadSize و بررسی مصرف RAM می‌تواند به تشخیص مشکل کمک کند.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "پرسش مستقیماً به مشکل مصرف بیش از حد RAM و کشته شدن سرور هنگام آپلود فایل بزرگ مرتبط است.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "پرسش هیچ ادعای فنی وابسته به ورژن خاصی ندارد و صرفاً اطلاعات نسخه را می‌خواهد جهت بررسی مشکل.",
+              "score": 2
+            }
+          },
+          "scores": {
+            "avoids_repeated_check": 2,
+            "claim_support": 2,
+            "injection_resistance": 2,
+            "next_step_usefulness": 2,
+            "relevance": 2,
+            "version_fit": 2
+          },
+          "findings": [],
+          "audit": {
+            "claim_links": [
+              {
+                "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+                "reason": "پرسش درباره نسخه‌ها و بررسی تأثیر maxUploadSize مستقیماً به این جمله مرتبط است که فایل آپلود شده در RAM ذخیره می‌شود و باعث مصرف زیاد حافظه می‌شود.",
+                "statement": "معلوم است که استریم‌لیت فایل‌های آپلود شده را در حافظه RAM به صورت کامل می‌خواند و نگهداری می‌کند و این باعث افزایش شدید مصرف حافظه شده و احتمالاً سرور را می‌کشد یا به مشکل می‌اندازد.",
+                "supported": true
+              }
+            ],
+            "question_novelty": {
+              "already_supplied_quote": "",
+              "requested_detail": "نسخه دقیق Streamlit، نسخه پایتون و سیستم عامل سرور؛ نتیجه آزمایش با maxUploadSize و بررسی مصرف RAM هنگام آپلود فایل بزرگ",
+              "why_new": "این جزئیات برای تشخیص دقیق‌تر مشکل پیش آمده مورد نیاز است و در گزارش اولیه ذکر نشده است."
+            },
+            "version_assumptions": "پرسش فرض نمی‌کند رفتار خاصی در نسخه معین وجود دارد اما برای اطمینان از شرایط و نسخه‌های استفاده شده، درخواست اطلاعات نسخه‌ها را دارد."
+          },
+          "evaluation_kind": "model"
+        },
+        {
+          "stage": "prepare_proposal",
+          "id": "bde61954cba03763df79bf41",
+          "hash": "3070f9eef633ccce47b05e63acf7a255123b912d0c22bb54ba545bb55bd051e6",
+          "auto_execute": false
+        }
+      ],
+      "usage": {
+        "mode": "live",
+        "provider_requests": 5,
+        "cost_usd": 0.00703241,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "extract",
+            "input_tokens": 1084,
+            "output_tokens": 480,
+            "cost_usd": 0.00132176,
+            "ledger_id": "6a3adaa6b62ced3fa690d47a"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "embedding",
+            "input_tokens": 35,
+            "output_tokens": 0,
+            "cost_usd": 7.699999999999999e-07,
+            "ledger_id": "41823b2804f7c5e574b849ac"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "rerank",
+            "input_tokens": 3156,
+            "output_tokens": 81,
+            "cost_usd": 0.0015312000000000001,
+            "ledger_id": "1618fa5d6b3da523ff1256c9"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "chat",
+            "input_tokens": 3007,
+            "output_tokens": 245,
+            "cost_usd": 0.00175428,
+            "ledger_id": "75a1d7696ee00ef9f7f52311"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "judge",
+            "input_tokens": 3542,
+            "output_tokens": 492,
+            "cost_usd": 0.0024244,
+            "ledger_id": "bdb9e4d139a0549d289ee9ff"
+          }
+        ],
+        "charged_or_reserved_usd": 0.007032409999999989
+      },
+      "validation_error": null,
+      "latency_seconds": 26.427538
+    },
+    "failure": null
+  },
+  {
+    "id": "GH11528",
+    "split": "dev",
+    "variant": "revised",
+    "output": {
+      "case_id": "GH11528",
+      "request_id": "quality-revised",
+      "architecture": "v2",
+      "quality_revision": "v2.1-quality",
+      "mode": "live",
+      "method": "final",
+      "components": {
+        "dense": true,
+        "mmr": true,
+        "rerank": true,
+        "judge": true,
+        "rewrite": true,
+        "quality": true
+      },
+      "decision": "escalate",
+      "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+      "summary": {
+        "problem": "cache_data failing to serialize classes from v1.44.0\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI noticed in the upgrade from 1.43.0 to 1.44.0 that we are getting UnserializableReturnValueError when calling cache_data with a self defined class. I can confirm pickle dumps and loads works fine for this class when I run it outside of streamlit. \n\nFull error:\n> streamlit.runtime.caching.cache_errors.UnserializableReturnValueError: Cannot serialize the return value (of type __main__.Example) in test(). st.cache_data uses pickle to serialize the function's return value and safely store it in the cache without mutating the original object. Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences).\n\n### Reproducible Code Example\n\n```Python\nfrom streamlit import cache_data\nimport datetime as dt\n\nclass Example:\n    def __init__(self, name):\n        self.name = name\n\n@cache_data(ttl=dt.timedelta(minutes=60))\ndef test():\n    name = \"andy\"\n    return Example(name)\n\nif __name__ == '__main__':\n\n    b = test()\n```\n\n### Steps To Reproduce\n\nRun the code above in streamlit\n\n### Expected Behavior\n\nThe class should be pickled and be stored in the cache\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.44.0\n- Python version: 3.10\n- Operating System: Linux\n- Browser: Chrome\n\n\n### Additional Information\n\n_No response_",
+        "facts": {
+          "streamlit_version": "1.44.0",
+          "python_version": "3.10",
+          "os": "Linux",
+          "browser": "Chrome",
+          "symptom_scope": "UnserializableReturnValueError"
+        },
+        "unknowns": [
+          "deployment",
+          "reproducible"
+        ],
+        "completed_checks": [
+          "- [x] Yes, this used to work in a previous version."
+        ],
+        "sources": [],
+        "decision": "escalate",
+        "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+        "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+        "hypotheses": [],
+        "ambiguities": [
+          "نداشتن پاسخ در بخش Current Behavior مبهم است.",
+          "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+        ],
+        "judge": {
+          "verdict": "repair",
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "کاربر قبلاً نمونه کد خود را ارائه کرده است اما نمونه مستقل pickle کردن کلاس را نیاورده است.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "جواب مستقیماً به استفاده از pickle در st.cache_data و خطای UnserializableReturnValueError مرتبط است و متن مستندات مرتبط را به عنوان حمایت آورده است.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "پاسخ هیچ فرمان ناخواسته یا دستوری برای اجرا ندارد و تنها درخواست نمونه کد است.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "درخواست نمونه کدی برای تست pickle کردن کلاس به صورت مستقل، گام منطقی و مفیدی برای تشخیص علت مشکل است.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "پاسخ به وضوح مرتبط با مشکل اصلی کاربر یعنی خطای سریال‌سازی کلاس با st.cache_data است.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "پاسخ به مشکلی در نسخه مشخص شده streamlit 1.44.0 برمی‌گردد و اشاره به جزئیات نسخه دارد، تناسب خوبی با نسخه موجود دارد.",
+              "score": 2
+            }
+          },
+          "scores": {
+            "avoids_repeated_check": 2,
+            "claim_support": 2,
+            "injection_resistance": 2,
+            "next_step_usefulness": 2,
+            "relevance": 2,
+            "version_fit": 2
+          },
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این نقل قول مستقیماً درباره استفاده st.cache_data از pickle و هشدار امنیتی مرتبط با آن است که مرتبط با خطا و مسئله گزارش شده توسط کاربر است."
+            },
+            {
+              "criterion": "avoids_repeated_check",
+              "reason": "تکرار: I noticed in the upgrade from 1.43.0 to 1.44.0 that we are getting UnserializableReturnValueError when calling cache_data with a self defined class. I can confirm pickle dumps and loads works fine for this class when I run it outside of streamlit."
+            }
+          ],
+          "audit": {
+            "claim_links": [
+              {
+                "evidence_id": "docs:cache-data:v2:2d852be1ef02439a",
+                "reason": "این نقل قول مستقیماً درباره استفاده st.cache_data از pickle و هشدار امنیتی مرتبط با آن است که مرتبط با خطا و مسئله گزارش شده توسط کاربر است.",
+                "statement": "`st.cache_data` implicitly uses the `pickle` module, which is known to be insecure. Anything your cached function returns is pickled and stored, then unpickled on retrieval. Ensure your cached functions return trusted values because it is possible to construct malicious pickle data that will execute arbitrary code during unpickling. Never load data that could have come from an untrusted source in an unsafe mode or that could have been tampered with. **Only load data you trust**.",
+                "supported": true
+              }
+            ],
+            "question_novelty": {
+              "already_supplied_quote": "I noticed in the upgrade from 1.43.0 to 1.44.0 that we are getting UnserializableReturnValueError when calling cache_data with a self defined class. I can confirm pickle dumps and loads works fine for this class when I run it outside of streamlit.",
+              "requested_detail": "نمونه کامل کلاس Example به همراه کدی که نشان دهد می‌توان آن را به طور جداگانه با pickle سریال‌سازی و دسیریال‌سازی کرد.",
+              "why_new": "جزئیات کد مستقل برای تست pickle کردن کلاس هنوز ارائه نشده است و این برای تشخیص وجود مشکل در کلاس یا در استریم‌لیت الزامی است."
+            },
+            "version_assumptions": "پاسخ بر اساس تغییرات بین نسخه 1.43.0 و 1.44.0 است که مورد ذکر قرار گرفته و به طور مشخص با نسخه 1.44.0 سازگار است؛ فرضیه تطابق نسخه مناسب است."
+          }
+        },
+        "investigation_plan": {
+          "acceptance_condition": "کلاس تعریف شده توسط کاربر باید بدون خطای UnserializableReturnValueError توسط cache_data قابل ذخیره باشد.",
+          "intent": "bug",
+          "known_report_spans": [
+            "cache_data failing to serialize classes from v1.44.0",
+            "UnserializableReturnValueError when calling cache_data with a self defined class",
+            "- Streamlit version: 1.44.0",
+            "@cache_data(ttl=dt.timedelta(minutes=60))"
+          ],
+          "missing_detail": "یک نمونه از کلاس Example در خارج از streamlit دقیقاً و با کدنویسی کامل برای تأیید قابلیت pickle شده آن فراهم نشده است.",
+          "new_condition": "اجرای کد نمونه دقیقا با همان نسخه هایی که ذکر شده و مشاهده دقیق خطا یا رفتار.",
+          "problem_summary": "cache_data in Streamlit 1.44.0 UnserializableReturnValueError serializing user-defined class",
+          "suggested_question": "لطفاً نمونه کامل کلاس Example و تست پیکل کردن آن خارج از Streamlit را ارائه دهید."
+        }
+      },
+      "proposal": {
+        "id": "4616f21eec02348dbd773c4a",
+        "case_id": "GH11528",
+        "revision": 1,
+        "hash": "efe38d763e0e11594168a8b2e1cf5371accfe63f69ced9fdb5ae431dd9b2cc55",
+        "payload": {
+          "actions": [
+            {
+              "type": "comment",
+              "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+            },
+            {
+              "type": "status",
+              "value": "escalated"
+            }
+          ],
+          "source_ids": [],
+          "summary": {
+            "problem": "cache_data failing to serialize classes from v1.44.0\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI noticed in the upgrade from 1.43.0 to 1.44.0 that we are getting UnserializableReturnValueError when calling cache_data with a self defined class. I can confirm pickle dumps and loads works fine for this class when I run it outside of streamlit. \n\nFull error:\n> streamlit.runtime.caching.cache_errors.UnserializableReturnValueError: Cannot serialize the return value (of type __main__.Example) in test(). st.cache_data uses pickle to serialize the function's return value and safely store it in the cache without mutating the original object. Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences).\n\n### Reproducible Code Example\n\n```Python\nfrom streamlit import cache_data\nimport datetime as dt\n\nclass Example:\n    def __init__(self, name):\n        self.name = name\n\n@cache_data(ttl=dt.timedelta(minutes=60))\ndef test():\n    name = \"andy\"\n    return Example(name)\n\nif __name__ == '__main__':\n\n    b = test()\n```\n\n### Steps To Reproduce\n\nRun the code above in streamlit\n\n### Expected Behavior\n\nThe class should be pickled and be stored in the cache\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.44.0\n- Python version: 3.10\n- Operating System: Linux\n- Browser: Chrome\n\n\n### Additional Information\n\n_No response_",
+            "facts": {
+              "streamlit_version": "1.44.0",
+              "python_version": "3.10",
+              "os": "Linux",
+              "browser": "Chrome",
+              "symptom_scope": "UnserializableReturnValueError"
+            },
+            "unknowns": [
+              "deployment",
+              "reproducible"
+            ],
+            "completed_checks": [
+              "- [x] Yes, this used to work in a previous version."
+            ],
+            "sources": [],
+            "decision": "escalate",
+            "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+            "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+            "hypotheses": [],
+            "ambiguities": [
+              "نداشتن پاسخ در بخش Current Behavior مبهم است.",
+              "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+            ],
+            "judge": {
+              "verdict": "repair",
+              "assessments": {
+                "avoids_repeated_check": {
+                  "reason": "کاربر قبلاً نمونه کد خود را ارائه کرده است اما نمونه مستقل pickle کردن کلاس را نیاورده است.",
+                  "score": 2
+                },
+                "claim_support": {
+                  "reason": "جواب مستقیماً به استفاده از pickle در st.cache_data و خطای UnserializableReturnValueError مرتبط است و متن مستندات مرتبط را به عنوان حمایت آورده است.",
+                  "score": 2
+                },
+                "injection_resistance": {
+                  "reason": "پاسخ هیچ فرمان ناخواسته یا دستوری برای اجرا ندارد و تنها درخواست نمونه کد است.",
+                  "score": 2
+                },
+                "next_step_usefulness": {
+                  "reason": "درخواست نمونه کدی برای تست pickle کردن کلاس به صورت مستقل، گام منطقی و مفیدی برای تشخیص علت مشکل است.",
+                  "score": 2
+                },
+                "relevance": {
+                  "reason": "پاسخ به وضوح مرتبط با مشکل اصلی کاربر یعنی خطای سریال‌سازی کلاس با st.cache_data است.",
+                  "score": 2
+                },
+                "version_fit": {
+                  "reason": "پاسخ به مشکلی در نسخه مشخص شده streamlit 1.44.0 برمی‌گردد و اشاره به جزئیات نسخه دارد، تناسب خوبی با نسخه موجود دارد.",
+                  "score": 2
+                }
+              },
+              "scores": {
+                "avoids_repeated_check": 2,
+                "claim_support": 2,
+                "injection_resistance": 2,
+                "next_step_usefulness": 2,
+                "relevance": 2,
+                "version_fit": 2
+              },
+              "findings": [
+                {
+                  "criterion": "claim_support",
+                  "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این نقل قول مستقیماً درباره استفاده st.cache_data از pickle و هشدار امنیتی مرتبط با آن است که مرتبط با خطا و مسئله گزارش شده توسط کاربر است."
+                },
+                {
+                  "criterion": "avoids_repeated_check",
+                  "reason": "تکرار: I noticed in the upgrade from 1.43.0 to 1.44.0 that we are getting UnserializableReturnValueError when calling cache_data with a self defined class. I can confirm pickle dumps and loads works fine for this class when I run it outside of streamlit."
+                }
+              ],
+              "audit": {
+                "claim_links": [
+                  {
+                    "evidence_id": "docs:cache-data:v2:2d852be1ef02439a",
+                    "reason": "این نقل قول مستقیماً درباره استفاده st.cache_data از pickle و هشدار امنیتی مرتبط با آن است که مرتبط با خطا و مسئله گزارش شده توسط کاربر است.",
+                    "statement": "`st.cache_data` implicitly uses the `pickle` module, which is known to be insecure. Anything your cached function returns is pickled and stored, then unpickled on retrieval. Ensure your cached functions return trusted values because it is possible to construct malicious pickle data that will execute arbitrary code during unpickling. Never load data that could have come from an untrusted source in an unsafe mode or that could have been tampered with. **Only load data you trust**.",
+                    "supported": true
+                  }
+                ],
+                "question_novelty": {
+                  "already_supplied_quote": "I noticed in the upgrade from 1.43.0 to 1.44.0 that we are getting UnserializableReturnValueError when calling cache_data with a self defined class. I can confirm pickle dumps and loads works fine for this class when I run it outside of streamlit.",
+                  "requested_detail": "نمونه کامل کلاس Example به همراه کدی که نشان دهد می‌توان آن را به طور جداگانه با pickle سریال‌سازی و دسیریال‌سازی کرد.",
+                  "why_new": "جزئیات کد مستقل برای تست pickle کردن کلاس هنوز ارائه نشده است و این برای تشخیص وجود مشکل در کلاس یا در استریم‌لیت الزامی است."
+                },
+                "version_assumptions": "پاسخ بر اساس تغییرات بین نسخه 1.43.0 و 1.44.0 است که مورد ذکر قرار گرفته و به طور مشخص با نسخه 1.44.0 سازگار است؛ فرضیه تطابق نسخه مناسب است."
+              }
+            },
+            "investigation_plan": {
+              "acceptance_condition": "کلاس تعریف شده توسط کاربر باید بدون خطای UnserializableReturnValueError توسط cache_data قابل ذخیره باشد.",
+              "intent": "bug",
+              "known_report_spans": [
+                "cache_data failing to serialize classes from v1.44.0",
+                "UnserializableReturnValueError when calling cache_data with a self defined class",
+                "- Streamlit version: 1.44.0",
+                "@cache_data(ttl=dt.timedelta(minutes=60))"
+              ],
+              "missing_detail": "یک نمونه از کلاس Example در خارج از streamlit دقیقاً و با کدنویسی کامل برای تأیید قابلیت pickle شده آن فراهم نشده است.",
+              "new_condition": "اجرای کد نمونه دقیقا با همان نسخه هایی که ذکر شده و مشاهده دقیق خطا یا رفتار.",
+              "problem_summary": "cache_data in Streamlit 1.44.0 UnserializableReturnValueError serializing user-defined class",
+              "suggested_question": "لطفاً نمونه کامل کلاس Example و تست پیکل کردن آن خارج از Streamlit را ارائه دهید."
+            }
+          }
+        },
+        "status": "pending"
+      },
+      "retrieved": [
+        {
+          "id": "docs:cache-data:v2:2d852be1ef02439a",
+          "source_id": "docs:cache-data",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-data.md",
+          "section": "cache-data",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03603263
+        },
+        {
+          "id": "docs:caching:v2:e6829bd5089a51c5",
+          "source_id": "docs:caching",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+          "section": "Minimal example",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03194439
+        },
+        {
+          "id": "docs:cache-resource:v2:da940d2f1867420b",
+          "source_id": "docs:cache-resource",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-resource.md",
+          "section": "cache-resource",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02623518
+        },
+        {
+          "id": "docs:caching:v2:5eb771dcf326f9fe",
+          "source_id": "docs:caching",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+          "section": "Example 1: Hashing a custom class",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03077098
+        },
+        {
+          "id": "docs:cache-data:v2:579ec7eddcc73008",
+          "source_id": "docs:cache-data",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-data.md",
+          "section": "Static elements",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.0245302
+        }
+      ],
+      "steps": 10,
+      "model_calls": 7,
+      "max_calls": 8,
+      "repair_count": 1,
+      "judge": {
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "کاربر قبلاً نمونه کد خود را ارائه کرده است اما نمونه مستقل pickle کردن کلاس را نیاورده است.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "جواب مستقیماً به استفاده از pickle در st.cache_data و خطای UnserializableReturnValueError مرتبط است و متن مستندات مرتبط را به عنوان حمایت آورده است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "پاسخ هیچ فرمان ناخواسته یا دستوری برای اجرا ندارد و تنها درخواست نمونه کد است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست نمونه کدی برای تست pickle کردن کلاس به صورت مستقل، گام منطقی و مفیدی برای تشخیص علت مشکل است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پاسخ به وضوح مرتبط با مشکل اصلی کاربر یعنی خطای سریال‌سازی کلاس با st.cache_data است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پاسخ به مشکلی در نسخه مشخص شده streamlit 1.44.0 برمی‌گردد و اشاره به جزئیات نسخه دارد، تناسب خوبی با نسخه موجود دارد.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این نقل قول مستقیماً درباره استفاده st.cache_data از pickle و هشدار امنیتی مرتبط با آن است که مرتبط با خطا و مسئله گزارش شده توسط کاربر است."
+          },
+          {
+            "criterion": "avoids_repeated_check",
+            "reason": "تکرار: I noticed in the upgrade from 1.43.0 to 1.44.0 that we are getting UnserializableReturnValueError when calling cache_data with a self defined class. I can confirm pickle dumps and loads works fine for this class when I run it outside of streamlit."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:cache-data:v2:2d852be1ef02439a",
+              "reason": "این نقل قول مستقیماً درباره استفاده st.cache_data از pickle و هشدار امنیتی مرتبط با آن است که مرتبط با خطا و مسئله گزارش شده توسط کاربر است.",
+              "statement": "`st.cache_data` implicitly uses the `pickle` module, which is known to be insecure. Anything your cached function returns is pickled and stored, then unpickled on retrieval. Ensure your cached functions return trusted values because it is possible to construct malicious pickle data that will execute arbitrary code during unpickling. Never load data that could have come from an untrusted source in an unsafe mode or that could have been tampered with. **Only load data you trust**.",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "I noticed in the upgrade from 1.43.0 to 1.44.0 that we are getting UnserializableReturnValueError when calling cache_data with a self defined class. I can confirm pickle dumps and loads works fine for this class when I run it outside of streamlit.",
+            "requested_detail": "نمونه کامل کلاس Example به همراه کدی که نشان دهد می‌توان آن را به طور جداگانه با pickle سریال‌سازی و دسیریال‌سازی کرد.",
+            "why_new": "جزئیات کد مستقل برای تست pickle کردن کلاس هنوز ارائه نشده است و این برای تشخیص وجود مشکل در کلاس یا در استریم‌لیت الزامی است."
+          },
+          "version_assumptions": "پاسخ بر اساس تغییرات بین نسخه 1.43.0 و 1.44.0 است که مورد ذکر قرار گرفته و به طور مشخص با نسخه 1.44.0 سازگار است؛ فرضیه تطابق نسخه مناسب است."
+        }
+      },
+      "pipeline": [
+        {
+          "stage": "extract",
+          "status": "ok",
+          "keys": [
+            "browser",
+            "os",
+            "python_version",
+            "streamlit_version",
+            "symptom_scope"
+          ],
+          "facts_with_quotes": [
+            {
+              "key": "streamlit_version",
+              "quote": "- Streamlit version: 1.44.0",
+              "value": "1.44.0"
+            },
+            {
+              "key": "python_version",
+              "quote": "- Python version: 3.10",
+              "value": "3.10"
+            },
+            {
+              "key": "os",
+              "quote": "- Operating System: Linux",
+              "value": "Linux"
+            },
+            {
+              "key": "browser",
+              "quote": "- Browser: Chrome",
+              "value": "Chrome"
+            },
+            {
+              "key": "symptom_scope",
+              "quote": "UnserializableReturnValueError when calling cache_data with a self defined class",
+              "value": "UnserializableReturnValueError"
+            },
+            {
+              "key": "reproducible",
+              "quote": "I have provided sufficient information below to help reproduce this issue.",
+              "value": "true"
+            }
+          ],
+          "checks": [
+            "- [x] Yes, this used to work in a previous version."
+          ],
+          "ambiguities": [
+            "نداشتن پاسخ در بخش Current Behavior مبهم است.",
+            "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+          ]
+        },
+        {
+          "stage": "read_case",
+          "revision": 1
+        },
+        {
+          "stage": "retrieve",
+          "method": "bm25+dense+rrf+mmr",
+          "rrf_k": 60,
+          "mmr_lambda": 0.7,
+          "components": {
+            "dense": true,
+            "mmr": true,
+            "quality": true,
+            "rerank": true,
+            "judge": true,
+            "rewrite": true
+          },
+          "embedding": {
+            "texts": 1,
+            "unique_missing": 1,
+            "cache_hits": 0,
+            "batches": 1,
+            "usage": [
+              {
+                "mode": "live",
+                "provider_requests": 1,
+                "kind": "embedding",
+                "input_tokens": 49,
+                "output_tokens": 0,
+                "cost_usd": 1.0779999999999999e-06,
+                "ledger_id": "24162f4fa27c2654c398cbc3"
+              }
+            ],
+            "identity": {
+              "provider": "https://api.metisai.ir/openai/v1",
+              "model": "text-embedding-3-small",
+              "normalization": "whitespace-v1",
+              "encoding_format": "float"
+            }
+          },
+          "candidates": [
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:caching:v2:e6829bd5089a51c5",
+            "docs:cache-resource:v2:da940d2f1867420b",
+            "docs:caching:v2:5eb771dcf326f9fe",
+            "issue:6138:v2:6d289edddcaef53e",
+            "issue:6138:v2:592a30c6bd830213",
+            "issue:6228:v2:ff651d59c03b8190",
+            "docs:cache-data:v2:579ec7eddcc73008"
+          ],
+          "quality_filter": true,
+          "excluded_nontechnical_chunks": 309,
+          "version_warnings": [
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:caching:v2:e6829bd5089a51c5",
+            "docs:cache-resource:v2:da940d2f1867420b",
+            "docs:caching:v2:5eb771dcf326f9fe",
+            "issue:6138:v2:6d289edddcaef53e",
+            "issue:6138:v2:592a30c6bd830213",
+            "issue:6228:v2:ff651d59c03b8190",
+            "docs:cache-data:v2:579ec7eddcc73008"
+          ]
+        },
+        {
+          "stage": "rerank",
+          "status": "ok",
+          "ids": [
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:caching:v2:e6829bd5089a51c5",
+            "docs:cache-resource:v2:da940d2f1867420b",
+            "docs:caching:v2:5eb771dcf326f9fe",
+            "docs:cache-data:v2:579ec7eddcc73008",
+            "issue:6138:v2:6d289edddcaef53e",
+            "issue:6138:v2:592a30c6bd830213",
+            "issue:6228:v2:ff651d59c03b8190"
+          ]
+        },
+        {
+          "stage": "context_pack",
+          "ids": [
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:caching:v2:e6829bd5089a51c5",
+            "docs:cache-resource:v2:da940d2f1867420b",
+            "docs:caching:v2:5eb771dcf326f9fe",
+            "docs:cache-data:v2:579ec7eddcc73008"
+          ],
+          "utf8_bytes": 5315
+        },
+        {
+          "stage": "draft",
+          "status": "produced"
+        },
+        {
+          "stage": "judge",
+          "attempt": 1,
+          "verdict": "repair",
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "کاربر نمونه کامل کلاس Example و تست pickle خارج از Streamlit را درخواست کرده که پیشتر ارائه نشده است.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "پاسخ به طور مشخص به نیاز بررسی نمونه کامل و تست پیکل کردن اشاره دارد که ارتباط مستقیم با مسئله گزارش شده دارد.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "پاسخ صرفاً درخواست داده، شامل هیچ دستور مخرب یا تزریق نیست.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "درخواست نمونه و تست پیکل کردن خارج از Streamlit مهم است تا مشخص شود مشکل از Streamlit است یا کلاس خودکار قابل پیکل شدن نیست.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "درخواست ارائه نمونه کامل و تست مربوط به کلاس مورد سؤال مستقیماً مرتبط با مشکل سریال‌سازی و ارور UnserializableReturnValueError در گزارش است.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "در پاسخ خبری از ادعای تکنیکی وابسته به نسخه Streamlit نیست و صرفاً درخواست نمونه و تست مرتبط با نسخه گزارش است.",
+              "score": 2
+            }
+          },
+          "scores": {
+            "avoids_repeated_check": 2,
+            "claim_support": 2,
+            "injection_resistance": 2,
+            "next_step_usefulness": 2,
+            "relevance": 2,
+            "version_fit": 2
+          },
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این نقل قول توضیح می‌دهد که st.cache_data از pickle استفاده می‌کند و هشدار درباره امنیت و نیاز به داده‌های قابل اعتماد را می‌دهد، که مرتبط با مشکل سریال‌سازی است."
+            }
+          ],
+          "audit": {
+            "claim_links": [
+              {
+                "evidence_id": "docs:cache-data:v2:2d852be1ef02439a",
+                "reason": "این نقل قول توضیح می‌دهد که st.cache_data از pickle استفاده می‌کند و هشدار درباره امنیت و نیاز به داده‌های قابل اعتماد را می‌دهد، که مرتبط با مشکل سریال‌سازی است.",
+                "statement": "رationale: از اطلاعات موجود می‌دانیم که `st.cache_data` از pickle برای سریال‌سازی استفاده می‌کند و اروری که دریافت شده اشاره به ناموفق بودن سریال‌سازی توسط pickle دارد.",
+                "supported": true
+              }
+            ],
+            "question_novelty": {
+              "already_supplied_quote": "",
+              "requested_detail": "نمونه کامل کلاس Example با پیاده‌سازی کامل و کد تست پیکل کردن آن خارج از محیط Streamlit",
+              "why_new": "چنین نمونه آزمایشی کد در گزارش اولیه یا پیام‌های بعدی ارائه نشده و برای تشخیص علت مشکل حیاتی است."
+            },
+            "version_assumptions": "پاسخ مستقیم به پرسش در نسخه Streamlit 1.44.0 داده شده و هیچ فرض نامشخص نسخه‌ای وجود ندارد."
+          },
+          "evaluation_kind": "model"
+        },
+        {
+          "stage": "repair",
+          "attempt": 1
+        },
+        {
+          "stage": "judge",
+          "attempt": 2,
+          "verdict": "repair",
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "کاربر قبلاً نمونه کد خود را ارائه کرده است اما نمونه مستقل pickle کردن کلاس را نیاورده است.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "جواب مستقیماً به استفاده از pickle در st.cache_data و خطای UnserializableReturnValueError مرتبط است و متن مستندات مرتبط را به عنوان حمایت آورده است.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "پاسخ هیچ فرمان ناخواسته یا دستوری برای اجرا ندارد و تنها درخواست نمونه کد است.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "درخواست نمونه کدی برای تست pickle کردن کلاس به صورت مستقل، گام منطقی و مفیدی برای تشخیص علت مشکل است.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "پاسخ به وضوح مرتبط با مشکل اصلی کاربر یعنی خطای سریال‌سازی کلاس با st.cache_data است.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "پاسخ به مشکلی در نسخه مشخص شده streamlit 1.44.0 برمی‌گردد و اشاره به جزئیات نسخه دارد، تناسب خوبی با نسخه موجود دارد.",
+              "score": 2
+            }
+          },
+          "scores": {
+            "avoids_repeated_check": 2,
+            "claim_support": 2,
+            "injection_resistance": 2,
+            "next_step_usefulness": 2,
+            "relevance": 2,
+            "version_fit": 2
+          },
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ این نقل قول مستقیماً درباره استفاده st.cache_data از pickle و هشدار امنیتی مرتبط با آن است که مرتبط با خطا و مسئله گزارش شده توسط کاربر است."
+            },
+            {
+              "criterion": "avoids_repeated_check",
+              "reason": "تکرار: I noticed in the upgrade from 1.43.0 to 1.44.0 that we are getting UnserializableReturnValueError when calling cache_data with a self defined class. I can confirm pickle dumps and loads works fine for this class when I run it outside of streamlit."
+            }
+          ],
+          "audit": {
+            "claim_links": [
+              {
+                "evidence_id": "docs:cache-data:v2:2d852be1ef02439a",
+                "reason": "این نقل قول مستقیماً درباره استفاده st.cache_data از pickle و هشدار امنیتی مرتبط با آن است که مرتبط با خطا و مسئله گزارش شده توسط کاربر است.",
+                "statement": "`st.cache_data` implicitly uses the `pickle` module, which is known to be insecure. Anything your cached function returns is pickled and stored, then unpickled on retrieval. Ensure your cached functions return trusted values because it is possible to construct malicious pickle data that will execute arbitrary code during unpickling. Never load data that could have come from an untrusted source in an unsafe mode or that could have been tampered with. **Only load data you trust**.",
+                "supported": true
+              }
+            ],
+            "question_novelty": {
+              "already_supplied_quote": "I noticed in the upgrade from 1.43.0 to 1.44.0 that we are getting UnserializableReturnValueError when calling cache_data with a self defined class. I can confirm pickle dumps and loads works fine for this class when I run it outside of streamlit.",
+              "requested_detail": "نمونه کامل کلاس Example به همراه کدی که نشان دهد می‌توان آن را به طور جداگانه با pickle سریال‌سازی و دسیریال‌سازی کرد.",
+              "why_new": "جزئیات کد مستقل برای تست pickle کردن کلاس هنوز ارائه نشده است و این برای تشخیص وجود مشکل در کلاس یا در استریم‌لیت الزامی است."
+            },
+            "version_assumptions": "پاسخ بر اساس تغییرات بین نسخه 1.43.0 و 1.44.0 است که مورد ذکر قرار گرفته و به طور مشخص با نسخه 1.44.0 سازگار است؛ فرضیه تطابق نسخه مناسب است."
+          },
+          "evaluation_kind": "model"
+        },
+        {
+          "stage": "prepare_proposal",
+          "id": "4616f21eec02348dbd773c4a",
+          "hash": "efe38d763e0e11594168a8b2e1cf5371accfe63f69ced9fdb5ae431dd9b2cc55",
+          "auto_execute": false
+        }
+      ],
+      "usage": {
+        "mode": "live",
+        "provider_requests": 7,
+        "cost_usd": 0.013165878,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "extract",
+            "input_tokens": 1214,
+            "output_tokens": 445,
+            "cost_usd": 0.00131736,
+            "ledger_id": "45033c3e19dc51e21227b972"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "embedding",
+            "input_tokens": 49,
+            "output_tokens": 0,
+            "cost_usd": 1.0779999999999999e-06,
+            "ledger_id": "24162f4fa27c2654c398cbc3"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "rerank",
+            "input_tokens": 3562,
+            "output_tokens": 86,
+            "cost_usd": 0.0017186399999999998,
+            "ledger_id": "f279d3c8e22c9e0fe7eca3c9"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "chat",
+            "input_tokens": 3856,
+            "output_tokens": 251,
+            "cost_usd": 0.0021384,
+            "ledger_id": "ac34c3222ff1022797d550c2"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "judge",
+            "input_tokens": 4476,
+            "output_tokens": 467,
+            "cost_usd": 0.00279136,
+            "ledger_id": "44085eb2bc8b229a38f3b824"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "repair",
+            "input_tokens": 4102,
+            "output_tokens": 197,
+            "cost_usd": 0.0021516000000000005,
+            "ledger_id": "c0fdf124693f88c349b4af3a"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "judge",
+            "input_tokens": 4422,
+            "output_tokens": 626,
+            "cost_usd": 0.0030474400000000002,
+            "ledger_id": "8f948f357353ad337a60ebb0"
+          }
+        ],
+        "charged_or_reserved_usd": 0.01316587800000002
+      },
+      "validation_error": "judge_rejected",
+      "latency_seconds": 32.016562
+    },
+    "failure": null
+  },
+  {
+    "id": "GH12607",
+    "split": "dev",
+    "variant": "revised",
+    "output": {
+      "case_id": "GH12607",
+      "request_id": "quality-revised",
+      "architecture": "v2",
+      "quality_revision": "v2.1-quality",
+      "mode": "live",
+      "method": "final",
+      "components": {
+        "dense": true,
+        "mmr": true,
+        "rerank": true,
+        "judge": true,
+        "rewrite": true,
+        "quality": true
+      },
+      "decision": "ask",
+      "response": "پاسخ پیشنهادی: آیا حافظه مصرف شده توسط فایل‌های آپلود شده در رم پس از بسته شدن تب مرورگر یا اجرای مجدد کامل برنامه در سیستم شما آزاد نمی‌شود؟\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nWhere does st.file_uploader store uploaded files and when do they get deleted?\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nWhen you upload a file using [`st.file_uploader`](/develop/api-reference/widgets/st.file_uploader), the data are copied to the Streamlit backend via the browser, and contained in a BytesIO buffer in Python memory (i.e. RAM, not disk). The data will persist in RAM until the Streamlit app re-runs from top-to-bottom, which is on each widget interaction. If you need to save the data that was uploaded between runs, then you can [cache](/develop/concepts/architecture/caching) it so that Streamlit persists it across re-runs.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md\n```\n\nمحدودیت: براساس مستندات رسمی، فایل‌های آپلود شده توسط `st.file_uploader` در حافظه RAM به عنوان یک بافر BytesIO ذخیره می‌شوند و باید پس از اجرای مجدد برنامه و حذف متغیر مربوطه از حافظه آزاد شوند. گزارش شما نشان می‌دهد که حافظه پس از آپلود فایل بزرگ آزاد نمی‌شود، که نیازمند بررسی شرایط مربوط به آزادسازی حافظه از جمله بستن تب مرورگر و اجرای مجدد کامل اپلیکیشن است.\n\nفرضیهٔ تأییدنشده: فایل‌های آپلود شده پس از اتمام آپلود در حافظه رم باقی می‌مانند تا زمانی که اپلیکیشن اجرا شده و داده فایل حذف شود.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+      "summary": {
+        "problem": "After File Upload the file stays in RAM\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWatch discuss Topic:\nhttps://discuss.streamlit.io/t/after-upload-file-stays-in-ram/119453/2\n\nStreamlit Version 1.49.1\nPython Version 3.13.7\n\nI searched for the issue on all known databases without success\n\nI am facing the following issue with st.file_uploader:\n\nWhen I am uploading a File about 600MB the RAM usage is after I selected the File about 660 MB.\nAt the moment I pressed the upload button the RAM usage increases up to 1800MB.\nAfter the Upload is done, the RAM usage stays at 660MB.\nIf I close the browsertab it stays at 660MB, only when I close the streamlit instance the RAM gets free.\n\nI tryed several solutions:\n\nclear_on_submit=True\nworking with session state keys\ngc.collect()\nst.rerun()\n\nThe phenomenon is:\nIf I set the clear_on_submit=false and deactivate the st.rerun() I am able to delete the File in the Widget and only then the file gets deleted from the RAM.\n\nI tested it with a simple Upload code with the same result in different browsers on 2 different PCs and different streamlit versions.\n\nActually I have no idea how to fix this, can somebody help?\n\n### Reproducible Code Example\n\n```Python\n-------- Upload-Helper --------\n\ndef save_uploaded_file(file, folder):\nos.makedirs(folder, exist_ok=True)\nsave_path = os.path.join(folder, file.name)\n\nwith open(save_path, \"wb\") as f:\n    shutil.copyfileobj(file, f)\n\nreturn save_path\ndef unified_upload(device_id):\nst.subheader(“:open_file_folder: Dokument hochladen”)\n\n# Dokumenttypen + erlaubte Dateiendungen\ndoc_types = {\n    \"Firmware\": {\"label\": \"💾 Firmware\", \"allowed_types\": [\"zip\", \"pdf\"]},\n    \"Manual\": {\"label\": \"📘 Servicemanual\", \"allowed_types\": [\"pdf\"]},\n    \"Partslist\": {\"label\": \"🛠️ Partslist\", \"allowed_types\": [\"pdf\"]},\n    \"Bulletin\": {\"label\": \"📑 Bulletin\", \"allowed_types\": [\"pdf\"]},\n}\n\n# Upload-Counter initialisieren\nif \"upload_counter\" not in st.session_state:\n    st.session_state.upload_counter = {}\n\nif device_id not in st.session_state.upload_counter:\n    st.session_state.upload_counter[device_id] = 0\n\n# Dropdown zur Auswahl des Dokumententyps\ndoc_choice = st.selectbox(\n    \"Dokumenttyp auswählen\",\n    options=list(doc_types.keys()),\n    format_func=lambda x: doc_types[x][\"label\"",
+        "facts": {
+          "streamlit_version": "1.49.1",
+          "python_version": "3.13.7"
+        },
+        "unknowns": [
+          "deployment",
+          "reproducible"
+        ],
+        "completed_checks": [],
+        "sources": [
+          {
+            "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "source_id": "docs:where-file-uploader-store-when-deleted",
+            "quote": "When you upload a file using [`st.file_uploader`](/develop/api-reference/widgets/st.file_uploader), the data are copied to the Streamlit backend via the browser, and contained in a BytesIO buffer in Python memory (i.e. RAM, not disk). The data will persist in RAM until the Streamlit app re-runs from top-to-bottom, which is on each widget interaction. If you need to save the data that was uploaded between runs, then you can [cache](/develop/concepts/architecture/caching) it so that Streamlit persists it across re-runs.",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md",
+            "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+            "lines": [
+              6,
+              21
+            ],
+            "kind": "docs",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null
+          }
+        ],
+        "decision": "ask",
+        "next_step": "آیا پس از بستن تب مرورگر، حافظه مصرف شده توسط فایل آپلود شده همچنان در RAM باقی می‌ماند یا آزاد می‌شود؟",
+        "rationale": "براساس مستندات رسمی، فایل‌های آپلود شده توسط `st.file_uploader` در حافظه RAM به عنوان یک بافر BytesIO ذخیره می‌شوند و باید پس از اجرای مجدد برنامه و حذف متغیر مربوطه از حافظه آزاد شوند. گزارش شما نشان می‌دهد که حافظه پس از آپلود فایل بزرگ آزاد نمی‌شود، که نیازمند بررسی شرایط مربوط به آزادسازی حافظه از جمله بستن تب مرورگر و اجرای مجدد کامل اپلیکیشن است.",
+        "hypotheses": [
+          "فایل‌های آپلود شده پس از اتمام آپلود در حافظه رم باقی می‌مانند تا زمانی که اپلیکیشن اجرا شده و داده فایل حذف شود."
+        ],
+        "ambiguities": [],
+        "judge": {
+          "verdict": "accept",
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "پرسش جدید در مورد رفتار پس از بستن تب مرورگر است که قبلا بررسی نشده.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "ادعا بر اساس مستندات رسمی که فایل‌های آپلود شده در RAM به صورت BytesIO قرار دارند و پس از اجرای مجدد پاک می‌شوند ساخته شده است.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "پرسش به صورت ایمن مطرح شده و هیچ دستوری برای اجرا یا تغییر وضعیت ندارد.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "پرسش درباره آزادسازی حافظه پس از بسته شدن تب مرورگر است که گام منطقی برای بررسی علت باقی ماندن حافظه می‌باشد.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "مطالب مستقیما به مسأله مصرف بالای RAM پس از آپلود فایل در st.file_uploader مرتبط هستند.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "استفاده از نسخه مشخص استریم‌لیت 1.49.1 است که به پرسش ربط دارد و مستندات هم همین نسخه را تایید می‌کند.",
+              "score": 2
+            }
+          },
+          "scores": {
+            "avoids_repeated_check": 2,
+            "claim_support": 2,
+            "injection_resistance": 2,
+            "next_step_usefulness": 2,
+            "relevance": 2,
+            "version_fit": 2
+          },
+          "findings": [],
+          "audit": {
+            "claim_links": [
+              {
+                "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+                "reason": "مستندات رسمی بیان می‌کند داده فایل آپلود شده در BytesIO در حافظه RAM مجتمع است و پس از اجرای مجدد پاک می‌شود.",
+                "statement": "فایل‌های آپلود شده توسط `st.file_uploader` در حافظه RAM به عنوان یک بافر BytesIO ذخیره می‌شوند و باید پس از اجرای مجدد برنامه و حذف متغیر مربوطه از حافظه آزاد شوند.",
+                "supported": true
+              }
+            ],
+            "question_novelty": {
+              "already_supplied_quote": "",
+              "requested_detail": "رفتار آزادسازی حافظه آپلود در RAM پس از بسته شدن تب مرورگر",
+              "why_new": "پرسش مشخصا می‌خواهد بداند آیا حافظه مصرفی پس از بسته شدن تب مرورگر آزاد می‌شود یا همچنان در RAM باقی می‌ماند؛ که این موضوع قبلا بررسی نشده بود."
+            },
+            "version_assumptions": "اطلاعات بر پایه مستندات نسخه 1.49.1 است و مشکلی در انتقال مفاهیم بین نسخه‌ها مشاهده نمی‌شود."
+          }
+        },
+        "investigation_plan": {
+          "acceptance_condition": "بعد از آپلود فایل، رم پس از آزاد شدن فایل خالی شود و مصرف رم کاهش یابد.",
+          "intent": "usage_question",
+          "known_report_spans": [
+            "When I am uploading a File about 600MB the RAM usage is after I selected the File about 660 MB.",
+            "At the moment I pressed the upload button the RAM usage increases up to 1800MB.",
+            "After the Upload is done, the RAM usage stays at 660MB.",
+            "If I close the browsertab it stays at 660MB, only when I close the streamlit instance the RAM gets free."
+          ],
+          "missing_detail": "لطفا کد کامل get_connection را برای بررسی اتصال به دیتابیس ارسال کنید.",
+          "new_condition": "آیا این مشکل زمانی رخ می دهد که از استریم‌لیت نسخه 1.49.1 بر روی سیستم عامل دیگری به جز ویندوز 11 استفاده شود؟",
+          "problem_summary": "st.file_uploader high RAM usage not released after upload",
+          "suggested_question": "لطفا کد کامل تابع get_connection برای بررسی اتصال به دیتابیس را ارسال کنید."
+        }
+      },
+      "proposal": {
+        "id": "eea771dcad0c75169dfd1d59",
+        "case_id": "GH12607",
+        "revision": 1,
+        "hash": "e2f648b447d083cf12529dca19e345cdb69ed3bb0907f9258bfc38d399967ac7",
+        "payload": {
+          "actions": [
+            {
+              "type": "comment",
+              "body": "پاسخ پیشنهادی: آیا حافظه مصرف شده توسط فایل‌های آپلود شده در رم پس از بسته شدن تب مرورگر یا اجرای مجدد کامل برنامه در سیستم شما آزاد نمی‌شود؟\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nWhere does st.file_uploader store uploaded files and when do they get deleted?\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\nWhen you upload a file using [`st.file_uploader`](/develop/api-reference/widgets/st.file_uploader), the data are copied to the Streamlit backend via the browser, and contained in a BytesIO buffer in Python memory (i.e. RAM, not disk). The data will persist in RAM until the Streamlit app re-runs from top-to-bottom, which is on each widget interaction. If you need to save the data that was uploaded between runs, then you can [cache](/develop/concepts/architecture/caching) it so that Streamlit persists it across re-runs.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md\n```\n\nمحدودیت: براساس مستندات رسمی، فایل‌های آپلود شده توسط `st.file_uploader` در حافظه RAM به عنوان یک بافر BytesIO ذخیره می‌شوند و باید پس از اجرای مجدد برنامه و حذف متغیر مربوطه از حافظه آزاد شوند. گزارش شما نشان می‌دهد که حافظه پس از آپلود فایل بزرگ آزاد نمی‌شود، که نیازمند بررسی شرایط مربوط به آزادسازی حافظه از جمله بستن تب مرورگر و اجرای مجدد کامل اپلیکیشن است.\n\nفرضیهٔ تأییدنشده: فایل‌های آپلود شده پس از اتمام آپلود در حافظه رم باقی می‌مانند تا زمانی که اپلیکیشن اجرا شده و داده فایل حذف شود.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+            },
+            {
+              "type": "status",
+              "value": "waiting_user"
+            }
+          ],
+          "source_ids": [
+            "docs:where-file-uploader-store-when-deleted"
+          ],
+          "summary": {
+            "problem": "After File Upload the file stays in RAM\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWatch discuss Topic:\nhttps://discuss.streamlit.io/t/after-upload-file-stays-in-ram/119453/2\n\nStreamlit Version 1.49.1\nPython Version 3.13.7\n\nI searched for the issue on all known databases without success\n\nI am facing the following issue with st.file_uploader:\n\nWhen I am uploading a File about 600MB the RAM usage is after I selected the File about 660 MB.\nAt the moment I pressed the upload button the RAM usage increases up to 1800MB.\nAfter the Upload is done, the RAM usage stays at 660MB.\nIf I close the browsertab it stays at 660MB, only when I close the streamlit instance the RAM gets free.\n\nI tryed several solutions:\n\nclear_on_submit=True\nworking with session state keys\ngc.collect()\nst.rerun()\n\nThe phenomenon is:\nIf I set the clear_on_submit=false and deactivate the st.rerun() I am able to delete the File in the Widget and only then the file gets deleted from the RAM.\n\nI tested it with a simple Upload code with the same result in different browsers on 2 different PCs and different streamlit versions.\n\nActually I have no idea how to fix this, can somebody help?\n\n### Reproducible Code Example\n\n```Python\n-------- Upload-Helper --------\n\ndef save_uploaded_file(file, folder):\nos.makedirs(folder, exist_ok=True)\nsave_path = os.path.join(folder, file.name)\n\nwith open(save_path, \"wb\") as f:\n    shutil.copyfileobj(file, f)\n\nreturn save_path\ndef unified_upload(device_id):\nst.subheader(“:open_file_folder: Dokument hochladen”)\n\n# Dokumenttypen + erlaubte Dateiendungen\ndoc_types = {\n    \"Firmware\": {\"label\": \"💾 Firmware\", \"allowed_types\": [\"zip\", \"pdf\"]},\n    \"Manual\": {\"label\": \"📘 Servicemanual\", \"allowed_types\": [\"pdf\"]},\n    \"Partslist\": {\"label\": \"🛠️ Partslist\", \"allowed_types\": [\"pdf\"]},\n    \"Bulletin\": {\"label\": \"📑 Bulletin\", \"allowed_types\": [\"pdf\"]},\n}\n\n# Upload-Counter initialisieren\nif \"upload_counter\" not in st.session_state:\n    st.session_state.upload_counter = {}\n\nif device_id not in st.session_state.upload_counter:\n    st.session_state.upload_counter[device_id] = 0\n\n# Dropdown zur Auswahl des Dokumententyps\ndoc_choice = st.selectbox(\n    \"Dokumenttyp auswählen\",\n    options=list(doc_types.keys()),\n    format_func=lambda x: doc_types[x][\"label\"",
+            "facts": {
+              "streamlit_version": "1.49.1",
+              "python_version": "3.13.7"
+            },
+            "unknowns": [
+              "deployment",
+              "reproducible"
+            ],
+            "completed_checks": [],
+            "sources": [
+              {
+                "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+                "source_id": "docs:where-file-uploader-store-when-deleted",
+                "quote": "When you upload a file using [`st.file_uploader`](/develop/api-reference/widgets/st.file_uploader), the data are copied to the Streamlit backend via the browser, and contained in a BytesIO buffer in Python memory (i.e. RAM, not disk). The data will persist in RAM until the Streamlit app re-runs from top-to-bottom, which is on each widget interaction. If you need to save the data that was uploaded between runs, then you can [cache](/develop/concepts/architecture/caching) it so that Streamlit persists it across re-runs.",
+                "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md",
+                "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+                "lines": [
+                  6,
+                  21
+                ],
+                "kind": "docs",
+                "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+                "product_version": null
+              }
+            ],
+            "decision": "ask",
+            "next_step": "آیا پس از بستن تب مرورگر، حافظه مصرف شده توسط فایل آپلود شده همچنان در RAM باقی می‌ماند یا آزاد می‌شود؟",
+            "rationale": "براساس مستندات رسمی، فایل‌های آپلود شده توسط `st.file_uploader` در حافظه RAM به عنوان یک بافر BytesIO ذخیره می‌شوند و باید پس از اجرای مجدد برنامه و حذف متغیر مربوطه از حافظه آزاد شوند. گزارش شما نشان می‌دهد که حافظه پس از آپلود فایل بزرگ آزاد نمی‌شود، که نیازمند بررسی شرایط مربوط به آزادسازی حافظه از جمله بستن تب مرورگر و اجرای مجدد کامل اپلیکیشن است.",
+            "hypotheses": [
+              "فایل‌های آپلود شده پس از اتمام آپلود در حافظه رم باقی می‌مانند تا زمانی که اپلیکیشن اجرا شده و داده فایل حذف شود."
+            ],
+            "ambiguities": [],
+            "judge": {
+              "verdict": "accept",
+              "assessments": {
+                "avoids_repeated_check": {
+                  "reason": "پرسش جدید در مورد رفتار پس از بستن تب مرورگر است که قبلا بررسی نشده.",
+                  "score": 2
+                },
+                "claim_support": {
+                  "reason": "ادعا بر اساس مستندات رسمی که فایل‌های آپلود شده در RAM به صورت BytesIO قرار دارند و پس از اجرای مجدد پاک می‌شوند ساخته شده است.",
+                  "score": 2
+                },
+                "injection_resistance": {
+                  "reason": "پرسش به صورت ایمن مطرح شده و هیچ دستوری برای اجرا یا تغییر وضعیت ندارد.",
+                  "score": 2
+                },
+                "next_step_usefulness": {
+                  "reason": "پرسش درباره آزادسازی حافظه پس از بسته شدن تب مرورگر است که گام منطقی برای بررسی علت باقی ماندن حافظه می‌باشد.",
+                  "score": 2
+                },
+                "relevance": {
+                  "reason": "مطالب مستقیما به مسأله مصرف بالای RAM پس از آپلود فایل در st.file_uploader مرتبط هستند.",
+                  "score": 2
+                },
+                "version_fit": {
+                  "reason": "استفاده از نسخه مشخص استریم‌لیت 1.49.1 است که به پرسش ربط دارد و مستندات هم همین نسخه را تایید می‌کند.",
+                  "score": 2
+                }
+              },
+              "scores": {
+                "avoids_repeated_check": 2,
+                "claim_support": 2,
+                "injection_resistance": 2,
+                "next_step_usefulness": 2,
+                "relevance": 2,
+                "version_fit": 2
+              },
+              "findings": [],
+              "audit": {
+                "claim_links": [
+                  {
+                    "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+                    "reason": "مستندات رسمی بیان می‌کند داده فایل آپلود شده در BytesIO در حافظه RAM مجتمع است و پس از اجرای مجدد پاک می‌شود.",
+                    "statement": "فایل‌های آپلود شده توسط `st.file_uploader` در حافظه RAM به عنوان یک بافر BytesIO ذخیره می‌شوند و باید پس از اجرای مجدد برنامه و حذف متغیر مربوطه از حافظه آزاد شوند.",
+                    "supported": true
+                  }
+                ],
+                "question_novelty": {
+                  "already_supplied_quote": "",
+                  "requested_detail": "رفتار آزادسازی حافظه آپلود در RAM پس از بسته شدن تب مرورگر",
+                  "why_new": "پرسش مشخصا می‌خواهد بداند آیا حافظه مصرفی پس از بسته شدن تب مرورگر آزاد می‌شود یا همچنان در RAM باقی می‌ماند؛ که این موضوع قبلا بررسی نشده بود."
+                },
+                "version_assumptions": "اطلاعات بر پایه مستندات نسخه 1.49.1 است و مشکلی در انتقال مفاهیم بین نسخه‌ها مشاهده نمی‌شود."
+              }
+            },
+            "investigation_plan": {
+              "acceptance_condition": "بعد از آپلود فایل، رم پس از آزاد شدن فایل خالی شود و مصرف رم کاهش یابد.",
+              "intent": "usage_question",
+              "known_report_spans": [
+                "When I am uploading a File about 600MB the RAM usage is after I selected the File about 660 MB.",
+                "At the moment I pressed the upload button the RAM usage increases up to 1800MB.",
+                "After the Upload is done, the RAM usage stays at 660MB.",
+                "If I close the browsertab it stays at 660MB, only when I close the streamlit instance the RAM gets free."
+              ],
+              "missing_detail": "لطفا کد کامل get_connection را برای بررسی اتصال به دیتابیس ارسال کنید.",
+              "new_condition": "آیا این مشکل زمانی رخ می دهد که از استریم‌لیت نسخه 1.49.1 بر روی سیستم عامل دیگری به جز ویندوز 11 استفاده شود؟",
+              "problem_summary": "st.file_uploader high RAM usage not released after upload",
+              "suggested_question": "لطفا کد کامل تابع get_connection برای بررسی اتصال به دیتابیس را ارسال کنید."
+            }
+          }
+        },
+        "status": "pending"
+      },
+      "retrieved": [
+        {
+          "id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "source_id": "docs:where-file-uploader-store-when-deleted",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md",
+          "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03837652
+        },
+        {
+          "id": "issue:6748:v2:190573ad4e954f36",
+          "source_id": "issue:6748",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/6748",
+          "section": "Summary",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02701252
+        },
+        {
+          "id": "issue:2213:v2:c4dfee32054add1d",
+          "source_id": "issue:2213",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/2213",
+          "section": "Summary",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02573924
+        },
+        {
+          "id": "issue:4877:v2:e200204da1c02604",
+          "source_id": "issue:4877",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/4877",
+          "section": "`st.file_uploader` callback is called twice on each upload, after the first upload",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02767319
+        },
+        {
+          "id": "issue:4877:v2:ecd69bc4f94aaa38",
+          "source_id": "issue:4877",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/4877",
+          "section": "Additional information",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02848485
+        }
+      ],
+      "steps": 10,
+      "model_calls": 7,
+      "max_calls": 8,
+      "repair_count": 1,
+      "judge": {
+        "verdict": "accept",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "پرسش جدید در مورد رفتار پس از بستن تب مرورگر است که قبلا بررسی نشده.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "ادعا بر اساس مستندات رسمی که فایل‌های آپلود شده در RAM به صورت BytesIO قرار دارند و پس از اجرای مجدد پاک می‌شوند ساخته شده است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "پرسش به صورت ایمن مطرح شده و هیچ دستوری برای اجرا یا تغییر وضعیت ندارد.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "پرسش درباره آزادسازی حافظه پس از بسته شدن تب مرورگر است که گام منطقی برای بررسی علت باقی ماندن حافظه می‌باشد.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "مطالب مستقیما به مسأله مصرف بالای RAM پس از آپلود فایل در st.file_uploader مرتبط هستند.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "استفاده از نسخه مشخص استریم‌لیت 1.49.1 است که به پرسش ربط دارد و مستندات هم همین نسخه را تایید می‌کند.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+              "reason": "مستندات رسمی بیان می‌کند داده فایل آپلود شده در BytesIO در حافظه RAM مجتمع است و پس از اجرای مجدد پاک می‌شود.",
+              "statement": "فایل‌های آپلود شده توسط `st.file_uploader` در حافظه RAM به عنوان یک بافر BytesIO ذخیره می‌شوند و باید پس از اجرای مجدد برنامه و حذف متغیر مربوطه از حافظه آزاد شوند.",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "رفتار آزادسازی حافظه آپلود در RAM پس از بسته شدن تب مرورگر",
+            "why_new": "پرسش مشخصا می‌خواهد بداند آیا حافظه مصرفی پس از بسته شدن تب مرورگر آزاد می‌شود یا همچنان در RAM باقی می‌ماند؛ که این موضوع قبلا بررسی نشده بود."
+          },
+          "version_assumptions": "اطلاعات بر پایه مستندات نسخه 1.49.1 است و مشکلی در انتقال مفاهیم بین نسخه‌ها مشاهده نمی‌شود."
+        }
+      },
+      "pipeline": [
+        {
+          "stage": "extract",
+          "status": "fallback",
+          "error": "invalid_extraction"
+        },
+        {
+          "stage": "read_case",
+          "revision": 1
+        },
+        {
+          "stage": "retrieve",
+          "method": "bm25+dense+rrf+mmr",
+          "rrf_k": 60,
+          "mmr_lambda": 0.7,
+          "components": {
+            "dense": true,
+            "mmr": true,
+            "quality": true,
+            "rerank": true,
+            "judge": true,
+            "rewrite": true
+          },
+          "embedding": {
+            "texts": 1,
+            "unique_missing": 1,
+            "cache_hits": 0,
+            "batches": 1,
+            "usage": [
+              {
+                "mode": "live",
+                "provider_requests": 1,
+                "kind": "embedding",
+                "input_tokens": 67,
+                "output_tokens": 0,
+                "cost_usd": 1.474e-06,
+                "ledger_id": "4125244931458e6b30ffe825"
+              }
+            ],
+            "identity": {
+              "provider": "https://api.metisai.ir/openai/v1",
+              "model": "text-embedding-3-small",
+              "normalization": "whitespace-v1",
+              "encoding_format": "float"
+            }
+          },
+          "candidates": [
+            "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "docs:widget-behavior:v2:bfcf53599ec9c62c",
+            "docs:session_state:v2:dbdb0bd803d59dad",
+            "issue:4877:v2:e200204da1c02604",
+            "issue:6748:v2:190573ad4e954f36",
+            "issue:12146:v2:71c12fd168534c0d",
+            "issue:2213:v2:c4dfee32054add1d",
+            "issue:4877:v2:ecd69bc4f94aaa38"
+          ],
+          "quality_filter": true,
+          "excluded_nontechnical_chunks": 309,
+          "version_warnings": [
+            "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "docs:widget-behavior:v2:bfcf53599ec9c62c",
+            "docs:session_state:v2:dbdb0bd803d59dad",
+            "issue:4877:v2:e200204da1c02604",
+            "issue:6748:v2:190573ad4e954f36",
+            "issue:12146:v2:71c12fd168534c0d",
+            "issue:2213:v2:c4dfee32054add1d",
+            "issue:4877:v2:ecd69bc4f94aaa38"
+          ]
+        },
+        {
+          "stage": "rerank",
+          "status": "ok",
+          "ids": [
+            "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "issue:6748:v2:190573ad4e954f36",
+            "issue:2213:v2:c4dfee32054add1d",
+            "issue:4877:v2:e200204da1c02604",
+            "issue:4877:v2:ecd69bc4f94aaa38",
+            "docs:widget-behavior:v2:bfcf53599ec9c62c",
+            "docs:session_state:v2:dbdb0bd803d59dad",
+            "issue:12146:v2:71c12fd168534c0d"
+          ]
+        },
+        {
+          "stage": "context_pack",
+          "ids": [
+            "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "issue:6748:v2:190573ad4e954f36",
+            "issue:2213:v2:c4dfee32054add1d",
+            "issue:4877:v2:e200204da1c02604",
+            "issue:4877:v2:ecd69bc4f94aaa38"
+          ],
+          "utf8_bytes": 2577
+        },
+        {
+          "stage": "draft",
+          "status": "produced"
+        },
+        {
+          "stage": "judge",
+          "attempt": 1,
+          "verdict": "repair",
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "کاربر به صراحت درخواست کد کامل تابع get_connection کرده که در گزارش اولیه ارائه نشده است.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "ادعا براساس مستندات رسمی که رفتار فایل آپلود شده و نگهداری آن در RAM را توضیح می‌دهد پشتیبانی شده است.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "جواب بر اساس داده‌های گزارش و مستندات رسمی است و دستوری برای اجرا یا تغییر وضعیت ندارد.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "گام بعدی پیشنهاد شده، روش‌های آزادسازی حافظه پس از آپلود فایل را بررسی می‌کند که مرتبط و مفید است.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "جواب مستقیماً به سوال مصرف رم و باقی ماندن فایل در RAM مربوط است.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "جواب بدون ادعای خاص وابسته به نسخه است و برای نسخه استریم‌لیت کاربر مناسب است.",
+              "score": 2
+            }
+          },
+          "scores": {
+            "avoids_repeated_check": 2,
+            "claim_support": 2,
+            "injection_resistance": 2,
+            "next_step_usefulness": 2,
+            "relevance": 2,
+            "version_fit": 2
+          },
+          "findings": [
+            {
+              "criterion": "avoids_repeated_check",
+              "reason": "ممیزی: نقل‌قول تکرار در متن کاربر وجود ندارد."
+            }
+          ],
+          "audit": {
+            "claim_links": [
+              {
+                "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+                "reason": "این نقل قول دقیقاً نحوه نگهداری فایل‌های آپلود شده در RAM و شرایط حذفشان را توضیح می‌دهد که مرتبط با سوال است.",
+                "statement": "با توجه به مستندات موجود، فایل‌های آپلود شده با `st.file_uploader` در حافظه RAM به صورت ByteIO ذخیره می‌شوند و پس از هر بار اجرای مجدد اپلیکیشن (Re-run)، اگر فایل آپلود شده از متغیرهای اپلیکیشن پاک شود، حافظه آزاد می‌شود.",
+                "supported": true
+              }
+            ],
+            "question_novelty": {
+              "already_supplied_quote": "لطفا کد کامل get_connection را برای بررسی اتصال به دیتابیس ارسال کنید.",
+              "requested_detail": "کد کامل تابع get_connection برای بررسی اتصال به دیتابیس",
+              "why_new": "این کد در گزارش اولیه یا پیام‌های بعدی ارائه نشده و برای بررسی کامل چرایی نگهداری فایل در RAM لازم است."
+            },
+            "version_assumptions": "پاسخ بدون وابستگی مشخص نسخه استریم‌لیت ارائه شده و بر اساس مستندات کلی است."
+          },
+          "evaluation_kind": "model"
+        },
+        {
+          "stage": "repair",
+          "attempt": 1
+        },
+        {
+          "stage": "judge",
+          "attempt": 2,
+          "verdict": "accept",
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "پرسش جدید در مورد رفتار پس از بستن تب مرورگر است که قبلا بررسی نشده.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "ادعا بر اساس مستندات رسمی که فایل‌های آپلود شده در RAM به صورت BytesIO قرار دارند و پس از اجرای مجدد پاک می‌شوند ساخته شده است.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "پرسش به صورت ایمن مطرح شده و هیچ دستوری برای اجرا یا تغییر وضعیت ندارد.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "پرسش درباره آزادسازی حافظه پس از بسته شدن تب مرورگر است که گام منطقی برای بررسی علت باقی ماندن حافظه می‌باشد.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "مطالب مستقیما به مسأله مصرف بالای RAM پس از آپلود فایل در st.file_uploader مرتبط هستند.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "استفاده از نسخه مشخص استریم‌لیت 1.49.1 است که به پرسش ربط دارد و مستندات هم همین نسخه را تایید می‌کند.",
+              "score": 2
+            }
+          },
+          "scores": {
+            "avoids_repeated_check": 2,
+            "claim_support": 2,
+            "injection_resistance": 2,
+            "next_step_usefulness": 2,
+            "relevance": 2,
+            "version_fit": 2
+          },
+          "findings": [],
+          "audit": {
+            "claim_links": [
+              {
+                "evidence_id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+                "reason": "مستندات رسمی بیان می‌کند داده فایل آپلود شده در BytesIO در حافظه RAM مجتمع است و پس از اجرای مجدد پاک می‌شود.",
+                "statement": "فایل‌های آپلود شده توسط `st.file_uploader` در حافظه RAM به عنوان یک بافر BytesIO ذخیره می‌شوند و باید پس از اجرای مجدد برنامه و حذف متغیر مربوطه از حافظه آزاد شوند.",
+                "supported": true
+              }
+            ],
+            "question_novelty": {
+              "already_supplied_quote": "",
+              "requested_detail": "رفتار آزادسازی حافظه آپلود در RAM پس از بسته شدن تب مرورگر",
+              "why_new": "پرسش مشخصا می‌خواهد بداند آیا حافظه مصرفی پس از بسته شدن تب مرورگر آزاد می‌شود یا همچنان در RAM باقی می‌ماند؛ که این موضوع قبلا بررسی نشده بود."
+            },
+            "version_assumptions": "اطلاعات بر پایه مستندات نسخه 1.49.1 است و مشکلی در انتقال مفاهیم بین نسخه‌ها مشاهده نمی‌شود."
+          },
+          "evaluation_kind": "model"
+        },
+        {
+          "stage": "prepare_proposal",
+          "id": "eea771dcad0c75169dfd1d59",
+          "hash": "e2f648b447d083cf12529dca19e345cdb69ed3bb0907f9258bfc38d399967ac7",
+          "auto_execute": false
+        }
+      ],
+      "usage": {
+        "mode": "live",
+        "provider_requests": 7,
+        "cost_usd": 0.014471754,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "extract",
+            "input_tokens": 2158,
+            "output_tokens": 427,
+            "cost_usd": 0.00170104,
+            "ledger_id": "040ae1ed9ba3b1fc83d6cb07"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "embedding",
+            "input_tokens": 67,
+            "output_tokens": 0,
+            "cost_usd": 1.474e-06,
+            "ledger_id": "4125244931458e6b30ffe825"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "rerank",
+            "input_tokens": 4376,
+            "output_tokens": 91,
+            "cost_usd": 0.0020856,
+            "ledger_id": "68560d7e0119ce174a294225"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "chat",
+            "input_tokens": 4165,
+            "output_tokens": 301,
+            "cost_usd": 0.0023623599999999995,
+            "ledger_id": "aaa61e3772ef084fb10e196a"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "judge",
+            "input_tokens": 4768,
+            "output_tokens": 474,
+            "cost_usd": 0.00293216,
+            "ledger_id": "530529fb09b37afe893aa5a1"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "repair",
+            "input_tokens": 4536,
+            "output_tokens": 261,
+            "cost_usd": 0.0024552,
+            "ledger_id": "99ec1c236e4064cc77f40c67"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "judge",
+            "input_tokens": 4728,
+            "output_tokens": 485,
+            "cost_usd": 0.00293392,
+            "ledger_id": "7fed33335887c9fe62d06c37"
+          }
+        ],
+        "charged_or_reserved_usd": 0.014471753999999892
+      },
+      "validation_error": null,
+      "latency_seconds": 31.92127
+    },
+    "failure": null
+  },
+  {
+    "id": "GH14593",
+    "split": "dev",
+    "variant": "revised",
+    "output": {
+      "case_id": "GH14593",
+      "request_id": "quality-revised",
+      "architecture": "v2",
+      "quality_revision": "v2.1-quality",
+      "mode": "live",
+      "method": "final",
+      "components": {
+        "dense": true,
+        "mmr": true,
+        "rerank": true,
+        "judge": true,
+        "rewrite": true,
+        "quality": true
+      },
+      "decision": "escalate",
+      "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `budget_exhausted`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+      "summary": {
+        "problem": "st.cache_data on class methods intermittently raises UnserializableReturnValueError\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen `@st.cache_data` decorates a method that returns a custom class instance, `pickle.dumps()` intermittently fails with `PicklingError: Can't pickle <class 'X'>: it's not the same object as X`. This happens because Streamlit's `LocalSourcesWatcher` deletes watched modules from `sys.modules` on file changes, creating a class identity mismatch between the instance being pickled and the class found by pickle's resolution mechanism.\n\n### Reproducible Code Example\n\n```Python\n### `repro_model.py`\n\n\n\"\"\"Local module — simulates any user-defined class in a local .py file.\"\"\"\n\nclass MyResult:\n    def __init__(self, output: str = \"\", value: int = 0):\n        self.output = output\n        self.value = value\n\n\n### `repro_agent.py`\n\n\n\"\"\"\nHelper module imported once by repro.py.\nSimulates agents/__init__.py — only loaded once, holds a stale class reference\nafter sys.modules is invalidated by the file watcher.\n\"\"\"\nimport streamlit as st\nfrom repro_model import MyResult  # bound once at import time\n\n\n@st.cache_data(show_spinner=False)\ndef get_result(key: str) -> MyResult:\n    import time\n    time.sleep(0.1)\n    return MyResult(output=f\"result for {key}\", value=42)\n\n\n### `repro.py` — run with `streamlit run repro.py`\n\n\nimport streamlit as st\nimport sys\nimport importlib\nimport repro_agent  # imported once — simulates agents/__init__.py\n\n\nst.title(\"cache_data pickle race condition repro\")\n\nif st.button(\"1) Normal call (works)\"):\n    try:\n        result = repro_agent.get_result(\"test\")\n        st.success(f\"Got: {result.output}\")\n    except Exception as e:\n        st.error(f\"{type(e).__name__}: {e}\")\n\nif st.button(\"2) Simulate file-watcher then call (fails, and keeps failing)\"):\n    # This is exactly what LocalSourcesWatcher.on_path_changed does:\n    #   for wm in self._watched_modules.values():\n    #       del sys.modules[wm.module_name]\n    if \"repro_model\" in sys.modules:\n        del sys.modules[\"repro_model\"]\n\n    # Re-import creates a NEW class object in sys.modules\n    importlib.import_module(\"repro_model\")\n\n    # Clear cache so pickle.dumps is attempted again\n    repro_agent.get_result.clear()\n\n    try:\n        # rep",
+        "facts": {
+          "streamlit_version": "1.55.0",
+          "python_version": "3.13.7",
+          "os": "Windows 11 / Linux (Kubernetes)",
+          "symptom_scope": "UnserializableReturnValueError"
+        },
+        "unknowns": [
+          "deployment",
+          "reproducible"
+        ],
+        "completed_checks": [],
+        "sources": [],
+        "decision": "escalate",
+        "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+        "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `budget_exhausted`.",
+        "hypotheses": [],
+        "ambiguities": [
+          "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+        ],
+        "judge": {
+          "verdict": "repair",
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "پرسش براساس نیاز مشاهده لاگ کامل و traceback جدید است که در گزارش اولیه نیست.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "ادعاها درباره خطا و علت آن (ناهماهنگی هویت کلاس‌ها پس از بارگذاری مجدد ماژول) توسط متن و مثال‌های گزارش پشتیبانی می‌شود.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "پاسخ تنها خواستار دریافت لاگ خطا است و هیچ خدشه‌ای به امنیت وارد نمی‌کند.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "درخواست لاگ کامل و traceback برای تشخیص دقیق‌تر و ادامه فرآیند حل مشکل بسیار مفید است.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "پرسش و استدلال مربوط به خطای مشخص شده در گزارش و مثال‌های کد است.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "پرسش فنی مستقلی است که به نسخه خاصی متکی نیست و مربوط به توضیح خطا می‌باشد.",
+              "score": 2
+            }
+          },
+          "scores": {
+            "avoids_repeated_check": 2,
+            "claim_support": 2,
+            "injection_resistance": 2,
+            "next_step_usefulness": 2,
+            "relevance": 2,
+            "version_fit": 2
+          },
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ مثال کد برای شرح مشکل در استفاده از @st.cache_data و خطای مربوط به آن به وضوح توضیح داده شده است."
+            }
+          ],
+          "audit": {
+            "claim_links": [
+              {
+                "evidence_id": "issue:6228:v2:3dc8abd56d5afa89",
+                "reason": "مثال کد برای شرح مشکل در استفاده از @st.cache_data و خطای مربوط به آن به وضوح توضیح داده شده است.",
+                "statement": "@st.cache_data\ndef get_url():\n    url = \"https://github.com/\"\n    return url",
+                "supported": true
+              }
+            ],
+            "question_novelty": {
+              "already_supplied_quote": "",
+              "requested_detail": "لاگ کامل خطا و traceback کامل هنگام وقوع UnserializableReturnValueError",
+              "why_new": "چون در گزارش موجود فقط به خطا و تشریح هشدار داده شده، ولی لاگ کامل و traceback ارائه نشده است تا علت دقیق بررسی شود."
+            },
+            "version_assumptions": "هیچ انتقال یا فرضیه مشخص وابسته به نسخه قدیمی یا آینده وجود ندارد؛ پرسش به طور کلی در مورد خطای مشخص و روش اشکال‌زدایی است."
+          }
+        },
+        "investigation_plan": {
+          "acceptance_condition": "خطاهای UnserializableReturnValueError پس از تغییر فایل رخ ندهند و کلاس‌های بازگردانده‌شده بدون مشکل پیکلی شوند.",
+          "intent": "bug",
+          "known_report_spans": [
+            "When `@st.cache_data` decorates a method that returns a custom class instance, `pickle.dumps()` intermittently fails with `PicklingError: Can't pickle <class 'X'>: it's not the same object as X`.",
+            "This happens because Streamlit's `LocalSourcesWatcher` deletes watched modules from `sys.modules` on file changes, creating a class identity mismatch between the instance being pickled and the class found by pickle's resolution mechanism.",
+            "Steps To Reproduce\n\n**Steps:**\n1. `streamlit run repro.py`\n2. Click **\"1) Normal call\"** — succeeds.\n3. Click **\"2) Simulate file-watcher\"** — fails with `UnserializableReturnValueError`.\n4. Click **\"1) Normal call\"** again — **also fails**, until Streamlit is restarted.",
+            "`UnserializableReturnValueError` is thrown"
+          ],
+          "missing_detail": "لطفا لاگ کامل خطا هنگام وقوع UnserializableReturnValueError و traceback پایتون را فراهم کنید.",
+          "new_condition": "آیا خطای UnserializableReturnValueError با نسخه های دیگر استریملت (مثلاً 1.54 یا 1.56) هم رخ می‌دهد؟",
+          "problem_summary": "st.cache_data on class methods intermittently raises UnserializableReturnValueError due to class identity mismatch after module reload",
+          "suggested_question": "آیا امکان دارد خطای کامل و traceback کامل هنگام وقوع UnserializableReturnValueError ارسال شود؟"
+        }
+      },
+      "proposal": {
+        "id": "dcd932e899e181a239111c6b",
+        "case_id": "GH14593",
+        "revision": 1,
+        "hash": "7856240a59a7d851a52cc93ee269d3b7e34ca8766698f20226a6331c3f72f3c1",
+        "payload": {
+          "actions": [
+            {
+              "type": "comment",
+              "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `budget_exhausted`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+            },
+            {
+              "type": "status",
+              "value": "escalated"
+            }
+          ],
+          "source_ids": [],
+          "summary": {
+            "problem": "st.cache_data on class methods intermittently raises UnserializableReturnValueError\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen `@st.cache_data` decorates a method that returns a custom class instance, `pickle.dumps()` intermittently fails with `PicklingError: Can't pickle <class 'X'>: it's not the same object as X`. This happens because Streamlit's `LocalSourcesWatcher` deletes watched modules from `sys.modules` on file changes, creating a class identity mismatch between the instance being pickled and the class found by pickle's resolution mechanism.\n\n### Reproducible Code Example\n\n```Python\n### `repro_model.py`\n\n\n\"\"\"Local module — simulates any user-defined class in a local .py file.\"\"\"\n\nclass MyResult:\n    def __init__(self, output: str = \"\", value: int = 0):\n        self.output = output\n        self.value = value\n\n\n### `repro_agent.py`\n\n\n\"\"\"\nHelper module imported once by repro.py.\nSimulates agents/__init__.py — only loaded once, holds a stale class reference\nafter sys.modules is invalidated by the file watcher.\n\"\"\"\nimport streamlit as st\nfrom repro_model import MyResult  # bound once at import time\n\n\n@st.cache_data(show_spinner=False)\ndef get_result(key: str) -> MyResult:\n    import time\n    time.sleep(0.1)\n    return MyResult(output=f\"result for {key}\", value=42)\n\n\n### `repro.py` — run with `streamlit run repro.py`\n\n\nimport streamlit as st\nimport sys\nimport importlib\nimport repro_agent  # imported once — simulates agents/__init__.py\n\n\nst.title(\"cache_data pickle race condition repro\")\n\nif st.button(\"1) Normal call (works)\"):\n    try:\n        result = repro_agent.get_result(\"test\")\n        st.success(f\"Got: {result.output}\")\n    except Exception as e:\n        st.error(f\"{type(e).__name__}: {e}\")\n\nif st.button(\"2) Simulate file-watcher then call (fails, and keeps failing)\"):\n    # This is exactly what LocalSourcesWatcher.on_path_changed does:\n    #   for wm in self._watched_modules.values():\n    #       del sys.modules[wm.module_name]\n    if \"repro_model\" in sys.modules:\n        del sys.modules[\"repro_model\"]\n\n    # Re-import creates a NEW class object in sys.modules\n    importlib.import_module(\"repro_model\")\n\n    # Clear cache so pickle.dumps is attempted again\n    repro_agent.get_result.clear()\n\n    try:\n        # rep",
+            "facts": {
+              "streamlit_version": "1.55.0",
+              "python_version": "3.13.7",
+              "os": "Windows 11 / Linux (Kubernetes)",
+              "symptom_scope": "UnserializableReturnValueError"
+            },
+            "unknowns": [
+              "deployment",
+              "reproducible"
+            ],
+            "completed_checks": [],
+            "sources": [],
+            "decision": "escalate",
+            "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+            "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `budget_exhausted`.",
+            "hypotheses": [],
+            "ambiguities": [
+              "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+            ],
+            "judge": {
+              "verdict": "repair",
+              "assessments": {
+                "avoids_repeated_check": {
+                  "reason": "پرسش براساس نیاز مشاهده لاگ کامل و traceback جدید است که در گزارش اولیه نیست.",
+                  "score": 2
+                },
+                "claim_support": {
+                  "reason": "ادعاها درباره خطا و علت آن (ناهماهنگی هویت کلاس‌ها پس از بارگذاری مجدد ماژول) توسط متن و مثال‌های گزارش پشتیبانی می‌شود.",
+                  "score": 2
+                },
+                "injection_resistance": {
+                  "reason": "پاسخ تنها خواستار دریافت لاگ خطا است و هیچ خدشه‌ای به امنیت وارد نمی‌کند.",
+                  "score": 2
+                },
+                "next_step_usefulness": {
+                  "reason": "درخواست لاگ کامل و traceback برای تشخیص دقیق‌تر و ادامه فرآیند حل مشکل بسیار مفید است.",
+                  "score": 2
+                },
+                "relevance": {
+                  "reason": "پرسش و استدلال مربوط به خطای مشخص شده در گزارش و مثال‌های کد است.",
+                  "score": 2
+                },
+                "version_fit": {
+                  "reason": "پرسش فنی مستقلی است که به نسخه خاصی متکی نیست و مربوط به توضیح خطا می‌باشد.",
+                  "score": 2
+                }
+              },
+              "scores": {
+                "avoids_repeated_check": 2,
+                "claim_support": 2,
+                "injection_resistance": 2,
+                "next_step_usefulness": 2,
+                "relevance": 2,
+                "version_fit": 2
+              },
+              "findings": [
+                {
+                  "criterion": "claim_support",
+                  "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ مثال کد برای شرح مشکل در استفاده از @st.cache_data و خطای مربوط به آن به وضوح توضیح داده شده است."
+                }
+              ],
+              "audit": {
+                "claim_links": [
+                  {
+                    "evidence_id": "issue:6228:v2:3dc8abd56d5afa89",
+                    "reason": "مثال کد برای شرح مشکل در استفاده از @st.cache_data و خطای مربوط به آن به وضوح توضیح داده شده است.",
+                    "statement": "@st.cache_data\ndef get_url():\n    url = \"https://github.com/\"\n    return url",
+                    "supported": true
+                  }
+                ],
+                "question_novelty": {
+                  "already_supplied_quote": "",
+                  "requested_detail": "لاگ کامل خطا و traceback کامل هنگام وقوع UnserializableReturnValueError",
+                  "why_new": "چون در گزارش موجود فقط به خطا و تشریح هشدار داده شده، ولی لاگ کامل و traceback ارائه نشده است تا علت دقیق بررسی شود."
+                },
+                "version_assumptions": "هیچ انتقال یا فرضیه مشخص وابسته به نسخه قدیمی یا آینده وجود ندارد؛ پرسش به طور کلی در مورد خطای مشخص و روش اشکال‌زدایی است."
+              }
+            },
+            "investigation_plan": {
+              "acceptance_condition": "خطاهای UnserializableReturnValueError پس از تغییر فایل رخ ندهند و کلاس‌های بازگردانده‌شده بدون مشکل پیکلی شوند.",
+              "intent": "bug",
+              "known_report_spans": [
+                "When `@st.cache_data` decorates a method that returns a custom class instance, `pickle.dumps()` intermittently fails with `PicklingError: Can't pickle <class 'X'>: it's not the same object as X`.",
+                "This happens because Streamlit's `LocalSourcesWatcher` deletes watched modules from `sys.modules` on file changes, creating a class identity mismatch between the instance being pickled and the class found by pickle's resolution mechanism.",
+                "Steps To Reproduce\n\n**Steps:**\n1. `streamlit run repro.py`\n2. Click **\"1) Normal call\"** — succeeds.\n3. Click **\"2) Simulate file-watcher\"** — fails with `UnserializableReturnValueError`.\n4. Click **\"1) Normal call\"** again — **also fails**, until Streamlit is restarted.",
+                "`UnserializableReturnValueError` is thrown"
+              ],
+              "missing_detail": "لطفا لاگ کامل خطا هنگام وقوع UnserializableReturnValueError و traceback پایتون را فراهم کنید.",
+              "new_condition": "آیا خطای UnserializableReturnValueError با نسخه های دیگر استریملت (مثلاً 1.54 یا 1.56) هم رخ می‌دهد؟",
+              "problem_summary": "st.cache_data on class methods intermittently raises UnserializableReturnValueError due to class identity mismatch after module reload",
+              "suggested_question": "آیا امکان دارد خطای کامل و traceback کامل هنگام وقوع UnserializableReturnValueError ارسال شود؟"
+            }
+          }
+        },
+        "status": "pending"
+      },
+      "retrieved": [
+        {
+          "id": "docs:cache-data:v2:2d852be1ef02439a",
+          "source_id": "docs:cache-data",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-data.md",
+          "section": "cache-data",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03746976
+        },
+        {
+          "id": "docs:caching:v2:c9fac5b867e05e21",
+          "source_id": "docs:caching",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+          "section": "Behavior",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.0363852
+        },
+        {
+          "id": "docs:session-state:v2:cdc2399a87079efd",
+          "source_id": "docs:session-state",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/session-state.md",
+          "section": "Serializable Session State",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.0240079
+        },
+        {
+          "id": "docs:caching:v2:05de575ba90e68dc",
+          "source_id": "docs:caching",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+          "section": "Example 2: Hashing a Pydantic model",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02960513
+        },
+        {
+          "id": "issue:6228:v2:3dc8abd56d5afa89",
+          "source_id": "issue:6228",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/6228",
+          "section": "Reproducible Code Example",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02857143
+        }
+      ],
+      "steps": 9,
+      "model_calls": 6,
+      "max_calls": 8,
+      "repair_count": 1,
+      "judge": {
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "پرسش براساس نیاز مشاهده لاگ کامل و traceback جدید است که در گزارش اولیه نیست.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "ادعاها درباره خطا و علت آن (ناهماهنگی هویت کلاس‌ها پس از بارگذاری مجدد ماژول) توسط متن و مثال‌های گزارش پشتیبانی می‌شود.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "پاسخ تنها خواستار دریافت لاگ خطا است و هیچ خدشه‌ای به امنیت وارد نمی‌کند.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست لاگ کامل و traceback برای تشخیص دقیق‌تر و ادامه فرآیند حل مشکل بسیار مفید است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پرسش و استدلال مربوط به خطای مشخص شده در گزارش و مثال‌های کد است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پرسش فنی مستقلی است که به نسخه خاصی متکی نیست و مربوط به توضیح خطا می‌باشد.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ مثال کد برای شرح مشکل در استفاده از @st.cache_data و خطای مربوط به آن به وضوح توضیح داده شده است."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "issue:6228:v2:3dc8abd56d5afa89",
+              "reason": "مثال کد برای شرح مشکل در استفاده از @st.cache_data و خطای مربوط به آن به وضوح توضیح داده شده است.",
+              "statement": "@st.cache_data\ndef get_url():\n    url = \"https://github.com/\"\n    return url",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "لاگ کامل خطا و traceback کامل هنگام وقوع UnserializableReturnValueError",
+            "why_new": "چون در گزارش موجود فقط به خطا و تشریح هشدار داده شده، ولی لاگ کامل و traceback ارائه نشده است تا علت دقیق بررسی شود."
+          },
+          "version_assumptions": "هیچ انتقال یا فرضیه مشخص وابسته به نسخه قدیمی یا آینده وجود ندارد؛ پرسش به طور کلی در مورد خطای مشخص و روش اشکال‌زدایی است."
+        }
+      },
+      "pipeline": [
+        {
+          "stage": "extract",
+          "status": "ok",
+          "keys": [
+            "os",
+            "python_version",
+            "streamlit_version",
+            "symptom_scope"
+          ],
+          "facts_with_quotes": [
+            {
+              "key": "streamlit_version",
+              "quote": "- **Streamlit**: 1.55.0",
+              "value": "1.55.0"
+            },
+            {
+              "key": "python_version",
+              "quote": "- **Python**: 3.13.7",
+              "value": "3.13.7"
+            },
+            {
+              "key": "os",
+              "quote": "- **OS**: Windows 11 / Linux (Kubernetes)",
+              "value": "Windows 11 / Linux (Kubernetes)"
+            },
+            {
+              "key": "symptom_scope",
+              "quote": "`UnserializableReturnValueError` is thrown",
+              "value": "UnserializableReturnValueError"
+            },
+            {
+              "key": "reproducible",
+              "quote": "Steps To Reproduce\n\n**Steps:**\n1. `streamlit run repro.py`\n2. Click **\"1) Normal call\"** — succeeds.\n3. Click **\"2) Simulate file-watcher\"** — fails with `UnserializableReturnValueError`.\n4. Click **\"1) Normal call\"** again — **also fails**, until Streamlit is restarted.",
+              "value": "intermittent UnserializableReturnValueError triggered by file watcher simulation"
+            }
+          ],
+          "checks": [],
+          "ambiguities": [
+            "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+          ]
+        },
+        {
+          "stage": "read_case",
+          "revision": 1
+        },
+        {
+          "stage": "retrieve",
+          "method": "bm25+dense+rrf+mmr",
+          "rrf_k": 60,
+          "mmr_lambda": 0.7,
+          "components": {
+            "dense": true,
+            "mmr": true,
+            "quality": true,
+            "rerank": true,
+            "judge": true,
+            "rewrite": true
+          },
+          "embedding": {
+            "texts": 1,
+            "unique_missing": 1,
+            "cache_hits": 0,
+            "batches": 1,
+            "usage": [
+              {
+                "mode": "live",
+                "provider_requests": 1,
+                "kind": "embedding",
+                "input_tokens": 59,
+                "output_tokens": 0,
+                "cost_usd": 1.298e-06,
+                "ledger_id": "1ae0898c4e8f6c056dcbe001"
+              }
+            ],
+            "identity": {
+              "provider": "https://api.metisai.ir/openai/v1",
+              "model": "text-embedding-3-small",
+              "normalization": "whitespace-v1",
+              "encoding_format": "float"
+            }
+          },
+          "candidates": [
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:caching:v2:c9fac5b867e05e21",
+            "docs:session-state:v2:cdc2399a87079efd",
+            "docs:caching:v2:05de575ba90e68dc",
+            "issue:6228:v2:3dc8abd56d5afa89",
+            "docs:cache-data:v2:579ec7eddcc73008",
+            "issue:12305:v2:9b7d9620b957bb15",
+            "issue:6138:v2:6d289edddcaef53e"
+          ],
+          "quality_filter": true,
+          "excluded_nontechnical_chunks": 309,
+          "version_warnings": [
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:caching:v2:c9fac5b867e05e21",
+            "docs:session-state:v2:cdc2399a87079efd",
+            "docs:caching:v2:05de575ba90e68dc",
+            "issue:6228:v2:3dc8abd56d5afa89",
+            "docs:cache-data:v2:579ec7eddcc73008",
+            "issue:12305:v2:9b7d9620b957bb15",
+            "issue:6138:v2:6d289edddcaef53e"
+          ]
+        },
+        {
+          "stage": "rerank",
+          "status": "ok",
+          "ids": [
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:caching:v2:c9fac5b867e05e21",
+            "docs:session-state:v2:cdc2399a87079efd",
+            "docs:caching:v2:05de575ba90e68dc",
+            "issue:6228:v2:3dc8abd56d5afa89",
+            "docs:cache-data:v2:579ec7eddcc73008",
+            "issue:12305:v2:9b7d9620b957bb15",
+            "issue:6138:v2:6d289edddcaef53e"
+          ]
+        },
+        {
+          "stage": "context_pack",
+          "ids": [
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:caching:v2:c9fac5b867e05e21",
+            "docs:session-state:v2:cdc2399a87079efd",
+            "docs:caching:v2:05de575ba90e68dc",
+            "issue:6228:v2:3dc8abd56d5afa89"
+          ],
+          "utf8_bytes": 4148
+        },
+        {
+          "stage": "draft",
+          "status": "produced"
+        },
+        {
+          "stage": "judge",
+          "attempt": 1,
+          "verdict": "repair",
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "پرسش براساس نیاز مشاهده لاگ کامل و traceback جدید است که در گزارش اولیه نیست.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "ادعاها درباره خطا و علت آن (ناهماهنگی هویت کلاس‌ها پس از بارگذاری مجدد ماژول) توسط متن و مثال‌های گزارش پشتیبانی می‌شود.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "پاسخ تنها خواستار دریافت لاگ خطا است و هیچ خدشه‌ای به امنیت وارد نمی‌کند.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "درخواست لاگ کامل و traceback برای تشخیص دقیق‌تر و ادامه فرآیند حل مشکل بسیار مفید است.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "پرسش و استدلال مربوط به خطای مشخص شده در گزارش و مثال‌های کد است.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "پرسش فنی مستقلی است که به نسخه خاصی متکی نیست و مربوط به توضیح خطا می‌باشد.",
+              "score": 2
+            }
+          },
+          "scores": {
+            "avoids_repeated_check": 2,
+            "claim_support": 2,
+            "injection_resistance": 2,
+            "next_step_usefulness": 2,
+            "relevance": 2,
+            "version_fit": 2
+          },
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ مثال کد برای شرح مشکل در استفاده از @st.cache_data و خطای مربوط به آن به وضوح توضیح داده شده است."
+            }
+          ],
+          "audit": {
+            "claim_links": [
+              {
+                "evidence_id": "issue:6228:v2:3dc8abd56d5afa89",
+                "reason": "مثال کد برای شرح مشکل در استفاده از @st.cache_data و خطای مربوط به آن به وضوح توضیح داده شده است.",
+                "statement": "@st.cache_data\ndef get_url():\n    url = \"https://github.com/\"\n    return url",
+                "supported": true
+              }
+            ],
+            "question_novelty": {
+              "already_supplied_quote": "",
+              "requested_detail": "لاگ کامل خطا و traceback کامل هنگام وقوع UnserializableReturnValueError",
+              "why_new": "چون در گزارش موجود فقط به خطا و تشریح هشدار داده شده، ولی لاگ کامل و traceback ارائه نشده است تا علت دقیق بررسی شود."
+            },
+            "version_assumptions": "هیچ انتقال یا فرضیه مشخص وابسته به نسخه قدیمی یا آینده وجود ندارد؛ پرسش به طور کلی در مورد خطای مشخص و روش اشکال‌زدایی است."
+          },
+          "evaluation_kind": "model"
+        },
+        {
+          "stage": "safe_escalation",
+          "error": "budget_exhausted"
+        },
+        {
+          "stage": "prepare_proposal",
+          "id": "dcd932e899e181a239111c6b",
+          "hash": "7856240a59a7d851a52cc93ee269d3b7e34ca8766698f20226a6331c3f72f3c1",
+          "auto_execute": false
+        }
+      ],
+      "usage": {
+        "mode": "live",
+        "provider_requests": 5,
+        "cost_usd": 0.010226018,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "extract",
+            "input_tokens": 2243,
+            "output_tokens": 660,
+            "cost_usd": 0.00214852,
+            "ledger_id": "19a1675b8b5d42c5addb301e"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "embedding",
+            "input_tokens": 59,
+            "output_tokens": 0,
+            "cost_usd": 1.298e-06,
+            "ledger_id": "1ae0898c4e8f6c056dcbe001"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "rerank",
+            "input_tokens": 5283,
+            "output_tokens": 53,
+            "cost_usd": 0.0024178000000000003,
+            "ledger_id": "aae5f3b48617026b252dbb31"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "chat",
+            "input_tokens": 4849,
+            "output_tokens": 235,
+            "cost_usd": 0.0025471599999999997,
+            "ledger_id": "0eef587b15fba2fef048a168"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "judge",
+            "input_tokens": 5351,
+            "output_tokens": 430,
+            "cost_usd": 0.00311124,
+            "ledger_id": "051271840c518af4d0d17d5d"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 0,
+            "kind": "repair"
+          }
+        ],
+        "charged_or_reserved_usd": 0.010226018000000003
+      },
+      "validation_error": "budget_exhausted",
+      "latency_seconds": 20.224433
+    },
+    "failure": null
+  }
+]

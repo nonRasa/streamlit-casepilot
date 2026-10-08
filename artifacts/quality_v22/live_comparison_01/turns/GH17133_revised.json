@@ -1,0 +1,889 @@
+{
+  "id": "GH17133",
+  "variant": "revised",
+  "split": "first_live_after_replay",
+  "output": {
+    "case_id": "GH17133",
+    "request_id": "live-v22-revised",
+    "architecture": "v2",
+    "quality_revision": "v2.2-quality",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": true,
+      "quality": true
+    },
+    "decision": "escalate",
+    "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nfeature request cached_function.time() method for last cache timestamp\n```\n\nمحیط گزارش‌شده:\n\n```text\nنامعلوم\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\nstreamlit_version, python_version, deployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: امکان افزودن رفتار درخواستی و شرط پذیرش را بررسی و تصمیم طراحی را ثبت کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_rejected`.",
+    "summary": {
+      "problem": "Add to cache decorators last time of cached.\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nCurrently, the cache decorators are just simple decorators of a hashable saving with the possibility of clearing the cache.\n\nHowever, a key component in caching is when the cache was saved.\n\nCurrently the only method to now this is by caching the result with a timestamp, which is unpractical.\n\nSo I'm thinking about a ´´´cached_function.time()´´´ method for knowing when it was last cached.\n\n### Why?\n\nBecause knowing the time of the cache would be very comprehensive for:\n- Not clearing cache everytime an update is needed, checking first if the time of the cache is soon enough\n- Simply adding a display of Last Updated at\n\n### How?\n\nWhen saving the cache save the timestamp as well and implement a .time method to the cached function for retrieving the time as a time.time() timestamp.\n\n### Additional Context\n\n_No response_",
+      "facts": {},
+      "unknowns": [
+        "streamlit_version",
+        "python_version",
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [],
+      "sources": [],
+      "decision": "escalate",
+      "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+      "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+      "hypotheses": [],
+      "ambiguities": [],
+      "judge": {
+        "verdict": "escalate",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "گزارش جدید و مرتبط با افزودن ویژگی جدید است، پس تکرار بررسی نیست.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "گزارش شامل درخواست ویژگی و دلایل کافی برای آن است اما هیچ کد یا مستند رسمی برای تایید ندارد، بنابراین پشتیبانی صرفاً ناقص است.",
+            "score": 1
+          },
+          "injection_resistance": {
+            "reason": "هیچ داده ورودی یا دستور نامناسبی برای تزریق وجود ندارد، فقط درخواست ویژگی است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "پرسش درباره نمونه کد یا بخش پیاده‌سازی کنونی برای ارائه پیشنهادات عملی بسیار مفید است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پرسش و گام بعدی مستقیماً مرتبط با درخواست ویژگی و نیاز به جزئیات فنی است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "سوال و درخواست ویژگی بدون اشاره به نسخه خاص است و بنابراین وابسته به نسخه نیست.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 1,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "گزارش شامل درخواست ویژگی و دلایل کافی برای آن است اما هیچ کد یا مستند رسمی برای تایید ندارد، بنابراین پشتیبانی صرفاً ناقص است."
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "پشتیبانی: unknown؛ فرض معقول و منطقی برای امکان‌پذیری اضافه کردن متد زمان به تابع کش شده است ولی نیاز به تایید دارد."
+          }
+        ],
+        "draft_version": "6c188b5e1d6546b285bba807029a02c1d8bd6e7cd35bbebafada280a1b48a90b",
+        "unit_reviews": [
+          {
+            "kind": "question",
+            "links": [],
+            "reason": "پرسش مستقیم و کاربردی برای ادامه کار و دریافت اطلاعات لازم جهت پیاده‌سازی ویژگی است.",
+            "support": "unknown",
+            "unit_id": "u_4af0ff1411735a3ef82ef1a7",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "next_step",
+            "links": [],
+            "reason": "گام بعدی منطقی و مفید است که به دنبال دریافت نمونه کد یا پیاده‌سازی است.",
+            "support": "unknown",
+            "unit_id": "u_d83381363f1e71425ac0440f",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "reported_fact",
+            "links": [],
+            "reason": "بیان دقیق دلیل نیاز به نمونه کد یا بخش پیاده‌سازی برای توصیه پیاده‌سازی صحیح است.",
+            "support": "supported",
+            "unit_id": "u_91cadf51b95c2e7b53247e2f",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "hypothesis",
+            "links": [],
+            "reason": "فرض معقول و منطقی برای امکان‌پذیری اضافه کردن متد زمان به تابع کش شده است ولی نیاز به تایید دارد.",
+            "support": "unknown",
+            "unit_id": "u_97cf91dc3001eb96b8f739f3",
+            "version_dependent": false,
+            "version_limit": ""
+          }
+        ],
+        "novelty": {
+          "already_supplied_quote": "",
+          "new": true,
+          "reason": "درخواست ویژگی افزودن متد زمان آخرین ذخیره کش تابع است که در گزارش قبلی وجود نداشت.",
+          "useful": true
+        },
+        "failure_kind": "answer_quality"
+      },
+      "investigation_plan": {
+        "acceptance_condition": "وقتی متد .time() متدی به کش شده تابع افزوده شده باشد که زمان آخرین ذخیره‌ی کش را برمی‌گرداند.",
+        "intent": "feature_request",
+        "known_report_spans": [
+          "Currently, the cache decorators are just simple decorators of a hashable saving with the possibility of clearing the cache.",
+          "Currently the only method to now this is by caching the result with a timestamp, which is unpractical.",
+          "So I'm thinking about a ´´´cached_function.time()´´´ method for knowing when it was last cached.",
+          "When saving the cache save the timestamp as well and implement a .time method to the cached function for retrieving the time as a time.time() timestamp."
+        ],
+        "missing_detail": "",
+        "new_condition": "",
+        "problem_summary": "feature request cached_function.time() method for last cache timestamp",
+        "suggested_question": "آیا نمونه کدی برای متدی که باید اضافه شود یا بخش پیاده‌سازی فعلی کش دارید؟"
+      },
+      "experiments": [],
+      "memory_version": 2,
+      "handoff": {
+        "request_type": "feature_request",
+        "reported_problem": "feature request cached_function.time() method for last cache timestamp",
+        "environment": {},
+        "experiments": [],
+        "evidence": [],
+        "unknowns": [
+          "streamlit_version",
+          "python_version",
+          "deployment",
+          "reproducible"
+        ],
+        "limitations": [
+          "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+          "محدودیت: کد توقف `judge_rejected`."
+        ],
+        "maintainer_action": "اقدام: امکان افزودن رفتار درخواستی و شرط پذیرش را بررسی و تصمیم طراحی را ثبت کنید.",
+        "feature": {}
+      },
+      "review_failures": [
+        {
+          "kind": "answer_quality",
+          "draft_version": "6c188b5e1d6546b285bba807029a02c1d8bd6e7cd35bbebafada280a1b48a90b",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "reason": "گزارش شامل درخواست ویژگی و دلایل کافی برای آن است اما هیچ کد یا مستند رسمی برای تایید ندارد، بنابراین پشتیبانی صرفاً ناقص است."
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "پشتیبانی: unknown؛ فرض معقول و منطقی برای امکان‌پذیری اضافه کردن متد زمان به تابع کش شده است ولی نیاز به تایید دارد."
+            }
+          ]
+        }
+      ]
+    },
+    "proposal": {
+      "id": "cf9ece9c76c7d87e01cf973f",
+      "case_id": "GH17133",
+      "revision": 1,
+      "hash": "94bd610c7530a0754d70a655309ffc294fd436e7c45425a8ab7ceda0b896b81f",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nfeature request cached_function.time() method for last cache timestamp\n```\n\nمحیط گزارش‌شده:\n\n```text\nنامعلوم\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\nstreamlit_version, python_version, deployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: امکان افزودن رفتار درخواستی و شرط پذیرش را بررسی و تصمیم طراحی را ثبت کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_rejected`."
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "problem": "Add to cache decorators last time of cached.\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nCurrently, the cache decorators are just simple decorators of a hashable saving with the possibility of clearing the cache.\n\nHowever, a key component in caching is when the cache was saved.\n\nCurrently the only method to now this is by caching the result with a timestamp, which is unpractical.\n\nSo I'm thinking about a ´´´cached_function.time()´´´ method for knowing when it was last cached.\n\n### Why?\n\nBecause knowing the time of the cache would be very comprehensive for:\n- Not clearing cache everytime an update is needed, checking first if the time of the cache is soon enough\n- Simply adding a display of Last Updated at\n\n### How?\n\nWhen saving the cache save the timestamp as well and implement a .time method to the cached function for retrieving the time as a time.time() timestamp.\n\n### Additional Context\n\n_No response_",
+          "facts": {},
+          "unknowns": [
+            "streamlit_version",
+            "python_version",
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [],
+          "sources": [],
+          "decision": "escalate",
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+          "hypotheses": [],
+          "ambiguities": [],
+          "judge": {
+            "verdict": "escalate",
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "گزارش جدید و مرتبط با افزودن ویژگی جدید است، پس تکرار بررسی نیست.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "گزارش شامل درخواست ویژگی و دلایل کافی برای آن است اما هیچ کد یا مستند رسمی برای تایید ندارد، بنابراین پشتیبانی صرفاً ناقص است.",
+                "score": 1
+              },
+              "injection_resistance": {
+                "reason": "هیچ داده ورودی یا دستور نامناسبی برای تزریق وجود ندارد، فقط درخواست ویژگی است.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "پرسش درباره نمونه کد یا بخش پیاده‌سازی کنونی برای ارائه پیشنهادات عملی بسیار مفید است.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "پرسش و گام بعدی مستقیماً مرتبط با درخواست ویژگی و نیاز به جزئیات فنی است.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "سوال و درخواست ویژگی بدون اشاره به نسخه خاص است و بنابراین وابسته به نسخه نیست.",
+                "score": 2
+              }
+            },
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 1,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "findings": [
+              {
+                "criterion": "claim_support",
+                "reason": "گزارش شامل درخواست ویژگی و دلایل کافی برای آن است اما هیچ کد یا مستند رسمی برای تایید ندارد، بنابراین پشتیبانی صرفاً ناقص است."
+              },
+              {
+                "criterion": "claim_support",
+                "reason": "پشتیبانی: unknown؛ فرض معقول و منطقی برای امکان‌پذیری اضافه کردن متد زمان به تابع کش شده است ولی نیاز به تایید دارد."
+              }
+            ],
+            "draft_version": "6c188b5e1d6546b285bba807029a02c1d8bd6e7cd35bbebafada280a1b48a90b",
+            "unit_reviews": [
+              {
+                "kind": "question",
+                "links": [],
+                "reason": "پرسش مستقیم و کاربردی برای ادامه کار و دریافت اطلاعات لازم جهت پیاده‌سازی ویژگی است.",
+                "support": "unknown",
+                "unit_id": "u_4af0ff1411735a3ef82ef1a7",
+                "version_dependent": false,
+                "version_limit": ""
+              },
+              {
+                "kind": "next_step",
+                "links": [],
+                "reason": "گام بعدی منطقی و مفید است که به دنبال دریافت نمونه کد یا پیاده‌سازی است.",
+                "support": "unknown",
+                "unit_id": "u_d83381363f1e71425ac0440f",
+                "version_dependent": false,
+                "version_limit": ""
+              },
+              {
+                "kind": "reported_fact",
+                "links": [],
+                "reason": "بیان دقیق دلیل نیاز به نمونه کد یا بخش پیاده‌سازی برای توصیه پیاده‌سازی صحیح است.",
+                "support": "supported",
+                "unit_id": "u_91cadf51b95c2e7b53247e2f",
+                "version_dependent": false,
+                "version_limit": ""
+              },
+              {
+                "kind": "hypothesis",
+                "links": [],
+                "reason": "فرض معقول و منطقی برای امکان‌پذیری اضافه کردن متد زمان به تابع کش شده است ولی نیاز به تایید دارد.",
+                "support": "unknown",
+                "unit_id": "u_97cf91dc3001eb96b8f739f3",
+                "version_dependent": false,
+                "version_limit": ""
+              }
+            ],
+            "novelty": {
+              "already_supplied_quote": "",
+              "new": true,
+              "reason": "درخواست ویژگی افزودن متد زمان آخرین ذخیره کش تابع است که در گزارش قبلی وجود نداشت.",
+              "useful": true
+            },
+            "failure_kind": "answer_quality"
+          },
+          "investigation_plan": {
+            "acceptance_condition": "وقتی متد .time() متدی به کش شده تابع افزوده شده باشد که زمان آخرین ذخیره‌ی کش را برمی‌گرداند.",
+            "intent": "feature_request",
+            "known_report_spans": [
+              "Currently, the cache decorators are just simple decorators of a hashable saving with the possibility of clearing the cache.",
+              "Currently the only method to now this is by caching the result with a timestamp, which is unpractical.",
+              "So I'm thinking about a ´´´cached_function.time()´´´ method for knowing when it was last cached.",
+              "When saving the cache save the timestamp as well and implement a .time method to the cached function for retrieving the time as a time.time() timestamp."
+            ],
+            "missing_detail": "",
+            "new_condition": "",
+            "problem_summary": "feature request cached_function.time() method for last cache timestamp",
+            "suggested_question": "آیا نمونه کدی برای متدی که باید اضافه شود یا بخش پیاده‌سازی فعلی کش دارید؟"
+          },
+          "experiments": [],
+          "memory_version": 2,
+          "handoff": {
+            "request_type": "feature_request",
+            "reported_problem": "feature request cached_function.time() method for last cache timestamp",
+            "environment": {},
+            "experiments": [],
+            "evidence": [],
+            "unknowns": [
+              "streamlit_version",
+              "python_version",
+              "deployment",
+              "reproducible"
+            ],
+            "limitations": [
+              "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+              "محدودیت: کد توقف `judge_rejected`."
+            ],
+            "maintainer_action": "اقدام: امکان افزودن رفتار درخواستی و شرط پذیرش را بررسی و تصمیم طراحی را ثبت کنید.",
+            "feature": {}
+          },
+          "review_failures": [
+            {
+              "kind": "answer_quality",
+              "draft_version": "6c188b5e1d6546b285bba807029a02c1d8bd6e7cd35bbebafada280a1b48a90b",
+              "findings": [
+                {
+                  "criterion": "claim_support",
+                  "reason": "گزارش شامل درخواست ویژگی و دلایل کافی برای آن است اما هیچ کد یا مستند رسمی برای تایید ندارد، بنابراین پشتیبانی صرفاً ناقص است."
+                },
+                {
+                  "criterion": "claim_support",
+                  "reason": "پشتیبانی: unknown؛ فرض معقول و منطقی برای امکان‌پذیری اضافه کردن متد زمان به تابع کش شده است ولی نیاز به تایید دارد."
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "docs:caching:v2:b4d789665b4ffefb",
+        "source_id": "docs:caching",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+        "section": "Controlling cache size and duration",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.0371861
+      },
+      {
+        "id": "api:cache_data:v2:f31a213ee0aa9fe7",
+        "source_id": "api:cache_data",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/runtime/caching/cache_data_api.py",
+        "section": "_decorator (line 384)",
+        "product_version": "1.49.0",
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.03534988
+      },
+      {
+        "id": "api:cache_resource:v2:62c2f8ab3afe7cf8",
+        "source_id": "api:cache_resource",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/runtime/caching/cache_resource_api.py",
+        "section": "_decorator (line 259)",
+        "product_version": "1.49.0",
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.03644571
+      },
+      {
+        "id": "docs:caching:v2:5b7baf61d08251f0",
+        "source_id": "docs:caching",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+        "section": "Minimal example",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.03722305
+      },
+      {
+        "id": "docs:cache-data:v2:579ec7eddcc73008",
+        "source_id": "docs:cache-data",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-data.md",
+        "section": "Static elements",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.03482639
+      }
+    ],
+    "steps": 8,
+    "model_calls": 5,
+    "max_calls": 8,
+    "repair_count": 0,
+    "judge": {
+      "verdict": "escalate",
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "گزارش جدید و مرتبط با افزودن ویژگی جدید است، پس تکرار بررسی نیست.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "گزارش شامل درخواست ویژگی و دلایل کافی برای آن است اما هیچ کد یا مستند رسمی برای تایید ندارد، بنابراین پشتیبانی صرفاً ناقص است.",
+          "score": 1
+        },
+        "injection_resistance": {
+          "reason": "هیچ داده ورودی یا دستور نامناسبی برای تزریق وجود ندارد، فقط درخواست ویژگی است.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "پرسش درباره نمونه کد یا بخش پیاده‌سازی کنونی برای ارائه پیشنهادات عملی بسیار مفید است.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "پرسش و گام بعدی مستقیماً مرتبط با درخواست ویژگی و نیاز به جزئیات فنی است.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "سوال و درخواست ویژگی بدون اشاره به نسخه خاص است و بنابراین وابسته به نسخه نیست.",
+          "score": 2
+        }
+      },
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 1,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "findings": [
+        {
+          "criterion": "claim_support",
+          "reason": "گزارش شامل درخواست ویژگی و دلایل کافی برای آن است اما هیچ کد یا مستند رسمی برای تایید ندارد، بنابراین پشتیبانی صرفاً ناقص است."
+        },
+        {
+          "criterion": "claim_support",
+          "reason": "پشتیبانی: unknown؛ فرض معقول و منطقی برای امکان‌پذیری اضافه کردن متد زمان به تابع کش شده است ولی نیاز به تایید دارد."
+        }
+      ],
+      "draft_version": "6c188b5e1d6546b285bba807029a02c1d8bd6e7cd35bbebafada280a1b48a90b",
+      "unit_reviews": [
+        {
+          "kind": "question",
+          "links": [],
+          "reason": "پرسش مستقیم و کاربردی برای ادامه کار و دریافت اطلاعات لازم جهت پیاده‌سازی ویژگی است.",
+          "support": "unknown",
+          "unit_id": "u_4af0ff1411735a3ef82ef1a7",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "next_step",
+          "links": [],
+          "reason": "گام بعدی منطقی و مفید است که به دنبال دریافت نمونه کد یا پیاده‌سازی است.",
+          "support": "unknown",
+          "unit_id": "u_d83381363f1e71425ac0440f",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "reported_fact",
+          "links": [],
+          "reason": "بیان دقیق دلیل نیاز به نمونه کد یا بخش پیاده‌سازی برای توصیه پیاده‌سازی صحیح است.",
+          "support": "supported",
+          "unit_id": "u_91cadf51b95c2e7b53247e2f",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "hypothesis",
+          "links": [],
+          "reason": "فرض معقول و منطقی برای امکان‌پذیری اضافه کردن متد زمان به تابع کش شده است ولی نیاز به تایید دارد.",
+          "support": "unknown",
+          "unit_id": "u_97cf91dc3001eb96b8f739f3",
+          "version_dependent": false,
+          "version_limit": ""
+        }
+      ],
+      "novelty": {
+        "already_supplied_quote": "",
+        "new": true,
+        "reason": "درخواست ویژگی افزودن متد زمان آخرین ذخیره کش تابع است که در گزارش قبلی وجود نداشت.",
+        "useful": true
+      },
+      "failure_kind": "answer_quality"
+    },
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "ok",
+        "keys": [],
+        "facts_with_quotes": [],
+        "checks": [],
+        "ambiguities": []
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "bm25+dense+rrf+mmr",
+        "rrf_k": 60,
+        "mmr_lambda": 0.7,
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "quality": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true
+        },
+        "embedding": {
+          "texts": 1,
+          "unique_missing": 1,
+          "cache_hits": 0,
+          "batches": 1,
+          "usage": [
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "embedding",
+              "input_tokens": 24,
+              "output_tokens": 0,
+              "cost_usd": 5.280000000000001e-07,
+              "ledger_id": "212f1b352ba35c7600eb9da3"
+            }
+          ],
+          "identity": {
+            "provider": "https://api.metisai.ir/openai/v1",
+            "model": "text-embedding-3-small",
+            "normalization": "whitespace-v1",
+            "encoding_format": "float"
+          }
+        },
+        "candidates": [
+          "docs:caching:v2:5b7baf61d08251f0",
+          "api:cache_data:v2:648c9ef5e042e72d",
+          "api:cache_resource:v2:62c2f8ab3afe7cf8",
+          "docs:caching:v2:b4d789665b4ffefb",
+          "api:cache_data:v2:f31a213ee0aa9fe7",
+          "docs:cache-data:v2:579ec7eddcc73008",
+          "api:cache_resource:v2:33cffc6bc6e1f376",
+          "docs:cache-resource:v2:eb2199cf1c54fbb7"
+        ],
+        "quality_filter": true,
+        "excluded_chunks": 2105,
+        "as_of": null,
+        "temporal_policy": "current_snapshot",
+        "version_warnings": [
+          "docs:caching:v2:5b7baf61d08251f0",
+          "api:cache_data:v2:648c9ef5e042e72d",
+          "api:cache_resource:v2:62c2f8ab3afe7cf8",
+          "docs:caching:v2:b4d789665b4ffefb",
+          "api:cache_data:v2:f31a213ee0aa9fe7",
+          "docs:cache-data:v2:579ec7eddcc73008",
+          "api:cache_resource:v2:33cffc6bc6e1f376",
+          "docs:cache-resource:v2:eb2199cf1c54fbb7"
+        ]
+      },
+      {
+        "stage": "rerank",
+        "status": "ok",
+        "ids": [
+          "docs:caching:v2:b4d789665b4ffefb",
+          "api:cache_data:v2:f31a213ee0aa9fe7",
+          "api:cache_resource:v2:62c2f8ab3afe7cf8",
+          "docs:caching:v2:5b7baf61d08251f0",
+          "docs:cache-data:v2:579ec7eddcc73008",
+          "docs:cache-resource:v2:eb2199cf1c54fbb7",
+          "api:cache_resource:v2:33cffc6bc6e1f376",
+          "api:cache_data:v2:648c9ef5e042e72d"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "ids": [
+          "docs:caching:v2:b4d789665b4ffefb",
+          "api:cache_data:v2:f31a213ee0aa9fe7",
+          "api:cache_resource:v2:62c2f8ab3afe7cf8",
+          "docs:caching:v2:5b7baf61d08251f0",
+          "docs:cache-data:v2:579ec7eddcc73008"
+        ],
+        "utf8_bytes": 6807
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge",
+        "attempt": 1,
+        "verdict": "escalate",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "گزارش جدید و مرتبط با افزودن ویژگی جدید است، پس تکرار بررسی نیست.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "گزارش شامل درخواست ویژگی و دلایل کافی برای آن است اما هیچ کد یا مستند رسمی برای تایید ندارد، بنابراین پشتیبانی صرفاً ناقص است.",
+            "score": 1
+          },
+          "injection_resistance": {
+            "reason": "هیچ داده ورودی یا دستور نامناسبی برای تزریق وجود ندارد، فقط درخواست ویژگی است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "پرسش درباره نمونه کد یا بخش پیاده‌سازی کنونی برای ارائه پیشنهادات عملی بسیار مفید است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پرسش و گام بعدی مستقیماً مرتبط با درخواست ویژگی و نیاز به جزئیات فنی است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "سوال و درخواست ویژگی بدون اشاره به نسخه خاص است و بنابراین وابسته به نسخه نیست.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 1,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "گزارش شامل درخواست ویژگی و دلایل کافی برای آن است اما هیچ کد یا مستند رسمی برای تایید ندارد، بنابراین پشتیبانی صرفاً ناقص است."
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "پشتیبانی: unknown؛ فرض معقول و منطقی برای امکان‌پذیری اضافه کردن متد زمان به تابع کش شده است ولی نیاز به تایید دارد."
+          }
+        ],
+        "draft_version": "6c188b5e1d6546b285bba807029a02c1d8bd6e7cd35bbebafada280a1b48a90b",
+        "unit_reviews": [
+          {
+            "kind": "question",
+            "links": [],
+            "reason": "پرسش مستقیم و کاربردی برای ادامه کار و دریافت اطلاعات لازم جهت پیاده‌سازی ویژگی است.",
+            "support": "unknown",
+            "unit_id": "u_4af0ff1411735a3ef82ef1a7",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "next_step",
+            "links": [],
+            "reason": "گام بعدی منطقی و مفید است که به دنبال دریافت نمونه کد یا پیاده‌سازی است.",
+            "support": "unknown",
+            "unit_id": "u_d83381363f1e71425ac0440f",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "reported_fact",
+            "links": [],
+            "reason": "بیان دقیق دلیل نیاز به نمونه کد یا بخش پیاده‌سازی برای توصیه پیاده‌سازی صحیح است.",
+            "support": "supported",
+            "unit_id": "u_91cadf51b95c2e7b53247e2f",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "hypothesis",
+            "links": [],
+            "reason": "فرض معقول و منطقی برای امکان‌پذیری اضافه کردن متد زمان به تابع کش شده است ولی نیاز به تایید دارد.",
+            "support": "unknown",
+            "unit_id": "u_97cf91dc3001eb96b8f739f3",
+            "version_dependent": false,
+            "version_limit": ""
+          }
+        ],
+        "novelty": {
+          "already_supplied_quote": "",
+          "new": true,
+          "reason": "درخواست ویژگی افزودن متد زمان آخرین ذخیره کش تابع است که در گزارش قبلی وجود نداشت.",
+          "useful": true
+        },
+        "failure_kind": "answer_quality",
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "cf9ece9c76c7d87e01cf973f",
+        "hash": "94bd610c7530a0754d70a655309ffc294fd436e7c45425a8ab7ceda0b896b81f",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 5,
+      "cost_usd": 0.009475048,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "extract",
+          "input_tokens": 1410,
+          "output_tokens": 213,
+          "cost_usd": 0.00099528,
+          "ledger_id": "621c6f8aa3dac9a650f13a62"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "embedding",
+          "input_tokens": 24,
+          "output_tokens": 0,
+          "cost_usd": 5.280000000000001e-07,
+          "ledger_id": "212f1b352ba35c7600eb9da3"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "input_tokens": 4613,
+          "output_tokens": 144,
+          "cost_usd": 0.00228316,
+          "ledger_id": "22aec4b94fafbe444a43fc2d"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "input_tokens": 4423,
+          "output_tokens": 509,
+          "cost_usd": 0.00284196,
+          "ledger_id": "0f9709fecb91579aba35f3ac"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 5243,
+          "output_tokens": 595,
+          "cost_usd": 0.00335412,
+          "ledger_id": "a5f0c683fe55dfd7819e89d4"
+        }
+      ],
+      "charged_or_reserved_usd": 0.009475047999999875
+    },
+    "validation_error": "judge_rejected",
+    "review_failures": [
+      {
+        "kind": "answer_quality",
+        "draft_version": "6c188b5e1d6546b285bba807029a02c1d8bd6e7cd35bbebafada280a1b48a90b",
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "گزارش شامل درخواست ویژگی و دلایل کافی برای آن است اما هیچ کد یا مستند رسمی برای تایید ندارد، بنابراین پشتیبانی صرفاً ناقص است."
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "پشتیبانی: unknown؛ فرض معقول و منطقی برای امکان‌پذیری اضافه کردن متد زمان به تابع کش شده است ولی نیاز به تایید دارد."
+          }
+        ]
+      }
+    ],
+    "reviewed_draft": {
+      "draft_version": "6c188b5e1d6546b285bba807029a02c1d8bd6e7cd35bbebafada280a1b48a90b",
+      "case_id": "GH17133",
+      "case_revision": 1,
+      "generation": 0,
+      "units": [
+        {
+          "unit_id": "u_4af0ff1411735a3ef82ef1a7",
+          "field": "question",
+          "text": "آیا نمونه کدی برای متدی که باید به تابع کش شده اضافه شود جهت اطلاع از زمان آخرین ذخیره کش یا بخش پیاده‌سازی فعلی کش دارید؟",
+          "start": 0,
+          "end": 122
+        },
+        {
+          "unit_id": "u_d83381363f1e71425ac0440f",
+          "field": "next_step",
+          "text": "برای ارائه پیشنهاد افزودن متد .time() به تابع کش شده و ذخیره زمان کش، نیاز به نمونه کد برای عملکرد موردنظر یا بخش پیاده‌سازی فعلی کش وجود دارد.",
+          "start": 0,
+          "end": 143
+        },
+        {
+          "unit_id": "u_91cadf51b95c2e7b53247e2f",
+          "field": "rationale",
+          "text": "گزارش فعلی درخواست یک ویژگی جدید است تا زمان ذخیره کش تابع مشخص شود که در حال حاضر وجود ندارد. برای طراحی این ویژگی نیاز به نمونه کد یا بخش پیاده‌سازی کش جهت بررسی و توصیه روش پیاده‌سازی مناسب وجود دارد.",
+          "start": 0,
+          "end": 203
+        },
+        {
+          "unit_id": "u_97cf91dc3001eb96b8f739f3",
+          "field": "hypotheses.0",
+          "text": "اضافه شدن متد .time() به تابع کش شده برای بازگرداندن زمان آخرین بروزرسانی کش امکان‌پذیر است.",
+          "start": 0,
+          "end": 92
+        }
+      ]
+    },
+    "latency_seconds": 23.658025
+  },
+  "failure": null,
+  "elapsed_seconds": 23.69364690000657,
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "extract",
+      "input_tokens": 1410,
+      "output_tokens": 213,
+      "cost_usd": 0.00099528,
+      "ledger_id": "621c6f8aa3dac9a650f13a62"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "input_tokens": 24,
+      "output_tokens": 0,
+      "cost_usd": 5.280000000000001e-07,
+      "ledger_id": "212f1b352ba35c7600eb9da3"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "input_tokens": 4613,
+      "output_tokens": 144,
+      "cost_usd": 0.00228316,
+      "ledger_id": "22aec4b94fafbe444a43fc2d"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "input_tokens": 4423,
+      "output_tokens": 509,
+      "cost_usd": 0.00284196,
+      "ledger_id": "0f9709fecb91579aba35f3ac"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 5243,
+      "output_tokens": 595,
+      "cost_usd": 0.00335412,
+      "ledger_id": "a5f0c683fe55dfd7819e89d4"
+    }
+  ],
+  "pipeline_sha256": "74e3565717fbc2869493f2ac06869bc720af340896ac68302df71981ef2a97a8",
+  "pipeline_path": "F:\\Quera AI\\Project\\streamlit-casepilot\\src\\casepilot\\pipeline.py"
+}

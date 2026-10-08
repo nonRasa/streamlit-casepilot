@@ -40,8 +40,12 @@ if(r.statusCode>=200 && r.statusCode<300) {
   if(!b || !b.proposal || !b.proposal.id || !b.proposal.hash) throw new Error('Missing scoped proposal');
   if(b.method==='final') {
     if(b.architecture!=='v2' || !Array.isArray(b.pipeline) || b.model_calls>8 || b.repair_count>1) throw new Error('Invalid bounded pipeline result');
+    if(b.quality_revision!=='v2.2-quality') throw new Error('Unsupported quality contract');
     if(!b.validation_error && (!b.judge || b.judge.verdict!=='accept')) throw new Error('Unchecked draft rejected');
+    if(!b.validation_error && b.mode==='live' && (!b.reviewed_draft || b.judge.draft_version!==b.reviewed_draft.draft_version)) throw new Error('Stale draft review');
     if(b.validation_error && (b.decision!=='escalate' || b.summary.sources.length)) throw new Error('Unsafe fallback rejected');
+    if(b.decision==='escalate' && (!b.summary.handoff || !b.summary.handoff.maintainer_action)) throw new Error('Missing actionable handoff');
+    if(b.validation_error==='judge_contract_error' && !b.review_failures.some(x=>x.kind==='judge_contract')) throw new Error('Missing contract failure trace');
   }
 }
 return [{json:r}];"""
@@ -74,6 +78,9 @@ def main(base):
     write_json(ROOT/'policies'/'execution_policy.json',{'architecture':'v2','max_steps_per_turn':14,'max_model_calls_per_turn':8,'max_repair_attempts':1,'max_turn_usd':.04,'max_turn_seconds':180,'max_user_turns_per_case':100,'max_candidates':8,'max_retrieved_chunks':5,'max_context_utf8_bytes':10000,'max_message_characters':20000,'max_actions':3,'approval_ttl_seconds':900,'team_budget_usd':5,'default_operational_cap_usd':.50,'auto_execute':False,'allowed_gateway_host':'api.metisai.ir','writes':'local SQLite only'})
     write_json(ROOT/'workflows'/'casepilot_main.json',workflow(base))
     write_json(ROOT/'CasePilot_project.ipynb',notebook())
+    from update_quality_v22_notebook import main as update_notebook
+    from export_quality_v22_contracts import main as export_contracts
+    update_notebook(); export_contracts()
     write_json(ROOT/'examples'/'turn.json',{'case_id':'demo-1','request_id':'example-turn-1','message':'مقدار session_state پس از تغییر صفحه از بین می‌رود.','facts':{},'checks':[]})
     write_json(ROOT/'examples'/'review.json',{'case_id':'demo-1','proposal_id':'COPY_FROM_TURN_RESULT','proposal_hash':'COPY_FROM_TURN_RESULT','decision':'reject','reviewer':'نگه‌دارنده'})
     write_json(ROOT/'examples'/'execute.json',{'case_id':'demo-1','proposal_id':'COPY_FROM_TURN_RESULT','approval_id':'COPY_FROM_REVIEW_RESULT'})

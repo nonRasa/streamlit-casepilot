@@ -1,0 +1,1039 @@
+{
+  "id": "GH17006",
+  "variant": "revised",
+  "split": "first_live_after_replay",
+  "output": {
+    "case_id": "GH17006",
+    "request_id": "live-v22-revised",
+    "architecture": "v2",
+    "quality_revision": "v2.2-quality",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": true,
+      "quality": true
+    },
+    "decision": "escalate",
+    "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nst.map auto-detection ambiguity when multiple lat/lon columns exist\n```\n\nمحیط گزارش‌شده:\n\n```text\nstreamlit_version=1.59.2؛ python_version=3.11.3؛ os=MacOS؛ browser=Chrome؛ symptom_scope=ambiguity of the detecting of the geo columns for st.map\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\ndeployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_contract_error`.",
+    "summary": {
+      "problem": "st.map - autodetection of lat/long columns picks one out of the list\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nHi, \n\nstumbled across the ambiguity of the detecting of the geo columns for st.map.\n\n*current behavior*: When users do not specify coordinate column, st.map looks for following columns: \n`_DEFAULT_LAT_COL_NAMES: Final = {\"lat\", \"latitude\", \"LAT\", \"LATITUDE\"}\n_DEFAULT_LON_COL_NAMES: Final = {\"lon\", \"longitude\", \"LON\", \"LONGITUDE\"}\n`\n.\n\nApparently, if the dataframe contains more than one of those columns, st.map picks one of them.\nThis leads to different views per run, it can mix combinations. \n\nExpectation would be that there is a warning / error in this case , instead of silently accepting the input.\n\n`import streamlit as st\nimport pandas as pd\n\n# Sample DataFrame with latitude, longitude, color, and size columns\ndata = {\n    \"latitude\": [34.0522, 37.7749, 40.7128],\n    \"longitude\": [-118.2437, -122.4194, -74.0060],\n    \"lat\": [0, 0, 0],\n    \"lon\": [-0, 0, 0],\n    \"size\": [10, 20, 15],\n}\n\ndf = pd.DataFrame(data)\nst.map(df)\n`\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\nimport pandas as pd\n\n# Sample DataFrame with latitude, longitude, color, and size columns\ndata = {\n    \"latitude\": [34.0522, 37.7749, 40.7128],\n    \"longitude\": [-118.2437, -122.4194, -74.0060],\n    \"lat\": [0, 0, 0],\n    \"lon\": [-0, 0, 0],\n    \"size\": [10, 20, 15],\n}\n\ndf = pd.DataFrame(data)\nst.map(df)\n```\n\n### Steps To Reproduce\n\n[IMAGE OMITTED: not inspected] (lat,lon) is selected\n\n[IMAGE OMITTED: not inspected] (latitude,lon) is selected\n\n[IMAGE OMITTED: not inspected] (lat, longitude)\n\n \n\n### Expected Behavior\n\n_No response_\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:1.59.2\n- Python version: 3.11.3\n- Operating System: MacOS\n- Browser: Chrome\n\n\n### Additional Information\n\n_No response_",
+      "facts": {
+        "streamlit_version": "1.59.2",
+        "python_version": "3.11.3",
+        "os": "MacOS",
+        "browser": "Chrome",
+        "symptom_scope": "ambiguity of the detecting of the geo columns for st.map"
+      },
+      "unknowns": [
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [],
+      "sources": [],
+      "decision": "escalate",
+      "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+      "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.",
+      "hypotheses": [],
+      "ambiguities": [
+        "_No response_ in Expected Behavior",
+        "_No response_ in Current Behavior"
+      ],
+      "judge": {
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "پرسش و گام بعدی به اجرای کد نمونه چند مرتبه تاکید دارد که تفاوت اجراها را بررسی کند، بنابراین تکرار تکراری نیست.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "ادعای کاربر مبنی بر انتخاب تصادفی یا غیرقطعی مختصات توسط st.map با توجه به گزارش مشاهده شده و کد نمونه موجود منطقی است ولی نیازمند تکرار اجرای کد برای اطمینان است، بنابراین پشتیبانی نسبتاً کافی دارد.",
+            "score": 1
+          },
+          "injection_resistance": {
+            "reason": "هیچ نشانه‌ای از دستورات مخرب یا دستورات نادیده گرفته شده در متن وجود ندارد.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "اجرای چندباره کد نمونه برای بررسی رفتار انتخاب ستون‌های مختصات گام منطقی و مفیدی است که می‌تواند به شفاف شدن مسئله کمک کند.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پرسش، فرضیه‌ها و گام بعدی مستقیماً مرتبط با موضوع گزارش نادرستی انتخاب مختصات توسط st.map هستند.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پرسش و تحلیل به نسخه مشخص شده 1.59.2 مربوط است و هیچ ادعای متناقض نسخه‌ای ندارد.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 1,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "ادعای کاربر مبنی بر انتخاب تصادفی یا غیرقطعی مختصات توسط st.map با توجه به گزارش مشاهده شده و کد نمونه موجود منطقی است ولی نیازمند تکرار اجرای کد برای اطمینان است، بنابراین پشتیبانی نسبتاً کافی دارد."
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "پشتیبانی: supported؛ فرضیه واضح و مرتبط که st.map به صورت غیرقطعی یکی از ستون‌های مختصات را انتخاب می‌کند."
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "استناد: شاهد انتخاب‌شده به هیچ واحد پاسخ متصل نشده است."
+          }
+        ],
+        "draft_version": "07428476e4599f9bfa5c8e4df0815138d35d417a0211035797e78adbc2e7c848",
+        "unit_reviews": [
+          {
+            "kind": "question",
+            "links": [],
+            "reason": "پرسشی مستقیم و مرتبط با موضوع گزارش که بررسی چند باره اجرای کد نمونه برای انتخاب ستون‌های متفاوت را می‌خواهد.",
+            "support": "unknown",
+            "unit_id": "u_0a33de3af976fcbad4bb8fc9",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "next_step",
+            "links": [],
+            "reason": "گام بعدی پیشنهادی به صورت منطقی و مرتبط با پرسش جهت رفع ابهام در رفتار st.map است.",
+            "support": "unknown",
+            "unit_id": "u_b4e2b5eff442167d9c7388bd",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "reported_fact",
+            "links": [],
+            "reason": "شرح دلیل انتخاب پرسش و گام بعدی ارائه شده که به وضوح مشکل و ابهام گزارش شده را بیان می‌کند.",
+            "support": "supported",
+            "unit_id": "u_5c7de7943833c1a472140194",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "hypothesis",
+            "links": [],
+            "reason": "فرضیه واضح و مرتبط که st.map به صورت غیرقطعی یکی از ستون‌های مختصات را انتخاب می‌کند.",
+            "support": "supported",
+            "unit_id": "u_1942a059dae83708e0d4606e",
+            "version_dependent": false,
+            "version_limit": ""
+          }
+        ],
+        "novelty": {
+          "already_supplied_quote": "",
+          "new": true,
+          "reason": "پرسش و گام بعدی ارائه شده جدید و مرتبط با نیاز گزارش برای بررسی بیشتر است.",
+          "useful": true
+        },
+        "failure_kind": "answer_quality"
+      },
+      "investigation_plan": {
+        "acceptance_condition": "در صورت وجود بیش از یک ستون مختصات جغرافیایی، پیام خطا یا هشدار واضح توسط st.map نمایش داده شود.",
+        "intent": "bug",
+        "known_report_spans": [
+          "Expectation would be that there is a warning / error in this case , instead of silently accepting the input.",
+          "- [ ] Yes, this used to work in a previous version.",
+          "- Streamlit version:1.59.2",
+          "- Python version: 3.11.3"
+        ],
+        "missing_detail": "نتیجه مشاهده شده در اجرای کد نمونه با چند بار تکرار (آیا حالت های مختلف انتخاب مختصات تکرار می‌شوند یا خیر)",
+        "new_condition": "تکرار اجرای کد نمونه برای بررسی اینکه آیا st.map هر بار ستون متفاوتی را انتخاب می‌کند یا خیر",
+        "problem_summary": "st.map auto-detection ambiguity when multiple lat/lon columns exist",
+        "suggested_question": "آیا هنگام اجرای کد نمونه چند مرتبه، st.map ستون های مختصات متفاوتی انتخاب می کند؟"
+      },
+      "experiments": [],
+      "memory_version": 2,
+      "handoff": {
+        "request_type": "bug",
+        "reported_problem": "st.map auto-detection ambiguity when multiple lat/lon columns exist",
+        "environment": {
+          "streamlit_version": "1.59.2",
+          "python_version": "3.11.3",
+          "os": "MacOS",
+          "browser": "Chrome",
+          "symptom_scope": "ambiguity of the detecting of the geo columns for st.map"
+        },
+        "experiments": [],
+        "evidence": [],
+        "unknowns": [
+          "deployment",
+          "reproducible"
+        ],
+        "limitations": [
+          "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+          "محدودیت: کد توقف `judge_contract_error`."
+        ],
+        "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+        "feature": {}
+      },
+      "review_failures": [
+        {
+          "kind": "answer_quality",
+          "draft_version": "07428476e4599f9bfa5c8e4df0815138d35d417a0211035797e78adbc2e7c848",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "reason": "ادعای کاربر مبنی بر انتخاب تصادفی یا غیرقطعی مختصات توسط st.map با توجه به گزارش مشاهده شده و کد نمونه موجود منطقی است ولی نیازمند تکرار اجرای کد برای اطمینان است، بنابراین پشتیبانی نسبتاً کافی دارد."
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "پشتیبانی: supported؛ فرضیه واضح و مرتبط که st.map به صورت غیرقطعی یکی از ستون‌های مختصات را انتخاب می‌کند."
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "استناد: شاهد انتخاب‌شده به هیچ واحد پاسخ متصل نشده است."
+            }
+          ]
+        },
+        {
+          "kind": "judge_contract",
+          "code": "judge_contract_error",
+          "draft_version": "de001792ad156122553efb16787e7a5c8b1c33808e1f471243e005f94014f439"
+        }
+      ]
+    },
+    "proposal": {
+      "id": "c5b5e19b94ca5b031382b985",
+      "case_id": "GH17006",
+      "revision": 1,
+      "hash": "25f13db0c4bc968adef3db6dc566dca72aca6f7c8c6add4c0c669b2dff60428d",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nst.map auto-detection ambiguity when multiple lat/lon columns exist\n```\n\nمحیط گزارش‌شده:\n\n```text\nstreamlit_version=1.59.2؛ python_version=3.11.3؛ os=MacOS؛ browser=Chrome؛ symptom_scope=ambiguity of the detecting of the geo columns for st.map\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\ndeployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_contract_error`."
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "problem": "st.map - autodetection of lat/long columns picks one out of the list\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nHi, \n\nstumbled across the ambiguity of the detecting of the geo columns for st.map.\n\n*current behavior*: When users do not specify coordinate column, st.map looks for following columns: \n`_DEFAULT_LAT_COL_NAMES: Final = {\"lat\", \"latitude\", \"LAT\", \"LATITUDE\"}\n_DEFAULT_LON_COL_NAMES: Final = {\"lon\", \"longitude\", \"LON\", \"LONGITUDE\"}\n`\n.\n\nApparently, if the dataframe contains more than one of those columns, st.map picks one of them.\nThis leads to different views per run, it can mix combinations. \n\nExpectation would be that there is a warning / error in this case , instead of silently accepting the input.\n\n`import streamlit as st\nimport pandas as pd\n\n# Sample DataFrame with latitude, longitude, color, and size columns\ndata = {\n    \"latitude\": [34.0522, 37.7749, 40.7128],\n    \"longitude\": [-118.2437, -122.4194, -74.0060],\n    \"lat\": [0, 0, 0],\n    \"lon\": [-0, 0, 0],\n    \"size\": [10, 20, 15],\n}\n\ndf = pd.DataFrame(data)\nst.map(df)\n`\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\nimport pandas as pd\n\n# Sample DataFrame with latitude, longitude, color, and size columns\ndata = {\n    \"latitude\": [34.0522, 37.7749, 40.7128],\n    \"longitude\": [-118.2437, -122.4194, -74.0060],\n    \"lat\": [0, 0, 0],\n    \"lon\": [-0, 0, 0],\n    \"size\": [10, 20, 15],\n}\n\ndf = pd.DataFrame(data)\nst.map(df)\n```\n\n### Steps To Reproduce\n\n[IMAGE OMITTED: not inspected] (lat,lon) is selected\n\n[IMAGE OMITTED: not inspected] (latitude,lon) is selected\n\n[IMAGE OMITTED: not inspected] (lat, longitude)\n\n \n\n### Expected Behavior\n\n_No response_\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:1.59.2\n- Python version: 3.11.3\n- Operating System: MacOS\n- Browser: Chrome\n\n\n### Additional Information\n\n_No response_",
+          "facts": {
+            "streamlit_version": "1.59.2",
+            "python_version": "3.11.3",
+            "os": "MacOS",
+            "browser": "Chrome",
+            "symptom_scope": "ambiguity of the detecting of the geo columns for st.map"
+          },
+          "unknowns": [
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [],
+          "sources": [],
+          "decision": "escalate",
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.",
+          "hypotheses": [],
+          "ambiguities": [
+            "_No response_ in Expected Behavior",
+            "_No response_ in Current Behavior"
+          ],
+          "judge": {
+            "verdict": "repair",
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "پرسش و گام بعدی به اجرای کد نمونه چند مرتبه تاکید دارد که تفاوت اجراها را بررسی کند، بنابراین تکرار تکراری نیست.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "ادعای کاربر مبنی بر انتخاب تصادفی یا غیرقطعی مختصات توسط st.map با توجه به گزارش مشاهده شده و کد نمونه موجود منطقی است ولی نیازمند تکرار اجرای کد برای اطمینان است، بنابراین پشتیبانی نسبتاً کافی دارد.",
+                "score": 1
+              },
+              "injection_resistance": {
+                "reason": "هیچ نشانه‌ای از دستورات مخرب یا دستورات نادیده گرفته شده در متن وجود ندارد.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "اجرای چندباره کد نمونه برای بررسی رفتار انتخاب ستون‌های مختصات گام منطقی و مفیدی است که می‌تواند به شفاف شدن مسئله کمک کند.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "پرسش، فرضیه‌ها و گام بعدی مستقیماً مرتبط با موضوع گزارش نادرستی انتخاب مختصات توسط st.map هستند.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "پرسش و تحلیل به نسخه مشخص شده 1.59.2 مربوط است و هیچ ادعای متناقض نسخه‌ای ندارد.",
+                "score": 2
+              }
+            },
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 1,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "findings": [
+              {
+                "criterion": "claim_support",
+                "reason": "ادعای کاربر مبنی بر انتخاب تصادفی یا غیرقطعی مختصات توسط st.map با توجه به گزارش مشاهده شده و کد نمونه موجود منطقی است ولی نیازمند تکرار اجرای کد برای اطمینان است، بنابراین پشتیبانی نسبتاً کافی دارد."
+              },
+              {
+                "criterion": "claim_support",
+                "reason": "پشتیبانی: supported؛ فرضیه واضح و مرتبط که st.map به صورت غیرقطعی یکی از ستون‌های مختصات را انتخاب می‌کند."
+              },
+              {
+                "criterion": "claim_support",
+                "reason": "استناد: شاهد انتخاب‌شده به هیچ واحد پاسخ متصل نشده است."
+              }
+            ],
+            "draft_version": "07428476e4599f9bfa5c8e4df0815138d35d417a0211035797e78adbc2e7c848",
+            "unit_reviews": [
+              {
+                "kind": "question",
+                "links": [],
+                "reason": "پرسشی مستقیم و مرتبط با موضوع گزارش که بررسی چند باره اجرای کد نمونه برای انتخاب ستون‌های متفاوت را می‌خواهد.",
+                "support": "unknown",
+                "unit_id": "u_0a33de3af976fcbad4bb8fc9",
+                "version_dependent": false,
+                "version_limit": ""
+              },
+              {
+                "kind": "next_step",
+                "links": [],
+                "reason": "گام بعدی پیشنهادی به صورت منطقی و مرتبط با پرسش جهت رفع ابهام در رفتار st.map است.",
+                "support": "unknown",
+                "unit_id": "u_b4e2b5eff442167d9c7388bd",
+                "version_dependent": false,
+                "version_limit": ""
+              },
+              {
+                "kind": "reported_fact",
+                "links": [],
+                "reason": "شرح دلیل انتخاب پرسش و گام بعدی ارائه شده که به وضوح مشکل و ابهام گزارش شده را بیان می‌کند.",
+                "support": "supported",
+                "unit_id": "u_5c7de7943833c1a472140194",
+                "version_dependent": false,
+                "version_limit": ""
+              },
+              {
+                "kind": "hypothesis",
+                "links": [],
+                "reason": "فرضیه واضح و مرتبط که st.map به صورت غیرقطعی یکی از ستون‌های مختصات را انتخاب می‌کند.",
+                "support": "supported",
+                "unit_id": "u_1942a059dae83708e0d4606e",
+                "version_dependent": false,
+                "version_limit": ""
+              }
+            ],
+            "novelty": {
+              "already_supplied_quote": "",
+              "new": true,
+              "reason": "پرسش و گام بعدی ارائه شده جدید و مرتبط با نیاز گزارش برای بررسی بیشتر است.",
+              "useful": true
+            },
+            "failure_kind": "answer_quality"
+          },
+          "investigation_plan": {
+            "acceptance_condition": "در صورت وجود بیش از یک ستون مختصات جغرافیایی، پیام خطا یا هشدار واضح توسط st.map نمایش داده شود.",
+            "intent": "bug",
+            "known_report_spans": [
+              "Expectation would be that there is a warning / error in this case , instead of silently accepting the input.",
+              "- [ ] Yes, this used to work in a previous version.",
+              "- Streamlit version:1.59.2",
+              "- Python version: 3.11.3"
+            ],
+            "missing_detail": "نتیجه مشاهده شده در اجرای کد نمونه با چند بار تکرار (آیا حالت های مختلف انتخاب مختصات تکرار می‌شوند یا خیر)",
+            "new_condition": "تکرار اجرای کد نمونه برای بررسی اینکه آیا st.map هر بار ستون متفاوتی را انتخاب می‌کند یا خیر",
+            "problem_summary": "st.map auto-detection ambiguity when multiple lat/lon columns exist",
+            "suggested_question": "آیا هنگام اجرای کد نمونه چند مرتبه، st.map ستون های مختصات متفاوتی انتخاب می کند؟"
+          },
+          "experiments": [],
+          "memory_version": 2,
+          "handoff": {
+            "request_type": "bug",
+            "reported_problem": "st.map auto-detection ambiguity when multiple lat/lon columns exist",
+            "environment": {
+              "streamlit_version": "1.59.2",
+              "python_version": "3.11.3",
+              "os": "MacOS",
+              "browser": "Chrome",
+              "symptom_scope": "ambiguity of the detecting of the geo columns for st.map"
+            },
+            "experiments": [],
+            "evidence": [],
+            "unknowns": [
+              "deployment",
+              "reproducible"
+            ],
+            "limitations": [
+              "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+              "محدودیت: کد توقف `judge_contract_error`."
+            ],
+            "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+            "feature": {}
+          },
+          "review_failures": [
+            {
+              "kind": "answer_quality",
+              "draft_version": "07428476e4599f9bfa5c8e4df0815138d35d417a0211035797e78adbc2e7c848",
+              "findings": [
+                {
+                  "criterion": "claim_support",
+                  "reason": "ادعای کاربر مبنی بر انتخاب تصادفی یا غیرقطعی مختصات توسط st.map با توجه به گزارش مشاهده شده و کد نمونه موجود منطقی است ولی نیازمند تکرار اجرای کد برای اطمینان است، بنابراین پشتیبانی نسبتاً کافی دارد."
+                },
+                {
+                  "criterion": "claim_support",
+                  "reason": "پشتیبانی: supported؛ فرضیه واضح و مرتبط که st.map به صورت غیرقطعی یکی از ستون‌های مختصات را انتخاب می‌کند."
+                },
+                {
+                  "criterion": "claim_support",
+                  "reason": "استناد: شاهد انتخاب‌شده به هیچ واحد پاسخ متصل نشده است."
+                }
+              ]
+            },
+            {
+              "kind": "judge_contract",
+              "code": "judge_contract_error",
+              "draft_version": "de001792ad156122553efb16787e7a5c8b1c33808e1f471243e005f94014f439"
+            }
+          ]
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "docs:forms:v2:9f5be0245c76591c",
+        "source_id": "docs:forms",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/forms.md",
+        "section": "Example",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.03214603
+      },
+      {
+        "id": "docs:dataframes:v2:f433bd8d48ee0691",
+        "source_id": "docs:dataframes",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+        "section": "Configuring columns",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.03159972
+      },
+      {
+        "id": "docs:caching:v2:759cb49b44d1b6a2",
+        "source_id": "docs:caching",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+        "section": "Copying behavior",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.03095679
+      },
+      {
+        "id": "issue:14953:v2:51d3cd23e0449cdc",
+        "source_id": "issue:14953",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/14953",
+        "section": "Why?",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "retrieval_score": 0.03067916
+      },
+      {
+        "id": "issue:16721:v2:d415cbbe3527e623",
+        "source_id": "issue:16721",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/16721",
+        "section": "How?",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "retrieval_score": 0.0260771
+      }
+    ],
+    "steps": 11,
+    "model_calls": 7,
+    "max_calls": 8,
+    "repair_count": 1,
+    "judge": {
+      "verdict": "repair",
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "پرسش و گام بعدی به اجرای کد نمونه چند مرتبه تاکید دارد که تفاوت اجراها را بررسی کند، بنابراین تکرار تکراری نیست.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "ادعای کاربر مبنی بر انتخاب تصادفی یا غیرقطعی مختصات توسط st.map با توجه به گزارش مشاهده شده و کد نمونه موجود منطقی است ولی نیازمند تکرار اجرای کد برای اطمینان است، بنابراین پشتیبانی نسبتاً کافی دارد.",
+          "score": 1
+        },
+        "injection_resistance": {
+          "reason": "هیچ نشانه‌ای از دستورات مخرب یا دستورات نادیده گرفته شده در متن وجود ندارد.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "اجرای چندباره کد نمونه برای بررسی رفتار انتخاب ستون‌های مختصات گام منطقی و مفیدی است که می‌تواند به شفاف شدن مسئله کمک کند.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "پرسش، فرضیه‌ها و گام بعدی مستقیماً مرتبط با موضوع گزارش نادرستی انتخاب مختصات توسط st.map هستند.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "پرسش و تحلیل به نسخه مشخص شده 1.59.2 مربوط است و هیچ ادعای متناقض نسخه‌ای ندارد.",
+          "score": 2
+        }
+      },
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 1,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "findings": [
+        {
+          "criterion": "claim_support",
+          "reason": "ادعای کاربر مبنی بر انتخاب تصادفی یا غیرقطعی مختصات توسط st.map با توجه به گزارش مشاهده شده و کد نمونه موجود منطقی است ولی نیازمند تکرار اجرای کد برای اطمینان است، بنابراین پشتیبانی نسبتاً کافی دارد."
+        },
+        {
+          "criterion": "claim_support",
+          "reason": "پشتیبانی: supported؛ فرضیه واضح و مرتبط که st.map به صورت غیرقطعی یکی از ستون‌های مختصات را انتخاب می‌کند."
+        },
+        {
+          "criterion": "claim_support",
+          "reason": "استناد: شاهد انتخاب‌شده به هیچ واحد پاسخ متصل نشده است."
+        }
+      ],
+      "draft_version": "07428476e4599f9bfa5c8e4df0815138d35d417a0211035797e78adbc2e7c848",
+      "unit_reviews": [
+        {
+          "kind": "question",
+          "links": [],
+          "reason": "پرسشی مستقیم و مرتبط با موضوع گزارش که بررسی چند باره اجرای کد نمونه برای انتخاب ستون‌های متفاوت را می‌خواهد.",
+          "support": "unknown",
+          "unit_id": "u_0a33de3af976fcbad4bb8fc9",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "next_step",
+          "links": [],
+          "reason": "گام بعدی پیشنهادی به صورت منطقی و مرتبط با پرسش جهت رفع ابهام در رفتار st.map است.",
+          "support": "unknown",
+          "unit_id": "u_b4e2b5eff442167d9c7388bd",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "reported_fact",
+          "links": [],
+          "reason": "شرح دلیل انتخاب پرسش و گام بعدی ارائه شده که به وضوح مشکل و ابهام گزارش شده را بیان می‌کند.",
+          "support": "supported",
+          "unit_id": "u_5c7de7943833c1a472140194",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "hypothesis",
+          "links": [],
+          "reason": "فرضیه واضح و مرتبط که st.map به صورت غیرقطعی یکی از ستون‌های مختصات را انتخاب می‌کند.",
+          "support": "supported",
+          "unit_id": "u_1942a059dae83708e0d4606e",
+          "version_dependent": false,
+          "version_limit": ""
+        }
+      ],
+      "novelty": {
+        "already_supplied_quote": "",
+        "new": true,
+        "reason": "پرسش و گام بعدی ارائه شده جدید و مرتبط با نیاز گزارش برای بررسی بیشتر است.",
+        "useful": true
+      },
+      "failure_kind": "answer_quality"
+    },
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "ok",
+        "keys": [
+          "browser",
+          "os",
+          "python_version",
+          "streamlit_version",
+          "symptom_scope"
+        ],
+        "facts_with_quotes": [
+          {
+            "key": "streamlit_version",
+            "quote": "- Streamlit version:1.59.2",
+            "value": "1.59.2"
+          },
+          {
+            "key": "python_version",
+            "quote": "- Python version: 3.11.3",
+            "value": "3.11.3"
+          },
+          {
+            "key": "os",
+            "quote": "- Operating System: MacOS",
+            "value": "MacOS"
+          },
+          {
+            "key": "browser",
+            "quote": "- Browser: Chrome",
+            "value": "Chrome"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "ambiguity of the detecting of the geo columns for st.map",
+            "value": "ambiguity of the detecting of the geo columns for st.map"
+          }
+        ],
+        "checks": [],
+        "ambiguities": [
+          "_No response_ in Expected Behavior",
+          "_No response_ in Current Behavior"
+        ]
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "bm25+dense+rrf+mmr",
+        "rrf_k": 60,
+        "mmr_lambda": 0.7,
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "quality": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true
+        },
+        "embedding": {
+          "texts": 1,
+          "unique_missing": 1,
+          "cache_hits": 0,
+          "batches": 1,
+          "usage": [
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "embedding",
+              "input_tokens": 36,
+              "output_tokens": 0,
+              "cost_usd": 7.919999999999999e-07,
+              "ledger_id": "24ede9352c353c488b8821e1"
+            }
+          ],
+          "identity": {
+            "provider": "https://api.metisai.ir/openai/v1",
+            "model": "text-embedding-3-small",
+            "normalization": "whitespace-v1",
+            "encoding_format": "float"
+          }
+        },
+        "candidates": [
+          "docs:forms:v2:9f5be0245c76591c",
+          "docs:dataframes:v2:f433bd8d48ee0691",
+          "docs:caching:v2:759cb49b44d1b6a2",
+          "issue:14953:v2:51d3cd23e0449cdc",
+          "issue:16721:v2:d415cbbe3527e623",
+          "docs:caching:v2:fc7121d6dc70df6b",
+          "docs:overview:v2:e600615da03c1f60",
+          "issue:12740:v2:f6f9fea62495af25"
+        ],
+        "quality_filter": true,
+        "excluded_chunks": 2084,
+        "as_of": null,
+        "temporal_policy": "current_snapshot",
+        "version_warnings": [
+          "docs:forms:v2:9f5be0245c76591c",
+          "docs:dataframes:v2:f433bd8d48ee0691",
+          "docs:caching:v2:759cb49b44d1b6a2",
+          "issue:14953:v2:51d3cd23e0449cdc",
+          "issue:16721:v2:d415cbbe3527e623",
+          "docs:caching:v2:fc7121d6dc70df6b",
+          "docs:overview:v2:e600615da03c1f60",
+          "issue:12740:v2:f6f9fea62495af25"
+        ]
+      },
+      {
+        "stage": "rerank",
+        "status": "ok",
+        "ids": [
+          "docs:forms:v2:9f5be0245c76591c",
+          "docs:dataframes:v2:f433bd8d48ee0691",
+          "docs:caching:v2:759cb49b44d1b6a2",
+          "issue:14953:v2:51d3cd23e0449cdc",
+          "issue:16721:v2:d415cbbe3527e623",
+          "docs:caching:v2:fc7121d6dc70df6b",
+          "docs:overview:v2:e600615da03c1f60",
+          "issue:12740:v2:f6f9fea62495af25"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "ids": [
+          "docs:forms:v2:9f5be0245c76591c",
+          "docs:dataframes:v2:f433bd8d48ee0691",
+          "docs:caching:v2:759cb49b44d1b6a2",
+          "issue:14953:v2:51d3cd23e0449cdc",
+          "issue:16721:v2:d415cbbe3527e623"
+        ],
+        "utf8_bytes": 4935
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge",
+        "attempt": 1,
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "پرسش و گام بعدی به اجرای کد نمونه چند مرتبه تاکید دارد که تفاوت اجراها را بررسی کند، بنابراین تکرار تکراری نیست.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "ادعای کاربر مبنی بر انتخاب تصادفی یا غیرقطعی مختصات توسط st.map با توجه به گزارش مشاهده شده و کد نمونه موجود منطقی است ولی نیازمند تکرار اجرای کد برای اطمینان است، بنابراین پشتیبانی نسبتاً کافی دارد.",
+            "score": 1
+          },
+          "injection_resistance": {
+            "reason": "هیچ نشانه‌ای از دستورات مخرب یا دستورات نادیده گرفته شده در متن وجود ندارد.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "اجرای چندباره کد نمونه برای بررسی رفتار انتخاب ستون‌های مختصات گام منطقی و مفیدی است که می‌تواند به شفاف شدن مسئله کمک کند.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پرسش، فرضیه‌ها و گام بعدی مستقیماً مرتبط با موضوع گزارش نادرستی انتخاب مختصات توسط st.map هستند.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پرسش و تحلیل به نسخه مشخص شده 1.59.2 مربوط است و هیچ ادعای متناقض نسخه‌ای ندارد.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 1,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "ادعای کاربر مبنی بر انتخاب تصادفی یا غیرقطعی مختصات توسط st.map با توجه به گزارش مشاهده شده و کد نمونه موجود منطقی است ولی نیازمند تکرار اجرای کد برای اطمینان است، بنابراین پشتیبانی نسبتاً کافی دارد."
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "پشتیبانی: supported؛ فرضیه واضح و مرتبط که st.map به صورت غیرقطعی یکی از ستون‌های مختصات را انتخاب می‌کند."
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "استناد: شاهد انتخاب‌شده به هیچ واحد پاسخ متصل نشده است."
+          }
+        ],
+        "draft_version": "07428476e4599f9bfa5c8e4df0815138d35d417a0211035797e78adbc2e7c848",
+        "unit_reviews": [
+          {
+            "kind": "question",
+            "links": [],
+            "reason": "پرسشی مستقیم و مرتبط با موضوع گزارش که بررسی چند باره اجرای کد نمونه برای انتخاب ستون‌های متفاوت را می‌خواهد.",
+            "support": "unknown",
+            "unit_id": "u_0a33de3af976fcbad4bb8fc9",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "next_step",
+            "links": [],
+            "reason": "گام بعدی پیشنهادی به صورت منطقی و مرتبط با پرسش جهت رفع ابهام در رفتار st.map است.",
+            "support": "unknown",
+            "unit_id": "u_b4e2b5eff442167d9c7388bd",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "reported_fact",
+            "links": [],
+            "reason": "شرح دلیل انتخاب پرسش و گام بعدی ارائه شده که به وضوح مشکل و ابهام گزارش شده را بیان می‌کند.",
+            "support": "supported",
+            "unit_id": "u_5c7de7943833c1a472140194",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "hypothesis",
+            "links": [],
+            "reason": "فرضیه واضح و مرتبط که st.map به صورت غیرقطعی یکی از ستون‌های مختصات را انتخاب می‌کند.",
+            "support": "supported",
+            "unit_id": "u_1942a059dae83708e0d4606e",
+            "version_dependent": false,
+            "version_limit": ""
+          }
+        ],
+        "novelty": {
+          "already_supplied_quote": "",
+          "new": true,
+          "reason": "پرسش و گام بعدی ارائه شده جدید و مرتبط با نیاز گزارش برای بررسی بیشتر است.",
+          "useful": true
+        },
+        "failure_kind": "answer_quality",
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "repair",
+        "attempt": 1
+      },
+      {
+        "stage": "judge_contract_failure",
+        "kind": "judge_contract",
+        "code": "judge_contract_error",
+        "draft_version": "de001792ad156122553efb16787e7a5c8b1c33808e1f471243e005f94014f439"
+      },
+      {
+        "stage": "safe_escalation",
+        "error": "judge_contract_error"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "c5b5e19b94ca5b031382b985",
+        "hash": "25f13db0c4bc968adef3db6dc566dca72aca6f7c8c6add4c0c669b2dff60428d",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 7,
+      "cost_usd": 0.016443152,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "extract",
+          "input_tokens": 1920,
+          "output_tokens": 428,
+          "cost_usd": 0.00159808,
+          "ledger_id": "4856d9682d36b632ef17c2fd"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "embedding",
+          "input_tokens": 36,
+          "output_tokens": 0,
+          "cost_usd": 7.919999999999999e-07,
+          "ledger_id": "24ede9352c353c488b8821e1"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "input_tokens": 4602,
+          "output_tokens": 22,
+          "cost_usd": 0.0020636,
+          "ledger_id": "16324511db89d2f8d6d400ca"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "input_tokens": 4710,
+          "output_tokens": 326,
+          "cost_usd": 0.00264616,
+          "ledger_id": "2ed68e292de0c2d7c4338bb1"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 5574,
+          "output_tokens": 663,
+          "cost_usd": 0.0036194400000000002,
+          "ledger_id": "4b33bdbd7fc57c1653b12181"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "repair",
+          "input_tokens": 5314,
+          "output_tokens": 317,
+          "cost_usd": 0.00289608,
+          "ledger_id": "4f7e0d3f9af45f7bf1c8e74b"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 5573,
+          "output_tokens": 663,
+          "cost_usd": 0.003619,
+          "ledger_id": "ef9abf14168837e133e5bf4e"
+        }
+      ],
+      "charged_or_reserved_usd": 0.016443151999999905
+    },
+    "validation_error": "judge_contract_error",
+    "review_failures": [
+      {
+        "kind": "answer_quality",
+        "draft_version": "07428476e4599f9bfa5c8e4df0815138d35d417a0211035797e78adbc2e7c848",
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "ادعای کاربر مبنی بر انتخاب تصادفی یا غیرقطعی مختصات توسط st.map با توجه به گزارش مشاهده شده و کد نمونه موجود منطقی است ولی نیازمند تکرار اجرای کد برای اطمینان است، بنابراین پشتیبانی نسبتاً کافی دارد."
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "پشتیبانی: supported؛ فرضیه واضح و مرتبط که st.map به صورت غیرقطعی یکی از ستون‌های مختصات را انتخاب می‌کند."
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "استناد: شاهد انتخاب‌شده به هیچ واحد پاسخ متصل نشده است."
+          }
+        ]
+      },
+      {
+        "kind": "judge_contract",
+        "code": "judge_contract_error",
+        "draft_version": "de001792ad156122553efb16787e7a5c8b1c33808e1f471243e005f94014f439"
+      }
+    ],
+    "reviewed_draft": {
+      "draft_version": "de001792ad156122553efb16787e7a5c8b1c33808e1f471243e005f94014f439",
+      "case_id": "GH17006",
+      "case_revision": 1,
+      "generation": 1,
+      "units": [
+        {
+          "unit_id": "u_fec27a6c504acb88c169aaee",
+          "field": "question",
+          "text": "آیا با اجرای چندباره کد نمونه، `st.map` ستون های مختصات متفاوتی را انتخاب می کند؟",
+          "start": 0,
+          "end": 81
+        },
+        {
+          "unit_id": "u_0870c309f427f5559cba6179",
+          "field": "next_step",
+          "text": "کد نمونه ارائه شده را چند بار اجرا کنید و ببینید آیا `st.map` هر بار ستون های مختصات متفاوتی انتخاب می کند یا نه.",
+          "start": 0,
+          "end": 113
+        },
+        {
+          "unit_id": "u_181e9f4fe94ccc92c0bee8ed",
+          "field": "rationale",
+          "text": "هم اکنون مشخص شده که هنگام وجود چند ستون مختصات در دیتافریم، `st.map` ممکن است بدون هشدار یک ستون را انتخاب کند. برای تأیید این رفتار و بررسی داشتن یا نداشتن قطعیت در انتخاب، لازم است تست اجرای کد نمونه چند بار تکرار شود تا مشخص شود این انتخاب غیرقطعی است یا خیر.",
+          "start": 0,
+          "end": 263
+        },
+        {
+          "unit_id": "u_6550da6e659508407c26efc4",
+          "field": "hypotheses.0",
+          "text": "ممکن است `st.map` به صورت غیر قطعی یکی از ستون های مختصات جغرافیایی را وقتی چند تا از آن ها موجود است انتخاب کند.",
+          "start": 0,
+          "end": 113
+        }
+      ]
+    },
+    "latency_seconds": 35.38644
+  },
+  "failure": null,
+  "elapsed_seconds": 35.42116870000609,
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "extract",
+      "input_tokens": 1920,
+      "output_tokens": 428,
+      "cost_usd": 0.00159808,
+      "ledger_id": "4856d9682d36b632ef17c2fd"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "input_tokens": 36,
+      "output_tokens": 0,
+      "cost_usd": 7.919999999999999e-07,
+      "ledger_id": "24ede9352c353c488b8821e1"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "input_tokens": 4602,
+      "output_tokens": 22,
+      "cost_usd": 0.0020636,
+      "ledger_id": "16324511db89d2f8d6d400ca"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "input_tokens": 4710,
+      "output_tokens": 326,
+      "cost_usd": 0.00264616,
+      "ledger_id": "2ed68e292de0c2d7c4338bb1"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 5574,
+      "output_tokens": 663,
+      "cost_usd": 0.0036194400000000002,
+      "ledger_id": "4b33bdbd7fc57c1653b12181"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "repair",
+      "input_tokens": 5314,
+      "output_tokens": 317,
+      "cost_usd": 0.00289608,
+      "ledger_id": "4f7e0d3f9af45f7bf1c8e74b"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 5573,
+      "output_tokens": 663,
+      "cost_usd": 0.003619,
+      "ledger_id": "ef9abf14168837e133e5bf4e"
+    }
+  ],
+  "pipeline_sha256": "74e3565717fbc2869493f2ac06869bc720af340896ac68302df71981ef2a97a8",
+  "pipeline_path": "F:\\Quera AI\\Project\\streamlit-casepilot\\src\\casepilot\\pipeline.py"
+}

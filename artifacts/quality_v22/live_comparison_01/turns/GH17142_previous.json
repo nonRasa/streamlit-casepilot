@@ -1,0 +1,802 @@
+{
+  "id": "GH17142",
+  "variant": "previous",
+  "split": "first_live_after_replay",
+  "output": {
+    "case_id": "GH17142",
+    "request_id": "live-v22-previous",
+    "architecture": "v2",
+    "quality_revision": "v2.1-quality",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": true,
+      "quality": true
+    },
+    "decision": "ask",
+    "response": "پاسخ پیشنهادی: آیا می‌توانید نمونه کدی ارائه دهید که بازخوانی دوره‌ای داده را به صورت مرکزی در سرور انجام دهد و همه نشست‌های کاربران را با داده‌های تازه به‌روزرسانی کند؟\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nAutomate fragment reruns\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\n`st.fragment` includes a convenient `run_every` parameter that causes the fragment to rerun automatically at the specified time interval. These reruns are in addition to any reruns (fragment or full-script) triggered by your user. The automatic fragment reruns will continue even if your user is not interacting with your app. This is a great way to show a live data stream or status on a running background job, efficiently updating your rendered data and _only_ your rendered data.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md\n```\n\nمحدودیت: در مستندات موجود، `@st.fragment(run_every=…)` فقط بازخوانی دوره‌ای را برای هر نشست به صورت مستقل پشتیبانی می‌کند و زمان‌بندی و اجرای آن برای هر کاربر جداگانه انجام می‌شود. بنابراین مشخص نیست چگونه می‌توان بازخوانی متمرکز و به‌روزرسانی اشتراکی را در همه نشست‌ها به صورت دوره‌ای انجام داد. درخواست نمونه کد به روشن شدن این موضوع کمک می‌کند.\n\nفرضیهٔ تأییدنشده: امکان بازخوانی دوره‌ای داده به صورت مرکزی و به‌روزرسانی یکپارچه همه نشست‌ها در `Streamlit` فعلاً وجود ندارد.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+    "summary": {
+      "problem": "Periodic server-driven data refresh shared across sessions (vs. per-session run_every)\n\n## Summary\n\nProvide a way to refresh a data source on a **server-side schedule** — computed\nonce for the whole app and pushed to every session currently viewing it —\ninstead of each session running its own `run_every` timer and recomputing the\nsame query independently. This is the shared \"the dashboard refreshes every\nminute and everyone sees the latest\" pattern that live/ops dashboards need.\n\n## Why?\n\n`@st.fragment(run_every=…)` already gives time-driven updates, but the timer and\nthe computation are **per session**: with _N_ viewers on the same dashboard you\nget _N_ timers and _N_ executions of the same query every interval. A refresh\nthat is cheap for one user becomes _N×_ load on the warehouse/API for a shared\ninternal tool.\n\n`@st.cache_data` dedupes the *computation* across sessions, but nothing *drives*\na periodic refresh or *wakes* the sessions when a new value lands — today\n`run_every` is the driver, and it's per session. The missing piece is a refresh\nthat runs once for the whole app and updates every session viewing it.\n\n## How?\n\nMark a cached data source to refresh on a fixed interval, centrally for the\nwhole app. Any fragment that reads it shows the current value and re-renders when\na new one lands.\n\nSketch (names illustrative):\n\n```python\n# The value refreshes centrally every 60s; sessions read the current value and\n# rerun when a new one lands — no per-session timer, one shared computation.\n@st.cache_data(refresh_every=\"60s\")\ndef latest_metrics():\n    return run_warehouse_query()\n\n@st.fragment\ndef kpis():\n    df = latest_metrics()          # returns the current cached value immediately\n    st.metric(\"Orders\", len(df))\n    st.line_chart(df, x=\"ts\", y=\"orders\")\n\nkpis()\n```\n\n## Additional Context\n\n- Split out from [#12980](https://github.com/streamlit/streamlit/issues/12980)\n  (\"real-time chart updates without rerunning the entire script\"), which is being\n  closed now that fragments (`run_every`), `st.rerun(scope=…)`, and element\n  diffing cover the original per-session/live-update and flicker concerns.\n- Related in-flight work: the non-blocking background execution spec\n  ([#17067](https://github.com/streamlit/streamlit/pull/17067)) covers shared,\n  off-thread cached computation; scheduled/recurring refresh is called out there\n  as not-yet-built.\n- Companion gap: a **freshness signal**\n  ([#17141](https://github.com/streamlit/streamlit/issues/17141)) — a che",
+      "facts": {
+        "symptom_scope": "Periodic server-driven data refresh shared across sessions"
+      },
+      "unknowns": [
+        "streamlit_version",
+        "python_version",
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [],
+      "sources": [
+        {
+          "evidence_id": "docs:fragments:v2:a4afc7c293035d17",
+          "source_id": "docs:fragments",
+          "quote": "`st.fragment` includes a convenient `run_every` parameter that causes the fragment to rerun automatically at the specified time interval. These reruns are in addition to any reruns (fragment or full-script) triggered by your user. The automatic fragment reruns will continue even if your user is not interacting with your app. This is a great way to show a live data stream or status on a running background job, efficiently updating your rendered data and _only_ your rendered data.",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "section": "Automate fragment reruns",
+          "lines": [
+            183,
+            208
+          ],
+          "kind": "docs",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null
+        }
+      ],
+      "decision": "ask",
+      "next_step": "لطفاً نمونه کدی ارائه دهید که نشان دهد چگونه می‌توان بازخوانی دوره‌ای داده را به صورت مرکزی و به‌روزرسانی همزمان در همه نشست‌ها انجام داد.",
+      "rationale": "در مستندات موجود، `@st.fragment(run_every=…)` فقط بازخوانی دوره‌ای را برای هر نشست به صورت مستقل پشتیبانی می‌کند و زمان‌بندی و اجرای آن برای هر کاربر جداگانه انجام می‌شود. بنابراین مشخص نیست چگونه می‌توان بازخوانی متمرکز و به‌روزرسانی اشتراکی را در همه نشست‌ها به صورت دوره‌ای انجام داد. درخواست نمونه کد به روشن شدن این موضوع کمک می‌کند.",
+      "hypotheses": [
+        "امکان بازخوانی دوره‌ای داده به صورت مرکزی و به‌روزرسانی یکپارچه همه نشست‌ها در `Streamlit` فعلاً وجود ندارد."
+      ],
+      "ambiguities": [
+        "روش دقیق اجرای دوره‌ای به صورت مرکزی چگونه خواهد بود؟",
+        "چگونه جلسات مختلف از به‌روزرسانی یکسان باخبر می‌شوند؟",
+        "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+        "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+        "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+        "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+        "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+        "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: streamlit_version"
+      ],
+      "judge": {
+        "verdict": "accept",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "کاربر درخواست کد نمونه را دارد که در گزارش اولیه موجود نبود.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "پاسخ به درستی اشاره می‌کند مستندات `run_every` بازخوانی دوره‌ای را برای هر نشست به صورت مستقل پشتیبانی می‌کند اما راهکار متمرکز را ارائه نمی‌دهد.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "پاسخ به صورت ایمن و مرتبط با پرسش است و شامل دستور اجرا یا مجوز خاصی نیست.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست نمونه کدی که اجرای بازخوانی مرکزی و به‌روزرسانی چند نشست را نشان دهد مرحله بعد منطقی است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پاسخ دقیقاً به سوال مربوط به امکان بازخوانی مرکزی و به‌روزرسانی نشست‌ها مربوط است و مستندات مرتبط را ذکر می‌کند.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پرسش و پاسخ به قابلیت غیرمستقل بر نسخه خاص است و سازگار با هر نسخه است که `run_every` دارد.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:fragments:v2:a4afc7c293035d17",
+              "reason": "مستندات `run_every` توضیح می‌دهد بازخوانی دوره‌ای به ازای هر نشست صورت می‌گیرد نه مرکزی.",
+              "statement": "`@st.fragment(run_every=…)` فقط بازخوانی دوره‌ای را برای هر نشست به صورت مستقل پشتیبانی می‌کند",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "نمونه کدی که بازخوانی داده دوره‌ای مرکزی برای همه نشست‌ها را نشان دهد",
+            "why_new": "توضیح داده شده که مستندات `run_every` بازخوانی هر نشست مستقل است و نمونه کد متمرکز ارائه نشده است"
+          },
+          "version_assumptions": "بدون فرض خاص روی نسخه؛ موضوع قابلیت عمومی Streamlit است و مستندات رسمی اخیر به آن اشاره کرده‌اند."
+        }
+      },
+      "investigation_plan": {
+        "acceptance_condition": "امکان تنظیم دوره‌بندی بازخوانی داده‌ها به صورت مرکزی برای کل اپ و مشاهده به‌روزرسانی آن در تمام نشست‌ها فراهم باشد.",
+        "intent": "feature_request",
+        "known_report_spans": [
+          "instead of each session running its own `run_every` timer and recomputing the",
+          "`@st.fragment(run_every=…)` already gives time-driven updates, but the timer and",
+          "- Related in-flight work: the non-blocking background execution spec",
+          "`MAX(updated_at)`) to drive **event-driven** invalidation instead of a blind"
+        ],
+        "missing_detail": "کد یا مکانیسم فنی اجرای بازخوانی مرکزی و اعلان به نشست‌ها چگونه خواهد بود؟",
+        "new_condition": "آزمون تاثیر بار سرور و هماهنگی داده بین چند نشست در زمان بازخوانی مرکزی",
+        "problem_summary": "lack of centralized periodic data refresh across sessions in Streamlit",
+        "suggested_question": "لطفاً نمونه کدی که بازخوانی دوره‌ای داده به صورت مرکزی و به‌روزرسانی همه نشست‌ها را نشان دهد، ارائه دهید."
+      }
+    },
+    "proposal": {
+      "id": "1a1879dda34c15168d9fddb6",
+      "case_id": "GH17142",
+      "revision": 1,
+      "hash": "5bc5c5674c3b2146ba32422ea5dbc491b9fc7658614cf016f02403f97f0a0f45",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: آیا می‌توانید نمونه کدی ارائه دهید که بازخوانی دوره‌ای داده را به صورت مرکزی در سرور انجام دهد و همه نشست‌های کاربران را با داده‌های تازه به‌روزرسانی کند؟\n\nشاهد مستند: متن رسمی؛ سازگاری نسخه باید بررسی شود.\n\nبخش منبع:\n\n```text\nAutomate fragment reruns\n```\n\nنسخهٔ منبع:\n\n```text\n695e6ce2fb1b23afc6df66b40420ab0013ad72fd\n```\n\nمتن شاهد:\n\n```text\n`st.fragment` includes a convenient `run_every` parameter that causes the fragment to rerun automatically at the specified time interval. These reruns are in addition to any reruns (fragment or full-script) triggered by your user. The automatic fragment reruns will continue even if your user is not interacting with your app. This is a great way to show a live data stream or status on a running background job, efficiently updating your rendered data and _only_ your rendered data.\n```\n\nنشانی منبع:\n\n```text\nhttps://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md\n```\n\nمحدودیت: در مستندات موجود، `@st.fragment(run_every=…)` فقط بازخوانی دوره‌ای را برای هر نشست به صورت مستقل پشتیبانی می‌کند و زمان‌بندی و اجرای آن برای هر کاربر جداگانه انجام می‌شود. بنابراین مشخص نیست چگونه می‌توان بازخوانی متمرکز و به‌روزرسانی اشتراکی را در همه نشست‌ها به صورت دوره‌ای انجام داد. درخواست نمونه کد به روشن شدن این موضوع کمک می‌کند.\n\nفرضیهٔ تأییدنشده: امکان بازخوانی دوره‌ای داده به صورت مرکزی و به‌روزرسانی یکپارچه همه نشست‌ها در `Streamlit` فعلاً وجود ندارد.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+          },
+          {
+            "type": "status",
+            "value": "waiting_user"
+          }
+        ],
+        "source_ids": [
+          "docs:fragments"
+        ],
+        "summary": {
+          "problem": "Periodic server-driven data refresh shared across sessions (vs. per-session run_every)\n\n## Summary\n\nProvide a way to refresh a data source on a **server-side schedule** — computed\nonce for the whole app and pushed to every session currently viewing it —\ninstead of each session running its own `run_every` timer and recomputing the\nsame query independently. This is the shared \"the dashboard refreshes every\nminute and everyone sees the latest\" pattern that live/ops dashboards need.\n\n## Why?\n\n`@st.fragment(run_every=…)` already gives time-driven updates, but the timer and\nthe computation are **per session**: with _N_ viewers on the same dashboard you\nget _N_ timers and _N_ executions of the same query every interval. A refresh\nthat is cheap for one user becomes _N×_ load on the warehouse/API for a shared\ninternal tool.\n\n`@st.cache_data` dedupes the *computation* across sessions, but nothing *drives*\na periodic refresh or *wakes* the sessions when a new value lands — today\n`run_every` is the driver, and it's per session. The missing piece is a refresh\nthat runs once for the whole app and updates every session viewing it.\n\n## How?\n\nMark a cached data source to refresh on a fixed interval, centrally for the\nwhole app. Any fragment that reads it shows the current value and re-renders when\na new one lands.\n\nSketch (names illustrative):\n\n```python\n# The value refreshes centrally every 60s; sessions read the current value and\n# rerun when a new one lands — no per-session timer, one shared computation.\n@st.cache_data(refresh_every=\"60s\")\ndef latest_metrics():\n    return run_warehouse_query()\n\n@st.fragment\ndef kpis():\n    df = latest_metrics()          # returns the current cached value immediately\n    st.metric(\"Orders\", len(df))\n    st.line_chart(df, x=\"ts\", y=\"orders\")\n\nkpis()\n```\n\n## Additional Context\n\n- Split out from [#12980](https://github.com/streamlit/streamlit/issues/12980)\n  (\"real-time chart updates without rerunning the entire script\"), which is being\n  closed now that fragments (`run_every`), `st.rerun(scope=…)`, and element\n  diffing cover the original per-session/live-update and flicker concerns.\n- Related in-flight work: the non-blocking background execution spec\n  ([#17067](https://github.com/streamlit/streamlit/pull/17067)) covers shared,\n  off-thread cached computation; scheduled/recurring refresh is called out there\n  as not-yet-built.\n- Companion gap: a **freshness signal**\n  ([#17141](https://github.com/streamlit/streamlit/issues/17141)) — a che",
+          "facts": {
+            "symptom_scope": "Periodic server-driven data refresh shared across sessions"
+          },
+          "unknowns": [
+            "streamlit_version",
+            "python_version",
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [],
+          "sources": [
+            {
+              "evidence_id": "docs:fragments:v2:a4afc7c293035d17",
+              "source_id": "docs:fragments",
+              "quote": "`st.fragment` includes a convenient `run_every` parameter that causes the fragment to rerun automatically at the specified time interval. These reruns are in addition to any reruns (fragment or full-script) triggered by your user. The automatic fragment reruns will continue even if your user is not interacting with your app. This is a great way to show a live data stream or status on a running background job, efficiently updating your rendered data and _only_ your rendered data.",
+              "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+              "section": "Automate fragment reruns",
+              "lines": [
+                183,
+                208
+              ],
+              "kind": "docs",
+              "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+              "product_version": null
+            }
+          ],
+          "decision": "ask",
+          "next_step": "لطفاً نمونه کدی ارائه دهید که نشان دهد چگونه می‌توان بازخوانی دوره‌ای داده را به صورت مرکزی و به‌روزرسانی همزمان در همه نشست‌ها انجام داد.",
+          "rationale": "در مستندات موجود، `@st.fragment(run_every=…)` فقط بازخوانی دوره‌ای را برای هر نشست به صورت مستقل پشتیبانی می‌کند و زمان‌بندی و اجرای آن برای هر کاربر جداگانه انجام می‌شود. بنابراین مشخص نیست چگونه می‌توان بازخوانی متمرکز و به‌روزرسانی اشتراکی را در همه نشست‌ها به صورت دوره‌ای انجام داد. درخواست نمونه کد به روشن شدن این موضوع کمک می‌کند.",
+          "hypotheses": [
+            "امکان بازخوانی دوره‌ای داده به صورت مرکزی و به‌روزرسانی یکپارچه همه نشست‌ها در `Streamlit` فعلاً وجود ندارد."
+          ],
+          "ambiguities": [
+            "روش دقیق اجرای دوره‌ای به صورت مرکزی چگونه خواهد بود؟",
+            "چگونه جلسات مختلف از به‌روزرسانی یکسان باخبر می‌شوند؟",
+            "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+            "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+            "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+            "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+            "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+            "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: streamlit_version"
+          ],
+          "judge": {
+            "verdict": "accept",
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "کاربر درخواست کد نمونه را دارد که در گزارش اولیه موجود نبود.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "پاسخ به درستی اشاره می‌کند مستندات `run_every` بازخوانی دوره‌ای را برای هر نشست به صورت مستقل پشتیبانی می‌کند اما راهکار متمرکز را ارائه نمی‌دهد.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "پاسخ به صورت ایمن و مرتبط با پرسش است و شامل دستور اجرا یا مجوز خاصی نیست.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "درخواست نمونه کدی که اجرای بازخوانی مرکزی و به‌روزرسانی چند نشست را نشان دهد مرحله بعد منطقی است.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "پاسخ دقیقاً به سوال مربوط به امکان بازخوانی مرکزی و به‌روزرسانی نشست‌ها مربوط است و مستندات مرتبط را ذکر می‌کند.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "پرسش و پاسخ به قابلیت غیرمستقل بر نسخه خاص است و سازگار با هر نسخه است که `run_every` دارد.",
+                "score": 2
+              }
+            },
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "findings": [],
+            "audit": {
+              "claim_links": [
+                {
+                  "evidence_id": "docs:fragments:v2:a4afc7c293035d17",
+                  "reason": "مستندات `run_every` توضیح می‌دهد بازخوانی دوره‌ای به ازای هر نشست صورت می‌گیرد نه مرکزی.",
+                  "statement": "`@st.fragment(run_every=…)` فقط بازخوانی دوره‌ای را برای هر نشست به صورت مستقل پشتیبانی می‌کند",
+                  "supported": true
+                }
+              ],
+              "question_novelty": {
+                "already_supplied_quote": "",
+                "requested_detail": "نمونه کدی که بازخوانی داده دوره‌ای مرکزی برای همه نشست‌ها را نشان دهد",
+                "why_new": "توضیح داده شده که مستندات `run_every` بازخوانی هر نشست مستقل است و نمونه کد متمرکز ارائه نشده است"
+              },
+              "version_assumptions": "بدون فرض خاص روی نسخه؛ موضوع قابلیت عمومی Streamlit است و مستندات رسمی اخیر به آن اشاره کرده‌اند."
+            }
+          },
+          "investigation_plan": {
+            "acceptance_condition": "امکان تنظیم دوره‌بندی بازخوانی داده‌ها به صورت مرکزی برای کل اپ و مشاهده به‌روزرسانی آن در تمام نشست‌ها فراهم باشد.",
+            "intent": "feature_request",
+            "known_report_spans": [
+              "instead of each session running its own `run_every` timer and recomputing the",
+              "`@st.fragment(run_every=…)` already gives time-driven updates, but the timer and",
+              "- Related in-flight work: the non-blocking background execution spec",
+              "`MAX(updated_at)`) to drive **event-driven** invalidation instead of a blind"
+            ],
+            "missing_detail": "کد یا مکانیسم فنی اجرای بازخوانی مرکزی و اعلان به نشست‌ها چگونه خواهد بود؟",
+            "new_condition": "آزمون تاثیر بار سرور و هماهنگی داده بین چند نشست در زمان بازخوانی مرکزی",
+            "problem_summary": "lack of centralized periodic data refresh across sessions in Streamlit",
+            "suggested_question": "لطفاً نمونه کدی که بازخوانی دوره‌ای داده به صورت مرکزی و به‌روزرسانی همه نشست‌ها را نشان دهد، ارائه دهید."
+          }
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "docs:fragments:v2:a4afc7c293035d17",
+        "source_id": "docs:fragments",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+        "section": "Automate fragment reruns",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.03691105
+      },
+      {
+        "id": "docs:caching:v2:58cd429361bf3b20",
+        "source_id": "docs:caching",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+        "section": "Caching overview",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.03620141
+      },
+      {
+        "id": "docs:caching:v2:4b745e4fbe5d3685",
+        "source_id": "docs:caching",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+        "section": "Examples",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.0363852
+      },
+      {
+        "id": "api:cache_data:v2:f31a213ee0aa9fe7",
+        "source_id": "api:cache_data",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/runtime/caching/cache_data_api.py",
+        "section": "_decorator (line 384)",
+        "product_version": "1.49.0",
+        "version_relation": "unknown",
+        "retrieval_score": 0.03388718
+      },
+      {
+        "id": "docs:config-toml:v2:ac17071ef08c5110",
+        "source_id": "docs:config-toml",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/configuration/config-toml.md",
+        "section": "Runner",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02792997
+      }
+    ],
+    "steps": 10,
+    "model_calls": 7,
+    "max_calls": 8,
+    "repair_count": 1,
+    "judge": {
+      "verdict": "accept",
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "کاربر درخواست کد نمونه را دارد که در گزارش اولیه موجود نبود.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "پاسخ به درستی اشاره می‌کند مستندات `run_every` بازخوانی دوره‌ای را برای هر نشست به صورت مستقل پشتیبانی می‌کند اما راهکار متمرکز را ارائه نمی‌دهد.",
+          "score": 2
+        },
+        "injection_resistance": {
+          "reason": "پاسخ به صورت ایمن و مرتبط با پرسش است و شامل دستور اجرا یا مجوز خاصی نیست.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "درخواست نمونه کدی که اجرای بازخوانی مرکزی و به‌روزرسانی چند نشست را نشان دهد مرحله بعد منطقی است.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "پاسخ دقیقاً به سوال مربوط به امکان بازخوانی مرکزی و به‌روزرسانی نشست‌ها مربوط است و مستندات مرتبط را ذکر می‌کند.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "پرسش و پاسخ به قابلیت غیرمستقل بر نسخه خاص است و سازگار با هر نسخه است که `run_every` دارد.",
+          "score": 2
+        }
+      },
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 2,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "findings": [],
+      "audit": {
+        "claim_links": [
+          {
+            "evidence_id": "docs:fragments:v2:a4afc7c293035d17",
+            "reason": "مستندات `run_every` توضیح می‌دهد بازخوانی دوره‌ای به ازای هر نشست صورت می‌گیرد نه مرکزی.",
+            "statement": "`@st.fragment(run_every=…)` فقط بازخوانی دوره‌ای را برای هر نشست به صورت مستقل پشتیبانی می‌کند",
+            "supported": true
+          }
+        ],
+        "question_novelty": {
+          "already_supplied_quote": "",
+          "requested_detail": "نمونه کدی که بازخوانی داده دوره‌ای مرکزی برای همه نشست‌ها را نشان دهد",
+          "why_new": "توضیح داده شده که مستندات `run_every` بازخوانی هر نشست مستقل است و نمونه کد متمرکز ارائه نشده است"
+        },
+        "version_assumptions": "بدون فرض خاص روی نسخه؛ موضوع قابلیت عمومی Streamlit است و مستندات رسمی اخیر به آن اشاره کرده‌اند."
+      }
+    },
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "ok",
+        "keys": [
+          "symptom_scope"
+        ],
+        "facts_with_quotes": [
+          {
+            "key": "symptom_scope",
+            "quote": "Periodic server-driven data refresh shared across sessions (vs. per-session run_every)",
+            "value": "Periodic server-driven data refresh shared across sessions"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "instead of each session running its own `run_every` timer and recomputing the same query independently",
+            "value": "per-session run_every recomputing"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "`@st.fragment(run_every=…)` already gives time-driven updates, but the timer and the computation are **per session**",
+            "value": "per session time-driven updates"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "`@st.cache_data` dedupes the *computation* across sessions, but nothing *drives* a periodic refresh or *wakes* the sessions when a new value lands",
+            "value": "no periodic refresh driver across sessions"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "Mark a cached data source to refresh on a fixed interval, centrally for the whole app",
+            "value": "refresh on a fixed interval, centrally"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "Any fragment that reads it shows the current value and re-renders when a new one lands",
+            "value": "re-renders when a new one lands"
+          },
+          {
+            "key": "streamlit_version",
+            "quote": "Split out from [#12980] (\"real-time chart updates without rerunning the entire script\"), which is being closed now that fragments (`run_every`), `st.rerun(scope=…)`, and element diffing cover the original per-session/live-update and flicker concerns",
+            "value": "run_every, st.rerun(scope=…), and element diffing cover per-session live-update"
+          }
+        ],
+        "checks": [],
+        "ambiguities": [
+          "روش دقیق اجرای دوره‌ای به صورت مرکزی چگونه خواهد بود؟",
+          "چگونه جلسات مختلف از به‌روزرسانی یکسان باخبر می‌شوند؟",
+          "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+          "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+          "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+          "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+          "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope",
+          "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: streamlit_version"
+        ]
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "bm25+dense+rrf+mmr",
+        "rrf_k": 60,
+        "mmr_lambda": 0.7,
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "quality": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true
+        },
+        "embedding": {
+          "texts": 1,
+          "unique_missing": 1,
+          "cache_hits": 0,
+          "batches": 1,
+          "usage": [
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "embedding",
+              "input_tokens": 293,
+              "output_tokens": 0,
+              "cost_usd": 6.446e-06,
+              "ledger_id": "ea68b5d69e3b6e5f4993f910"
+            }
+          ],
+          "identity": {
+            "provider": "https://api.metisai.ir/openai/v1",
+            "model": "text-embedding-3-small",
+            "normalization": "whitespace-v1",
+            "encoding_format": "float"
+          }
+        },
+        "candidates": [
+          "docs:fragments:v2:a4afc7c293035d17",
+          "docs:caching:v2:4b745e4fbe5d3685",
+          "api:cache_data:v2:f31a213ee0aa9fe7",
+          "docs:caching:v2:58cd429361bf3b20",
+          "docs:config-toml:v2:ac17071ef08c5110",
+          "docs:cache-data:v2:579ec7eddcc73008",
+          "issue:14280:v2:0707c756c69e65cb",
+          "docs:architecture:v2:15f4f76ec7ef2569"
+        ],
+        "quality_filter": true,
+        "excluded_nontechnical_chunks": 309,
+        "version_warnings": [
+          "docs:fragments:v2:a4afc7c293035d17",
+          "docs:caching:v2:4b745e4fbe5d3685",
+          "api:cache_data:v2:f31a213ee0aa9fe7",
+          "docs:caching:v2:58cd429361bf3b20",
+          "docs:config-toml:v2:ac17071ef08c5110",
+          "docs:cache-data:v2:579ec7eddcc73008",
+          "issue:14280:v2:0707c756c69e65cb",
+          "docs:architecture:v2:15f4f76ec7ef2569"
+        ]
+      },
+      {
+        "stage": "rerank",
+        "status": "ok",
+        "ids": [
+          "docs:fragments:v2:a4afc7c293035d17",
+          "docs:caching:v2:58cd429361bf3b20",
+          "docs:caching:v2:4b745e4fbe5d3685",
+          "api:cache_data:v2:f31a213ee0aa9fe7",
+          "docs:config-toml:v2:ac17071ef08c5110",
+          "docs:cache-data:v2:579ec7eddcc73008",
+          "issue:14280:v2:0707c756c69e65cb",
+          "docs:architecture:v2:15f4f76ec7ef2569"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "ids": [
+          "docs:fragments:v2:a4afc7c293035d17",
+          "docs:caching:v2:58cd429361bf3b20",
+          "docs:caching:v2:4b745e4fbe5d3685",
+          "api:cache_data:v2:f31a213ee0aa9fe7",
+          "docs:config-toml:v2:ac17071ef08c5110"
+        ],
+        "utf8_bytes": 9798
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge",
+        "attempt": 1,
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "کاربر درباره نمونه کد اجرای بازخوانی مرکزی پرسیده که قبلا پاسخ مستقیم داده نشده است.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "قطعه کد و توضیحات در پاسخ به سوال درباره مکانیزم بازخوانی متمرکز داده و انتشار به نشست‌ها مرتبط و معتبر است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "هیچ نشانه‌ای از تزریق دستورات و محتوای مخرب در پاسخ وجود ندارد.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست نمونه کد یا طرح پیاده‌سازی فنی برای تحقق بازخوانی مرکزی و انتشار آن به نشست‌ها گام بعدی منطقی و مفیدی است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "جواب مستقیما به سوال پرسیده شده مربوط به بازخوانی دوره‌ای داده به صورت مرکزی و به‌روزرسانی مشترک نشست‌ها اختصاص دارد.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پاسخ بدون فرض نسخه خاص بوده و شرح مفهومی و نمونه کد پیشنهادی کلی است، با اطلاعات مستندات جاری مطابقت دارد.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ قطعه کد استریم‌لیت نشان‌دهنده استفاده از @st.fragment با run_every برای بازخوانی دوره‌ای هر نشست است که اساس سوال و پاسخ است."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:fragments:v2:a4afc7c293035d17",
+              "reason": "قطعه کد استریم‌لیت نشان‌دهنده استفاده از @st.fragment با run_every برای بازخوانی دوره‌ای هر نشست است که اساس سوال و پاسخ است.",
+              "statement": "`@st.fragment(run_every=…)` already gives time-driven updates, but the timer and",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "نمونه کدی که بازخوانی دوره‌ای داده به صورت مرکزی و به‌روزرسانی همه نشست‌ها را نشان دهد.",
+            "why_new": "در گزارش موجود است که امکان بازخوانی متمرکز مرکزی وجود ندارد و نمونه کد یا طرح فنی آن ارائه نشده است، این جزئیات جدیدی برای بررسی است."
+          },
+          "version_assumptions": "پاسخ به نسخه مشخصی از Streamlit وابسته نیست بلکه به توضیحات مفهومی مربوط است و مستندات جاری نیز همین روال را تایید می‌کند."
+        },
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "repair",
+        "attempt": 1
+      },
+      {
+        "stage": "judge",
+        "attempt": 2,
+        "verdict": "accept",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "کاربر درخواست کد نمونه را دارد که در گزارش اولیه موجود نبود.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "پاسخ به درستی اشاره می‌کند مستندات `run_every` بازخوانی دوره‌ای را برای هر نشست به صورت مستقل پشتیبانی می‌کند اما راهکار متمرکز را ارائه نمی‌دهد.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "پاسخ به صورت ایمن و مرتبط با پرسش است و شامل دستور اجرا یا مجوز خاصی نیست.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست نمونه کدی که اجرای بازخوانی مرکزی و به‌روزرسانی چند نشست را نشان دهد مرحله بعد منطقی است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پاسخ دقیقاً به سوال مربوط به امکان بازخوانی مرکزی و به‌روزرسانی نشست‌ها مربوط است و مستندات مرتبط را ذکر می‌کند.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پرسش و پاسخ به قابلیت غیرمستقل بر نسخه خاص است و سازگار با هر نسخه است که `run_every` دارد.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:fragments:v2:a4afc7c293035d17",
+              "reason": "مستندات `run_every` توضیح می‌دهد بازخوانی دوره‌ای به ازای هر نشست صورت می‌گیرد نه مرکزی.",
+              "statement": "`@st.fragment(run_every=…)` فقط بازخوانی دوره‌ای را برای هر نشست به صورت مستقل پشتیبانی می‌کند",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "نمونه کدی که بازخوانی داده دوره‌ای مرکزی برای همه نشست‌ها را نشان دهد",
+            "why_new": "توضیح داده شده که مستندات `run_every` بازخوانی هر نشست مستقل است و نمونه کد متمرکز ارائه نشده است"
+          },
+          "version_assumptions": "بدون فرض خاص روی نسخه؛ موضوع قابلیت عمومی Streamlit است و مستندات رسمی اخیر به آن اشاره کرده‌اند."
+        },
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "1a1879dda34c15168d9fddb6",
+        "hash": "5bc5c5674c3b2146ba32422ea5dbc491b9fc7658614cf016f02403f97f0a0f45",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 7,
+      "cost_usd": 0.016123646,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "extract",
+          "input_tokens": 1628,
+          "output_tokens": 609,
+          "cost_usd": 0.0017881599999999998,
+          "ledger_id": "f5acfa2a73a00cba00944c46"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "embedding",
+          "input_tokens": 293,
+          "output_tokens": 0,
+          "cost_usd": 6.446e-06,
+          "ledger_id": "ea68b5d69e3b6e5f4993f910"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "input_tokens": 5814,
+          "output_tokens": 72,
+          "cost_usd": 0.0026848799999999997,
+          "ledger_id": "08297f010e3f96e611d38974"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "input_tokens": 4326,
+          "output_tokens": 283,
+          "cost_usd": 0.00240152,
+          "ledger_id": "0fd892593ac65571cf2c07b4"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 5854,
+          "output_tokens": 471,
+          "cost_usd": 0.0034047200000000004,
+          "ledger_id": "4221f4b11b1e5c66b5601caf"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "repair",
+          "input_tokens": 4607,
+          "output_tokens": 266,
+          "cost_usd": 0.0024952399999999997,
+          "ledger_id": "efe14783f68beb5d4fd3a689"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 5837,
+          "output_tokens": 440,
+          "cost_usd": 0.0033426800000000002,
+          "ledger_id": "7b17b37abd2066f23116c7c4"
+        }
+      ],
+      "charged_or_reserved_usd": 0.016123646000000047
+    },
+    "validation_error": null,
+    "latency_seconds": 30.000418
+  },
+  "failure": null,
+  "elapsed_seconds": 30.024397700006375,
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "extract",
+      "input_tokens": 1628,
+      "output_tokens": 609,
+      "cost_usd": 0.0017881599999999998,
+      "ledger_id": "f5acfa2a73a00cba00944c46"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "input_tokens": 293,
+      "output_tokens": 0,
+      "cost_usd": 6.446e-06,
+      "ledger_id": "ea68b5d69e3b6e5f4993f910"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "input_tokens": 5814,
+      "output_tokens": 72,
+      "cost_usd": 0.0026848799999999997,
+      "ledger_id": "08297f010e3f96e611d38974"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "input_tokens": 4326,
+      "output_tokens": 283,
+      "cost_usd": 0.00240152,
+      "ledger_id": "0fd892593ac65571cf2c07b4"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 5854,
+      "output_tokens": 471,
+      "cost_usd": 0.0034047200000000004,
+      "ledger_id": "4221f4b11b1e5c66b5601caf"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "repair",
+      "input_tokens": 4607,
+      "output_tokens": 266,
+      "cost_usd": 0.0024952399999999997,
+      "ledger_id": "efe14783f68beb5d4fd3a689"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 5837,
+      "output_tokens": 440,
+      "cost_usd": 0.0033426800000000002,
+      "ledger_id": "7b17b37abd2066f23116c7c4"
+    }
+  ],
+  "pipeline_sha256": "513902d6688c9e7f5b4367cd000524333da9fbac1a7cfad1a99ca991e9621c9d",
+  "pipeline_path": "F:\\Quera AI\\Project\\streamlit-casepilot\\artifacts\\quality_v22\\baseline\\src\\casepilot\\pipeline.py"
+}

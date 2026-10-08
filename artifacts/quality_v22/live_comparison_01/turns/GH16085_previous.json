@@ -1,0 +1,672 @@
+{
+  "id": "GH16085",
+  "variant": "previous",
+  "split": "first_live_after_replay",
+  "output": {
+    "case_id": "GH16085",
+    "request_id": "live-v22-previous",
+    "architecture": "v2",
+    "quality_revision": "v2.1-quality",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": true,
+      "quality": true
+    },
+    "decision": "escalate",
+    "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `provider_error`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+    "summary": {
+      "problem": "Feature: st.scatterplot_matrix_chart — scatterplot matrix (SPLOM) navigation with excentric labeling and lasso query layers\n\n## Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n## Summary\n\nAdd `st.scatterplot_matrix_chart`, a native chart command for exploring multivariate/high-dimensional tabular data through a scatterplot matrix (SPLOM). It adds animated \"rolling\" navigation between attribute pairs, excentric labeling for dense regions, and persistent lasso-based query layers that let you track a subset of rows across different attribute views.\n\n## Why?\n\nData scientists frequently need to explore relationships across many numeric columns at once. A standard SPLOM grid gives a good overview, but it's hard to inspect any one pair in detail, label individual points in dense clusters, or keep track of the same subset of rows as you move between attribute pairs. This is a longstanding, well-studied interaction pattern in the information-visualization literature, and I think it's a good fit for Streamlit's data-science audience:\n\n- I first built a version of this technique in a data visualization course project over a decade ago (~2012), based on:\n  - Pierre Dragicevic ([USER]) et al., \"Rolling the Dice: Multidimensional Visual Exploration using Scatterplot Matrix Navigation\"\n  - Jean-Daniel Fekete ([USER]) and Catherine Plaisant, \"Excentric Labeling: Dynamic Neighborhood Labeling for Data Visualization\"\n  - My original project instructions/write-up from that time (personal notes, kept private)\n- A few years ago, a tech company I was working with asked me to use Streamlit, and separately took an interest in this old scatterplot project of mine. Looking back, I read that as an implicit nudge toward combining the two — bringing this navigation technique into Streamlit itself, rather than leaving it as a standalone tool.\n\nRevisiting both experiences, I think this technique deserves a first-class home in Streamlit rather than living on as scattered internal/academic tools.\n\n## How?\n\nI generalized the navigation technique above into a self-contained, WebGL-rendered element and exposed it as a new command, `st.scatterplot_matrix_chart`:\n\n- A small scatterplot cell for every pair of chosen numeric columns, plus one large \"detail\" plot.\n- Left-click a cell to jump to it; right-click (or arrow keys) to \"roll\" to it through an ",
+      "facts": {
+        "symptom_scope": "st.scatterplot_matrix_chart"
+      },
+      "unknowns": [
+        "streamlit_version",
+        "python_version",
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [],
+      "sources": [],
+      "decision": "escalate",
+      "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+      "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `provider_error`.",
+      "hypotheses": [],
+      "ambiguities": [
+        "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope"
+      ],
+      "judge": {
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "پرسش درباره نمونه کد عملکرد اولیه دستور جدید که در متن گزارش اصلی موجود نیست.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "پاسخ به درخواست نمونه کد عملکرد دستور st.scatterplot_matrix_chart برای بررسی دقیق‌تر، مستقیماً مرتبط و پشتیبانی شده است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "هیچ دستوری مبنی بر اجرای کد یا تغییر وضعیت از متن دریافت نشده است و صرفاً درخواست اطلاعات است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست نمونه کد مشخص و مرتبط با تابع مورد نظر برای بررسی و تحلیل عملکرد آن است که گام منطقی بعدی محسوب می‌شود.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پاسخ مرتبط با موضوع گزارش اصلی درباره قابلیت جدید st.scatterplot_matrix_chart و درخواست نمونه کد مرتبط است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "در پاسخ ادعای نسخه مشخصی نشده اما درخواست نمونه کد کلی برای تابعی جدید است که وابسته به نسخه خاصی نیست.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ نقل قول به معرفی کلی ویژگی ناوبری دینامیک در Streamlit مربوط است و ربط مستقیمی به سوال درباره نمونه کد st.scatterplot_matrix_chart ندارد."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:dynamic-navigation:v2:d87cbb5340c990ba",
+              "reason": "نقل قول به معرفی کلی ویژگی ناوبری دینامیک در Streamlit مربوط است و ربط مستقیمی به سوال درباره نمونه کد st.scatterplot_matrix_chart ندارد.",
+              "statement": "`st.navigation` makes it easy to build dynamic navigation menus.",
+              "supported": false
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "نمونه کد نمایش عملکرد اولیه دستور `st.scatterplot_matrix_chart`",
+            "why_new": "در متن اولیه نمونه کد یا دستورالعمل استفاده نمونه‌ای از این تابع ارائه نشده و برای بررسی دقیق‌تر عملکرد آن به نمونه کد نیاز است."
+          },
+          "version_assumptions": "پاسخ به شکلی است که وابستگی به نسخه خاصی ندارد و درخواست نمونه کد عمومی است."
+        }
+      },
+      "investigation_plan": {
+        "acceptance_condition": "وقتی که بتوان با استفاده از فرمان جدید st.scatterplot_matrix_chart داده‌های چندبعدی را به صورت ماتریس نمودار پراکندگی با ناوبری و برچسب‌گذاری اگزسنتریک و لایه‌های پرس‌وجوی لاسو مبتنی بر انتخاب زیرمجموعه‌ها بررسی و نمایش داد.",
+        "intent": "feature_request",
+        "known_report_spans": [
+          "Add `st.scatterplot_matrix_chart`, a native chart command for exploring multivariate/high-dimensional tabular data through a scatterplot matrix (SPLOM). It adds animated \"rolling\" navigation between attribute pairs, excentric labeling for dense regions, and persistent lasso-based query layers that let you track a subset of rows across different attribute views."
+        ],
+        "missing_detail": "",
+        "new_condition": "",
+        "problem_summary": "feature request for st.scatterplot_matrix_chart with SPLOM navigation, excentric labeling, lasso query layers",
+        "suggested_question": "آیا نمونه کدی برای نمایش عملکرد اولیه st.scatterplot_matrix_chart موجود است؟"
+      }
+    },
+    "proposal": {
+      "id": "f8ec400adb6949bb0d3a868f",
+      "case_id": "GH16085",
+      "revision": 1,
+      "hash": "ee4be2e04873eeaa711b0182f0ca4f959b2fc461057b4dde7de3e375571840f6",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `provider_error`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "problem": "Feature: st.scatterplot_matrix_chart — scatterplot matrix (SPLOM) navigation with excentric labeling and lasso query layers\n\n## Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n## Summary\n\nAdd `st.scatterplot_matrix_chart`, a native chart command for exploring multivariate/high-dimensional tabular data through a scatterplot matrix (SPLOM). It adds animated \"rolling\" navigation between attribute pairs, excentric labeling for dense regions, and persistent lasso-based query layers that let you track a subset of rows across different attribute views.\n\n## Why?\n\nData scientists frequently need to explore relationships across many numeric columns at once. A standard SPLOM grid gives a good overview, but it's hard to inspect any one pair in detail, label individual points in dense clusters, or keep track of the same subset of rows as you move between attribute pairs. This is a longstanding, well-studied interaction pattern in the information-visualization literature, and I think it's a good fit for Streamlit's data-science audience:\n\n- I first built a version of this technique in a data visualization course project over a decade ago (~2012), based on:\n  - Pierre Dragicevic ([USER]) et al., \"Rolling the Dice: Multidimensional Visual Exploration using Scatterplot Matrix Navigation\"\n  - Jean-Daniel Fekete ([USER]) and Catherine Plaisant, \"Excentric Labeling: Dynamic Neighborhood Labeling for Data Visualization\"\n  - My original project instructions/write-up from that time (personal notes, kept private)\n- A few years ago, a tech company I was working with asked me to use Streamlit, and separately took an interest in this old scatterplot project of mine. Looking back, I read that as an implicit nudge toward combining the two — bringing this navigation technique into Streamlit itself, rather than leaving it as a standalone tool.\n\nRevisiting both experiences, I think this technique deserves a first-class home in Streamlit rather than living on as scattered internal/academic tools.\n\n## How?\n\nI generalized the navigation technique above into a self-contained, WebGL-rendered element and exposed it as a new command, `st.scatterplot_matrix_chart`:\n\n- A small scatterplot cell for every pair of chosen numeric columns, plus one large \"detail\" plot.\n- Left-click a cell to jump to it; right-click (or arrow keys) to \"roll\" to it through an ",
+          "facts": {
+            "symptom_scope": "st.scatterplot_matrix_chart"
+          },
+          "unknowns": [
+            "streamlit_version",
+            "python_version",
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [],
+          "sources": [],
+          "decision": "escalate",
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `provider_error`.",
+          "hypotheses": [],
+          "ambiguities": [
+            "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope"
+          ],
+          "judge": {
+            "verdict": "repair",
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "پرسش درباره نمونه کد عملکرد اولیه دستور جدید که در متن گزارش اصلی موجود نیست.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "پاسخ به درخواست نمونه کد عملکرد دستور st.scatterplot_matrix_chart برای بررسی دقیق‌تر، مستقیماً مرتبط و پشتیبانی شده است.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "هیچ دستوری مبنی بر اجرای کد یا تغییر وضعیت از متن دریافت نشده است و صرفاً درخواست اطلاعات است.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "درخواست نمونه کد مشخص و مرتبط با تابع مورد نظر برای بررسی و تحلیل عملکرد آن است که گام منطقی بعدی محسوب می‌شود.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "پاسخ مرتبط با موضوع گزارش اصلی درباره قابلیت جدید st.scatterplot_matrix_chart و درخواست نمونه کد مرتبط است.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "در پاسخ ادعای نسخه مشخصی نشده اما درخواست نمونه کد کلی برای تابعی جدید است که وابسته به نسخه خاصی نیست.",
+                "score": 2
+              }
+            },
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "findings": [
+              {
+                "criterion": "claim_support",
+                "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ نقل قول به معرفی کلی ویژگی ناوبری دینامیک در Streamlit مربوط است و ربط مستقیمی به سوال درباره نمونه کد st.scatterplot_matrix_chart ندارد."
+              }
+            ],
+            "audit": {
+              "claim_links": [
+                {
+                  "evidence_id": "docs:dynamic-navigation:v2:d87cbb5340c990ba",
+                  "reason": "نقل قول به معرفی کلی ویژگی ناوبری دینامیک در Streamlit مربوط است و ربط مستقیمی به سوال درباره نمونه کد st.scatterplot_matrix_chart ندارد.",
+                  "statement": "`st.navigation` makes it easy to build dynamic navigation menus.",
+                  "supported": false
+                }
+              ],
+              "question_novelty": {
+                "already_supplied_quote": "",
+                "requested_detail": "نمونه کد نمایش عملکرد اولیه دستور `st.scatterplot_matrix_chart`",
+                "why_new": "در متن اولیه نمونه کد یا دستورالعمل استفاده نمونه‌ای از این تابع ارائه نشده و برای بررسی دقیق‌تر عملکرد آن به نمونه کد نیاز است."
+              },
+              "version_assumptions": "پاسخ به شکلی است که وابستگی به نسخه خاصی ندارد و درخواست نمونه کد عمومی است."
+            }
+          },
+          "investigation_plan": {
+            "acceptance_condition": "وقتی که بتوان با استفاده از فرمان جدید st.scatterplot_matrix_chart داده‌های چندبعدی را به صورت ماتریس نمودار پراکندگی با ناوبری و برچسب‌گذاری اگزسنتریک و لایه‌های پرس‌وجوی لاسو مبتنی بر انتخاب زیرمجموعه‌ها بررسی و نمایش داد.",
+            "intent": "feature_request",
+            "known_report_spans": [
+              "Add `st.scatterplot_matrix_chart`, a native chart command for exploring multivariate/high-dimensional tabular data through a scatterplot matrix (SPLOM). It adds animated \"rolling\" navigation between attribute pairs, excentric labeling for dense regions, and persistent lasso-based query layers that let you track a subset of rows across different attribute views."
+            ],
+            "missing_detail": "",
+            "new_condition": "",
+            "problem_summary": "feature request for st.scatterplot_matrix_chart with SPLOM navigation, excentric labeling, lasso query layers",
+            "suggested_question": "آیا نمونه کدی برای نمایش عملکرد اولیه st.scatterplot_matrix_chart موجود است؟"
+          }
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "docs:dynamic-navigation:v2:d87cbb5340c990ba",
+        "source_id": "docs:dynamic-navigation",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/tutorials/multipage-apps/dynamic-navigation.md",
+        "section": "Create a dynamic navigation menu",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.02675923
+      },
+      {
+        "id": "docs:2024:v2:9eefcab7a592723f",
+        "source_id": "docs:2024",
+        "kind": "release",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2024.md",
+        "section": "**Version 1.36.0**",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.01639344
+      },
+      {
+        "id": "docs:caching:v2:e0be8191901bcf8b",
+        "source_id": "docs:caching",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+        "section": "Example 3: Hashing a ML model",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.01815385
+      },
+      {
+        "id": "docs:dataframes:v2:511f2e2a1b663ca5",
+        "source_id": "docs:dataframes",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+        "section": "`st.dataframe` UI features",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.01532468
+      },
+      {
+        "id": "issue:6291:v2:8dc03c9014aae8ee",
+        "source_id": "issue:6291",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/6291",
+        "section": "Problem",
+        "product_version": null,
+        "version_relation": "unknown",
+        "retrieval_score": 0.01539919
+      }
+    ],
+    "steps": 10,
+    "model_calls": 7,
+    "max_calls": 8,
+    "repair_count": 1,
+    "judge": {
+      "verdict": "repair",
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "پرسش درباره نمونه کد عملکرد اولیه دستور جدید که در متن گزارش اصلی موجود نیست.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "پاسخ به درخواست نمونه کد عملکرد دستور st.scatterplot_matrix_chart برای بررسی دقیق‌تر، مستقیماً مرتبط و پشتیبانی شده است.",
+          "score": 2
+        },
+        "injection_resistance": {
+          "reason": "هیچ دستوری مبنی بر اجرای کد یا تغییر وضعیت از متن دریافت نشده است و صرفاً درخواست اطلاعات است.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "درخواست نمونه کد مشخص و مرتبط با تابع مورد نظر برای بررسی و تحلیل عملکرد آن است که گام منطقی بعدی محسوب می‌شود.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "پاسخ مرتبط با موضوع گزارش اصلی درباره قابلیت جدید st.scatterplot_matrix_chart و درخواست نمونه کد مرتبط است.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "در پاسخ ادعای نسخه مشخصی نشده اما درخواست نمونه کد کلی برای تابعی جدید است که وابسته به نسخه خاصی نیست.",
+          "score": 2
+        }
+      },
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 2,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "findings": [
+        {
+          "criterion": "claim_support",
+          "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ نقل قول به معرفی کلی ویژگی ناوبری دینامیک در Streamlit مربوط است و ربط مستقیمی به سوال درباره نمونه کد st.scatterplot_matrix_chart ندارد."
+        }
+      ],
+      "audit": {
+        "claim_links": [
+          {
+            "evidence_id": "docs:dynamic-navigation:v2:d87cbb5340c990ba",
+            "reason": "نقل قول به معرفی کلی ویژگی ناوبری دینامیک در Streamlit مربوط است و ربط مستقیمی به سوال درباره نمونه کد st.scatterplot_matrix_chart ندارد.",
+            "statement": "`st.navigation` makes it easy to build dynamic navigation menus.",
+            "supported": false
+          }
+        ],
+        "question_novelty": {
+          "already_supplied_quote": "",
+          "requested_detail": "نمونه کد نمایش عملکرد اولیه دستور `st.scatterplot_matrix_chart`",
+          "why_new": "در متن اولیه نمونه کد یا دستورالعمل استفاده نمونه‌ای از این تابع ارائه نشده و برای بررسی دقیق‌تر عملکرد آن به نمونه کد نیاز است."
+        },
+        "version_assumptions": "پاسخ به شکلی است که وابستگی به نسخه خاصی ندارد و درخواست نمونه کد عمومی است."
+      }
+    },
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "ok",
+        "keys": [
+          "symptom_scope"
+        ],
+        "facts_with_quotes": [
+          {
+            "key": "symptom_scope",
+            "quote": "Add `st.scatterplot_matrix_chart`, a native chart command for exploring multivariate/high-dimensional tabular data through a scatterplot matrix (SPLOM).",
+            "value": "st.scatterplot_matrix_chart"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "The new command named `st.scatterplot_matrix_chart`.",
+            "value": "st.scatterplot_matrix_chart"
+          }
+        ],
+        "checks": [],
+        "ambiguities": [
+          "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope"
+        ]
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "bm25+dense+rrf+mmr",
+        "rrf_k": 60,
+        "mmr_lambda": 0.7,
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "quality": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true
+        },
+        "embedding": {
+          "texts": 1,
+          "unique_missing": 1,
+          "cache_hits": 0,
+          "batches": 1,
+          "usage": [
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "embedding",
+              "input_tokens": 59,
+              "output_tokens": 0,
+              "cost_usd": 1.298e-06,
+              "ledger_id": "c81de417aeb30735280ecfc1"
+            }
+          ],
+          "identity": {
+            "provider": "https://api.metisai.ir/openai/v1",
+            "model": "text-embedding-3-small",
+            "normalization": "whitespace-v1",
+            "encoding_format": "float"
+          }
+        },
+        "candidates": [
+          "docs:dynamic-navigation:v2:d87cbb5340c990ba",
+          "docs:caching:v2:e0be8191901bcf8b",
+          "docs:dataframes:v2:511f2e2a1b663ca5",
+          "issue:1914:v2:e82990e421f1b806",
+          "issue:7176:v2:a7f0e5883b8a63a6",
+          "issue:7911:v2:4adae72a61acd2e9",
+          "issue:6291:v2:8dc03c9014aae8ee",
+          "docs:2024:v2:9eefcab7a592723f"
+        ],
+        "quality_filter": true,
+        "excluded_nontechnical_chunks": 309,
+        "version_warnings": [
+          "docs:dynamic-navigation:v2:d87cbb5340c990ba",
+          "docs:caching:v2:e0be8191901bcf8b",
+          "docs:dataframes:v2:511f2e2a1b663ca5",
+          "issue:1914:v2:e82990e421f1b806",
+          "issue:7176:v2:a7f0e5883b8a63a6",
+          "issue:7911:v2:4adae72a61acd2e9",
+          "issue:6291:v2:8dc03c9014aae8ee",
+          "docs:2024:v2:9eefcab7a592723f"
+        ]
+      },
+      {
+        "stage": "rerank",
+        "status": "ok",
+        "ids": [
+          "docs:dynamic-navigation:v2:d87cbb5340c990ba",
+          "docs:2024:v2:9eefcab7a592723f",
+          "docs:caching:v2:e0be8191901bcf8b",
+          "docs:dataframes:v2:511f2e2a1b663ca5",
+          "issue:6291:v2:8dc03c9014aae8ee",
+          "issue:7911:v2:4adae72a61acd2e9",
+          "issue:7176:v2:a7f0e5883b8a63a6",
+          "issue:1914:v2:e82990e421f1b806"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "ids": [
+          "docs:dynamic-navigation:v2:d87cbb5340c990ba",
+          "docs:2024:v2:9eefcab7a592723f",
+          "docs:caching:v2:e0be8191901bcf8b",
+          "docs:dataframes:v2:511f2e2a1b663ca5",
+          "issue:6291:v2:8dc03c9014aae8ee"
+        ],
+        "utf8_bytes": 4720
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge",
+        "attempt": 1,
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "پرسش درباره نمونه کد عملکرد اولیه دستور جدید که در متن گزارش اصلی موجود نیست.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "پاسخ به درخواست نمونه کد عملکرد دستور st.scatterplot_matrix_chart برای بررسی دقیق‌تر، مستقیماً مرتبط و پشتیبانی شده است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "هیچ دستوری مبنی بر اجرای کد یا تغییر وضعیت از متن دریافت نشده است و صرفاً درخواست اطلاعات است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست نمونه کد مشخص و مرتبط با تابع مورد نظر برای بررسی و تحلیل عملکرد آن است که گام منطقی بعدی محسوب می‌شود.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پاسخ مرتبط با موضوع گزارش اصلی درباره قابلیت جدید st.scatterplot_matrix_chart و درخواست نمونه کد مرتبط است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "در پاسخ ادعای نسخه مشخصی نشده اما درخواست نمونه کد کلی برای تابعی جدید است که وابسته به نسخه خاصی نیست.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: ارتباط با ادعای واقعی پاسخ اثبات نشده است؛ نقل قول به معرفی کلی ویژگی ناوبری دینامیک در Streamlit مربوط است و ربط مستقیمی به سوال درباره نمونه کد st.scatterplot_matrix_chart ندارد."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:dynamic-navigation:v2:d87cbb5340c990ba",
+              "reason": "نقل قول به معرفی کلی ویژگی ناوبری دینامیک در Streamlit مربوط است و ربط مستقیمی به سوال درباره نمونه کد st.scatterplot_matrix_chart ندارد.",
+              "statement": "`st.navigation` makes it easy to build dynamic navigation menus.",
+              "supported": false
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "",
+            "requested_detail": "نمونه کد نمایش عملکرد اولیه دستور `st.scatterplot_matrix_chart`",
+            "why_new": "در متن اولیه نمونه کد یا دستورالعمل استفاده نمونه‌ای از این تابع ارائه نشده و برای بررسی دقیق‌تر عملکرد آن به نمونه کد نیاز است."
+          },
+          "version_assumptions": "پاسخ به شکلی است که وابستگی به نسخه خاصی ندارد و درخواست نمونه کد عمومی است."
+        },
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "repair",
+        "attempt": 1
+      },
+      {
+        "stage": "safe_escalation",
+        "error": "provider_error"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "f8ec400adb6949bb0d3a868f",
+        "hash": "ee4be2e04873eeaa711b0182f0ca4f959b2fc461057b4dde7de3e375571840f6",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 7,
+      "cost_usd": 0.010078178,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "extract",
+          "input_tokens": 1630,
+          "output_tokens": 299,
+          "cost_usd": 0.00124344,
+          "ledger_id": "37bfbc6edcca75da5f225823"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "embedding",
+          "input_tokens": 59,
+          "output_tokens": 0,
+          "cost_usd": 1.298e-06,
+          "ledger_id": "c81de417aeb30735280ecfc1"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "input_tokens": 3509,
+          "output_tokens": 142,
+          "cost_usd": 0.00179388,
+          "ledger_id": "d00bf3ed18b0d39dab852d06"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "input_tokens": 4106,
+          "output_tokens": 212,
+          "cost_usd": 0.00217976,
+          "ledger_id": "8013153a87a2607024d8e606"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 4436,
+          "output_tokens": 410,
+          "cost_usd": 0.00267344,
+          "ledger_id": "0840956249012f97dd378e34"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "repair",
+          "input_tokens": 4325,
+          "output_tokens": 161,
+          "cost_usd": 0.00218636,
+          "ledger_id": "e8b10b685590639fc6784b95"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "reserved_usd": 0.014235936,
+          "ledger_id": "3c4ba927dbff91c04d548aa3"
+        }
+      ],
+      "charged_or_reserved_usd": 0.024314114000000053
+    },
+    "validation_error": "provider_error",
+    "latency_seconds": 21.982164
+  },
+  "failure": null,
+  "elapsed_seconds": 22.009837000019616,
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "extract",
+      "input_tokens": 1630,
+      "output_tokens": 299,
+      "cost_usd": 0.00124344,
+      "ledger_id": "37bfbc6edcca75da5f225823"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "input_tokens": 59,
+      "output_tokens": 0,
+      "cost_usd": 1.298e-06,
+      "ledger_id": "c81de417aeb30735280ecfc1"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "input_tokens": 3509,
+      "output_tokens": 142,
+      "cost_usd": 0.00179388,
+      "ledger_id": "d00bf3ed18b0d39dab852d06"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "input_tokens": 4106,
+      "output_tokens": 212,
+      "cost_usd": 0.00217976,
+      "ledger_id": "8013153a87a2607024d8e606"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 4436,
+      "output_tokens": 410,
+      "cost_usd": 0.00267344,
+      "ledger_id": "0840956249012f97dd378e34"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "repair",
+      "input_tokens": 4325,
+      "output_tokens": 161,
+      "cost_usd": 0.00218636,
+      "ledger_id": "e8b10b685590639fc6784b95"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "reserved_usd": 0.014235936,
+      "ledger_id": "3c4ba927dbff91c04d548aa3"
+    }
+  ],
+  "pipeline_sha256": "513902d6688c9e7f5b4367cd000524333da9fbac1a7cfad1a99ca991e9621c9d",
+  "pipeline_path": "F:\\Quera AI\\Project\\streamlit-casepilot\\artifacts\\quality_v22\\baseline\\src\\casepilot\\pipeline.py"
+}

@@ -19,6 +19,26 @@ Use multiple evidence types when relevant. Answer requires at least one supporte
 
 SYSTEM+='''\nBefore asking, inventory facts, source code, tracebacks and completed experiments in the raw report, not only structured facts. Do not request code/minimal reproduction, versions, memory limits or tests already supplied. Ask ONE specific unanswered discriminating question, not a bundled environment questionnaire. Request a changed experiment only when its new condition is explicit. Omit irrelevant quotations rather than padding an ask with loosely related evidence. A different-version source must not establish a historical API or a confirmed cause. For Persian prose wrap short English names in backticks.'''
 
+SYSTEM+='''\nQUALITY REVISION 2.1: First distinguish a FEATURE REQUEST from a BUG. For an already explicit feature request, do not ask the reporter whether their hypothetical proposed API exists or what they want. Escalate with a concrete maintainer-ready proposal describing the requested behavior and one observable acceptance condition derived from their request. Never invent an existing API or implementation.
+For a bug, ask only ONE new diagnostic with an explicit changed condition or one specific missing code fragment/log. When code is supplied, name the missing function/body rather than requesting all code again. A stated workaround is already known even when not in completed_checks. Do not recommend it again. Use latest structured facts when they correct the initial report; compare prior experiments without reasserting superseded versions.
+The rationale must identify what is ALREADY KNOWN in this report and why the proposed NEXT step distinguishes alternatives, without blaming an unverified cause. Do not use generic 'follow docs' or 'check configurations'. Keep hypotheses empty unless they meaningfully guide that diagnostic, and mark every hypothesis as unverified.
+Citations are OPTIONAL for a diagnostic question/feature escalation. Prefer NO citations over unrelated citations. Cite a source only when its selected span directly supports an actual statement; source title/section alone is not support. A code example from an unrelated report is not a general API contract. User bug reports describe observations, not authoritative current behavior. Unknown source version means applicability is UNKNOWN, not current. No causal claims in rationale based on issue similarity. Keep the whole answer concise; do not repeat question in several forms.'''
+
+QUALITY_SELECTION=json.loads(json.dumps(SCHEMA))
+QUALITY_SELECTION['properties']['claims']['maxItems']=1
+QUALITY_SELECTION['properties']['hypotheses']['maxItems']=1
+QUALITY_SELECTION['properties']['diagnostic']={'type':'object','additionalProperties':False,
+    'properties':{**{k:{'type':'string'} for k in ('action','repeat_of','changed_condition','repeat_reason','missing_fact')},
+        'conditions':{'type':'array','maxItems':10,'items':{'type':'object','additionalProperties':False,'properties':{'dimension':{'type':'string'},'value':{'type':'string'}},'required':['dimension','value']}}},
+    'required':['action','repeat_of','changed_condition','repeat_reason','missing_fact','conditions']}
+QUALITY_SELECTION['properties']['feature_proposal']={'type':'object','additionalProperties':False,
+    'properties':{**{k:{'type':'string'} for k in ('current_behavior','desired_behavior','user_need','constraints','acceptance_condition')},
+        'report_quotes':{'type':'array','maxItems':4,'items':{'type':'string'}}},
+    'required':['current_behavior','desired_behavior','user_need','constraints','acceptance_condition','report_quotes']}
+QUALITY_SELECTION['required']=list(QUALITY_SELECTION['properties'])
+SYSTEM+='''\nThe supplied investigation_plan is an untrusted candidate plan based on the report, not verified facts. Use it to avoid repeating known work, and improve its proposed question only if a source provides a genuinely better NEW diagnostic. Prefer the specific unanswered target over an unrelated retrieved issue. Include at most ONE citation, and ZERO citations when no exact span supports an actual statement. Omit speculative hypotheses by default. For a feature request acknowledge the desired behavior and acceptance condition without asking the same requirement back.'''
+SYSTEM+='''\nQUALITY 2.2: For an experimental ask, populate diagnostic.action with a canonical action and conditions as dimensions/values; compare ALL persisted experiments. Equivalent wording is the same action. A proposed test is not a performed test. When repeating a performed action, repeat_of is its exact ID, changed_condition names a dimension with an explicit different value, and repeat_reason appears verbatim in next_step explaining why the change distinguishes alternatives. Unknown prior conditions do not establish a new condition. For a missing environment field set diagnostic.missing_fact; leave action empty. For a feature_request fill feature_proposal with reported current behavior, desired behavior, user need, constraints (explicitly unknown if absent), an observable acceptance condition and exact report_quotes. Do not ask a clear goal again. For non-features use empty strings and an empty report_quotes list. A handoff must retain reported context and an exact maintainer action; never invent an execution result, API, cause or fix. Other unused diagnostic strings/conditions are empty.'''
+
 def quote_candidates(text):
     """Partition source spans, preserving Markdown links and all original characters.
 
@@ -176,12 +196,14 @@ class MetisClient:
             candidates.update({(row['id'],q['quote_id']):q['text'] for q in options})
         if getattr(self,'turn_scope',None):
             from .pipeline import compact_state
-            messages=compact_state(state)['messages']
-        else: messages=state['messages'][-10:]
+            context=compact_state(state); messages=context['messages']
+        else: context={}; messages=state['messages'][-10:]
         packet={'facts':state['facts'],'completed_checks':state['checks'], 'messages':messages,
+                'experiments':context.get('experiments',[]),'fact_provenance':context.get('fact_provenance',{}),
+                'report_inventory':context.get('report_inventory',{}),'investigation_plan':context.get('investigation_plan',{}),'context_truncated':context.get('context_truncated',False),
                 'evidence':sources, 'method':method}
         payload={'model':self.model,'messages':[{'role':'system','content':SYSTEM},{'role':'user','content':canonical(packet)}], 'max_tokens':self.max_output,
-                 'response_format':{'type':'json_schema','json_schema':{'name':'casepilot_selection','strict':True,'schema':SCHEMA}}}
+                 'response_format':{'type':'json_schema','json_schema':{'name':'casepilot_selection','strict':True,'schema':QUALITY_SELECTION if getattr(self,'turn_scope',None) else SCHEMA}}}
         return resolve_claims(self._request(payload),candidates)
 
 class MetisEmbedder:

@@ -1,0 +1,2359 @@
+[
+  {
+    "id": "GH9218",
+    "split": "dev",
+    "variant": "revised",
+    "output": {
+      "case_id": "GH9218",
+      "request_id": "quality-revised",
+      "architecture": "v2",
+      "quality_revision": "v2.1-quality",
+      "mode": "live",
+      "method": "final",
+      "components": {
+        "dense": true,
+        "mmr": true,
+        "rerank": true,
+        "judge": true,
+        "rewrite": true,
+        "quality": true
+      },
+      "decision": "escalate",
+      "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `invalid_judge`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+      "summary": {
+        "problem": "file_uploader with large file results in server getting killed\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI am using st.file_uploader to upload ~3.5gb file into my streamlit dashboard. This however, results in the server getting killed.\nWhen I inspect using btop, Upon file upload, the server starts using an astronomic amount of RAM.\n\nEDIT: I tried imposing a RAM limit by dockerizing the dashboard and settting a 4gb RAM limit, but it just gets killed in the container.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\nuploaded_file = st.file_uploader(\"Choose a video file\", type=[\"mp4\", \"mov\", \"avi\"])\n```\n\n\n### Steps To Reproduce\n\nstreamlit run dashboard.py --maxUploadSize=5000\n\n### Expected Behavior\n\nIt's probably better to stream it in chunks to disk when clicking an 'upload file' button.\n\n### Current Behavior\n\nThe server gets killed.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:\n- Python version:\n- Operating System:\n- Browser:\n\n\n### Additional Information\n\n_No response_",
+        "facts": {},
+        "unknowns": [
+          "streamlit_version",
+          "python_version",
+          "deployment",
+          "reproducible"
+        ],
+        "completed_checks": [],
+        "sources": [],
+        "decision": "escalate",
+        "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+        "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `invalid_judge`.",
+        "hypotheses": [],
+        "ambiguities": [
+          "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope"
+        ],
+        "judge": null
+      },
+      "proposal": {
+        "id": "53b72abfbb624c8ba8dd8ff0",
+        "case_id": "GH9218",
+        "revision": 1,
+        "hash": "8e746a676e43872c9b17ad0e35e9b25179efbce93f73f0151f6cdfe50802d756",
+        "payload": {
+          "actions": [
+            {
+              "type": "comment",
+              "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `invalid_judge`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+            },
+            {
+              "type": "status",
+              "value": "escalated"
+            }
+          ],
+          "source_ids": [],
+          "summary": {
+            "problem": "file_uploader with large file results in server getting killed\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI am using st.file_uploader to upload ~3.5gb file into my streamlit dashboard. This however, results in the server getting killed.\nWhen I inspect using btop, Upon file upload, the server starts using an astronomic amount of RAM.\n\nEDIT: I tried imposing a RAM limit by dockerizing the dashboard and settting a 4gb RAM limit, but it just gets killed in the container.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\nuploaded_file = st.file_uploader(\"Choose a video file\", type=[\"mp4\", \"mov\", \"avi\"])\n```\n\n\n### Steps To Reproduce\n\nstreamlit run dashboard.py --maxUploadSize=5000\n\n### Expected Behavior\n\nIt's probably better to stream it in chunks to disk when clicking an 'upload file' button.\n\n### Current Behavior\n\nThe server gets killed.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:\n- Python version:\n- Operating System:\n- Browser:\n\n\n### Additional Information\n\n_No response_",
+            "facts": {},
+            "unknowns": [
+              "streamlit_version",
+              "python_version",
+              "deployment",
+              "reproducible"
+            ],
+            "completed_checks": [],
+            "sources": [],
+            "decision": "escalate",
+            "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+            "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `invalid_judge`.",
+            "hypotheses": [],
+            "ambiguities": [
+              "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope"
+            ],
+            "judge": null
+          }
+        },
+        "status": "pending"
+      },
+      "retrieved": [
+        {
+          "id": "issue:3722:v2:71635c29cc9d28e8",
+          "source_id": "issue:3722",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/3722",
+          "section": "Steps to reproduce",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02847471
+        },
+        {
+          "id": "issue:5938:v2:49b04b1eac9f87a8",
+          "source_id": "issue:5938",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/5938",
+          "section": "Additional Information",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03125763
+        },
+        {
+          "id": "issue:5938:v2:2830a6d01721a174",
+          "source_id": "issue:5938",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/5938",
+          "section": "Steps To Reproduce",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02889344
+        },
+        {
+          "id": "issue:904:v2:04dc5059cf066a38",
+          "source_id": "issue:904",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/904",
+          "section": "Problem",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02697357
+        },
+        {
+          "id": "api:file_uploader:v2:26f5eb70aec7e236",
+          "source_id": "api:file_uploader",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/elements/widgets/file_uploader.py",
+          "section": "file_uploader (line 252)",
+          "product_version": "1.49.0",
+          "version_relation": "unknown",
+          "retrieval_score": 0.02776471
+        }
+      ],
+      "steps": 8,
+      "model_calls": 5,
+      "max_calls": 8,
+      "repair_count": 0,
+      "judge": null,
+      "pipeline": [
+        {
+          "stage": "extract",
+          "status": "ok",
+          "keys": [],
+          "facts_with_quotes": [
+            {
+              "key": "symptom_scope",
+              "quote": "file_uploader with large file results in server getting killed",
+              "value": "file_uploader with large file results in server getting killed"
+            },
+            {
+              "key": "symptom_scope",
+              "quote": "Upon file upload, the server starts using an astronomic amount of RAM",
+              "value": "server starts using an astronomic amount of RAM"
+            },
+            {
+              "key": "symptom_scope",
+              "quote": "The server gets killed in the container with 4gb RAM limit",
+              "value": "server gets killed in the container"
+            }
+          ],
+          "checks": [],
+          "ambiguities": [
+            "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: symptom_scope"
+          ]
+        },
+        {
+          "stage": "read_case",
+          "revision": 1
+        },
+        {
+          "stage": "retrieve",
+          "method": "bm25+dense+rrf+mmr",
+          "rrf_k": 60,
+          "mmr_lambda": 0.7,
+          "components": {
+            "dense": true,
+            "mmr": true,
+            "quality": true,
+            "rerank": true,
+            "judge": true,
+            "rewrite": true
+          },
+          "embedding": {
+            "texts": 1,
+            "unique_missing": 1,
+            "cache_hits": 0,
+            "batches": 1,
+            "usage": [
+              {
+                "mode": "live",
+                "provider_requests": 1,
+                "kind": "embedding",
+                "input_tokens": 19,
+                "output_tokens": 0,
+                "cost_usd": 4.1799999999999996e-07,
+                "ledger_id": "3587f54a6d55e8c9048c1842"
+              }
+            ],
+            "identity": {
+              "provider": "https://api.metisai.ir/openai/v1",
+              "model": "text-embedding-3-small",
+              "normalization": "whitespace-v1",
+              "encoding_format": "float"
+            }
+          },
+          "candidates": [
+            "api:file_uploader:v2:b6a9200a36afcf3e",
+            "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "issue:5938:v2:49b04b1eac9f87a8",
+            "issue:904:v2:04dc5059cf066a38",
+            "issue:3722:v2:71635c29cc9d28e8",
+            "issue:5938:v2:2830a6d01721a174",
+            "issue:3401:v2:6ec3c4fec2f9af5b",
+            "api:file_uploader:v2:26f5eb70aec7e236"
+          ],
+          "quality_filter": true,
+          "excluded_nontechnical_chunks": 309,
+          "version_warnings": [
+            "api:file_uploader:v2:b6a9200a36afcf3e",
+            "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "issue:5938:v2:49b04b1eac9f87a8",
+            "issue:904:v2:04dc5059cf066a38",
+            "issue:3722:v2:71635c29cc9d28e8",
+            "issue:5938:v2:2830a6d01721a174",
+            "issue:3401:v2:6ec3c4fec2f9af5b",
+            "api:file_uploader:v2:26f5eb70aec7e236"
+          ]
+        },
+        {
+          "stage": "rerank",
+          "status": "ok",
+          "ids": [
+            "issue:3722:v2:71635c29cc9d28e8",
+            "issue:5938:v2:49b04b1eac9f87a8",
+            "issue:5938:v2:2830a6d01721a174",
+            "issue:904:v2:04dc5059cf066a38",
+            "api:file_uploader:v2:26f5eb70aec7e236",
+            "api:file_uploader:v2:b6a9200a36afcf3e",
+            "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "issue:3401:v2:6ec3c4fec2f9af5b"
+          ]
+        },
+        {
+          "stage": "context_pack",
+          "ids": [
+            "issue:3722:v2:71635c29cc9d28e8",
+            "issue:5938:v2:49b04b1eac9f87a8",
+            "issue:5938:v2:2830a6d01721a174",
+            "issue:904:v2:04dc5059cf066a38",
+            "api:file_uploader:v2:26f5eb70aec7e236"
+          ],
+          "utf8_bytes": 2941
+        },
+        {
+          "stage": "draft",
+          "status": "produced"
+        },
+        {
+          "stage": "safe_escalation",
+          "error": "invalid_judge"
+        },
+        {
+          "stage": "prepare_proposal",
+          "id": "53b72abfbb624c8ba8dd8ff0",
+          "hash": "8e746a676e43872c9b17ad0e35e9b25179efbce93f73f0151f6cdfe50802d756",
+          "auto_execute": false
+        }
+      ],
+      "usage": {
+        "mode": "live",
+        "provider_requests": 4,
+        "cost_usd": 0.005853738,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "mode": "cached_live",
+            "cost_usd": 0,
+            "provider_requests": 0,
+            "kind": "extract",
+            "original_usage": {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "extract",
+              "input_tokens": 720,
+              "output_tokens": 113,
+              "cost_usd": 0.00051568,
+              "ledger_id": "66d18e3c212e2c132740e54d"
+            }
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "embedding",
+            "input_tokens": 19,
+            "output_tokens": 0,
+            "cost_usd": 4.1799999999999996e-07,
+            "ledger_id": "3587f54a6d55e8c9048c1842"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "rerank",
+            "input_tokens": 2751,
+            "output_tokens": 110,
+            "cost_usd": 0.00140404,
+            "ledger_id": "eb3a919c361e736bbd815ba6"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "chat",
+            "input_tokens": 2803,
+            "output_tokens": 300,
+            "cost_usd": 0.00176132,
+            "ledger_id": "09256f3d34e1be80fb7de870"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "judge",
+            "input_tokens": 3421,
+            "output_tokens": 672,
+            "cost_usd": 0.00268796,
+            "ledger_id": "2577b3adbf3fb7c66ece5a9d"
+          }
+        ],
+        "charged_or_reserved_usd": 0.005853737999999997
+      },
+      "validation_error": "invalid_judge",
+      "latency_seconds": 21.948268
+    },
+    "failure": null
+  },
+  {
+    "id": "GH11528",
+    "split": "dev",
+    "variant": "revised",
+    "output": {
+      "case_id": "GH11528",
+      "request_id": "quality-revised",
+      "architecture": "v2",
+      "quality_revision": "v2.1-quality",
+      "mode": "live",
+      "method": "final",
+      "components": {
+        "dense": true,
+        "mmr": true,
+        "rerank": true,
+        "judge": true,
+        "rewrite": true,
+        "quality": true
+      },
+      "decision": "escalate",
+      "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+      "summary": {
+        "problem": "cache_data failing to serialize classes from v1.44.0\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI noticed in the upgrade from 1.43.0 to 1.44.0 that we are getting UnserializableReturnValueError when calling cache_data with a self defined class. I can confirm pickle dumps and loads works fine for this class when I run it outside of streamlit. \n\nFull error:\n> streamlit.runtime.caching.cache_errors.UnserializableReturnValueError: Cannot serialize the return value (of type __main__.Example) in test(). st.cache_data uses pickle to serialize the function's return value and safely store it in the cache without mutating the original object. Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences).\n\n### Reproducible Code Example\n\n```Python\nfrom streamlit import cache_data\nimport datetime as dt\n\nclass Example:\n    def __init__(self, name):\n        self.name = name\n\n@cache_data(ttl=dt.timedelta(minutes=60))\ndef test():\n    name = \"andy\"\n    return Example(name)\n\nif __name__ == '__main__':\n\n    b = test()\n```\n\n### Steps To Reproduce\n\nRun the code above in streamlit\n\n### Expected Behavior\n\nThe class should be pickled and be stored in the cache\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.44.0\n- Python version: 3.10\n- Operating System: Linux\n- Browser: Chrome\n\n\n### Additional Information\n\n_No response_",
+        "facts": {
+          "streamlit_version": "1.44.0",
+          "python_version": "3.10",
+          "os": "Linux",
+          "browser": "Chrome"
+        },
+        "unknowns": [
+          "deployment",
+          "reproducible"
+        ],
+        "completed_checks": [],
+        "sources": [],
+        "decision": "escalate",
+        "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+        "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+        "hypotheses": [],
+        "ambiguities": [
+          "_No response_",
+          "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+          "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+        ],
+        "judge": {
+          "verdict": "repair",
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "Question specifically asks about trying st.cache_resource as an alternative to reproduce the issue and test the hypothesis.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "The answer cites exact quotes from official Streamlit documents explaining that st.cache_data uses pickle for serialization causing errors with some objects, and that st.cache_resource does not require serializability, thus supporting the hypothesis and suggested test.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "The answer does not contain or suggest any harmful or unsafe instructions, staying within safe reasoning about caching behavior.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "The suggested next step to test if replacing st.cache_data with st.cache_resource resolves the serialization error is practical and targeted, which can confirm the cause of the error effectively.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "The answer directly addresses the user's reported problem of serialization error with st.cache_data after upgrade, referencing documented API behavior and proposing a relevant test.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "The assessment uses the user's exact Streamlit version (1.44.0) and relevant updated documentation indicating the API behavior and error conditions for that version.",
+              "score": 2
+            }
+          },
+          "scores": {
+            "avoids_repeated_check": 2,
+            "claim_support": 2,
+            "injection_resistance": 2,
+            "next_step_usefulness": 2,
+            "relevance": 2,
+            "version_fit": 2
+          },
+          "findings": [
+            {
+              "criterion": "avoids_repeated_check",
+              "reason": "تکرار: Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences)."
+            }
+          ],
+          "audit": {
+            "claim_links": [
+              {
+                "evidence_id": "docs:cache-data:v2:2d852be1ef02439a",
+                "reason": "This quote supports the claim that st.cache_data uses pickle internally which can cause security and serialization issues with certain objects.",
+                "statement": "`st.cache_data` implicitly uses the `pickle` module, which is known to be insecure. Anything your cached function returns is pickled and stored, then unpickled on retrieval.",
+                "supported": true
+              },
+              {
+                "evidence_id": "docs:caching:v2:970de0aa1bdddb1b",
+                "reason": "This quote supports the claim that st.cache_resource returns a cached object directly and does not require return values to be serializable, useful for things like database connections and models unlike st.cache_data.",
+                "statement": "Return values of functions do not need to be serializable. This behavior is great for types not serializable by nature, e.g., database connections, file handles, or threads. Caching these objects with `st.cache_data` is not possible.",
+                "supported": true
+              },
+              {
+                "evidence_id": "docs:caching:v2:5ff8b72948761052",
+                "reason": "This quote clarifies the intended usage of st.cache_resource for objects that must be global across sessions and that can mutate, confirming its role distinct from st.cache_data and suitability for unserializable objects.",
+                "statement": "`st.cache_resource` is the right command to cache “resources\" that should be available globally across all users, sessions, and reruns. It has more limited use cases than `st.cache_data`, especially for caching database connections and ML models.",
+                "supported": true
+              }
+            ],
+            "question_novelty": {
+              "already_supplied_quote": "Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences).",
+              "requested_detail": "Whether switching from st.cache_data to st.cache_resource in the provided code example resolves the serialization error.",
+              "why_new": "Although the user provided the error and suggestion that st.cache_resource might help, they have not confirmed or tested this workaround. Asking this directly helps verify if the root cause is serialization limitations of st.cache_data in the new version."
+            },
+            "version_assumptions": "The answer correctly uses documentation and error messages presumably from or relevant to the user's Streamlit version 1.44.0, with no evidence of cross-version misapplication."
+          }
+        }
+      },
+      "proposal": {
+        "id": "069e754bc0242bc80946cef1",
+        "case_id": "GH11528",
+        "revision": 1,
+        "hash": "131cc2b100c5dc1c12c06e56f2fc4f165e23c1a5dc846a52841ae442824c5d86",
+        "payload": {
+          "actions": [
+            {
+              "type": "comment",
+              "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+            },
+            {
+              "type": "status",
+              "value": "escalated"
+            }
+          ],
+          "source_ids": [],
+          "summary": {
+            "problem": "cache_data failing to serialize classes from v1.44.0\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI noticed in the upgrade from 1.43.0 to 1.44.0 that we are getting UnserializableReturnValueError when calling cache_data with a self defined class. I can confirm pickle dumps and loads works fine for this class when I run it outside of streamlit. \n\nFull error:\n> streamlit.runtime.caching.cache_errors.UnserializableReturnValueError: Cannot serialize the return value (of type __main__.Example) in test(). st.cache_data uses pickle to serialize the function's return value and safely store it in the cache without mutating the original object. Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences).\n\n### Reproducible Code Example\n\n```Python\nfrom streamlit import cache_data\nimport datetime as dt\n\nclass Example:\n    def __init__(self, name):\n        self.name = name\n\n@cache_data(ttl=dt.timedelta(minutes=60))\ndef test():\n    name = \"andy\"\n    return Example(name)\n\nif __name__ == '__main__':\n\n    b = test()\n```\n\n### Steps To Reproduce\n\nRun the code above in streamlit\n\n### Expected Behavior\n\nThe class should be pickled and be stored in the cache\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.44.0\n- Python version: 3.10\n- Operating System: Linux\n- Browser: Chrome\n\n\n### Additional Information\n\n_No response_",
+            "facts": {
+              "streamlit_version": "1.44.0",
+              "python_version": "3.10",
+              "os": "Linux",
+              "browser": "Chrome"
+            },
+            "unknowns": [
+              "deployment",
+              "reproducible"
+            ],
+            "completed_checks": [],
+            "sources": [],
+            "decision": "escalate",
+            "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+            "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+            "hypotheses": [],
+            "ambiguities": [
+              "_No response_",
+              "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+              "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+            ],
+            "judge": {
+              "verdict": "repair",
+              "assessments": {
+                "avoids_repeated_check": {
+                  "reason": "Question specifically asks about trying st.cache_resource as an alternative to reproduce the issue and test the hypothesis.",
+                  "score": 2
+                },
+                "claim_support": {
+                  "reason": "The answer cites exact quotes from official Streamlit documents explaining that st.cache_data uses pickle for serialization causing errors with some objects, and that st.cache_resource does not require serializability, thus supporting the hypothesis and suggested test.",
+                  "score": 2
+                },
+                "injection_resistance": {
+                  "reason": "The answer does not contain or suggest any harmful or unsafe instructions, staying within safe reasoning about caching behavior.",
+                  "score": 2
+                },
+                "next_step_usefulness": {
+                  "reason": "The suggested next step to test if replacing st.cache_data with st.cache_resource resolves the serialization error is practical and targeted, which can confirm the cause of the error effectively.",
+                  "score": 2
+                },
+                "relevance": {
+                  "reason": "The answer directly addresses the user's reported problem of serialization error with st.cache_data after upgrade, referencing documented API behavior and proposing a relevant test.",
+                  "score": 2
+                },
+                "version_fit": {
+                  "reason": "The assessment uses the user's exact Streamlit version (1.44.0) and relevant updated documentation indicating the API behavior and error conditions for that version.",
+                  "score": 2
+                }
+              },
+              "scores": {
+                "avoids_repeated_check": 2,
+                "claim_support": 2,
+                "injection_resistance": 2,
+                "next_step_usefulness": 2,
+                "relevance": 2,
+                "version_fit": 2
+              },
+              "findings": [
+                {
+                  "criterion": "avoids_repeated_check",
+                  "reason": "تکرار: Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences)."
+                }
+              ],
+              "audit": {
+                "claim_links": [
+                  {
+                    "evidence_id": "docs:cache-data:v2:2d852be1ef02439a",
+                    "reason": "This quote supports the claim that st.cache_data uses pickle internally which can cause security and serialization issues with certain objects.",
+                    "statement": "`st.cache_data` implicitly uses the `pickle` module, which is known to be insecure. Anything your cached function returns is pickled and stored, then unpickled on retrieval.",
+                    "supported": true
+                  },
+                  {
+                    "evidence_id": "docs:caching:v2:970de0aa1bdddb1b",
+                    "reason": "This quote supports the claim that st.cache_resource returns a cached object directly and does not require return values to be serializable, useful for things like database connections and models unlike st.cache_data.",
+                    "statement": "Return values of functions do not need to be serializable. This behavior is great for types not serializable by nature, e.g., database connections, file handles, or threads. Caching these objects with `st.cache_data` is not possible.",
+                    "supported": true
+                  },
+                  {
+                    "evidence_id": "docs:caching:v2:5ff8b72948761052",
+                    "reason": "This quote clarifies the intended usage of st.cache_resource for objects that must be global across sessions and that can mutate, confirming its role distinct from st.cache_data and suitability for unserializable objects.",
+                    "statement": "`st.cache_resource` is the right command to cache “resources\" that should be available globally across all users, sessions, and reruns. It has more limited use cases than `st.cache_data`, especially for caching database connections and ML models.",
+                    "supported": true
+                  }
+                ],
+                "question_novelty": {
+                  "already_supplied_quote": "Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences).",
+                  "requested_detail": "Whether switching from st.cache_data to st.cache_resource in the provided code example resolves the serialization error.",
+                  "why_new": "Although the user provided the error and suggestion that st.cache_resource might help, they have not confirmed or tested this workaround. Asking this directly helps verify if the root cause is serialization limitations of st.cache_data in the new version."
+                },
+                "version_assumptions": "The answer correctly uses documentation and error messages presumably from or relevant to the user's Streamlit version 1.44.0, with no evidence of cross-version misapplication."
+              }
+            }
+          }
+        },
+        "status": "pending"
+      },
+      "retrieved": [
+        {
+          "id": "docs:cache-data:v2:2d852be1ef02439a",
+          "source_id": "docs:cache-data",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-data.md",
+          "section": "cache-data",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03573315
+        },
+        {
+          "id": "docs:caching:v2:970de0aa1bdddb1b",
+          "source_id": "docs:caching",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+          "section": "Behavior",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03351732
+        },
+        {
+          "id": "docs:cache-resource:v2:da940d2f1867420b",
+          "source_id": "docs:cache-resource",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-resource.md",
+          "section": "cache-resource",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02709031
+        },
+        {
+          "id": "docs:caching:v2:5ff8b72948761052",
+          "source_id": "docs:caching",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+          "section": "st.cache_resource",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.0349782
+        },
+        {
+          "id": "issue:6138:v2:6d289edddcaef53e",
+          "source_id": "issue:6138",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/6138",
+          "section": "Summary",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02532201
+        }
+      ],
+      "steps": 10,
+      "model_calls": 7,
+      "max_calls": 8,
+      "repair_count": 1,
+      "judge": {
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "Question specifically asks about trying st.cache_resource as an alternative to reproduce the issue and test the hypothesis.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "The answer cites exact quotes from official Streamlit documents explaining that st.cache_data uses pickle for serialization causing errors with some objects, and that st.cache_resource does not require serializability, thus supporting the hypothesis and suggested test.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "The answer does not contain or suggest any harmful or unsafe instructions, staying within safe reasoning about caching behavior.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "The suggested next step to test if replacing st.cache_data with st.cache_resource resolves the serialization error is practical and targeted, which can confirm the cause of the error effectively.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "The answer directly addresses the user's reported problem of serialization error with st.cache_data after upgrade, referencing documented API behavior and proposing a relevant test.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "The assessment uses the user's exact Streamlit version (1.44.0) and relevant updated documentation indicating the API behavior and error conditions for that version.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "avoids_repeated_check",
+            "reason": "تکرار: Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences)."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:cache-data:v2:2d852be1ef02439a",
+              "reason": "This quote supports the claim that st.cache_data uses pickle internally which can cause security and serialization issues with certain objects.",
+              "statement": "`st.cache_data` implicitly uses the `pickle` module, which is known to be insecure. Anything your cached function returns is pickled and stored, then unpickled on retrieval.",
+              "supported": true
+            },
+            {
+              "evidence_id": "docs:caching:v2:970de0aa1bdddb1b",
+              "reason": "This quote supports the claim that st.cache_resource returns a cached object directly and does not require return values to be serializable, useful for things like database connections and models unlike st.cache_data.",
+              "statement": "Return values of functions do not need to be serializable. This behavior is great for types not serializable by nature, e.g., database connections, file handles, or threads. Caching these objects with `st.cache_data` is not possible.",
+              "supported": true
+            },
+            {
+              "evidence_id": "docs:caching:v2:5ff8b72948761052",
+              "reason": "This quote clarifies the intended usage of st.cache_resource for objects that must be global across sessions and that can mutate, confirming its role distinct from st.cache_data and suitability for unserializable objects.",
+              "statement": "`st.cache_resource` is the right command to cache “resources\" that should be available globally across all users, sessions, and reruns. It has more limited use cases than `st.cache_data`, especially for caching database connections and ML models.",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences).",
+            "requested_detail": "Whether switching from st.cache_data to st.cache_resource in the provided code example resolves the serialization error.",
+            "why_new": "Although the user provided the error and suggestion that st.cache_resource might help, they have not confirmed or tested this workaround. Asking this directly helps verify if the root cause is serialization limitations of st.cache_data in the new version."
+          },
+          "version_assumptions": "The answer correctly uses documentation and error messages presumably from or relevant to the user's Streamlit version 1.44.0, with no evidence of cross-version misapplication."
+        }
+      },
+      "pipeline": [
+        {
+          "stage": "extract",
+          "status": "ok",
+          "keys": [
+            "browser",
+            "os",
+            "python_version",
+            "streamlit_version"
+          ],
+          "facts_with_quotes": [
+            {
+              "key": "symptom_scope",
+              "quote": "UnserializableReturnValueError when calling cache_data with a self defined class",
+              "value": "cache_data failing to serialize classes"
+            },
+            {
+              "key": "reproducible",
+              "quote": "Run the code above in streamlit",
+              "value": "true"
+            },
+            {
+              "key": "streamlit_version",
+              "quote": "Streamlit version: 1.44.0",
+              "value": "1.44.0"
+            },
+            {
+              "key": "python_version",
+              "quote": "Python version: 3.10",
+              "value": "3.10"
+            },
+            {
+              "key": "os",
+              "quote": "Operating System: Linux",
+              "value": "Linux"
+            },
+            {
+              "key": "browser",
+              "quote": "Browser: Chrome",
+              "value": "Chrome"
+            }
+          ],
+          "checks": [],
+          "ambiguities": [
+            "_No response_",
+            "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+            "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+          ]
+        },
+        {
+          "stage": "read_case",
+          "revision": 1
+        },
+        {
+          "stage": "retrieve",
+          "method": "bm25+dense+rrf+mmr",
+          "rrf_k": 60,
+          "mmr_lambda": 0.7,
+          "components": {
+            "dense": true,
+            "mmr": true,
+            "quality": true,
+            "rerank": true,
+            "judge": true,
+            "rewrite": true
+          },
+          "embedding": {
+            "texts": 1,
+            "unique_missing": 1,
+            "cache_hits": 0,
+            "batches": 1,
+            "usage": [
+              {
+                "mode": "live",
+                "provider_requests": 1,
+                "kind": "embedding",
+                "input_tokens": 28,
+                "output_tokens": 0,
+                "cost_usd": 6.16e-07,
+                "ledger_id": "4362a444695b281992d13134"
+              }
+            ],
+            "identity": {
+              "provider": "https://api.metisai.ir/openai/v1",
+              "model": "text-embedding-3-small",
+              "normalization": "whitespace-v1",
+              "encoding_format": "float"
+            }
+          },
+          "candidates": [
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:caching:v2:5ff8b72948761052",
+            "docs:cache-resource:v2:da940d2f1867420b",
+            "docs:caching:v2:970de0aa1bdddb1b",
+            "issue:6138:v2:5d27e46b800d4f4b",
+            "issue:6138:v2:6d289edddcaef53e",
+            "docs:2026:v2:69052ab6870bd073",
+            "docs:cache-resource:v2:eb2199cf1c54fbb7"
+          ],
+          "quality_filter": true,
+          "excluded_nontechnical_chunks": 309,
+          "version_warnings": [
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:caching:v2:5ff8b72948761052",
+            "docs:cache-resource:v2:da940d2f1867420b",
+            "docs:caching:v2:970de0aa1bdddb1b",
+            "issue:6138:v2:5d27e46b800d4f4b",
+            "issue:6138:v2:6d289edddcaef53e",
+            "docs:2026:v2:69052ab6870bd073",
+            "docs:cache-resource:v2:eb2199cf1c54fbb7"
+          ]
+        },
+        {
+          "stage": "rerank",
+          "status": "ok",
+          "ids": [
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:caching:v2:970de0aa1bdddb1b",
+            "docs:cache-resource:v2:da940d2f1867420b",
+            "docs:caching:v2:5ff8b72948761052",
+            "issue:6138:v2:6d289edddcaef53e",
+            "issue:6138:v2:5d27e46b800d4f4b",
+            "docs:cache-resource:v2:eb2199cf1c54fbb7",
+            "docs:2026:v2:69052ab6870bd073"
+          ]
+        },
+        {
+          "stage": "context_pack",
+          "ids": [
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:caching:v2:970de0aa1bdddb1b",
+            "docs:cache-resource:v2:da940d2f1867420b",
+            "docs:caching:v2:5ff8b72948761052",
+            "issue:6138:v2:6d289edddcaef53e"
+          ],
+          "utf8_bytes": 3268
+        },
+        {
+          "stage": "draft",
+          "status": "produced"
+        },
+        {
+          "stage": "judge",
+          "attempt": 1,
+          "verdict": "repair",
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "User explicitly provided code sample and error details matching the investigation target; request for testing cache_resource is novel.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "The claims are directly supported by the documentation quotes about st.cache_data serialization with pickle and the suitability of st.cache_resource for unserializable objects.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "No instruction injection or malicious prompt detected; user input is technical and relevant to the query.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "The suggested next step to try st.cache_resource to verify if the issue relates to serialization is a practical and logical diagnostic suggestion.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "The answer directly addresses the user's code issue and error in using st.cache_data with a user-defined class in version 1.44.0.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "The answer uses the Streamlit 1.44.0 version from the user report and documentation to explain the caching changes and error causation, so it is version-appropriate.",
+              "score": 2
+            }
+          },
+          "scores": {
+            "avoids_repeated_check": 2,
+            "claim_support": 2,
+            "injection_resistance": 2,
+            "next_step_usefulness": 2,
+            "relevance": 2,
+            "version_fit": 2
+          },
+          "findings": [
+            {
+              "criterion": "avoids_repeated_check",
+              "reason": "تکرار: Full error:\n> streamlit.runtime.caching.cache_errors.UnserializableReturnValueError: Cannot serialize the return value (of type __main__.Example) in test(). st.cache_data uses pickle to serialize the function's return value and safely store it in the cache without mutating the original object. Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences)."
+            }
+          ],
+          "audit": {
+            "claim_links": [
+              {
+                "evidence_id": "docs:cache-data:v2:2d852be1ef02439a",
+                "reason": "This quote explains that st.cache_data uses pickle to serialize return values and warns about security risks, supporting the claim about caching using pickle serialization causing the error with user-defined classes.",
+                "statement": "`st.cache_data` implicitly uses the `pickle` module, which is known to be insecure. Anything your cached function returns is pickled and stored, then unpickled on retrieval. Ensure your cached functions return trusted values because it is possible to construct malicious pickle data that will execute arbitrary code during unpickling. Never load data that could have come from an untrusted source in an unsafe mode or that could have been tampered with. **Only load data you trust**.",
+                "supported": true
+              },
+              {
+                "evidence_id": "docs:caching:v2:970de0aa1bdddb1b",
+                "reason": "This quote distinguishes st.cache_resource behavior from st.cache_data, stating resource cache does not require return values to be serializable, thus supporting the claim about using st.cache_resource to cache unserializable objects like user-defined class instances.",
+                "statement": "- Not creating a copy means there's just one global instance of the cached return object, which saves memory, e.g. when using a large ML model. In computer science terms, we create a [singleton](https://en.wikipedia.org/wiki/Singleton_pattern).\n- Return values of functions do not need to be serializable. This behavior is great for types not serializable by nature, e.g., database connections, file handles, or threads. Caching these objects with `st.cache_data` is not possible.",
+                "supported": true
+              },
+              {
+                "evidence_id": "docs:caching:v2:5ff8b72948761052",
+                "reason": "This quote explains how st.cache_resource caches resources that can mutate and work globally, supporting the claim about suitability of cache_resource to cache objects like ML models or connections and indicating it can fix serialization issues.",
+                "statement": "`st.cache_resource` is the right command to cache “resources\" that should be available globally across all users, sessions, and reruns. It has more limited use cases than `st.cache_data`, especially for caching database connections and ML models. Within each user session, an `@st.cache_resource`-decorated function returns the cached instance of the return value (if the value is already cached). Therefore, objects cached by `st.cache_resource` act like singletons and can mutate.",
+                "supported": true
+              }
+            ],
+            "question_novelty": {
+              "already_supplied_quote": "Full error:\n> streamlit.runtime.caching.cache_errors.UnserializableReturnValueError: Cannot serialize the return value (of type __main__.Example) in test(). st.cache_data uses pickle to serialize the function's return value and safely store it in the cache without mutating the original object. Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences).",
+              "requested_detail": "Whether replacing st.cache_data with st.cache_resource in the provided minimal code example resolves the serialization error.",
+              "why_new": "The user has not tested or confirmed if using st.cache_resource instead of st.cache_data fixes the error; this experimental check is a novel and direct method to identify if the problem stems from st.cache_data serialization behavior change versus other changes."
+            },
+            "version_assumptions": "The assessment assumes Streamlit version 1.44.0 as given by the user and documentation snapshots; the rationale about cache_data and cache_resource serialization differences aligns with this version's documented behavior without unverified cross-version transfer."
+          },
+          "evaluation_kind": "model"
+        },
+        {
+          "stage": "repair",
+          "attempt": 1
+        },
+        {
+          "stage": "judge",
+          "attempt": 2,
+          "verdict": "repair",
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "Question specifically asks about trying st.cache_resource as an alternative to reproduce the issue and test the hypothesis.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "The answer cites exact quotes from official Streamlit documents explaining that st.cache_data uses pickle for serialization causing errors with some objects, and that st.cache_resource does not require serializability, thus supporting the hypothesis and suggested test.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "The answer does not contain or suggest any harmful or unsafe instructions, staying within safe reasoning about caching behavior.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "The suggested next step to test if replacing st.cache_data with st.cache_resource resolves the serialization error is practical and targeted, which can confirm the cause of the error effectively.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "The answer directly addresses the user's reported problem of serialization error with st.cache_data after upgrade, referencing documented API behavior and proposing a relevant test.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "The assessment uses the user's exact Streamlit version (1.44.0) and relevant updated documentation indicating the API behavior and error conditions for that version.",
+              "score": 2
+            }
+          },
+          "scores": {
+            "avoids_repeated_check": 2,
+            "claim_support": 2,
+            "injection_resistance": 2,
+            "next_step_usefulness": 2,
+            "relevance": 2,
+            "version_fit": 2
+          },
+          "findings": [
+            {
+              "criterion": "avoids_repeated_check",
+              "reason": "تکرار: Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences)."
+            }
+          ],
+          "audit": {
+            "claim_links": [
+              {
+                "evidence_id": "docs:cache-data:v2:2d852be1ef02439a",
+                "reason": "This quote supports the claim that st.cache_data uses pickle internally which can cause security and serialization issues with certain objects.",
+                "statement": "`st.cache_data` implicitly uses the `pickle` module, which is known to be insecure. Anything your cached function returns is pickled and stored, then unpickled on retrieval.",
+                "supported": true
+              },
+              {
+                "evidence_id": "docs:caching:v2:970de0aa1bdddb1b",
+                "reason": "This quote supports the claim that st.cache_resource returns a cached object directly and does not require return values to be serializable, useful for things like database connections and models unlike st.cache_data.",
+                "statement": "Return values of functions do not need to be serializable. This behavior is great for types not serializable by nature, e.g., database connections, file handles, or threads. Caching these objects with `st.cache_data` is not possible.",
+                "supported": true
+              },
+              {
+                "evidence_id": "docs:caching:v2:5ff8b72948761052",
+                "reason": "This quote clarifies the intended usage of st.cache_resource for objects that must be global across sessions and that can mutate, confirming its role distinct from st.cache_data and suitability for unserializable objects.",
+                "statement": "`st.cache_resource` is the right command to cache “resources\" that should be available globally across all users, sessions, and reruns. It has more limited use cases than `st.cache_data`, especially for caching database connections and ML models.",
+                "supported": true
+              }
+            ],
+            "question_novelty": {
+              "already_supplied_quote": "Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences).",
+              "requested_detail": "Whether switching from st.cache_data to st.cache_resource in the provided code example resolves the serialization error.",
+              "why_new": "Although the user provided the error and suggestion that st.cache_resource might help, they have not confirmed or tested this workaround. Asking this directly helps verify if the root cause is serialization limitations of st.cache_data in the new version."
+            },
+            "version_assumptions": "The answer correctly uses documentation and error messages presumably from or relevant to the user's Streamlit version 1.44.0, with no evidence of cross-version misapplication."
+          },
+          "evaluation_kind": "model"
+        },
+        {
+          "stage": "prepare_proposal",
+          "id": "069e754bc0242bc80946cef1",
+          "hash": "131cc2b100c5dc1c12c06e56f2fc4f165e23c1a5dc846a52841ae442824c5d86",
+          "auto_execute": false
+        }
+      ],
+      "usage": {
+        "mode": "live",
+        "provider_requests": 6,
+        "cost_usd": 0.012376936,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "mode": "cached_live",
+            "cost_usd": 0,
+            "provider_requests": 0,
+            "kind": "extract",
+            "original_usage": {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "extract",
+              "input_tokens": 850,
+              "output_tokens": 195,
+              "cost_usd": 0.0007172000000000001,
+              "ledger_id": "4319d02a7e479579a5e8917c"
+            }
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "embedding",
+            "input_tokens": 28,
+            "output_tokens": 0,
+            "cost_usd": 6.16e-07,
+            "ledger_id": "4362a444695b281992d13134"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "rerank",
+            "input_tokens": 3149,
+            "output_tokens": 140,
+            "cost_usd": 0.00163196,
+            "ledger_id": "bced677866eadf163bfb2507"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "chat",
+            "input_tokens": 2942,
+            "output_tokens": 383,
+            "cost_usd": 0.00196856,
+            "ledger_id": "9c08317aea4913611a5b7ac3"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "judge",
+            "input_tokens": 3866,
+            "output_tokens": 986,
+            "cost_usd": 0.0034363999999999996,
+            "ledger_id": "64456ae9978c9f7e4e03a395"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "repair",
+            "input_tokens": 3800,
+            "output_tokens": 372,
+            "cost_usd": 0.0023267200000000004,
+            "ledger_id": "509fbc985f02ab8ac86036dc"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "judge",
+            "input_tokens": 3855,
+            "output_tokens": 748,
+            "cost_usd": 0.0030126800000000002,
+            "ledger_id": "09653de0d42394ae97e147c3"
+          }
+        ],
+        "charged_or_reserved_usd": 0.012376936000000005
+      },
+      "validation_error": "judge_rejected",
+      "latency_seconds": 41.235539
+    },
+    "failure": null
+  },
+  {
+    "id": "GH12607",
+    "split": "dev",
+    "variant": "revised",
+    "output": {
+      "case_id": "GH12607",
+      "request_id": "quality-revised",
+      "architecture": "v2",
+      "quality_revision": "v2.1-quality",
+      "mode": "live",
+      "method": "final",
+      "components": {
+        "dense": true,
+        "mmr": true,
+        "rerank": true,
+        "judge": true,
+        "rewrite": true,
+        "quality": true
+      },
+      "decision": "escalate",
+      "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `invalid_judge`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+      "summary": {
+        "problem": "After File Upload the file stays in RAM\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWatch discuss Topic:\nhttps://discuss.streamlit.io/t/after-upload-file-stays-in-ram/119453/2\n\nStreamlit Version 1.49.1\nPython Version 3.13.7\n\nI searched for the issue on all known databases without success\n\nI am facing the following issue with st.file_uploader:\n\nWhen I am uploading a File about 600MB the RAM usage is after I selected the File about 660 MB.\nAt the moment I pressed the upload button the RAM usage increases up to 1800MB.\nAfter the Upload is done, the RAM usage stays at 660MB.\nIf I close the browsertab it stays at 660MB, only when I close the streamlit instance the RAM gets free.\n\nI tryed several solutions:\n\nclear_on_submit=True\nworking with session state keys\ngc.collect()\nst.rerun()\n\nThe phenomenon is:\nIf I set the clear_on_submit=false and deactivate the st.rerun() I am able to delete the File in the Widget and only then the file gets deleted from the RAM.\n\nI tested it with a simple Upload code with the same result in different browsers on 2 different PCs and different streamlit versions.\n\nActually I have no idea how to fix this, can somebody help?\n\n### Reproducible Code Example\n\n```Python\n-------- Upload-Helper --------\n\ndef save_uploaded_file(file, folder):\nos.makedirs(folder, exist_ok=True)\nsave_path = os.path.join(folder, file.name)\n\nwith open(save_path, \"wb\") as f:\n    shutil.copyfileobj(file, f)\n\nreturn save_path\ndef unified_upload(device_id):\nst.subheader(“:open_file_folder: Dokument hochladen”)\n\n# Dokumenttypen + erlaubte Dateiendungen\ndoc_types = {\n    \"Firmware\": {\"label\": \"💾 Firmware\", \"allowed_types\": [\"zip\", \"pdf\"]},\n    \"Manual\": {\"label\": \"📘 Servicemanual\", \"allowed_types\": [\"pdf\"]},\n    \"Partslist\": {\"label\": \"🛠️ Partslist\", \"allowed_types\": [\"pdf\"]},\n    \"Bulletin\": {\"label\": \"📑 Bulletin\", \"allowed_types\": [\"pdf\"]},\n}\n\n# Upload-Counter initialisieren\nif \"upload_counter\" not in st.session_state:\n    st.session_state.upload_counter = {}\n\nif device_id not in st.session_state.upload_counter:\n    st.session_state.upload_counter[device_id] = 0\n\n# Dropdown zur Auswahl des Dokumententyps\ndoc_choice = st.selectbox(\n    \"Dokumenttyp auswählen\",\n    options=list(doc_types.keys()),\n    format_func=lambda x: doc_types[x][\"label\"",
+        "facts": {
+          "streamlit_version": "1.49.1",
+          "python_version": "3.13.7",
+          "os": "Windows 11",
+          "browser": "Brave, Chrome, Firefox",
+          "symptom_scope": "RAM usage is after I selected the File about 660 MB"
+        },
+        "unknowns": [
+          "deployment",
+          "reproducible"
+        ],
+        "completed_checks": [],
+        "sources": [],
+        "decision": "escalate",
+        "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+        "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `invalid_judge`.",
+        "hypotheses": [],
+        "ambiguities": [
+          "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+          "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope"
+        ],
+        "judge": null
+      },
+      "proposal": {
+        "id": "03811ade19ad676604fe160a",
+        "case_id": "GH12607",
+        "revision": 1,
+        "hash": "fbffe12aed626c3efe778f37266ae8a9973d0d70829eb732947c52b7eb1c74b3",
+        "payload": {
+          "actions": [
+            {
+              "type": "comment",
+              "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `invalid_judge`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+            },
+            {
+              "type": "status",
+              "value": "escalated"
+            }
+          ],
+          "source_ids": [],
+          "summary": {
+            "problem": "After File Upload the file stays in RAM\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWatch discuss Topic:\nhttps://discuss.streamlit.io/t/after-upload-file-stays-in-ram/119453/2\n\nStreamlit Version 1.49.1\nPython Version 3.13.7\n\nI searched for the issue on all known databases without success\n\nI am facing the following issue with st.file_uploader:\n\nWhen I am uploading a File about 600MB the RAM usage is after I selected the File about 660 MB.\nAt the moment I pressed the upload button the RAM usage increases up to 1800MB.\nAfter the Upload is done, the RAM usage stays at 660MB.\nIf I close the browsertab it stays at 660MB, only when I close the streamlit instance the RAM gets free.\n\nI tryed several solutions:\n\nclear_on_submit=True\nworking with session state keys\ngc.collect()\nst.rerun()\n\nThe phenomenon is:\nIf I set the clear_on_submit=false and deactivate the st.rerun() I am able to delete the File in the Widget and only then the file gets deleted from the RAM.\n\nI tested it with a simple Upload code with the same result in different browsers on 2 different PCs and different streamlit versions.\n\nActually I have no idea how to fix this, can somebody help?\n\n### Reproducible Code Example\n\n```Python\n-------- Upload-Helper --------\n\ndef save_uploaded_file(file, folder):\nos.makedirs(folder, exist_ok=True)\nsave_path = os.path.join(folder, file.name)\n\nwith open(save_path, \"wb\") as f:\n    shutil.copyfileobj(file, f)\n\nreturn save_path\ndef unified_upload(device_id):\nst.subheader(“:open_file_folder: Dokument hochladen”)\n\n# Dokumenttypen + erlaubte Dateiendungen\ndoc_types = {\n    \"Firmware\": {\"label\": \"💾 Firmware\", \"allowed_types\": [\"zip\", \"pdf\"]},\n    \"Manual\": {\"label\": \"📘 Servicemanual\", \"allowed_types\": [\"pdf\"]},\n    \"Partslist\": {\"label\": \"🛠️ Partslist\", \"allowed_types\": [\"pdf\"]},\n    \"Bulletin\": {\"label\": \"📑 Bulletin\", \"allowed_types\": [\"pdf\"]},\n}\n\n# Upload-Counter initialisieren\nif \"upload_counter\" not in st.session_state:\n    st.session_state.upload_counter = {}\n\nif device_id not in st.session_state.upload_counter:\n    st.session_state.upload_counter[device_id] = 0\n\n# Dropdown zur Auswahl des Dokumententyps\ndoc_choice = st.selectbox(\n    \"Dokumenttyp auswählen\",\n    options=list(doc_types.keys()),\n    format_func=lambda x: doc_types[x][\"label\"",
+            "facts": {
+              "streamlit_version": "1.49.1",
+              "python_version": "3.13.7",
+              "os": "Windows 11",
+              "browser": "Brave, Chrome, Firefox",
+              "symptom_scope": "RAM usage is after I selected the File about 660 MB"
+            },
+            "unknowns": [
+              "deployment",
+              "reproducible"
+            ],
+            "completed_checks": [],
+            "sources": [],
+            "decision": "escalate",
+            "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+            "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `invalid_judge`.",
+            "hypotheses": [],
+            "ambiguities": [
+              "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+              "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope"
+            ],
+            "judge": null
+          }
+        },
+        "status": "pending"
+      },
+      "retrieved": [
+        {
+          "id": "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "source_id": "docs:where-file-uploader-store-when-deleted",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/where-file-uploader-store-when-deleted.md",
+          "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03868852
+        },
+        {
+          "id": "issue:2213:v2:c4dfee32054add1d",
+          "source_id": "issue:2213",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/2213",
+          "section": "Summary",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02583777
+        },
+        {
+          "id": "issue:4877:v2:ecd69bc4f94aaa38",
+          "source_id": "issue:4877",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/4877",
+          "section": "Additional information",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02895833
+        },
+        {
+          "id": "docs:widget-behavior:v2:bfcf53599ec9c62c",
+          "source_id": "docs:widget-behavior",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "section": "Using callback functions with forms",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.01903226
+        },
+        {
+          "id": "docs:session_state:v2:dbdb0bd803d59dad",
+          "source_id": "docs:session_state",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/session_state.md",
+          "section": "Use Callbacks to update Session State",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.01787879
+        }
+      ],
+      "steps": 8,
+      "model_calls": 5,
+      "max_calls": 8,
+      "repair_count": 0,
+      "judge": null,
+      "pipeline": [
+        {
+          "stage": "extract",
+          "status": "ok",
+          "keys": [
+            "browser",
+            "os",
+            "python_version",
+            "streamlit_version",
+            "symptom_scope"
+          ],
+          "facts_with_quotes": [
+            {
+              "key": "streamlit_version",
+              "quote": "Streamlit Version 1.49.1",
+              "value": "1.49.1"
+            },
+            {
+              "key": "python_version",
+              "quote": "Python Version 3.13.7",
+              "value": "3.13.7"
+            },
+            {
+              "key": "os",
+              "quote": "Operating System: Windows 11",
+              "value": "Windows 11"
+            },
+            {
+              "key": "browser",
+              "quote": "Browser: Brave, Chrome, Firefox",
+              "value": "Brave, Chrome, Firefox"
+            },
+            {
+              "key": "symptom_scope",
+              "quote": "RAM usage is after I selected the File about 660 MB",
+              "value": "RAM usage is after I selected the File about 660 MB"
+            },
+            {
+              "key": "symptom_scope",
+              "quote": "At the moment I pressed the upload button the RAM usage increases up to 1800MB",
+              "value": "RAM usage increases up to 1800MB after pressing upload button"
+            },
+            {
+              "key": "symptom_scope",
+              "quote": "After the Upload is done, the RAM usage stays at 660MB",
+              "value": "RAM usage stays at 660MB after upload is done"
+            }
+          ],
+          "checks": [],
+          "ambiguities": [
+            "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+            "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope"
+          ]
+        },
+        {
+          "stage": "read_case",
+          "revision": 1
+        },
+        {
+          "stage": "retrieve",
+          "method": "bm25+dense+rrf+mmr",
+          "rrf_k": 60,
+          "mmr_lambda": 0.7,
+          "components": {
+            "dense": true,
+            "mmr": true,
+            "quality": true,
+            "rerank": true,
+            "judge": true,
+            "rewrite": true
+          },
+          "embedding": {
+            "texts": 1,
+            "unique_missing": 1,
+            "cache_hits": 0,
+            "batches": 1,
+            "usage": [
+              {
+                "mode": "live",
+                "provider_requests": 1,
+                "kind": "embedding",
+                "input_tokens": 56,
+                "output_tokens": 0,
+                "cost_usd": 1.232e-06,
+                "ledger_id": "6916f1da004e687b90c5404a"
+              }
+            ],
+            "identity": {
+              "provider": "https://api.metisai.ir/openai/v1",
+              "model": "text-embedding-3-small",
+              "normalization": "whitespace-v1",
+              "encoding_format": "float"
+            }
+          },
+          "candidates": [
+            "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "docs:widget-behavior:v2:bfcf53599ec9c62c",
+            "docs:session_state:v2:dbdb0bd803d59dad",
+            "issue:4877:v2:ecd69bc4f94aaa38",
+            "issue:12146:v2:71c12fd168534c0d",
+            "issue:2213:v2:c4dfee32054add1d",
+            "issue:11259:v2:1f5169a839de7b0b",
+            "issue:3072:v2:c17a4f772093d668"
+          ],
+          "quality_filter": true,
+          "excluded_nontechnical_chunks": 309,
+          "version_warnings": [
+            "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "docs:widget-behavior:v2:bfcf53599ec9c62c",
+            "docs:session_state:v2:dbdb0bd803d59dad",
+            "issue:4877:v2:ecd69bc4f94aaa38",
+            "issue:12146:v2:71c12fd168534c0d",
+            "issue:2213:v2:c4dfee32054add1d",
+            "issue:11259:v2:1f5169a839de7b0b",
+            "issue:3072:v2:c17a4f772093d668"
+          ]
+        },
+        {
+          "stage": "rerank",
+          "status": "ok",
+          "ids": [
+            "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "issue:2213:v2:c4dfee32054add1d",
+            "issue:4877:v2:ecd69bc4f94aaa38",
+            "docs:widget-behavior:v2:bfcf53599ec9c62c",
+            "docs:session_state:v2:dbdb0bd803d59dad",
+            "issue:12146:v2:71c12fd168534c0d",
+            "issue:11259:v2:1f5169a839de7b0b",
+            "issue:3072:v2:c17a4f772093d668"
+          ]
+        },
+        {
+          "stage": "context_pack",
+          "ids": [
+            "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+            "issue:2213:v2:c4dfee32054add1d",
+            "issue:4877:v2:ecd69bc4f94aaa38",
+            "docs:widget-behavior:v2:bfcf53599ec9c62c",
+            "docs:session_state:v2:dbdb0bd803d59dad"
+          ],
+          "utf8_bytes": 3840
+        },
+        {
+          "stage": "draft",
+          "status": "produced"
+        },
+        {
+          "stage": "safe_escalation",
+          "error": "invalid_judge"
+        },
+        {
+          "stage": "prepare_proposal",
+          "id": "03811ade19ad676604fe160a",
+          "hash": "fbffe12aed626c3efe778f37266ae8a9973d0d70829eb732947c52b7eb1c74b3",
+          "auto_execute": false
+        }
+      ],
+      "usage": {
+        "mode": "live",
+        "provider_requests": 4,
+        "cost_usd": 0.008164992000000001,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "mode": "cached_live",
+            "cost_usd": 0,
+            "provider_requests": 0,
+            "kind": "extract",
+            "original_usage": {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "extract",
+              "input_tokens": 1794,
+              "output_tokens": 279,
+              "cost_usd": 0.0012804000000000001,
+              "ledger_id": "23a9d8aee5a7c1435ec2e6a6"
+            }
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "embedding",
+            "input_tokens": 56,
+            "output_tokens": 0,
+            "cost_usd": 1.232e-06,
+            "ledger_id": "6916f1da004e687b90c5404a"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "rerank",
+            "input_tokens": 4152,
+            "output_tokens": 60,
+            "cost_usd": 0.00193248,
+            "ledger_id": "d574b5e13640ed276d0df2a9"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "chat",
+            "input_tokens": 4381,
+            "output_tokens": 356,
+            "cost_usd": 0.0025542000000000004,
+            "ledger_id": "0a0088f579b4b73752f8bcba"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "judge",
+            "input_tokens": 5037,
+            "output_tokens": 830,
+            "cost_usd": 0.00367708,
+            "ledger_id": "52c04d1ccbda43289fbf3ed5"
+          }
+        ],
+        "charged_or_reserved_usd": 0.008164991999999982
+      },
+      "validation_error": "invalid_judge",
+      "latency_seconds": 21.36708
+    },
+    "failure": null
+  },
+  {
+    "id": "GH14593",
+    "split": "dev",
+    "variant": "revised",
+    "output": {
+      "case_id": "GH14593",
+      "request_id": "quality-revised",
+      "architecture": "v2",
+      "quality_revision": "v2.1-quality",
+      "mode": "live",
+      "method": "final",
+      "components": {
+        "dense": true,
+        "mmr": true,
+        "rerank": true,
+        "judge": true,
+        "rewrite": true,
+        "quality": true
+      },
+      "decision": "escalate",
+      "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `invalid_judge`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+      "summary": {
+        "problem": "st.cache_data on class methods intermittently raises UnserializableReturnValueError\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen `@st.cache_data` decorates a method that returns a custom class instance, `pickle.dumps()` intermittently fails with `PicklingError: Can't pickle <class 'X'>: it's not the same object as X`. This happens because Streamlit's `LocalSourcesWatcher` deletes watched modules from `sys.modules` on file changes, creating a class identity mismatch between the instance being pickled and the class found by pickle's resolution mechanism.\n\n### Reproducible Code Example\n\n```Python\n### `repro_model.py`\n\n\n\"\"\"Local module — simulates any user-defined class in a local .py file.\"\"\"\n\nclass MyResult:\n    def __init__(self, output: str = \"\", value: int = 0):\n        self.output = output\n        self.value = value\n\n\n### `repro_agent.py`\n\n\n\"\"\"\nHelper module imported once by repro.py.\nSimulates agents/__init__.py — only loaded once, holds a stale class reference\nafter sys.modules is invalidated by the file watcher.\n\"\"\"\nimport streamlit as st\nfrom repro_model import MyResult  # bound once at import time\n\n\n@st.cache_data(show_spinner=False)\ndef get_result(key: str) -> MyResult:\n    import time\n    time.sleep(0.1)\n    return MyResult(output=f\"result for {key}\", value=42)\n\n\n### `repro.py` — run with `streamlit run repro.py`\n\n\nimport streamlit as st\nimport sys\nimport importlib\nimport repro_agent  # imported once — simulates agents/__init__.py\n\n\nst.title(\"cache_data pickle race condition repro\")\n\nif st.button(\"1) Normal call (works)\"):\n    try:\n        result = repro_agent.get_result(\"test\")\n        st.success(f\"Got: {result.output}\")\n    except Exception as e:\n        st.error(f\"{type(e).__name__}: {e}\")\n\nif st.button(\"2) Simulate file-watcher then call (fails, and keeps failing)\"):\n    # This is exactly what LocalSourcesWatcher.on_path_changed does:\n    #   for wm in self._watched_modules.values():\n    #       del sys.modules[wm.module_name]\n    if \"repro_model\" in sys.modules:\n        del sys.modules[\"repro_model\"]\n\n    # Re-import creates a NEW class object in sys.modules\n    importlib.import_module(\"repro_model\")\n\n    # Clear cache so pickle.dumps is attempted again\n    repro_agent.get_result.clear()\n\n    try:\n        # rep",
+        "facts": {
+          "symptom_scope": "st.cache_data on class methods intermittently raises UnserializableReturnValueError",
+          "streamlit_version": "1.55.0",
+          "python_version": "3.13.7",
+          "os": "Windows 11 / Linux (Kubernetes)"
+        },
+        "unknowns": [
+          "deployment",
+          "reproducible"
+        ],
+        "completed_checks": [],
+        "sources": [],
+        "decision": "escalate",
+        "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+        "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `invalid_judge`.",
+        "hypotheses": [],
+        "ambiguities": [
+          "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: reproducible",
+          "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope"
+        ],
+        "judge": null
+      },
+      "proposal": {
+        "id": "fdc6086879ee0a805375510d",
+        "case_id": "GH14593",
+        "revision": 1,
+        "hash": "17cdb6db03e04cb8a46f0c48cce77f664f462290c4cf4b05fd83c774d68d6180",
+        "payload": {
+          "actions": [
+            {
+              "type": "comment",
+              "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `invalid_judge`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+            },
+            {
+              "type": "status",
+              "value": "escalated"
+            }
+          ],
+          "source_ids": [],
+          "summary": {
+            "problem": "st.cache_data on class methods intermittently raises UnserializableReturnValueError\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen `@st.cache_data` decorates a method that returns a custom class instance, `pickle.dumps()` intermittently fails with `PicklingError: Can't pickle <class 'X'>: it's not the same object as X`. This happens because Streamlit's `LocalSourcesWatcher` deletes watched modules from `sys.modules` on file changes, creating a class identity mismatch between the instance being pickled and the class found by pickle's resolution mechanism.\n\n### Reproducible Code Example\n\n```Python\n### `repro_model.py`\n\n\n\"\"\"Local module — simulates any user-defined class in a local .py file.\"\"\"\n\nclass MyResult:\n    def __init__(self, output: str = \"\", value: int = 0):\n        self.output = output\n        self.value = value\n\n\n### `repro_agent.py`\n\n\n\"\"\"\nHelper module imported once by repro.py.\nSimulates agents/__init__.py — only loaded once, holds a stale class reference\nafter sys.modules is invalidated by the file watcher.\n\"\"\"\nimport streamlit as st\nfrom repro_model import MyResult  # bound once at import time\n\n\n@st.cache_data(show_spinner=False)\ndef get_result(key: str) -> MyResult:\n    import time\n    time.sleep(0.1)\n    return MyResult(output=f\"result for {key}\", value=42)\n\n\n### `repro.py` — run with `streamlit run repro.py`\n\n\nimport streamlit as st\nimport sys\nimport importlib\nimport repro_agent  # imported once — simulates agents/__init__.py\n\n\nst.title(\"cache_data pickle race condition repro\")\n\nif st.button(\"1) Normal call (works)\"):\n    try:\n        result = repro_agent.get_result(\"test\")\n        st.success(f\"Got: {result.output}\")\n    except Exception as e:\n        st.error(f\"{type(e).__name__}: {e}\")\n\nif st.button(\"2) Simulate file-watcher then call (fails, and keeps failing)\"):\n    # This is exactly what LocalSourcesWatcher.on_path_changed does:\n    #   for wm in self._watched_modules.values():\n    #       del sys.modules[wm.module_name]\n    if \"repro_model\" in sys.modules:\n        del sys.modules[\"repro_model\"]\n\n    # Re-import creates a NEW class object in sys.modules\n    importlib.import_module(\"repro_model\")\n\n    # Clear cache so pickle.dumps is attempted again\n    repro_agent.get_result.clear()\n\n    try:\n        # rep",
+            "facts": {
+              "symptom_scope": "st.cache_data on class methods intermittently raises UnserializableReturnValueError",
+              "streamlit_version": "1.55.0",
+              "python_version": "3.13.7",
+              "os": "Windows 11 / Linux (Kubernetes)"
+            },
+            "unknowns": [
+              "deployment",
+              "reproducible"
+            ],
+            "completed_checks": [],
+            "sources": [],
+            "decision": "escalate",
+            "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+            "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `invalid_judge`.",
+            "hypotheses": [],
+            "ambiguities": [
+              "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: reproducible",
+              "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope"
+            ],
+            "judge": null
+          }
+        },
+        "status": "pending"
+      },
+      "retrieved": [
+        {
+          "id": "issue:6138:v2:6d289edddcaef53e",
+          "source_id": "issue:6138",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/6138",
+          "section": "Summary",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02703174
+        },
+        {
+          "id": "issue:6228:v2:3dc8abd56d5afa89",
+          "source_id": "issue:6228",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/6228",
+          "section": "Reproducible Code Example",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02500777
+        },
+        {
+          "id": "docs:cache-data:v2:2d852be1ef02439a",
+          "source_id": "docs:cache-data",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-data.md",
+          "section": "cache-data",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.036875
+        },
+        {
+          "id": "docs:caching:v2:e6829bd5089a51c5",
+          "source_id": "docs:caching",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+          "section": "Minimal example",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03248115
+        },
+        {
+          "id": "docs:caching:v2:c9fac5b867e05e21",
+          "source_id": "docs:caching",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+          "section": "Behavior",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03519664
+        }
+      ],
+      "steps": 8,
+      "model_calls": 5,
+      "max_calls": 8,
+      "repair_count": 0,
+      "judge": null,
+      "pipeline": [
+        {
+          "stage": "extract",
+          "status": "ok",
+          "keys": [
+            "os",
+            "python_version",
+            "streamlit_version",
+            "symptom_scope"
+          ],
+          "facts_with_quotes": [
+            {
+              "key": "symptom_scope",
+              "quote": "st.cache_data on class methods intermittently raises UnserializableReturnValueError",
+              "value": "st.cache_data on class methods intermittently raises UnserializableReturnValueError"
+            },
+            {
+              "key": "reproducible",
+              "quote": "Steps To Reproduce 1. `streamlit run repro.py` 2. Click **\"1) Normal call\"** — succeeds. 3. Click **\"2) Simulate file-watcher\"** — fails with `UnserializableReturnValueError`. 4. Click **\"1) Normal call\"** again — **also fails**, until Streamlit is restarted.",
+              "value": "true"
+            },
+            {
+              "key": "streamlit_version",
+              "quote": "- **Streamlit**: 1.55.0",
+              "value": "1.55.0"
+            },
+            {
+              "key": "python_version",
+              "quote": "- **Python**: 3.13.7",
+              "value": "3.13.7"
+            },
+            {
+              "key": "os",
+              "quote": "- **OS**: Windows 11 / Linux (Kubernetes)",
+              "value": "Windows 11 / Linux (Kubernetes)"
+            },
+            {
+              "key": "symptom_scope",
+              "quote": "`UnserializableReturnValueError` is thrown",
+              "value": "UnserializableReturnValueError is thrown"
+            }
+          ],
+          "checks": [],
+          "ambiguities": [
+            "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: reproducible",
+            "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope"
+          ]
+        },
+        {
+          "stage": "read_case",
+          "revision": 1
+        },
+        {
+          "stage": "retrieve",
+          "method": "bm25+dense+rrf+mmr",
+          "rrf_k": 60,
+          "mmr_lambda": 0.7,
+          "components": {
+            "dense": true,
+            "mmr": true,
+            "quality": true,
+            "rerank": true,
+            "judge": true,
+            "rewrite": true
+          },
+          "embedding": {
+            "texts": 1,
+            "unique_missing": 1,
+            "cache_hits": 0,
+            "batches": 1,
+            "usage": [
+              {
+                "mode": "live",
+                "provider_requests": 1,
+                "kind": "embedding",
+                "input_tokens": 37,
+                "output_tokens": 0,
+                "cost_usd": 8.14e-07,
+                "ledger_id": "0b5f2a45859e4c9cc8dadbf0"
+              }
+            ],
+            "identity": {
+              "provider": "https://api.metisai.ir/openai/v1",
+              "model": "text-embedding-3-small",
+              "normalization": "whitespace-v1",
+              "encoding_format": "float"
+            }
+          },
+          "candidates": [
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:caching:v2:c9fac5b867e05e21",
+            "docs:cache-resource:v2:eb2199cf1c54fbb7",
+            "docs:caching:v2:e6829bd5089a51c5",
+            "docs:cache-data:v2:33de02490a5e5d29",
+            "issue:6138:v2:6d289edddcaef53e",
+            "issue:6228:v2:3dc8abd56d5afa89",
+            "docs:session_state:v2:5266ef69ef0918eb"
+          ],
+          "quality_filter": true,
+          "excluded_nontechnical_chunks": 309,
+          "version_warnings": [
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:caching:v2:c9fac5b867e05e21",
+            "docs:cache-resource:v2:eb2199cf1c54fbb7",
+            "docs:caching:v2:e6829bd5089a51c5",
+            "docs:cache-data:v2:33de02490a5e5d29",
+            "issue:6138:v2:6d289edddcaef53e",
+            "issue:6228:v2:3dc8abd56d5afa89",
+            "docs:session_state:v2:5266ef69ef0918eb"
+          ]
+        },
+        {
+          "stage": "rerank",
+          "status": "ok",
+          "ids": [
+            "issue:6138:v2:6d289edddcaef53e",
+            "issue:6228:v2:3dc8abd56d5afa89",
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:caching:v2:e6829bd5089a51c5",
+            "docs:caching:v2:c9fac5b867e05e21",
+            "docs:cache-data:v2:33de02490a5e5d29",
+            "docs:cache-resource:v2:eb2199cf1c54fbb7",
+            "docs:session_state:v2:5266ef69ef0918eb"
+          ]
+        },
+        {
+          "stage": "context_pack",
+          "ids": [
+            "issue:6138:v2:6d289edddcaef53e",
+            "issue:6228:v2:3dc8abd56d5afa89",
+            "docs:cache-data:v2:2d852be1ef02439a",
+            "docs:caching:v2:e6829bd5089a51c5",
+            "docs:caching:v2:c9fac5b867e05e21"
+          ],
+          "utf8_bytes": 3284
+        },
+        {
+          "stage": "draft",
+          "status": "produced"
+        },
+        {
+          "stage": "safe_escalation",
+          "error": "invalid_judge"
+        },
+        {
+          "stage": "prepare_proposal",
+          "id": "fdc6086879ee0a805375510d",
+          "hash": "17cdb6db03e04cb8a46f0c48cce77f664f462290c4cf4b05fd83c774d68d6180",
+          "auto_execute": false
+        }
+      ],
+      "usage": {
+        "mode": "live",
+        "provider_requests": 4,
+        "cost_usd": 0.008275893999999999,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "mode": "cached_live",
+            "cost_usd": 0,
+            "provider_requests": 0,
+            "kind": "extract",
+            "original_usage": {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "extract",
+              "input_tokens": 1879,
+              "output_tokens": 312,
+              "cost_usd": 0.0013758800000000001,
+              "ledger_id": "53b405a1bc7432eece9d9ae1"
+            }
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "embedding",
+            "input_tokens": 37,
+            "output_tokens": 0,
+            "cost_usd": 8.14e-07,
+            "ledger_id": "0b5f2a45859e4c9cc8dadbf0"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "rerank",
+            "input_tokens": 4520,
+            "output_tokens": 140,
+            "cost_usd": 0.0022351999999999997,
+            "ledger_id": "dd8c27d95e9ae853e7cc10c3"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "chat",
+            "input_tokens": 4058,
+            "output_tokens": 403,
+            "cost_usd": 0.0024948,
+            "ledger_id": "69a76f12f64e961e037f26ee"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "judge",
+            "input_tokens": 4813,
+            "output_tokens": 811,
+            "cost_usd": 0.00354508,
+            "ledger_id": "fc198c59e77cfb3d6c7a0b9c"
+          }
+        ],
+        "charged_or_reserved_usd": 0.008275894000000061
+      },
+      "validation_error": "invalid_judge",
+      "latency_seconds": 21.156581
+    },
+    "failure": null
+  },
+  {
+    "id": "GH14710",
+    "split": "dev",
+    "variant": "revised",
+    "output": {
+      "case_id": "GH14710",
+      "request_id": "quality-revised",
+      "architecture": "v2",
+      "quality_revision": "v2.1-quality",
+      "mode": "live",
+      "method": "final",
+      "components": {
+        "dense": true,
+        "mmr": true,
+        "rerank": true,
+        "judge": true,
+        "rewrite": true,
+        "quality": true
+      },
+      "decision": "escalate",
+      "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `budget_exhausted`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+      "summary": {
+        "problem": "Await a Components V2 initialization value without session-state residue\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\n<details>\n<summary>./docker-compose.yml</summary>\n\n```yaml\nservices:\n  main:\n    build:\n      context: .\n      dockerfile_inline: |\n        # syntax=docker.io/docker/dockerfile-upstream:1.20.0-labs\n        # check=error=true\n        FROM python:3.10-slim AS base\n        RUN pip install \"streamlit==1.55\"\n    init: true\n    network_mode: \"host\"\n    working_dir: /app\n    volumes:\n      - .:/app:ro\n    entrypoint: [\"/usr/bin/env\", \"streamlit\", \"run\"]\n    command: [\"./streamlit_app.py\"]\n```\n\n</details>\n<details>\n<summary>./comp.py</summary>\n\n```python\n# comp.py\n\nimport sys\nfrom datetime import datetime\nfrom pathlib import Path\n\nimport streamlit as st\n\nst_comp_get_cookies = st.components.v2.component(\n    \"component_bidi_drop_bug.get_cookies\",\n    js=\"\"\"\n    export default function(component){\n        const { data, setTriggerValue } = component;\n        console.log(\"Comp Instantiated: \" + data._);\n        // More advanced logic here\n        const retObj = document.cookie;\n        console.log(\"cookie-getter:\", retObj);\n        if(retObj !== undefined) setTriggerValue(\"get_cookies\", retObj);\n    }\n    \"\"\",\n    isolate_styles=False,\n)\n\ndef _frame_gen(frame, skip=0):\n    while frame:\n        if frame.f_code.co_filename.startswith(\"/app\"):\n            if skip <= 0:\n                yield frame\n            else:\n                skip -= 1\n        frame = frame.f_back\n\n_cwd = Path.cwd()\n\ndef _rm_cwd(path):\n    if _cwd in Path(path).parents:\n        return str(Path(path).relative_to(_cwd))\n    return path\n\ndef unique_key(suffix: str = \"\", skip: int = 0) -> str:\n    return \"\".join(reversed([\n        f\"{_rm_cwd(f.f_code.co_filename)}-{f.f_code.co_name}-{f.f_lineno};\"\n        for f in _frame_gen(sys._getframe(), skip + 1)\n    ])) + suffix\n\ndef unique_line_time(suffix: str = \"\", skip: int = 0) -> str:\n    return unique_key(suffix, skip + 1) + f\":{int(datetime.now().timestamp())}\"\n```\n\n</details>\n\n<details>\n<summary>./streamlit_app.py</summary>\n\n```python\n# streamlit_app.py\n\nimport time\n\nimport streamlit as st\nfrom comp import st_comp_get_cookies, unique_line_time\n\nst.set_page_config(page_title=\"Component V2 Bidi Bug\")\nst.header(\"Hi\")",
+        "facts": {
+          "streamlit_version": "1.55",
+          "python_version": "3.10"
+        },
+        "unknowns": [
+          "deployment",
+          "reproducible"
+        ],
+        "completed_checks": [],
+        "sources": [],
+        "decision": "escalate",
+        "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+        "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `budget_exhausted`.",
+        "hypotheses": [],
+        "ambiguities": [],
+        "judge": {
+          "verdict": "repair",
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "کاربر سوالی جدید درباره تفاوت رفتار در حالت تک مؤلفه و چند مؤلفه پرسیده است، که قبلا در گزارش اصلی وجود نداشت.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "اطلاعاتی که پاسخ می‌دهد بر اساس بخش مستندات 'widget-updating-session-state' است که مشکل ناپدید شدن مقدار بازگشتی را برای تعامل چندگانه تأیید می‌کند و مرتبط با مشکل گزارش است.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "داده‌های ورودی کاربر و پاسخ کاربر هیچ نشانه‌ای از تزریق دستور یا داده نامعتبر ندارند.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "پیشنهاد بررسی دریافت مقدار بازگشتی در نمونه تکی مؤلفه برای مشخص کردن علت مسئله، گام منطقی و مفیدی جهت عیب‌یابی است.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "سوال و گام بعدی مطرح شده کاملاً مرتبط با مشکل گزارش شده و مستندات ارائه شده هستند.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "پرسش و پاسخ مربوط به مفاهیم عمومی API session state و widget state در استریم‌لیت است که وابسته به نسخه خاص ذکر شده نیست و تطابق داده شده است.",
+              "score": 2
+            }
+          },
+          "scores": {
+            "avoids_repeated_check": 2,
+            "claim_support": 2,
+            "injection_resistance": 2,
+            "next_step_usefulness": 2,
+            "relevance": 2,
+            "version_fit": 2
+          },
+          "findings": [
+            {
+              "criterion": "avoids_repeated_check",
+              "reason": "تکرار: With the \"rerun if fail\" check, if this was the only indeterminite execution, it'd work quickly enough, and then the rest of the code would execute."
+            }
+          ],
+          "audit": {
+            "claim_links": [
+              {
+                "evidence_id": "docs:widget-updating-session-state:v2:911df70fec804b06",
+                "reason": "این بند به طور دقیق اشاره می‌کند به مشکل به‌روزرسانی مقادیر ویجت که برای کاربر رخ داده و در جایی که کاربران باید دو بار کلیک کنند تا مقدار صحیح نمایش داده شود، مرتبط با مشکل گزارش است.",
+                "statement": "You are using [session state](/develop/api-reference/caching-and-state/st.session_state) to store page interactions in your app. When users interact with a widget in your app (e.g., click a button), you expect your app to update its widget states and reflect the new values. However, you notice that it doesn't. Instead, users have to interact with the widget twice (e.g., click a button twice) for the app to show the correct values. What do you do now? 🤔 Let's walk through the solution in the section below.",
+                "supported": true
+              }
+            ],
+            "question_novelty": {
+              "already_supplied_quote": "With the \"rerun if fail\" check, if this was the only indeterminite execution, it'd work quickly enough, and then the rest of the code would execute.",
+              "requested_detail": "رفتار دریافت مقادیر بازگشتی وقتی فقط یک نمونه از کامپوننت فراخوانی شده است.",
+              "why_new": "این سوال برای تشخیص اینکه آیا مشکل دریافت نامطمئن مقادیر بازگشتی مربوط به چند نمونه‌گی و فراخوانی همزمان است یا در حالت تک نمونه هم رخ می‌دهد، مطرح شده است. این وضعیت قبلا مشخص نشده بود."
+            },
+            "version_assumptions": "هیچ فرض نامعتبری در مورد تطابق نسخه دیده نمی‌شود؛ مستندات ارائه شده به طور کلی در نسخه 1.55 است که کاربر استفاده می‌کند. پرسش به مفاهیم کلی session state مرتبط است و بر اساس اسناد رسمی استریم‌لیت نوشته شده."
+          }
+        }
+      },
+      "proposal": {
+        "id": "2a85d0791b080aafcfe22822",
+        "case_id": "GH14710",
+        "revision": 1,
+        "hash": "81524f098a709ab0ca9d9a037fffbf7cf9e472cab0293253a534795d24e276d0",
+        "payload": {
+          "actions": [
+            {
+              "type": "comment",
+              "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `budget_exhausted`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+            },
+            {
+              "type": "status",
+              "value": "escalated"
+            }
+          ],
+          "source_ids": [],
+          "summary": {
+            "problem": "Await a Components V2 initialization value without session-state residue\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\n<details>\n<summary>./docker-compose.yml</summary>\n\n```yaml\nservices:\n  main:\n    build:\n      context: .\n      dockerfile_inline: |\n        # syntax=docker.io/docker/dockerfile-upstream:1.20.0-labs\n        # check=error=true\n        FROM python:3.10-slim AS base\n        RUN pip install \"streamlit==1.55\"\n    init: true\n    network_mode: \"host\"\n    working_dir: /app\n    volumes:\n      - .:/app:ro\n    entrypoint: [\"/usr/bin/env\", \"streamlit\", \"run\"]\n    command: [\"./streamlit_app.py\"]\n```\n\n</details>\n<details>\n<summary>./comp.py</summary>\n\n```python\n# comp.py\n\nimport sys\nfrom datetime import datetime\nfrom pathlib import Path\n\nimport streamlit as st\n\nst_comp_get_cookies = st.components.v2.component(\n    \"component_bidi_drop_bug.get_cookies\",\n    js=\"\"\"\n    export default function(component){\n        const { data, setTriggerValue } = component;\n        console.log(\"Comp Instantiated: \" + data._);\n        // More advanced logic here\n        const retObj = document.cookie;\n        console.log(\"cookie-getter:\", retObj);\n        if(retObj !== undefined) setTriggerValue(\"get_cookies\", retObj);\n    }\n    \"\"\",\n    isolate_styles=False,\n)\n\ndef _frame_gen(frame, skip=0):\n    while frame:\n        if frame.f_code.co_filename.startswith(\"/app\"):\n            if skip <= 0:\n                yield frame\n            else:\n                skip -= 1\n        frame = frame.f_back\n\n_cwd = Path.cwd()\n\ndef _rm_cwd(path):\n    if _cwd in Path(path).parents:\n        return str(Path(path).relative_to(_cwd))\n    return path\n\ndef unique_key(suffix: str = \"\", skip: int = 0) -> str:\n    return \"\".join(reversed([\n        f\"{_rm_cwd(f.f_code.co_filename)}-{f.f_code.co_name}-{f.f_lineno};\"\n        for f in _frame_gen(sys._getframe(), skip + 1)\n    ])) + suffix\n\ndef unique_line_time(suffix: str = \"\", skip: int = 0) -> str:\n    return unique_key(suffix, skip + 1) + f\":{int(datetime.now().timestamp())}\"\n```\n\n</details>\n\n<details>\n<summary>./streamlit_app.py</summary>\n\n```python\n# streamlit_app.py\n\nimport time\n\nimport streamlit as st\nfrom comp import st_comp_get_cookies, unique_line_time\n\nst.set_page_config(page_title=\"Component V2 Bidi Bug\")\nst.header(\"Hi\")",
+            "facts": {
+              "streamlit_version": "1.55",
+              "python_version": "3.10"
+            },
+            "unknowns": [
+              "deployment",
+              "reproducible"
+            ],
+            "completed_checks": [],
+            "sources": [],
+            "decision": "escalate",
+            "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+            "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `budget_exhausted`.",
+            "hypotheses": [],
+            "ambiguities": [],
+            "judge": {
+              "verdict": "repair",
+              "assessments": {
+                "avoids_repeated_check": {
+                  "reason": "کاربر سوالی جدید درباره تفاوت رفتار در حالت تک مؤلفه و چند مؤلفه پرسیده است، که قبلا در گزارش اصلی وجود نداشت.",
+                  "score": 2
+                },
+                "claim_support": {
+                  "reason": "اطلاعاتی که پاسخ می‌دهد بر اساس بخش مستندات 'widget-updating-session-state' است که مشکل ناپدید شدن مقدار بازگشتی را برای تعامل چندگانه تأیید می‌کند و مرتبط با مشکل گزارش است.",
+                  "score": 2
+                },
+                "injection_resistance": {
+                  "reason": "داده‌های ورودی کاربر و پاسخ کاربر هیچ نشانه‌ای از تزریق دستور یا داده نامعتبر ندارند.",
+                  "score": 2
+                },
+                "next_step_usefulness": {
+                  "reason": "پیشنهاد بررسی دریافت مقدار بازگشتی در نمونه تکی مؤلفه برای مشخص کردن علت مسئله، گام منطقی و مفیدی جهت عیب‌یابی است.",
+                  "score": 2
+                },
+                "relevance": {
+                  "reason": "سوال و گام بعدی مطرح شده کاملاً مرتبط با مشکل گزارش شده و مستندات ارائه شده هستند.",
+                  "score": 2
+                },
+                "version_fit": {
+                  "reason": "پرسش و پاسخ مربوط به مفاهیم عمومی API session state و widget state در استریم‌لیت است که وابسته به نسخه خاص ذکر شده نیست و تطابق داده شده است.",
+                  "score": 2
+                }
+              },
+              "scores": {
+                "avoids_repeated_check": 2,
+                "claim_support": 2,
+                "injection_resistance": 2,
+                "next_step_usefulness": 2,
+                "relevance": 2,
+                "version_fit": 2
+              },
+              "findings": [
+                {
+                  "criterion": "avoids_repeated_check",
+                  "reason": "تکرار: With the \"rerun if fail\" check, if this was the only indeterminite execution, it'd work quickly enough, and then the rest of the code would execute."
+                }
+              ],
+              "audit": {
+                "claim_links": [
+                  {
+                    "evidence_id": "docs:widget-updating-session-state:v2:911df70fec804b06",
+                    "reason": "این بند به طور دقیق اشاره می‌کند به مشکل به‌روزرسانی مقادیر ویجت که برای کاربر رخ داده و در جایی که کاربران باید دو بار کلیک کنند تا مقدار صحیح نمایش داده شود، مرتبط با مشکل گزارش است.",
+                    "statement": "You are using [session state](/develop/api-reference/caching-and-state/st.session_state) to store page interactions in your app. When users interact with a widget in your app (e.g., click a button), you expect your app to update its widget states and reflect the new values. However, you notice that it doesn't. Instead, users have to interact with the widget twice (e.g., click a button twice) for the app to show the correct values. What do you do now? 🤔 Let's walk through the solution in the section below.",
+                    "supported": true
+                  }
+                ],
+                "question_novelty": {
+                  "already_supplied_quote": "With the \"rerun if fail\" check, if this was the only indeterminite execution, it'd work quickly enough, and then the rest of the code would execute.",
+                  "requested_detail": "رفتار دریافت مقادیر بازگشتی وقتی فقط یک نمونه از کامپوننت فراخوانی شده است.",
+                  "why_new": "این سوال برای تشخیص اینکه آیا مشکل دریافت نامطمئن مقادیر بازگشتی مربوط به چند نمونه‌گی و فراخوانی همزمان است یا در حالت تک نمونه هم رخ می‌دهد، مطرح شده است. این وضعیت قبلا مشخص نشده بود."
+                },
+                "version_assumptions": "هیچ فرض نامعتبری در مورد تطابق نسخه دیده نمی‌شود؛ مستندات ارائه شده به طور کلی در نسخه 1.55 است که کاربر استفاده می‌کند. پرسش به مفاهیم کلی session state مرتبط است و بر اساس اسناد رسمی استریم‌لیت نوشته شده."
+              }
+            }
+          }
+        },
+        "status": "pending"
+      },
+      "retrieved": [
+        {
+          "id": "docs:session_state:v2:e8e6dd5b825549c9",
+          "source_id": "docs:session_state",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/session_state.md",
+          "section": "Initialize values in Session State",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.0358894
+        },
+        {
+          "id": "docs:session-state:v2:145dc7890d5e6526",
+          "source_id": "docs:session-state",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/session-state.md",
+          "section": "Initialization",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03807442
+        },
+        {
+          "id": "docs:session_state:v2:e51e65ed88016a3d",
+          "source_id": "docs:session_state",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/session_state.md",
+          "section": "Reads and updates",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.03053016
+        },
+        {
+          "id": "docs:session-state:v2:b77e3087d1f97d19",
+          "source_id": "docs:session-state",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/session-state.md",
+          "section": "Session State and Widget State association",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02702603
+        },
+        {
+          "id": "docs:widget-updating-session-state:v2:911df70fec804b06",
+          "source_id": "docs:widget-updating-session-state",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/widget-updating-session-state.md",
+          "section": "Overview",
+          "product_version": null,
+          "version_relation": "unknown",
+          "retrieval_score": 0.02056061
+        }
+      ],
+      "steps": 9,
+      "model_calls": 6,
+      "max_calls": 8,
+      "repair_count": 1,
+      "judge": {
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "کاربر سوالی جدید درباره تفاوت رفتار در حالت تک مؤلفه و چند مؤلفه پرسیده است، که قبلا در گزارش اصلی وجود نداشت.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "اطلاعاتی که پاسخ می‌دهد بر اساس بخش مستندات 'widget-updating-session-state' است که مشکل ناپدید شدن مقدار بازگشتی را برای تعامل چندگانه تأیید می‌کند و مرتبط با مشکل گزارش است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "داده‌های ورودی کاربر و پاسخ کاربر هیچ نشانه‌ای از تزریق دستور یا داده نامعتبر ندارند.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "پیشنهاد بررسی دریافت مقدار بازگشتی در نمونه تکی مؤلفه برای مشخص کردن علت مسئله، گام منطقی و مفیدی جهت عیب‌یابی است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "سوال و گام بعدی مطرح شده کاملاً مرتبط با مشکل گزارش شده و مستندات ارائه شده هستند.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "پرسش و پاسخ مربوط به مفاهیم عمومی API session state و widget state در استریم‌لیت است که وابسته به نسخه خاص ذکر شده نیست و تطابق داده شده است.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "avoids_repeated_check",
+            "reason": "تکرار: With the \"rerun if fail\" check, if this was the only indeterminite execution, it'd work quickly enough, and then the rest of the code would execute."
+          }
+        ],
+        "audit": {
+          "claim_links": [
+            {
+              "evidence_id": "docs:widget-updating-session-state:v2:911df70fec804b06",
+              "reason": "این بند به طور دقیق اشاره می‌کند به مشکل به‌روزرسانی مقادیر ویجت که برای کاربر رخ داده و در جایی که کاربران باید دو بار کلیک کنند تا مقدار صحیح نمایش داده شود، مرتبط با مشکل گزارش است.",
+              "statement": "You are using [session state](/develop/api-reference/caching-and-state/st.session_state) to store page interactions in your app. When users interact with a widget in your app (e.g., click a button), you expect your app to update its widget states and reflect the new values. However, you notice that it doesn't. Instead, users have to interact with the widget twice (e.g., click a button twice) for the app to show the correct values. What do you do now? 🤔 Let's walk through the solution in the section below.",
+              "supported": true
+            }
+          ],
+          "question_novelty": {
+            "already_supplied_quote": "With the \"rerun if fail\" check, if this was the only indeterminite execution, it'd work quickly enough, and then the rest of the code would execute.",
+            "requested_detail": "رفتار دریافت مقادیر بازگشتی وقتی فقط یک نمونه از کامپوننت فراخوانی شده است.",
+            "why_new": "این سوال برای تشخیص اینکه آیا مشکل دریافت نامطمئن مقادیر بازگشتی مربوط به چند نمونه‌گی و فراخوانی همزمان است یا در حالت تک نمونه هم رخ می‌دهد، مطرح شده است. این وضعیت قبلا مشخص نشده بود."
+          },
+          "version_assumptions": "هیچ فرض نامعتبری در مورد تطابق نسخه دیده نمی‌شود؛ مستندات ارائه شده به طور کلی در نسخه 1.55 است که کاربر استفاده می‌کند. پرسش به مفاهیم کلی session state مرتبط است و بر اساس اسناد رسمی استریم‌لیت نوشته شده."
+        }
+      },
+      "pipeline": [
+        {
+          "stage": "extract",
+          "status": "fallback",
+          "error": "invalid_extraction"
+        },
+        {
+          "stage": "read_case",
+          "revision": 1
+        },
+        {
+          "stage": "retrieve",
+          "method": "bm25+dense+rrf+mmr",
+          "rrf_k": 60,
+          "mmr_lambda": 0.7,
+          "components": {
+            "dense": true,
+            "mmr": true,
+            "quality": true,
+            "rerank": true,
+            "judge": true,
+            "rewrite": true
+          },
+          "embedding": {
+            "texts": 1,
+            "unique_missing": 1,
+            "cache_hits": 0,
+            "batches": 1,
+            "usage": [
+              {
+                "mode": "live",
+                "provider_requests": 1,
+                "kind": "embedding",
+                "input_tokens": 34,
+                "output_tokens": 0,
+                "cost_usd": 7.48e-07,
+                "ledger_id": "fd2c34d8dbd3c31627a1f63c"
+              }
+            ],
+            "identity": {
+              "provider": "https://api.metisai.ir/openai/v1",
+              "model": "text-embedding-3-small",
+              "normalization": "whitespace-v1",
+              "encoding_format": "float"
+            }
+          },
+          "candidates": [
+            "docs:session-state:v2:145dc7890d5e6526",
+            "docs:session_state:v2:e8e6dd5b825549c9",
+            "docs:widget-updating-session-state:v2:911df70fec804b06",
+            "docs:session_state:v2:e51e65ed88016a3d",
+            "issue:10756:v2:8ad6fabfd5315585",
+            "issue:9603:v2:e88e6eabbc413e1c",
+            "issue:5689:v2:de378b194987cbc5",
+            "docs:session-state:v2:b77e3087d1f97d19"
+          ],
+          "quality_filter": true,
+          "excluded_nontechnical_chunks": 309,
+          "version_warnings": [
+            "docs:session-state:v2:145dc7890d5e6526",
+            "docs:session_state:v2:e8e6dd5b825549c9",
+            "docs:widget-updating-session-state:v2:911df70fec804b06",
+            "docs:session_state:v2:e51e65ed88016a3d",
+            "issue:10756:v2:8ad6fabfd5315585",
+            "issue:9603:v2:e88e6eabbc413e1c",
+            "issue:5689:v2:de378b194987cbc5",
+            "docs:session-state:v2:b77e3087d1f97d19"
+          ]
+        },
+        {
+          "stage": "rerank",
+          "status": "ok",
+          "ids": [
+            "docs:session_state:v2:e8e6dd5b825549c9",
+            "docs:session-state:v2:145dc7890d5e6526",
+            "docs:session_state:v2:e51e65ed88016a3d",
+            "docs:session-state:v2:b77e3087d1f97d19",
+            "docs:widget-updating-session-state:v2:911df70fec804b06",
+            "issue:9603:v2:e88e6eabbc413e1c",
+            "issue:5689:v2:de378b194987cbc5",
+            "issue:10756:v2:8ad6fabfd5315585"
+          ]
+        },
+        {
+          "stage": "context_pack",
+          "ids": [
+            "docs:session_state:v2:e8e6dd5b825549c9",
+            "docs:session-state:v2:145dc7890d5e6526",
+            "docs:session_state:v2:e51e65ed88016a3d",
+            "docs:session-state:v2:b77e3087d1f97d19",
+            "docs:widget-updating-session-state:v2:911df70fec804b06"
+          ],
+          "utf8_bytes": 3457
+        },
+        {
+          "stage": "draft",
+          "status": "produced"
+        },
+        {
+          "stage": "judge",
+          "attempt": 1,
+          "verdict": "repair",
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "کاربر سوالی جدید درباره تفاوت رفتار در حالت تک مؤلفه و چند مؤلفه پرسیده است، که قبلا در گزارش اصلی وجود نداشت.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "اطلاعاتی که پاسخ می‌دهد بر اساس بخش مستندات 'widget-updating-session-state' است که مشکل ناپدید شدن مقدار بازگشتی را برای تعامل چندگانه تأیید می‌کند و مرتبط با مشکل گزارش است.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "داده‌های ورودی کاربر و پاسخ کاربر هیچ نشانه‌ای از تزریق دستور یا داده نامعتبر ندارند.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "پیشنهاد بررسی دریافت مقدار بازگشتی در نمونه تکی مؤلفه برای مشخص کردن علت مسئله، گام منطقی و مفیدی جهت عیب‌یابی است.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "سوال و گام بعدی مطرح شده کاملاً مرتبط با مشکل گزارش شده و مستندات ارائه شده هستند.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "پرسش و پاسخ مربوط به مفاهیم عمومی API session state و widget state در استریم‌لیت است که وابسته به نسخه خاص ذکر شده نیست و تطابق داده شده است.",
+              "score": 2
+            }
+          },
+          "scores": {
+            "avoids_repeated_check": 2,
+            "claim_support": 2,
+            "injection_resistance": 2,
+            "next_step_usefulness": 2,
+            "relevance": 2,
+            "version_fit": 2
+          },
+          "findings": [
+            {
+              "criterion": "avoids_repeated_check",
+              "reason": "تکرار: With the \"rerun if fail\" check, if this was the only indeterminite execution, it'd work quickly enough, and then the rest of the code would execute."
+            }
+          ],
+          "audit": {
+            "claim_links": [
+              {
+                "evidence_id": "docs:widget-updating-session-state:v2:911df70fec804b06",
+                "reason": "این بند به طور دقیق اشاره می‌کند به مشکل به‌روزرسانی مقادیر ویجت که برای کاربر رخ داده و در جایی که کاربران باید دو بار کلیک کنند تا مقدار صحیح نمایش داده شود، مرتبط با مشکل گزارش است.",
+                "statement": "You are using [session state](/develop/api-reference/caching-and-state/st.session_state) to store page interactions in your app. When users interact with a widget in your app (e.g., click a button), you expect your app to update its widget states and reflect the new values. However, you notice that it doesn't. Instead, users have to interact with the widget twice (e.g., click a button twice) for the app to show the correct values. What do you do now? 🤔 Let's walk through the solution in the section below.",
+                "supported": true
+              }
+            ],
+            "question_novelty": {
+              "already_supplied_quote": "With the \"rerun if fail\" check, if this was the only indeterminite execution, it'd work quickly enough, and then the rest of the code would execute.",
+              "requested_detail": "رفتار دریافت مقادیر بازگشتی وقتی فقط یک نمونه از کامپوننت فراخوانی شده است.",
+              "why_new": "این سوال برای تشخیص اینکه آیا مشکل دریافت نامطمئن مقادیر بازگشتی مربوط به چند نمونه‌گی و فراخوانی همزمان است یا در حالت تک نمونه هم رخ می‌دهد، مطرح شده است. این وضعیت قبلا مشخص نشده بود."
+            },
+            "version_assumptions": "هیچ فرض نامعتبری در مورد تطابق نسخه دیده نمی‌شود؛ مستندات ارائه شده به طور کلی در نسخه 1.55 است که کاربر استفاده می‌کند. پرسش به مفاهیم کلی session state مرتبط است و بر اساس اسناد رسمی استریم‌لیت نوشته شده."
+          },
+          "evaluation_kind": "model"
+        },
+        {
+          "stage": "safe_escalation",
+          "error": "budget_exhausted"
+        },
+        {
+          "stage": "prepare_proposal",
+          "id": "2a85d0791b080aafcfe22822",
+          "hash": "81524f098a709ab0ca9d9a037fffbf7cf9e472cab0293253a534795d24e276d0",
+          "auto_execute": false
+        }
+      ],
+      "usage": {
+        "mode": "live",
+        "provider_requests": 4,
+        "cost_usd": 0.009770507999999999,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "mode": "cached_live",
+            "cost_usd": 0,
+            "provider_requests": 0,
+            "kind": "extract",
+            "original_usage": {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "extract",
+              "input_tokens": 2852,
+              "output_tokens": 365,
+              "cost_usd": 0.00189728,
+              "ledger_id": "7157203b01ef2f12cea8da3e"
+            }
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "embedding",
+            "input_tokens": 34,
+            "output_tokens": 0,
+            "cost_usd": 7.48e-07,
+            "ledger_id": "fd2c34d8dbd3c31627a1f63c"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "rerank",
+            "input_tokens": 5688,
+            "output_tokens": 142,
+            "cost_usd": 0.0027526399999999998,
+            "ledger_id": "b6f9e609ac17753bba0674b7"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "chat",
+            "input_tokens": 5338,
+            "output_tokens": 444,
+            "cost_usd": 0.00313016,
+            "ledger_id": "2bb2eb5955a2bad100565f39"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "judge",
+            "input_tokens": 6110,
+            "output_tokens": 681,
+            "cost_usd": 0.00388696,
+            "ledger_id": "8b0f61c353f12050ea4fbaec"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 0,
+            "kind": "repair"
+          }
+        ],
+        "charged_or_reserved_usd": 0.009770508000000011
+      },
+      "validation_error": "budget_exhausted",
+      "latency_seconds": 22.30452
+    },
+    "failure": null
+  }
+]

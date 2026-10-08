@@ -1,0 +1,559 @@
+{
+  "id": "GH17195",
+  "variant": "revised",
+  "split": "first_live_after_replay",
+  "output": {
+    "case_id": "GH17195",
+    "request_id": "live-v22-revised",
+    "architecture": "v2",
+    "quality_revision": "v2.2-quality",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": true,
+      "quality": true
+    },
+    "decision": "escalate",
+    "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nst.dataframe programmatic empty selection does not update UI\n```\n\nمحیط گزارش‌شده:\n\n```text\nstreamlit_version=1.63.0؛ python_version=3.12؛ os=WSL Docker؛ browser=Edge؛ symptom_scope=empty selection\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\ndeployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_contract_error`.",
+    "summary": {
+      "problem": "Programmatically set selections fail for empty selection\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nThe example in https://docs.streamlit.io/develop/api-reference/data/st.dataframe titled: \"Example 2: Programmatically set selections\" does not work if we try with empty selections.\n\n### Reproducible Code Example\n\n```Python\nimport pandas as pd\nimport streamlit as st\nfrom numpy.random import default_rng as rng\n\ndf = pd.DataFrame(rng(0).standard_normal((12, 5)), columns=[\"a\", \"b\", \"c\", \"d\", \"e\"])\n\nif st.button(\"Select the first row\"):\n    st.session_state[\"data\"] = {\"selection\": {\"rows\": [0], \"columns\": [], \"cells\": []}}\nif st.button(\"Select no row\"):\n    st.session_state[\"data\"] = {\"selection\": {\"rows\": [], \"columns\": [], \"cells\": []}}\n\nevent = st.dataframe(\n    df,\n    key=\"data\",\n    on_select=\"rerun\",\n    selection_mode=[\"single-row\"],\n)\n\nst.code(event.selection)\n```\n\n### Steps To Reproduce\n\n1. Run the code\n2. Select a row\n3. Click on the button \"Select the first row\", it works as expected\n4. Select a row again\n5. Click on the button \"Select no row\", the dataframe selection state is empty but the table keeps the previous selection.\n\n### Expected Behavior\n\nThe row selection should match the dataframe selection state and be empty.\n\n### Current Behavior\n\nThe dataframe selection state is empty but the table keeps the previous selection and is not empty.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.63.0\n- Python version: 3.12\n- Operating System: WSL Docker\n- Browser: Edge\n\n\n### Additional Information\n\nI remember it worked in Streamlit version 1.57.0 but I am not sure, I may be mistaken.",
+      "facts": {
+        "streamlit_version": "1.63.0",
+        "python_version": "3.12",
+        "os": "WSL Docker",
+        "browser": "Edge",
+        "symptom_scope": "empty selection"
+      },
+      "unknowns": [
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [],
+      "sources": [],
+      "decision": "escalate",
+      "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+      "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.",
+      "hypotheses": [],
+      "ambiguities": [
+        "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+      ],
+      "judge": null,
+      "investigation_plan": {
+        "acceptance_condition": "وقتی دکمه انتخاب هیچ ردیفی زده شود، انتخاب جدول داده باید خالی و بدون انتخاب قبلی باشد.",
+        "intent": "bug",
+        "known_report_spans": [
+          "Programmatically set selections fail for empty selection",
+          "The example in https://docs.streamlit.io/develop/api-reference/data/st.dataframe titled: \"Example 2: Programmatically set selections\" does not work if we try with empty selections.",
+          "3. Click on the button \"Select the first row\", it works as expected",
+          "### Expected Behavior"
+        ],
+        "missing_detail": "آیا این مشکل در نسخه 1.57.0 به روشنی دیده شده است؟",
+        "new_condition": "آیا امکان تست تعیین انتخاب خالی به روش‌های دیگر (مثلاً تغییر selection_mode یا بدون کلید session_state) وجود دارد؟",
+        "problem_summary": "st.dataframe programmatic empty selection does not update UI",
+        "suggested_question": "آیا می‌توانید تأیید کنید که مشکل مشابه در نسخه‌های پیشین است یا خیر؟"
+      },
+      "experiments": [],
+      "memory_version": 2,
+      "handoff": {
+        "request_type": "bug",
+        "reported_problem": "st.dataframe programmatic empty selection does not update UI",
+        "environment": {
+          "streamlit_version": "1.63.0",
+          "python_version": "3.12",
+          "os": "WSL Docker",
+          "browser": "Edge",
+          "symptom_scope": "empty selection"
+        },
+        "experiments": [],
+        "evidence": [],
+        "unknowns": [
+          "deployment",
+          "reproducible"
+        ],
+        "limitations": [
+          "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+          "محدودیت: کد توقف `judge_contract_error`."
+        ],
+        "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+        "feature": {}
+      },
+      "review_failures": [
+        {
+          "kind": "judge_contract",
+          "code": "judge_contract_error",
+          "draft_version": "85cff1e78e0a9fb3bcf0973596ed90da787ede3eee51adf84bdf98560b7a2a5a"
+        }
+      ]
+    },
+    "proposal": {
+      "id": "e0d93ae614ea85a6690d090c",
+      "case_id": "GH17195",
+      "revision": 1,
+      "hash": "d9fa2193ceabf1fdae3d074731cae12c30971ddf49eb2105ab0a02e06fc22dff",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nst.dataframe programmatic empty selection does not update UI\n```\n\nمحیط گزارش‌شده:\n\n```text\nstreamlit_version=1.63.0؛ python_version=3.12؛ os=WSL Docker؛ browser=Edge؛ symptom_scope=empty selection\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\ndeployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_contract_error`."
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "problem": "Programmatically set selections fail for empty selection\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nThe example in https://docs.streamlit.io/develop/api-reference/data/st.dataframe titled: \"Example 2: Programmatically set selections\" does not work if we try with empty selections.\n\n### Reproducible Code Example\n\n```Python\nimport pandas as pd\nimport streamlit as st\nfrom numpy.random import default_rng as rng\n\ndf = pd.DataFrame(rng(0).standard_normal((12, 5)), columns=[\"a\", \"b\", \"c\", \"d\", \"e\"])\n\nif st.button(\"Select the first row\"):\n    st.session_state[\"data\"] = {\"selection\": {\"rows\": [0], \"columns\": [], \"cells\": []}}\nif st.button(\"Select no row\"):\n    st.session_state[\"data\"] = {\"selection\": {\"rows\": [], \"columns\": [], \"cells\": []}}\n\nevent = st.dataframe(\n    df,\n    key=\"data\",\n    on_select=\"rerun\",\n    selection_mode=[\"single-row\"],\n)\n\nst.code(event.selection)\n```\n\n### Steps To Reproduce\n\n1. Run the code\n2. Select a row\n3. Click on the button \"Select the first row\", it works as expected\n4. Select a row again\n5. Click on the button \"Select no row\", the dataframe selection state is empty but the table keeps the previous selection.\n\n### Expected Behavior\n\nThe row selection should match the dataframe selection state and be empty.\n\n### Current Behavior\n\nThe dataframe selection state is empty but the table keeps the previous selection and is not empty.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.63.0\n- Python version: 3.12\n- Operating System: WSL Docker\n- Browser: Edge\n\n\n### Additional Information\n\nI remember it worked in Streamlit version 1.57.0 but I am not sure, I may be mistaken.",
+          "facts": {
+            "streamlit_version": "1.63.0",
+            "python_version": "3.12",
+            "os": "WSL Docker",
+            "browser": "Edge",
+            "symptom_scope": "empty selection"
+          },
+          "unknowns": [
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [],
+          "sources": [],
+          "decision": "escalate",
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.",
+          "hypotheses": [],
+          "ambiguities": [
+            "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+          ],
+          "judge": null,
+          "investigation_plan": {
+            "acceptance_condition": "وقتی دکمه انتخاب هیچ ردیفی زده شود، انتخاب جدول داده باید خالی و بدون انتخاب قبلی باشد.",
+            "intent": "bug",
+            "known_report_spans": [
+              "Programmatically set selections fail for empty selection",
+              "The example in https://docs.streamlit.io/develop/api-reference/data/st.dataframe titled: \"Example 2: Programmatically set selections\" does not work if we try with empty selections.",
+              "3. Click on the button \"Select the first row\", it works as expected",
+              "### Expected Behavior"
+            ],
+            "missing_detail": "آیا این مشکل در نسخه 1.57.0 به روشنی دیده شده است؟",
+            "new_condition": "آیا امکان تست تعیین انتخاب خالی به روش‌های دیگر (مثلاً تغییر selection_mode یا بدون کلید session_state) وجود دارد؟",
+            "problem_summary": "st.dataframe programmatic empty selection does not update UI",
+            "suggested_question": "آیا می‌توانید تأیید کنید که مشکل مشابه در نسخه‌های پیشین است یا خیر؟"
+          },
+          "experiments": [],
+          "memory_version": 2,
+          "handoff": {
+            "request_type": "bug",
+            "reported_problem": "st.dataframe programmatic empty selection does not update UI",
+            "environment": {
+              "streamlit_version": "1.63.0",
+              "python_version": "3.12",
+              "os": "WSL Docker",
+              "browser": "Edge",
+              "symptom_scope": "empty selection"
+            },
+            "experiments": [],
+            "evidence": [],
+            "unknowns": [
+              "deployment",
+              "reproducible"
+            ],
+            "limitations": [
+              "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+              "محدودیت: کد توقف `judge_contract_error`."
+            ],
+            "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+            "feature": {}
+          },
+          "review_failures": [
+            {
+              "kind": "judge_contract",
+              "code": "judge_contract_error",
+              "draft_version": "85cff1e78e0a9fb3bcf0973596ed90da787ede3eee51adf84bdf98560b7a2a5a"
+            }
+          ]
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "issue:17026:v2:e6d4d1ea942c916d",
+        "source_id": "issue:17026",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/17026",
+        "section": "Current Behavior",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "retrieval_score": 0.03011775
+      },
+      {
+        "id": "issue:17026:v2:e97c7bda597602a6",
+        "source_id": "issue:17026",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/17026",
+        "section": "Reproducible Code Example",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "retrieval_score": 0.03047795
+      },
+      {
+        "id": "docs:dataframes:v2:511f2e2a1b663ca5",
+        "source_id": "docs:dataframes",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+        "section": "`st.dataframe` UI features",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.02842577
+      },
+      {
+        "id": "docs:dataframes:v2:224de11e661ece64",
+        "source_id": "docs:dataframes",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+        "section": "Display dataframes with st.dataframe",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.02236322
+      },
+      {
+        "id": "docs:button-behavior-and-examples:v2:23fc4ba7cf4cae18",
+        "source_id": "docs:button-behavior-and-examples",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/button-behavior-and-examples.md",
+        "section": "A slight problem",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.02224248
+      }
+    ],
+    "steps": 9,
+    "model_calls": 5,
+    "max_calls": 8,
+    "repair_count": 0,
+    "judge": null,
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "ok",
+        "keys": [
+          "browser",
+          "os",
+          "python_version",
+          "streamlit_version",
+          "symptom_scope"
+        ],
+        "facts_with_quotes": [
+          {
+            "key": "streamlit_version",
+            "quote": "- Streamlit version: 1.63.0",
+            "value": "1.63.0"
+          },
+          {
+            "key": "python_version",
+            "quote": "- Python version: 3.12",
+            "value": "3.12"
+          },
+          {
+            "key": "os",
+            "quote": "- Operating System: WSL Docker",
+            "value": "WSL Docker"
+          },
+          {
+            "key": "browser",
+            "quote": "- Browser: Edge",
+            "value": "Edge"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "Programmatically set selections fail for empty selection",
+            "value": "empty selection"
+          },
+          {
+            "key": "reproducible",
+            "quote": "5. Click on the button \"Select no row\", the dataframe selection state is empty but the table keeps the previous selection.",
+            "value": "false"
+          }
+        ],
+        "checks": [],
+        "ambiguities": [
+          "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+        ]
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "bm25+dense+rrf+mmr",
+        "rrf_k": 60,
+        "mmr_lambda": 0.7,
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "quality": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true
+        },
+        "embedding": {
+          "texts": 1,
+          "unique_missing": 1,
+          "cache_hits": 0,
+          "batches": 1,
+          "usage": [
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "embedding",
+              "input_tokens": 33,
+              "output_tokens": 0,
+              "cost_usd": 7.26e-07,
+              "ledger_id": "93d5f5cbc1a549fff6d81f46"
+            }
+          ],
+          "identity": {
+            "provider": "https://api.metisai.ir/openai/v1",
+            "model": "text-embedding-3-small",
+            "normalization": "whitespace-v1",
+            "encoding_format": "float"
+          }
+        },
+        "candidates": [
+          "docs:dataframes:v2:511f2e2a1b663ca5",
+          "docs:button-behavior-and-examples:v2:23fc4ba7cf4cae18",
+          "docs:session-state:v2:c152a6ec053bc999",
+          "issue:17026:v2:e6d4d1ea942c916d",
+          "issue:17026:v2:e97c7bda597602a6",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "docs:dataframes:v2:224de11e661ece64",
+          "issue:14280:v2:0707c756c69e65cb"
+        ],
+        "quality_filter": true,
+        "excluded_chunks": 2093,
+        "as_of": null,
+        "temporal_policy": "current_snapshot",
+        "version_warnings": [
+          "docs:dataframes:v2:511f2e2a1b663ca5",
+          "docs:button-behavior-and-examples:v2:23fc4ba7cf4cae18",
+          "docs:session-state:v2:c152a6ec053bc999",
+          "issue:17026:v2:e6d4d1ea942c916d",
+          "issue:17026:v2:e97c7bda597602a6",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "docs:dataframes:v2:224de11e661ece64",
+          "issue:14280:v2:0707c756c69e65cb"
+        ]
+      },
+      {
+        "stage": "rerank",
+        "status": "ok",
+        "ids": [
+          "issue:17026:v2:e6d4d1ea942c916d",
+          "issue:17026:v2:e97c7bda597602a6",
+          "docs:dataframes:v2:511f2e2a1b663ca5",
+          "docs:dataframes:v2:224de11e661ece64",
+          "docs:button-behavior-and-examples:v2:23fc4ba7cf4cae18",
+          "docs:session-state:v2:c152a6ec053bc999",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:14280:v2:0707c756c69e65cb"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "ids": [
+          "issue:17026:v2:e6d4d1ea942c916d",
+          "issue:17026:v2:e97c7bda597602a6",
+          "docs:dataframes:v2:511f2e2a1b663ca5",
+          "docs:dataframes:v2:224de11e661ece64",
+          "docs:button-behavior-and-examples:v2:23fc4ba7cf4cae18"
+        ],
+        "utf8_bytes": 2784
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge_contract_failure",
+        "kind": "judge_contract",
+        "code": "judge_contract_error",
+        "draft_version": "85cff1e78e0a9fb3bcf0973596ed90da787ede3eee51adf84bdf98560b7a2a5a"
+      },
+      {
+        "stage": "safe_escalation",
+        "error": "judge_contract_error"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "e0d93ae614ea85a6690d090c",
+        "hash": "d9fa2193ceabf1fdae3d074731cae12c30971ddf49eb2105ab0a02e06fc22dff",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 5,
+      "cost_usd": 0.009250406,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "extract",
+          "input_tokens": 1833,
+          "output_tokens": 427,
+          "cost_usd": 0.00155804,
+          "ledger_id": "bec9ddfd31459e5c83317037"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "embedding",
+          "input_tokens": 33,
+          "output_tokens": 0,
+          "cost_usd": 7.26e-07,
+          "ledger_id": "93d5f5cbc1a549fff6d81f46"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "input_tokens": 4151,
+          "output_tokens": 72,
+          "cost_usd": 0.0019531600000000002,
+          "ledger_id": "c12a3470edf9440e0be8caae"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "input_tokens": 4001,
+          "output_tokens": 333,
+          "cost_usd": 0.00234652,
+          "ledger_id": "dd0a585bb1de83ea61903778"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 4937,
+          "output_tokens": 693,
+          "cost_usd": 0.00339196,
+          "ledger_id": "94a0dbfcacf0b156ebb870df"
+        }
+      ],
+      "charged_or_reserved_usd": 0.009250406000000044
+    },
+    "validation_error": "judge_contract_error",
+    "review_failures": [
+      {
+        "kind": "judge_contract",
+        "code": "judge_contract_error",
+        "draft_version": "85cff1e78e0a9fb3bcf0973596ed90da787ede3eee51adf84bdf98560b7a2a5a"
+      }
+    ],
+    "reviewed_draft": {
+      "draft_version": "85cff1e78e0a9fb3bcf0973596ed90da787ede3eee51adf84bdf98560b7a2a5a",
+      "case_id": "GH17195",
+      "case_revision": 1,
+      "generation": 0,
+      "units": [
+        {
+          "unit_id": "u_ff60088a6915cecf6ddfd763",
+          "field": "question",
+          "text": "آیا می‌توانید تأیید کنید که مشکل عدم به‌روزرسانی انتخاب خالی در جدول داده در نسخه 1.57.0 نیز وجود دارد یا خیر؟",
+          "start": 0,
+          "end": 110
+        },
+        {
+          "unit_id": "u_efd86227d757414970e245d4",
+          "field": "next_step",
+          "text": "تست مشابه را در نسخه 1.57.0 برای بررسی اینکه آیا انتخاب خالی برنامه‌ریزی شده به درستی در UI منعکس می‌شود، انجام دهید.",
+          "start": 0,
+          "end": 117
+        },
+        {
+          "unit_id": "u_04328154d21a30868a0f2021",
+          "field": "rationale",
+          "text": "شناخته شده است که حذف کلید (key=) می‌تواند باعث از بین رفتن وضعیت انتخاب یا ویرایش در `st.dataframe` شود. گزارش حاضر مشکل خاصی را نشان می‌دهد که در نسخه 1.63.0 وقتی انتخاب خالی برنامه‌ریزی می‌شود، UI آن را به‌روزرسانی نمی‌کند. برای تمایز اینکه این مشکل در گذشته نیز بوده است یا ناشی از تغییرات جدید است، باید در نسخه قبلی آزمایش شود.",
+          "start": 0,
+          "end": 333
+        },
+        {
+          "unit_id": "u_d738f04c7078204a2593a15c",
+          "field": "hypotheses.0",
+          "text": "ممکن است رفتار فعلی در نسخه‌های پیشین متفاوت بوده باشد.",
+          "start": 0,
+          "end": 55
+        }
+      ]
+    },
+    "latency_seconds": 23.671968
+  },
+  "failure": null,
+  "elapsed_seconds": 23.70760870000231,
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "extract",
+      "input_tokens": 1833,
+      "output_tokens": 427,
+      "cost_usd": 0.00155804,
+      "ledger_id": "bec9ddfd31459e5c83317037"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "input_tokens": 33,
+      "output_tokens": 0,
+      "cost_usd": 7.26e-07,
+      "ledger_id": "93d5f5cbc1a549fff6d81f46"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "input_tokens": 4151,
+      "output_tokens": 72,
+      "cost_usd": 0.0019531600000000002,
+      "ledger_id": "c12a3470edf9440e0be8caae"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "input_tokens": 4001,
+      "output_tokens": 333,
+      "cost_usd": 0.00234652,
+      "ledger_id": "dd0a585bb1de83ea61903778"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 4937,
+      "output_tokens": 693,
+      "cost_usd": 0.00339196,
+      "ledger_id": "94a0dbfcacf0b156ebb870df"
+    }
+  ],
+  "pipeline_sha256": "74e3565717fbc2869493f2ac06869bc720af340896ac68302df71981ef2a97a8",
+  "pipeline_path": "F:\\Quera AI\\Project\\streamlit-casepilot\\src\\casepilot\\pipeline.py"
+}

@@ -1,0 +1,58 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "facts": {
+      "type": "array",
+      "maxItems": 7,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "type": "string",
+            "enum": [
+              "browser",
+              "deployment",
+              "os",
+              "python_version",
+              "reproducible",
+              "streamlit_version",
+              "symptom_scope"
+            ]
+          },
+          "value": {
+            "type": "string"
+          },
+          "quote": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "key",
+          "value",
+          "quote"
+        ]
+      }
+    },
+    "completed_checks": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "string"
+      }
+    },
+    "ambiguities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 8
+    }
+  },
+  "required": [
+    "facts",
+    "completed_checks",
+    "ambiguities"
+  ]
+}

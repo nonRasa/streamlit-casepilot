@@ -1,0 +1,776 @@
+{
+  "id": "GH16773",
+  "variant": "revised",
+  "split": "first_live_after_replay",
+  "output": {
+    "case_id": "GH16773",
+    "request_id": "live-v22-revised",
+    "architecture": "v2",
+    "quality_revision": "v2.2-quality",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": true,
+      "quality": true
+    },
+    "decision": "ask",
+    "response": "پاسخ پیشنهادی: آیا می‌توانید یک نمونه کد که در آن پارامتر step برابر با 1 است و خروجی `st.number_input` به صورت int | None است، ارائه دهید؟\n\nمحدودیت: در گزارش مشخص شده که وقتی پارامتر step تنظیم نشده خروجی نوع float | None دارد اما با تنظیم step=1 انتظار می‌رود خروجی از نوع int | None باشد. برای تایید یا رد این تفاوت نیاز به نمونه کد مشخص با step=1 داریم.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.",
+    "summary": {
+      "problem": "Clarify st.number_input return type when value= int | None\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nPassing a typed variable of int | None to the value parameter for number_input returns a float | None type.\n\nI expected this to be int | None, and that this is how you are expected to create an empty input field, that accepts integers only, assuming the step parameter would default to 1, but it appears that strictly requires value to be int.\n\nIf you set step=1, then static type checking works as expected, resolving to int | None.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\ndefault_value: int | None = None\n\nnumber = st.number_input(\n    \"Input number\",\n    value=default_value,\n)\n\nif number:\n    assert isinstance(number, int)\n    print('Number is an int')\n```\n\n### Steps To Reproduce\n\n1. Run example\n2. Input number\n\n### Expected Behavior\n\nPrints 'Number is an int'\n\n### Current Behavior\n\nAssertion fails.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.59.1\n- Python version: 3.12\n- Operating System: Windows\n- Browser: Edge\n\n\n### Additional Information\n\n_No response_",
+      "facts": {
+        "streamlit_version": "1.59.1",
+        "python_version": "3.12",
+        "os": "Windows",
+        "browser": "Edge"
+      },
+      "unknowns": [
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [],
+      "sources": [],
+      "decision": "ask",
+      "next_step": "لطفاً یک نمونه کد کامل ارائه دهید که در آن مقدار پارامتر step برابر با 1 تنظیم شده باشد تا بتوانیم خروجی تابع `st.number_input` را با حالت بدون این پارامتر مقایسه کنیم.",
+      "rationale": "در گزارش مشخص شده که وقتی پارامتر step تنظیم نشده خروجی نوع float | None دارد اما با تنظیم step=1 انتظار می‌رود خروجی از نوع int | None باشد. برای تایید یا رد این تفاوت نیاز به نمونه کد مشخص با step=1 داریم.",
+      "hypotheses": [],
+      "ambiguities": [],
+      "judge": {
+        "verdict": "accept",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "این درخواست برای نمونه کد حاوی پارامتر step=1 درخواست جدیدی است و مشابه پرسش های قبلی نیست.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "هیچ ادعای فنی مستقیمی مطرح نشده که نیاز به حمایت منبعی داشته باشد و سوال محوری است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "سوال صرفاً درخواست نمونه کد است و فاقد موارد ورود کد یا حملات تزریق است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "دریافت نمونه کد کامل با step=1 برای تحلیل و مقایسه بهتر رفتار تابع st.number_input مفید و لازم است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "سوال مرتبط با مشکلی است که در گزارش مطرح شده و مستقیما برای بررسی علت رفتار تابع شماره‌ورودی کاربرد دارد.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "مسئله به نسخه Streamlit 1.59.1 مربوط است و سوال کلی درباره نمونه کد کاربردی است که فارغ از نسخه خاص، برای رفع ابهام به آن نیاز است.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [],
+        "draft_version": "a2bd403be2be4c0149c985cfc8760139b8dced3ad37a2611ea29a0eeb55b945c",
+        "unit_reviews": [
+          {
+            "kind": "question",
+            "links": [],
+            "reason": "درخواست نمونه کد که پارامتر step برابر 1 است و خروجی تابع نوع int | None را دارد، مستقیماً مرتبط با مشکل گزارش شده است.",
+            "support": "unknown",
+            "unit_id": "u_4453c05f6526ecd4337d3b4f",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "next_step",
+            "links": [],
+            "reason": "درخواست نمونه کد کامل با step=1 برای مقایسه مستقیم با حالت بدون این پارامتر مفید است.",
+            "support": "unknown",
+            "unit_id": "u_a3c6d61986f24ce8ac64dfc0",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "reported_fact",
+            "links": [],
+            "reason": "بیان دلایل درخواست نمونه کد برای تایید تفاوت نوع خروجی تابع st.number_input مرتبط و درست است.",
+            "support": "unknown",
+            "unit_id": "u_47c3c7cb610a1e6cfb3ebff4",
+            "version_dependent": false,
+            "version_limit": ""
+          }
+        ],
+        "novelty": {
+          "already_supplied_quote": "",
+          "new": true,
+          "reason": "این درخواست برای نمونه کد کاملاً جدید است و قبلا نمونه مشابه با step=1 ارائه نشده است.",
+          "useful": true
+        },
+        "failure_kind": null
+      },
+      "investigation_plan": {
+        "acceptance_condition": "تابع st.number_input خروجی ای داشته باشد که وقتی value برابر int یا None است و step تنظیم نشده، مقدار خروجی از نوع int | None باشد.",
+        "intent": "bug",
+        "known_report_spans": [
+          "I expected this to be int | None, and that this is how you are expected to create an empty input field, that accepts integers only, assuming the step parameter would default to 1, but it appears that strictly requires value to be int.",
+          "If you set step=1, then static type checking works as expected, resolving to int | None.",
+          "### Expected Behavior",
+          "Assertion fails."
+        ],
+        "missing_detail": "کد نمونه‌ای که مقدار step=1 را تنظیم می‌کند به طور کامل داشته باشیم تا بررسی تفاوت خروجی آسان‌تر باشد.",
+        "new_condition": "",
+        "problem_summary": "st.number_input returns float | None instead of int | None when value=int | None and step unset",
+        "suggested_question": "آیا می‌توانید کد نمونه‌ای را که دارای مقدار step=1 است و خروجی int | None را نشان می‌دهد، ارائه دهید؟"
+      },
+      "experiments": [],
+      "memory_version": 2,
+      "handoff": null,
+      "review_failures": []
+    },
+    "proposal": {
+      "id": "3a30e412cdb477814b07f19a",
+      "case_id": "GH16773",
+      "revision": 1,
+      "hash": "8cb918f712e0e1a564019d1c6e094540b5453e6edf2d7552bd4ecf32c4cc7600",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: آیا می‌توانید یک نمونه کد که در آن پارامتر step برابر با 1 است و خروجی `st.number_input` به صورت int | None است، ارائه دهید؟\n\nمحدودیت: در گزارش مشخص شده که وقتی پارامتر step تنظیم نشده خروجی نوع float | None دارد اما با تنظیم step=1 انتظار می‌رود خروجی از نوع int | None باشد. برای تایید یا رد این تفاوت نیاز به نمونه کد مشخص با step=1 داریم.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود."
+          },
+          {
+            "type": "status",
+            "value": "waiting_user"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "problem": "Clarify st.number_input return type when value= int | None\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nPassing a typed variable of int | None to the value parameter for number_input returns a float | None type.\n\nI expected this to be int | None, and that this is how you are expected to create an empty input field, that accepts integers only, assuming the step parameter would default to 1, but it appears that strictly requires value to be int.\n\nIf you set step=1, then static type checking works as expected, resolving to int | None.\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\ndefault_value: int | None = None\n\nnumber = st.number_input(\n    \"Input number\",\n    value=default_value,\n)\n\nif number:\n    assert isinstance(number, int)\n    print('Number is an int')\n```\n\n### Steps To Reproduce\n\n1. Run example\n2. Input number\n\n### Expected Behavior\n\nPrints 'Number is an int'\n\n### Current Behavior\n\nAssertion fails.\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.59.1\n- Python version: 3.12\n- Operating System: Windows\n- Browser: Edge\n\n\n### Additional Information\n\n_No response_",
+          "facts": {
+            "streamlit_version": "1.59.1",
+            "python_version": "3.12",
+            "os": "Windows",
+            "browser": "Edge"
+          },
+          "unknowns": [
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [],
+          "sources": [],
+          "decision": "ask",
+          "next_step": "لطفاً یک نمونه کد کامل ارائه دهید که در آن مقدار پارامتر step برابر با 1 تنظیم شده باشد تا بتوانیم خروجی تابع `st.number_input` را با حالت بدون این پارامتر مقایسه کنیم.",
+          "rationale": "در گزارش مشخص شده که وقتی پارامتر step تنظیم نشده خروجی نوع float | None دارد اما با تنظیم step=1 انتظار می‌رود خروجی از نوع int | None باشد. برای تایید یا رد این تفاوت نیاز به نمونه کد مشخص با step=1 داریم.",
+          "hypotheses": [],
+          "ambiguities": [],
+          "judge": {
+            "verdict": "accept",
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "این درخواست برای نمونه کد حاوی پارامتر step=1 درخواست جدیدی است و مشابه پرسش های قبلی نیست.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "هیچ ادعای فنی مستقیمی مطرح نشده که نیاز به حمایت منبعی داشته باشد و سوال محوری است.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "سوال صرفاً درخواست نمونه کد است و فاقد موارد ورود کد یا حملات تزریق است.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "دریافت نمونه کد کامل با step=1 برای تحلیل و مقایسه بهتر رفتار تابع st.number_input مفید و لازم است.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "سوال مرتبط با مشکلی است که در گزارش مطرح شده و مستقیما برای بررسی علت رفتار تابع شماره‌ورودی کاربرد دارد.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "مسئله به نسخه Streamlit 1.59.1 مربوط است و سوال کلی درباره نمونه کد کاربردی است که فارغ از نسخه خاص، برای رفع ابهام به آن نیاز است.",
+                "score": 2
+              }
+            },
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "findings": [],
+            "draft_version": "a2bd403be2be4c0149c985cfc8760139b8dced3ad37a2611ea29a0eeb55b945c",
+            "unit_reviews": [
+              {
+                "kind": "question",
+                "links": [],
+                "reason": "درخواست نمونه کد که پارامتر step برابر 1 است و خروجی تابع نوع int | None را دارد، مستقیماً مرتبط با مشکل گزارش شده است.",
+                "support": "unknown",
+                "unit_id": "u_4453c05f6526ecd4337d3b4f",
+                "version_dependent": false,
+                "version_limit": ""
+              },
+              {
+                "kind": "next_step",
+                "links": [],
+                "reason": "درخواست نمونه کد کامل با step=1 برای مقایسه مستقیم با حالت بدون این پارامتر مفید است.",
+                "support": "unknown",
+                "unit_id": "u_a3c6d61986f24ce8ac64dfc0",
+                "version_dependent": false,
+                "version_limit": ""
+              },
+              {
+                "kind": "reported_fact",
+                "links": [],
+                "reason": "بیان دلایل درخواست نمونه کد برای تایید تفاوت نوع خروجی تابع st.number_input مرتبط و درست است.",
+                "support": "unknown",
+                "unit_id": "u_47c3c7cb610a1e6cfb3ebff4",
+                "version_dependent": false,
+                "version_limit": ""
+              }
+            ],
+            "novelty": {
+              "already_supplied_quote": "",
+              "new": true,
+              "reason": "این درخواست برای نمونه کد کاملاً جدید است و قبلا نمونه مشابه با step=1 ارائه نشده است.",
+              "useful": true
+            },
+            "failure_kind": null
+          },
+          "investigation_plan": {
+            "acceptance_condition": "تابع st.number_input خروجی ای داشته باشد که وقتی value برابر int یا None است و step تنظیم نشده، مقدار خروجی از نوع int | None باشد.",
+            "intent": "bug",
+            "known_report_spans": [
+              "I expected this to be int | None, and that this is how you are expected to create an empty input field, that accepts integers only, assuming the step parameter would default to 1, but it appears that strictly requires value to be int.",
+              "If you set step=1, then static type checking works as expected, resolving to int | None.",
+              "### Expected Behavior",
+              "Assertion fails."
+            ],
+            "missing_detail": "کد نمونه‌ای که مقدار step=1 را تنظیم می‌کند به طور کامل داشته باشیم تا بررسی تفاوت خروجی آسان‌تر باشد.",
+            "new_condition": "",
+            "problem_summary": "st.number_input returns float | None instead of int | None when value=int | None and step unset",
+            "suggested_question": "آیا می‌توانید کد نمونه‌ای را که دارای مقدار step=1 است و خروجی int | None را نشان می‌دهد، ارائه دهید؟"
+          },
+          "experiments": [],
+          "memory_version": 2,
+          "handoff": null,
+          "review_failures": []
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "issue:7649:v2:7e78ccc53587aecc",
+        "source_id": "issue:7649",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/7649",
+        "section": "Reproducible Code Example",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "retrieval_score": 0.028624
+      },
+      {
+        "id": "issue:8717:v2:9e72ce5fdca38e86",
+        "source_id": "issue:8717",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/8717",
+        "section": "Summary",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "retrieval_score": 0.02525253
+      },
+      {
+        "id": "issue:8717:v2:636342f6df052215",
+        "source_id": "issue:8717",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/8717",
+        "section": "st.selectbox could be typed so that it always returns T unless the index is None (etc)",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "retrieval_score": 0.02336957
+      },
+      {
+        "id": "docs:get-started:v2:eb38eeac1369113c",
+        "source_id": "docs:get-started",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-testing/get-started.md",
+        "section": "How to inspect elements",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.02811117
+      },
+      {
+        "id": "docs:widget-behavior:v2:ee0cfe9fcf250b2f",
+        "source_id": "docs:widget-behavior",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+        "section": "Widgets return simple Python data types",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.02269843
+      }
+    ],
+    "steps": 8,
+    "model_calls": 5,
+    "max_calls": 8,
+    "repair_count": 0,
+    "judge": {
+      "verdict": "accept",
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "این درخواست برای نمونه کد حاوی پارامتر step=1 درخواست جدیدی است و مشابه پرسش های قبلی نیست.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "هیچ ادعای فنی مستقیمی مطرح نشده که نیاز به حمایت منبعی داشته باشد و سوال محوری است.",
+          "score": 2
+        },
+        "injection_resistance": {
+          "reason": "سوال صرفاً درخواست نمونه کد است و فاقد موارد ورود کد یا حملات تزریق است.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "دریافت نمونه کد کامل با step=1 برای تحلیل و مقایسه بهتر رفتار تابع st.number_input مفید و لازم است.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "سوال مرتبط با مشکلی است که در گزارش مطرح شده و مستقیما برای بررسی علت رفتار تابع شماره‌ورودی کاربرد دارد.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "مسئله به نسخه Streamlit 1.59.1 مربوط است و سوال کلی درباره نمونه کد کاربردی است که فارغ از نسخه خاص، برای رفع ابهام به آن نیاز است.",
+          "score": 2
+        }
+      },
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 2,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "findings": [],
+      "draft_version": "a2bd403be2be4c0149c985cfc8760139b8dced3ad37a2611ea29a0eeb55b945c",
+      "unit_reviews": [
+        {
+          "kind": "question",
+          "links": [],
+          "reason": "درخواست نمونه کد که پارامتر step برابر 1 است و خروجی تابع نوع int | None را دارد، مستقیماً مرتبط با مشکل گزارش شده است.",
+          "support": "unknown",
+          "unit_id": "u_4453c05f6526ecd4337d3b4f",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "next_step",
+          "links": [],
+          "reason": "درخواست نمونه کد کامل با step=1 برای مقایسه مستقیم با حالت بدون این پارامتر مفید است.",
+          "support": "unknown",
+          "unit_id": "u_a3c6d61986f24ce8ac64dfc0",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "reported_fact",
+          "links": [],
+          "reason": "بیان دلایل درخواست نمونه کد برای تایید تفاوت نوع خروجی تابع st.number_input مرتبط و درست است.",
+          "support": "unknown",
+          "unit_id": "u_47c3c7cb610a1e6cfb3ebff4",
+          "version_dependent": false,
+          "version_limit": ""
+        }
+      ],
+      "novelty": {
+        "already_supplied_quote": "",
+        "new": true,
+        "reason": "این درخواست برای نمونه کد کاملاً جدید است و قبلا نمونه مشابه با step=1 ارائه نشده است.",
+        "useful": true
+      },
+      "failure_kind": null
+    },
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "ok",
+        "keys": [
+          "browser",
+          "os",
+          "python_version",
+          "streamlit_version"
+        ],
+        "facts_with_quotes": [
+          {
+            "key": "streamlit_version",
+            "quote": "- Streamlit version: 1.59.1",
+            "value": "1.59.1"
+          },
+          {
+            "key": "python_version",
+            "quote": "- Python version: 3.12",
+            "value": "3.12"
+          },
+          {
+            "key": "os",
+            "quote": "- Operating System: Windows",
+            "value": "Windows"
+          },
+          {
+            "key": "browser",
+            "quote": "- Browser: Edge",
+            "value": "Edge"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "Passing a typed variable of int | None to the value parameter for number_input returns a float | None type.",
+            "value": "Passing a typed variable of int | None to the value parameter for number_input returns a float | None type."
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "If you set step=1, then static type checking works as expected, resolving to int | None.",
+            "value": "If you set step=1, then static type checking works as expected, resolving to int | None."
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "Assertion fails.",
+            "value": "Assertion fails."
+          }
+        ],
+        "checks": [],
+        "ambiguities": []
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "bm25+dense+rrf+mmr",
+        "rrf_k": 60,
+        "mmr_lambda": 0.7,
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "quality": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true
+        },
+        "embedding": {
+          "texts": 1,
+          "unique_missing": 1,
+          "cache_hits": 0,
+          "batches": 1,
+          "usage": [
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "embedding",
+              "input_tokens": 40,
+              "output_tokens": 0,
+              "cost_usd": 8.799999999999999e-07,
+              "ledger_id": "3bd96820bad86bb021ee7e54"
+            }
+          ],
+          "identity": {
+            "provider": "https://api.metisai.ir/openai/v1",
+            "model": "text-embedding-3-small",
+            "normalization": "whitespace-v1",
+            "encoding_format": "float"
+          }
+        },
+        "candidates": [
+          "docs:get-started:v2:eb38eeac1369113c",
+          "docs:widget-behavior:v2:ee0cfe9fcf250b2f",
+          "docs:caching:v2:32f926d02df11120",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:8717:v2:9e72ce5fdca38e86",
+          "issue:9267:v2:5171feff5427edcd",
+          "issue:3072:v2:4445d75f80dedf00",
+          "issue:8717:v2:636342f6df052215"
+        ],
+        "quality_filter": true,
+        "excluded_chunks": 2083,
+        "as_of": null,
+        "temporal_policy": "current_snapshot",
+        "version_warnings": [
+          "docs:get-started:v2:eb38eeac1369113c",
+          "docs:widget-behavior:v2:ee0cfe9fcf250b2f",
+          "docs:caching:v2:32f926d02df11120",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:8717:v2:9e72ce5fdca38e86",
+          "issue:9267:v2:5171feff5427edcd",
+          "issue:3072:v2:4445d75f80dedf00",
+          "issue:8717:v2:636342f6df052215"
+        ]
+      },
+      {
+        "stage": "rerank",
+        "status": "ok",
+        "ids": [
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:8717:v2:9e72ce5fdca38e86",
+          "issue:8717:v2:636342f6df052215",
+          "docs:get-started:v2:eb38eeac1369113c",
+          "docs:widget-behavior:v2:ee0cfe9fcf250b2f",
+          "docs:caching:v2:32f926d02df11120",
+          "issue:9267:v2:5171feff5427edcd",
+          "issue:3072:v2:4445d75f80dedf00"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "ids": [
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:8717:v2:9e72ce5fdca38e86",
+          "issue:8717:v2:636342f6df052215",
+          "docs:get-started:v2:eb38eeac1369113c",
+          "docs:widget-behavior:v2:ee0cfe9fcf250b2f"
+        ],
+        "utf8_bytes": 4505
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge",
+        "attempt": 1,
+        "verdict": "accept",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "این درخواست برای نمونه کد حاوی پارامتر step=1 درخواست جدیدی است و مشابه پرسش های قبلی نیست.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "هیچ ادعای فنی مستقیمی مطرح نشده که نیاز به حمایت منبعی داشته باشد و سوال محوری است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "سوال صرفاً درخواست نمونه کد است و فاقد موارد ورود کد یا حملات تزریق است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "دریافت نمونه کد کامل با step=1 برای تحلیل و مقایسه بهتر رفتار تابع st.number_input مفید و لازم است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "سوال مرتبط با مشکلی است که در گزارش مطرح شده و مستقیما برای بررسی علت رفتار تابع شماره‌ورودی کاربرد دارد.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "مسئله به نسخه Streamlit 1.59.1 مربوط است و سوال کلی درباره نمونه کد کاربردی است که فارغ از نسخه خاص، برای رفع ابهام به آن نیاز است.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [],
+        "draft_version": "a2bd403be2be4c0149c985cfc8760139b8dced3ad37a2611ea29a0eeb55b945c",
+        "unit_reviews": [
+          {
+            "kind": "question",
+            "links": [],
+            "reason": "درخواست نمونه کد که پارامتر step برابر 1 است و خروجی تابع نوع int | None را دارد، مستقیماً مرتبط با مشکل گزارش شده است.",
+            "support": "unknown",
+            "unit_id": "u_4453c05f6526ecd4337d3b4f",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "next_step",
+            "links": [],
+            "reason": "درخواست نمونه کد کامل با step=1 برای مقایسه مستقیم با حالت بدون این پارامتر مفید است.",
+            "support": "unknown",
+            "unit_id": "u_a3c6d61986f24ce8ac64dfc0",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "reported_fact",
+            "links": [],
+            "reason": "بیان دلایل درخواست نمونه کد برای تایید تفاوت نوع خروجی تابع st.number_input مرتبط و درست است.",
+            "support": "unknown",
+            "unit_id": "u_47c3c7cb610a1e6cfb3ebff4",
+            "version_dependent": false,
+            "version_limit": ""
+          }
+        ],
+        "novelty": {
+          "already_supplied_quote": "",
+          "new": true,
+          "reason": "این درخواست برای نمونه کد کاملاً جدید است و قبلا نمونه مشابه با step=1 ارائه نشده است.",
+          "useful": true
+        },
+        "failure_kind": null,
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "3a30e412cdb477814b07f19a",
+        "hash": "8cb918f712e0e1a564019d1c6e094540b5453e6edf2d7552bd4ecf32c4cc7600",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 5,
+      "cost_usd": 0.009086440000000001,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "extract",
+          "input_tokens": 1651,
+          "output_tokens": 504,
+          "cost_usd": 0.00161348,
+          "ledger_id": "378b140d0203f66b181714ca"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "embedding",
+          "input_tokens": 40,
+          "output_tokens": 0,
+          "cost_usd": 8.799999999999999e-07,
+          "ledger_id": "3bd96820bad86bb021ee7e54"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "input_tokens": 4223,
+          "output_tokens": 106,
+          "cost_usd": 0.00204468,
+          "ledger_id": "554d05cfd947add35d3749a4"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "input_tokens": 4212,
+          "output_tokens": 259,
+          "cost_usd": 0.00230912,
+          "ledger_id": "c87227beae8b0c78da517c1f"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 4827,
+          "output_tokens": 565,
+          "cost_usd": 0.00311828,
+          "ledger_id": "4a3ac46790f31bcebcd0022e"
+        }
+      ],
+      "charged_or_reserved_usd": 0.00908644000000014
+    },
+    "validation_error": null,
+    "review_failures": [],
+    "reviewed_draft": {
+      "draft_version": "a2bd403be2be4c0149c985cfc8760139b8dced3ad37a2611ea29a0eeb55b945c",
+      "case_id": "GH16773",
+      "case_revision": 1,
+      "generation": 0,
+      "units": [
+        {
+          "unit_id": "u_4453c05f6526ecd4337d3b4f",
+          "field": "question",
+          "text": "آیا می‌توانید یک نمونه کد که در آن پارامتر step برابر با 1 است و خروجی `st.number_input` به صورت int | None است، ارائه دهید؟",
+          "start": 0,
+          "end": 124
+        },
+        {
+          "unit_id": "u_a3c6d61986f24ce8ac64dfc0",
+          "field": "next_step",
+          "text": "لطفاً یک نمونه کد کامل ارائه دهید که در آن مقدار پارامتر step برابر با 1 تنظیم شده باشد تا بتوانیم خروجی تابع `st.number_input` را با حالت بدون این پارامتر مقایسه کنیم.",
+          "start": 0,
+          "end": 168
+        },
+        {
+          "unit_id": "u_47c3c7cb610a1e6cfb3ebff4",
+          "field": "rationale",
+          "text": "در گزارش مشخص شده که وقتی پارامتر step تنظیم نشده خروجی نوع float | None دارد اما با تنظیم step=1 انتظار می‌رود خروجی از نوع int | None باشد. برای تایید یا رد این تفاوت نیاز به نمونه کد مشخص با step=1 داریم.",
+          "start": 0,
+          "end": 207
+        }
+      ]
+    },
+    "latency_seconds": 23.764229
+  },
+  "failure": null,
+  "elapsed_seconds": 23.798142000014195,
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "extract",
+      "input_tokens": 1651,
+      "output_tokens": 504,
+      "cost_usd": 0.00161348,
+      "ledger_id": "378b140d0203f66b181714ca"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "input_tokens": 40,
+      "output_tokens": 0,
+      "cost_usd": 8.799999999999999e-07,
+      "ledger_id": "3bd96820bad86bb021ee7e54"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "input_tokens": 4223,
+      "output_tokens": 106,
+      "cost_usd": 0.00204468,
+      "ledger_id": "554d05cfd947add35d3749a4"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "input_tokens": 4212,
+      "output_tokens": 259,
+      "cost_usd": 0.00230912,
+      "ledger_id": "c87227beae8b0c78da517c1f"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 4827,
+      "output_tokens": 565,
+      "cost_usd": 0.00311828,
+      "ledger_id": "4a3ac46790f31bcebcd0022e"
+    }
+  ],
+  "pipeline_sha256": "74e3565717fbc2869493f2ac06869bc720af340896ac68302df71981ef2a97a8",
+  "pipeline_path": "F:\\Quera AI\\Project\\streamlit-casepilot\\src\\casepilot\\pipeline.py"
+}
