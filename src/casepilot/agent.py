@@ -8,6 +8,8 @@ from .model import make_client
 from .grounding import validate_answer, fallback, render_response
 
 def version_observations(message):
+    from .memory import version_roles
+    explicit=version_roles(message)
     from .evidence import VERSION
     plain=re.sub(r'```.*?```',' ',message,flags=re.S).replace('`','').replace('**','')
     patterns={
@@ -19,7 +21,10 @@ def version_observations(message):
         name='streamlit' if key=='streamlit_version' else 'python'
         labeled_lines=re.findall(r'(?im)^\s*(?:[-*]\s*)?'+name+r'\s+version\s*[:|=]\s*([^\n]*)',plain)
         labeled={v for line in labeled_lines for v in re.findall(r'('+VERSION+r')(?![\w.+-])',line)}
-        values[key]=labeled if labeled else set(re.findall(pat,plain))
+        roles=[r for r in explicit if r['key']==key]
+        current=[r['value'] for r in roles if r['role']=='current']
+        corrections=[r['value'] for r in roles if r.get('correction')]
+        values[key]={corrections[-1]} if corrections else (set(current) if current else ({r['value'] for r in roles if r['role']=='unknown'} if roles else (labeled if labeled else set(re.findall(pat,plain)))))
     return values
 
 def extract_facts(message):

@@ -71,12 +71,8 @@ class QualityRevisionTests(unittest.TestCase):
                             'missing_detail':'helper body','new_condition':'','suggested_question':'پرسش: بدنهٔ تابع چیست؟','acceptance_condition':''}}
                     if role=='rerank': return {'ordered_ids':[x['id'] for x in packet['candidates']]}
                     if role=='judge':
-                        return {'verdict':'accept','assessments':{k:{'score':2,'reason':'توضیح: بدل آزمایشی.'} for k in CRITERIA},
-                            'draft_version':packet['draft']['draft_version'],
-                            'unit_reviews':[{'unit_id':u['unit_id'],'kind':'next_step' if u['field']=='next_step' else 'technical_claim',
-                                'support':'supported','links':[{'evidence_id':c['evidence_id'],'quote':c['quote']} for c in packet['answer']['claims']],
-                                'reason':'توضیح: بدل قرارداد است.','version_dependent':False,'version_limit':''} for u in packet['draft']['units']],
-                            'novelty':{'useful':True,'new':True,'reason':'پرسش: بدنهٔ تابع موجود نیست.','already_supplied_quote':''}}
+                        from review_helpers import current_review
+                        return current_review(packet)
                     raise AssertionError(role)
             client=StubClient(); agent=Agent(Store(Path(tmp)/'tracker.sqlite3'),client=client,hybrid=TinyHybrid())
             first=agent.turn('Q','Streamlit 1.49.0 widget key issue','first',{'reproducible':True})

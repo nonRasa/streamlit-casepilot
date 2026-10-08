@@ -1,0 +1,81 @@
+{
+  "tools": [
+    {
+      "name": "read_case",
+      "implementation": "Store.get",
+      "input": {
+        "case_id": "string"
+      },
+      "output": "case state, pending proposal, comments",
+      "errors": [
+        "invalid_id",
+        "not_found"
+      ],
+      "write": false
+    },
+    {
+      "name": "search_evidence",
+      "implementation": "HybridRetriever.search",
+      "input": {
+        "query": "string",
+        "k": "integer <= 8",
+        "version": "string or null"
+      },
+      "output": "versioned candidates; at most 5 enter final context",
+      "errors": [
+        "invalid_input",
+        "embedding_index_not_ready",
+        "budget_exhausted"
+      ],
+      "write": false
+    },
+    {
+      "name": "prepare_proposal",
+      "implementation": "Store.propose",
+      "input": {
+        "case_id": "string",
+        "revision": "integer",
+        "payload": "validated actions and summary"
+      },
+      "output": "proposal id, hash, revision",
+      "errors": [
+        "invalid_action",
+        "conflict"
+      ],
+      "write": "internal draft only"
+    },
+    {
+      "name": "review_proposal",
+      "implementation": "Store.review",
+      "input": {
+        "decision": "approve | reject | edit",
+        "proposal_hash": "string",
+        "reviewer": "authenticated actor"
+      },
+      "output": "approval or replacement draft",
+      "errors": [
+        "stale_approval",
+        "proposal_changed",
+        "already_reviewed"
+      ],
+      "write": "internal approval only"
+    },
+    {
+      "name": "execute_approved",
+      "implementation": "Store.execute",
+      "input": {
+        "case_id": "string",
+        "proposal_id": "string",
+        "approval_id": "string"
+      },
+      "output": "stored effects and idempotent result",
+      "errors": [
+        "approval_required",
+        "approval_expired",
+        "stale_approval",
+        "resolution_unconfirmed"
+      ],
+      "write": "local tracker only"
+    }
+  ]
+}

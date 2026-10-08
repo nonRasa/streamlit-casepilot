@@ -6,7 +6,7 @@ snapshots and the private embedding cache remain reproducible.
 import re
 from .common import digest,canonical
 
-REVISION = 'v2.2-quality'
+REVISION = 'v2.3-quality'
 NONTECH = re.compile(r'(?i)^(checklist|related issues|additional context|community|voting|references|related pr|other issues)\b')
 BOILERPLATE = re.compile(r'(?i)searched.*(?:existing|similar).*issues|descriptive title|provided sufficient information|vote.*(?:issue|feature)|thumbs.up|community voting|please add.*reaction')
 FUTURE = re.compile(r'(?i)\b(?:proposal|proposed architecture|future architecture|design proposal|execution model proposal)\b')
@@ -92,6 +92,7 @@ def compact_context(state):
     return {'facts':state.get('facts',{}),'completed_checks':state.get('checks',[])[-30:],
             'experiments':state.get('experiments',[])[-24:], 'memory_version':state.get('memory_version'),
             'fact_provenance':state.get('fact_provenance',{}),
+            'version_roles':state.get('version_roles',[])[-20:],
             'investigation_plan':plan,
             'messages':packed,'report_inventory':inventory,
             'context_truncated':any(x['truncated'] for x in packed) or len(packed)!=len(messages) or len(state.get('experiments',[]))>24}

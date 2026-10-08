@@ -137,7 +137,7 @@ class AgentTests(unittest.TestCase):
         class Bad(ReplayClient):
             def generate(self,state,evidence,method='final'):
                 result=super().generate(state,evidence,method); result['claims']=[{'evidence_id':evidence[0]['id'],'quote':'THIS QUOTE DOES NOT EXIST IN THE EVIDENCE.'}]; return result
-        out=Agent(self.store,self.retriever,Bad()).turn('A','session_state widget','r1')
+        out=Agent(self.store,self.retriever,Bad(),architecture='v1').turn('A','session_state widget','r1')
         self.assertEqual(out['decision'],'escalate'); self.assertEqual(out['validation_error'],'unsupported_quote')
     def test_oversized_input(self):
         with self.assertRaises(CasePilotError): self.agent.turn('A','x'*20001,'r1')

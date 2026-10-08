@@ -10,7 +10,7 @@ from .grounding import validate_answer, fallback, render_response
 from .hybrid import HybridRetriever
 from .roles import *
 from .quality import compact_context, retrieval_query, report_inventory, REVISION
-from .review_contract import draft_units, checked_review
+from .review_contract import draft_units, checked_review_v23, review_spans, recompose
 from .routing import handoff, render_handoff
 
 MAX_CALLS=8
@@ -137,14 +137,27 @@ def run(agent,case_id,message,request_id,facts,checks,input_hash,components=None
                     event('rerank',{'status':'fallback','error':exc.code,'ids':[r['id'] for r in candidates]})
             packet=pack(candidates); event('context_pack',{'ids':[r['id'] for r in packet],'utf8_bytes':sum(len(r['text'].encode()) for r in packet)})
             answer=draft(state,packet); event('draft',{'status':'produced'})
+            # Invalid individual quotes cannot silently survive, nor erase other
+            # fields before the separate semantic review of the full remainder.
+            retained=[]
+            for claim in answer.get('claims',[]):
+                try:
+                    validate_answer(dict(answer,decision='escalate',claims=[claim]),packet)
+                    retained.append(claim)
+                except CasePilotError as exc:
+                    if exc.code not in ('invalid_citation','unsupported_quote'): raise
+                    event('drop_invalid_citation',{'code':exc.code})
+            answer['claims']=retained
             forced=deterministic_findings(answer,packet,state)
             if options['judge']:
                 for attempt in range(2):
                     envelope=draft_units(answer,case_id,state['revision'],attempt)
-                    jp={'state':compact_state(state),'evidence':evidence_packet(packet),'answer':answer,'draft':envelope}
+                    jp={'facts':state['facts'],'experiments':state.get('experiments',[])[-12:],
+                        'decision':answer['decision'],'citations':answer['claims'],
+                        'spans':review_spans(state,packet,answer['claims']),'draft':envelope}
                     if client.mode=='live':
                         try:
-                            judge=checked_review(role('judge',QUALITY_JUDGE_PROMPT,jp,QUALITY_JUDGE,1400),answer,packet,state,envelope,forced)
+                            judge=checked_review_v23(role('judge',QUALITY_JUDGE_PROMPT,jp,QUALITY_JUDGE,2200),answer,packet,state,envelope,forced)
                         except CasePilotError as exc:
                             if exc.code in ('invalid_judge','judge_contract_error'):
                                 review_failures.append({'kind':'judge_contract','code':exc.code,'draft_version':envelope['draft_version']})
@@ -153,10 +166,17 @@ def run(agent,case_id,message,request_id,facts,checks,input_hash,components=None
                     else: judge=checked_judge(role('judge',JUDGE_PROMPT,jp,JUDGE),forced)
                     event('judge',{'attempt':attempt+1,**judge,'evaluation_kind':'model' if client.mode=='live' else 'test_fixture'})
                     if judge['verdict']=='accept': break
-                    review_failures.append({'kind':'answer_quality','draft_version':envelope['draft_version'],'findings':judge['findings']})
-                    if judge['verdict']=='escalate' or attempt==1:
+                    review_failures.append({'kind':judge.get('failure_kind','answer_quality'),'draft_version':envelope['draft_version'],'findings':judge['findings']})
+                    if attempt==1:
                         validation_error='judge_rejected'; answer=fallback(validation_error); break
-                    repair_count+=1; answer=draft(state,packet,judge); event('repair',{'attempt':repair_count})
+                    repair_count+=1
+                    preserved=recompose(answer,judge,envelope) if client.mode=='live' else None
+                    if preserved:
+                        answer=preserved; event('recompose',{'attempt':repair_count,'requires_recheck':True,'retained_fields':[u['field'] for u in envelope['units'] if u['unit_id'] in judge['valid_unit_ids']]})
+                    elif judge['verdict']=='escalate':
+                        validation_error='judge_rejected'; answer=fallback(validation_error); break
+                    else:
+                        answer=draft(state,packet,judge); event('repair',{'attempt':repair_count})
                     forced=deterministic_findings(answer,packet,state)
             elif forced:
                 validation_error='deterministic_review_failed'; answer=fallback(validation_error)

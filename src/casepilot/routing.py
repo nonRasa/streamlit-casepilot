@@ -11,12 +11,15 @@ def intent(state):
 def handoff(state,citations,error=None,answer=None):
     plan=state.get('investigation_plan',{}); feature=intent(state)=='feature_request'
     proposal=(answer or {}).get('feature_proposal',{})
-    summary=plan.get('problem_summary') or state['messages'][0]['text'][:1400]
+    # Never introduce an unreviewed extractor paraphrase into the final handoff.
+    summary=state['messages'][0]['text'][:1400]
     unknown=[k for k in ('streamlit_version','python_version','deployment','reproducible') if state.get('facts',{}).get(k) in (None,'')]
     return {'request_type':intent(state),'reported_problem':summary,'environment':state.get('facts',{}),
             'experiments':active_experiments(state),'evidence':citations,'unknowns':unknown,
-            'limitations':['محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.']+(['محدودیت: کد توقف `'+error+'`.'] if error else []),
-            'maintainer_action':'اقدام: امکان افزودن رفتار درخواستی و شرط پذیرش را بررسی و تصمیم طراحی را ثبت کنید.' if feature else 'اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.',
+            'escalation_basis':'internal_review_failure' if error else ('feature_request' if feature else 'case_needs_maintainer'),
+            'valid_findings':[] if error else [{'field':k,'text':(answer or {}).get(k,'')} for k in ('next_step','rationale')],
+            'limitations':['محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.']+(['محدودیت: کد توقف `'+error+'`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند.'] if error else []),
+            'maintainer_action':(answer or {}).get('next_step') if not error and answer else ('اقدام: امکان افزودن رفتار درخواستی و شرط پذیرش را بررسی و تصمیم طراحی را ثبت کنید.' if feature else 'اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.'),
             'feature':proposal if feature else {}}
 
 def validate_feature(value):

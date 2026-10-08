@@ -147,7 +147,7 @@ class ExperimentMemoryTests(unittest.TestCase):
         with self.store.connect() as db:
             old=json.loads(db.execute('SELECT state FROM cases WHERE id=?',('A',)).fetchone()[0]); old.pop('memory_version'); old.pop('experiments')
             db.execute('UPDATE cases SET state=? WHERE id=?',(json.dumps(old),'A'))
-        state=Store(self.path).get('A'); self.assertEqual(state['memory_version'],2); self.assertFalse(state['experiments'][0]['equivalence_known'])
+        state=Store(self.path).get('A'); self.assertEqual(state['memory_version'],3); self.assertFalse(state['experiments'][0]['equivalence_known'])
         self.store.update('A','Followup'); self.assertEqual(len(Store(self.path).get('A')['experiments']),1)
     def test_proposal_memory_does_not_grant_tracker_effect(self):
         state=self.store.update('A','Report'); self.store.remember_proposed_check('A',state['revision'],diagnostic(),'آزمایش پیشنهادی')
@@ -233,7 +233,8 @@ class IntegratedContractTests(unittest.TestCase):
                     'investigation':{'intent':'bug','problem_summary':'widget identity','known_report_spans':[], 'missing_detail':'','new_condition':'','suggested_question':'','acceptance_condition':''}}
                 if role=='rerank': return {'ordered_ids':[r['id'] for r in packet['candidates']]}
                 if role=='judge':
-                    out=review(packet['answer'],packet['evidence'],packet['draft'])
+                    from review_helpers import current_review
+                    out=current_review(packet)
                     if judge_mode=='stale': out['draft_version']='old'
                     if judge_mode=='unsupported': out['unit_reviews'][-1]['support']='unknown'
                     return out
@@ -252,7 +253,7 @@ class IntegratedContractTests(unittest.TestCase):
         self.assertFalse(store.get('A')['comments'])
     def test_content_defect_and_repair_tool_failure_remain_recorded(self):
         agent,store=self.run_agent('unsupported'); out=agent.turn('A','Streamlit 1.49.0 widget issue','one',facts={'reproducible':True})
-        self.assertEqual(out['review_failures'][0]['kind'],'answer_quality'); self.assertEqual(out['validation_error'],'provider_error'); self.assertEqual(out['repair_count'],1)
+        self.assertEqual(out['review_failures'][0]['kind'],'insufficient_evidence'); self.assertEqual(out['validation_error'],'provider_error'); self.assertEqual(out['repair_count'],1)
     def test_stop_before_turn_save_resumes_same_revision_once(self):
         agent,store=self.run_agent(); original=store.save_turn
         with patch.object(store,'save_turn',side_effect=RuntimeError('simulated process stop')):

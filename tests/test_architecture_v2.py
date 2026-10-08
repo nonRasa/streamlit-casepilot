@@ -151,7 +151,8 @@ class PipelineTests(unittest.TestCase):
         def broken(*args,**kwargs):
             out=original(*args,**kwargs); out['claims']=[{'evidence_id':'foreign','quote':'Invented untrusted technical source content.'}]; return out
         with patch.object(self.client,'generate',side_effect=broken): out=self.turn()
-        self.assertEqual(out['decision'],'escalate'); self.assertEqual(out['validation_error'],'invalid_citation'); self.assertFalse(self.store.get('A')['comments'])
+        self.assertEqual(out['decision'],'escalate'); self.assertEqual(out['validation_error'],'unsupported_answer'); self.assertFalse(self.store.get('A')['comments'])
+        self.assertTrue(any(s['stage']=='drop_invalid_citation' for s in out['pipeline']))
     def test_judge_transport_failure_returns_safe_draft_without_retry(self):
         original=pipeline.fixture_role; invoked=[]
         def role(name,packet):

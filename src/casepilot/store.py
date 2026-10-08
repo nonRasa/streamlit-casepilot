@@ -83,15 +83,24 @@ class Store:
                     return state
             row=db.execute('SELECT state FROM cases WHERE id=?',(cid,)).fetchone()
             state=json.loads(row['state']) if row else {'id':cid,'revision':0,'facts':{},'fact_history':[], 'checks':[], 'messages':[], 'status':'open','labels':[], 'source_ids':[], 'pending_proposal':None,'action_results':[]}
-            from .memory import migrate, checked_events, append_events
+            from .memory import migrate, checked_events, append_events, version_roles, observed_comparisons, condition_map
             migrate(state)
             events=checked_events(experiment_events or [],message,state['experiments'])
+            for observed in checked_events(observed_comparisons(message),message,state['experiments']):
+                if not any(e['status']==observed['status'] and condition_map(e['conditions']).get('streamlit_version')==condition_map(observed['conditions'])['streamlit_version'] for e in events): events.append(observed)
+            roles=version_roles(message)
+            for entry in roles:
+                state['version_roles'].append(dict(entry,message_index=len(state['messages']),kind='explicit_user_span'))
+            for key in ('streamlit_version','python_version'):
+                current=[r for r in roles if r['key']==key and r['role']=='current']
+                if current and key not in facts: facts[key]=current[-1]['value']
             if expected_revision is not None: require(state['revision']==expected_revision,'conflict','وضعیت پرونده تغییر کرده است.')
             for key,value in facts.items():
                 if key in state['facts'] and state['facts'][key]!=value:
                     state['fact_history'].append({'key':key,'old':state['facts'][key],'new':value,'at':utcnow()})
                 state['facts'][key]=value
-                state['fact_provenance'][key]={'kind':'current_user_input','message_index':len(state['messages']),'at':utcnow(),'value':value}
+                source=next((r['quote'] for r in reversed(roles) if r['key']==key and r['value']==value and r['role']=='current'),message)
+                state['fact_provenance'][key]={'kind':'current_user_input','message_index':len(state['messages']),'at':utcnow(),'value':value,'quote':source}
             state['checks']=list(dict.fromkeys(state['checks']+checks))
             state['messages'].append({'role':'user','text':message,'at':utcnow()})
             require(len(state['messages'])<=100,'turn_limit','سقف نوبت‌های پرونده رسیده است؛ پرونده را برای بررسی انسانی ارجاع دهید.')
