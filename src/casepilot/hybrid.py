@@ -30,7 +30,23 @@ class HybridRetriever:
         options={'dense':True,'mmr':True,'quality':True}; options.update(components or {})
         if not options['dense']:
             rows=self.lexical.search(query,k=100,method='baseline',version=version)
-            rows=[annotate(r,version,as_of) for r in rows if eligible(r,as_of) and (not options['quality'] or technical_source(r))][:k]
+            rows=[r for r in rows if eligible(r,as_of) and (not options['quality'] or technical_source(r))]
+            if options['quality']:
+                # A repeated long guide must not crowd out API references that
+                # are named literally in the report. Keep version warnings.
+                apis=list(dict.fromkeys(re.findall(r'\bst\.([A-Za-z_]\w*)',query)))[:8]
+                reserved=[]; chosen=set()
+                for api in apis:
+                    match=next((r for r in rows if r['source_id']=='api:'+api and r['id'] not in chosen),None)
+                    if match and len(reserved)<min(2,k):
+                        reserved.append(match); chosen.add(match['id'])
+                counts=collections.Counter(r['source_id'] for r in reserved)
+                for row in rows:
+                    if len(reserved)>=k: break
+                    if row['id'] in chosen or counts[row['source_id']]>=2: continue
+                    reserved.append(row); chosen.add(row['id']); counts[row['source_id']]+=1
+                rows=reserved
+            rows=[annotate(r,version,as_of) for r in rows[:k]]
             self.last_trace={'method':'bm25','components':options,'as_of':as_of,'temporal_policy':'exclude_future_and_unknown' if as_of else 'current_snapshot'}; return rows
         vectors=self.load_vectors()
         qvector=self.cache.get_many([query])[0]; stats=self.cache.last_stats
@@ -69,3 +85,4 @@ class HybridRetriever:
                          'as_of':as_of,'temporal_policy':'exclude_future_and_unknown' if as_of else 'current_snapshot',
                          'version_warnings':[r['id'] for r in rows if r['version_relation']!='exact']}
         return rows
+
