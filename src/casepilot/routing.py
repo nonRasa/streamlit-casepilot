@@ -2,6 +2,19 @@
 from .common import require
 from .memory import active_experiments
 
+def proposed_status(decision, validation_error=None):
+    """An internal review failure cannot decide that the user's case needs escalation."""
+    if validation_error:
+        return None
+    return {'ask':'waiting_user','answer':'open','escalate':'escalated'}[decision]
+
+def proposal_actions(response, decision, validation_error=None):
+    actions=[{'type':'comment','body':response}]
+    status=proposed_status(decision,validation_error)
+    if status is not None:
+        actions.append({'type':'status','value':status})
+    return actions
+
 def intent(state):
     planned=state.get('investigation_plan',{}).get('intent')
     if planned:
@@ -22,6 +35,7 @@ def handoff(state,citations,error=None,answer=None,review=None):
              [k for k in ('streamlit_version','python_version','deployment','reproducible') if state.get('facts',{}).get(k) in (None,'')])
     return {'request_type':intent(state),'reported_problem':summary,'environment':state.get('facts',{}),
             'experiments':active_experiments(state),'evidence':citations,'unknowns':unknown,
+            'reported_checks':list(dict.fromkeys(state.get('checks',[])))[:30],
             'escalation_basis':'internal_review_failure' if error else ('feature_request' if feature else 'case_needs_maintainer'),
             'valid_findings':[] if error else [{'field':k,'text':v} for k,v in {**{k:(answer or {}).get(k,'') for k in ('next_step','rationale')},**{k:v for k,v in proposal.items() if k!='report_quotes' and v!=UNKNOWN}}.items() if v],
             'limitations':['محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.']+(['محدودیت: کد توقف `'+error+'`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند.'] if error else []),
@@ -65,6 +79,9 @@ def render_handoff(packet,max_chars=8000):
         lines.append('بررسی‌های گزارش‌شده:\n\n```json\n'+json.dumps([{'action':e['action'][:120],'conditions':str(e['conditions'])[:200],'status':e['status'],'result':e['result'][:250],'provenance':e['provenance']} for e in events[-5:]],ensure_ascii=False,indent=2)+'\n```')
         if len(events)>5: lines.append('ادامه: پنج بررسی آخر نمایش داده شده‌اند؛ سابقهٔ کامل در خلاصهٔ ساخت‌یافتهٔ پیشنهاد محفوظ است.')
     else: lines.append('بررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.')
+    checks=packet.get('reported_checks',[])
+    if checks:
+        lines.append('بررسی‌های گزارش‌شدهٔ کاربر (نتیجهٔ مستقل تأیید نشده):\n\n```text\n'+'\n'.join('- '+str(x)[:300] for x in checks)+'\n```')
     lines.append('مجهولات:\n\n```text\n'+', '.join(packet['unknowns'])+'\n```')
     lines.append('شواهد: '+('تعداد '+str(len(packet['evidence']))+' استناد اعتبارسنجی‌شده در همین پاسخ.' if packet['evidence'] else 'شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.'))
     if packet['feature']:

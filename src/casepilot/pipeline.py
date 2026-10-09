@@ -11,7 +11,7 @@ from .hybrid import HybridRetriever
 from .roles import *
 from .quality import compact_context, retrieval_query, report_inventory, REVISION
 from .review_contract import draft_units, checked_review_v23, review_spans, recompose, bound_review_schema, unpack_bound_review
-from .routing import handoff, render_handoff
+from .routing import handoff, render_handoff, proposal_actions
 from .semantics import semantic_schema, checked_semantic_review, prepare_feature, recompose_semantic
 from .compact_review import packet as compact_review_packet, schema as compact_review_schema, decode as decode_compact_review, PROMPT as COMPACT_JUDGE_PROMPT
 from .case_type import case_kind, selection_schema, check_selection
@@ -208,8 +208,7 @@ def run(agent,case_id,message,request_id,facts,checks,input_hash,components=None
                  'rationale':answer['rationale'],'hypotheses':answer['hypotheses'],'ambiguities':ambiguities,'judge':judge}
         summary['investigation_plan']=investigation
         summary.update(experiments=state.get('experiments',[]),memory_version=state.get('memory_version'),handoff=handoff_packet,review_failures=review_failures)
-        status={'ask':'waiting_user','answer':'open','escalate':'escalated'}[answer['decision']]
-        proposal=agent.store.propose(case_id,state['revision'],{'actions':[{'type':'comment','body':response},{'type':'status','value':status}],
+        proposal=agent.store.propose(case_id,state['revision'],{'actions':proposal_actions(response,answer['decision'],validation_error),
                     'source_ids':[c['source_id'] for c in citations],'summary':summary})
         agent.store.remember_proposed_check(case_id,state['revision'],answer.get('diagnostic'),answer['next_step'])
         event('prepare_proposal',{'id':proposal['id'],'hash':proposal['hash'],'auto_execute':False})
