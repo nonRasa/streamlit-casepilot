@@ -1,0 +1,731 @@
+{
+  "categories": {
+    "1": "necessary witness not retrieved",
+    "2": "retrieved witness absent from context",
+    "3": "generator misuse",
+    "4": "judge false positive/negative or erroneous unit interpretation",
+    "5": "deterministic guard misinterpretation",
+    "6": "contract/gateway/infrastructure",
+    "7": "insufficient evidence for causal attribution"
+  },
+  "reviews": [
+    {
+      "run": "development_fix_D01_A",
+      "review_origin": "assistant inspection; neither human nor independent",
+      "categories": [
+        3,
+        4,
+        7
+      ],
+      "assessment_fa": "فرضیهٔ ناسازگاری داخلی از شرط pickleable بودن نتیجه نمی‌شود. سؤال درخواست traceback تازه دارد، اما دوباره نمونهٔ کد می‌خواهد؛ کل تابع کاربر ارائه نشده، پس تکراری بودن تمام درخواست کد قطعی نیست.",
+      "evidence": [
+        {
+          "scope": "user",
+          "json_pointer": "/full_user_report",
+          "start": 113,
+          "end": 160,
+          "quote": "I tested pickle outside Streamlit and it works."
+        },
+        {
+          "scope": "draft",
+          "json_pointer": "/reviewed_draft/units/3/text",
+          "start": 0,
+          "end": 55,
+          "quote": "ممکن است خطای pickle ناشی از محدودیت یا ناسازگاری داخلی"
+        },
+        {
+          "scope": "source",
+          "json_pointer": "/actual_context/0/text",
+          "start": 134,
+          "end": 253,
+          "quote": "Cached objects are stored in \"pickled\" form, which means that the return\nvalue of a cached function must be pickleable."
+        }
+      ],
+      "context_loss_observed": false,
+      "context_reconstruction_verified": true,
+      "raw_judge_verdicts": [
+        "accept",
+        "accept"
+      ],
+      "checked_verdicts": [
+        "repair",
+        "repair"
+      ],
+      "guard_findings": [
+        {
+          "attempt": 1,
+          "draft_version": "304bf6d57341656fa1f18c62fb8a78d6572c9f544b7872bf60d274fa658d563c",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_9a813e8797ed91d48d941f1b",
+              "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_d50479b361a9ac17eaa92580",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_d50479b361a9ac17eaa92580",
+              "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+            }
+          ]
+        },
+        {
+          "attempt": 2,
+          "draft_version": "5f0b53f34d8f0f81a3e90cd371a9b89db7cd5b3abe188d295fee407fb538fb18",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_4689367191c1d19d38f29177",
+              "reason": "معنا: معنای این واحد نامعلوم است و قابل پذیرش قطعی نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_11f00fe9cfad5b00e51bed6f",
+              "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود."
+            }
+          ]
+        }
+      ],
+      "bundle": "development_fix_D01_A.json",
+      "uncertainty": "Cannot independently establish true product cause or overall response quality."
+    },
+    {
+      "run": "initial_H03_A",
+      "review_origin": "assistant inspection; neither human nor independent",
+      "categories": [
+        3,
+        4,
+        7
+      ],
+      "assessment_fa": "تنظیم فعال‌سازی و آزمایش مرورگر قبلاً گزارش شده‌اند. درخواست کل config می‌تواند اطلاعات تازه بدهد، اما فرض وجود گزینهٔ تنظیم مسیر static اثبات نشده است. داور بعضی قدم‌های تشخیصی را ادعای نسخه‌دار دانسته؛ علت 404 قابل انتساب نیست.",
+      "evidence": [
+        {
+          "scope": "user",
+          "json_pointer": "/full_user_report",
+          "start": 38,
+          "end": 98,
+          "quote": "My config already contains [server] enableStaticServing=true"
+        },
+        {
+          "scope": "draft",
+          "json_pointer": "/reviewed_draft/units/0/text",
+          "start": 75,
+          "end": 108,
+          "quote": "تنظیمات مربوط به مسیر فایل static"
+        },
+        {
+          "scope": "source",
+          "json_pointer": "/actual_context/0/text",
+          "start": 368,
+          "end": 481,
+          "quote": "Media stored in the folder `./static/` relative to the running app file is served at path\n`app/static/[filename]`"
+        }
+      ],
+      "context_loss_observed": false,
+      "context_reconstruction_verified": true,
+      "raw_judge_verdicts": [
+        "accept",
+        "accept"
+      ],
+      "checked_verdicts": [
+        "repair",
+        "repair"
+      ],
+      "guard_findings": [
+        {
+          "attempt": 1,
+          "draft_version": "74e41b2743033bc166b8c7dd715d69be0ee9ff50aac7322633e9d52865209243",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_7bb6faa083219ebe7b55812f",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_62025c45b4b56fe9f5c25e62",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_90ab8fe975f96c0c770145b9",
+              "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_90ab8fe975f96c0c770145b9",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+            }
+          ]
+        },
+        {
+          "attempt": 2,
+          "draft_version": "ddd94fa0e24710302e333ba0883f0ba29016f1168d61532a7bf3ca826581672c",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_0a05495c2d95662583878f6c",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_dc74fb42d38e98e8ec2bdd2f",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_32a6014754bb6727d6194182",
+              "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_32a6014754bb6727d6194182",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+            }
+          ]
+        }
+      ],
+      "bundle": "initial_H03_A.json",
+      "uncertainty": "Cannot independently establish true product cause or overall response quality."
+    },
+    {
+      "run": "initial_D03_A",
+      "review_origin": "assistant inspection; neither human nor independent",
+      "categories": [
+        3,
+        4,
+        5
+      ],
+      "assessment_fa": "درخواست قابلیت روشن است؛ پرسش درباره وجود API و تأمین پیاده‌سازی نامتناسب است. شرط پذیرش شرطی ادعای وجود قابلیت نیست. نگهبان regex قدیمی عبارت باعث تغییر عرض شود را بی‌جهت ادعا می‌گرفت؛ این ایراد مستقل از ایرادهای دیگر پاسخ است.",
+      "evidence": [
+        {
+          "scope": "user",
+          "json_pointer": "/full_user_report",
+          "start": 111,
+          "end": 178,
+          "quote": "Acceptance: dragging changes width only when the option is enabled."
+        },
+        {
+          "scope": "draft",
+          "json_pointer": "/reviewed_draft/units/3/text",
+          "start": 0,
+          "end": 45,
+          "quote": "کشیدن لبه دیالوگ فقط زمانی باعث تغییر عرض شود"
+        }
+      ],
+      "context_loss_observed": false,
+      "context_reconstruction_verified": true,
+      "raw_judge_verdicts": [
+        "escalate"
+      ],
+      "checked_verdicts": [
+        "escalate"
+      ],
+      "guard_findings": [
+        {
+          "attempt": 1,
+          "draft_version": "48e8e477b346be0982ec223cf5dd6d6ef7d7746cd1959d43e1ff5f9ced7c2d8e",
+          "findings": [
+            {
+              "criterion": "next_step_usefulness",
+              "reason": "قابلیت: نبود پیاده‌سازی پیشنهادی الزام به تهیهٔ آن توسط درخواست‌کننده نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_9a61e0ec94dedec77a7c966e",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_5c443ad5615e706ed7cabb27",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_aec2e9eae3fe236c612c55e9",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_aec2e9eae3fe236c612c55e9",
+              "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_ba5e7e0111c69bd42d799889",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_7d662483ea4c68870b0c047e",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_34e5cbc7b11743352ac229df",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_f87924e385db9bf8ce32570e",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_6c992c98aac0d711e0537053",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            }
+          ]
+        }
+      ],
+      "bundle": "initial_D03_A.json",
+      "uncertainty": "Cannot independently establish true product cause or overall response quality."
+    },
+    {
+      "run": "development_fix_D03_A",
+      "review_origin": "assistant inspection; neither human nor independent",
+      "categories": [
+        3,
+        4
+      ],
+      "assessment_fa": "ادعای نبود گزینه از درخواست افزودن آن نتیجه نمی‌شود. رد این انتساب درست است، ولی داور متن هدف و شرح خواسته را هم با پیش‌فرض فنی علامت زده؛ رأی خام و تفسیر واحدها باید جدا خوانده شوند.",
+      "evidence": [
+        {
+          "scope": "user",
+          "json_pointer": "/full_user_report",
+          "start": 0,
+          "end": 71,
+          "quote": "Feature request: add an option to resize a dialog by dragging its edge."
+        },
+        {
+          "scope": "draft",
+          "json_pointer": "/reviewed_draft/units/4/text",
+          "start": 13,
+          "end": 96,
+          "quote": "در حال حاضر هیچ گزینه‌ای برای تغییر اندازه یک کادر گفتگو با کشیدن لبه آن وجود ندارد"
+        }
+      ],
+      "context_loss_observed": false,
+      "context_reconstruction_verified": true,
+      "raw_judge_verdicts": [
+        "escalate"
+      ],
+      "checked_verdicts": [
+        "escalate"
+      ],
+      "guard_findings": [
+        {
+          "attempt": 1,
+          "draft_version": "b756f0e0495658d21f8e8d381322fa7f7c3d51fb1648f9d63daa5595fd52136b",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_a58d8b80f75a62492e04b1be",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_52aa565e4d04b9e2ea92695e",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_52aa565e4d04b9e2ea92695e",
+              "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_a1183342b934c14364e22946",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_fe2f44868943bcae03681067",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_27799a41f753bda833ff1d9b",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_25f27585a8670dcffefac7d0",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_4b72c41ea17a0d17df1114e7",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            }
+          ]
+        }
+      ],
+      "bundle": "development_fix_D03_A.json",
+      "uncertainty": "Cannot independently establish true product cause or overall response quality."
+    },
+    {
+      "run": "initial_H02_C",
+      "review_origin": "assistant inspection; neither human nor independent",
+      "categories": [
+        3,
+        4,
+        7
+      ],
+      "assessment_fa": "متن خطای issue شاهد رفتار مشاهده‌شدهٔ گزارش‌دهنده است؛ نسخهٔ محصول شاهد نامعلوم است و محدودیت قطعی 1.18.0 را ثابت نمی‌کند. پرسش درباره خواستن توضیح، پاسخ کاربردی مفیدی نیست. والد حضور دارد ولی انطباق تاریخی را اضافه نکرده است.",
+      "evidence": [
+        {
+          "scope": "user",
+          "json_pointer": "/full_user_report",
+          "start": 53,
+          "end": 94,
+          "quote": "Our deployed Streamlit version is 1.18.0."
+        },
+        {
+          "scope": "draft",
+          "json_pointer": "/reviewed_draft/units/1/text",
+          "start": 14,
+          "end": 48,
+          "quote": "در نسخه 1.18.0 استریم‌لیت فقط مجاز"
+        },
+        {
+          "scope": "source",
+          "json_pointer": "/actual_context/0/text",
+          "start": 41,
+          "end": 185,
+          "quote": "StreamlitAPIException: set_page_config() can only be called once per app page, and must be called as the first Streamlit command in your script."
+        }
+      ],
+      "context_loss_observed": false,
+      "context_reconstruction_verified": true,
+      "raw_judge_verdicts": [
+        "accept",
+        "accept"
+      ],
+      "checked_verdicts": [
+        "repair",
+        "repair"
+      ],
+      "guard_findings": [
+        {
+          "attempt": 1,
+          "draft_version": "694789f0f0d73b58a732f1f96621bf81fb0e0fd975c1599bf064816d9c31aeca",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_8905b0868103b88e374b3d77",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_0f4f47246986f967d928f599",
+              "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_0f4f47246986f967d928f599",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_a50c4559aca85bb4a7557773",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            }
+          ]
+        },
+        {
+          "attempt": 2,
+          "draft_version": "3c9534ee31962dee7e11aff0b56409becdb58398a47af12f1df2fd9a48270928",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_764ffd19e93cbd5fe1d857c5",
+              "reason": "معنا: معنای این واحد نامعلوم است و قابل پذیرش قطعی نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_4c01f78daf40653dc4b75baf",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_09bc8206531d2ee2a28963fb",
+              "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_09bc8206531d2ee2a28963fb",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_73acd58229855907bd26518b",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_764ffd19e93cbd5fe1d857c5",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            }
+          ]
+        }
+      ],
+      "bundle": "initial_H02_C.json",
+      "uncertainty": "Cannot independently establish true product cause or overall response quality."
+    },
+    {
+      "run": "initial_H09_A",
+      "review_origin": "assistant inspection; neither human nor independent",
+      "categories": [
+        3,
+        4
+      ],
+      "assessment_fa": "راهنمای انتخاب ابزار در زمینه موجود است. پاسخ می‌توانست راهنمای مفهوم را با محدودیت نسخه بدهد؛ سؤال نسخه به‌تنهایی هدف را برآورده نمی‌کند. فیلد ویژگی در سؤال کاربردی ساخته شده و معنای reported_fact ندارد. پشتیبانی علت نسخه‌دار و orphan با هم بررسی شده‌اند.",
+      "evidence": [
+        {
+          "scope": "user",
+          "json_pointer": "/full_user_report",
+          "start": 0,
+          "end": 53,
+          "quote": "Which should I use to interactively edit tabular data"
+        },
+        {
+          "scope": "draft",
+          "json_pointer": "/reviewed_draft/units/0/text",
+          "start": 0,
+          "end": 39,
+          "quote": "کدام نسخه استریم‌لیت را استفاده می‌کنید"
+        },
+        {
+          "scope": "source",
+          "json_pointer": "/actual_context/1/text",
+          "start": 455,
+          "end": 515,
+          "quote": "If you want to interactively edit data, use [st.data_editor]"
+        }
+      ],
+      "context_loss_observed": false,
+      "context_reconstruction_verified": true,
+      "raw_judge_verdicts": [
+        "accept",
+        "accept"
+      ],
+      "checked_verdicts": [
+        "repair",
+        "repair"
+      ],
+      "guard_findings": [
+        {
+          "attempt": 1,
+          "draft_version": "70f49e10dccfc9d826497aab3351e95a132e224b6a2ece0be489e02d170a55c6",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_a1a82450b65dea993cfbe72c",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_4a71dbf07ba93127dece9998",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_866bc695371163fe93d9f40b",
+              "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_866bc695371163fe93d9f40b",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+            }
+          ]
+        },
+        {
+          "attempt": 2,
+          "draft_version": "2138daacc531ca8c4a4cb61fd3c36e7bc3f379b57b3fb05bbd86a92b4f77b4e9",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_795f80a4a86300b095fc55ed",
+              "reason": "معنا: مشاهدهٔ کاربر باید نقل‌قول محصور و منتسب باشد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_68d60679c6929bbe85073544",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_25dcd1859020331c4624f2e2",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_5aa91aef32c0ec4206bf9f19",
+              "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_5aa91aef32c0ec4206bf9f19",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            }
+          ]
+        }
+      ],
+      "bundle": "initial_H09_A.json",
+      "uncertainty": "Cannot independently establish true product cause or overall response quality."
+    },
+    {
+      "run": "initial_H09_B",
+      "review_origin": "assistant inspection; neither human nor independent",
+      "categories": [
+        3,
+        4
+      ],
+      "assessment_fa": "همان شاهد کاربردی در فرزند v3 هم حاضر است؛ رشد کیفیت بازیابی به‌تنهایی خطای تولید/داوری را رفع نکرد. نسخهٔ نامعلوم باید محدودیت مرئی داشته باشد، نه اینکه جای راهنمای کاربردی را بگیرد.",
+      "evidence": [
+        {
+          "scope": "user",
+          "json_pointer": "/full_user_report",
+          "start": 87,
+          "end": 103,
+          "quote": "Version unknown."
+        },
+        {
+          "scope": "draft",
+          "json_pointer": "/reviewed_draft/units/0/text",
+          "start": 48,
+          "end": 87,
+          "quote": "آیا نسخه خاصی از استریم‌لیت مدنظر شماست"
+        },
+        {
+          "scope": "source",
+          "json_pointer": "/actual_context/1/text",
+          "start": 455,
+          "end": 515,
+          "quote": "If you want to interactively edit data, use [st.data_editor]"
+        }
+      ],
+      "context_loss_observed": false,
+      "context_reconstruction_verified": true,
+      "raw_judge_verdicts": [
+        "accept",
+        "accept"
+      ],
+      "checked_verdicts": [
+        "repair",
+        "repair"
+      ],
+      "guard_findings": [
+        {
+          "attempt": 1,
+          "draft_version": "ebcf21473a9c665fce92d0a70e53c49de941f8c4c88ee2c65d78f59945d309c5",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_5a2cb4385c2e36a0a642cfc5",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_87d42d22c71f31fba09d03b9",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_dda47ec2218b80d8cea55d30",
+              "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_dda47ec2218b80d8cea55d30",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+            }
+          ]
+        },
+        {
+          "attempt": 2,
+          "draft_version": "671f730aa23a423b6e982647d00d34fa8011cc0cf714990d09446b632d5615e1",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_e77bb1ec035287d5b69f315c",
+              "reason": "معنا: معنای این واحد نامعلوم است و قابل پذیرش قطعی نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_977bd855df955f98bdf324ed",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_e77bb1ec035287d5b69f315c",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_a21772ee260cf365ce1fbeae",
+              "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_a21772ee260cf365ce1fbeae",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_53c125385485266e9500c487",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+            }
+          ]
+        }
+      ],
+      "bundle": "initial_H09_B.json",
+      "uncertainty": "Cannot independently establish true product cause or overall response quality."
+    }
+  ],
+  "provider_requests": 0,
+  "independent_or_human_review": false,
+  "actionable_roots": [
+    {
+      "id": "R1",
+      "problem": "Generator instructions and response route permit redundant/bundled requests and invented availability/mechanisms.",
+      "fix": "One active generator prompt, empty nonfeature fields, fresh single-target action and request/claim distinction."
+    },
+    {
+      "id": "R2",
+      "problem": "Selected quotes absent from review units; source version ambiguity not attached to visible quote.",
+      "fix": "Source-bound quotation units and server-derived visible applicability notices."
+    },
+    {
+      "id": "R3",
+      "problem": "Speech act/premise/version selections confused by wire encoding; conditional requested behavior overmatched by old guard.",
+      "fix": "Descriptive semantic field names derived from one mapping; conditional-request positive/negative guard tests."
+    }
+  ]
+}

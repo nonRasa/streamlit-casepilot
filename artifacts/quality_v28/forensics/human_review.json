@@ -1,0 +1,974 @@
+[
+  {
+    "alias": "review_338366b3402d",
+    "report": "Feature request: add an option to resize a dialog by dragging its edge. Keep the default fixed size unchanged. Acceptance: dragging changes width only when the option is enabled.",
+    "context": [],
+    "draft": {
+      "draft_version": "48e8e477b346be0982ec223cf5dd6d6ef7d7746cd1959d43e1ff5f9ced7c2d8e",
+      "case_id": "D03",
+      "case_revision": 1,
+      "generation": 0,
+      "units": [
+        {
+          "unit_id": "u_9a61e0ec94dedec77a7c966e",
+          "field": "question",
+          "text": "چنین گزینه‌ای برای تغییر اندازه دیالوگ با کشیدن لبه در `streamlit` هم‌اکنون وجود دارد یا خیر؟ در صورت عدم وجود آیا باید به عنوان قابلیت جدید توسعه داده شود؟",
+          "start": 0,
+          "end": 156
+        },
+        {
+          "unit_id": "u_5c443ad5615e706ed7cabb27",
+          "field": "next_step",
+          "text": "تعیین یک طراحی قابل قبول برای افزودن گزینه تغییر اندازه با کشیدن لبه به صورت اختیاری و تنظیم شرایط پذیرش مشخص برای تابعیت این گزینه.",
+          "start": 0,
+          "end": 132
+        },
+        {
+          "unit_id": "u_aec2e9eae3fe236c612c55e9",
+          "field": "rationale",
+          "text": "در گزارش کاربر درخواست قابلیت جدیدی برای تغییر اندازه دیالوگ با کشیدن لبه ارائه شده که در رفتار پیش‌فرض تأثیری نگذارد. این درخواست به صورت مشخص و روشن آمده است اما در مدارک موجود API مربوطه یا نحوه پیاده‌سازی آن فعلاً مشخص نیست. لذا برای اتخاذ تصمیم نهایی نیاز به تأیید و تصمیمات طراحی دقیق توسط تیم نگهدارنده وجود دارد.",
+          "start": 0,
+          "end": 320
+        },
+        {
+          "unit_id": "u_ba5e7e0111c69bd42d799889",
+          "field": "feature_proposal.acceptance_condition",
+          "text": "کشیدن لبه دیالوگ فقط زمانی باعث تغییر عرض شود که این گزینه فعال باشد.",
+          "start": 0,
+          "end": 69
+        },
+        {
+          "unit_id": "u_7d662483ea4c68870b0c047e",
+          "field": "feature_proposal.constraints",
+          "text": "با حفظ اندازه ثابت پیش‌فرض در غیر حالت فعال بودن گزینه.",
+          "start": 0,
+          "end": 55
+        },
+        {
+          "unit_id": "u_34e5cbc7b11743352ac229df",
+          "field": "feature_proposal.current_behavior",
+          "text": "گزارش کاربر: درخواست افزوده شدن گزینه‌ای برای تغییر اندازه دیالوگ با کشیدن لبه آن.",
+          "start": 0,
+          "end": 82
+        },
+        {
+          "unit_id": "u_f87924e385db9bf8ce32570e",
+          "field": "feature_proposal.desired_behavior",
+          "text": "اضافه شدن گزینه‌ای که امکان تغییر اندازه دیالوگ با کشیدن لبه فراهم شود، ولی به طور پیش‌فرض اندازه دیالوگ ثابت باقی بماند.",
+          "start": 0,
+          "end": 121
+        },
+        {
+          "unit_id": "u_6c992c98aac0d711e0537053",
+          "field": "feature_proposal.user_need",
+          "text": "درخواست قابلیت جدید برای تغییر اندازه دیالوگ با کشیدن لبه به صورت اختیاری و غیر پیش‌فرض.",
+          "start": 0,
+          "end": 88
+        }
+      ]
+    },
+    "reason_for_review": "Separate a harmless request/procedural diagnostic from a hidden technical assertion; check witness relevance and novelty against full report.",
+    "unsupported_claims": null,
+    "repeated_check": null,
+    "route_fit": null,
+    "usefulness_0_to_3": null,
+    "judge_false_positive_or_negative": null,
+    "reviewer_origin": null
+  },
+  {
+    "alias": "review_9855108be453",
+    "report": "How can I change page_title twice in one script run? Our deployed Streamlit version is 1.18.0.",
+    "context": [
+      {
+        "kind": "issue",
+        "title": "Set config for a multipage app",
+        "url": "https://github.com/streamlit/streamlit/issues/8301",
+        "revision": "2025-05-05T16:16:36Z",
+        "product_version": null,
+        "issue_number": 8301,
+        "available_at": null,
+        "published_at": null,
+        "created_at": null,
+        "updated_at": null,
+        "fetched_at": null,
+        "id": "issue:8301:v3:parent:d1d226f2025e5ed40023",
+        "source_id": "issue:8301",
+        "text": "### Summary\n\nI'm confused by the error: `StreamlitAPIException: set_page_config() can only be called once per app page, and must be called as the first Streamlit command in your script.`\n\nI have this folder structure: \n```\napp/\n├── Home.py\n└── pages/\n    ├── 1_KPIs.py\n    ├── 2_Segmental_Analysis.py\n    └── 3_New_Clients.py\n```\nIn each file I have added the method `st.set_page_config`, upon checking the [doc](https://docs.streamlit.io/get-started/tutorials/create-a-multipage-app), this should be working fine. \n\n[IMAGE OMITTED: not inspected]\n\nThis is my code in each file: \n\n`Home.py`\n```py\nimport streamlit as st\n\ndef page_config() -> None:\n    st.set_page_config(\n        page_title=\"Home\",\n        page_icon=\"📊\",\n        layout=\"wide\",\n        initial_sidebar_state=\"expanded\",\n    )\n\ndef main() -> None: \n    page_config()\n    st.title(\"Home\")\n    st.write(\"Main page\")\n\nif __name__ == \"__main__\":\n    main()\n```\n`pages/1_KPIs.py`\n```py\nimport streamlit as st\n\nst.set_page_config(\n    page_title=\"KPIs\", page_icon=\"📊\", layout=\"wide\", initial_sidebar_state=\"expanded\"\n)\n```\n`pages/2_Segmental_Analysis.py`\n```py\nimport streamlit as st\n\nst.set_page_config(\n    page_title=\"Segmental_Analysis\", page_icon=\"📈\", layout=\"wide\", initial_sidebar_state=\"expanded\"\n)\n```\n`pages/3_New_Clients.py`\n```py\nimport streamlit as st\n\nst.set_page_config(\n    page_title=\"New Clients\", page_icon=\"🧑\", layout=\"wide\", initial_sidebar_state=\"expanded\"\n)\n```\n",
+        "source_span": [
+          294,
+          1739
+        ],
+        "source_sha256": "8eb2c28d9c8cd6bf1d7a16578b7504c004ab45864e116e40389ad6e592aafbcb",
+        "sha256": "29bf44d19577a88fb7058c9456916fc3d65634a848c9288718f366c0b1b4a424",
+        "lines": [
+          9,
+          71
+        ],
+        "section": "Set config for a multipage app > Summary",
+        "section_path": [
+          "Set config for a multipage app",
+          "Summary"
+        ],
+        "chunk_config": {
+          "name": "structural_parent_child_v3",
+          "child_target_tokens": 300,
+          "parent_target_tokens": 800,
+          "encoding": "o200k_base",
+          "offset_unit": "unicode_character",
+          "embedding_namespace": "casepilot-structural-v3"
+        },
+        "token_count": 405,
+        "block_kinds": [
+          "code",
+          "heading",
+          "paragraph"
+        ],
+        "context_needed": true,
+        "header_spans": [],
+        "oversized_block": false,
+        "selected_child_ids": [
+          "issue:8301:v3:child:f57589fd162b19d10b56",
+          "issue:8301:v3:child:f56bed973a0206eab72f"
+        ],
+        "parent_id": "issue:8301:v3:parent:d1d226f2025e5ed40023",
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation"
+      }
+    ],
+    "draft": {
+      "draft_version": "3c9534ee31962dee7e11aff0b56409becdb58398a47af12f1df2fd9a48270928",
+      "case_id": "H02",
+      "case_revision": 1,
+      "generation": 1,
+      "units": [
+        {
+          "unit_id": "u_6a555ba104bfe7c3e82836bc",
+          "field": "question",
+          "text": "آیا می‌خواهید درباره محدودیت‌های تابع `set_page_config` در نسخه 1.18.0 و دلیل خطای رخ داده توضیح داده شود؟",
+          "start": 0,
+          "end": 106
+        },
+        {
+          "unit_id": "u_4c01f78daf40653dc4b75baf",
+          "field": "next_step",
+          "text": "توضیح دهید که در نسخه 1.18.0 استریم‌لیت فقط مجاز به فراخوانی یک بار تابع `set_page_config` در هر صفحه هستید و این تابع باید اولین فرمان در اسکریپت باشد.",
+          "start": 0,
+          "end": 152
+        },
+        {
+          "unit_id": "u_09bc8206531d2ee2a28963fb",
+          "field": "rationale",
+          "text": "خطای ذکرشده به وضوح بیان می‌کند که تابع `set_page_config` فقط یک بار در هر صفحه باید فراخوانی شود و باید اولین دستور در اسکریپت باشد. به همین دلیل تغییر عنوان صفحه بیش از یک بار در طول اجرای یک اسکریپت در نسخه 1.18.0 پشتیبانی نمی‌شود.",
+          "start": 0,
+          "end": 234
+        },
+        {
+          "unit_id": "u_73acd58229855907bd26518b",
+          "field": "hypotheses.0",
+          "text": "تابع `set_page_config` در نسخه 1.18.0 استریم‌لیت فقط برای اجرای یک بار در هر صفحه طراحی شده است و اجرای چندباره آن در یک اسکریپت پشتیبانی نمی‌شود. در نتیجه تغییر عنوان صفحه (page_title) دو بار در همان اسکریپت امکان‌پذیر نیست.",
+          "start": 0,
+          "end": 225
+        },
+        {
+          "unit_id": "u_764ffd19e93cbd5fe1d857c5",
+          "field": "feature_proposal.current_behavior",
+          "text": "گزارش کاربر: نمی‌توان در یک اجرای اسکریپت Streamlit نسخه 1.18.0 بیش از یک بار تابع set_page_config را فراخوانی کرد، زیرا خطا دریافت می‌شود.",
+          "start": 0,
+          "end": 139
+        }
+      ]
+    },
+    "reason_for_review": "Separate a harmless request/procedural diagnostic from a hidden technical assertion; check witness relevance and novelty against full report.",
+    "unsupported_claims": null,
+    "repeated_check": null,
+    "route_fit": null,
+    "usefulness_0_to_3": null,
+    "judge_false_positive_or_negative": null,
+    "reviewer_origin": null
+  },
+  {
+    "alias": "review_5c7a1e1cff0c",
+    "report": "Bug report: a static image URL fails. My config already contains [server] enableStaticServing=true and I tested the exact URL in a fresh browser; it still returns 404.",
+    "context": [
+      {
+        "kind": "docs",
+        "title": "static-file-serving",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+        "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+        "product_version": null,
+        "issue_number": null,
+        "id": "docs:static-file-serving:v2:0837b2c0750a012d",
+        "source_id": "docs:static-file-serving",
+        "section": "Static file serving",
+        "text": "# Static file serving\n\nStreamlit apps can host and serve small, static media files to support media embedding use cases that\nwon't work with the normal [media elements](/develop/api-reference/media).\n\nTo enable this feature, set `enableStaticServing = true` under `[server]` in your config file,\nor environment variable `STREAMLIT_SERVER_ENABLE_STATIC_SERVING=true`.\n\nMedia stored in the folder `./static/` relative to the running app file is served at path\n`app/static/[filename]`, such as `http://localhost:8501/app/static/cat.png`.",
+        "lines": [
+          8,
+          17
+        ],
+        "sha256": "927bd2ead478fcee6801a9b2ae79ab4b58feeabe2682d874cbceff1bc7da3bcb",
+        "chunk_config": {
+          "name": "section_blocks_v2",
+          "target_tokens": 1600,
+          "overlap_tokens": 256,
+          "token_estimator": "utf8_bytes_upper_bound"
+        },
+        "estimated_tokens": 534,
+        "oversized_block": false,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "compatibility_known": false,
+        "retrieval_score": 0.03483871,
+        "rank": 3
+      },
+      {
+        "kind": "docs",
+        "title": "static-file-serving",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+        "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+        "product_version": null,
+        "issue_number": null,
+        "id": "docs:static-file-serving:v2:f4e15cf050173133",
+        "source_id": "docs:static-file-serving",
+        "section": "Example usage",
+        "text": "## Example usage\n\n- Put an image `cat.png` in the folder `./static/`\n- Add `enableStaticServing = true` under `[server]` in your `.streamlit/config.toml`\n- Any media in the `./static/` folder is served at the relative URL like `app/static/cat.png`\n\n```toml\n# .streamlit/config.toml\n\n[server]\nenableStaticServing = true\n```\n\n```python\n# app.py\nimport streamlit as st\n\nwith st.echo():\n    st.title(\"CAT\")\n\n    st.markdown(\"[![Click me](app/static/cat.png)](https://streamlit.io)\")\n\n```\n\nAdditional resources:\n\n- [https://docs.streamlit.io/develop/concepts/configuration](https://docs.streamlit.io/develop/concepts/configuration)\n- [https://static-file-serving.streamlit.app/](https://static-file-serving.streamlit.app/)\n\n<Cloud name=\"static-file-serving\" height=\"1000px\" />",
+        "lines": [
+          33,
+          62
+        ],
+        "sha256": "c870ef8709a175e75eac8b7101101f4bcfc3dd0c5c9ee7dce7a8e5d8fdebf3ce",
+        "chunk_config": {
+          "name": "section_blocks_v2",
+          "target_tokens": 1600,
+          "overlap_tokens": 256,
+          "token_estimator": "utf8_bytes_upper_bound"
+        },
+        "estimated_tokens": 771,
+        "oversized_block": false,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "compatibility_known": false,
+        "retrieval_score": 0.03540984,
+        "rank": 1
+      }
+    ],
+    "draft": {
+      "draft_version": "ddd94fa0e24710302e333ba0883f0ba29016f1168d61532a7bf3ca826581672c",
+      "case_id": "H03",
+      "case_revision": 1,
+      "generation": 1,
+      "units": [
+        {
+          "unit_id": "u_0a05495c2d95662583878f6c",
+          "field": "question",
+          "text": "آیا می‌توانید بدنه کامل بخش [server] در فایل پیکربندی خود را، به خصوص شامل تنظیمات مربوط به مسیر فایل static و گزینه‌های دیگر، ارسال کنید؟",
+          "start": 0,
+          "end": 138
+        },
+        {
+          "unit_id": "u_dc74fb42d38e98e8ec2bdd2f",
+          "field": "next_step",
+          "text": "از کاربر بخواهید بدنه کامل بخش [server] فایل config را ارسال کند تا تنظیمات مسیر فایل static و سایر گزینه‌ها بررسی شود.",
+          "start": 0,
+          "end": 119
+        },
+        {
+          "unit_id": "u_32a6014754bb6727d6194182",
+          "field": "rationale",
+          "text": "مشاهده شده است که تنظیم فقط enableStaticServing=true فعال است ولی همچنان خطای 404 برای فایل استاتیک رخ می‌دهد. برای تمایز علت مشکل و بررسی احتمالی تنظیم‌های دیگر مربوط به مسیر فایل static، باید کل تنظیمات بخش [server] بررسی شود.",
+          "start": 0,
+          "end": 228
+        }
+      ]
+    },
+    "reason_for_review": "Separate a harmless request/procedural diagnostic from a hidden technical assertion; check witness relevance and novelty against full report.",
+    "unsupported_claims": null,
+    "repeated_check": null,
+    "route_fit": null,
+    "usefulness_0_to_3": null,
+    "judge_false_positive_or_negative": null,
+    "reviewer_origin": null
+  },
+  {
+    "alias": "review_b0c31f48f688",
+    "report": "Which should I use to interactively edit tabular data, st.dataframe or st.data_editor? Version unknown.",
+    "context": [
+      {
+        "kind": "docs",
+        "title": "dataframes",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+        "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+        "product_version": null,
+        "issue_number": null,
+        "id": "docs:dataframes:v2:2bc5764b033f45b5",
+        "source_id": "docs:dataframes",
+        "section": "Edit data with st.data_editor",
+        "text": "## Edit data with st.data_editor\n\nStreamlit supports editable dataframes via the `st.data_editor` command. Check out its API in [st.data_editor](/develop/api-reference/data/st.data_editor). It shows the dataframe in a table, similar to `st.dataframe`. But in contrast to `st.dataframe`, this table isn't static! The user can click on cells and edit them. The edited data is then returned on the Python side. Here's an example:\n\n```python\ndf = pd.DataFrame(\n    [\n        {\"command\": \"st.selectbox\", \"rating\": 4, \"is_widget\": True},\n        {\"command\": \"st.balloons\", \"rating\": 5, \"is_widget\": False},\n        {\"command\": \"st.time_input\", \"rating\": 3, \"is_widget\": True},\n    ]\n)\n\nedited_df = st.data_editor(df) # 👈 An editable dataframe\n\nfavorite_command = edited_df.loc[edited_df[\"rating\"].idxmax()][\"command\"]\nst.markdown(f\"Your favorite command is **{favorite_command}** 🎈\")\n```\n\n<Cloud name=\"doc-data-editor\" height=\"300px\"/>\n\nTry it out by double-clicking on any cell. You'll notice you can edit all cell values. Try editing the values in the rating column and observe how the text output at the bottom changes:",
+        "lines": [
+          54,
+          75
+        ],
+        "sha256": "406510ba9523eda53aa866c383871f77b78dc222524f0ca1af19d0b5bd2e05f1",
+        "chunk_config": {
+          "name": "section_blocks_v2",
+          "target_tokens": 1600,
+          "overlap_tokens": 256,
+          "token_estimator": "utf8_bytes_upper_bound"
+        },
+        "estimated_tokens": 1122,
+        "oversized_block": false,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "compatibility_known": false,
+        "retrieval_score": 0.03403474,
+        "rank": 3
+      },
+      {
+        "kind": "docs",
+        "title": "dataframes",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+        "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+        "product_version": null,
+        "issue_number": null,
+        "id": "docs:dataframes:v2:191915fd89c27735",
+        "source_id": "docs:dataframes",
+        "section": "Dataframes",
+        "text": "# Dataframes\n\nDataframes are a great way to display and edit data in a tabular format. Working with Pandas DataFrames and other tabular data structures is key to data science workflows. If developers and data scientists want to display this data in Streamlit, they have multiple options: `st.dataframe` and `st.data_editor`. If you want to solely display data in a table-like UI, [st.dataframe](/develop/api-reference/data/st.dataframe) is the way to go. If you want to interactively edit data, use [st.data_editor](/develop/api-reference/data/st.data_editor). We explore the use cases and advantages of each option in the following sections.",
+        "lines": [
+          8,
+          10
+        ],
+        "sha256": "090ed418a4c3ce591c8ffd38501049bee02bfbd4665d6a94cddf624bb6f58c78",
+        "chunk_config": {
+          "name": "section_blocks_v2",
+          "target_tokens": 1600,
+          "overlap_tokens": 256,
+          "token_estimator": "utf8_bytes_upper_bound"
+        },
+        "estimated_tokens": 642,
+        "oversized_block": false,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "compatibility_known": false,
+        "retrieval_score": 0.03540984,
+        "rank": 1
+      },
+      {
+        "kind": "release",
+        "title": "2023",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2023.md",
+        "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+        "product_version": null,
+        "issue_number": null,
+        "id": "docs:2023:v2:78e9a034c7d0bccd",
+        "source_id": "docs:2023",
+        "section": "**Version 1.23.0**",
+        "text": "## **Version 1.23.0**\n\n_Release date: June 1, 2023_\n\n**Highlights**\n\n- ✂️ Announcing the general availability of [st.data_editor](/develop/api-reference/data/st.data_editor), a widget that allows you to edit DataFrames and many other data structures in a table-like UI. **Breaking change:** the data editor's representation used in `st.session_state` was altered. Find out more about the new format in [Access edited data](/develop/concepts/design/dataframes#access-edited-data).\n- ⚙️ Introducing the [Column configuration API](/develop/api-reference/data/st.column_config) with a suite of methods to configure the display and editing behavior of `st.dataframe` and `st.data_editor` columns (e.g. their title, visibility, type, or format). Keep an eye out for a detailed [blog post](https://blog.streamlit.io/) and in-depth [documentation](/develop/concepts/design/dataframes#configuring-columns) upcoming in the next two weeks.\n- 🔌 Learn to use `st.experimental_connection` to create and manage data connections in your apps with the new [Connecting to data](/develop/concepts/connections/connecting-to-data) docs and [video tutorial](https://www.youtube.com/watch?v=xQwDfW7UHMo).\n\n**Notable Changes**\n\n\n\n\n\n\n\n**Other Changes**",
+        "lines": [
+          232,
+          250
+        ],
+        "sha256": "7f282496baaff09e978f9d4ef76cbb9b19c1b01d7c51010cbc730151c226be4f",
+        "chunk_config": {
+          "name": "section_blocks_v2",
+          "target_tokens": 1600,
+          "overlap_tokens": 256,
+          "token_estimator": "utf8_bytes_upper_bound"
+        },
+        "estimated_tokens": 1238,
+        "oversized_block": false,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "compatibility_known": false,
+        "retrieval_score": 0.02941176,
+        "rank": 4
+      }
+    ],
+    "draft": {
+      "draft_version": "2138daacc531ca8c4a4cb61fd3c36e7bc3f379b57b3fb05bbd86a92b4f77b4e9",
+      "case_id": "H09",
+      "case_revision": 1,
+      "generation": 1,
+      "units": [
+        {
+          "unit_id": "u_68d60679c6929bbe85073544",
+          "field": "question",
+          "text": "کدام نسخه استریم‌لیت را استفاده می‌کنید؟ این اطلاعات برای راهنمایی دقیق درباره انتخاب بین `st.dataframe` و `st.data_editor` ضروری است.",
+          "start": 0,
+          "end": 134
+        },
+        {
+          "unit_id": "u_25dcd1859020331c4624f2e2",
+          "field": "next_step",
+          "text": "لطفاً نسخه دقیق استریم‌لیت خود را اطلاع دهید تا بتوانم پاسخ دقیق‌تری درباره انتخاب بین `st.dataframe` و `st.data_editor` ارائه دهم.",
+          "start": 0,
+          "end": 131
+        },
+        {
+          "unit_id": "u_5aa91aef32c0ec4206bf9f19",
+          "field": "rationale",
+          "text": "اطلاعات موجود در مستندات نشان می‌دهد که `st.dataframe` صرفاً برای نمایش داده‌ها استفاده می‌شود اما برای ویرایش تعاملی داده‌های جدولی باید از `st.data_editor` استفاده کرد. تعیین نسخه استریم‌لیت برای تأیید در دسترس بودن این قابلیت‌ها و تغییرات احتمالی در API لازم است.",
+          "start": 0,
+          "end": 266
+        },
+        {
+          "unit_id": "u_795f80a4a86300b095fc55ed",
+          "field": "feature_proposal.current_behavior",
+          "text": "گزارش کاربر: پرسش درباره انتخاب بین دو کامپوننت `st.dataframe` و `st.data_editor` برای ویرایش تعاملی داده‌های جدولی در استریم‌لیت، نسخه نامعلوم.",
+          "start": 0,
+          "end": 144
+        }
+      ]
+    },
+    "reason_for_review": "Separate a harmless request/procedural diagnostic from a hidden technical assertion; check witness relevance and novelty against full report.",
+    "unsupported_claims": null,
+    "repeated_check": null,
+    "route_fit": null,
+    "usefulness_0_to_3": null,
+    "judge_false_positive_or_negative": null,
+    "reviewer_origin": null
+  },
+  {
+    "alias": "review_858ab29a74a0",
+    "report": "Which should I use to interactively edit tabular data, st.dataframe or st.data_editor? Version unknown.",
+    "context": [
+      {
+        "kind": "docs",
+        "title": "dataframes",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+        "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+        "product_version": null,
+        "issue_number": null,
+        "available_at": null,
+        "published_at": null,
+        "created_at": null,
+        "updated_at": null,
+        "fetched_at": null,
+        "id": "docs:dataframes:v3:child:f537d2ceb9fcc84aecf1",
+        "source_id": "docs:dataframes",
+        "text": "## Edit data with st.data_editor\n\nStreamlit supports editable dataframes via the `st.data_editor` command. Check out its API in [st.data_editor](/develop/api-reference/data/st.data_editor). It shows the dataframe in a table, similar to `st.dataframe`. But in contrast to `st.dataframe`, this table isn't static! The user can click on cells and edit them. The edited data is then returned on the Python side. Here's an example:\n\n```python\ndf = pd.DataFrame(\n    [\n        {\"command\": \"st.selectbox\", \"rating\": 4, \"is_widget\": True},\n        {\"command\": \"st.balloons\", \"rating\": 5, \"is_widget\": False},\n        {\"command\": \"st.time_input\", \"rating\": 3, \"is_widget\": True},\n    ]\n)\n\nedited_df = st.data_editor(df) # 👈 An editable dataframe\n\nfavorite_command = edited_df.loc[edited_df[\"rating\"].idxmax()][\"command\"]\nst.markdown(f\"Your favorite command is **{favorite_command}** 🎈\")\n```\n\n<Cloud name=\"doc-data-editor\" height=\"300px\"/>\n\nTry it out by double-clicking on any cell. You'll notice you can edit all cell values. Try editing the values in the rating column and observe how the text output at the bottom changes:\n",
+        "source_span": [
+          3906,
+          5023
+        ],
+        "source_sha256": "f09d0a310b70647c1ef83ec716fbeb057b26ab01c3fe4108daad46f481bb3472",
+        "sha256": "96dc104c67d3d9600efa9ef5e6bbcb4fcf2db6beba043979ed0884183ac61382",
+        "lines": [
+          54,
+          75
+        ],
+        "section": "dataframes > Dataframes > Edit data with st.data_editor",
+        "section_path": [
+          "dataframes",
+          "Dataframes",
+          "Edit data with st.data_editor"
+        ],
+        "chunk_config": {
+          "name": "structural_parent_child_v3",
+          "child_target_tokens": 300,
+          "parent_target_tokens": 800,
+          "encoding": "o200k_base",
+          "offset_unit": "unicode_character",
+          "embedding_namespace": "casepilot-structural-v3"
+        },
+        "token_count": 280,
+        "block_kinds": [
+          "code",
+          "heading",
+          "paragraph"
+        ],
+        "context_needed": true,
+        "header_spans": [],
+        "oversized_block": false,
+        "parent_id": "docs:dataframes:v3:parent:f537d2ceb9fcc84aecf1",
+        "parent": {
+          "kind": "docs",
+          "title": "dataframes",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:dataframes:v3:parent:f537d2ceb9fcc84aecf1",
+          "source_id": "docs:dataframes",
+          "text": "## Edit data with st.data_editor\n\nStreamlit supports editable dataframes via the `st.data_editor` command. Check out its API in [st.data_editor](/develop/api-reference/data/st.data_editor). It shows the dataframe in a table, similar to `st.dataframe`. But in contrast to `st.dataframe`, this table isn't static! The user can click on cells and edit them. The edited data is then returned on the Python side. Here's an example:\n\n```python\ndf = pd.DataFrame(\n    [\n        {\"command\": \"st.selectbox\", \"rating\": 4, \"is_widget\": True},\n        {\"command\": \"st.balloons\", \"rating\": 5, \"is_widget\": False},\n        {\"command\": \"st.time_input\", \"rating\": 3, \"is_widget\": True},\n    ]\n)\n\nedited_df = st.data_editor(df) # 👈 An editable dataframe\n\nfavorite_command = edited_df.loc[edited_df[\"rating\"].idxmax()][\"command\"]\nst.markdown(f\"Your favorite command is **{favorite_command}** 🎈\")\n```\n\n<Cloud name=\"doc-data-editor\" height=\"300px\"/>\n\nTry it out by double-clicking on any cell. You'll notice you can edit all cell values. Try editing the values in the rating column and observe how the text output at the bottom changes:\n",
+          "source_span": [
+            3906,
+            5023
+          ],
+          "source_sha256": "f09d0a310b70647c1ef83ec716fbeb057b26ab01c3fe4108daad46f481bb3472",
+          "sha256": "96dc104c67d3d9600efa9ef5e6bbcb4fcf2db6beba043979ed0884183ac61382",
+          "lines": [
+            54,
+            75
+          ],
+          "section": "dataframes > Dataframes > Edit data with st.data_editor",
+          "section_path": [
+            "dataframes",
+            "Dataframes",
+            "Edit data with st.data_editor"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 280,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false
+        },
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "compatibility_known": false,
+        "retrieval_score": 0.03378299,
+        "rank": 3
+      },
+      {
+        "kind": "docs",
+        "title": "dataframes",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+        "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+        "product_version": null,
+        "issue_number": null,
+        "available_at": null,
+        "published_at": null,
+        "created_at": null,
+        "updated_at": null,
+        "fetched_at": null,
+        "id": "docs:dataframes:v3:child:eeeadefad06817eb8ff5",
+        "source_id": "docs:dataframes",
+        "text": "# Dataframes\n\nDataframes are a great way to display and edit data in a tabular format. Working with Pandas DataFrames and other tabular data structures is key to data science workflows. If developers and data scientists want to display this data in Streamlit, they have multiple options: `st.dataframe` and `st.data_editor`. If you want to solely display data in a table-like UI, [st.dataframe](/develop/api-reference/data/st.dataframe) is the way to go. If you want to interactively edit data, use [st.data_editor](/develop/api-reference/data/st.data_editor). We explore the use cases and advantages of each option in the following sections.\n",
+        "source_span": [
+          410,
+          1053
+        ],
+        "source_sha256": "f09d0a310b70647c1ef83ec716fbeb057b26ab01c3fe4108daad46f481bb3472",
+        "sha256": "e62e950305ad40e7abcaff184d3db8c6ad944caa3f549710a35986e9ee23a143",
+        "lines": [
+          8,
+          10
+        ],
+        "section": "dataframes > Dataframes",
+        "section_path": [
+          "dataframes",
+          "Dataframes"
+        ],
+        "chunk_config": {
+          "name": "structural_parent_child_v3",
+          "child_target_tokens": 300,
+          "parent_target_tokens": 800,
+          "encoding": "o200k_base",
+          "offset_unit": "unicode_character",
+          "embedding_namespace": "casepilot-structural-v3"
+        },
+        "token_count": 142,
+        "block_kinds": [
+          "heading",
+          "paragraph"
+        ],
+        "context_needed": false,
+        "header_spans": [],
+        "oversized_block": false,
+        "parent_id": "docs:dataframes:v3:parent:eeeadefad06817eb8ff5",
+        "parent": {
+          "kind": "docs",
+          "title": "dataframes",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:dataframes:v3:parent:eeeadefad06817eb8ff5",
+          "source_id": "docs:dataframes",
+          "text": "# Dataframes\n\nDataframes are a great way to display and edit data in a tabular format. Working with Pandas DataFrames and other tabular data structures is key to data science workflows. If developers and data scientists want to display this data in Streamlit, they have multiple options: `st.dataframe` and `st.data_editor`. If you want to solely display data in a table-like UI, [st.dataframe](/develop/api-reference/data/st.dataframe) is the way to go. If you want to interactively edit data, use [st.data_editor](/develop/api-reference/data/st.data_editor). We explore the use cases and advantages of each option in the following sections.\n",
+          "source_span": [
+            410,
+            1053
+          ],
+          "source_sha256": "f09d0a310b70647c1ef83ec716fbeb057b26ab01c3fe4108daad46f481bb3472",
+          "sha256": "e62e950305ad40e7abcaff184d3db8c6ad944caa3f549710a35986e9ee23a143",
+          "lines": [
+            8,
+            10
+          ],
+          "section": "dataframes > Dataframes",
+          "section_path": [
+            "dataframes",
+            "Dataframes"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 142,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false
+        },
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "compatibility_known": false,
+        "retrieval_score": 0.03540984,
+        "rank": 1
+      },
+      {
+        "kind": "release",
+        "title": "2023",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2023.md",
+        "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+        "product_version": null,
+        "issue_number": null,
+        "available_at": null,
+        "published_at": null,
+        "created_at": null,
+        "updated_at": null,
+        "fetched_at": null,
+        "id": "docs:2023:v3:child:9bf4fc606a773a5ba82b",
+        "source_id": "docs:2023",
+        "text": "## **Version 1.23.0**\n\n_Release date: June 1, 2023_\n\n**Highlights**\n\n- ✂️ Announcing the general availability of [st.data_editor](/develop/api-reference/data/st.data_editor), a widget that allows you to edit DataFrames and many other data structures in a table-like UI. **Breaking change:** the data editor's representation used in `st.session_state` was altered. Find out more about the new format in [Access edited data](/develop/concepts/design/dataframes#access-edited-data).\n- ⚙️ Introducing the [Column configuration API](/develop/api-reference/data/st.column_config) with a suite of methods to configure the display and editing behavior of `st.dataframe` and `st.data_editor` columns (e.g. their title, visibility, type, or format). Keep an eye out for a detailed [blog post](https://blog.streamlit.io/) and in-depth [documentation](/develop/concepts/design/dataframes#configuring-columns) upcoming in the next two weeks.\n- 🔌 Learn to use `st.experimental_connection` to create and manage data connections in your apps with the new [Connecting to data](/develop/concepts/connections/connecting-to-data) docs and [video tutorial](https://www.youtube.com/watch?v=xQwDfW7UHMo).\n\n**Notable Changes**\n\n\n\n\n\n\n\n**Other Changes**\n",
+        "source_span": [
+          29175,
+          30403
+        ],
+        "source_sha256": "0b2984b75201fec6c852064ac7ddcffda0856bcc302e71c2392a62c56507c9af",
+        "sha256": "913df1609eeaa9c8aa36aee858dca34127edcf58afef6667a3d541f9a0adb799",
+        "lines": [
+          232,
+          250
+        ],
+        "section": "2023 > 2023 release notes > **Version 1.23.0**",
+        "section_path": [
+          "2023",
+          "2023 release notes",
+          "**Version 1.23.0**"
+        ],
+        "chunk_config": {
+          "name": "structural_parent_child_v3",
+          "child_target_tokens": 300,
+          "parent_target_tokens": 800,
+          "encoding": "o200k_base",
+          "offset_unit": "unicode_character",
+          "embedding_namespace": "casepilot-structural-v3"
+        },
+        "token_count": 287,
+        "block_kinds": [
+          "heading",
+          "paragraph"
+        ],
+        "context_needed": false,
+        "header_spans": [],
+        "oversized_block": false,
+        "parent_id": "docs:2023:v3:parent:9bf4fc606a773a5ba82b",
+        "parent": {
+          "kind": "release",
+          "title": "2023",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2023.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:2023:v3:parent:9bf4fc606a773a5ba82b",
+          "source_id": "docs:2023",
+          "text": "## **Version 1.23.0**\n\n_Release date: June 1, 2023_\n\n**Highlights**\n\n- ✂️ Announcing the general availability of [st.data_editor](/develop/api-reference/data/st.data_editor), a widget that allows you to edit DataFrames and many other data structures in a table-like UI. **Breaking change:** the data editor's representation used in `st.session_state` was altered. Find out more about the new format in [Access edited data](/develop/concepts/design/dataframes#access-edited-data).\n- ⚙️ Introducing the [Column configuration API](/develop/api-reference/data/st.column_config) with a suite of methods to configure the display and editing behavior of `st.dataframe` and `st.data_editor` columns (e.g. their title, visibility, type, or format). Keep an eye out for a detailed [blog post](https://blog.streamlit.io/) and in-depth [documentation](/develop/concepts/design/dataframes#configuring-columns) upcoming in the next two weeks.\n- 🔌 Learn to use `st.experimental_connection` to create and manage data connections in your apps with the new [Connecting to data](/develop/concepts/connections/connecting-to-data) docs and [video tutorial](https://www.youtube.com/watch?v=xQwDfW7UHMo).\n\n**Notable Changes**\n\n\n\n\n\n\n\n**Other Changes**\n",
+          "source_span": [
+            29175,
+            30403
+          ],
+          "source_sha256": "0b2984b75201fec6c852064ac7ddcffda0856bcc302e71c2392a62c56507c9af",
+          "sha256": "913df1609eeaa9c8aa36aee858dca34127edcf58afef6667a3d541f9a0adb799",
+          "lines": [
+            232,
+            250
+          ],
+          "section": "2023 > 2023 release notes > **Version 1.23.0**",
+          "section_path": [
+            "2023",
+            "2023 release notes",
+            "**Version 1.23.0**"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 287,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false
+        },
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "compatibility_known": false,
+        "retrieval_score": 0.0274024,
+        "rank": 4
+      }
+    ],
+    "draft": {
+      "draft_version": "671f730aa23a423b6e982647d00d34fa8011cc0cf714990d09446b632d5615e1",
+      "case_id": "H09",
+      "case_revision": 1,
+      "generation": 1,
+      "units": [
+        {
+          "unit_id": "u_977bd855df955f98bdf324ed",
+          "field": "question",
+          "text": "برای ویرایش تعاملی داده‌های جدولی در Streamlit، آیا نسخه خاصی از استریم‌لیت مدنظر شماست؟ لطفاً نسخه استفاده شده را بگویید.",
+          "start": 0,
+          "end": 122
+        },
+        {
+          "unit_id": "u_e77bb1ec035287d5b69f315c",
+          "field": "next_step",
+          "text": "لطفاً نسخه استریم‌لیت خود را بفرمایید تا در صورت وجود تغییر در API، پاسخ دقیقتری ارائه شود.",
+          "start": 0,
+          "end": 91
+        },
+        {
+          "unit_id": "u_a21772ee260cf365ce1fbeae",
+          "field": "rationale",
+          "text": "مستندات رسمی استریم‌لیت صراحت دارد که برای نمایش داده‌ها در جدول از `st.dataframe` و برای ویرایش تعاملی داده‌ها باید از `st.data_editor` استفاده شود. اما به دلیل عدم مشخص بودن نسخه محصول، نمی‌توان با قطعیت درباره وجود تفاوت‌های احتمالی در API پاسخ داد.",
+          "start": 0,
+          "end": 252
+        },
+        {
+          "unit_id": "u_53c125385485266e9500c487",
+          "field": "feature_proposal.current_behavior",
+          "text": "گزارش کاربر: پرسش درباره اینکه برای ویرایش تعاملی داده‌های جدولی در `Streamlit` باید از `st.dataframe` استفاده کرد یا `st.data_editor`.",
+          "start": 0,
+          "end": 135
+        }
+      ]
+    },
+    "reason_for_review": "Separate a harmless request/procedural diagnostic from a hidden technical assertion; check witness relevance and novelty against full report.",
+    "unsupported_claims": null,
+    "repeated_check": null,
+    "route_fit": null,
+    "usefulness_0_to_3": null,
+    "judge_false_positive_or_negative": null,
+    "reviewer_origin": null
+  },
+  {
+    "alias": "review_c087147c6b91",
+    "report": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. I tested pickle outside Streamlit and it works. What fresh diagnostic would isolate this?",
+    "context": [
+      {
+        "kind": "docs",
+        "title": "cache_data API docstrings 1.49.0",
+        "url": "https://github.com/streamlit/streamlit/blob/1.49.0/lib/streamlit/runtime/caching/cache_data_api.py",
+        "revision": "1.49.0",
+        "product_version": "1.49.0",
+        "issue_number": null,
+        "id": "api:cache_data:v2:f31a213ee0aa9fe7",
+        "source_id": "api:cache_data",
+        "section": "_decorator (line 384)",
+        "text": "## _decorator (line 384)\n\nDecorator to cache functions that return data (e.g. dataframe transforms, database queries, ML inference).\n\nCached objects are stored in \"pickled\" form, which means that the return\nvalue of a cached function must be pickleable. Each caller of the cached\nfunction gets its own copy of the cached data.\n\nYou can clear a function's cache with ``func.clear()`` or clear the entire\ncache with ``st.cache_data.clear()``.\n\nA function's arguments must be hashable to cache it. If you have an\nunhashable argument (like a database connection) or an argument you\nwant to exclude from caching, use an underscore prefix in the argument\nname. In this case, Streamlit will return a cached value when all other\narguments match a previous function call. Alternatively, you can\ndeclare custom hashing functions with ``hash_funcs``.\n\nCached values are available to all users of your app. If you need to\nsave results that should only be accessible within a session, use\n`Session State\n<https://docs.streamlit.io/develop/concepts/architecture/session-state>`_\ninstead. Within each user session, an ``@st.cache_data``-decorated\nfunction returns a *copy* of the cached return value (if the value is\nalready cached). To cache shared global resources (singletons), use\n``st.cache_resource`` instead. To learn more about caching, see\n`Caching overview\n<https://docs.streamlit.io/develop/concepts/architecture/caching>`_.\n\n.. note::\n    Caching async functions is not supported. To upvote this feature,\n    see GitHub issue `#8308\n    <https://github.com/streamlit/streamlit/issues/8308>`_.",
+        "lines": [
+          1,
+          33
+        ],
+        "sha256": "d607814ced546adca2ce2b10478940feeb53378764f0a69577ccfba3282f5e2f",
+        "chunk_config": {
+          "name": "section_blocks_v2",
+          "target_tokens": 1600,
+          "overlap_tokens": 256,
+          "token_estimator": "utf8_bytes_upper_bound"
+        },
+        "estimated_tokens": 1589,
+        "oversized_block": false,
+        "version_relation": "exact",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "compatibility_known": true,
+        "retrieval_score": 0.02488031,
+        "rank": 8
+      },
+      {
+        "kind": "docs",
+        "title": "cache-data",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-data.md",
+        "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+        "product_version": null,
+        "issue_number": null,
+        "id": "docs:cache-data:v2:2d852be1ef02439a",
+        "source_id": "docs:cache-data",
+        "section": "cache-data",
+        "text": "<Tip>\n\nThis page only contains information on the `st.cache_data` API. For a deeper dive into caching and how to use it, check out [Caching](/develop/concepts/architecture/caching).\n\n</Tip>\n\n<Autofunction function=\"streamlit.cache_data\" oldName=\"streamlit.experimental_memo\" />\n\n<Warning>\n\n`st.cache_data` implicitly uses the `pickle` module, which is known to be insecure. Anything your cached function returns is pickled and stored, then unpickled on retrieval. Ensure your cached functions return trusted values because it is possible to construct malicious pickle data that will execute arbitrary code during unpickling. Never load data that could have come from an untrusted source in an unsafe mode or that could have been tampered with. **Only load data you trust**.\n\n</Warning>\n\n<Autofunction function=\"streamlit.cache_data.clear\" oldName=\"streamlit.experimental_memo.clear\" />",
+        "lines": [
+          8,
+          22
+        ],
+        "sha256": "d55f9151612004639c2237d2f6a61c1949653d6f32250114c8a77e19c86e61cc",
+        "chunk_config": {
+          "name": "section_blocks_v2",
+          "target_tokens": 1600,
+          "overlap_tokens": 256,
+          "token_estimator": "utf8_bytes_upper_bound"
+        },
+        "estimated_tokens": 885,
+        "oversized_block": false,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "compatibility_known": false,
+        "retrieval_score": 0.03252717,
+        "rank": 1
+      }
+    ],
+    "draft": {
+      "draft_version": "5f0b53f34d8f0f81a3e90cd371a9b89db7cd5b3abe188d295fee407fb538fb18",
+      "case_id": "D01",
+      "case_revision": 1,
+      "generation": 1,
+      "units": [
+        {
+          "unit_id": "u_7d1fc9a6b459d95109c9de7f",
+          "field": "question",
+          "text": "آیا می‌توانید استک‌تریس کامل خطای pickle که توسط دکوراتور `st.cache_data` در هنگام اجرای کد شما ایجاد می‌شود و یک نمونه کد حداقلی که خطا را تکرار می‌کند ارائه دهید؟",
+          "start": 0,
+          "end": 164
+        },
+        {
+          "unit_id": "u_d6b7a00a3ced533bb2065e90",
+          "field": "next_step",
+          "text": "لطفاً استک‌تریس کامل خطای pickle که هنگام استفاده از دکوراتور `st.cache_data` رخ می‌دهد و یک نمونه کد حداقلی که خطا را تکرار می‌کند ارائه دهید.",
+          "start": 0,
+          "end": 143
+        },
+        {
+          "unit_id": "u_11f00fe9cfad5b00e51bed6f",
+          "field": "rationale",
+          "text": "مستندات `st.cache_data` نشان می‌دهد که داده‌های کش شده به صورت pickle ذخیره می‌شوند و برای کش کردن، مقدار بازگشتی تابع باید pickleable باشد. گزارش شما می‌گوید کلاس Payload هنگام pickle شدن خارج از Streamlit خطایی ندارد اما در `st.cache_data` خطای pickle رخ می‌دهد. برای تشخیص دقیق دلیل نیاز به استک‌تریس خطا و نمونه کد وجود دارد تا محدودیت داخلی دکوراتور یا ناسازگاری احتمالی بررسی شود.",
+          "start": 0,
+          "end": 386
+        },
+        {
+          "unit_id": "u_4689367191c1d19d38f29177",
+          "field": "hypotheses.0",
+          "text": "ممکن است خطای pickle ناشی از محدودیت یا ناسازگاری داخلی دکوراتور `st.cache_data` باشد، نه اشکال در کلاس Payload یا عملکرد عادی pickle.",
+          "start": 0,
+          "end": 134
+        }
+      ]
+    },
+    "reason_for_review": "Separate a harmless request/procedural diagnostic from a hidden technical assertion; check witness relevance and novelty against full report.",
+    "unsupported_claims": null,
+    "repeated_check": null,
+    "route_fit": null,
+    "usefulness_0_to_3": null,
+    "judge_false_positive_or_negative": null,
+    "reviewer_origin": null
+  },
+  {
+    "alias": "review_ba1379a77cc2",
+    "report": "Feature request: add an option to resize a dialog by dragging its edge. Keep the default fixed size unchanged. Acceptance: dragging changes width only when the option is enabled.",
+    "context": [],
+    "draft": {
+      "draft_version": "b756f0e0495658d21f8e8d381322fa7f7c3d51fb1648f9d63daa5595fd52136b",
+      "case_id": "D03",
+      "case_revision": 1,
+      "generation": 0,
+      "units": [
+        {
+          "unit_id": "u_a58d8b80f75a62492e04b1be",
+          "field": "next_step",
+          "text": "تصمیم‌گیری در مورد افزودن گزینه تغییر اندازه کادر گفتگو با کشیدن لبه آن که فقط هنگام فعال بودن، عملکرد کشیدن باعث تغییر عرض شود.",
+          "start": 0,
+          "end": 128
+        },
+        {
+          "unit_id": "u_52aa565e4d04b9e2ea92695e",
+          "field": "rationale",
+          "text": "هدف: درخواست روشن کاربر برای تصمیم طراحی نگه‌دارنده آماده می‌شود؛ جزئیات رفتار و شرط پذیرش در پیشنهاد آمده‌اند.",
+          "start": 0,
+          "end": 111
+        },
+        {
+          "unit_id": "u_a1183342b934c14364e22946",
+          "field": "feature_proposal.acceptance_condition",
+          "text": "dragging changes width only when the option is enabled",
+          "start": 0,
+          "end": 54
+        },
+        {
+          "unit_id": "u_fe2f44868943bcae03681067",
+          "field": "feature_proposal.constraints",
+          "text": "Keep the default fixed size unchanged",
+          "start": 0,
+          "end": 37
+        },
+        {
+          "unit_id": "u_27799a41f753bda833ff1d9b",
+          "field": "feature_proposal.current_behavior",
+          "text": "گزارش کاربر: در حال حاضر هیچ گزینه‌ای برای تغییر اندازه یک کادر گفتگو با کشیدن لبه آن وجود ندارد.",
+          "start": 0,
+          "end": 97
+        },
+        {
+          "unit_id": "u_25f27585a8670dcffefac7d0",
+          "field": "feature_proposal.desired_behavior",
+          "text": "اضافه کردن گزینه‌ای برای فعال‌سازی قابلیت تغییر اندازه کادر گفتگو با کشیدن لبه، به‌طوری‌که فقط در صورت فعال بودن این گزینه عرض کادر قابل تغییر باشد.",
+          "start": 0,
+          "end": 148
+        },
+        {
+          "unit_id": "u_4b72c41ea17a0d17df1114e7",
+          "field": "feature_proposal.user_need",
+          "text": "کابر نیاز دارد بتواند به صورت اختیاری عرض کادر گفتگو را با کشیدن لبه آن تغییر دهد تا در موارد لازم تغییر اندازه امکان‌پذیر باشد.",
+          "start": 0,
+          "end": 128
+        }
+      ]
+    },
+    "reason_for_review": "Separate a harmless request/procedural diagnostic from a hidden technical assertion; check witness relevance and novelty against full report.",
+    "unsupported_claims": null,
+    "repeated_check": null,
+    "route_fit": null,
+    "usefulness_0_to_3": null,
+    "judge_false_positive_or_negative": null,
+    "reviewer_origin": null
+  }
+]

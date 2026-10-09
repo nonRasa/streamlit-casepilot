@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-10",
+  "baseline_commit": "dacf3ecd977efa0e22f7c46d359c9fd4e4771b4c",
+  "variants": {
+    "A": "v2",
+    "B": "v3_child"
+  },
+  "parent_context": false,
+  "context_tokens": 3000,
+  "models": [
+    "gpt-4.1-mini",
+    "text-embedding-3-small"
+  ],
+  "rewrite": false,
+  "production_path": "Agent.turn with real extraction-generated retrieval query, actual HybridRetriever and model rerank; no candidate/vector injection",
+  "dev_cases": [
+    "D1",
+    "D2",
+    "D3"
+  ],
+  "holdout_cases": [
+    "H1",
+    "H2",
+    "H3"
+  ],
+  "max_dev_correction_rounds": 2,
+  "max_connection_retries": 4,
+  "max_stored_draft_probes": 4,
+  "freeze_policy": "Holdout inputs and reference witnesses frozen before fresh tuning. No tuning/relabeling/repeated freshness claim after holdout results.",
+  "family_definition": "Failure mechanism/request behavior, not API name alone. Fresh authored scenarios; nearby broad Streamlit domains may share documents with earlier corpora.",
+  "acceptance": {
+    "contract_valid_rate": 1.0,
+    "valid_citations_rate": 1.0,
+    "unsupported_claims": 0,
+    "repeated_question_or_test": 0,
+    "route_fit_rate": 1.0,
+    "usefulness_min_per_case": 2,
+    "context_budget_ok_rate": 1.0,
+    "independent_or_human_review_required_for_default_change": true
+  },
+  "evaluation_origin": "Assistant case review is reported separately from model verdict, deterministic guard, and independent/human review."
+}

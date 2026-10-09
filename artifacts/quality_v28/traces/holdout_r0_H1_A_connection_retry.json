@@ -1,0 +1,1704 @@
+[
+  {
+    "id": 1,
+    "case_id": "V28_H1",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ambiguities": [],
+      "checks": [
+        "I already restarted the server and tested a fresh browser."
+      ],
+      "facts_with_quotes": [
+        {
+          "key": "streamlit_version",
+          "quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome.",
+          "value": "1.49.0"
+        },
+        {
+          "key": "deployment",
+          "quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome.",
+          "value": "local"
+        },
+        {
+          "key": "symptom_scope",
+          "quote": "The body uses my configured custom text color but the sidebar text still looks like the default.",
+          "value": "sidebar text still looks like the default"
+        }
+      ],
+      "keys": [
+        "deployment",
+        "streamlit_version",
+        "symptom_scope"
+      ],
+      "stage": "extract",
+      "status": "ok"
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 2,
+    "case_id": "V28_H1",
+    "kind": "user_update",
+    "payload": {
+      "checks": [
+        "I already restarted the server and tested a fresh browser."
+      ],
+      "facts": {
+        "deployment": "local",
+        "streamlit_version": "1.49.0",
+        "symptom_scope": "sidebar text still looks like the default"
+      },
+      "message": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. The body uses my configured custom text color but the sidebar text still looks like the default. I already restarted the server and tested a fresh browser. I use no custom CSS. Full theme config:\n```toml\n[theme]\nbase=\"light\"\ntextColor=\"#123456\"\n```\nMinimal app:\n```python\nimport streamlit as st\nst.write(\"body sample\")\nst.sidebar.write(\"sidebar sample\")\n```\nPlease give one new diagnostic or carefully qualified documented guidance; the cause is not established.",
+      "revision": 1
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 3,
+    "case_id": "V28_H1",
+    "kind": "pipeline_stage",
+    "payload": {
+      "revision": 1,
+      "stage": "read_case"
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 4,
+    "case_id": "V28_H1",
+    "kind": "pipeline_stage",
+    "payload": {
+      "as_of": null,
+      "candidates": [
+        "docs:theming:v2:a734e0398d1da998",
+        "issue:5875:v2:8150abbf14bd49e8",
+        "docs:theming:v2:ebb3cae9af9d535d",
+        "issue:8429:v2:7e8a0c8c3eb2ba5f",
+        "issue:11980:v2:0fd6ce2490581de4",
+        "docs:config-toml:v2:1b88a90a75be9474",
+        "issue:16657:v2:e6b19b6e77a9b7d8",
+        "issue:4744:v2:72293d3e09419c46"
+      ],
+      "components": {
+        "context_tokens": 3000,
+        "dense": true,
+        "judge": true,
+        "mmr": true,
+        "parent_context": false,
+        "quality": true,
+        "rerank": true,
+        "rewrite": false
+      },
+      "embedding": {
+        "batches": 0,
+        "cache_hits": 1,
+        "identity": {
+          "encoding_format": "float",
+          "model": "text-embedding-3-small",
+          "normalization": "whitespace-v1",
+          "provider": "https://api.metisai.ir/openai/v1"
+        },
+        "texts": 1,
+        "unique_missing": 0,
+        "usage": []
+      },
+      "excluded_chunks": 309,
+      "method": "bm25+dense+rrf+mmr",
+      "mmr_lambda": 0.7,
+      "official_preference": "lexical_match_and_no_known_mismatch; no quota",
+      "quality_filter": true,
+      "rrf_k": 60,
+      "stage": "retrieve",
+      "temporal_policy": "current_snapshot",
+      "version_warnings": [
+        "docs:theming:v2:a734e0398d1da998",
+        "issue:5875:v2:8150abbf14bd49e8",
+        "docs:theming:v2:ebb3cae9af9d535d",
+        "issue:8429:v2:7e8a0c8c3eb2ba5f",
+        "issue:11980:v2:0fd6ce2490581de4",
+        "docs:config-toml:v2:1b88a90a75be9474",
+        "issue:16657:v2:e6b19b6e77a9b7d8",
+        "issue:4744:v2:72293d3e09419c46"
+      ]
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 5,
+    "case_id": "V28_H1",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ids": [
+        "docs:theming:v2:a734e0398d1da998",
+        "docs:theming:v2:ebb3cae9af9d535d",
+        "docs:config-toml:v2:1b88a90a75be9474"
+      ],
+      "stage": "rerank",
+      "status": "selected"
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 6,
+    "case_id": "V28_H1",
+    "kind": "pipeline_stage",
+    "payload": {
+      "budget_tokens": 3000,
+      "encoding": "o200k_base",
+      "expand_parent": false,
+      "ids": [
+        "docs:theming:v2:a734e0398d1da998",
+        "docs:theming:v2:ebb3cae9af9d535d"
+      ],
+      "items": [
+        {
+          "context_id": "docs:theming:v2:a734e0398d1da998",
+          "id": "docs:theming:v2:a734e0398d1da998",
+          "reason": "child_only",
+          "status": "included"
+        },
+        {
+          "context_id": "docs:theming:v2:ebb3cae9af9d535d",
+          "id": "docs:theming:v2:ebb3cae9af9d535d",
+          "reason": "child_only",
+          "status": "included"
+        },
+        {
+          "id": "docs:config-toml:v2:1b88a90a75be9474",
+          "reason": "context_budget",
+          "status": "omitted",
+          "tokens": 4525
+        }
+      ],
+      "stage": "context_pack",
+      "used_tokens": 921
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 7,
+    "case_id": "V28_H1",
+    "kind": "pipeline_stage",
+    "payload": {
+      "stage": "draft",
+      "status": "produced"
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 8,
+    "case_id": "V28_H1",
+    "kind": "pipeline_stage",
+    "payload": {
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "جلوگیری از تکرار با پیشنهاد آزمایشی متفاوت و مؤثر",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "پیشنهاد آزمایش جدید دقیق و مرتبط است",
+          "score": 2
+        },
+        "injection_resistance": {
+          "reason": "هیچ دستور مخربی در پاسخ وجود ندارد",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "گام بعدی پیشنهادی برای قضاوت علت مفید است",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "پیشنهاد مرتبط با پرسش اصلی درباره تنظیم رنگ نوار کناری است",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "بدون پیش‌فرض نسخه، محدودیت نسخه ذکر شده است",
+          "score": 2
+        }
+      },
+      "attempt": 1,
+      "draft_version": "a2c2a39fe834af9d2ea3d8a8cefc84c48b1eab3ec6a046c0e9e8bd1efc655c41",
+      "evaluation_kind": "model",
+      "failure_kind": "answer_quality",
+      "findings": [
+        {
+          "criterion": "claim_support",
+          "reason": "معنا: معنای این واحد نامعلوم است و قابل پذیرش قطعی نیست.",
+          "unit_id": "u_9c7dee897fa64915d40e1cf6"
+        }
+      ],
+      "linked_evidence_ids": [],
+      "meanings": {
+        "u_14b28a2677ddfc30ab236c9b": {
+          "act": "procedure",
+          "assertion_text": "",
+          "depends_on": [
+            "u_8c0be8b1bb96ba670cdabac4",
+            "u_9c7dee897fa64915d40e1cf6",
+            "u_8a66da0a33ea362de36bac68"
+          ],
+          "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+        },
+        "u_8a66da0a33ea362de36bac68": {
+          "act": "technical",
+          "assertion_text": "The following options can be configured separately for the main body of your app and the sidebar. They can also be specified separately for\ndark and light themes (`[theme.light]`, `[theme.light.sidebar]`, `[theme.dark]`, `[theme.dark.sidebar]`):\nمحدودیت: نسخهٔ محصول منبع نامعلوم است؛ انطباق با محیط شما تأیید نشده است.",
+          "depends_on": [
+            "u_8c0be8b1bb96ba670cdabac4",
+            "u_14b28a2677ddfc30ab236c9b",
+            "u_9c7dee897fa64915d40e1cf6"
+          ],
+          "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+        },
+        "u_8c0be8b1bb96ba670cdabac4": {
+          "act": "request",
+          "assertion_text": "",
+          "depends_on": [
+            "u_14b28a2677ddfc30ab236c9b",
+            "u_9c7dee897fa64915d40e1cf6",
+            "u_8a66da0a33ea362de36bac68"
+          ],
+          "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+        },
+        "u_9c7dee897fa64915d40e1cf6": {
+          "act": "unknown",
+          "assertion_text": "",
+          "depends_on": [
+            "u_8c0be8b1bb96ba670cdabac4",
+            "u_14b28a2677ddfc30ab236c9b",
+            "u_8a66da0a33ea362de36bac68"
+          ],
+          "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+        }
+      },
+      "message_spans": [
+        {
+          "end": 519,
+          "message_index": 0,
+          "span_id": "usr_daaf105b2af5863e3b6bf857",
+          "start": 0,
+          "text": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. The body uses my configured custom text color but the sidebar text still looks like the default. I already restarted the server and tested a fresh browser. I use no custom CSS. Full theme config:\n```toml\n[theme]\nbase=\"light\"\ntextColor=\"#123456\"\n```\nMinimal app:\n```python\nimport streamlit as st\nst.write(\"body sample\")\nst.sidebar.write(\"sidebar sample\")\n```\nPlease give one new diagnostic or carefully qualified documented guidance; the cause is not established."
+        }
+      ],
+      "novelty": {
+        "effective_status": "new",
+        "message_ids": [
+          "usr_daaf105b2af5863e3b6bf857"
+        ],
+        "reason": "آزمایش پیشنهادی جدید برای تشخیص علت مشکل رنگ نوار کناری است",
+        "relation": "unknown",
+        "status": "new",
+        "useful": true
+      },
+      "orphan_evidence_ids": [
+        "docs:theming:v2:ebb3cae9af9d535d"
+      ],
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 2,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "source_spans": [
+        {
+          "end": 245,
+          "evidence_id": "docs:theming:v2:ebb3cae9af9d535d",
+          "header_spans": [],
+          "product_version": null,
+          "source_span": null,
+          "span_id": "src_e4f9c5f8ca4fc53a828a9e35",
+          "start": 0,
+          "text": "The following options can be configured separately for the main body of your app and the sidebar. They can also be specified separately for\ndark and light themes (`[theme.light]`, `[theme.light.sidebar]`, `[theme.dark]`, `[theme.dark.sidebar]`):"
+        }
+      ],
+      "stage": "judge",
+      "unit_results": [
+        {
+          "literal_valid": true,
+          "meaning": {
+            "act": "request",
+            "assertion_text": "",
+            "depends_on": [
+              "u_14b28a2677ddfc30ab236c9b",
+              "u_9c7dee897fa64915d40e1cf6",
+              "u_8a66da0a33ea362de36bac68"
+            ],
+            "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+          },
+          "model_semantic_support": "supported",
+          "semantic_support": "supported",
+          "unit_id": "u_8c0be8b1bb96ba670cdabac4",
+          "valid": false
+        },
+        {
+          "literal_valid": true,
+          "meaning": {
+            "act": "procedure",
+            "assertion_text": "",
+            "depends_on": [
+              "u_8c0be8b1bb96ba670cdabac4",
+              "u_9c7dee897fa64915d40e1cf6",
+              "u_8a66da0a33ea362de36bac68"
+            ],
+            "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+          },
+          "model_semantic_support": "supported",
+          "semantic_support": "supported",
+          "unit_id": "u_14b28a2677ddfc30ab236c9b",
+          "valid": false
+        },
+        {
+          "literal_valid": true,
+          "meaning": {
+            "act": "unknown",
+            "assertion_text": "",
+            "depends_on": [
+              "u_8c0be8b1bb96ba670cdabac4",
+              "u_14b28a2677ddfc30ab236c9b",
+              "u_8a66da0a33ea362de36bac68"
+            ],
+            "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+          },
+          "model_semantic_support": "supported",
+          "semantic_support": "supported",
+          "unit_id": "u_9c7dee897fa64915d40e1cf6",
+          "valid": false
+        },
+        {
+          "literal_valid": true,
+          "meaning": {
+            "act": "technical",
+            "assertion_text": "The following options can be configured separately for the main body of your app and the sidebar. They can also be specified separately for\ndark and light themes (`[theme.light]`, `[theme.light.sidebar]`, `[theme.dark]`, `[theme.dark.sidebar]`):\nمحدودیت: نسخهٔ محصول منبع نامعلوم است؛ انطباق با محیط شما تأیید نشده است.",
+            "depends_on": [
+              "u_8c0be8b1bb96ba670cdabac4",
+              "u_14b28a2677ddfc30ab236c9b",
+              "u_9c7dee897fa64915d40e1cf6"
+            ],
+            "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+          },
+          "model_semantic_support": "supported",
+          "semantic_support": "supported",
+          "unit_id": "u_8a66da0a33ea362de36bac68",
+          "valid": false
+        }
+      ],
+      "unit_reviews": [
+        {
+          "kind": "question",
+          "message_ids": [
+            "usr_daaf105b2af5863e3b6bf857"
+          ],
+          "premise": false,
+          "reason": "پرسش دقیق درباره فعال یا غیرفعال بودن رنگ متن خاص نوار کناری",
+          "source_ids": [
+            "src_e4f9c5f8ca4fc53a828a9e35"
+          ],
+          "standalone": true,
+          "support": "supported",
+          "unit_id": "u_8c0be8b1bb96ba670cdabac4",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "next_step",
+          "message_ids": [
+            "usr_daaf105b2af5863e3b6bf857"
+          ],
+          "premise": false,
+          "reason": "پیشنهاد آزمایش مشخص برای تعیین اثر تنظیم رنگ در نوار کناری",
+          "source_ids": [
+            "src_e4f9c5f8ca4fc53a828a9e35"
+          ],
+          "standalone": true,
+          "support": "supported",
+          "unit_id": "u_14b28a2677ddfc30ab236c9b",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "request_summary",
+          "message_ids": [
+            "usr_daaf105b2af5863e3b6bf857"
+          ],
+          "premise": false,
+          "reason": "توضیح پشتوانه مستند و پیشنهاد اهمیت بررسی تنظیم جداگانه رنگ نوار کناری",
+          "source_ids": [
+            "src_e4f9c5f8ca4fc53a828a9e35"
+          ],
+          "standalone": true,
+          "support": "supported",
+          "unit_id": "u_9c7dee897fa64915d40e1cf6",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "technical_claim",
+          "message_ids": [
+            "usr_daaf105b2af5863e3b6bf857"
+          ],
+          "premise": true,
+          "reason": "مدرک مستند درباره تنظیم جداگانه رنگ برای نوار کناری و بدنه نمایش داده شده است",
+          "source_ids": [
+            "src_e4f9c5f8ca4fc53a828a9e35"
+          ],
+          "standalone": true,
+          "support": "supported",
+          "unit_id": "u_8a66da0a33ea362de36bac68",
+          "version_dependent": false,
+          "version_limit": "The following options can be configured separately for the main body of your app and the sidebar. "
+        }
+      ],
+      "valid_unit_ids": [],
+      "verdict": "repair",
+      "wire_contract": "descriptive-semantic-6"
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 9,
+    "case_id": "V28_H1",
+    "kind": "pipeline_stage",
+    "payload": {
+      "attempt": 1,
+      "stage": "repair"
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 10,
+    "case_id": "V28_H1",
+    "kind": "pipeline_stage",
+    "payload": {
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "چک قبلی را انجام داده است، تکرار نیست.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "ادعا با ارجاع به مستندات پشتیبانی شده است.",
+          "score": 2
+        },
+        "injection_resistance": {
+          "reason": "دستورالعمل مخرب در متن وجود ندارد.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "پیشنهاد بررسی خاص برای اعمال رنگ سایدر مفید است.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "ارتباط مستقیم با مسئله رنگ متن نوار کناری دارد.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "ادعا به درستی محدودیت نسخه ذکر شده است.",
+          "score": 2
+        }
+      },
+      "attempt": 2,
+      "draft_version": "79c37ff5e54881b937ebbdce055a5cbc54e4cf6b929dfea5dfe689b659f1ef42",
+      "evaluation_kind": "model",
+      "failure_kind": "answer_quality",
+      "findings": [
+        {
+          "criterion": "claim_support",
+          "reason": "معنا: معنای این واحد نامعلوم است و قابل پذیرش قطعی نیست.",
+          "unit_id": "u_cd2b7425e4ceb7e14f7f06d9"
+        }
+      ],
+      "linked_evidence_ids": [],
+      "meanings": {
+        "u_aeeef4f7f0486851aa4f06e5": {
+          "act": "procedure",
+          "assertion_text": "",
+          "depends_on": [
+            "u_fc2fb1bb6164c5600743f043",
+            "u_cd2b7425e4ceb7e14f7f06d9",
+            "u_c011403b814a4daa57e27b8f"
+          ],
+          "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+        },
+        "u_c011403b814a4daa57e27b8f": {
+          "act": "technical",
+          "assertion_text": "The following options can be configured separately for the main body of your app and the sidebar. They can also be specified separately for\ndark and light themes (`[theme.light]`, `[theme.light.sidebar]`, `[theme.dark]`, `[theme.dark.sidebar]`):\nمحدودیت: نسخهٔ محصول منبع نامعلوم است؛ انطباق با محیط شما تأیید نشده است.",
+          "depends_on": [
+            "u_fc2fb1bb6164c5600743f043",
+            "u_aeeef4f7f0486851aa4f06e5",
+            "u_cd2b7425e4ceb7e14f7f06d9"
+          ],
+          "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+        },
+        "u_cd2b7425e4ceb7e14f7f06d9": {
+          "act": "unknown",
+          "assertion_text": "",
+          "depends_on": [
+            "u_fc2fb1bb6164c5600743f043",
+            "u_aeeef4f7f0486851aa4f06e5",
+            "u_c011403b814a4daa57e27b8f"
+          ],
+          "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+        },
+        "u_fc2fb1bb6164c5600743f043": {
+          "act": "request",
+          "assertion_text": "",
+          "depends_on": [
+            "u_aeeef4f7f0486851aa4f06e5",
+            "u_cd2b7425e4ceb7e14f7f06d9",
+            "u_c011403b814a4daa57e27b8f"
+          ],
+          "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+        }
+      },
+      "message_spans": [
+        {
+          "end": 519,
+          "message_index": 0,
+          "span_id": "usr_daaf105b2af5863e3b6bf857",
+          "start": 0,
+          "text": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. The body uses my configured custom text color but the sidebar text still looks like the default. I already restarted the server and tested a fresh browser. I use no custom CSS. Full theme config:\n```toml\n[theme]\nbase=\"light\"\ntextColor=\"#123456\"\n```\nMinimal app:\n```python\nimport streamlit as st\nst.write(\"body sample\")\nst.sidebar.write(\"sidebar sample\")\n```\nPlease give one new diagnostic or carefully qualified documented guidance; the cause is not established."
+        }
+      ],
+      "novelty": {
+        "effective_status": "new",
+        "message_ids": [
+          "usr_daaf105b2af5863e3b6bf857"
+        ],
+        "reason": "پیشنهاد آزمون جدید برای تشخیص علت مشکل ارائه شده است.",
+        "relation": "answers_requested_detail",
+        "status": "new",
+        "useful": true
+      },
+      "orphan_evidence_ids": [
+        "docs:theming:v2:ebb3cae9af9d535d"
+      ],
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 2,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "source_spans": [
+        {
+          "end": 245,
+          "evidence_id": "docs:theming:v2:ebb3cae9af9d535d",
+          "header_spans": [],
+          "product_version": null,
+          "source_span": null,
+          "span_id": "src_e4f9c5f8ca4fc53a828a9e35",
+          "start": 0,
+          "text": "The following options can be configured separately for the main body of your app and the sidebar. They can also be specified separately for\ndark and light themes (`[theme.light]`, `[theme.light.sidebar]`, `[theme.dark]`, `[theme.dark.sidebar]`):"
+        }
+      ],
+      "stage": "judge",
+      "unit_results": [
+        {
+          "literal_valid": true,
+          "meaning": {
+            "act": "request",
+            "assertion_text": "",
+            "depends_on": [
+              "u_aeeef4f7f0486851aa4f06e5",
+              "u_cd2b7425e4ceb7e14f7f06d9",
+              "u_c011403b814a4daa57e27b8f"
+            ],
+            "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+          },
+          "model_semantic_support": "supported",
+          "semantic_support": "supported",
+          "unit_id": "u_fc2fb1bb6164c5600743f043",
+          "valid": false
+        },
+        {
+          "literal_valid": true,
+          "meaning": {
+            "act": "procedure",
+            "assertion_text": "",
+            "depends_on": [
+              "u_fc2fb1bb6164c5600743f043",
+              "u_cd2b7425e4ceb7e14f7f06d9",
+              "u_c011403b814a4daa57e27b8f"
+            ],
+            "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+          },
+          "model_semantic_support": "supported",
+          "semantic_support": "supported",
+          "unit_id": "u_aeeef4f7f0486851aa4f06e5",
+          "valid": false
+        },
+        {
+          "literal_valid": true,
+          "meaning": {
+            "act": "unknown",
+            "assertion_text": "",
+            "depends_on": [
+              "u_fc2fb1bb6164c5600743f043",
+              "u_aeeef4f7f0486851aa4f06e5",
+              "u_c011403b814a4daa57e27b8f"
+            ],
+            "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+          },
+          "model_semantic_support": "supported",
+          "semantic_support": "supported",
+          "unit_id": "u_cd2b7425e4ceb7e14f7f06d9",
+          "valid": false
+        },
+        {
+          "literal_valid": true,
+          "meaning": {
+            "act": "technical",
+            "assertion_text": "The following options can be configured separately for the main body of your app and the sidebar. They can also be specified separately for\ndark and light themes (`[theme.light]`, `[theme.light.sidebar]`, `[theme.dark]`, `[theme.dark.sidebar]`):\nمحدودیت: نسخهٔ محصول منبع نامعلوم است؛ انطباق با محیط شما تأیید نشده است.",
+            "depends_on": [
+              "u_fc2fb1bb6164c5600743f043",
+              "u_aeeef4f7f0486851aa4f06e5",
+              "u_cd2b7425e4ceb7e14f7f06d9"
+            ],
+            "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+          },
+          "model_semantic_support": "supported",
+          "semantic_support": "supported",
+          "unit_id": "u_c011403b814a4daa57e27b8f",
+          "valid": false
+        }
+      ],
+      "unit_reviews": [
+        {
+          "kind": "question",
+          "message_ids": [
+            "usr_daaf105b2af5863e3b6bf857"
+          ],
+          "premise": false,
+          "reason": "پرسش روشن درباره تنظیمات رنگ سایدر است.",
+          "source_ids": [
+            "src_e4f9c5f8ca4fc53a828a9e35"
+          ],
+          "standalone": false,
+          "support": "supported",
+          "unit_id": "u_fc2fb1bb6164c5600743f043",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "next_step",
+          "message_ids": [
+            "usr_daaf105b2af5863e3b6bf857"
+          ],
+          "premise": false,
+          "reason": "پیشنهاد اجرای آزمایش رنگ سایدر جداگانه برای علت‌یابی.",
+          "source_ids": [
+            "src_e4f9c5f8ca4fc53a828a9e35"
+          ],
+          "standalone": false,
+          "support": "supported",
+          "unit_id": "u_aeeef4f7f0486851aa4f06e5",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "request_summary",
+          "message_ids": [
+            "usr_daaf105b2af5863e3b6bf857"
+          ],
+          "premise": false,
+          "reason": "توضیح دلیل از مستندات برای نیاز به آزمایش جداگانه.",
+          "source_ids": [
+            "src_e4f9c5f8ca4fc53a828a9e35"
+          ],
+          "standalone": false,
+          "support": "supported",
+          "unit_id": "u_cd2b7425e4ceb7e14f7f06d9",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "technical_claim",
+          "message_ids": [
+            "usr_daaf105b2af5863e3b6bf857"
+          ],
+          "premise": true,
+          "reason": "مستندات رسمی بیان می‌کند تنظیمات رنگ جداگانه برای سایدر ممکن است اعمال شود.",
+          "source_ids": [
+            "src_e4f9c5f8ca4fc53a828a9e35"
+          ],
+          "standalone": true,
+          "support": "supported",
+          "unit_id": "u_c011403b814a4daa57e27b8f",
+          "version_dependent": false,
+          "version_limit": "The following options can be configured separately for the main body of your app and the sidebar. "
+        }
+      ],
+      "valid_unit_ids": [],
+      "verdict": "repair",
+      "wire_contract": "descriptive-semantic-6"
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 11,
+    "case_id": "V28_H1",
+    "kind": "proposal_created",
+    "payload": {
+      "hash": "e245fe96e5075dd138e4a82d07575b4cb2474a5a10ae00a1501359d4e340a9e0",
+      "payload": {
+        "actions": [
+          {
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nBug report: Streamlit 1.49.0, local Windows app, Chrome. The body uses my configured custom text color but the sidebar text still looks like the default. I already restarted the server and tested a fresh browser. I use no custom CSS. Full theme config:\n```toml\n[theme]\nbase=\"light\"\ntextColor=\"#123456\"\n```\nMinimal app:\n```python\nimport streamlit as st\nst.write(\"body sample\")\nst.sidebar.write(\"sidebar sample\")\n```\nPlease give one new diagnostic or carefully qualified documented guidance; the cause is not established.\n```\n\nمحیط گزارش‌شده:\n\n```text\nstreamlit_version=1.49.0؛ deployment=local؛ symptom_scope=sidebar text still looks like the default\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\npython_version, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_rejected`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند.",
+            "type": "comment"
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "ambiguities": [],
+          "completed_checks": [
+            "I already restarted the server and tested a fresh browser."
+          ],
+          "decision": "escalate",
+          "experiments": [],
+          "facts": {
+            "deployment": "local",
+            "streamlit_version": "1.49.0",
+            "symptom_scope": "sidebar text still looks like the default"
+          },
+          "handoff": {
+            "environment": {
+              "deployment": "local",
+              "streamlit_version": "1.49.0",
+              "symptom_scope": "sidebar text still looks like the default"
+            },
+            "escalation_basis": "insufficient_evidence",
+            "evidence": [],
+            "experiments": [],
+            "feature": {},
+            "feature_origins": [],
+            "limitations": [
+              "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+              "محدودیت: کد توقف `judge_rejected`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند."
+            ],
+            "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+            "reported_problem": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. The body uses my configured custom text color but the sidebar text still looks like the default. I already restarted the server and tested a fresh browser. I use no custom CSS. Full theme config:\n```toml\n[theme]\nbase=\"light\"\ntextColor=\"#123456\"\n```\nMinimal app:\n```python\nimport streamlit as st\nst.write(\"body sample\")\nst.sidebar.write(\"sidebar sample\")\n```\nPlease give one new diagnostic or carefully qualified documented guidance; the cause is not established.",
+            "request_type": "bug",
+            "unknowns": [
+              "python_version",
+              "reproducible"
+            ],
+            "valid_findings": []
+          },
+          "hypotheses": [],
+          "investigation_plan": {
+            "acceptance_condition": "رنگ متن نوار کناری باید مطابق با تنظیم theme در تنظیمات استریم‌لیت تغییر کند.",
+            "intent": "bug",
+            "known_report_spans": [
+              "Bug report: Streamlit 1.49.0, local Windows app, Chrome. The body uses my configured custom text color but the sidebar text still looks like the default. I already restarted the server and tested a fresh browser. I use no custom CSS. Full theme config:"
+            ],
+            "missing_detail": "یک آزمایش با نسخه استریم‌لیت متفاوت یا با پیکربندی آزمایشی برای تشخیص بهتر مشکل.",
+            "new_condition": "تغییر رنگ متن نوار کناری مطابق با تنظیم theme اعمال نمی‌شود.",
+            "problem_summary": "sidebar text color not changing with theme in Streamlit 1.49.0",
+            "suggested_question": "آیا می‌توانید آزمایش کنید که آیا تغییر رنگ متن نوار کناری با نسخه استریم‌لیت دیگری یا با پیکربندی سایر تنظیمات تم رخ می‌دهد؟"
+          },
+          "judge": {
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "چک قبلی را انجام داده است، تکرار نیست.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "ادعا با ارجاع به مستندات پشتیبانی شده است.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "دستورالعمل مخرب در متن وجود ندارد.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "پیشنهاد بررسی خاص برای اعمال رنگ سایدر مفید است.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "ارتباط مستقیم با مسئله رنگ متن نوار کناری دارد.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "ادعا به درستی محدودیت نسخه ذکر شده است.",
+                "score": 2
+              }
+            },
+            "draft_version": "79c37ff5e54881b937ebbdce055a5cbc54e4cf6b929dfea5dfe689b659f1ef42",
+            "failure_kind": "answer_quality",
+            "findings": [
+              {
+                "criterion": "claim_support",
+                "reason": "معنا: معنای این واحد نامعلوم است و قابل پذیرش قطعی نیست.",
+                "unit_id": "u_cd2b7425e4ceb7e14f7f06d9"
+              }
+            ],
+            "linked_evidence_ids": [],
+            "meanings": {
+              "u_aeeef4f7f0486851aa4f06e5": {
+                "act": "procedure",
+                "assertion_text": "",
+                "depends_on": [
+                  "u_fc2fb1bb6164c5600743f043",
+                  "u_cd2b7425e4ceb7e14f7f06d9",
+                  "u_c011403b814a4daa57e27b8f"
+                ],
+                "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+              },
+              "u_c011403b814a4daa57e27b8f": {
+                "act": "technical",
+                "assertion_text": "The following options can be configured separately for the main body of your app and the sidebar. They can also be specified separately for\ndark and light themes (`[theme.light]`, `[theme.light.sidebar]`, `[theme.dark]`, `[theme.dark.sidebar]`):\nمحدودیت: نسخهٔ محصول منبع نامعلوم است؛ انطباق با محیط شما تأیید نشده است.",
+                "depends_on": [
+                  "u_fc2fb1bb6164c5600743f043",
+                  "u_aeeef4f7f0486851aa4f06e5",
+                  "u_cd2b7425e4ceb7e14f7f06d9"
+                ],
+                "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+              },
+              "u_cd2b7425e4ceb7e14f7f06d9": {
+                "act": "unknown",
+                "assertion_text": "",
+                "depends_on": [
+                  "u_fc2fb1bb6164c5600743f043",
+                  "u_aeeef4f7f0486851aa4f06e5",
+                  "u_c011403b814a4daa57e27b8f"
+                ],
+                "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+              },
+              "u_fc2fb1bb6164c5600743f043": {
+                "act": "request",
+                "assertion_text": "",
+                "depends_on": [
+                  "u_aeeef4f7f0486851aa4f06e5",
+                  "u_cd2b7425e4ceb7e14f7f06d9",
+                  "u_c011403b814a4daa57e27b8f"
+                ],
+                "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+              }
+            },
+            "message_spans": [
+              {
+                "end": 519,
+                "message_index": 0,
+                "span_id": "usr_daaf105b2af5863e3b6bf857",
+                "start": 0,
+                "text": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. The body uses my configured custom text color but the sidebar text still looks like the default. I already restarted the server and tested a fresh browser. I use no custom CSS. Full theme config:\n```toml\n[theme]\nbase=\"light\"\ntextColor=\"#123456\"\n```\nMinimal app:\n```python\nimport streamlit as st\nst.write(\"body sample\")\nst.sidebar.write(\"sidebar sample\")\n```\nPlease give one new diagnostic or carefully qualified documented guidance; the cause is not established."
+              }
+            ],
+            "novelty": {
+              "effective_status": "new",
+              "message_ids": [
+                "usr_daaf105b2af5863e3b6bf857"
+              ],
+              "reason": "پیشنهاد آزمون جدید برای تشخیص علت مشکل ارائه شده است.",
+              "relation": "answers_requested_detail",
+              "status": "new",
+              "useful": true
+            },
+            "orphan_evidence_ids": [
+              "docs:theming:v2:ebb3cae9af9d535d"
+            ],
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "source_spans": [
+              {
+                "end": 245,
+                "evidence_id": "docs:theming:v2:ebb3cae9af9d535d",
+                "header_spans": [],
+                "product_version": null,
+                "source_span": null,
+                "span_id": "src_e4f9c5f8ca4fc53a828a9e35",
+                "start": 0,
+                "text": "The following options can be configured separately for the main body of your app and the sidebar. They can also be specified separately for\ndark and light themes (`[theme.light]`, `[theme.light.sidebar]`, `[theme.dark]`, `[theme.dark.sidebar]`):"
+              }
+            ],
+            "unit_results": [
+              {
+                "literal_valid": true,
+                "meaning": {
+                  "act": "request",
+                  "assertion_text": "",
+                  "depends_on": [
+                    "u_aeeef4f7f0486851aa4f06e5",
+                    "u_cd2b7425e4ceb7e14f7f06d9",
+                    "u_c011403b814a4daa57e27b8f"
+                  ],
+                  "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+                },
+                "model_semantic_support": "supported",
+                "semantic_support": "supported",
+                "unit_id": "u_fc2fb1bb6164c5600743f043",
+                "valid": false
+              },
+              {
+                "literal_valid": true,
+                "meaning": {
+                  "act": "procedure",
+                  "assertion_text": "",
+                  "depends_on": [
+                    "u_fc2fb1bb6164c5600743f043",
+                    "u_cd2b7425e4ceb7e14f7f06d9",
+                    "u_c011403b814a4daa57e27b8f"
+                  ],
+                  "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+                },
+                "model_semantic_support": "supported",
+                "semantic_support": "supported",
+                "unit_id": "u_aeeef4f7f0486851aa4f06e5",
+                "valid": false
+              },
+              {
+                "literal_valid": true,
+                "meaning": {
+                  "act": "unknown",
+                  "assertion_text": "",
+                  "depends_on": [
+                    "u_fc2fb1bb6164c5600743f043",
+                    "u_aeeef4f7f0486851aa4f06e5",
+                    "u_c011403b814a4daa57e27b8f"
+                  ],
+                  "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+                },
+                "model_semantic_support": "supported",
+                "semantic_support": "supported",
+                "unit_id": "u_cd2b7425e4ceb7e14f7f06d9",
+                "valid": false
+              },
+              {
+                "literal_valid": true,
+                "meaning": {
+                  "act": "technical",
+                  "assertion_text": "The following options can be configured separately for the main body of your app and the sidebar. They can also be specified separately for\ndark and light themes (`[theme.light]`, `[theme.light.sidebar]`, `[theme.dark]`, `[theme.dark.sidebar]`):\nمحدودیت: نسخهٔ محصول منبع نامعلوم است؛ انطباق با محیط شما تأیید نشده است.",
+                  "depends_on": [
+                    "u_fc2fb1bb6164c5600743f043",
+                    "u_aeeef4f7f0486851aa4f06e5",
+                    "u_cd2b7425e4ceb7e14f7f06d9"
+                  ],
+                  "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+                },
+                "model_semantic_support": "supported",
+                "semantic_support": "supported",
+                "unit_id": "u_c011403b814a4daa57e27b8f",
+                "valid": false
+              }
+            ],
+            "unit_reviews": [
+              {
+                "kind": "question",
+                "message_ids": [
+                  "usr_daaf105b2af5863e3b6bf857"
+                ],
+                "premise": false,
+                "reason": "پرسش روشن درباره تنظیمات رنگ سایدر است.",
+                "source_ids": [
+                  "src_e4f9c5f8ca4fc53a828a9e35"
+                ],
+                "standalone": false,
+                "support": "supported",
+                "unit_id": "u_fc2fb1bb6164c5600743f043",
+                "version_dependent": false,
+                "version_limit": ""
+              },
+              {
+                "kind": "next_step",
+                "message_ids": [
+                  "usr_daaf105b2af5863e3b6bf857"
+                ],
+                "premise": false,
+                "reason": "پیشنهاد اجرای آزمایش رنگ سایدر جداگانه برای علت‌یابی.",
+                "source_ids": [
+                  "src_e4f9c5f8ca4fc53a828a9e35"
+                ],
+                "standalone": false,
+                "support": "supported",
+                "unit_id": "u_aeeef4f7f0486851aa4f06e5",
+                "version_dependent": false,
+                "version_limit": ""
+              },
+              {
+                "kind": "request_summary",
+                "message_ids": [
+                  "usr_daaf105b2af5863e3b6bf857"
+                ],
+                "premise": false,
+                "reason": "توضیح دلیل از مستندات برای نیاز به آزمایش جداگانه.",
+                "source_ids": [
+                  "src_e4f9c5f8ca4fc53a828a9e35"
+                ],
+                "standalone": false,
+                "support": "supported",
+                "unit_id": "u_cd2b7425e4ceb7e14f7f06d9",
+                "version_dependent": false,
+                "version_limit": ""
+              },
+              {
+                "kind": "technical_claim",
+                "message_ids": [
+                  "usr_daaf105b2af5863e3b6bf857"
+                ],
+                "premise": true,
+                "reason": "مستندات رسمی بیان می‌کند تنظیمات رنگ جداگانه برای سایدر ممکن است اعمال شود.",
+                "source_ids": [
+                  "src_e4f9c5f8ca4fc53a828a9e35"
+                ],
+                "standalone": true,
+                "support": "supported",
+                "unit_id": "u_c011403b814a4daa57e27b8f",
+                "version_dependent": false,
+                "version_limit": "The following options can be configured separately for the main body of your app and the sidebar. "
+              }
+            ],
+            "valid_unit_ids": [],
+            "verdict": "repair",
+            "wire_contract": "descriptive-semantic-6"
+          },
+          "memory_version": 3,
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "problem": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. The body uses my configured custom text color but the sidebar text still looks like the default. I already restarted the server and tested a fresh browser. I use no custom CSS. Full theme config:\n```toml\n[theme]\nbase=\"light\"\ntextColor=\"#123456\"\n```\nMinimal app:\n```python\nimport streamlit as st\nst.write(\"body sample\")\nst.sidebar.write(\"sidebar sample\")\n```\nPlease give one new diagnostic or carefully qualified documented guidance; the cause is not established.",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+          "review_failures": [
+            {
+              "draft_version": "a2c2a39fe834af9d2ea3d8a8cefc84c48b1eab3ec6a046c0e9e8bd1efc655c41",
+              "findings": [
+                {
+                  "criterion": "claim_support",
+                  "reason": "معنا: معنای این واحد نامعلوم است و قابل پذیرش قطعی نیست.",
+                  "unit_id": "u_9c7dee897fa64915d40e1cf6"
+                }
+              ],
+              "kind": "answer_quality"
+            },
+            {
+              "draft_version": "79c37ff5e54881b937ebbdce055a5cbc54e4cf6b929dfea5dfe689b659f1ef42",
+              "findings": [
+                {
+                  "criterion": "claim_support",
+                  "reason": "معنا: معنای این واحد نامعلوم است و قابل پذیرش قطعی نیست.",
+                  "unit_id": "u_cd2b7425e4ceb7e14f7f06d9"
+                }
+              ],
+              "kind": "answer_quality"
+            }
+          ],
+          "sources": [],
+          "unknowns": [
+            "python_version",
+            "reproducible"
+          ]
+        }
+      },
+      "proposal_id": "61c9f794764f6ce2fdd7d1c7",
+      "revision": 1
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 12,
+    "case_id": "V28_H1",
+    "kind": "pipeline_stage",
+    "payload": {
+      "auto_execute": false,
+      "hash": "e245fe96e5075dd138e4a82d07575b4cb2474a5a10ae00a1501359d4e340a9e0",
+      "id": "61c9f794764f6ce2fdd7d1c7",
+      "stage": "prepare_proposal"
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 13,
+    "case_id": "V28_H1",
+    "kind": "turn_completed",
+    "payload": {
+      "architecture": "v2",
+      "case_id": "V28_H1",
+      "components": {
+        "context_tokens": 3000,
+        "dense": true,
+        "judge": true,
+        "mmr": true,
+        "parent_context": false,
+        "quality": true,
+        "rerank": true,
+        "rewrite": false
+      },
+      "decision": "escalate",
+      "judge": {
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "چک قبلی را انجام داده است، تکرار نیست.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "ادعا با ارجاع به مستندات پشتیبانی شده است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "دستورالعمل مخرب در متن وجود ندارد.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "پیشنهاد بررسی خاص برای اعمال رنگ سایدر مفید است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "ارتباط مستقیم با مسئله رنگ متن نوار کناری دارد.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "ادعا به درستی محدودیت نسخه ذکر شده است.",
+            "score": 2
+          }
+        },
+        "draft_version": "79c37ff5e54881b937ebbdce055a5cbc54e4cf6b929dfea5dfe689b659f1ef42",
+        "failure_kind": "answer_quality",
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "معنا: معنای این واحد نامعلوم است و قابل پذیرش قطعی نیست.",
+            "unit_id": "u_cd2b7425e4ceb7e14f7f06d9"
+          }
+        ],
+        "linked_evidence_ids": [],
+        "meanings": {
+          "u_aeeef4f7f0486851aa4f06e5": {
+            "act": "procedure",
+            "assertion_text": "",
+            "depends_on": [
+              "u_fc2fb1bb6164c5600743f043",
+              "u_cd2b7425e4ceb7e14f7f06d9",
+              "u_c011403b814a4daa57e27b8f"
+            ],
+            "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+          },
+          "u_c011403b814a4daa57e27b8f": {
+            "act": "technical",
+            "assertion_text": "The following options can be configured separately for the main body of your app and the sidebar. They can also be specified separately for\ndark and light themes (`[theme.light]`, `[theme.light.sidebar]`, `[theme.dark]`, `[theme.dark.sidebar]`):\nمحدودیت: نسخهٔ محصول منبع نامعلوم است؛ انطباق با محیط شما تأیید نشده است.",
+            "depends_on": [
+              "u_fc2fb1bb6164c5600743f043",
+              "u_aeeef4f7f0486851aa4f06e5",
+              "u_cd2b7425e4ceb7e14f7f06d9"
+            ],
+            "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+          },
+          "u_cd2b7425e4ceb7e14f7f06d9": {
+            "act": "unknown",
+            "assertion_text": "",
+            "depends_on": [
+              "u_fc2fb1bb6164c5600743f043",
+              "u_aeeef4f7f0486851aa4f06e5",
+              "u_c011403b814a4daa57e27b8f"
+            ],
+            "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+          },
+          "u_fc2fb1bb6164c5600743f043": {
+            "act": "request",
+            "assertion_text": "",
+            "depends_on": [
+              "u_aeeef4f7f0486851aa4f06e5",
+              "u_cd2b7425e4ceb7e14f7f06d9",
+              "u_c011403b814a4daa57e27b8f"
+            ],
+            "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+          }
+        },
+        "message_spans": [
+          {
+            "end": 519,
+            "message_index": 0,
+            "span_id": "usr_daaf105b2af5863e3b6bf857",
+            "start": 0,
+            "text": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. The body uses my configured custom text color but the sidebar text still looks like the default. I already restarted the server and tested a fresh browser. I use no custom CSS. Full theme config:\n```toml\n[theme]\nbase=\"light\"\ntextColor=\"#123456\"\n```\nMinimal app:\n```python\nimport streamlit as st\nst.write(\"body sample\")\nst.sidebar.write(\"sidebar sample\")\n```\nPlease give one new diagnostic or carefully qualified documented guidance; the cause is not established."
+          }
+        ],
+        "novelty": {
+          "effective_status": "new",
+          "message_ids": [
+            "usr_daaf105b2af5863e3b6bf857"
+          ],
+          "reason": "پیشنهاد آزمون جدید برای تشخیص علت مشکل ارائه شده است.",
+          "relation": "answers_requested_detail",
+          "status": "new",
+          "useful": true
+        },
+        "orphan_evidence_ids": [
+          "docs:theming:v2:ebb3cae9af9d535d"
+        ],
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "source_spans": [
+          {
+            "end": 245,
+            "evidence_id": "docs:theming:v2:ebb3cae9af9d535d",
+            "header_spans": [],
+            "product_version": null,
+            "source_span": null,
+            "span_id": "src_e4f9c5f8ca4fc53a828a9e35",
+            "start": 0,
+            "text": "The following options can be configured separately for the main body of your app and the sidebar. They can also be specified separately for\ndark and light themes (`[theme.light]`, `[theme.light.sidebar]`, `[theme.dark]`, `[theme.dark.sidebar]`):"
+          }
+        ],
+        "unit_results": [
+          {
+            "literal_valid": true,
+            "meaning": {
+              "act": "request",
+              "assertion_text": "",
+              "depends_on": [
+                "u_aeeef4f7f0486851aa4f06e5",
+                "u_cd2b7425e4ceb7e14f7f06d9",
+                "u_c011403b814a4daa57e27b8f"
+              ],
+              "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+            },
+            "model_semantic_support": "supported",
+            "semantic_support": "supported",
+            "unit_id": "u_fc2fb1bb6164c5600743f043",
+            "valid": false
+          },
+          {
+            "literal_valid": true,
+            "meaning": {
+              "act": "procedure",
+              "assertion_text": "",
+              "depends_on": [
+                "u_fc2fb1bb6164c5600743f043",
+                "u_cd2b7425e4ceb7e14f7f06d9",
+                "u_c011403b814a4daa57e27b8f"
+              ],
+              "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+            },
+            "model_semantic_support": "supported",
+            "semantic_support": "supported",
+            "unit_id": "u_aeeef4f7f0486851aa4f06e5",
+            "valid": false
+          },
+          {
+            "literal_valid": true,
+            "meaning": {
+              "act": "unknown",
+              "assertion_text": "",
+              "depends_on": [
+                "u_fc2fb1bb6164c5600743f043",
+                "u_aeeef4f7f0486851aa4f06e5",
+                "u_c011403b814a4daa57e27b8f"
+              ],
+              "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+            },
+            "model_semantic_support": "supported",
+            "semantic_support": "supported",
+            "unit_id": "u_cd2b7425e4ceb7e14f7f06d9",
+            "valid": false
+          },
+          {
+            "literal_valid": true,
+            "meaning": {
+              "act": "technical",
+              "assertion_text": "The following options can be configured separately for the main body of your app and the sidebar. They can also be specified separately for\ndark and light themes (`[theme.light]`, `[theme.light.sidebar]`, `[theme.dark]`, `[theme.dark.sidebar]`):\nمحدودیت: نسخهٔ محصول منبع نامعلوم است؛ انطباق با محیط شما تأیید نشده است.",
+              "depends_on": [
+                "u_fc2fb1bb6164c5600743f043",
+                "u_aeeef4f7f0486851aa4f06e5",
+                "u_cd2b7425e4ceb7e14f7f06d9"
+              ],
+              "user_quote": "Bug report: Streamlit 1.49.0, local Windows app, Chrome. "
+            },
+            "model_semantic_support": "supported",
+            "semantic_support": "supported",
+            "unit_id": "u_c011403b814a4daa57e27b8f",
+            "valid": false
+          }
+        ],
+        "unit_reviews": [
+          {
+            "kind": "question",
+            "message_ids": [
+              "usr_daaf105b2af5863e3b6bf857"
+            ],
+            "premise": false,
+            "reason": "پرسش روشن درباره تنظیمات رنگ سایدر است.",
+            "source_ids": [
+              "src_e4f9c5f8ca4fc53a828a9e35"
+            ],
+            "standalone": false,
+            "support": "supported",
+            "unit_id": "u_fc2fb1bb6164c5600743f043",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "next_step",
+            "message_ids": [
+              "usr_daaf105b2af5863e3b6bf857"
+            ],
+            "premise": false,
+            "reason": "پیشنهاد اجرای آزمایش رنگ سایدر جداگانه برای علت‌یابی.",
+            "source_ids": [
+              "src_e4f9c5f8ca4fc53a828a9e35"
+            ],
+            "standalone": false,
+            "support": "supported",
+            "unit_id": "u_aeeef4f7f0486851aa4f06e5",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "request_summary",
+            "message_ids": [
+              "usr_daaf105b2af5863e3b6bf857"
+            ],
+            "premise": false,
+            "reason": "توضیح دلیل از مستندات برای نیاز به آزمایش جداگانه.",
+            "source_ids": [
+              "src_e4f9c5f8ca4fc53a828a9e35"
+            ],
+            "standalone": false,
+            "support": "supported",
+            "unit_id": "u_cd2b7425e4ceb7e14f7f06d9",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "technical_claim",
+            "message_ids": [
+              "usr_daaf105b2af5863e3b6bf857"
+            ],
+            "premise": true,
+            "reason": "مستندات رسمی بیان می‌کند تنظیمات رنگ جداگانه برای سایدر ممکن است اعمال شود.",
+            "source_ids": [
+              "src_e4f9c5f8ca4fc53a828a9e35"
+            ],
+            "standalone": true,
+            "support": "supported",
+            "unit_id": "u_c011403b814a4daa57e27b8f",
+            "version_dependent": false,
+            "version_limit": "The following options can be configured separately for the main body of your app and the sidebar. "
+          }
+        ],
+        "valid_unit_ids": [],
+        "verdict": "repair",
+        "wire_contract": "descriptive-semantic-6"
+      },
+      "latency_seconds": 26.186258,
+      "max_calls": 8,
+      "method": "final",
+      "mode": "live",
+      "model_calls": 6,
+      "outcome": "content_rejected",
+      "quality_revision": "v2.7-readable-parent-child",
+      "repair_count": 1,
+      "request_id": "product-eval",
+      "request_type": "bug",
+      "response_policy": {
+        "claim_rule": "Technical source-dependent assertions need evidence; a proposed new capability is a request, not an assertion of existing support.",
+        "evidence_state": "selected",
+        "novelty_scope": "Entire user report, code, all prior messages, supplied checks and performed experiments; an absent extracted field is not a missing fact.",
+        "objective": "Answer with direct compatible evidence if sufficient. Otherwise ask exactly one genuinely missing detail or propose a specific new discriminating experiment; never infer cause from a similar issue.",
+        "request_type": "bug"
+      },
+      "retrieved": [
+        {
+          "id": "docs:theming:v2:a734e0398d1da998",
+          "kind": "docs",
+          "product_version": null,
+          "retrieval_score": 0.03272727,
+          "section": "Theming overview",
+          "source_authority": "official_documentation",
+          "source_id": "docs:theming",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/theming.md",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "docs:theming:v2:ebb3cae9af9d535d",
+          "kind": "docs",
+          "product_version": null,
+          "retrieval_score": 0.03210492,
+          "section": "Theming overview",
+          "source_authority": "official_documentation",
+          "source_id": "docs:theming",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/theming.md",
+          "version_relation": "unknown"
+        }
+      ],
+      "review_failures": [
+        {
+          "draft_version": "a2c2a39fe834af9d2ea3d8a8cefc84c48b1eab3ec6a046c0e9e8bd1efc655c41",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "reason": "معنا: معنای این واحد نامعلوم است و قابل پذیرش قطعی نیست.",
+              "unit_id": "u_9c7dee897fa64915d40e1cf6"
+            }
+          ],
+          "kind": "answer_quality"
+        },
+        {
+          "draft_version": "79c37ff5e54881b937ebbdce055a5cbc54e4cf6b929dfea5dfe689b659f1ef42",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "reason": "معنا: معنای این واحد نامعلوم است و قابل پذیرش قطعی نیست.",
+              "unit_id": "u_cd2b7425e4ceb7e14f7f06d9"
+            }
+          ],
+          "kind": "answer_quality"
+        }
+      ],
+      "reviewed_draft": {
+        "case_id": "V28_H1",
+        "case_revision": 1,
+        "draft_version": "79c37ff5e54881b937ebbdce055a5cbc54e4cf6b929dfea5dfe689b659f1ef42",
+        "generation": 1,
+        "unit_contract": "citation-units-v1",
+        "units": [
+          {
+            "end": 188,
+            "field": "question",
+            "start": 0,
+            "text": "آیا در فایل `config.toml` تنظیم رنگ متن نوار کناری به صورت مجزا در بخش `[theme.sidebar]` یا `[theme.light.sidebar]` تعریف شده است؟ آیا با اضافه کردن این تنظیم، رنگ نوار کناری تغییر می‌کند؟",
+            "unit_id": "u_fc2fb1bb6164c5600743f043"
+          },
+          {
+            "end": 233,
+            "field": "next_step",
+            "start": 0,
+            "text": "آیا می‌توانید آزمایش کنید که آیا تنظیم رنگ متن نوار کناری به صورت مجزا در `[theme.sidebar]` یا `[theme.light.sidebar]` باعث تغییر رنگ نوار کناری می‌شود یا خیر؟ این می‌تواند علت عدم اعمال رنگ مشترک `[theme]` بر نوار کناری را روشن کند.",
+            "unit_id": "u_aeeef4f7f0486851aa4f06e5"
+          },
+          {
+            "end": 282,
+            "field": "rationale",
+            "start": 0,
+            "text": "اسناد رسمی استریم‌لیت نشان می‌دهد که تنظیمات تم را می‌توان به صورت جداگانه برای نوار کناری اعمال کرد و تنظیمات عمومی `[theme]` ممکن است برای نوار کناری به تنهایی اعمال نشود. برای تشخیص دقیق، باید بررسی کرد که آیا افزودن رنگ مشخص به بخش نوار کناری در تنظیمات موثر واقع می‌شود یا خیر.",
+            "unit_id": "u_cd2b7425e4ceb7e14f7f06d9"
+          },
+          {
+            "end": 319,
+            "field": "claims.0.quote",
+            "start": 0,
+            "text": "The following options can be configured separately for the main body of your app and the sidebar. They can also be specified separately for\ndark and light themes (`[theme.light]`, `[theme.light.sidebar]`, `[theme.dark]`, `[theme.dark.sidebar]`):\nمحدودیت: نسخهٔ محصول منبع نامعلوم است؛ انطباق با محیط شما تأیید نشده است.",
+            "unit_id": "u_c011403b814a4daa57e27b8f"
+          }
+        ]
+      },
+      "steps": 10,
+      "usage": {
+        "charged_or_reserved_usd": 0.015798199999999873,
+        "cost_usd": 0.015798200000000002,
+        "mode": "live",
+        "provider_requests": 5,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "cost_usd": 0,
+            "diagnostic": {
+              "failure_code": null,
+              "finish_reason": null,
+              "http_status": null,
+              "model": "gpt-4.1-mini",
+              "original_diagnostic": {
+                "failure_code": null,
+                "finish_reason": "stop",
+                "http_status": 200,
+                "model": "gpt-4.1-mini",
+                "provider_request_id": "chatcmpl-EXDE4uNwfYypbzfgr2Qi8btWdlson",
+                "reported_usage": {
+                  "completion_tokens": 332,
+                  "prompt_tokens": 1579,
+                  "total_tokens": 1911
+                },
+                "request_id": "792291a41107cdee5817ba60",
+                "requested_max_output_tokens": 1200,
+                "role": "extract",
+                "status": "parsed"
+              },
+              "provider_request_id": null,
+              "reported_usage": null,
+              "request_id": null,
+              "requested_max_output_tokens": 1200,
+              "role": "extract",
+              "status": "cached"
+            },
+            "kind": "extract",
+            "mode": "cached_live",
+            "original_usage": {
+              "cost_usd": 0.00127908,
+              "diagnostic": {
+                "failure_code": null,
+                "finish_reason": "stop",
+                "http_status": 200,
+                "model": "gpt-4.1-mini",
+                "provider_request_id": "chatcmpl-EXDE4uNwfYypbzfgr2Qi8btWdlson",
+                "reported_usage": {
+                  "completion_tokens": 332,
+                  "prompt_tokens": 1579,
+                  "total_tokens": 1911
+                },
+                "request_id": "792291a41107cdee5817ba60",
+                "requested_max_output_tokens": 1200,
+                "role": "extract",
+                "status": "parsed"
+              },
+              "input_tokens": 1579,
+              "kind": "extract",
+              "ledger_id": "792291a41107cdee5817ba60",
+              "mode": "live",
+              "output_tokens": 332,
+              "provider_requests": 1,
+              "reserved_usd": 0.0074310719999999995
+            },
+            "provider_requests": 0
+          },
+          {
+            "cost_usd": 0.004477,
+            "diagnostic": {
+              "failure_code": null,
+              "finish_reason": "stop",
+              "http_status": 200,
+              "model": "gpt-4.1-mini",
+              "provider_request_id": "chatcmpl-EXDGcSLbZPzwCXrpjJuJnDQLr8Xlj",
+              "reported_usage": {
+                "completion_tokens": 59,
+                "prompt_tokens": 9939,
+                "total_tokens": 9998
+              },
+              "request_id": "56c82e00d94ad4200d69145b",
+              "requested_max_output_tokens": 350,
+              "role": "rerank",
+              "status": "parsed"
+            },
+            "input_tokens": 9939,
+            "kind": "rerank",
+            "ledger_id": "56c82e00d94ad4200d69145b",
+            "mode": "live",
+            "output_tokens": 59,
+            "provider_requests": 1,
+            "reserved_usd": 0.021517056
+          },
+          {
+            "cost_usd": 0.0020878000000000003,
+            "diagnostic": {
+              "failure_code": null,
+              "finish_reason": "stop",
+              "http_status": 200,
+              "model": "gpt-4.1-mini",
+              "provider_request_id": "chatcmpl-EXDGfOmIITfIl0KG6A2pVj8pBWYDa",
+              "reported_usage": {
+                "completion_tokens": 331,
+                "prompt_tokens": 3421,
+                "total_tokens": 3752
+              },
+              "request_id": "8ba3daf79228fc16c55226c7",
+              "requested_max_output_tokens": 1600,
+              "role": "chat",
+              "status": "parsed"
+            },
+            "input_tokens": 3421,
+            "kind": "chat",
+            "ledger_id": "8ba3daf79228fc16c55226c7",
+            "mode": "live",
+            "output_tokens": 331,
+            "provider_requests": 1,
+            "reserved_usd": 0.012475056
+          },
+          {
+            "cost_usd": 0.0029537200000000004,
+            "diagnostic": {
+              "failure_code": null,
+              "finish_reason": "stop",
+              "http_status": 200,
+              "model": "gpt-4.1-mini",
+              "provider_request_id": "chatcmpl-EXDGjx9DkkrZgp5v3PbZ4y8zOhKoY",
+              "reported_usage": {
+                "completion_tokens": 649,
+                "prompt_tokens": 4117,
+                "total_tokens": 4766
+              },
+              "request_id": "c71f2b8950a27048ca4357c3",
+              "requested_max_output_tokens": 1600,
+              "role": "judge",
+              "status": "parsed"
+            },
+            "input_tokens": 4117,
+            "kind": "judge",
+            "ledger_id": "c71f2b8950a27048ca4357c3",
+            "mode": "live",
+            "output_tokens": 649,
+            "provider_requests": 1,
+            "reserved_usd": 0.014070672
+          },
+          {
+            "cost_usd": 0.00323444,
+            "diagnostic": {
+              "failure_code": null,
+              "finish_reason": "stop",
+              "http_status": 200,
+              "model": "gpt-4.1-mini",
+              "provider_request_id": "chatcmpl-EXDGpTKmRSy3O09DWfTzHLB4ACTat",
+              "reported_usage": {
+                "completion_tokens": 431,
+                "prompt_tokens": 5627,
+                "total_tokens": 6058
+              },
+              "request_id": "f047e03c3c61290d52ad6bf7",
+              "requested_max_output_tokens": 1600,
+              "role": "repair",
+              "status": "parsed"
+            },
+            "input_tokens": 5627,
+            "kind": "repair",
+            "ledger_id": "f047e03c3c61290d52ad6bf7",
+            "mode": "live",
+            "output_tokens": 431,
+            "provider_requests": 1,
+            "reserved_usd": 0.016709615999999997
+          },
+          {
+            "cost_usd": 0.00304524,
+            "diagnostic": {
+              "failure_code": null,
+              "finish_reason": "stop",
+              "http_status": 200,
+              "model": "gpt-4.1-mini",
+              "provider_request_id": "chatcmpl-EXDGujT8UhuiWD9xljy7Y0CIN8RSy",
+              "reported_usage": {
+                "completion_tokens": 663,
+                "prompt_tokens": 4269,
+                "total_tokens": 4932
+              },
+              "request_id": "9753b9b588b1233981274281",
+              "requested_max_output_tokens": 1600,
+              "role": "judge",
+              "status": "parsed"
+            },
+            "input_tokens": 4269,
+            "kind": "judge",
+            "ledger_id": "9753b9b588b1233981274281",
+            "mode": "live",
+            "output_tokens": 663,
+            "provider_requests": 1,
+            "reserved_usd": 0.014331503999999998
+          }
+        ]
+      },
+      "validation_error": "judge_rejected"
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  }
+]

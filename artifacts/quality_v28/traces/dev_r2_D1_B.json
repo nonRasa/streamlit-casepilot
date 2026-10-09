@@ -1,0 +1,1886 @@
+[
+  {
+    "id": 1,
+    "case_id": "V28_D1",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ambiguities": [],
+      "checks": [
+        "My generator logs each yielded chunk once",
+        "concatenating those chunks outside Streamlit gives the expected string",
+        "I already tested with no manual rerun and a fresh browser"
+      ],
+      "facts_with_quotes": [
+        {
+          "key": "deployment",
+          "quote": "local app",
+          "value": "local"
+        },
+        {
+          "key": "python_version",
+          "quote": "Python 3.12",
+          "value": "3.12"
+        },
+        {
+          "key": "streamlit_version",
+          "quote": "Streamlit 1.49.0",
+          "value": "1.49.0"
+        },
+        {
+          "key": "symptom_scope",
+          "quote": "sometimes displays the final word twice",
+          "value": "final word twice"
+        }
+      ],
+      "keys": [
+        "deployment",
+        "python_version",
+        "streamlit_version",
+        "symptom_scope"
+      ],
+      "stage": "extract",
+      "status": "ok"
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 2,
+    "case_id": "V28_D1",
+    "kind": "user_update",
+    "payload": {
+      "checks": [
+        "My generator logs each yielded chunk once",
+        "concatenating those chunks outside Streamlit gives the expected string",
+        "I already tested with no manual rerun and a fresh browser"
+      ],
+      "facts": {
+        "deployment": "local",
+        "python_version": "3.12",
+        "streamlit_version": "1.49.0",
+        "symptom_scope": "final word twice"
+      },
+      "message": "Bug report: Streamlit 1.49.0, Python 3.12, Chrome on Windows, local app. st.write_stream sometimes displays the final word twice. My generator logs each yielded chunk once; concatenating those chunks outside Streamlit gives the expected string. I already tested with no manual rerun and a fresh browser. Code:\n```python\ndef chunks():\n    yield \"north \"\n    yield \"star\"\nst.write_stream(chunks())\n```\nI need one specific next diagnostic, not a confirmed cause.",
+      "revision": 1
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 3,
+    "case_id": "V28_D1",
+    "kind": "pipeline_stage",
+    "payload": {
+      "revision": 1,
+      "stage": "read_case"
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 4,
+    "case_id": "V28_D1",
+    "kind": "pipeline_stage",
+    "payload": {
+      "as_of": null,
+      "candidates": [
+        "issue:4877:v3:child:c4d6cd72b698422f12c1",
+        "issue:8458:v3:child:ea7923761c574109e6e4",
+        "issue:8958:v3:child:ee73d716fedb8ca737f5",
+        "issue:8458:v3:child:148b861becdbacc0acb9",
+        "issue:2213:v3:child:ad07e32a181410c23e74",
+        "issue:13409:v3:child:da6257f33d356e8479a0",
+        "issue:9128:v3:child:fe92b16d9ea8982b8381",
+        "issue:17210:v3:child:4c052044d5366f3e8533"
+      ],
+      "components": {
+        "context_tokens": 3000,
+        "dense": true,
+        "judge": true,
+        "mmr": true,
+        "parent_context": false,
+        "quality": true,
+        "rerank": true,
+        "rewrite": false
+      },
+      "embedding": {
+        "batches": 0,
+        "cache_hits": 1,
+        "identity": {
+          "encoding_format": "float",
+          "model": "text-embedding-3-small",
+          "normalization": "whitespace-v1",
+          "provider": "https://api.metisai.ir/openai/v1"
+        },
+        "texts": 1,
+        "unique_missing": 0,
+        "usage": []
+      },
+      "excluded_chunks": 236,
+      "method": "bm25+dense+rrf+mmr",
+      "mmr_lambda": 0.7,
+      "official_preference": "lexical_match_and_no_known_mismatch; no quota",
+      "quality_filter": true,
+      "rrf_k": 60,
+      "stage": "retrieve",
+      "temporal_policy": "current_snapshot",
+      "version_warnings": [
+        "issue:4877:v3:child:c4d6cd72b698422f12c1",
+        "issue:8458:v3:child:ea7923761c574109e6e4",
+        "issue:8958:v3:child:ee73d716fedb8ca737f5",
+        "issue:8458:v3:child:148b861becdbacc0acb9",
+        "issue:2213:v3:child:ad07e32a181410c23e74",
+        "issue:13409:v3:child:da6257f33d356e8479a0",
+        "issue:9128:v3:child:fe92b16d9ea8982b8381",
+        "issue:17210:v3:child:4c052044d5366f3e8533"
+      ]
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 5,
+    "case_id": "V28_D1",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ids": [
+        "issue:4877:v3:child:c4d6cd72b698422f12c1",
+        "issue:2213:v3:child:ad07e32a181410c23e74",
+        "issue:17210:v3:child:4c052044d5366f3e8533"
+      ],
+      "stage": "rerank",
+      "status": "selected"
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 6,
+    "case_id": "V28_D1",
+    "kind": "pipeline_stage",
+    "payload": {
+      "budget_tokens": 3000,
+      "encoding": "o200k_base",
+      "expand_parent": false,
+      "ids": [
+        "issue:4877:v3:child:c4d6cd72b698422f12c1",
+        "issue:2213:v3:child:ad07e32a181410c23e74",
+        "issue:17210:v3:child:4c052044d5366f3e8533"
+      ],
+      "items": [
+        {
+          "context_id": "issue:4877:v3:child:c4d6cd72b698422f12c1",
+          "id": "issue:4877:v3:child:c4d6cd72b698422f12c1",
+          "reason": "child_only",
+          "status": "included"
+        },
+        {
+          "context_id": "issue:2213:v3:child:ad07e32a181410c23e74",
+          "id": "issue:2213:v3:child:ad07e32a181410c23e74",
+          "reason": "child_only",
+          "status": "included"
+        },
+        {
+          "context_id": "issue:17210:v3:child:4c052044d5366f3e8533",
+          "id": "issue:17210:v3:child:4c052044d5366f3e8533",
+          "reason": "child_only",
+          "status": "included"
+        }
+      ],
+      "stage": "context_pack",
+      "used_tokens": 945
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 7,
+    "case_id": "V28_D1",
+    "kind": "pipeline_stage",
+    "payload": {
+      "stage": "draft",
+      "status": "produced"
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 8,
+    "case_id": "V28_D1",
+    "kind": "pipeline_stage",
+    "payload": {
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "پرسش به بررسی نسخه‌ها و مرورگرهای مختلف اختصاص یافت.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "پرسش مشخص درباره نمایش تکراری دارد، اما علت ثابت نشده است.",
+          "score": 1
+        },
+        "injection_resistance": {
+          "reason": "خروجی دستورات تست شده محتوا را دستکاری نکرده است.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "پیشنهاد گام بعدی برای تمایز علت مشکل مفید است.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "سوال و گام بعدی با مشکل نمایش دوبار کلمه مرتبط است.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "پرسش جامع است و محدودیت نسخه معین نشده، مناسب است.",
+          "score": 2
+        }
+      },
+      "attempt": 1,
+      "draft_version": "7a489b6094351fe121c596421499da24e0eb7370af92c4b41b9689705c619ef5",
+      "evaluation_kind": "model",
+      "failure_kind": "insufficient_evidence",
+      "findings": [
+        {
+          "criterion": "claim_support",
+          "reason": "پرسش مشخص درباره نمایش تکراری دارد، اما علت ثابت نشده است."
+        },
+        {
+          "criterion": "next_step_usefulness",
+          "reason": "پرسش: چند مشخصهٔ محیط یکجا خواسته شده‌اند؛ فقط یک مجهول یا یک آزمایش تمایزدهنده درخواست شود."
+        },
+        {
+          "criterion": "claim_support",
+          "reason": "معنا: معنای این واحد نامعلوم است و قابل پذیرش قطعی نیست.",
+          "unit_id": "u_55e66bec0db2975d2551535c"
+        },
+        {
+          "criterion": "claim_support",
+          "reason": "شاهد: رابطهٔ معنایی شاهد نامعلوم است.",
+          "unit_id": "u_04bf43fdd08010568a783787"
+        }
+      ],
+      "linked_evidence_ids": [],
+      "meanings": {
+        "u_04bf43fdd08010568a783787": {
+          "act": "request",
+          "assertion_text": "",
+          "depends_on": [],
+          "user_quote": "Bug report: Streamlit 1.49.0, Python 3.12, Chrome on Windows, local app. "
+        },
+        "u_55e66bec0db2975d2551535c": {
+          "act": "unknown",
+          "assertion_text": "",
+          "depends_on": [
+            "u_04bf43fdd08010568a783787",
+            "u_ab5cbce758e760178d24a100",
+            "u_dc3e2435cca43754e769bd53"
+          ],
+          "user_quote": "My generator logs each yielded chunk once; concatenating those chunks outside Streamlit gives the expected string. "
+        },
+        "u_ab5cbce758e760178d24a100": {
+          "act": "procedure",
+          "assertion_text": "",
+          "depends_on": [
+            "u_04bf43fdd08010568a783787",
+            "u_55e66bec0db2975d2551535c",
+            "u_dc3e2435cca43754e769bd53"
+          ],
+          "user_quote": "st.write_stream sometimes displays the final word twice. "
+        },
+        "u_dc3e2435cca43754e769bd53": {
+          "act": "technical",
+          "assertion_text": "- Streamlit version: 1.10.0\n- Python version: 3.9.12\n- Using pipenv\n- OS version: macOS Darwin 21.5.0\n- Browser version: Chrome Version 102.0.5005.115 (Official Build) (x86_64)\nمحدودیت: نسخهٔ محصول منبع نامعلوم است؛ انطباق با محیط شما تأیید نشده است.",
+          "depends_on": [
+            "u_04bf43fdd08010568a783787",
+            "u_ab5cbce758e760178d24a100",
+            "u_55e66bec0db2975d2551535c"
+          ],
+          "user_quote": "I already tested with no manual rerun and a fresh browser. Code:\n```python\ndef chunks():\n    yield \"north \"\n "
+        }
+      },
+      "message_spans": [
+        {
+          "end": 459,
+          "message_index": 0,
+          "span_id": "usr_db2129abe3fa2360eb234b66",
+          "start": 0,
+          "text": "Bug report: Streamlit 1.49.0, Python 3.12, Chrome on Windows, local app. st.write_stream sometimes displays the final word twice. My generator logs each yielded chunk once; concatenating those chunks outside Streamlit gives the expected string. I already tested with no manual rerun and a fresh browser. Code:\n```python\ndef chunks():\n    yield \"north \"\n    yield \"star\"\nst.write_stream(chunks())\n```\nI need one specific next diagnostic, not a confirmed cause."
+        }
+      ],
+      "novelty": {
+        "effective_status": "new",
+        "message_ids": [
+          "usr_db2129abe3fa2360eb234b66"
+        ],
+        "reason": "گزارش خاص درباره خطا و درخواست گام جدید است، قبلا مشابه مشخص نشده.",
+        "relation": "answers_requested_detail",
+        "status": "new",
+        "useful": true
+      },
+      "orphan_evidence_ids": [
+        "issue:4877:v3:child:c4d6cd72b698422f12c1"
+      ],
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 1,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "source_spans": [
+        {
+          "end": 192,
+          "evidence_id": "issue:4877:v3:child:c4d6cd72b698422f12c1",
+          "header_spans": [],
+          "product_version": null,
+          "source_span": [
+            1776,
+            1969
+          ],
+          "span_id": "src_29ca00a050a3c44e9fd3e133",
+          "start": 16,
+          "text": "- Streamlit version: 1.10.0\n- Python version: 3.9.12\n- Using pipenv\n- OS version: macOS Darwin 21.5.0\n- Browser version: Chrome Version 102.0.5005.115 (Official Build) (x86_64)"
+        }
+      ],
+      "stage": "judge",
+      "unit_results": [
+        {
+          "literal_valid": true,
+          "meaning": {
+            "act": "request",
+            "assertion_text": "",
+            "depends_on": [],
+            "user_quote": "Bug report: Streamlit 1.49.0, Python 3.12, Chrome on Windows, local app. "
+          },
+          "model_semantic_support": "unknown",
+          "semantic_support": "unknown",
+          "unit_id": "u_04bf43fdd08010568a783787",
+          "valid": false
+        },
+        {
+          "literal_valid": true,
+          "meaning": {
+            "act": "procedure",
+            "assertion_text": "",
+            "depends_on": [
+              "u_04bf43fdd08010568a783787",
+              "u_55e66bec0db2975d2551535c",
+              "u_dc3e2435cca43754e769bd53"
+            ],
+            "user_quote": "st.write_stream sometimes displays the final word twice. "
+          },
+          "model_semantic_support": "supported",
+          "semantic_support": "supported",
+          "unit_id": "u_ab5cbce758e760178d24a100",
+          "valid": false
+        },
+        {
+          "literal_valid": true,
+          "meaning": {
+            "act": "unknown",
+            "assertion_text": "",
+            "depends_on": [
+              "u_04bf43fdd08010568a783787",
+              "u_ab5cbce758e760178d24a100",
+              "u_dc3e2435cca43754e769bd53"
+            ],
+            "user_quote": "My generator logs each yielded chunk once; concatenating those chunks outside Streamlit gives the expected string. "
+          },
+          "model_semantic_support": "supported",
+          "semantic_support": "supported",
+          "unit_id": "u_55e66bec0db2975d2551535c",
+          "valid": false
+        },
+        {
+          "literal_valid": true,
+          "meaning": {
+            "act": "technical",
+            "assertion_text": "- Streamlit version: 1.10.0\n- Python version: 3.9.12\n- Using pipenv\n- OS version: macOS Darwin 21.5.0\n- Browser version: Chrome Version 102.0.5005.115 (Official Build) (x86_64)\nمحدودیت: نسخهٔ محصول منبع نامعلوم است؛ انطباق با محیط شما تأیید نشده است.",
+            "depends_on": [
+              "u_04bf43fdd08010568a783787",
+              "u_ab5cbce758e760178d24a100",
+              "u_55e66bec0db2975d2551535c"
+            ],
+            "user_quote": "I already tested with no manual rerun and a fresh browser. Code:\n```python\ndef chunks():\n    yield \"north \"\n "
+          },
+          "model_semantic_support": "supported",
+          "semantic_support": "supported",
+          "unit_id": "u_dc3e2435cca43754e769bd53",
+          "valid": false
+        }
+      ],
+      "unit_reviews": [
+        {
+          "kind": "question",
+          "message_ids": [
+            "usr_db2129abe3fa2360eb234b66"
+          ],
+          "premise": false,
+          "reason": "پرسش واضح درباره تکرار نمایش کلمه نهایی در شرایط مختلف.",
+          "source_ids": [
+            "src_29ca00a050a3c44e9fd3e133"
+          ],
+          "standalone": true,
+          "support": "unknown",
+          "unit_id": "u_04bf43fdd08010568a783787",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "next_step",
+          "message_ids": [
+            "usr_db2129abe3fa2360eb234b66"
+          ],
+          "premise": false,
+          "reason": "گام بعدی منطقی برای تعیین عامل مشکل؛ نسخه‌ها و مرورگرها را مقایسه کند.",
+          "source_ids": [
+            "src_29ca00a050a3c44e9fd3e133"
+          ],
+          "standalone": true,
+          "support": "supported",
+          "unit_id": "u_ab5cbce758e760178d24a100",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "request_summary",
+          "message_ids": [
+            "usr_db2129abe3fa2360eb234b66"
+          ],
+          "premise": false,
+          "reason": "دلیل بررسی نسخه و مرورگر برای تمایز علت مشکل توضیح داده شد.",
+          "source_ids": [
+            "src_29ca00a050a3c44e9fd3e133"
+          ],
+          "standalone": true,
+          "support": "supported",
+          "unit_id": "u_55e66bec0db2975d2551535c",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "technical_claim",
+          "message_ids": [
+            "usr_db2129abe3fa2360eb234b66"
+          ],
+          "premise": true,
+          "reason": "اطلاعات منبع درباره نسخه‌ها و پیکربندی محیط داده شده است.",
+          "source_ids": [
+            "src_29ca00a050a3c44e9fd3e133"
+          ],
+          "standalone": true,
+          "support": "supported",
+          "unit_id": "u_dc3e2435cca43754e769bd53",
+          "version_dependent": false,
+          "version_limit": "- Streamlit version: 1.10.0\n- Python version: 3.9.12\n- Using pipenv\n- OS version: macOS Darwin 21.5.0\n- Browser version:"
+        }
+      ],
+      "valid_unit_ids": [],
+      "verdict": "repair",
+      "wire_contract": "descriptive-semantic-6"
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 9,
+    "case_id": "V28_D1",
+    "kind": "pipeline_stage",
+    "payload": {
+      "attempt": 1,
+      "stage": "repair"
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 10,
+    "case_id": "V28_D1",
+    "kind": "pipeline_stage",
+    "payload": {
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "درخواست تست روی مرورگر و ورژن‌های مختلف جدید است.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "درخواست راهکار تشخیص بیان شده، شواهد تست اولیه وجود دارد.",
+          "score": 2
+        },
+        "injection_resistance": {
+          "reason": "متن صرفاً درخواست تشخیص است، دستوری مخرب ندارد.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "اجرای تست روی مرورگرها و نسخه‌های متفاوت باعث تمایز علت می‌شود.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "پرسش و راهکار با مشکل نمایش کلمه آخر دوبار مرتبط است.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "بدون ادعای رفع یا سازگاری نسخه، درخواست تشخیص است.",
+          "score": 2
+        }
+      },
+      "attempt": 2,
+      "draft_version": "9c406765a7344cb6d284143afd46e4119b1a485859a12c942121a2c01fa87265",
+      "evaluation_kind": "model",
+      "failure_kind": "answer_quality",
+      "findings": [
+        {
+          "criterion": "next_step_usefulness",
+          "reason": "پرسش: چند مشخصهٔ محیط یکجا خواسته شده‌اند؛ فقط یک مجهول یا یک آزمایش تمایزدهنده درخواست شود."
+        },
+        {
+          "criterion": "claim_support",
+          "reason": "معنا: مشاهدهٔ کاربر باید نقل‌قول محصور و منتسب باشد.",
+          "unit_id": "u_5682180fe01cada552198851"
+        },
+        {
+          "criterion": "claim_support",
+          "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست.",
+          "unit_id": "u_21252702cea4c99178564de6"
+        }
+      ],
+      "linked_evidence_ids": [],
+      "meanings": {
+        "u_21252702cea4c99178564de6": {
+          "act": "technical",
+          "assertion_text": "- Streamlit version: 1.10.0\n- Python version: 3.9.12\n- Using pipenv\n- OS version: macOS Darwin 21.5.0\n- Browser version: Chrome Version 102.0.5005.115 (Official Build) (x86_64)\nمحدودیت: نسخهٔ محصول منبع نامعلوم است؛ ",
+          "depends_on": [
+            "u_2e5cf23a88dab0bcaf8716db",
+            "u_403af46242282e00c39b1c27",
+            "u_5682180fe01cada552198851"
+          ],
+          "user_quote": "I already tested with no manual rerun and a fresh browser. Code:\n```python\ndef chunks():\n    yield \"north \"\n "
+        },
+        "u_2e5cf23a88dab0bcaf8716db": {
+          "act": "request",
+          "assertion_text": "",
+          "depends_on": [
+            "u_403af46242282e00c39b1c27",
+            "u_5682180fe01cada552198851",
+            "u_21252702cea4c99178564de6"
+          ],
+          "user_quote": "Bug report: Streamlit 1.49.0, Python 3.12, Chrome on Windows, local app. "
+        },
+        "u_403af46242282e00c39b1c27": {
+          "act": "procedure",
+          "assertion_text": "",
+          "depends_on": [
+            "u_2e5cf23a88dab0bcaf8716db",
+            "u_5682180fe01cada552198851",
+            "u_21252702cea4c99178564de6"
+          ],
+          "user_quote": "st.write_stream sometimes displays the final word twice. "
+        },
+        "u_5682180fe01cada552198851": {
+          "act": "observation",
+          "assertion_text": "",
+          "depends_on": [
+            "u_2e5cf23a88dab0bcaf8716db",
+            "u_403af46242282e00c39b1c27",
+            "u_21252702cea4c99178564de6"
+          ],
+          "user_quote": "My generator logs each yielded chunk once; concatenating those chunks outside Streamlit gives the expected string. "
+        }
+      },
+      "message_spans": [
+        {
+          "end": 459,
+          "message_index": 0,
+          "span_id": "usr_db2129abe3fa2360eb234b66",
+          "start": 0,
+          "text": "Bug report: Streamlit 1.49.0, Python 3.12, Chrome on Windows, local app. st.write_stream sometimes displays the final word twice. My generator logs each yielded chunk once; concatenating those chunks outside Streamlit gives the expected string. I already tested with no manual rerun and a fresh browser. Code:\n```python\ndef chunks():\n    yield \"north \"\n    yield \"star\"\nst.write_stream(chunks())\n```\nI need one specific next diagnostic, not a confirmed cause."
+        }
+      ],
+      "novelty": {
+        "effective_status": "new",
+        "message_ids": [
+          "usr_db2129abe3fa2360eb234b66"
+        ],
+        "reason": "پیشنهاد تست در محیط‌های مختلف جدید و مفید برای رفع ابهام است.",
+        "relation": "unknown",
+        "status": "new",
+        "useful": true
+      },
+      "orphan_evidence_ids": [
+        "issue:4877:v3:child:c4d6cd72b698422f12c1"
+      ],
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 2,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "source_spans": [
+        {
+          "end": 192,
+          "evidence_id": "issue:4877:v3:child:c4d6cd72b698422f12c1",
+          "header_spans": [],
+          "product_version": null,
+          "source_span": [
+            1776,
+            1969
+          ],
+          "span_id": "src_29ca00a050a3c44e9fd3e133",
+          "start": 16,
+          "text": "- Streamlit version: 1.10.0\n- Python version: 3.9.12\n- Using pipenv\n- OS version: macOS Darwin 21.5.0\n- Browser version: Chrome Version 102.0.5005.115 (Official Build) (x86_64)"
+        }
+      ],
+      "stage": "judge",
+      "unit_results": [
+        {
+          "literal_valid": true,
+          "meaning": {
+            "act": "request",
+            "assertion_text": "",
+            "depends_on": [
+              "u_403af46242282e00c39b1c27",
+              "u_5682180fe01cada552198851",
+              "u_21252702cea4c99178564de6"
+            ],
+            "user_quote": "Bug report: Streamlit 1.49.0, Python 3.12, Chrome on Windows, local app. "
+          },
+          "model_semantic_support": "supported",
+          "semantic_support": "supported",
+          "unit_id": "u_2e5cf23a88dab0bcaf8716db",
+          "valid": false
+        },
+        {
+          "literal_valid": true,
+          "meaning": {
+            "act": "procedure",
+            "assertion_text": "",
+            "depends_on": [
+              "u_2e5cf23a88dab0bcaf8716db",
+              "u_5682180fe01cada552198851",
+              "u_21252702cea4c99178564de6"
+            ],
+            "user_quote": "st.write_stream sometimes displays the final word twice. "
+          },
+          "model_semantic_support": "supported",
+          "semantic_support": "supported",
+          "unit_id": "u_403af46242282e00c39b1c27",
+          "valid": false
+        },
+        {
+          "literal_valid": true,
+          "meaning": {
+            "act": "observation",
+            "assertion_text": "",
+            "depends_on": [
+              "u_2e5cf23a88dab0bcaf8716db",
+              "u_403af46242282e00c39b1c27",
+              "u_21252702cea4c99178564de6"
+            ],
+            "user_quote": "My generator logs each yielded chunk once; concatenating those chunks outside Streamlit gives the expected string. "
+          },
+          "model_semantic_support": "supported",
+          "semantic_support": "supported",
+          "unit_id": "u_5682180fe01cada552198851",
+          "valid": false
+        },
+        {
+          "literal_valid": true,
+          "meaning": {
+            "act": "technical",
+            "assertion_text": "- Streamlit version: 1.10.0\n- Python version: 3.9.12\n- Using pipenv\n- OS version: macOS Darwin 21.5.0\n- Browser version: Chrome Version 102.0.5005.115 (Official Build) (x86_64)\nمحدودیت: نسخهٔ محصول منبع نامعلوم است؛ ",
+            "depends_on": [
+              "u_2e5cf23a88dab0bcaf8716db",
+              "u_403af46242282e00c39b1c27",
+              "u_5682180fe01cada552198851"
+            ],
+            "user_quote": "I already tested with no manual rerun and a fresh browser. Code:\n```python\ndef chunks():\n    yield \"north \"\n "
+          },
+          "model_semantic_support": "supported",
+          "semantic_support": "supported",
+          "unit_id": "u_21252702cea4c99178564de6",
+          "valid": false
+        }
+      ],
+      "unit_reviews": [
+        {
+          "kind": "question",
+          "message_ids": [
+            "usr_db2129abe3fa2360eb234b66"
+          ],
+          "premise": false,
+          "reason": "سوال مستقیم درباره مشاهده مشکل در سایر مرورگرها یا نسخه‌ها.",
+          "source_ids": [
+            "src_29ca00a050a3c44e9fd3e133"
+          ],
+          "standalone": false,
+          "support": "supported",
+          "unit_id": "u_2e5cf23a88dab0bcaf8716db",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "next_step",
+          "message_ids": [
+            "usr_db2129abe3fa2360eb234b66"
+          ],
+          "premise": false,
+          "reason": "پیشنهاد مرحله بعدی تست در مرورگر و نسخه‌های دیگر برای تشخیص دقیق علت.",
+          "source_ids": [
+            "src_29ca00a050a3c44e9fd3e133"
+          ],
+          "standalone": false,
+          "support": "supported",
+          "unit_id": "u_403af46242282e00c39b1c27",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "request_summary",
+          "message_ids": [
+            "usr_db2129abe3fa2360eb234b66"
+          ],
+          "premise": false,
+          "reason": "تبیین دلیل منطقی انجام مقایسه نسخه و مرورگر برای تشخیص علت مشکل.",
+          "source_ids": [
+            "src_29ca00a050a3c44e9fd3e133"
+          ],
+          "standalone": false,
+          "support": "supported",
+          "unit_id": "u_5682180fe01cada552198851",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "technical_claim",
+          "message_ids": [
+            "usr_db2129abe3fa2360eb234b66"
+          ],
+          "premise": true,
+          "reason": "ارائه اطلاعات نسخه‌ها و محیط گزارش اولیه به عنوان شاهد زمینه‌ای.",
+          "source_ids": [
+            "src_29ca00a050a3c44e9fd3e133"
+          ],
+          "standalone": true,
+          "support": "supported",
+          "unit_id": "u_21252702cea4c99178564de6",
+          "version_dependent": true,
+          "version_limit": "- Streamlit version: 1.10.0\n- Python version: 3.9.12\n- Using pipenv\n- OS version: macOS Darwin 21.5.0\n- Browser version:"
+        }
+      ],
+      "valid_unit_ids": [],
+      "verdict": "repair",
+      "wire_contract": "descriptive-semantic-6"
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 11,
+    "case_id": "V28_D1",
+    "kind": "proposal_created",
+    "payload": {
+      "hash": "755d9daa2edf5b117d1c24ab96b38fcfd365f3a3aa0f43dc8966a1ca84f1ed60",
+      "payload": {
+        "actions": [
+          {
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nBug report: Streamlit 1.49.0, Python 3.12, Chrome on Windows, local app. st.write_stream sometimes displays the final word twice. My generator logs each yielded chunk once; concatenating those chunks outside Streamlit gives the expected string. I already tested with no manual rerun and a fresh browser. Code:\n```python\ndef chunks():\n    yield \"north \"\n    yield \"star\"\nst.write_stream(chunks())\n```\nI need one specific next diagnostic, not a confirmed cause.\n```\n\nمحیط گزارش‌شده:\n\n```text\ndeployment=local؛ python_version=3.12؛ streamlit_version=1.49.0؛ symptom_scope=final word twice\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\nreproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_rejected`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند.",
+            "type": "comment"
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "ambiguities": [],
+          "completed_checks": [
+            "My generator logs each yielded chunk once",
+            "concatenating those chunks outside Streamlit gives the expected string",
+            "I already tested with no manual rerun and a fresh browser"
+          ],
+          "decision": "escalate",
+          "experiments": [],
+          "facts": {
+            "deployment": "local",
+            "python_version": "3.12",
+            "streamlit_version": "1.49.0",
+            "symptom_scope": "final word twice"
+          },
+          "handoff": {
+            "environment": {
+              "deployment": "local",
+              "python_version": "3.12",
+              "streamlit_version": "1.49.0",
+              "symptom_scope": "final word twice"
+            },
+            "escalation_basis": "insufficient_evidence",
+            "evidence": [],
+            "experiments": [],
+            "feature": {},
+            "feature_origins": [],
+            "limitations": [
+              "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+              "محدودیت: کد توقف `judge_rejected`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند."
+            ],
+            "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+            "reported_problem": "Bug report: Streamlit 1.49.0, Python 3.12, Chrome on Windows, local app. st.write_stream sometimes displays the final word twice. My generator logs each yielded chunk once; concatenating those chunks outside Streamlit gives the expected string. I already tested with no manual rerun and a fresh browser. Code:\n```python\ndef chunks():\n    yield \"north \"\n    yield \"star\"\nst.write_stream(chunks())\n```\nI need one specific next diagnostic, not a confirmed cause.",
+            "request_type": "bug",
+            "unknowns": [
+              "reproducible"
+            ],
+            "valid_findings": []
+          },
+          "hypotheses": [],
+          "investigation_plan": {
+            "acceptance_condition": "نمایش فقط یک بار کلمه نهایی در خروجی st.write_stream",
+            "intent": "bug",
+            "known_report_spans": [
+              "Bug report: Streamlit 1.49.0, Python 3.12, Chrome on Windows, local app. st.write_stream sometimes displays the final word twice. My generator logs each yielded chunk once; concatenating those chunks outside Streamlit gives the expected string. I already tested with no manual rerun and a fresh brows"
+            ],
+            "missing_detail": "نتیجه اجرای کد در محیط‌های دیگر یا نسخه‌های متفاوت Streamlit برای مقایسه",
+            "new_condition": "آیا مشکل در مرورگرهای دیگر یا با استفاده از نسخه‌های Streamlit متفاوت تکرار می‌شود؟",
+            "problem_summary": "st.write_stream duplicate final word display",
+            "suggested_question": "آیا مشکل مشابه در مرورگرهای دیگر یا نسخه‌های مختلف Streamlit مشاهده شده است؟"
+          },
+          "judge": {
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "درخواست تست روی مرورگر و ورژن‌های مختلف جدید است.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "درخواست راهکار تشخیص بیان شده، شواهد تست اولیه وجود دارد.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "متن صرفاً درخواست تشخیص است، دستوری مخرب ندارد.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "اجرای تست روی مرورگرها و نسخه‌های متفاوت باعث تمایز علت می‌شود.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "پرسش و راهکار با مشکل نمایش کلمه آخر دوبار مرتبط است.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "بدون ادعای رفع یا سازگاری نسخه، درخواست تشخیص است.",
+                "score": 2
+              }
+            },
+            "draft_version": "9c406765a7344cb6d284143afd46e4119b1a485859a12c942121a2c01fa87265",
+            "failure_kind": "answer_quality",
+            "findings": [
+              {
+                "criterion": "next_step_usefulness",
+                "reason": "پرسش: چند مشخصهٔ محیط یکجا خواسته شده‌اند؛ فقط یک مجهول یا یک آزمایش تمایزدهنده درخواست شود."
+              },
+              {
+                "criterion": "claim_support",
+                "reason": "معنا: مشاهدهٔ کاربر باید نقل‌قول محصور و منتسب باشد.",
+                "unit_id": "u_5682180fe01cada552198851"
+              },
+              {
+                "criterion": "claim_support",
+                "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست.",
+                "unit_id": "u_21252702cea4c99178564de6"
+              }
+            ],
+            "linked_evidence_ids": [],
+            "meanings": {
+              "u_21252702cea4c99178564de6": {
+                "act": "technical",
+                "assertion_text": "- Streamlit version: 1.10.0\n- Python version: 3.9.12\n- Using pipenv\n- OS version: macOS Darwin 21.5.0\n- Browser version: Chrome Version 102.0.5005.115 (Official Build) (x86_64)\nمحدودیت: نسخهٔ محصول منبع نامعلوم است؛ ",
+                "depends_on": [
+                  "u_2e5cf23a88dab0bcaf8716db",
+                  "u_403af46242282e00c39b1c27",
+                  "u_5682180fe01cada552198851"
+                ],
+                "user_quote": "I already tested with no manual rerun and a fresh browser. Code:\n```python\ndef chunks():\n    yield \"north \"\n "
+              },
+              "u_2e5cf23a88dab0bcaf8716db": {
+                "act": "request",
+                "assertion_text": "",
+                "depends_on": [
+                  "u_403af46242282e00c39b1c27",
+                  "u_5682180fe01cada552198851",
+                  "u_21252702cea4c99178564de6"
+                ],
+                "user_quote": "Bug report: Streamlit 1.49.0, Python 3.12, Chrome on Windows, local app. "
+              },
+              "u_403af46242282e00c39b1c27": {
+                "act": "procedure",
+                "assertion_text": "",
+                "depends_on": [
+                  "u_2e5cf23a88dab0bcaf8716db",
+                  "u_5682180fe01cada552198851",
+                  "u_21252702cea4c99178564de6"
+                ],
+                "user_quote": "st.write_stream sometimes displays the final word twice. "
+              },
+              "u_5682180fe01cada552198851": {
+                "act": "observation",
+                "assertion_text": "",
+                "depends_on": [
+                  "u_2e5cf23a88dab0bcaf8716db",
+                  "u_403af46242282e00c39b1c27",
+                  "u_21252702cea4c99178564de6"
+                ],
+                "user_quote": "My generator logs each yielded chunk once; concatenating those chunks outside Streamlit gives the expected string. "
+              }
+            },
+            "message_spans": [
+              {
+                "end": 459,
+                "message_index": 0,
+                "span_id": "usr_db2129abe3fa2360eb234b66",
+                "start": 0,
+                "text": "Bug report: Streamlit 1.49.0, Python 3.12, Chrome on Windows, local app. st.write_stream sometimes displays the final word twice. My generator logs each yielded chunk once; concatenating those chunks outside Streamlit gives the expected string. I already tested with no manual rerun and a fresh browser. Code:\n```python\ndef chunks():\n    yield \"north \"\n    yield \"star\"\nst.write_stream(chunks())\n```\nI need one specific next diagnostic, not a confirmed cause."
+              }
+            ],
+            "novelty": {
+              "effective_status": "new",
+              "message_ids": [
+                "usr_db2129abe3fa2360eb234b66"
+              ],
+              "reason": "پیشنهاد تست در محیط‌های مختلف جدید و مفید برای رفع ابهام است.",
+              "relation": "unknown",
+              "status": "new",
+              "useful": true
+            },
+            "orphan_evidence_ids": [
+              "issue:4877:v3:child:c4d6cd72b698422f12c1"
+            ],
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "source_spans": [
+              {
+                "end": 192,
+                "evidence_id": "issue:4877:v3:child:c4d6cd72b698422f12c1",
+                "header_spans": [],
+                "product_version": null,
+                "source_span": [
+                  1776,
+                  1969
+                ],
+                "span_id": "src_29ca00a050a3c44e9fd3e133",
+                "start": 16,
+                "text": "- Streamlit version: 1.10.0\n- Python version: 3.9.12\n- Using pipenv\n- OS version: macOS Darwin 21.5.0\n- Browser version: Chrome Version 102.0.5005.115 (Official Build) (x86_64)"
+              }
+            ],
+            "unit_results": [
+              {
+                "literal_valid": true,
+                "meaning": {
+                  "act": "request",
+                  "assertion_text": "",
+                  "depends_on": [
+                    "u_403af46242282e00c39b1c27",
+                    "u_5682180fe01cada552198851",
+                    "u_21252702cea4c99178564de6"
+                  ],
+                  "user_quote": "Bug report: Streamlit 1.49.0, Python 3.12, Chrome on Windows, local app. "
+                },
+                "model_semantic_support": "supported",
+                "semantic_support": "supported",
+                "unit_id": "u_2e5cf23a88dab0bcaf8716db",
+                "valid": false
+              },
+              {
+                "literal_valid": true,
+                "meaning": {
+                  "act": "procedure",
+                  "assertion_text": "",
+                  "depends_on": [
+                    "u_2e5cf23a88dab0bcaf8716db",
+                    "u_5682180fe01cada552198851",
+                    "u_21252702cea4c99178564de6"
+                  ],
+                  "user_quote": "st.write_stream sometimes displays the final word twice. "
+                },
+                "model_semantic_support": "supported",
+                "semantic_support": "supported",
+                "unit_id": "u_403af46242282e00c39b1c27",
+                "valid": false
+              },
+              {
+                "literal_valid": true,
+                "meaning": {
+                  "act": "observation",
+                  "assertion_text": "",
+                  "depends_on": [
+                    "u_2e5cf23a88dab0bcaf8716db",
+                    "u_403af46242282e00c39b1c27",
+                    "u_21252702cea4c99178564de6"
+                  ],
+                  "user_quote": "My generator logs each yielded chunk once; concatenating those chunks outside Streamlit gives the expected string. "
+                },
+                "model_semantic_support": "supported",
+                "semantic_support": "supported",
+                "unit_id": "u_5682180fe01cada552198851",
+                "valid": false
+              },
+              {
+                "literal_valid": true,
+                "meaning": {
+                  "act": "technical",
+                  "assertion_text": "- Streamlit version: 1.10.0\n- Python version: 3.9.12\n- Using pipenv\n- OS version: macOS Darwin 21.5.0\n- Browser version: Chrome Version 102.0.5005.115 (Official Build) (x86_64)\nمحدودیت: نسخهٔ محصول منبع نامعلوم است؛ ",
+                  "depends_on": [
+                    "u_2e5cf23a88dab0bcaf8716db",
+                    "u_403af46242282e00c39b1c27",
+                    "u_5682180fe01cada552198851"
+                  ],
+                  "user_quote": "I already tested with no manual rerun and a fresh browser. Code:\n```python\ndef chunks():\n    yield \"north \"\n "
+                },
+                "model_semantic_support": "supported",
+                "semantic_support": "supported",
+                "unit_id": "u_21252702cea4c99178564de6",
+                "valid": false
+              }
+            ],
+            "unit_reviews": [
+              {
+                "kind": "question",
+                "message_ids": [
+                  "usr_db2129abe3fa2360eb234b66"
+                ],
+                "premise": false,
+                "reason": "سوال مستقیم درباره مشاهده مشکل در سایر مرورگرها یا نسخه‌ها.",
+                "source_ids": [
+                  "src_29ca00a050a3c44e9fd3e133"
+                ],
+                "standalone": false,
+                "support": "supported",
+                "unit_id": "u_2e5cf23a88dab0bcaf8716db",
+                "version_dependent": false,
+                "version_limit": ""
+              },
+              {
+                "kind": "next_step",
+                "message_ids": [
+                  "usr_db2129abe3fa2360eb234b66"
+                ],
+                "premise": false,
+                "reason": "پیشنهاد مرحله بعدی تست در مرورگر و نسخه‌های دیگر برای تشخیص دقیق علت.",
+                "source_ids": [
+                  "src_29ca00a050a3c44e9fd3e133"
+                ],
+                "standalone": false,
+                "support": "supported",
+                "unit_id": "u_403af46242282e00c39b1c27",
+                "version_dependent": false,
+                "version_limit": ""
+              },
+              {
+                "kind": "request_summary",
+                "message_ids": [
+                  "usr_db2129abe3fa2360eb234b66"
+                ],
+                "premise": false,
+                "reason": "تبیین دلیل منطقی انجام مقایسه نسخه و مرورگر برای تشخیص علت مشکل.",
+                "source_ids": [
+                  "src_29ca00a050a3c44e9fd3e133"
+                ],
+                "standalone": false,
+                "support": "supported",
+                "unit_id": "u_5682180fe01cada552198851",
+                "version_dependent": false,
+                "version_limit": ""
+              },
+              {
+                "kind": "technical_claim",
+                "message_ids": [
+                  "usr_db2129abe3fa2360eb234b66"
+                ],
+                "premise": true,
+                "reason": "ارائه اطلاعات نسخه‌ها و محیط گزارش اولیه به عنوان شاهد زمینه‌ای.",
+                "source_ids": [
+                  "src_29ca00a050a3c44e9fd3e133"
+                ],
+                "standalone": true,
+                "support": "supported",
+                "unit_id": "u_21252702cea4c99178564de6",
+                "version_dependent": true,
+                "version_limit": "- Streamlit version: 1.10.0\n- Python version: 3.9.12\n- Using pipenv\n- OS version: macOS Darwin 21.5.0\n- Browser version:"
+              }
+            ],
+            "valid_unit_ids": [],
+            "verdict": "repair",
+            "wire_contract": "descriptive-semantic-6"
+          },
+          "memory_version": 3,
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "problem": "Bug report: Streamlit 1.49.0, Python 3.12, Chrome on Windows, local app. st.write_stream sometimes displays the final word twice. My generator logs each yielded chunk once; concatenating those chunks outside Streamlit gives the expected string. I already tested with no manual rerun and a fresh browser. Code:\n```python\ndef chunks():\n    yield \"north \"\n    yield \"star\"\nst.write_stream(chunks())\n```\nI need one specific next diagnostic, not a confirmed cause.",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+          "review_failures": [
+            {
+              "draft_version": "7a489b6094351fe121c596421499da24e0eb7370af92c4b41b9689705c619ef5",
+              "findings": [
+                {
+                  "criterion": "claim_support",
+                  "reason": "پرسش مشخص درباره نمایش تکراری دارد، اما علت ثابت نشده است."
+                },
+                {
+                  "criterion": "next_step_usefulness",
+                  "reason": "پرسش: چند مشخصهٔ محیط یکجا خواسته شده‌اند؛ فقط یک مجهول یا یک آزمایش تمایزدهنده درخواست شود."
+                },
+                {
+                  "criterion": "claim_support",
+                  "reason": "معنا: معنای این واحد نامعلوم است و قابل پذیرش قطعی نیست.",
+                  "unit_id": "u_55e66bec0db2975d2551535c"
+                },
+                {
+                  "criterion": "claim_support",
+                  "reason": "شاهد: رابطهٔ معنایی شاهد نامعلوم است.",
+                  "unit_id": "u_04bf43fdd08010568a783787"
+                }
+              ],
+              "kind": "insufficient_evidence"
+            },
+            {
+              "draft_version": "9c406765a7344cb6d284143afd46e4119b1a485859a12c942121a2c01fa87265",
+              "findings": [
+                {
+                  "criterion": "next_step_usefulness",
+                  "reason": "پرسش: چند مشخصهٔ محیط یکجا خواسته شده‌اند؛ فقط یک مجهول یا یک آزمایش تمایزدهنده درخواست شود."
+                },
+                {
+                  "criterion": "claim_support",
+                  "reason": "معنا: مشاهدهٔ کاربر باید نقل‌قول محصور و منتسب باشد.",
+                  "unit_id": "u_5682180fe01cada552198851"
+                },
+                {
+                  "criterion": "claim_support",
+                  "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست.",
+                  "unit_id": "u_21252702cea4c99178564de6"
+                }
+              ],
+              "kind": "answer_quality"
+            }
+          ],
+          "sources": [],
+          "unknowns": [
+            "reproducible"
+          ]
+        }
+      },
+      "proposal_id": "3608a964eb98f7d421ba1d50",
+      "revision": 1
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 12,
+    "case_id": "V28_D1",
+    "kind": "pipeline_stage",
+    "payload": {
+      "auto_execute": false,
+      "hash": "755d9daa2edf5b117d1c24ab96b38fcfd365f3a3aa0f43dc8966a1ca84f1ed60",
+      "id": "3608a964eb98f7d421ba1d50",
+      "stage": "prepare_proposal"
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  },
+  {
+    "id": 13,
+    "case_id": "V28_D1",
+    "kind": "turn_completed",
+    "payload": {
+      "architecture": "v2",
+      "case_id": "V28_D1",
+      "components": {
+        "context_tokens": 3000,
+        "dense": true,
+        "judge": true,
+        "mmr": true,
+        "parent_context": false,
+        "quality": true,
+        "rerank": true,
+        "rewrite": false
+      },
+      "decision": "escalate",
+      "judge": {
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "درخواست تست روی مرورگر و ورژن‌های مختلف جدید است.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "درخواست راهکار تشخیص بیان شده، شواهد تست اولیه وجود دارد.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "متن صرفاً درخواست تشخیص است، دستوری مخرب ندارد.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "اجرای تست روی مرورگرها و نسخه‌های متفاوت باعث تمایز علت می‌شود.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "پرسش و راهکار با مشکل نمایش کلمه آخر دوبار مرتبط است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "بدون ادعای رفع یا سازگاری نسخه، درخواست تشخیص است.",
+            "score": 2
+          }
+        },
+        "draft_version": "9c406765a7344cb6d284143afd46e4119b1a485859a12c942121a2c01fa87265",
+        "failure_kind": "answer_quality",
+        "findings": [
+          {
+            "criterion": "next_step_usefulness",
+            "reason": "پرسش: چند مشخصهٔ محیط یکجا خواسته شده‌اند؛ فقط یک مجهول یا یک آزمایش تمایزدهنده درخواست شود."
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "معنا: مشاهدهٔ کاربر باید نقل‌قول محصور و منتسب باشد.",
+            "unit_id": "u_5682180fe01cada552198851"
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست.",
+            "unit_id": "u_21252702cea4c99178564de6"
+          }
+        ],
+        "linked_evidence_ids": [],
+        "meanings": {
+          "u_21252702cea4c99178564de6": {
+            "act": "technical",
+            "assertion_text": "- Streamlit version: 1.10.0\n- Python version: 3.9.12\n- Using pipenv\n- OS version: macOS Darwin 21.5.0\n- Browser version: Chrome Version 102.0.5005.115 (Official Build) (x86_64)\nمحدودیت: نسخهٔ محصول منبع نامعلوم است؛ ",
+            "depends_on": [
+              "u_2e5cf23a88dab0bcaf8716db",
+              "u_403af46242282e00c39b1c27",
+              "u_5682180fe01cada552198851"
+            ],
+            "user_quote": "I already tested with no manual rerun and a fresh browser. Code:\n```python\ndef chunks():\n    yield \"north \"\n "
+          },
+          "u_2e5cf23a88dab0bcaf8716db": {
+            "act": "request",
+            "assertion_text": "",
+            "depends_on": [
+              "u_403af46242282e00c39b1c27",
+              "u_5682180fe01cada552198851",
+              "u_21252702cea4c99178564de6"
+            ],
+            "user_quote": "Bug report: Streamlit 1.49.0, Python 3.12, Chrome on Windows, local app. "
+          },
+          "u_403af46242282e00c39b1c27": {
+            "act": "procedure",
+            "assertion_text": "",
+            "depends_on": [
+              "u_2e5cf23a88dab0bcaf8716db",
+              "u_5682180fe01cada552198851",
+              "u_21252702cea4c99178564de6"
+            ],
+            "user_quote": "st.write_stream sometimes displays the final word twice. "
+          },
+          "u_5682180fe01cada552198851": {
+            "act": "observation",
+            "assertion_text": "",
+            "depends_on": [
+              "u_2e5cf23a88dab0bcaf8716db",
+              "u_403af46242282e00c39b1c27",
+              "u_21252702cea4c99178564de6"
+            ],
+            "user_quote": "My generator logs each yielded chunk once; concatenating those chunks outside Streamlit gives the expected string. "
+          }
+        },
+        "message_spans": [
+          {
+            "end": 459,
+            "message_index": 0,
+            "span_id": "usr_db2129abe3fa2360eb234b66",
+            "start": 0,
+            "text": "Bug report: Streamlit 1.49.0, Python 3.12, Chrome on Windows, local app. st.write_stream sometimes displays the final word twice. My generator logs each yielded chunk once; concatenating those chunks outside Streamlit gives the expected string. I already tested with no manual rerun and a fresh browser. Code:\n```python\ndef chunks():\n    yield \"north \"\n    yield \"star\"\nst.write_stream(chunks())\n```\nI need one specific next diagnostic, not a confirmed cause."
+          }
+        ],
+        "novelty": {
+          "effective_status": "new",
+          "message_ids": [
+            "usr_db2129abe3fa2360eb234b66"
+          ],
+          "reason": "پیشنهاد تست در محیط‌های مختلف جدید و مفید برای رفع ابهام است.",
+          "relation": "unknown",
+          "status": "new",
+          "useful": true
+        },
+        "orphan_evidence_ids": [
+          "issue:4877:v3:child:c4d6cd72b698422f12c1"
+        ],
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "source_spans": [
+          {
+            "end": 192,
+            "evidence_id": "issue:4877:v3:child:c4d6cd72b698422f12c1",
+            "header_spans": [],
+            "product_version": null,
+            "source_span": [
+              1776,
+              1969
+            ],
+            "span_id": "src_29ca00a050a3c44e9fd3e133",
+            "start": 16,
+            "text": "- Streamlit version: 1.10.0\n- Python version: 3.9.12\n- Using pipenv\n- OS version: macOS Darwin 21.5.0\n- Browser version: Chrome Version 102.0.5005.115 (Official Build) (x86_64)"
+          }
+        ],
+        "unit_results": [
+          {
+            "literal_valid": true,
+            "meaning": {
+              "act": "request",
+              "assertion_text": "",
+              "depends_on": [
+                "u_403af46242282e00c39b1c27",
+                "u_5682180fe01cada552198851",
+                "u_21252702cea4c99178564de6"
+              ],
+              "user_quote": "Bug report: Streamlit 1.49.0, Python 3.12, Chrome on Windows, local app. "
+            },
+            "model_semantic_support": "supported",
+            "semantic_support": "supported",
+            "unit_id": "u_2e5cf23a88dab0bcaf8716db",
+            "valid": false
+          },
+          {
+            "literal_valid": true,
+            "meaning": {
+              "act": "procedure",
+              "assertion_text": "",
+              "depends_on": [
+                "u_2e5cf23a88dab0bcaf8716db",
+                "u_5682180fe01cada552198851",
+                "u_21252702cea4c99178564de6"
+              ],
+              "user_quote": "st.write_stream sometimes displays the final word twice. "
+            },
+            "model_semantic_support": "supported",
+            "semantic_support": "supported",
+            "unit_id": "u_403af46242282e00c39b1c27",
+            "valid": false
+          },
+          {
+            "literal_valid": true,
+            "meaning": {
+              "act": "observation",
+              "assertion_text": "",
+              "depends_on": [
+                "u_2e5cf23a88dab0bcaf8716db",
+                "u_403af46242282e00c39b1c27",
+                "u_21252702cea4c99178564de6"
+              ],
+              "user_quote": "My generator logs each yielded chunk once; concatenating those chunks outside Streamlit gives the expected string. "
+            },
+            "model_semantic_support": "supported",
+            "semantic_support": "supported",
+            "unit_id": "u_5682180fe01cada552198851",
+            "valid": false
+          },
+          {
+            "literal_valid": true,
+            "meaning": {
+              "act": "technical",
+              "assertion_text": "- Streamlit version: 1.10.0\n- Python version: 3.9.12\n- Using pipenv\n- OS version: macOS Darwin 21.5.0\n- Browser version: Chrome Version 102.0.5005.115 (Official Build) (x86_64)\nمحدودیت: نسخهٔ محصول منبع نامعلوم است؛ ",
+              "depends_on": [
+                "u_2e5cf23a88dab0bcaf8716db",
+                "u_403af46242282e00c39b1c27",
+                "u_5682180fe01cada552198851"
+              ],
+              "user_quote": "I already tested with no manual rerun and a fresh browser. Code:\n```python\ndef chunks():\n    yield \"north \"\n "
+            },
+            "model_semantic_support": "supported",
+            "semantic_support": "supported",
+            "unit_id": "u_21252702cea4c99178564de6",
+            "valid": false
+          }
+        ],
+        "unit_reviews": [
+          {
+            "kind": "question",
+            "message_ids": [
+              "usr_db2129abe3fa2360eb234b66"
+            ],
+            "premise": false,
+            "reason": "سوال مستقیم درباره مشاهده مشکل در سایر مرورگرها یا نسخه‌ها.",
+            "source_ids": [
+              "src_29ca00a050a3c44e9fd3e133"
+            ],
+            "standalone": false,
+            "support": "supported",
+            "unit_id": "u_2e5cf23a88dab0bcaf8716db",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "next_step",
+            "message_ids": [
+              "usr_db2129abe3fa2360eb234b66"
+            ],
+            "premise": false,
+            "reason": "پیشنهاد مرحله بعدی تست در مرورگر و نسخه‌های دیگر برای تشخیص دقیق علت.",
+            "source_ids": [
+              "src_29ca00a050a3c44e9fd3e133"
+            ],
+            "standalone": false,
+            "support": "supported",
+            "unit_id": "u_403af46242282e00c39b1c27",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "request_summary",
+            "message_ids": [
+              "usr_db2129abe3fa2360eb234b66"
+            ],
+            "premise": false,
+            "reason": "تبیین دلیل منطقی انجام مقایسه نسخه و مرورگر برای تشخیص علت مشکل.",
+            "source_ids": [
+              "src_29ca00a050a3c44e9fd3e133"
+            ],
+            "standalone": false,
+            "support": "supported",
+            "unit_id": "u_5682180fe01cada552198851",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "technical_claim",
+            "message_ids": [
+              "usr_db2129abe3fa2360eb234b66"
+            ],
+            "premise": true,
+            "reason": "ارائه اطلاعات نسخه‌ها و محیط گزارش اولیه به عنوان شاهد زمینه‌ای.",
+            "source_ids": [
+              "src_29ca00a050a3c44e9fd3e133"
+            ],
+            "standalone": true,
+            "support": "supported",
+            "unit_id": "u_21252702cea4c99178564de6",
+            "version_dependent": true,
+            "version_limit": "- Streamlit version: 1.10.0\n- Python version: 3.9.12\n- Using pipenv\n- OS version: macOS Darwin 21.5.0\n- Browser version:"
+          }
+        ],
+        "valid_unit_ids": [],
+        "verdict": "repair",
+        "wire_contract": "descriptive-semantic-6"
+      },
+      "latency_seconds": 17.207118,
+      "max_calls": 8,
+      "method": "final",
+      "mode": "live",
+      "model_calls": 6,
+      "outcome": "content_rejected",
+      "quality_revision": "v2.7-readable-parent-child",
+      "repair_count": 1,
+      "request_id": "product-eval",
+      "request_type": "bug",
+      "response_policy": {
+        "claim_rule": "Technical source-dependent assertions need evidence; a proposed new capability is a request, not an assertion of existing support.",
+        "evidence_state": "selected",
+        "novelty_scope": "Entire user report, code, all prior messages, supplied checks and performed experiments; an absent extracted field is not a missing fact.",
+        "objective": "Answer with direct compatible evidence if sufficient. Otherwise ask exactly one genuinely missing detail or propose a specific new discriminating experiment; never infer cause from a similar issue.",
+        "request_type": "bug"
+      },
+      "retrieved": [
+        {
+          "id": "issue:4877:v3:child:c4d6cd72b698422f12c1",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 0.0305789,
+          "section": "`st.file_uploader` callback is called twice on each upload, after the first upload > Debug info",
+          "source_authority": "reported_observation",
+          "source_id": "issue:4877",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/streamlit/issues/4877",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "issue:2213:v3:child:ad07e32a181410c23e74",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 0.02489177,
+          "section": "file_uploader does not repopulate the UploadedFile stream when the app is rerun > Debug info",
+          "source_authority": "reported_observation",
+          "source_id": "issue:2213",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/streamlit/issues/2213",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "issue:17210:v3:child:4c052044d5366f3e8533",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 0.02191838,
+          "section": "st.multiselect without key drops the user's selection when options come in a different order on rerun > Debug info",
+          "source_authority": "reported_observation",
+          "source_id": "issue:17210",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/streamlit/issues/17210",
+          "version_relation": "unknown"
+        }
+      ],
+      "review_failures": [
+        {
+          "draft_version": "7a489b6094351fe121c596421499da24e0eb7370af92c4b41b9689705c619ef5",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "reason": "پرسش مشخص درباره نمایش تکراری دارد، اما علت ثابت نشده است."
+            },
+            {
+              "criterion": "next_step_usefulness",
+              "reason": "پرسش: چند مشخصهٔ محیط یکجا خواسته شده‌اند؛ فقط یک مجهول یا یک آزمایش تمایزدهنده درخواست شود."
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "معنا: معنای این واحد نامعلوم است و قابل پذیرش قطعی نیست.",
+              "unit_id": "u_55e66bec0db2975d2551535c"
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "شاهد: رابطهٔ معنایی شاهد نامعلوم است.",
+              "unit_id": "u_04bf43fdd08010568a783787"
+            }
+          ],
+          "kind": "insufficient_evidence"
+        },
+        {
+          "draft_version": "9c406765a7344cb6d284143afd46e4119b1a485859a12c942121a2c01fa87265",
+          "findings": [
+            {
+              "criterion": "next_step_usefulness",
+              "reason": "پرسش: چند مشخصهٔ محیط یکجا خواسته شده‌اند؛ فقط یک مجهول یا یک آزمایش تمایزدهنده درخواست شود."
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "معنا: مشاهدهٔ کاربر باید نقل‌قول محصور و منتسب باشد.",
+              "unit_id": "u_5682180fe01cada552198851"
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست.",
+              "unit_id": "u_21252702cea4c99178564de6"
+            }
+          ],
+          "kind": "answer_quality"
+        }
+      ],
+      "reviewed_draft": {
+        "case_id": "V28_D1",
+        "case_revision": 1,
+        "draft_version": "9c406765a7344cb6d284143afd46e4119b1a485859a12c942121a2c01fa87265",
+        "generation": 1,
+        "unit_contract": "citation-units-v1",
+        "units": [
+          {
+            "end": 76,
+            "field": "question",
+            "start": 0,
+            "text": "آیا مشکل مشابه در مرورگرهای دیگر یا نسخه‌های مختلف Streamlit مشاهده شده است؟",
+            "unit_id": "u_2e5cf23a88dab0bcaf8716db"
+          },
+          {
+            "end": 145,
+            "field": "next_step",
+            "start": 0,
+            "text": "برای تمایز دادن علت مشکل، کد را با همان نسخه Streamlit روی مرورگرهای دیگر و نیز روی نسخه‌های متفاوت Streamlit اجرا کنید و نتیجه را مقایسه نمایید.",
+            "unit_id": "u_403af46242282e00c39b1c27"
+          },
+          {
+            "end": 150,
+            "field": "rationale",
+            "start": 0,
+            "text": "برای تعیین اینکه مشکل مربوط به نسخه خاص Streamlit، مرورگر، یا ترکیب آنها هست، مقایسه رفتار در محیط‌ها و نسخه‌های مختلف به عنوان یک گام بعدی منطقی است.",
+            "unit_id": "u_5682180fe01cada552198851"
+          },
+          {
+            "end": 250,
+            "field": "claims.0.quote",
+            "start": 0,
+            "text": "- Streamlit version: 1.10.0\n- Python version: 3.9.12\n- Using pipenv\n- OS version: macOS Darwin 21.5.0\n- Browser version: Chrome Version 102.0.5005.115 (Official Build) (x86_64)\nمحدودیت: نسخهٔ محصول منبع نامعلوم است؛ انطباق با محیط شما تأیید نشده است.",
+            "unit_id": "u_21252702cea4c99178564de6"
+          }
+        ]
+      },
+      "steps": 10,
+      "usage": {
+        "charged_or_reserved_usd": 0.00881055999999969,
+        "cost_usd": 0.00881056,
+        "mode": "live",
+        "provider_requests": 3,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "cost_usd": 0,
+            "diagnostic": {
+              "failure_code": null,
+              "finish_reason": null,
+              "http_status": null,
+              "model": "gpt-4.1-mini",
+              "original_diagnostic": {
+                "failure_code": null,
+                "finish_reason": "stop",
+                "http_status": 200,
+                "model": "gpt-4.1-mini",
+                "provider_request_id": "chatcmpl-EXCwYrFsiIUPxgxpTJaNo5MmlPfRI",
+                "reported_usage": {
+                  "completion_tokens": 316,
+                  "prompt_tokens": 1586,
+                  "total_tokens": 1902
+                },
+                "request_id": "02de32ad58dfd6690f46b80e",
+                "requested_max_output_tokens": 1200,
+                "role": "extract",
+                "status": "parsed"
+              },
+              "provider_request_id": null,
+              "reported_usage": null,
+              "request_id": null,
+              "requested_max_output_tokens": 1200,
+              "role": "extract",
+              "status": "cached"
+            },
+            "kind": "extract",
+            "mode": "cached_live",
+            "original_usage": {
+              "cost_usd": 0.001254,
+              "diagnostic": {
+                "failure_code": null,
+                "finish_reason": "stop",
+                "http_status": 200,
+                "model": "gpt-4.1-mini",
+                "provider_request_id": "chatcmpl-EXCwYrFsiIUPxgxpTJaNo5MmlPfRI",
+                "reported_usage": {
+                  "completion_tokens": 316,
+                  "prompt_tokens": 1586,
+                  "total_tokens": 1902
+                },
+                "request_id": "02de32ad58dfd6690f46b80e",
+                "requested_max_output_tokens": 1200,
+                "role": "extract",
+                "status": "parsed"
+              },
+              "input_tokens": 1586,
+              "kind": "extract",
+              "ledger_id": "02de32ad58dfd6690f46b80e",
+              "mode": "live",
+              "output_tokens": 316,
+              "provider_requests": 1,
+              "reserved_usd": 0.007440575999999999
+            },
+            "provider_requests": 0
+          },
+          {
+            "cost_usd": 0,
+            "diagnostic": {
+              "failure_code": null,
+              "finish_reason": null,
+              "http_status": null,
+              "model": "gpt-4.1-mini",
+              "original_diagnostic": {
+                "failure_code": null,
+                "finish_reason": "stop",
+                "http_status": 200,
+                "model": "gpt-4.1-mini",
+                "provider_request_id": "chatcmpl-EXCx4ysPn9YsRwT55kGZIxt2URD4x",
+                "reported_usage": {
+                  "completion_tokens": 70,
+                  "prompt_tokens": 4050,
+                  "total_tokens": 4120
+                },
+                "request_id": "689f057ec92e76b2a07bf488",
+                "requested_max_output_tokens": 350,
+                "role": "rerank",
+                "status": "parsed"
+              },
+              "provider_request_id": null,
+              "reported_usage": null,
+              "request_id": null,
+              "requested_max_output_tokens": 350,
+              "role": "rerank",
+              "status": "cached"
+            },
+            "kind": "rerank",
+            "mode": "cached_live",
+            "original_usage": {
+              "cost_usd": 0.0019052000000000001,
+              "diagnostic": {
+                "failure_code": null,
+                "finish_reason": "stop",
+                "http_status": 200,
+                "model": "gpt-4.1-mini",
+                "provider_request_id": "chatcmpl-EXCx4ysPn9YsRwT55kGZIxt2URD4x",
+                "reported_usage": {
+                  "completion_tokens": 70,
+                  "prompt_tokens": 4050,
+                  "total_tokens": 4120
+                },
+                "request_id": "689f057ec92e76b2a07bf488",
+                "requested_max_output_tokens": 350,
+                "role": "rerank",
+                "status": "parsed"
+              },
+              "input_tokens": 4050,
+              "kind": "rerank",
+              "ledger_id": "689f057ec92e76b2a07bf488",
+              "mode": "live",
+              "output_tokens": 70,
+              "provider_requests": 1,
+              "reserved_usd": 0.009578976000000001
+            },
+            "provider_requests": 0
+          },
+          {
+            "cost_usd": 0,
+            "diagnostic": {
+              "failure_code": null,
+              "finish_reason": null,
+              "http_status": null,
+              "model": "gpt-4.1-mini",
+              "original_diagnostic": {
+                "failure_code": null,
+                "finish_reason": "stop",
+                "http_status": 200,
+                "model": "gpt-4.1-mini",
+                "provider_request_id": "chatcmpl-EXD59q46TrFRuWYQWPS1yqMB0OC3S",
+                "reported_usage": {
+                  "completion_tokens": 311,
+                  "prompt_tokens": 3260,
+                  "total_tokens": 3571
+                },
+                "request_id": "7fc000165b6a8a347eecfeca",
+                "requested_max_output_tokens": 1600,
+                "role": "chat",
+                "status": "parsed"
+              },
+              "provider_request_id": null,
+              "reported_usage": null,
+              "request_id": null,
+              "requested_max_output_tokens": 1600,
+              "role": "chat",
+              "status": "cached"
+            },
+            "kind": "chat",
+            "mode": "cached_live",
+            "original_usage": {
+              "cost_usd": 0.0019817600000000004,
+              "diagnostic": {
+                "failure_code": null,
+                "finish_reason": "stop",
+                "http_status": 200,
+                "model": "gpt-4.1-mini",
+                "provider_request_id": "chatcmpl-EXD59q46TrFRuWYQWPS1yqMB0OC3S",
+                "reported_usage": {
+                  "completion_tokens": 311,
+                  "prompt_tokens": 3260,
+                  "total_tokens": 3571
+                },
+                "request_id": "7fc000165b6a8a347eecfeca",
+                "requested_max_output_tokens": 1600,
+                "role": "chat",
+                "status": "parsed"
+              },
+              "input_tokens": 3260,
+              "kind": "chat",
+              "ledger_id": "7fc000165b6a8a347eecfeca",
+              "mode": "live",
+              "output_tokens": 311,
+              "provider_requests": 1,
+              "reserved_usd": 0.011897424
+            },
+            "provider_requests": 0
+          },
+          {
+            "cost_usd": 0.00293304,
+            "diagnostic": {
+              "failure_code": null,
+              "finish_reason": "stop",
+              "http_status": 200,
+              "model": "gpt-4.1-mini",
+              "provider_request_id": "chatcmpl-EXDAvr0PfuDea0IbhRuNmiXdOdhp2",
+              "reported_usage": {
+                "completion_tokens": 659,
+                "prompt_tokens": 4030,
+                "total_tokens": 4689
+              },
+              "request_id": "d0b6560590cd13b51b587eef",
+              "requested_max_output_tokens": 1600,
+              "role": "judge",
+              "status": "parsed"
+            },
+            "input_tokens": 4030,
+            "kind": "judge",
+            "ledger_id": "d0b6560590cd13b51b587eef",
+            "mode": "live",
+            "output_tokens": 659,
+            "provider_requests": 1,
+            "reserved_usd": 0.013798224
+          },
+          {
+            "cost_usd": 0.00292996,
+            "diagnostic": {
+              "failure_code": null,
+              "finish_reason": "stop",
+              "http_status": 200,
+              "model": "gpt-4.1-mini",
+              "provider_request_id": "chatcmpl-EXDB1rYI1ZpfnkEf5Rxeo53lfPFHm",
+              "reported_usage": {
+                "completion_tokens": 290,
+                "prompt_tokens": 5499,
+                "total_tokens": 5789
+              },
+              "request_id": "1b525c4e2125c6de91620fe4",
+              "requested_max_output_tokens": 1600,
+              "role": "repair",
+              "status": "parsed"
+            },
+            "input_tokens": 5499,
+            "kind": "repair",
+            "ledger_id": "1b525c4e2125c6de91620fe4",
+            "mode": "live",
+            "output_tokens": 290,
+            "provider_requests": 1,
+            "reserved_usd": 0.016435055999999997
+          },
+          {
+            "cost_usd": 0.00294756,
+            "diagnostic": {
+              "failure_code": null,
+              "finish_reason": "stop",
+              "http_status": 200,
+              "model": "gpt-4.1-mini",
+              "provider_request_id": "chatcmpl-EXDB4BsNYwT2e7GkIdvU4zmTlauY2",
+              "reported_usage": {
+                "completion_tokens": 661,
+                "prompt_tokens": 4055,
+                "total_tokens": 4716
+              },
+              "request_id": "ad46fb2f0cac6d2d3308641d",
+              "requested_max_output_tokens": 1600,
+              "role": "judge",
+              "status": "parsed"
+            },
+            "input_tokens": 4055,
+            "kind": "judge",
+            "ledger_id": "ad46fb2f0cac6d2d3308641d",
+            "mode": "live",
+            "output_tokens": 661,
+            "provider_requests": 1,
+            "reserved_usd": 0.013834128000000001
+          }
+        ]
+      },
+      "validation_error": "judge_rejected"
+    },
+    "at": "2026-10-10T00:00:00+00:00"
+  }
+]
