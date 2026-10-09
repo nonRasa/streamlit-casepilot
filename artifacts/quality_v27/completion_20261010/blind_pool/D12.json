@@ -1,0 +1,290 @@
+{
+  "id": "D12",
+  "report": "How can the file uploader accept several uploaded files? Streamlit 1.49.0; I already use type=[\"csv\"].",
+  "product_version": "1.49.0",
+  "candidates": [
+    {
+      "source_id": "issue:3531",
+      "revision": "2021-07-19T21:40:55Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        1,
+        28
+      ],
+      "title": "File uploader does not return multiple files",
+      "section": "File uploader does not return multiple files",
+      "text": "File uploader does not return multiple files\n\nFrom: https://discuss.streamlit.io/t/issue-with-file-uploader-and-streamlit-version-0-84-0/14812\n\n---\n\nHi everyone,\n\nI'm new here. First of all thank you really much for your great work in this forum. It helped me out multiple times. But now I encountered an issue where I couldn't find a thread on, yet.\n\nWith the latest version (0.84.0) I'm experiencing a problem with the file_uploader widget.\n\nIn the prior version (0.82.0) it was very handy, for my case, to select one file after another and drag&drop it to the widget. With the latest version this doesn't seems possible anymore. When one or more files were uploaded the next file/s draged and droped to the widget are not accessible, even though these files appear in the interactive list below the widget. \nI want to use st.session_state is the app I'm working on and for that reason the version 0.84.0 is necessary to my understanding.\n\nIn order for you to reproduce the situation I made up this example:\n\n```\nimport streamlit as st\n\nuploaded_files = st.file_uploader('Select files',type=['txt'],accept_multiple_files=True)\nfile_lst = [uploaded_file.name for uploaded_file in uploaded_files]\nst.write(file_lst)\n```\n\nAssuming I want to upload the two files test1.txt and test2.txt one after another. For the first file (test1.txt) the behavior is as expected and equivalent for both versions:\n\n[IMAGE OMITTED: not inspected]",
+      "candidate_key": "19553d03fc888514f0f31f262af99062d63dba0858e1fedd39612697cf697078"
+    },
+    {
+      "source_id": "issue:897",
+      "revision": "2020-12-09T21:06:02Z",
+      "product_version": null,
+      "source_span": [
+        37,
+        3203
+      ],
+      "lines": [
+        3,
+        77
+      ],
+      "title": "File_uploader widget is problematic",
+      "section": "File_uploader widget is problematic > Summary",
+      "text": "# Summary\n\nI tried to make an example answer for [Discourse 1445](https://discuss.streamlit.io/t/uploading-multiple-files-with-file-uploader/1445) but found out its difficult to use the file_uploader widget as soon as its part of an interactive application where the user may wish to upload multiple files,  interact with several widgets after file upload or clear the cache.\n\n- You can only upload one file at the time.\n- You get no additional information on the file like name, size, upload time, type etc. So you\ncannot distinguish the files without reading the content. The python object id changes for each script rerun so you cannot use that either.\n- every time you interact with any widget, the script is rerun and you risk processing or storing\nthe file again!\n- The file uploader widget is not cleared when you clear the cache and there is no way to clear the\nfile uploader widget programmatically.\n\nSee also https://discuss.streamlit.io/t/awesome-streamlit-org-change-log/1414/7?u=marc\n\n```\n# pylint: disable=line-too-long\n\"\"\"This is example shows how to **upload multiple files** via the\n[File Uploader Widget](https://streamlit.io/docs/api.html?highlight=file%20upload#streamlit.file_uploader)\n\nAs far as I can see you can only upload one file at a time. So if you need multiple files in your\napp, you need to store them in a static List or Dictionary. Alternatively they should be uploaded\nas one .zip file.\n\nPlease note that file uploader is a **bit problematic** because\n- You can only upload one file at the time.\n- You get no additional information on the file like name, size, upload time, type etc. So you\ncannot distinguish the files without reading the content.\n- every time you interact with any widget, the script is rerun and you risk processing or storing\nthe file again!\n- The file uploader widget is not cleared when you clear the cache and there is no way to clear the\nfile uploader widget programmatically.\n\nThis example was based on\n[Discourse 1445](https://discuss.streamlit.io/t/uploading-multiple-files-with-file-uploader/1445)\n\"\"\"\n# pylint: enable=line-too-long\nfrom typing import Dict\n\nimport streamlit as st\n\n\n@st.cache(allow_output_mutation=True)\ndef get_static_store() -> Dict:\n    \"\"\"This dictionary is initialized once and can be used to store the files uploaded\"\"\"\n    return {}\n\n\ndef main():\n    \"\"\"Run this function to run the app\"\"\"\n    static_store = get_static_store()\n\n    st.info(__doc__)\n    result = st.file_uploader(\"Upload\", type=\"py\")\n    if result:\n        # Process you file here\n        value = result.getvalue()\n\n        # And add it to the static_store if not already in\n        if not value in static_store.values():\n            static_store[result] = value\n    else:\n        static_store.clear()  # Hack to clear list if the user clears the cache and reloads the page\n        st.info(\"Upload one or more `.py` files.\")\n\n    if st.button(\"Clear file list\"):\n        static_store.clear()\n    if st.checkbox(\"Show file list?\", True):\n        st.write(list(static_store.keys()))\n    if st.checkbox(\"Show content of files?\"):\n        for value in static_store.values():\n            st.code(value)\n\n\nmain()\n```\n",
+      "candidate_key": "1cf4db7693e7291ae4a6d00c39b2dfb042367ea061930cfbd683d9de8d6715af"
+    },
+    {
+      "source_id": "issue:3401",
+      "revision": "2026-06-05T15:24:13Z",
+      "product_version": null,
+      "source_span": [
+        0,
+        845
+      ],
+      "lines": [
+        1,
+        26
+      ],
+      "title": "file_uploader limit number of uploaded files",
+      "section": "file_uploader limit number of uploaded files",
+      "text": "file_uploader limit number of uploaded files\n\nwith `st.file_uploader(accept_multiple_files=True)`\nI can limit the **size** of files but not **number of files**.\n\n### Problem\nSome people spam upload which crashes app. (Because the file upload size limit is per file)\n\n### Solution\nst.file_uploader(accept_multiple_files=True, max_number_files=50)\n\n### Additional context\nWould be nice to also support a hard limit in config.\n```toml\n# Max size, in megabytes, for files uploaded with the file_uploader.\n# Default: 200\nmaxUploadSize = 200\nmaxNumberFiles = 100\n```\n\n---\n\nCommunity voting on feature requests enables the Streamlit team to understand which features are most important to our users.\n\n**If you'd like the Streamlit team to prioritize this feature request, please use the 👍 (thumbs up emoji) reaction in response to the initial post.**\n\n",
+      "candidate_key": "1eae0671ac3f116d324de1240861db8376ccedaea21ad90392e440ca3d944484"
+    },
+    {
+      "source_id": "issue:896",
+      "revision": "2020-10-08T18:59:27Z",
+      "product_version": null,
+      "source_span": [
+        489,
+        1378
+      ],
+      "lines": [
+        11,
+        50
+      ],
+      "title": "Enable file_uploader widget to provide information on file name and/ or type",
+      "section": "Enable file_uploader widget to provide information on file name and/ or type > Additional context",
+      "text": "### Additional context\n\nI experienced this problem when developing the file_uploader example for awesome-streamlit.org.\n\n[IMAGE OMITTED: not inspected]\n\n```python\n\"\"\"Streamlit v. 0.52 ships with a first version of a **file uploader** widget. You can find the\n**documentation**\n[here](https://streamlit.io/docs/api.html?highlight=file%20upload#streamlit.file_uploader).\n\nFor reference I've implemented an example of file upload here. It's available in the gallery at\n[awesome-streamlit.org](https://awesome-streamlit.org).\n\"\"\"\nfrom enum import Enum\nfrom io import BytesIO, StringIO\nfrom typing import Union\n\nimport pandas as pd\nimport streamlit as st\n\nSTYLE = \"\"\"\n<style>\nimg {\n    max-width: 100%;\n}\n</style>\n\"\"\"\n\nFILE_TYPES = [\"csv\", \"py\", \"png\", \"jpg\"]\n\n\nclass FileType(Enum):\n    \"\"\"Used to distinguish between file types\"\"\"\n\n    IMAGE = \"Image\"\n    CSV = \"csv\"\n    PYTHON = \"Python\"\n\n\n",
+      "candidate_key": "26fc958b85e0f9d452af462290a98a31f5ab3926e36e5f69ca74fc0c1edfbd49"
+    },
+    {
+      "source_id": "issue:11259",
+      "revision": "2025-05-07T00:02:46Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        17,
+        25
+      ],
+      "title": "Issue with st.file_uploader for txt files on the latest version of streamlit (1.45.00)",
+      "section": "Reproducible Code Example",
+      "text": "### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n# File uploader allows user to add file\nst.subheader('Step 1: Upload File')\nuploaded_file = st.file_uploader('Choose a text file', type='txt')\n```",
+      "candidate_key": "2e332cebfbfe68c563f23444f5b48cb3fd51ab369c39aeaae6835a3cc81c1ef5"
+    },
+    {
+      "source_id": "issue:3531",
+      "revision": "2021-07-19T21:40:55Z",
+      "product_version": null,
+      "source_span": [
+        0,
+        1978
+      ],
+      "lines": [
+        1,
+        39
+      ],
+      "title": "File uploader does not return multiple files",
+      "section": "File uploader does not return multiple files",
+      "text": "File uploader does not return multiple files\n\nFrom: https://discuss.streamlit.io/t/issue-with-file-uploader-and-streamlit-version-0-84-0/14812\n\n---\n\nHi everyone,\n\nI'm new here. First of all thank you really much for your great work in this forum. It helped me out multiple times. But now I encountered an issue where I couldn't find a thread on, yet.\n\nWith the latest version (0.84.0) I'm experiencing a problem with the file_uploader widget.\n\nIn the prior version (0.82.0) it was very handy, for my case, to select one file after another and drag&drop it to the widget. With the latest version this doesn't seems possible anymore. When one or more files were uploaded the next file/s draged and droped to the widget are not accessible, even though these files appear in the interactive list below the widget. \nI want to use st.session_state is the app I'm working on and for that reason the version 0.84.0 is necessary to my understanding.\n\nIn order for you to reproduce the situation I made up this example:\n\n```\nimport streamlit as st\n\nuploaded_files = st.file_uploader('Select files',type=['txt'],accept_multiple_files=True)\nfile_lst = [uploaded_file.name for uploaded_file in uploaded_files]\nst.write(file_lst)\n```\n\nAssuming I want to upload the two files test1.txt and test2.txt one after another. For the first file (test1.txt) the behavior is as expected and equivalent for both versions:\n\n[IMAGE OMITTED: not inspected]\n\nThen later I want to upload another file in this case test2.txt. \nThe expected behavior can be seen with version 0.82.0. Both files are shown in the interactive list below the widget as well as in the written file_lst.\n\n[IMAGE OMITTED: not inspected]\n\nWith version 0.84.0 only the interactive list below the widget shows both files. The written file_lst shows only test1.txt.\n\n[IMAGE OMITTED: not inspected]\n\nAnyone had a similar issue? I apologize, if the solution is obvious, but I got stuck with it and can't figure out, how to solve the issue.\n",
+      "candidate_key": "30409bacb28985fdaabab365cfd2027eacf98e6b92220495092d34973e0359fd"
+    },
+    {
+      "source_id": "api:file_uploader",
+      "revision": "1.49.0",
+      "product_version": "1.49.0",
+      "source_span": null,
+      "lines": [
+        120,
+        174
+      ],
+      "title": "file_uploader API docstrings 1.49.0",
+      "section": "file_uploader (line 252)",
+      "text": "    The ``UploadedFile`` class is a subclass of ``BytesIO``, and\n    therefore is \"file-like\". This means you can pass an instance of it\n    anywhere a file is expected.\n\nExamples\n--------\n**Example 1: Accept a single file at a time**\n\n>>> import streamlit as st\n>>> import pandas as pd\n>>> from io import StringIO\n>>>\n>>> uploaded_file = st.file_uploader(\"Choose a file\")\n>>> if uploaded_file is not None:\n...     # To read file as bytes:\n...     bytes_data = uploaded_file.getvalue()\n...     st.write(bytes_data)\n>>>\n...     # To convert to a string based IO:\n...     stringio = StringIO(uploaded_file.getvalue().decode(\"utf-8\"))\n...     st.write(stringio)\n>>>\n...     # To read file as string:\n...     string_data = stringio.read()\n...     st.write(string_data)\n>>>\n...     # Can be used wherever a \"file-like\" object is accepted:\n...     dataframe = pd.read_csv(uploaded_file)\n...     st.write(dataframe)\n\n**Example 2: Accept multiple files at a time**\n\n>>> import pandas as pd\n>>> import streamlit as st\n>>>\n>>> uploaded_files = st.file_uploader(\n...     \"Upload data\", accept_multiple_files=True, type=\"csv\"\n... )\n>>> for uploaded_file in uploaded_files:\n...     df = pd.read_csv(uploaded_file)\n...     st.write(df)\n\n.. output::\n   https://doc-file-uploader.streamlit.app/\n   height: 375px\n\n**Example 3: Accept an entire directory**\n\n>>> import streamlit as st\n>>>\n>>> uploaded_files = st.file_uploader(\n...     \"Upload images\", accept_multiple_files=\"directory\", type=[\"jpg\", \"png\"]\n... )\n>>> for uploaded_file in uploaded_files:\n...     st.image(uploaded_file)",
+      "candidate_key": "3171ca7ec526c3bb8dfb54d48946fc7134f8fa891d02e054a93f500f38be5b12"
+    },
+    {
+      "source_id": "issue:897",
+      "revision": "2020-12-09T21:06:02Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        15,
+        77
+      ],
+      "title": "File_uploader widget is problematic",
+      "section": "Summary",
+      "text": "See also https://discuss.streamlit.io/t/awesome-streamlit-org-change-log/1414/7?u=marc\n\n```\n# pylint: disable=line-too-long\n\"\"\"This is example shows how to **upload multiple files** via the\n[File Uploader Widget](https://streamlit.io/docs/api.html?highlight=file%20upload#streamlit.file_uploader)\n\nAs far as I can see you can only upload one file at a time. So if you need multiple files in your\napp, you need to store them in a static List or Dictionary. Alternatively they should be uploaded\nas one .zip file.\n\nPlease note that file uploader is a **bit problematic** because\n- You can only upload one file at the time.\n- You get no additional information on the file like name, size, upload time, type etc. So you\ncannot distinguish the files without reading the content.\n- every time you interact with any widget, the script is rerun and you risk processing or storing\nthe file again!\n- The file uploader widget is not cleared when you clear the cache and there is no way to clear the\nfile uploader widget programmatically.\n\nThis example was based on\n[Discourse 1445](https://discuss.streamlit.io/t/uploading-multiple-files-with-file-uploader/1445)\n\"\"\"\n# pylint: enable=line-too-long\nfrom typing import Dict\n\nimport streamlit as st\n\n\n@st.cache(allow_output_mutation=True)\ndef get_static_store() -> Dict:\n    \"\"\"This dictionary is initialized once and can be used to store the files uploaded\"\"\"\n    return {}\n\n\ndef main():\n    \"\"\"Run this function to run the app\"\"\"\n    static_store = get_static_store()\n\n    st.info(__doc__)\n    result = st.file_uploader(\"Upload\", type=\"py\")\n    if result:\n        # Process you file here\n        value = result.getvalue()\n\n        # And add it to the static_store if not already in\n        if not value in static_store.values():\n            static_store[result] = value\n    else:\n        static_store.clear()  # Hack to clear list if the user clears the cache and reloads the page\n        st.info(\"Upload one or more `.py` files.\")\n\n    if st.button(\"Clear file list\"):\n        static_store.clear()\n    if st.checkbox(\"Show file list?\", True):\n        st.write(list(static_store.keys()))\n    if st.checkbox(\"Show content of files?\"):\n        for value in static_store.values():\n            st.code(value)\n\n\nmain()\n```",
+      "candidate_key": "473270c6e40429490469c72b0258be8204c98150ef6366f9a4ecbda96c170d12"
+    },
+    {
+      "source_id": "issue:3531",
+      "revision": "2021-07-19T21:40:55Z",
+      "product_version": null,
+      "source_span": [
+        0,
+        1220
+      ],
+      "lines": [
+        1,
+        24
+      ],
+      "title": "File uploader does not return multiple files",
+      "section": "File uploader does not return multiple files",
+      "text": "File uploader does not return multiple files\n\nFrom: https://discuss.streamlit.io/t/issue-with-file-uploader-and-streamlit-version-0-84-0/14812\n\n---\n\nHi everyone,\n\nI'm new here. First of all thank you really much for your great work in this forum. It helped me out multiple times. But now I encountered an issue where I couldn't find a thread on, yet.\n\nWith the latest version (0.84.0) I'm experiencing a problem with the file_uploader widget.\n\nIn the prior version (0.82.0) it was very handy, for my case, to select one file after another and drag&drop it to the widget. With the latest version this doesn't seems possible anymore. When one or more files were uploaded the next file/s draged and droped to the widget are not accessible, even though these files appear in the interactive list below the widget. \nI want to use st.session_state is the app I'm working on and for that reason the version 0.84.0 is necessary to my understanding.\n\nIn order for you to reproduce the situation I made up this example:\n\n```\nimport streamlit as st\n\nuploaded_files = st.file_uploader('Select files',type=['txt'],accept_multiple_files=True)\nfile_lst = [uploaded_file.name for uploaded_file in uploaded_files]\nst.write(file_lst)\n```\n",
+      "candidate_key": "5f98b9f909a2f7585de5243e7fe43779a5209a1059d4ff2bef10637017a5407a"
+    },
+    {
+      "source_id": "api:file_uploader",
+      "revision": "1.49.0",
+      "product_version": "1.49.0",
+      "source_span": [
+        5176,
+        6279
+      ],
+      "lines": [
+        128,
+        166
+      ],
+      "title": "file_uploader API docstrings 1.49.0",
+      "section": "file_uploader API docstrings 1.49.0 > file_uploader (line 252)",
+      "text": ">>> import streamlit as st\n>>> import pandas as pd\n>>> from io import StringIO\n>>>\n>>> uploaded_file = st.file_uploader(\"Choose a file\")\n>>> if uploaded_file is not None:\n...     # To read file as bytes:\n...     bytes_data = uploaded_file.getvalue()\n...     st.write(bytes_data)\n>>>\n...     # To convert to a string based IO:\n...     stringio = StringIO(uploaded_file.getvalue().decode(\"utf-8\"))\n...     st.write(stringio)\n>>>\n...     # To read file as string:\n...     string_data = stringio.read()\n...     st.write(string_data)\n>>>\n...     # Can be used wherever a \"file-like\" object is accepted:\n...     dataframe = pd.read_csv(uploaded_file)\n...     st.write(dataframe)\n\n**Example 2: Accept multiple files at a time**\n\n>>> import pandas as pd\n>>> import streamlit as st\n>>>\n>>> uploaded_files = st.file_uploader(\n...     \"Upload data\", accept_multiple_files=True, type=\"csv\"\n... )\n>>> for uploaded_file in uploaded_files:\n...     df = pd.read_csv(uploaded_file)\n...     st.write(df)\n\n.. output::\n   https://doc-file-uploader.streamlit.app/\n   height: 375px\n\n**Example 3: Accept an entire directory**\n",
+      "candidate_key": "7a2d82c4d04e1b3eb045e953e3a9c1f14ee281e0a0430124a35d412730c31a0b"
+    },
+    {
+      "source_id": "issue:5938",
+      "revision": "2024-04-11T10:38:04Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        87,
+        89
+      ],
+      "title": "\"ValueError: Value out of range\" when uploading large files (~>= 4.5GB) with `st.file_uploader`",
+      "section": "Additional Information",
+      "text": "### Additional Information\n\nFirst reported by [USER] in https://discuss.streamlit.io/t/how-to-upload-large-files-using-st-file-uploader/35654 ",
+      "candidate_key": "9504b58a42eef8f9b29737b0dabe5c799930c84c67d9d9fb98e6135a507c93ea"
+    },
+    {
+      "source_id": "issue:11259",
+      "revision": "2025-05-07T00:02:46Z",
+      "product_version": null,
+      "source_span": [
+        690,
+        902
+      ],
+      "lines": [
+        17,
+        25
+      ],
+      "title": "Issue with st.file_uploader for txt files on the latest version of streamlit (1.45.00)",
+      "section": "Issue with st.file_uploader for txt files on the latest version of streamlit (1.45.00) > Reproducible Code Example",
+      "text": "### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n# File uploader allows user to add file\nst.subheader('Step 1: Upload File')\nuploaded_file = st.file_uploader('Choose a text file', type='txt')\n```\n",
+      "candidate_key": "989f20d988ecbe118776318ccbf4e39e3351c59be02dc8b6e3ffe86f9f4cec95"
+    },
+    {
+      "source_id": "docs:where-file-uploader-store-when-deleted",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        6,
+        21
+      ],
+      "title": "where-file-uploader-store-when-deleted",
+      "section": "Where does st.file_uploader store uploaded files and when do they get deleted?",
+      "text": "# Where does st.file_uploader store uploaded files and when do they get deleted?\n\nWhen you upload a file using [`st.file_uploader`](/develop/api-reference/widgets/st.file_uploader), the data are copied to the Streamlit backend via the browser, and contained in a BytesIO buffer in Python memory (i.e. RAM, not disk). The data will persist in RAM until the Streamlit app re-runs from top-to-bottom, which is on each widget interaction. If you need to save the data that was uploaded between runs, then you can [cache](/develop/concepts/architecture/caching) it so that Streamlit persists it across re-runs.\n\nAs files are stored in memory, they get deleted immediately as soon as they’re not needed anymore.\n\nThis means Streamlit removes a file from memory when:\n\n- The user uploads another file, replacing the original one\n- The user clears the file uploader\n- The user closes the browser tab where they uploaded the file\n\nRelated forum posts:\n\n- https://discuss.streamlit.io/t/streamlit-sharing-fileupload-where-does-it-go/9267\n- https://discuss.streamlit.io/t/how-to-update-the-uploaded-file-using-file-uploader/13512/",
+      "candidate_key": "a15feb9f5bd8332991319922de3c0a8bb8e2295f9653f8d5422d0fbf7002d41e"
+    },
+    {
+      "source_id": "api:file_uploader",
+      "revision": "1.49.0",
+      "product_version": "1.49.0",
+      "source_span": [
+        1264,
+        2280
+      ],
+      "lines": [
+        32,
+        54
+      ],
+      "title": "file_uploader API docstrings 1.49.0",
+      "section": "file_uploader API docstrings 1.49.0 > file_uploader (line 252)",
+      "text": "    .. |st.markdown| replace:: ``st.markdown``\n    .. _st.markdown: https://docs.streamlit.io/develop/api-reference/text/st.markdown\n\ntype : str, list of str, or None\n    The allowed file extension(s) for uploaded files. This can be one\n    of the following types:\n\n    - ``None`` (default): All file extensions are allowed.\n    - A string: A single file extension is allowed. For example, to\n      only accept CSV files, use ``\"csv\"``.\n    - A sequence of strings: Multiple file extensions are allowed. For\n      example, to only accept JPG/JPEG and PNG files, use\n      ``[\"jpg\", \"jpeg\", \"png\"]``.\n\n    .. note::\n        This is a best-effort check, but doesn't provide a\n        security guarantee against users uploading files of other types\n        or type extensions. The correct handling of uploaded files is\n        part of the app developer's responsibility.\n\naccept_multiple_files : bool or \"directory\"\n    Whether to accept more than one file in a submission. This can be one\n    of the following values:\n",
+      "candidate_key": "b3cd30a176b7f2160d4986e0686268aa527708c457f23559cd52e39e63a879fe"
+    },
+    {
+      "source_id": "issue:912",
+      "revision": "2020-12-15T11:59:45Z",
+      "product_version": null,
+      "source_span": [
+        0,
+        132
+      ],
+      "lines": [
+        1,
+        4
+      ],
+      "title": "can file_uploader upload multi files at one time?",
+      "section": "can file_uploader upload multi files at one time?",
+      "text": "can file_uploader upload multi files at one time?\n\nI want to upload several file at one time, can streamlit file_uploader do this?\n\n",
+      "candidate_key": "b5500edac48c9fe99948b54ea65105a17cf6dc332a82ad809ce8463e7cc0f2c4"
+    },
+    {
+      "source_id": "issue:912",
+      "revision": "2020-12-15T11:59:45Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        1,
+        3
+      ],
+      "title": "can file_uploader upload multi files at one time?",
+      "section": "can file_uploader upload multi files at one time?",
+      "text": "can file_uploader upload multi files at one time?\n\nI want to upload several file at one time, can streamlit file_uploader do this?",
+      "candidate_key": "b86626e00cc9ba1f6c2c8f23963fec27f610ea964e731bf9cc4d6f22fcdac612"
+    },
+    {
+      "source_id": "api:file_uploader",
+      "revision": "1.49.0",
+      "product_version": "1.49.0",
+      "source_span": null,
+      "lines": [
+        168,
+        178
+      ],
+      "title": "file_uploader API docstrings 1.49.0",
+      "section": "file_uploader (line 252)",
+      "text": ">>> import streamlit as st\n>>>\n>>> uploaded_files = st.file_uploader(\n...     \"Upload images\", accept_multiple_files=\"directory\", type=[\"jpg\", \"png\"]\n... )\n>>> for uploaded_file in uploaded_files:\n...     st.image(uploaded_file)\n\n.. output::\n   https://doc-file-uploader-directory.streamlit.app/\n   height: 375px",
+      "candidate_key": "db7170afe845f0dbdbd4b5d02c89d78372dab7d74da2dffa53f9a4d7a25def62"
+    },
+    {
+      "source_id": "issue:897",
+      "revision": "2020-12-09T21:06:02Z",
+      "product_version": null,
+      "source_span": [
+        1035,
+        2222
+      ],
+      "lines": [
+        17,
+        44
+      ],
+      "title": "File_uploader widget is problematic",
+      "section": "File_uploader widget is problematic > Summary",
+      "text": "```\n# pylint: disable=line-too-long\n\"\"\"This is example shows how to **upload multiple files** via the\n[File Uploader Widget](https://streamlit.io/docs/api.html?highlight=file%20upload#streamlit.file_uploader)\n\nAs far as I can see you can only upload one file at a time. So if you need multiple files in your\napp, you need to store them in a static List or Dictionary. Alternatively they should be uploaded\nas one .zip file.\n\nPlease note that file uploader is a **bit problematic** because\n- You can only upload one file at the time.\n- You get no additional information on the file like name, size, upload time, type etc. So you\ncannot distinguish the files without reading the content.\n- every time you interact with any widget, the script is rerun and you risk processing or storing\nthe file again!\n- The file uploader widget is not cleared when you clear the cache and there is no way to clear the\nfile uploader widget programmatically.\n\nThis example was based on\n[Discourse 1445](https://discuss.streamlit.io/t/uploading-multiple-files-with-file-uploader/1445)\n\"\"\"\n# pylint: enable=line-too-long\nfrom typing import Dict\n\nimport streamlit as st\n\n\n@st.cache(allow_output_mutation=True)\n",
+      "candidate_key": "db9f7748bf5b9c94b409f094b0ca370e105f31c01a3ea5068f2d29dd7c580554"
+    }
+  ],
+  "instructions": "Judge actual exact text relevance 0=irrelevant,1=topic only,2=useful partial,3=direct needed evidence; null=unjudged. Do not infer relevance from official source status. Record origin."
+}

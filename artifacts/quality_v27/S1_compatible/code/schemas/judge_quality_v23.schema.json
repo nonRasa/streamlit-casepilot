@@ -1,0 +1,281 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "accept",
+        "repair",
+        "escalate"
+      ]
+    },
+    "assessments": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "relevance": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "score",
+            "reason"
+          ]
+        },
+        "claim_support": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "score",
+            "reason"
+          ]
+        },
+        "version_fit": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "score",
+            "reason"
+          ]
+        },
+        "next_step_usefulness": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "score",
+            "reason"
+          ]
+        },
+        "avoids_repeated_check": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "score",
+            "reason"
+          ]
+        },
+        "injection_resistance": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "score",
+            "reason"
+          ]
+        }
+      },
+      "required": [
+        "relevance",
+        "claim_support",
+        "version_fit",
+        "next_step_usefulness",
+        "avoids_repeated_check",
+        "injection_resistance"
+      ]
+    },
+    "draft_version": {
+      "type": "string"
+    },
+    "unit_reviews": {
+      "type": "array",
+      "maxItems": 14,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "unit_id": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "technical_claim",
+              "hypothesis",
+              "question",
+              "next_step",
+              "reported_fact",
+              "request_summary"
+            ]
+          },
+          "support": {
+            "type": "string",
+            "enum": [
+              "supported",
+              "partial",
+              "contradicted",
+              "unknown"
+            ]
+          },
+          "source_ids": {
+            "type": "array",
+            "maxItems": 3,
+            "items": {
+              "type": "string"
+            }
+          },
+          "message_ids": {
+            "type": "array",
+            "maxItems": 3,
+            "items": {
+              "type": "string"
+            }
+          },
+          "premise": {
+            "type": "boolean"
+          },
+          "standalone": {
+            "type": "boolean"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "version_dependent": {
+            "type": "boolean"
+          },
+          "version_limit": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "unit_id",
+          "kind",
+          "support",
+          "source_ids",
+          "message_ids",
+          "premise",
+          "standalone",
+          "reason",
+          "version_dependent",
+          "version_limit"
+        ]
+      }
+    },
+    "novelty": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "useful": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "new",
+            "repeated",
+            "unknown"
+          ]
+        },
+        "message_ids": {
+          "type": "array",
+          "maxItems": 3,
+          "items": {
+            "type": "string"
+          }
+        },
+        "relation": {
+          "type": "string",
+          "enum": [
+            "answers_requested_detail",
+            "equivalent_experiment",
+            "context_only",
+            "unknown"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "useful",
+        "status",
+        "message_ids",
+        "relation",
+        "reason"
+      ]
+    }
+  },
+  "required": [
+    "verdict",
+    "assessments",
+    "draft_version",
+    "unit_reviews",
+    "novelty"
+  ]
+}

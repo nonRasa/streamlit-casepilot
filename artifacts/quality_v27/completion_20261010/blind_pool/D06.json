@@ -1,0 +1,273 @@
+{
+  "id": "D06",
+  "report": "How can I batch multiple widget inputs using st.form and submit them together? I have not supplied a product version.",
+  "product_version": null,
+  "candidates": [
+    {
+      "source_id": "docs:get-started",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        222,
+        236
+      ],
+      "title": "get-started",
+      "section": "Retrieve widgets by key",
+      "text": "#### Retrieve widgets by key\n\nYou can retrieve keyed widgets by their keys instead of their order on the page. The key of the widget is passed as either an arg or kwarg. For example, look at this app and the following (true) assertions:\n\n```python\nimport streamlit as st\n\nst.button(\"Next\", key=\"submit\")\nst.button(\"Back\", key=\"cancel\")\n```\n\n```python\nassert at.button(key=\"submit\").label == \"Next\"\nassert at.button(\"cancel\").label == \"Back\"\n```",
+      "candidate_key": "0bc67b6425490218bf9fadce22d7750b4c84075d08b7387419af95581a8efb5e"
+    },
+    {
+      "source_id": "issue:12629",
+      "revision": "2026-05-01T20:15:34Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        112,
+        121
+      ],
+      "title": "Regression (1.50.0): widget value no longer updates when dependent on another widget",
+      "section": "Additional Information",
+      "text": "Now, I cannot realize my use-case now in the new scheme of things.\nPlease educate me on how to handle this scenario.\nThanks!\n\n**UPDATE**\nI worked around the issue after a lot of headache.\n1. I created a \"_twin\" session state that mirrors the session_state value of the widget. I created a wrapper over the selectbox function to create and maintain this _twin variable\n2. The _twin variable enables me to tell whether the current streamlit run was triggered due to a change in the widget (or) due to change of something else. The same is reported as an additional return value from the selectbox() wrapper.\n3. I save the change variables of important selectboxes I care about for a particular widget\n4. Using the \"change\" state and the \"_twin\" state --> I decide to write or not to write into st.session_state variable of the widget before rendering the widget.",
+      "candidate_key": "14747e7998452a2bbe7f015d34c4f42819b1011d52d8ec16d8b3b7f9e7b8c8ac"
+    },
+    {
+      "source_id": "issue:3531",
+      "revision": "2021-07-19T21:40:55Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        1,
+        28
+      ],
+      "title": "File uploader does not return multiple files",
+      "section": "File uploader does not return multiple files",
+      "text": "File uploader does not return multiple files\n\nFrom: https://discuss.streamlit.io/t/issue-with-file-uploader-and-streamlit-version-0-84-0/14812\n\n---\n\nHi everyone,\n\nI'm new here. First of all thank you really much for your great work in this forum. It helped me out multiple times. But now I encountered an issue where I couldn't find a thread on, yet.\n\nWith the latest version (0.84.0) I'm experiencing a problem with the file_uploader widget.\n\nIn the prior version (0.82.0) it was very handy, for my case, to select one file after another and drag&drop it to the widget. With the latest version this doesn't seems possible anymore. When one or more files were uploaded the next file/s draged and droped to the widget are not accessible, even though these files appear in the interactive list below the widget. \nI want to use st.session_state is the app I'm working on and for that reason the version 0.84.0 is necessary to my understanding.\n\nIn order for you to reproduce the situation I made up this example:\n\n```\nimport streamlit as st\n\nuploaded_files = st.file_uploader('Select files',type=['txt'],accept_multiple_files=True)\nfile_lst = [uploaded_file.name for uploaded_file in uploaded_files]\nst.write(file_lst)\n```\n\nAssuming I want to upload the two files test1.txt and test2.txt one after another. For the first file (test1.txt) the behavior is as expected and equivalent for both versions:\n\n[IMAGE OMITTED: not inspected]",
+      "candidate_key": "19553d03fc888514f0f31f262af99062d63dba0858e1fedd39612697cf697078"
+    },
+    {
+      "source_id": "docs:widget-behavior",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        13414,
+        14690
+      ],
+      "lines": [
+        198,
+        226
+      ],
+      "title": "widget-behavior",
+      "section": "widget-behavior > Understanding widget behavior > Statefulness of widgets > Widgets do not persist when not continually rendered > Save widget values in Session State to preserve them between pages",
+      "text": "#### Save widget values in Session State to preserve them between pages\n\nIf you want to navigate away from a widget and return to it while keeping its value, use a separate key in `st.session_state` to save the information independently from the widget. This technique is also recommended to carry a widget's state to a new instance on another page. In this example, an underscore-prefixed, temporary key is used with a widget. Hence, `\"_my_key\"` is used as the widget key, but the data is copied to `\"my_key\"` to preserve it between pages.\n\n```python\nimport streamlit as st\n\ndef store_value():\n    # Copy the value to the permanent key\n    st.session_state[\"my_key\"] = st.session_state[\"_my_key\"]\n\n# Copy the saved value to the temporary key\nst.session_state[\"_my_key\"] = st.session_state[\"my_key\"]\nst.number_input(\"Number of filters\", key=\"_my_key\", on_change=store_value)\n```\n\nIf this is functionalized to work with multiple widgets, it could look something like this:\n\n```python\nimport streamlit as st\n\ndef store_value(key):\n    st.session_state[key] = st.session_state[\"_\"+key]\ndef load_value(key):\n    st.session_state[\"_\"+key] = st.session_state[key]\n\nload_value(\"my_key\")\nst.number_input(\"Number of filters\", key=\"_my_key\", on_change=store_value, args=[\"my_key\"])\n```\n",
+      "candidate_key": "1bf1ca44ab11df81c8f18df8932993a6ceb83c44ee48c32895ca8350a943cf73"
+    },
+    {
+      "source_id": "issue:897",
+      "revision": "2020-12-09T21:06:02Z",
+      "product_version": null,
+      "source_span": [
+        37,
+        3203
+      ],
+      "lines": [
+        3,
+        77
+      ],
+      "title": "File_uploader widget is problematic",
+      "section": "File_uploader widget is problematic > Summary",
+      "text": "# Summary\n\nI tried to make an example answer for [Discourse 1445](https://discuss.streamlit.io/t/uploading-multiple-files-with-file-uploader/1445) but found out its difficult to use the file_uploader widget as soon as its part of an interactive application where the user may wish to upload multiple files,  interact with several widgets after file upload or clear the cache.\n\n- You can only upload one file at the time.\n- You get no additional information on the file like name, size, upload time, type etc. So you\ncannot distinguish the files without reading the content. The python object id changes for each script rerun so you cannot use that either.\n- every time you interact with any widget, the script is rerun and you risk processing or storing\nthe file again!\n- The file uploader widget is not cleared when you clear the cache and there is no way to clear the\nfile uploader widget programmatically.\n\nSee also https://discuss.streamlit.io/t/awesome-streamlit-org-change-log/1414/7?u=marc\n\n```\n# pylint: disable=line-too-long\n\"\"\"This is example shows how to **upload multiple files** via the\n[File Uploader Widget](https://streamlit.io/docs/api.html?highlight=file%20upload#streamlit.file_uploader)\n\nAs far as I can see you can only upload one file at a time. So if you need multiple files in your\napp, you need to store them in a static List or Dictionary. Alternatively they should be uploaded\nas one .zip file.\n\nPlease note that file uploader is a **bit problematic** because\n- You can only upload one file at the time.\n- You get no additional information on the file like name, size, upload time, type etc. So you\ncannot distinguish the files without reading the content.\n- every time you interact with any widget, the script is rerun and you risk processing or storing\nthe file again!\n- The file uploader widget is not cleared when you clear the cache and there is no way to clear the\nfile uploader widget programmatically.\n\nThis example was based on\n[Discourse 1445](https://discuss.streamlit.io/t/uploading-multiple-files-with-file-uploader/1445)\n\"\"\"\n# pylint: enable=line-too-long\nfrom typing import Dict\n\nimport streamlit as st\n\n\n@st.cache(allow_output_mutation=True)\ndef get_static_store() -> Dict:\n    \"\"\"This dictionary is initialized once and can be used to store the files uploaded\"\"\"\n    return {}\n\n\ndef main():\n    \"\"\"Run this function to run the app\"\"\"\n    static_store = get_static_store()\n\n    st.info(__doc__)\n    result = st.file_uploader(\"Upload\", type=\"py\")\n    if result:\n        # Process you file here\n        value = result.getvalue()\n\n        # And add it to the static_store if not already in\n        if not value in static_store.values():\n            static_store[result] = value\n    else:\n        static_store.clear()  # Hack to clear list if the user clears the cache and reloads the page\n        st.info(\"Upload one or more `.py` files.\")\n\n    if st.button(\"Clear file list\"):\n        static_store.clear()\n    if st.checkbox(\"Show file list?\", True):\n        st.write(list(static_store.keys()))\n    if st.checkbox(\"Show content of files?\"):\n        for value in static_store.values():\n            st.code(value)\n\n\nmain()\n```\n",
+      "candidate_key": "1cf4db7693e7291ae4a6d00c39b2dfb042367ea061930cfbd683d9de8d6715af"
+    },
+    {
+      "source_id": "docs:forms",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        403,
+        715
+      ],
+      "lines": [
+        8,
+        10
+      ],
+      "title": "forms",
+      "section": "forms > Using forms",
+      "text": "# Using forms\n\nWhen you don't want to rerun your script with each input made by a user, [`st.form`](/develop/api-reference/execution-flow/st.form) is here to help! Forms make it easy to batch user input into a single rerun. This guide to using forms provides examples and explains how users interact with forms.\n",
+      "candidate_key": "3486c3c2d83d6b52b0805c3593a13c7471240781ab85192afd551ebd6910e8f1"
+    },
+    {
+      "source_id": "docs:forms",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        8,
+        10
+      ],
+      "title": "forms",
+      "section": "Using forms",
+      "text": "# Using forms\n\nWhen you don't want to rerun your script with each input made by a user, [`st.form`](/develop/api-reference/execution-flow/st.form) is here to help! Forms make it easy to batch user input into a single rerun. This guide to using forms provides examples and explains how users interact with forms.",
+      "candidate_key": "3ddbb7108169a56c47143b0a9a17a149537f26a755f31c5db9266c40c30faea3"
+    },
+    {
+      "source_id": "issue:5813",
+      "revision": "2026-07-22T07:33:36Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        63,
+        67
+      ],
+      "title": "Preserve widget state when a widget disappears from the page (demoed via Multipage Apps)",
+      "section": "Are you willing to submit a PR?",
+      "text": "### Are you willing to submit a PR?\n\n- [ ] Yes, I am willing to submit a PR!\n\n[IMAGE OMITTED: not inspected]",
+      "candidate_key": "5964277f99900e73638f461bf9a34bc62d3dcbbeb644e8be0fabbce1a979dcc0"
+    },
+    {
+      "source_id": "issue:3531",
+      "revision": "2021-07-19T21:40:55Z",
+      "product_version": null,
+      "source_span": [
+        0,
+        1220
+      ],
+      "lines": [
+        1,
+        24
+      ],
+      "title": "File uploader does not return multiple files",
+      "section": "File uploader does not return multiple files",
+      "text": "File uploader does not return multiple files\n\nFrom: https://discuss.streamlit.io/t/issue-with-file-uploader-and-streamlit-version-0-84-0/14812\n\n---\n\nHi everyone,\n\nI'm new here. First of all thank you really much for your great work in this forum. It helped me out multiple times. But now I encountered an issue where I couldn't find a thread on, yet.\n\nWith the latest version (0.84.0) I'm experiencing a problem with the file_uploader widget.\n\nIn the prior version (0.82.0) it was very handy, for my case, to select one file after another and drag&drop it to the widget. With the latest version this doesn't seems possible anymore. When one or more files were uploaded the next file/s draged and droped to the widget are not accessible, even though these files appear in the interactive list below the widget. \nI want to use st.session_state is the app I'm working on and for that reason the version 0.84.0 is necessary to my understanding.\n\nIn order for you to reproduce the situation I made up this example:\n\n```\nimport streamlit as st\n\nuploaded_files = st.file_uploader('Select files',type=['txt'],accept_multiple_files=True)\nfile_lst = [uploaded_file.name for uploaded_file in uploaded_files]\nst.write(file_lst)\n```\n",
+      "candidate_key": "5f98b9f909a2f7585de5243e7fe43779a5209a1059d4ff2bef10637017a5407a"
+    },
+    {
+      "source_id": "docs:forms",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        3886,
+        4434
+      ],
+      "lines": [
+        82,
+        100
+      ],
+      "title": "forms",
+      "section": "forms > Using forms > Widget values",
+      "text": "## Widget values\n\nBefore a form is submitted, all widgets within that form will have default values, just like widgets outside of a form have default values.\n\n```python\nimport streamlit as st\n\nwith st.form(\"my_form\"):\n   st.write(\"Inside the form\")\n   my_number = st.slider('Pick a number', 1, 10)\n   my_color = st.selectbox('Pick a color', ['red','orange','green','blue','violet'])\n   st.form_submit_button('Submit my picks')\n\n# This is outside the form\nst.write(my_number)\nst.write(my_color)\n```\n\n<Cloud name=\"doc-forms-default\" height=\"450px\"/>\n",
+      "candidate_key": "6865d8aef46c3911804ae70600ff979f00c958bfc6eefdea9a47d7cd9a253a77"
+    },
+    {
+      "source_id": "docs:session_state",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        3760,
+        4382
+      ],
+      "lines": [
+        135,
+        148
+      ],
+      "title": "session_state",
+      "section": "session_state > Session State > Forms and Callbacks",
+      "text": "### Forms and Callbacks\n\nWidgets inside a form can have their values be accessed and set via the Session State API. `st.form_submit_button` can have a callback associated with it. The callback gets executed upon clicking on the submit button. For example:\n\n```python\ndef form_callback():\n    st.write(st.session_state.my_slider)\n    st.write(st.session_state.my_checkbox)\n\nwith st.form(key='my_form'):\n    slider_input = st.slider('My slider', 0, 10, 5, key='my_slider')\n    checkbox_input = st.checkbox('Yes or No', key='my_checkbox')\n    submit_button = st.form_submit_button(label='Submit', on_click=form_callback)\n```\n",
+      "candidate_key": "ab1b412d2b1ea7ce1b7fe3fb27a8ec781518add8b9b03e8a8324edd7bbcae306"
+    },
+    {
+      "source_id": "docs:widget-behavior",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        9376,
+        10055
+      ],
+      "lines": [
+        118,
+        141
+      ],
+      "title": "widget-behavior",
+      "section": "widget-behavior > Understanding widget behavior > Order of operations > Using callback functions with forms",
+      "text": "### Using callback functions with forms\n\nUsing a callback function with a form requires understanding of this order of operations.\n\n```python\nimport streamlit as st\n\nif \"attendance\" not in st.session_state:\n    st.session_state.attendance = set()\n\n\ndef take_attendance():\n    if st.session_state.name in st.session_state.attendance:\n        st.info(f\"{st.session_state.name} has already been counted.\")\n    else:\n        st.session_state.attendance.add(st.session_state.name)\n\n\nwith st.form(key=\"my_form\"):\n    st.text_input(\"Name\", key=\"name\")\n    st.form_submit_button(\"I'm here!\", on_click=take_attendance)\n```\n\n<Cloud name=\"doc-guide-widgets-form-callbacks\" height=\"250px\"/>\n",
+      "candidate_key": "bbed10c4b0704c252744433bbac1434bfa7407b3f419801045f1e24f71da2ed9"
+    },
+    {
+      "source_id": "docs:forms",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        82,
+        100
+      ],
+      "title": "forms",
+      "section": "Widget values",
+      "text": "## Widget values\n\nBefore a form is submitted, all widgets within that form will have default values, just like widgets outside of a form have default values.\n\n```python\nimport streamlit as st\n\nwith st.form(\"my_form\"):\n   st.write(\"Inside the form\")\n   my_number = st.slider('Pick a number', 1, 10)\n   my_color = st.selectbox('Pick a color', ['red','orange','green','blue','violet'])\n   st.form_submit_button('Submit my picks')\n\n# This is outside the form\nst.write(my_number)\nst.write(my_color)\n```\n\n<Cloud name=\"doc-forms-default\" height=\"450px\"/>",
+      "candidate_key": "d9501781d3e4df69b90d5198cb142017b7ba9f777791c74386c667e05fa5d155"
+    },
+    {
+      "source_id": "docs:session_state",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        135,
+        148
+      ],
+      "title": "session_state",
+      "section": "Forms and Callbacks",
+      "text": "### Forms and Callbacks\n\nWidgets inside a form can have their values be accessed and set via the Session State API. `st.form_submit_button` can have a callback associated with it. The callback gets executed upon clicking on the submit button. For example:\n\n```python\ndef form_callback():\n    st.write(st.session_state.my_slider)\n    st.write(st.session_state.my_checkbox)\n\nwith st.form(key='my_form'):\n    slider_input = st.slider('My slider', 0, 10, 5, key='my_slider')\n    checkbox_input = st.checkbox('Yes or No', key='my_checkbox')\n    submit_button = st.form_submit_button(label='Submit', on_click=form_callback)\n```",
+      "candidate_key": "daee925a02f19c6ce75523881d8c8aab0df4f7b79cc7eae5f2cc118d0a6654de"
+    },
+    {
+      "source_id": "issue:897",
+      "revision": "2020-12-09T21:06:02Z",
+      "product_version": null,
+      "source_span": [
+        1035,
+        2222
+      ],
+      "lines": [
+        17,
+        44
+      ],
+      "title": "File_uploader widget is problematic",
+      "section": "File_uploader widget is problematic > Summary",
+      "text": "```\n# pylint: disable=line-too-long\n\"\"\"This is example shows how to **upload multiple files** via the\n[File Uploader Widget](https://streamlit.io/docs/api.html?highlight=file%20upload#streamlit.file_uploader)\n\nAs far as I can see you can only upload one file at a time. So if you need multiple files in your\napp, you need to store them in a static List or Dictionary. Alternatively they should be uploaded\nas one .zip file.\n\nPlease note that file uploader is a **bit problematic** because\n- You can only upload one file at the time.\n- You get no additional information on the file like name, size, upload time, type etc. So you\ncannot distinguish the files without reading the content.\n- every time you interact with any widget, the script is rerun and you risk processing or storing\nthe file again!\n- The file uploader widget is not cleared when you clear the cache and there is no way to clear the\nfile uploader widget programmatically.\n\nThis example was based on\n[Discourse 1445](https://discuss.streamlit.io/t/uploading-multiple-files-with-file-uploader/1445)\n\"\"\"\n# pylint: enable=line-too-long\nfrom typing import Dict\n\nimport streamlit as st\n\n\n@st.cache(allow_output_mutation=True)\n",
+      "candidate_key": "db9f7748bf5b9c94b409f094b0ca370e105f31c01a3ea5068f2d29dd7c580554"
+    },
+    {
+      "source_id": "docs:widget-behavior",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        118,
+        141
+      ],
+      "title": "widget-behavior",
+      "section": "Using callback functions with forms",
+      "text": "### Using callback functions with forms\n\nUsing a callback function with a form requires understanding of this order of operations.\n\n```python\nimport streamlit as st\n\nif \"attendance\" not in st.session_state:\n    st.session_state.attendance = set()\n\n\ndef take_attendance():\n    if st.session_state.name in st.session_state.attendance:\n        st.info(f\"{st.session_state.name} has already been counted.\")\n    else:\n        st.session_state.attendance.add(st.session_state.name)\n\n\nwith st.form(key=\"my_form\"):\n    st.text_input(\"Name\", key=\"name\")\n    st.form_submit_button(\"I'm here!\", on_click=take_attendance)\n```\n\n<Cloud name=\"doc-guide-widgets-form-callbacks\" height=\"250px\"/>",
+      "candidate_key": "f4ff3aa80e59b0ab70a1668976d5e30b7ff3e6ac1a1eb690c70e381657bd3237"
+    },
+    {
+      "source_id": "issue:5813",
+      "revision": "2026-07-22T07:33:36Z",
+      "product_version": null,
+      "source_span": [
+        1929,
+        2038
+      ],
+      "lines": [
+        63,
+        67
+      ],
+      "title": "Preserve widget state when a widget disappears from the page (demoed via Multipage Apps)",
+      "section": "Preserve widget state when a widget disappears from the page (demoed via Multipage Apps) > Are you willing to submit a PR?",
+      "text": "### Are you willing to submit a PR?\n\n- [ ] Yes, I am willing to submit a PR!\n\n[IMAGE OMITTED: not inspected]\n",
+      "candidate_key": "fee6f7207184f749de1c3dfbe7bff14ed6493c8972c2b758f4b2de84af72f4e4"
+    }
+  ],
+  "instructions": "Judge actual exact text relevance 0=irrelevant,1=topic only,2=useful partial,3=direct needed evidence; null=unjudged. Do not infer relevance from official source status. Record origin."
+}

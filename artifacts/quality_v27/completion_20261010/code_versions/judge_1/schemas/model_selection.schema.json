@@ -1,0 +1,58 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "decision",
+    "claims",
+    "question",
+    "next_step",
+    "rationale",
+    "hypotheses"
+  ],
+  "properties": {
+    "decision": {
+      "type": "string",
+      "enum": [
+        "answer",
+        "ask",
+        "escalate"
+      ]
+    },
+    "claims": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "evidence_id",
+          "quote_id"
+        ],
+        "properties": {
+          "evidence_id": {
+            "type": "string"
+          },
+          "quote_id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "question": {
+      "type": "string"
+    },
+    "next_step": {
+      "type": "string"
+    },
+    "rationale": {
+      "type": "string"
+    },
+    "hypotheses": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

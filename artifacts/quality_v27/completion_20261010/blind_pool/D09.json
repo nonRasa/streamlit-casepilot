@@ -1,0 +1,273 @@
+{
+  "id": "D09",
+  "report": "Bug report: st.button returns False on the rerun after a click. I already logged both return values. Is this expected? Streamlit version unknown.",
+  "product_version": null,
+  "candidates": [
+    {
+      "source_id": "issue:7530",
+      "revision": "2024-08-15T20:52:30Z",
+      "product_version": null,
+      "source_span": [
+        1390,
+        1461
+      ],
+      "lines": [
+        53,
+        56
+      ],
+      "title": "st.button with on_click doesn't work as expected in some cases",
+      "section": "st.button with on_click doesn't work as expected in some cases > Steps To Reproduce",
+      "text": "### Steps To Reproduce\n\n1. Launch script\n2. Click on `Click Me` button\n",
+      "candidate_key": "1237de7300308fc95346682e4001784be575e6d70b022e3792071d0cf9d4a365"
+    },
+    {
+      "source_id": "issue:12305",
+      "revision": "2025-08-25T16:04:16Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        119,
+        136
+      ],
+      "title": "Multiselect Visual State vs Returned Value Mismatch",
+      "section": "Additional Information",
+      "text": "There is a workaround for this by using a placeholder and checking the button click at the end of the script (or saving the click value and running rerun at the end of the rerun), e.g.:\n\n````python\n# Sidebar with reload button (matching original pattern)\nwith st.sidebar:\n    st.header(\"Data Management\")\n    reloade_button_container = st.container()\n\n# Rest of the app....\n\nwith reloade_button_container:\n    if st.button(\"🔄 Reload Data\", help=\"Clear cache and reload\"):\n        load_test_data.clear()\n        st.success(\"Cache cleared! Data will be reloaded.\")\n        st.rerun()\n````\n\nClosing this issue since we have a feature request to provide a way to keep the widget state even when a widget isn't rendered for a rerun: https://github.com/streamlit/streamlit/issues/6074 Feel free to upvote and engage on this feature request.",
+      "candidate_key": "1ab51d05bd1e9ee6865d4d4f2917592b780b0c437f31b7b91e7e198f33527aa2"
+    },
+    {
+      "source_id": "issue:10000",
+      "revision": "2025-05-05T16:15:51Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        17,
+        29
+      ],
+      "title": "st.dialog The pop-up window: Click to click the second time and it will not pop up",
+      "section": "Steps To Reproduce",
+      "text": "### Steps To Reproduce\n\n```\n@st.dialog(\"file\", width=\"large\")\ndef upload_file():\n   uploaded_file = st.file_uploader(\"上传数据文件\", type=[\"csv\"], key=\"file_uploader\")\n        if uploaded_file is not None:\n            if st.button(\"OK\"):\n                    st.write(\"success\")\n                    rerun()\nif st.button(\"Upload Data\", key=\"upload\"):\n\tuplod_file()   # Upload file pop-up window\n```",
+      "candidate_key": "23c37a792e1fbbf6c98f4b35d96d5e2b64ad137a81558bcd9b074a0be2d523b2"
+    },
+    {
+      "source_id": "issue:11266",
+      "revision": "2025-05-07T14:09:05Z",
+      "product_version": null,
+      "source_span": [
+        1764,
+        4406
+      ],
+      "lines": [
+        62,
+        136
+      ],
+      "title": "Rerun() inside an st.fragment resets widget values to defaults.",
+      "section": "Rerun() inside an st.fragment resets widget values to defaults. > Additional Information",
+      "text": "### Additional Information\n\n_No response_\n\nHey [USER] Thank you for the issue! I believe this is an expected behavior. Widgets that don't appear in the run are deleted. Here's what's happening:\n\n1. Text is updated in string\n2. Button is pressed and rerun occurs (but the the text was never rendered. Widget is reset\n3. Widget reverts back to default\n\nIf you move the rerun button _after_ the text input. Everything works as expected. If you want it before the text input, you can leverage `st.empty()` like in this example:\n\n```python\nimport streamlit as st\n\n@st.fragment()\ndef toggle_and_text():\n    foo = st.empty()\n    t = st.text_input(\"Enter t:\",value='foo', key='t')\n    st.info(f't = {t}')\n    if foo.button(\"rerun\"):\n        st.rerun()\n\ntoggle_and_text()\nst.header('Outside Fragment')\nst.info(f'session_state_t = {st.session_state.t}')\nst.button(\"Update\")\n```\n\nI'll probably close this issue, but feel free to ask any questions\n\nOkay, this makes sense. But, in that case, shouldn't the value in the text_input also be updated to the default when you click \"rerun\".\n\n[IMAGE OMITTED: not inspected]\n\nHmmm it updates for me. Are you clicking the button while the text input still has focus? I wonder if there's a race condition happening\n\n[IMAGE OMITTED: not inspected]\n\nWhat you see is what I get after clicking \"Update\", not \"rerun\". When I click \"rerun\", I get the inconsistency.  It behaves the same whether or not the text input is in focus.\n\nI get both values still. Can you try with the latest nightly? `pip install streamlit-nightly` might need to uninstall Streamlit.\n\nI'm getting the same behaviour with the nightly build. I played around and found that it also happens outside a fragment:\n\n```\nimport streamlit as st\n\nif st.button(\"rerun\"):\n    st.rerun()\nt = st.text_input(\"Enter t:\",value='foo')\nst.info(f't = {t}')\n```\n\n[IMAGE OMITTED: not inspected]\n\nAh, so it's a similar problem. The rerun is abandoning the text input before it's rendered and therefore loses its value.\n\nI do think there's something to be said that the return value of text input should be what the user sees inside. This makes sense from a developer experience.\n\nThat being said, the recommended way to make this work would be to run `st.rerun` after the text input to maintain the top down script paradigm.\n\n```python\nimport streamlit as st\n\nbar =st.empty()\nt = st.text_input(\"Enter t:\",value='foo')\nif bar.button(\"rerun\"):\n    st.rerun()\nst.info(f't = {t}')\n```\n\nOkay, I guess you can close this. Thanks for your help.\n\nbtw, I think https://github.com/streamlit/streamlit/issues/3533 describes the issue clearly. We'll have to investigate some more.",
+      "candidate_key": "252de886c76bab0fe40b52173b482ec1413f9e3c164952e3b6b08494680ea1e2"
+    },
+    {
+      "source_id": "docs:button-behavior-and-examples",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        457,
+        1483
+      ],
+      "lines": [
+        10,
+        14
+      ],
+      "title": "button-behavior-and-examples",
+      "section": "button-behavior-and-examples > Button behavior and examples > Summary",
+      "text": "## Summary\n\nButtons created with [`st.button`](/develop/api-reference/widgets/st.button) do not retain state. They return `True` on the script rerun resulting from their click and immediately return to `False` on the next script rerun. If a displayed element is nested inside `if st.button('Click me'):`, the element will be visible when the button is clicked and disappear as soon as the user takes their next action. This is because the script reruns and the button return value becomes `False`.\n\nIn this guide, we will illustrate the use of buttons and explain common misconceptions. Read on to see a variety of examples that expand on `st.button` using [`st.session_state`](/develop/api-reference/caching-and-state/st.session_state). [Anti-patterns](#anti-patterns) are included at the end. Go ahead and pull up your favorite code editor so you can `streamlit run` the examples as you read. Check out Streamlit's [Basic concepts](/get-started/fundamentals/main-concepts) if you haven't run your own Streamlit scripts yet.\n",
+      "candidate_key": "26151a80557922fbfc902fd6d5011304fd1b0910a0bf80a8520870196768d3c3"
+    },
+    {
+      "source_id": "issue:11266",
+      "revision": "2025-05-07T14:09:05Z",
+      "product_version": null,
+      "source_span": [
+        3008,
+        4219
+      ],
+      "lines": [
+        99,
+        132
+      ],
+      "title": "Rerun() inside an st.fragment resets widget values to defaults.",
+      "section": "Rerun() inside an st.fragment resets widget values to defaults. > Additional Information",
+      "text": "[IMAGE OMITTED: not inspected]\n\nWhat you see is what I get after clicking \"Update\", not \"rerun\". When I click \"rerun\", I get the inconsistency.  It behaves the same whether or not the text input is in focus.\n\nI get both values still. Can you try with the latest nightly? `pip install streamlit-nightly` might need to uninstall Streamlit.\n\nI'm getting the same behaviour with the nightly build. I played around and found that it also happens outside a fragment:\n\n```\nimport streamlit as st\n\nif st.button(\"rerun\"):\n    st.rerun()\nt = st.text_input(\"Enter t:\",value='foo')\nst.info(f't = {t}')\n```\n\n[IMAGE OMITTED: not inspected]\n\nAh, so it's a similar problem. The rerun is abandoning the text input before it's rendered and therefore loses its value.\n\nI do think there's something to be said that the return value of text input should be what the user sees inside. This makes sense from a developer experience.\n\nThat being said, the recommended way to make this work would be to run `st.rerun` after the text input to maintain the top down script paradigm.\n\n```python\nimport streamlit as st\n\nbar =st.empty()\nt = st.text_input(\"Enter t:\",value='foo')\nif bar.button(\"rerun\"):\n    st.rerun()\nst.info(f't = {t}')\n```\n",
+      "candidate_key": "2e85f387b12d9375b7697df668deff01ff5277f4f6841ad8cddd09a2ba69aefd"
+    },
+    {
+      "source_id": "issue:11266",
+      "revision": "2025-05-07T14:09:05Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        62,
+        103
+      ],
+      "title": "Rerun() inside an st.fragment resets widget values to defaults.",
+      "section": "Additional Information",
+      "text": "### Additional Information\n\n_No response_\n\nHey [USER] Thank you for the issue! I believe this is an expected behavior. Widgets that don't appear in the run are deleted. Here's what's happening:\n\n1. Text is updated in string\n2. Button is pressed and rerun occurs (but the the text was never rendered. Widget is reset\n3. Widget reverts back to default\n\nIf you move the rerun button _after_ the text input. Everything works as expected. If you want it before the text input, you can leverage `st.empty()` like in this example:\n\n```python\nimport streamlit as st\n\n@st.fragment()\ndef toggle_and_text():\n    foo = st.empty()\n    t = st.text_input(\"Enter t:\",value='foo', key='t')\n    st.info(f't = {t}')\n    if foo.button(\"rerun\"):\n        st.rerun()\n\ntoggle_and_text()\nst.header('Outside Fragment')\nst.info(f'session_state_t = {st.session_state.t}')\nst.button(\"Update\")\n```\n\nI'll probably close this issue, but feel free to ask any questions\n\nOkay, this makes sense. But, in that case, shouldn't the value in the text_input also be updated to the default when you click \"rerun\".\n\n[IMAGE OMITTED: not inspected]\n\nHmmm it updates for me. Are you clicking the button while the text input still has focus? I wonder if there's a race condition happening\n\n[IMAGE OMITTED: not inspected]\n\nWhat you see is what I get after clicking \"Update\", not \"rerun\". When I click \"rerun\", I get the inconsistency.  It behaves the same whether or not the text input is in focus.\n\nI get both values still. Can you try with the latest nightly? `pip install streamlit-nightly` might need to uninstall Streamlit.",
+      "candidate_key": "39ef2f92276f18b43b8397326c94b640512bd0d93d8c4cc319f69d214c2ae986"
+    },
+    {
+      "source_id": "docs:button-behavior-and-examples",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        10,
+        14
+      ],
+      "title": "button-behavior-and-examples",
+      "section": "Summary",
+      "text": "## Summary\n\nButtons created with [`st.button`](/develop/api-reference/widgets/st.button) do not retain state. They return `True` on the script rerun resulting from their click and immediately return to `False` on the next script rerun. If a displayed element is nested inside `if st.button('Click me'):`, the element will be visible when the button is clicked and disappear as soon as the user takes their next action. This is because the script reruns and the button return value becomes `False`.\n\nIn this guide, we will illustrate the use of buttons and explain common misconceptions. Read on to see a variety of examples that expand on `st.button` using [`st.session_state`](/develop/api-reference/caching-and-state/st.session_state). [Anti-patterns](#anti-patterns) are included at the end. Go ahead and pull up your favorite code editor so you can `streamlit run` the examples as you read. Check out Streamlit's [Basic concepts](/get-started/fundamentals/main-concepts) if you haven't run your own Streamlit scripts yet.",
+      "candidate_key": "50747f5690c0391f2a71db31dccd82ad04ed71b7ce785dcbf97311e5c3b54abe"
+    },
+    {
+      "source_id": "issue:11266",
+      "revision": "2025-05-07T14:09:05Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        103,
+        136
+      ],
+      "title": "Rerun() inside an st.fragment resets widget values to defaults.",
+      "section": "Additional Information",
+      "text": "I get both values still. Can you try with the latest nightly? `pip install streamlit-nightly` might need to uninstall Streamlit.\n\nI'm getting the same behaviour with the nightly build. I played around and found that it also happens outside a fragment:\n\n```\nimport streamlit as st\n\nif st.button(\"rerun\"):\n    st.rerun()\nt = st.text_input(\"Enter t:\",value='foo')\nst.info(f't = {t}')\n```\n\n[IMAGE OMITTED: not inspected]\n\nAh, so it's a similar problem. The rerun is abandoning the text input before it's rendered and therefore loses its value.\n\nI do think there's something to be said that the return value of text input should be what the user sees inside. This makes sense from a developer experience.\n\nThat being said, the recommended way to make this work would be to run `st.rerun` after the text input to maintain the top down script paradigm.\n\n```python\nimport streamlit as st\n\nbar =st.empty()\nt = st.text_input(\"Enter t:\",value='foo')\nif bar.button(\"rerun\"):\n    st.rerun()\nst.info(f't = {t}')\n```\n\nOkay, I guess you can close this. Thanks for your help.\n\nbtw, I think https://github.com/streamlit/streamlit/issues/3533 describes the issue clearly. We'll have to investigate some more.",
+      "candidate_key": "7b0b7353470d2678c658f1af825eaa904f80fe5d55512486ea7988a4725c1356"
+    },
+    {
+      "source_id": "issue:12305",
+      "revision": "2025-08-25T16:04:16Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        13,
+        76
+      ],
+      "title": "Multiselect Visual State vs Returned Value Mismatch",
+      "section": "Reproducible Code Example",
+      "text": "### Reproducible Code Example\n\n[[IMAGE OMITTED: not inspected]](https://issues.streamlitapp.com/?issue=gh-12305)\n\n```Python\nimport streamlit as st\nimport pandas as pd\n\n# Cached data function that returns test data\n@st.cache_data\ndef load_test_data():\n    return pd.DataFrame({\n        'id': ['item_1', 'item_2', 'item_3'],\n        'type': ['TypeA', 'TypeB', 'TypeC'],\n        'value': [100, 200, 300]\n    })\n\nst.title(\"Multiselect Bug Reproducer\")\n\n# Sidebar with reload button (matching original pattern)\nwith st.sidebar:\n    st.header(\"Data Management\")\n    if st.button(\"🔄 Reload Data\", help=\"Clear cache and reload\"):\n        load_test_data.clear()\n        st.success(\"Cache cleared! Data will be reloaded.\")\n        st.rerun()\n\n# Load data\ndf = load_test_data()\n\n# Extract unique types (matching original pattern)\nall_types = sorted(df['type'].dropna().unique())\n\n# Sidebar filters (matching original pattern)\nst.sidebar.header(\"Filters\") \n\n# Create multiselect in sidebar with all types as default\nselected_types = st.sidebar.multiselect(\n    \"Select Types\",\n    all_types,\n    default=all_types,  # All selected by default\n)\n\n# Filter data based on selection\nfiltered_df = df.copy()\nif selected_types:\n    filtered_df = filtered_df[filtered_df['type'].isin(selected_types)]\n\n# Show debug info that reveals the bug\nst.write(\"### Debug Information:\")\nst.write(f\"**Multiselect shows selected**: {selected_types}\")\nst.write(f\"**Filtered data rows**: {len(filtered_df)}\")\nst.write(f\"**Item IDs in filtered data**: {sorted(filtered_df['id'].tolist())}\")\n\nst.write(\"---\")\nst.write(\"### Steps to reproduce bug:\")\nst.write(\"1. Initially all types are selected → shows 3 rows\")\nst.write(\"2. **In sidebar, deselect 'TypeA'** → should show 2 rows\")\nst.write(\"3. **Click 'Reload Data' button in sidebar**\")\nst.write(\"4. **BUG**: Sidebar shows 'TypeB, TypeC' but filtered data includes all 3 rows\")\n\nst.write(\"### Show actual data:\")\nst.dataframe(filtered_df)\n```",
+      "candidate_key": "872450e30d7841617dfb629d1596875c6c9d7ee637777936b43504272a400b3c"
+    },
+    {
+      "source_id": "issue:7920",
+      "revision": "2024-01-09T20:09:48Z",
+      "product_version": null,
+      "source_span": [
+        6318,
+        6944
+      ],
+      "lines": [
+        179,
+        196
+      ],
+      "title": "st.success(\"Text\") is not working when clicking on button",
+      "section": "st.success(\"Text\") is not working when clicking on button > Reproducible Code Example",
+      "text": "                feedback_buttons_disappear()\n\n    with col4:\n        if st.session_state.show_feedback_buttons:\n            if st.button(\"Неправильно\", key=\"incorrect\"):\n                save_error_image()\n                st.error(incorrect_message)\n                feedback_buttons_disappear()\n\n    # Ensure the feedback buttons disappear after click\n    if not st.session_state.show_feedback_buttons:\n        try:\n            st.session_state.uploaded_file = None\n        except Exception as e:\n            pass\n        st.session_state.prediction_result = \"\"\n        st.session_state.processed_image_with_objects = None\n```\n",
+      "candidate_key": "936dc7d659e4c18df0b74d4b9eb0821d69159749f397972be11ecaba5e0fcd9e"
+    },
+    {
+      "source_id": "issue:13409",
+      "revision": "2026-09-01T18:51:38Z",
+      "product_version": null,
+      "source_span": [
+        1468,
+        2608
+      ],
+      "lines": [
+        65,
+        77
+      ],
+      "title": "download_button with data=callable runs without ScriptRunContext",
+      "section": "download_button with data=callable runs without ScriptRunContext > Debug info",
+      "text": "### Debug info\n\n- Streamlit version: 1.52.2\n- Python version: 3.13\n- Operating System: Win\n- Browser: Chrome\n\nSomehow I missed this issue https://github.com/streamlit/streamlit/issues/13337\nClosing as duplicate\n\nConfirming this from a production incident — and it's a bit worse than \"missing ScriptRunContext produces a warning\": inside that thread, `st.session_state` reads return stale values and `@st.cache_data`-wrapped calls silently return whatever was already cached, **with no error and no warning**. Both just look like they worked.\n\nOur incident: a `data=callable` on `st.download_button` called into functions that (transitively) read `@st.cache_data`-cached helpers. Because those calls run outside `ScriptRunContext`, they picked up cached results from a *different* request context — users occasionally downloaded a file that didn't match what they'd just generated on screen, with nothing in the logs to explain why. We only found the mechanism by tracing the full call graph of the callable, not just inspecting it — a lambda that looks pure can still be unsafe if anything it calls touches cached/session state indirectly.\n",
+      "candidate_key": "95a84db889faed291da28dc59546d515c94dcf92a73b4e128803092a59bbd37b"
+    },
+    {
+      "source_id": "issue:7530",
+      "revision": "2024-08-15T20:52:30Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        53,
+        56
+      ],
+      "title": "st.button with on_click doesn't work as expected in some cases",
+      "section": "Steps To Reproduce",
+      "text": "### Steps To Reproduce\n\n1. Launch script\n2. Click on `Click Me` button",
+      "candidate_key": "a4ad5d1555ce1f0de61dab70610c06c15203b9fcc3d96f2a9e67b1e6b7856970"
+    },
+    {
+      "source_id": "issue:10000",
+      "revision": "2025-05-05T16:15:51Z",
+      "product_version": null,
+      "source_span": [
+        703,
+        1094
+      ],
+      "lines": [
+        17,
+        29
+      ],
+      "title": "st.dialog The pop-up window: Click to click the second time and it will not pop up",
+      "section": "st.dialog The pop-up window: Click to click the second time and it will not pop up > Steps To Reproduce",
+      "text": "### Steps To Reproduce\n\n```\n@st.dialog(\"file\", width=\"large\")\ndef upload_file():\n   uploaded_file = st.file_uploader(\"上传数据文件\", type=[\"csv\"], key=\"file_uploader\")\n        if uploaded_file is not None:\n            if st.button(\"OK\"):\n                    st.write(\"success\")\n                    rerun()\nif st.button(\"Upload Data\", key=\"upload\"):\n\tuplod_file()   # Upload file pop-up window\n```\n",
+      "candidate_key": "ca122efc5bf30f457a84b69823adfd538e6200ab1df5ccccb9c26e39263c780c"
+    },
+    {
+      "source_id": "docs:button-behavior-and-examples",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        166,
+        186
+      ],
+      "title": "button-behavior-and-examples",
+      "section": "A slight problem",
+      "text": "#### A slight problem\n\nIn this example, we access `st.session_state.name` both before and after the buttons which modify it. When a button (\"**Jane**\" or \"**John**\") is clicked, the script reruns. The info displayed before the buttons lags behind the info written after the button. The data in `st.session_state` before the button is not updated. When the script executes the button function, that is when the conditional code to update `st.session_state` creates the change. Thus, this change is reflected after the button.\n\n```python\nimport streamlit as st\nimport pandas as pd\n\nif 'name' not in st.session_state:\n    st.session_state['name'] = 'John Doe'\n\nst.header(st.session_state['name'])\n\nif st.button('Jane'):\n    st.session_state['name'] = 'Jane Doe'\n\nif st.button('John'):\n    st.session_state['name'] = 'John Doe'\n\nst.header(st.session_state['name'])\n```",
+      "candidate_key": "f22c092f7fe65d56129f1069a5e729ff9c59c7507e11d8c915b5dc236a35bf2a"
+    },
+    {
+      "source_id": "issue:12305",
+      "revision": "2025-08-25T16:04:16Z",
+      "product_version": null,
+      "source_span": [
+        4317,
+        5151
+      ],
+      "lines": [
+        119,
+        136
+      ],
+      "title": "Multiselect Visual State vs Returned Value Mismatch",
+      "section": "Multiselect Visual State vs Returned Value Mismatch > Additional Information",
+      "text": "There is a workaround for this by using a placeholder and checking the button click at the end of the script (or saving the click value and running rerun at the end of the rerun), e.g.:\n\n````python\n# Sidebar with reload button (matching original pattern)\nwith st.sidebar:\n    st.header(\"Data Management\")\n    reloade_button_container = st.container()\n\n# Rest of the app....\n\nwith reloade_button_container:\n    if st.button(\"🔄 Reload Data\", help=\"Clear cache and reload\"):\n        load_test_data.clear()\n        st.success(\"Cache cleared! Data will be reloaded.\")\n        st.rerun()\n````\n\nClosing this issue since we have a feature request to provide a way to keep the widget state even when a widget isn't rendered for a rerun: https://github.com/streamlit/streamlit/issues/6074 Feel free to upvote and engage on this feature request.",
+      "candidate_key": "f5a89a2bdabee06547357138f69f5040d8bdaf74b60767c4e49769f72e89891b"
+    },
+    {
+      "source_id": "issue:11266",
+      "revision": "2025-05-07T14:09:05Z",
+      "product_version": null,
+      "source_span": [
+        797,
+        1149
+      ],
+      "lines": [
+        17,
+        33
+      ],
+      "title": "Rerun() inside an st.fragment resets widget values to defaults.",
+      "section": "Rerun() inside an st.fragment resets widget values to defaults. > Reproducible Code Example",
+      "text": "### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n@st.fragment()\ndef toggle_and_text():\n    if st.button(\"rerun\"):\n        st.rerun()\n    t = st.text_input(\"Enter t:\",value='foo', key='t')\n    st.info(f't = {t}')\n\ntoggle_and_text()\nst.header('Outside Fragment')\nst.info(f'session_state_t = {st.session_state.t}')\nst.button(\"Update\")\n```\n",
+      "candidate_key": "faef549a950d1594c65b3870fb9fd9f9349e610a70c58c5cc33947de72ab85e9"
+    }
+  ],
+  "instructions": "Judge actual exact text relevance 0=irrelevant,1=topic only,2=useful partial,3=direct needed evidence; null=unjudged. Do not infer relevance from official source status. Record origin."
+}

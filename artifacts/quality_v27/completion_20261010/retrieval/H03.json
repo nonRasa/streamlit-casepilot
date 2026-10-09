@@ -1,0 +1,3247 @@
+{
+  "id": "H03",
+  "split": "holdout",
+  "query": "Bug report: a static image URL fails. My config already contains [server] enableStaticServing=true and I tested the exact URL in a fresh browser; it still returns 404.",
+  "query_hash": "03514f2a1bc79b610ec41f78d4ff65916f7c4c6be664fdbb4b980b96ee4076c5",
+  "version": null,
+  "variants": {
+    "A": {
+      "candidates": [
+        {
+          "kind": "docs",
+          "title": "static-file-serving",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:static-file-serving:v2:f4e15cf050173133",
+          "source_id": "docs:static-file-serving",
+          "section": "Example usage",
+          "text": "## Example usage\n\n- Put an image `cat.png` in the folder `./static/`\n- Add `enableStaticServing = true` under `[server]` in your `.streamlit/config.toml`\n- Any media in the `./static/` folder is served at the relative URL like `app/static/cat.png`\n\n```toml\n# .streamlit/config.toml\n\n[server]\nenableStaticServing = true\n```\n\n```python\n# app.py\nimport streamlit as st\n\nwith st.echo():\n    st.title(\"CAT\")\n\n    st.markdown(\"[![Click me](app/static/cat.png)](https://streamlit.io)\")\n\n```\n\nAdditional resources:\n\n- [https://docs.streamlit.io/develop/concepts/configuration](https://docs.streamlit.io/develop/concepts/configuration)\n- [https://static-file-serving.streamlit.app/](https://static-file-serving.streamlit.app/)\n\n<Cloud name=\"static-file-serving\" height=\"1000px\" />",
+          "lines": [
+            33,
+            62
+          ],
+          "sha256": "c870ef8709a175e75eac8b7101101f4bcfc3dd0c5c9ee7dce7a8e5d8fdebf3ce",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 771,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03540984,
+          "rank": 1
+        },
+        {
+          "kind": "issue",
+          "title": "Externel URL doesn't work",
+          "url": "https://github.com/streamlit/streamlit/issues/4744",
+          "revision": "2024-08-15T20:59:01Z",
+          "product_version": null,
+          "issue_number": 4744,
+          "id": "issue:4744:v2:be034d000e6f46d4",
+          "source_id": "issue:4744",
+          "section": "1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.",
+          "text": "#### 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.\nCode snippet:\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n```\nHere is what my .toml file looks like.\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n\n[theme]\nprimaryColor = \"#826E7A\"\nbackgroundColor = \"#AAD3DF\"\nsecondaryBackgroundColor = \"#AAD3DF\"\ntextColor = \"#191970\"\nfont = \"sans serif\"\n```\n\nHere is my config.toml file",
+          "lines": [
+            10,
+            31
+          ],
+          "sha256": "4c340f79a4274ae16bba1e0f9f57e7446f94460c413530b23d37104b4144caf9",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 456,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02991071,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "static-file-serving",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:static-file-serving:v2:0837b2c0750a012d",
+          "source_id": "docs:static-file-serving",
+          "section": "Static file serving",
+          "text": "# Static file serving\n\nStreamlit apps can host and serve small, static media files to support media embedding use cases that\nwon't work with the normal [media elements](/develop/api-reference/media).\n\nTo enable this feature, set `enableStaticServing = true` under `[server]` in your config file,\nor environment variable `STREAMLIT_SERVER_ENABLE_STATIC_SERVING=true`.\n\nMedia stored in the folder `./static/` relative to the running app file is served at path\n`app/static/[filename]`, such as `http://localhost:8501/app/static/cat.png`.",
+          "lines": [
+            8,
+            17
+          ],
+          "sha256": "927bd2ead478fcee6801a9b2ae79ab4b58feeabe2682d874cbceff1bc7da3bcb",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 534,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03483871,
+          "rank": 3
+        },
+        {
+          "kind": "issue",
+          "title": "Support nested url paths for Multipage Apps",
+          "url": "https://github.com/streamlit/streamlit/issues/8971",
+          "revision": "2026-07-22T07:49:50Z",
+          "product_version": null,
+          "issue_number": 8971,
+          "id": "issue:8971:v2:24932ce580274cf2",
+          "source_id": "issue:8971",
+          "section": "Current Behavior",
+          "text": "I get the following error:\n[IMAGE OMITTED: not inspected]\n\nUpon opening the dev tools console, I see this:\n[IMAGE OMITTED: not inspected]\n\n\nThat `SyntaxError` piqued my interest, and it looks like that `<hash>.chunk.js` file's contents are this HTML blob:\n```html\n<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,shrink-to-fit=no\"/><link rel=\"shortcut icon\" href=\"[./favicon.png](view-source:http://localhost:8501/excel/static/js/favicon.png)\"/><link rel=\"preload\" href=\"[./static/media/SourceSansPro-Regular.0d69e5ff5e92ac64a0c9.woff2](view-source:http://localhost:8501/excel/static/js/static/media/SourceSansPro-Regular.0d69e5ff5e92ac64a0c9.woff2)\" as=\"font\" type=\"font/woff2\" crossorigin><link rel=\"preload\" href=\"[./static/media/SourceSansPro-SemiBold.abed79cd0df1827e18cf.woff2](view-source:http://localhost:8501/excel/static/js/static/media/SourceSansPro-SemiBold.abed79cd0df1827e18cf.woff2)\" as=\"font\" type=\"font/woff2\" crossorigin><link rel=\"preload\" href=\"[./static/media/SourceSansPro-Bold.118dea98980e20a81ced.woff2](view-source:http://localhost:8501/excel/static/js/static/media/SourceSansPro-Bold.118dea98980e20a81ced.woff2)\" as=\"font\" type=\"font/woff2\" crossorigin><title>Streamlit</title><script>window.prerenderReady=!1</script><script defer=\"defer\" src=\"[./static/js/main.7994a814.js](view-source:http://localhost:8501/excel/static/js/static/js/main.7994a814.js)\"></script><link href=\"[./static/css/main.3aaaea00.css](view-source:http://localhost:8501/excel/static/js/static/css/main.3aaaea00.css)\" rel=\"stylesheet\"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id=\"root\"></div></body></html>\n```",
+          "lines": [
+            66,
+            76
+          ],
+          "sha256": "73f45f481abea41b90d6b34b9e35501693dd94aded93e8ed2e1b865f6b131750",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1729,
+          "oversized_block": true,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0272424,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud)",
+          "url": "https://github.com/streamlit/streamlit/issues/11396",
+          "revision": "2025-05-23T22:25:01Z",
+          "product_version": null,
+          "issue_number": 11396,
+          "id": "issue:11396:v2:c592ec379d77487c",
+          "source_id": "issue:11396",
+          "section": "Current Behavior",
+          "text": "### Current Behavior\n\n\nThe upload fails when the filename contains Unicode characters, showing a 400 error.",
+          "lines": [
+            48,
+            51
+          ],
+          "sha256": "395dad5b9cbaa7b330f5a9d814ec397fa5f29be25e9ebe61a90be795e4eff05c",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 107,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02447552,
+          "rank": 5
+        },
+        {
+          "kind": "issue",
+          "title": "Network URL missing from console output",
+          "url": "https://github.com/streamlit/streamlit/issues/1530",
+          "revision": "2020-08-06T23:07:47Z",
+          "product_version": null,
+          "issue_number": 1530,
+          "id": "issue:1530:v2:ff85256759aed120",
+          "source_id": "issue:1530",
+          "section": "Summary",
+          "text": "# Summary\nWhen streamlit application is run on Ubuntu terminal. it shows two types of URL. Local URL and NetworkURL. But, in my case the NetworkURL is completely missing from the terminal output. Here is a sample output I get\n[IMAGE OMITTED: not inspected]\n\nType here a clear and concise description of the bug. Aim for 2-3 sentences.\nNetwork URL is missing from terminal output",
+          "lines": [
+            3,
+            8
+          ],
+          "sha256": "d2a63b3d6ca3d9639f89383abf40ae95c9d2a7cf43eac22fe604da5f76d34571",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 378,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0239899,
+          "rank": 6
+        },
+        {
+          "kind": "issue",
+          "title": "Cannot open multi-page app on specific page when [theme] config is set in .streamlit/config.toml",
+          "url": "https://github.com/streamlit/streamlit/issues/11797",
+          "revision": "2025-07-09T17:09:50Z",
+          "product_version": null,
+          "issue_number": 11797,
+          "id": "issue:11797:v2:b83cd6e4d0f87b37",
+          "source_id": "issue:11797",
+          "section": "Reproducible Code Example",
+          "text": "### Reproducible Code Example\n\n`streamlit_app.py`:\n```Python\n\n\nimport streamlit as st\n\ndef home_page():\n    st.title(f\"Demo App (Streamlit version: {st.__version__})\")\n\ndef about_page():\n    st.title(\"About\")\n\npg = st.navigation([            \nst.Page(home_page, title=\"Home\", icon=\":material/home:\"),st.Page(about_page, title=\"About\", icon=\":material/info:\") \n])\npg.run()\n\n```\n\n`.streamlit/config.toml`:\n```toml\n\n[server]\nenableStaticServing = false\n\n[theme]\nbase = \"dark\"\nprimaryColor = \"#1ED760\"\nbackgroundColor = \"#121212\"\nsecondaryBackgroundColor = \"#333333\"\ntextColor = \"#FFFFFF\"\nlinkColor = \"#9D9D9D\"\nborderColor = \"#7F7F7F\"\nshowWidgetBorder = false\nbaseRadius = \"0.3rem\"\n\n[theme.sidebar]\nbackgroundColor = \"#000000\"\nsecondaryBackgroundColor = \"#333333\"\nborderColor = \"#696969\"\n```",
+          "lines": [
+            14,
+            56
+          ],
+          "sha256": "5f05dc034992bdd260274bf8671dcf95de16ea064c55e68b1e8443ba0dd49b3b",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 787,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02228544,
+          "rank": 7
+        },
+        {
+          "kind": "issue",
+          "title": "file_uploader set type and it contains png,but i cant upload png file",
+          "url": "https://github.com/streamlit/streamlit/issues/4789",
+          "revision": "2024-08-15T20:59:05Z",
+          "product_version": null,
+          "issue_number": 4789,
+          "id": "issue:4789:v2:693e8e7f15c2723c",
+          "source_id": "issue:4789",
+          "section": "Summary",
+          "text": "### Summary\n\n[IMAGE OMITTED: not inspected]",
+          "lines": [
+            3,
+            5
+          ],
+          "sha256": "978d7d53b53be76ab90a1fe73bdf67e25b4155b0f81aed2ce5d8513d5a3f46bb",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 43,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02126984,
+          "rank": 8
+        }
+      ],
+      "candidate_hash": "2565dda9f6b76c872bd148bb54e16842057d232840fb672d24ef8b62376c1ec5",
+      "context": [
+        {
+          "kind": "docs",
+          "title": "static-file-serving",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:static-file-serving:v2:f4e15cf050173133",
+          "source_id": "docs:static-file-serving",
+          "section": "Example usage",
+          "text": "## Example usage\n\n- Put an image `cat.png` in the folder `./static/`\n- Add `enableStaticServing = true` under `[server]` in your `.streamlit/config.toml`\n- Any media in the `./static/` folder is served at the relative URL like `app/static/cat.png`\n\n```toml\n# .streamlit/config.toml\n\n[server]\nenableStaticServing = true\n```\n\n```python\n# app.py\nimport streamlit as st\n\nwith st.echo():\n    st.title(\"CAT\")\n\n    st.markdown(\"[![Click me](app/static/cat.png)](https://streamlit.io)\")\n\n```\n\nAdditional resources:\n\n- [https://docs.streamlit.io/develop/concepts/configuration](https://docs.streamlit.io/develop/concepts/configuration)\n- [https://static-file-serving.streamlit.app/](https://static-file-serving.streamlit.app/)\n\n<Cloud name=\"static-file-serving\" height=\"1000px\" />",
+          "lines": [
+            33,
+            62
+          ],
+          "sha256": "c870ef8709a175e75eac8b7101101f4bcfc3dd0c5c9ee7dce7a8e5d8fdebf3ce",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 771,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03540984,
+          "rank": 1
+        },
+        {
+          "kind": "issue",
+          "title": "Externel URL doesn't work",
+          "url": "https://github.com/streamlit/streamlit/issues/4744",
+          "revision": "2024-08-15T20:59:01Z",
+          "product_version": null,
+          "issue_number": 4744,
+          "id": "issue:4744:v2:be034d000e6f46d4",
+          "source_id": "issue:4744",
+          "section": "1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.",
+          "text": "#### 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.\nCode snippet:\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n```\nHere is what my .toml file looks like.\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n\n[theme]\nprimaryColor = \"#826E7A\"\nbackgroundColor = \"#AAD3DF\"\nsecondaryBackgroundColor = \"#AAD3DF\"\ntextColor = \"#191970\"\nfont = \"sans serif\"\n```\n\nHere is my config.toml file",
+          "lines": [
+            10,
+            31
+          ],
+          "sha256": "4c340f79a4274ae16bba1e0f9f57e7446f94460c413530b23d37104b4144caf9",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 456,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02991071,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "static-file-serving",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:static-file-serving:v2:0837b2c0750a012d",
+          "source_id": "docs:static-file-serving",
+          "section": "Static file serving",
+          "text": "# Static file serving\n\nStreamlit apps can host and serve small, static media files to support media embedding use cases that\nwon't work with the normal [media elements](/develop/api-reference/media).\n\nTo enable this feature, set `enableStaticServing = true` under `[server]` in your config file,\nor environment variable `STREAMLIT_SERVER_ENABLE_STATIC_SERVING=true`.\n\nMedia stored in the folder `./static/` relative to the running app file is served at path\n`app/static/[filename]`, such as `http://localhost:8501/app/static/cat.png`.",
+          "lines": [
+            8,
+            17
+          ],
+          "sha256": "927bd2ead478fcee6801a9b2ae79ab4b58feeabe2682d874cbceff1bc7da3bcb",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 534,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03483871,
+          "rank": 3
+        },
+        {
+          "kind": "issue",
+          "title": "Support nested url paths for Multipage Apps",
+          "url": "https://github.com/streamlit/streamlit/issues/8971",
+          "revision": "2026-07-22T07:49:50Z",
+          "product_version": null,
+          "issue_number": 8971,
+          "id": "issue:8971:v2:24932ce580274cf2",
+          "source_id": "issue:8971",
+          "section": "Current Behavior",
+          "text": "I get the following error:\n[IMAGE OMITTED: not inspected]\n\nUpon opening the dev tools console, I see this:\n[IMAGE OMITTED: not inspected]\n\n\nThat `SyntaxError` piqued my interest, and it looks like that `<hash>.chunk.js` file's contents are this HTML blob:\n```html\n<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,shrink-to-fit=no\"/><link rel=\"shortcut icon\" href=\"[./favicon.png](view-source:http://localhost:8501/excel/static/js/favicon.png)\"/><link rel=\"preload\" href=\"[./static/media/SourceSansPro-Regular.0d69e5ff5e92ac64a0c9.woff2](view-source:http://localhost:8501/excel/static/js/static/media/SourceSansPro-Regular.0d69e5ff5e92ac64a0c9.woff2)\" as=\"font\" type=\"font/woff2\" crossorigin><link rel=\"preload\" href=\"[./static/media/SourceSansPro-SemiBold.abed79cd0df1827e18cf.woff2](view-source:http://localhost:8501/excel/static/js/static/media/SourceSansPro-SemiBold.abed79cd0df1827e18cf.woff2)\" as=\"font\" type=\"font/woff2\" crossorigin><link rel=\"preload\" href=\"[./static/media/SourceSansPro-Bold.118dea98980e20a81ced.woff2](view-source:http://localhost:8501/excel/static/js/static/media/SourceSansPro-Bold.118dea98980e20a81ced.woff2)\" as=\"font\" type=\"font/woff2\" crossorigin><title>Streamlit</title><script>window.prerenderReady=!1</script><script defer=\"defer\" src=\"[./static/js/main.7994a814.js](view-source:http://localhost:8501/excel/static/js/static/js/main.7994a814.js)\"></script><link href=\"[./static/css/main.3aaaea00.css](view-source:http://localhost:8501/excel/static/js/static/css/main.3aaaea00.css)\" rel=\"stylesheet\"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id=\"root\"></div></body></html>\n```",
+          "lines": [
+            66,
+            76
+          ],
+          "sha256": "73f45f481abea41b90d6b34b9e35501693dd94aded93e8ed2e1b865f6b131750",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1729,
+          "oversized_block": true,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0272424,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud)",
+          "url": "https://github.com/streamlit/streamlit/issues/11396",
+          "revision": "2025-05-23T22:25:01Z",
+          "product_version": null,
+          "issue_number": 11396,
+          "id": "issue:11396:v2:c592ec379d77487c",
+          "source_id": "issue:11396",
+          "section": "Current Behavior",
+          "text": "### Current Behavior\n\n\nThe upload fails when the filename contains Unicode characters, showing a 400 error.",
+          "lines": [
+            48,
+            51
+          ],
+          "sha256": "395dad5b9cbaa7b330f5a9d814ec397fa5f29be25e9ebe61a90be795e4eff05c",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 107,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02447552,
+          "rank": 5
+        }
+      ],
+      "packing": {
+        "encoding": "o200k_base",
+        "budget_tokens": 3000,
+        "used_tokens": 1758,
+        "expand_parent": false,
+        "items": [
+          {
+            "id": "docs:static-file-serving:v2:f4e15cf050173133",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:static-file-serving:v2:f4e15cf050173133"
+          },
+          {
+            "id": "issue:4744:v2:be034d000e6f46d4",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:4744:v2:be034d000e6f46d4"
+          },
+          {
+            "id": "docs:static-file-serving:v2:0837b2c0750a012d",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:static-file-serving:v2:0837b2c0750a012d"
+          },
+          {
+            "id": "issue:8971:v2:24932ce580274cf2",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:8971:v2:24932ce580274cf2"
+          },
+          {
+            "id": "issue:11396:v2:c592ec379d77487c",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:11396:v2:c592ec379d77487c"
+          },
+          {
+            "id": "issue:1530:v2:ff85256759aed120",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:11797:v2:b83cd6e4d0f87b37",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:4789:v2:693e8e7f15c2723c",
+            "status": "omitted",
+            "reason": "item_limit"
+          }
+        ]
+      },
+      "index": "v2",
+      "namespace": null
+    },
+    "B": {
+      "candidates": [
+        {
+          "kind": "docs",
+          "title": "static-file-serving",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:static-file-serving:v3:child:02f06fd6fde22070615f",
+          "source_id": "docs:static-file-serving",
+          "text": "## Example usage\n\n- Put an image `cat.png` in the folder `./static/`\n- Add `enableStaticServing = true` under `[server]` in your `.streamlit/config.toml`\n- Any media in the `./static/` folder is served at the relative URL like `app/static/cat.png`\n\n```toml\n# .streamlit/config.toml\n\n[server]\nenableStaticServing = true\n```\n\n```python\n# app.py\nimport streamlit as st\n\nwith st.echo():\n    st.title(\"CAT\")\n\n    st.markdown(\"[![Click me](app/static/cat.png)](https://streamlit.io)\")\n\n```\n\nAdditional resources:\n\n- [https://docs.streamlit.io/develop/concepts/configuration](https://docs.streamlit.io/develop/concepts/configuration)\n- [https://static-file-serving.streamlit.app/](https://static-file-serving.streamlit.app/)\n\n<Cloud name=\"static-file-serving\" height=\"1000px\" />\n",
+          "source_span": [
+            1879,
+            2651
+          ],
+          "source_sha256": "70428474b21f05b65bd74309b1fdb4f1728fe28e20bbea9830f2517e7a594c63",
+          "sha256": "bc8c58cbe3f76fffec1001b015eb39d1f31861075e1d4ea610ed1f3f759421cc",
+          "lines": [
+            33,
+            62
+          ],
+          "section": "static-file-serving > Static file serving > Example usage",
+          "section_path": [
+            "static-file-serving",
+            "Static file serving",
+            "Example usage"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 207,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:static-file-serving:v3:parent:02f06fd6fde22070615f",
+          "parent": {
+            "kind": "docs",
+            "title": "static-file-serving",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:static-file-serving:v3:parent:02f06fd6fde22070615f",
+            "source_id": "docs:static-file-serving",
+            "text": "## Example usage\n\n- Put an image `cat.png` in the folder `./static/`\n- Add `enableStaticServing = true` under `[server]` in your `.streamlit/config.toml`\n- Any media in the `./static/` folder is served at the relative URL like `app/static/cat.png`\n\n```toml\n# .streamlit/config.toml\n\n[server]\nenableStaticServing = true\n```\n\n```python\n# app.py\nimport streamlit as st\n\nwith st.echo():\n    st.title(\"CAT\")\n\n    st.markdown(\"[![Click me](app/static/cat.png)](https://streamlit.io)\")\n\n```\n\nAdditional resources:\n\n- [https://docs.streamlit.io/develop/concepts/configuration](https://docs.streamlit.io/develop/concepts/configuration)\n- [https://static-file-serving.streamlit.app/](https://static-file-serving.streamlit.app/)\n\n<Cloud name=\"static-file-serving\" height=\"1000px\" />\n",
+            "source_span": [
+              1879,
+              2651
+            ],
+            "source_sha256": "70428474b21f05b65bd74309b1fdb4f1728fe28e20bbea9830f2517e7a594c63",
+            "sha256": "bc8c58cbe3f76fffec1001b015eb39d1f31861075e1d4ea610ed1f3f759421cc",
+            "lines": [
+              33,
+              62
+            ],
+            "section": "static-file-serving > Static file serving > Example usage",
+            "section_path": [
+              "static-file-serving",
+              "Static file serving",
+              "Example usage"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 207,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03540984,
+          "rank": 1
+        },
+        {
+          "kind": "issue",
+          "title": "Externel URL doesn't work",
+          "url": "https://github.com/streamlit/streamlit/issues/4744",
+          "revision": "2024-08-15T20:59:01Z",
+          "product_version": null,
+          "issue_number": 4744,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:4744:v3:child:3668cde8fe085a5fcf41",
+          "source_id": "issue:4744",
+          "text": "#### 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.\nCode snippet:\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n```\nHere is what my .toml file looks like.\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n\n[theme]\nprimaryColor = \"#826E7A\"\nbackgroundColor = \"#AAD3DF\"\nsecondaryBackgroundColor = \"#AAD3DF\"\ntextColor = \"#191970\"\nfont = \"sans serif\"\n```\n\nHere is my config.toml file\n",
+          "source_span": [
+            218,
+            675
+          ],
+          "source_sha256": "1c7ee805d9f6bad55b7d4e129ae4e0a1d1f50624f18c7048bdd0907c7e534a02",
+          "sha256": "6d3cdc6a645dd18512d0b27fc88bbd32b7d495577ce87383fdcc5b8a5b613fff",
+          "lines": [
+            10,
+            31
+          ],
+          "section": "Externel URL doesn't work > Methods I tried > 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.",
+          "section_path": [
+            "Externel URL doesn't work",
+            "Methods I tried",
+            "1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work."
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 135,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:4744:v3:parent:3668cde8fe085a5fcf41",
+          "parent": {
+            "kind": "issue",
+            "title": "Externel URL doesn't work",
+            "url": "https://github.com/streamlit/streamlit/issues/4744",
+            "revision": "2024-08-15T20:59:01Z",
+            "product_version": null,
+            "issue_number": 4744,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:4744:v3:parent:3668cde8fe085a5fcf41",
+            "source_id": "issue:4744",
+            "text": "#### 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.\nCode snippet:\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n```\nHere is what my .toml file looks like.\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n\n[theme]\nprimaryColor = \"#826E7A\"\nbackgroundColor = \"#AAD3DF\"\nsecondaryBackgroundColor = \"#AAD3DF\"\ntextColor = \"#191970\"\nfont = \"sans serif\"\n```\n\nHere is my config.toml file\n",
+            "source_span": [
+              218,
+              675
+            ],
+            "source_sha256": "1c7ee805d9f6bad55b7d4e129ae4e0a1d1f50624f18c7048bdd0907c7e534a02",
+            "sha256": "6d3cdc6a645dd18512d0b27fc88bbd32b7d495577ce87383fdcc5b8a5b613fff",
+            "lines": [
+              10,
+              31
+            ],
+            "section": "Externel URL doesn't work > Methods I tried > 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.",
+            "section_path": [
+              "Externel URL doesn't work",
+              "Methods I tried",
+              "1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work."
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 135,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02838164,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "static-file-serving",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:static-file-serving:v3:child:51b411f23db4ea408d60",
+          "source_id": "docs:static-file-serving",
+          "text": "# Static file serving\n\nStreamlit apps can host and serve small, static media files to support media embedding use cases that\nwon't work with the normal [media elements](/develop/api-reference/media).\n\nTo enable this feature, set `enableStaticServing = true` under `[server]` in your config file,\nor environment variable `STREAMLIT_SERVER_ENABLE_STATIC_SERVING=true`.\n\nMedia stored in the folder `./static/` relative to the running app file is served at path\n`app/static/[filename]`, such as `http://localhost:8501/app/static/cat.png`.\n",
+          "source_span": [
+            398,
+            933
+          ],
+          "source_sha256": "70428474b21f05b65bd74309b1fdb4f1728fe28e20bbea9830f2517e7a594c63",
+          "sha256": "7557a72a29202e2e541302ed9d4158a31c3fb66cf9400e0d063076d5df9d77af",
+          "lines": [
+            8,
+            17
+          ],
+          "section": "static-file-serving > Static file serving",
+          "section_path": [
+            "static-file-serving",
+            "Static file serving"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 121,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:static-file-serving:v3:parent:51b411f23db4ea408d60",
+          "parent": {
+            "kind": "docs",
+            "title": "static-file-serving",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:static-file-serving:v3:parent:51b411f23db4ea408d60",
+            "source_id": "docs:static-file-serving",
+            "text": "# Static file serving\n\nStreamlit apps can host and serve small, static media files to support media embedding use cases that\nwon't work with the normal [media elements](/develop/api-reference/media).\n\nTo enable this feature, set `enableStaticServing = true` under `[server]` in your config file,\nor environment variable `STREAMLIT_SERVER_ENABLE_STATIC_SERVING=true`.\n\nMedia stored in the folder `./static/` relative to the running app file is served at path\n`app/static/[filename]`, such as `http://localhost:8501/app/static/cat.png`.\n",
+            "source_span": [
+              398,
+              933
+            ],
+            "source_sha256": "70428474b21f05b65bd74309b1fdb4f1728fe28e20bbea9830f2517e7a594c63",
+            "sha256": "7557a72a29202e2e541302ed9d4158a31c3fb66cf9400e0d063076d5df9d77af",
+            "lines": [
+              8,
+              17
+            ],
+            "section": "static-file-serving > Static file serving",
+            "section_path": [
+              "static-file-serving",
+              "Static file serving"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 121,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03483871,
+          "rank": 3
+        },
+        {
+          "kind": "issue",
+          "title": "Externel URL doesn't work",
+          "url": "https://github.com/streamlit/streamlit/issues/4744",
+          "revision": "2024-08-15T20:59:01Z",
+          "product_version": null,
+          "issue_number": 4744,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:4744:v3:child:43bf83cbc3b7c03440b9",
+          "source_id": "issue:4744",
+          "text": "# Symmetric key used to produce signed cookies. If deploying on multiple replicas, this should be set to the same value across all replicas to ensure they all share the same secret.\n# Default: randomly generated secret key.\ncookieSecret = \"73d27e89aa0f890eb5e4fc63756c932b1d47f2c509bcf8bd9ceecc063e87f65f\"\n\n# If false, will attempt to open a browser window on start.\n# Default: false unless (1) we are on a Linux box where DISPLAY is unset, or (2) server.liveSave is set.\nheadless = false\n\n# Automatically rerun script when the file is modified on disk.\n# Default: false\nrunOnSave = false\n\n# The address where the server will listen for client and browser connections. Use this if you want to bind the server to a specific address. If set, the server will only be accessible\n from this address, and not from any aliases (like localhost).\n# Default: (unset)\n#address =\n\n# The port where the server will listen for browser connections.\n# Default: 8501\nport = 8501\n\n# The base path for the URL where Streamlit should be served from.\n# Default: \"\"\nbaseUrlPath = \"\"\n\n# Enables support for Cross-Origin Request Sharing (CORS) protection, for added security.\n",
+          "source_span": [
+            4018,
+            5170
+          ],
+          "source_sha256": "1c7ee805d9f6bad55b7d4e129ae4e0a1d1f50624f18c7048bdd0907c7e534a02",
+          "sha256": "697569059f4647a720c400953973649f91cda5f9b64df63d86a64502f67cc70c",
+          "lines": [
+            118,
+            143
+          ],
+          "section": "Externel URL doesn't work > Methods I tried > 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.",
+          "section_path": [
+            "Externel URL doesn't work",
+            "Methods I tried",
+            "1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work."
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 288,
+          "block_kinds": [
+            "code"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:4744:v3:parent:23617aa258ea3b91429f",
+          "parent": {
+            "kind": "issue",
+            "title": "Externel URL doesn't work",
+            "url": "https://github.com/streamlit/streamlit/issues/4744",
+            "revision": "2024-08-15T20:59:01Z",
+            "product_version": null,
+            "issue_number": 4744,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:4744:v3:parent:23617aa258ea3b91429f",
+            "source_id": "issue:4744",
+            "text": "# Symmetric key used to produce signed cookies. If deploying on multiple replicas, this should be set to the same value across all replicas to ensure they all share the same secret.\n# Default: randomly generated secret key.\ncookieSecret = \"73d27e89aa0f890eb5e4fc63756c932b1d47f2c509bcf8bd9ceecc063e87f65f\"\n\n# If false, will attempt to open a browser window on start.\n# Default: false unless (1) we are on a Linux box where DISPLAY is unset, or (2) server.liveSave is set.\nheadless = false\n\n# Automatically rerun script when the file is modified on disk.\n# Default: false\nrunOnSave = false\n\n# The address where the server will listen for client and browser connections. Use this if you want to bind the server to a specific address. If set, the server will only be accessible\n from this address, and not from any aliases (like localhost).\n# Default: (unset)\n#address =\n\n# The port where the server will listen for browser connections.\n# Default: 8501\nport = 8501\n\n# The base path for the URL where Streamlit should be served from.\n# Default: \"\"\nbaseUrlPath = \"\"\n\n# Enables support for Cross-Origin Request Sharing (CORS) protection, for added security.\n# Due to conflicts between CORS and XSRF, if `server.enableXsrfProtection` is on and `server.enableCORS` is off at the same time, we will prioritize `server.enableXsrfProtection`.\n# Default: true\nenableCORS = true\n\n# Enables support for Cross-Site Request Forgery (XSRF) protection, for added security.\n# Due to conflicts between CORS and XSRF, if `server.enableXsrfProtection` is on and `server.enableCORS` is off at the same time, we will prioritize `server.enableXsrfProtection`.\n# Default: true\nenableXsrfProtection = true\n\n# Max size, in megabytes, for files uploaded with the file_uploader.\n# Default: 200\nmaxUploadSize = 200\n\n# Enables support for websocket compression.\n# Default: true\nenableWebsocketCompression = true\n\n\n[browser]\n\n# Internet address where users should point their browsers in order to connect to the app. Can be IP address or DNS name and path.\n# This is used to: - Set the correct URL for CORS and XSRF protection purposes. - Show the URL on the terminal - Open the browser - Tell the browser where to connect to the server when\n in liveSave mode.\n# Default: 'localhost'\nserverAddress = \"localhost\"\n\n# Whether to send usage statistics to Streamlit.\n# Default: true\ngatherUsageStats = true\n\n# Port where users should point their browsers in order to connect to the app.\n# This is used to: - Set the correct URL for CORS and XSRF protection purposes. - Show the URL on the terminal - Open the browser - Tell the browser where to connect to the server when\n in liveSave mode.\n# Default: whatever value is set in server.port.\nserverPort = 8501\n\n\n[mapbox]\n\n# Configure Streamlit to use a custom Mapbox token for elements like st.pydeck_chart and st.map. To get a token for yourself, create an account at https://mapbox.com. It's free (for mo\nderate usage levels)!\n# Default: \"\"\ntoken = \"\"\n\n\n[deprecation]\n\n# Set to false to disable the deprecation warning for the file uploader encoding.\n# Default: true\nshowfileUploaderEncoding = true\n\n# Set to false to disable the deprecation warning for using the global pyplot instance.\n# Default: true\nshowPyplotGlobalUse = true\n\n\n[s3]\n\n",
+            "source_span": [
+              4018,
+              7269
+            ],
+            "source_sha256": "1c7ee805d9f6bad55b7d4e129ae4e0a1d1f50624f18c7048bdd0907c7e534a02",
+            "sha256": "d7c727f46831939abd0af1fb1a8f16173ceb5687a330f664375f2b51ea78b2b8",
+            "lines": [
+              118,
+              201
+            ],
+            "section": "Externel URL doesn't work > Methods I tried > 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.",
+            "section_path": [
+              "Externel URL doesn't work",
+              "Methods I tried",
+              "1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work."
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 796,
+            "block_kinds": [
+              "code"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0289916,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud)",
+          "url": "https://github.com/streamlit/streamlit/issues/11396",
+          "revision": "2025-05-23T22:25:01Z",
+          "product_version": null,
+          "issue_number": 11396,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:11396:v3:child:62b3cffe80e5ff2e7f1c",
+          "source_id": "issue:11396",
+          "text": "### Current Behavior\n\n\nThe upload fails when the filename contains Unicode characters, showing a 400 error.\n",
+          "source_span": [
+            1274,
+            1382
+          ],
+          "source_sha256": "2e6fc873072c744063502b98becd260fe2baa11427e69e4656450e12ebbc08f9",
+          "sha256": "94cf1c205e99fa478b8c86946f0504c6c3fbf7aeb22846e628d5c23fa3992996",
+          "lines": [
+            48,
+            51
+          ],
+          "section": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud) > Current Behavior",
+          "section_path": [
+            "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud)",
+            "Current Behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 20,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:11396:v3:parent:62b3cffe80e5ff2e7f1c",
+          "parent": {
+            "kind": "issue",
+            "title": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud)",
+            "url": "https://github.com/streamlit/streamlit/issues/11396",
+            "revision": "2025-05-23T22:25:01Z",
+            "product_version": null,
+            "issue_number": 11396,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:11396:v3:parent:62b3cffe80e5ff2e7f1c",
+            "source_id": "issue:11396",
+            "text": "### Current Behavior\n\n\nThe upload fails when the filename contains Unicode characters, showing a 400 error.\n",
+            "source_span": [
+              1274,
+              1382
+            ],
+            "source_sha256": "2e6fc873072c744063502b98becd260fe2baa11427e69e4656450e12ebbc08f9",
+            "sha256": "94cf1c205e99fa478b8c86946f0504c6c3fbf7aeb22846e628d5c23fa3992996",
+            "lines": [
+              48,
+              51
+            ],
+            "section": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud) > Current Behavior",
+            "section_path": [
+              "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud)",
+              "Current Behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 20,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02290341,
+          "rank": 5
+        },
+        {
+          "kind": "issue",
+          "title": "Support nested url paths for Multipage Apps",
+          "url": "https://github.com/streamlit/streamlit/issues/8971",
+          "revision": "2026-07-22T07:49:50Z",
+          "product_version": null,
+          "issue_number": 8971,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:8971:v3:child:5418f7b418e0cb8e6819",
+          "source_id": "issue:8971",
+          "text": "### Current Behavior\n\nI get the following error:\n[IMAGE OMITTED: not inspected]\n\nUpon opening the dev tools console, I see this:\n[IMAGE OMITTED: not inspected]\n\n\nThat `SyntaxError` piqued my interest, and it looks like that `<hash>.chunk.js` file's contents are this HTML blob:\n```html\n",
+          "source_span": [
+            1751,
+            2037
+          ],
+          "source_sha256": "ee2e3718f4bae2f3187ea060ff1954c336103f09c1bb10811edf17ce42048c8b",
+          "sha256": "4d0f96b0bf3f8dfa46f1b845c39960dbb16e860b75d2cd6bd792faabb9f623b5",
+          "lines": [
+            64,
+            74
+          ],
+          "section": "Support nested url paths for Multipage Apps > Current Behavior",
+          "section_path": [
+            "Support nested url paths for Multipage Apps",
+            "Current Behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 70,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:8971:v3:parent:bf0f029acf0192bb134a",
+          "parent": {
+            "kind": "issue",
+            "title": "Support nested url paths for Multipage Apps",
+            "url": "https://github.com/streamlit/streamlit/issues/8971",
+            "revision": "2026-07-22T07:49:50Z",
+            "product_version": null,
+            "issue_number": 8971,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:8971:v3:parent:bf0f029acf0192bb134a",
+            "source_id": "issue:8971",
+            "text": "### Current Behavior\n\nI get the following error:\n[IMAGE OMITTED: not inspected]\n\nUpon opening the dev tools console, I see this:\n[IMAGE OMITTED: not inspected]\n\n\nThat `SyntaxError` piqued my interest, and it looks like that `<hash>.chunk.js` file's contents are this HTML blob:\n```html\n<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,shrink-to-fit=no\"/><link rel=\"shortcut icon\" href=\"[./favicon.png](view-source:http://localhost:8501/excel/static/js/favicon.png)\"/><link rel=\"preload\" href=\"[./static/media/SourceSansPro-Regular.0d69e5ff5e92ac64a0c9.woff2](view-source:http://localhost:8501/excel/static/js/static/media/SourceSansPro-Regular.0d69e5ff5e92ac64a0c9.woff2)\" as=\"font\" type=\"font/woff2\" crossorigin><link rel=\"preload\" href=\"[./static/media/SourceSansPro-SemiBold.abed79cd0df1827e18cf.woff2](view-source:http://localhost:8501/excel/static/js/static/media/SourceSansPro-SemiBold.abed79cd0df1827e18cf.woff2)\" as=\"font\" type=\"font/woff2\" crossorigin><link rel=\"preload\" href=\"[./static/media/SourceSansPro-Bold.118dea98980e20a81ced.woff2](view-source:http://localhost:8501/excel/static/js/static/media/SourceSansPro-Bold.118dea98980e20a81ced.woff2)\" as=\"font\" type=\"font/woff2\" crossorigin><title>Streamlit</title><script>window.prerenderReady=!1</script><script defer=\"defer\" src=\"[./static/js/main.7994a814.js](view-source:http://localhost:8501/excel/static/js/static/js/main.7994a814.js)\"></script><link href=\"[./static/css/main.3aaaea00.css](view-source:http://localhost:8501/excel/static/js/static/css/main.3aaaea00.css)\" rel=\"stylesheet\"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id=\"root\"></div></body></html>\n```\n\nThis is where my frontend knowledge runs out - I have no idea what could be causing this HTML blob to be parsed as js. Any ideas?\n",
+            "source_span": [
+              1751,
+              3634
+            ],
+            "source_sha256": "ee2e3718f4bae2f3187ea060ff1954c336103f09c1bb10811edf17ce42048c8b",
+            "sha256": "fb5ec478f9335a83ce77273d4e2ede916885dd676b1a39ee5f57385266c80183",
+            "lines": [
+              64,
+              78
+            ],
+            "section": "Support nested url paths for Multipage Apps > Current Behavior",
+            "section_path": [
+              "Support nested url paths for Multipage Apps",
+              "Current Behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 554,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0205,
+          "rank": 6
+        },
+        {
+          "kind": "docs",
+          "title": "config-toml",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/configuration/config-toml.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:config-toml:v3:child:266f749b514cef111051",
+          "source_id": "docs:config-toml",
+          "text": "# The default value should work for most deployments. However, if you're\n# experiencing frequent disconnections in certain proxy setups (e.g.,\n# \"Connection error\" messages), you may want to try adjusting this value.\n#\n# Note: When you set this option, Streamlit automatically sets the ping\n# timeout to match this interval.\nwebsocketPingInterval =\n\n# Enable serving files from a `static` directory in the running app's\n# directory.\n#\n# Default: false\nenableStaticServing = false\n\n# TTL in seconds for sessions whose websockets have been disconnected.\n#\n# The server may choose to clean up session state, uploaded files, etc\n# for a given session with no active websocket connection at any point\n# after this time has passed. If you are using load balancing or\n# replication in your deployment, you must enable session stickiness\n# in your proxy to guarantee reconnection to the existing session. For\n# more information, see https://docs.streamlit.io/replication.\n#\n# Default: 120\ndisconnectedSessionTTL = 120\n\n# Server certificate file for connecting via HTTPS.\n# Must be set at the same time as \"server.sslKeyFile\".\n#\n# ['DO NOT USE THIS OPTION IN A PRODUCTION ENVIRONMENT. It has not gone through\n# security audits or performance tests. For a production environment, we\n# recommend performing SSL termination through a load balancer or reverse\n# proxy.']\n",
+          "source_span": [
+            17208,
+            18566
+          ],
+          "source_sha256": "a41c61df3509b3944ab0b2af91ec909d33973e04b0344b2b227cdc72cc2f81c9",
+          "sha256": "8304e8ea34fbeffcc194a3784a07ebd6bcf095d408084c2112c5399db6286477",
+          "lines": [
+            461,
+            493
+          ],
+          "section": "config-toml > config.toml > Available configuration options > Server",
+          "section_path": [
+            "config-toml",
+            "config.toml",
+            "Available configuration options",
+            "Server"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 298,
+          "block_kinds": [
+            "code"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:config-toml:v3:parent:359c6912371aa1f76005",
+          "parent": {
+            "kind": "docs",
+            "title": "config-toml",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/configuration/config-toml.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:config-toml:v3:parent:359c6912371aa1f76005",
+            "source_id": "docs:config-toml",
+            "text": "# The default value should work for most deployments. However, if you're\n# experiencing frequent disconnections in certain proxy setups (e.g.,\n# \"Connection error\" messages), you may want to try adjusting this value.\n#\n# Note: When you set this option, Streamlit automatically sets the ping\n# timeout to match this interval.\nwebsocketPingInterval =\n\n# Enable serving files from a `static` directory in the running app's\n# directory.\n#\n# Default: false\nenableStaticServing = false\n\n# TTL in seconds for sessions whose websockets have been disconnected.\n#\n# The server may choose to clean up session state, uploaded files, etc\n# for a given session with no active websocket connection at any point\n# after this time has passed. If you are using load balancing or\n# replication in your deployment, you must enable session stickiness\n# in your proxy to guarantee reconnection to the existing session. For\n# more information, see https://docs.streamlit.io/replication.\n#\n# Default: 120\ndisconnectedSessionTTL = 120\n\n# Server certificate file for connecting via HTTPS.\n# Must be set at the same time as \"server.sslKeyFile\".\n#\n# ['DO NOT USE THIS OPTION IN A PRODUCTION ENVIRONMENT. It has not gone through\n# security audits or performance tests. For a production environment, we\n# recommend performing SSL termination through a load balancer or reverse\n# proxy.']\nsslCertFile =\n\n# Cryptographic key file for connecting via HTTPS.\n# Must be set at the same time as \"server.sslCertFile\".\n#\n# ['DO NOT USE THIS OPTION IN A PRODUCTION ENVIRONMENT. It has not gone through\n# security audits or performance tests. For a production environment, we\n# recommend performing SSL termination through a load balancer or reverse\n# proxy.']\nsslKeyFile =\n```\n",
+            "source_span": [
+              17208,
+              18945
+            ],
+            "source_sha256": "a41c61df3509b3944ab0b2af91ec909d33973e04b0344b2b227cdc72cc2f81c9",
+            "sha256": "3134d504823f1a1c4c5de9505635faa745f3e251a84d5bf415e9f5617cea2f24",
+            "lines": [
+              461,
+              504
+            ],
+            "section": "config-toml > config.toml > Available configuration options > Server",
+            "section_path": [
+              "config-toml",
+              "config.toml",
+              "Available configuration options",
+              "Server"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 386,
+            "block_kinds": [
+              "code"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02394205,
+          "rank": 7
+        },
+        {
+          "kind": "issue",
+          "title": "Network URL missing from console output",
+          "url": "https://github.com/streamlit/streamlit/issues/1530",
+          "revision": "2020-08-06T23:07:47Z",
+          "product_version": null,
+          "issue_number": 1530,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:1530:v3:child:017c03b891d7fd73d906",
+          "source_id": "issue:1530",
+          "text": "# Summary\nWhen streamlit application is run on Ubuntu terminal. it shows two types of URL. Local URL and NetworkURL. But, in my case the NetworkURL is completely missing from the terminal output. Here is a sample output I get\n[IMAGE OMITTED: not inspected]\n\nType here a clear and concise description of the bug. Aim for 2-3 sentences.\nNetwork URL is missing from terminal output\n",
+          "source_span": [
+            41,
+            420
+          ],
+          "source_sha256": "52e046e71f907136114a7ccaa3d34d688049bb4f42e8ae09b917004869e0b578",
+          "sha256": "5bb5dedd20891d33b9a2461fd33fe1a35cc51a959779c39afc629b7ebf8b5f4f",
+          "lines": [
+            3,
+            8
+          ],
+          "section": "Network URL missing from console output > Summary",
+          "section_path": [
+            "Network URL missing from console output",
+            "Summary"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 85,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:1530:v3:parent:017c03b891d7fd73d906",
+          "parent": {
+            "kind": "issue",
+            "title": "Network URL missing from console output",
+            "url": "https://github.com/streamlit/streamlit/issues/1530",
+            "revision": "2020-08-06T23:07:47Z",
+            "product_version": null,
+            "issue_number": 1530,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:1530:v3:parent:017c03b891d7fd73d906",
+            "source_id": "issue:1530",
+            "text": "# Summary\nWhen streamlit application is run on Ubuntu terminal. it shows two types of URL. Local URL and NetworkURL. But, in my case the NetworkURL is completely missing from the terminal output. Here is a sample output I get\n[IMAGE OMITTED: not inspected]\n\nType here a clear and concise description of the bug. Aim for 2-3 sentences.\nNetwork URL is missing from terminal output\n",
+            "source_span": [
+              41,
+              420
+            ],
+            "source_sha256": "52e046e71f907136114a7ccaa3d34d688049bb4f42e8ae09b917004869e0b578",
+            "sha256": "5bb5dedd20891d33b9a2461fd33fe1a35cc51a959779c39afc629b7ebf8b5f4f",
+            "lines": [
+              3,
+              8
+            ],
+            "section": "Network URL missing from console output > Summary",
+            "section_path": [
+              "Network URL missing from console output",
+              "Summary"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 85,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0211391,
+          "rank": 8
+        }
+      ],
+      "candidate_hash": "3ce67fe8e4aa8e27f0b3b42fc9310f7de469da655a3c0d0805a4c058d030d6f1",
+      "context": [
+        {
+          "kind": "docs",
+          "title": "static-file-serving",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:static-file-serving:v3:child:02f06fd6fde22070615f",
+          "source_id": "docs:static-file-serving",
+          "text": "## Example usage\n\n- Put an image `cat.png` in the folder `./static/`\n- Add `enableStaticServing = true` under `[server]` in your `.streamlit/config.toml`\n- Any media in the `./static/` folder is served at the relative URL like `app/static/cat.png`\n\n```toml\n# .streamlit/config.toml\n\n[server]\nenableStaticServing = true\n```\n\n```python\n# app.py\nimport streamlit as st\n\nwith st.echo():\n    st.title(\"CAT\")\n\n    st.markdown(\"[![Click me](app/static/cat.png)](https://streamlit.io)\")\n\n```\n\nAdditional resources:\n\n- [https://docs.streamlit.io/develop/concepts/configuration](https://docs.streamlit.io/develop/concepts/configuration)\n- [https://static-file-serving.streamlit.app/](https://static-file-serving.streamlit.app/)\n\n<Cloud name=\"static-file-serving\" height=\"1000px\" />\n",
+          "source_span": [
+            1879,
+            2651
+          ],
+          "source_sha256": "70428474b21f05b65bd74309b1fdb4f1728fe28e20bbea9830f2517e7a594c63",
+          "sha256": "bc8c58cbe3f76fffec1001b015eb39d1f31861075e1d4ea610ed1f3f759421cc",
+          "lines": [
+            33,
+            62
+          ],
+          "section": "static-file-serving > Static file serving > Example usage",
+          "section_path": [
+            "static-file-serving",
+            "Static file serving",
+            "Example usage"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 207,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:static-file-serving:v3:parent:02f06fd6fde22070615f",
+          "parent": {
+            "kind": "docs",
+            "title": "static-file-serving",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:static-file-serving:v3:parent:02f06fd6fde22070615f",
+            "source_id": "docs:static-file-serving",
+            "text": "## Example usage\n\n- Put an image `cat.png` in the folder `./static/`\n- Add `enableStaticServing = true` under `[server]` in your `.streamlit/config.toml`\n- Any media in the `./static/` folder is served at the relative URL like `app/static/cat.png`\n\n```toml\n# .streamlit/config.toml\n\n[server]\nenableStaticServing = true\n```\n\n```python\n# app.py\nimport streamlit as st\n\nwith st.echo():\n    st.title(\"CAT\")\n\n    st.markdown(\"[![Click me](app/static/cat.png)](https://streamlit.io)\")\n\n```\n\nAdditional resources:\n\n- [https://docs.streamlit.io/develop/concepts/configuration](https://docs.streamlit.io/develop/concepts/configuration)\n- [https://static-file-serving.streamlit.app/](https://static-file-serving.streamlit.app/)\n\n<Cloud name=\"static-file-serving\" height=\"1000px\" />\n",
+            "source_span": [
+              1879,
+              2651
+            ],
+            "source_sha256": "70428474b21f05b65bd74309b1fdb4f1728fe28e20bbea9830f2517e7a594c63",
+            "sha256": "bc8c58cbe3f76fffec1001b015eb39d1f31861075e1d4ea610ed1f3f759421cc",
+            "lines": [
+              33,
+              62
+            ],
+            "section": "static-file-serving > Static file serving > Example usage",
+            "section_path": [
+              "static-file-serving",
+              "Static file serving",
+              "Example usage"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 207,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03540984,
+          "rank": 1
+        },
+        {
+          "kind": "issue",
+          "title": "Externel URL doesn't work",
+          "url": "https://github.com/streamlit/streamlit/issues/4744",
+          "revision": "2024-08-15T20:59:01Z",
+          "product_version": null,
+          "issue_number": 4744,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:4744:v3:child:3668cde8fe085a5fcf41",
+          "source_id": "issue:4744",
+          "text": "#### 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.\nCode snippet:\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n```\nHere is what my .toml file looks like.\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n\n[theme]\nprimaryColor = \"#826E7A\"\nbackgroundColor = \"#AAD3DF\"\nsecondaryBackgroundColor = \"#AAD3DF\"\ntextColor = \"#191970\"\nfont = \"sans serif\"\n```\n\nHere is my config.toml file\n",
+          "source_span": [
+            218,
+            675
+          ],
+          "source_sha256": "1c7ee805d9f6bad55b7d4e129ae4e0a1d1f50624f18c7048bdd0907c7e534a02",
+          "sha256": "6d3cdc6a645dd18512d0b27fc88bbd32b7d495577ce87383fdcc5b8a5b613fff",
+          "lines": [
+            10,
+            31
+          ],
+          "section": "Externel URL doesn't work > Methods I tried > 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.",
+          "section_path": [
+            "Externel URL doesn't work",
+            "Methods I tried",
+            "1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work."
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 135,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:4744:v3:parent:3668cde8fe085a5fcf41",
+          "parent": {
+            "kind": "issue",
+            "title": "Externel URL doesn't work",
+            "url": "https://github.com/streamlit/streamlit/issues/4744",
+            "revision": "2024-08-15T20:59:01Z",
+            "product_version": null,
+            "issue_number": 4744,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:4744:v3:parent:3668cde8fe085a5fcf41",
+            "source_id": "issue:4744",
+            "text": "#### 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.\nCode snippet:\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n```\nHere is what my .toml file looks like.\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n\n[theme]\nprimaryColor = \"#826E7A\"\nbackgroundColor = \"#AAD3DF\"\nsecondaryBackgroundColor = \"#AAD3DF\"\ntextColor = \"#191970\"\nfont = \"sans serif\"\n```\n\nHere is my config.toml file\n",
+            "source_span": [
+              218,
+              675
+            ],
+            "source_sha256": "1c7ee805d9f6bad55b7d4e129ae4e0a1d1f50624f18c7048bdd0907c7e534a02",
+            "sha256": "6d3cdc6a645dd18512d0b27fc88bbd32b7d495577ce87383fdcc5b8a5b613fff",
+            "lines": [
+              10,
+              31
+            ],
+            "section": "Externel URL doesn't work > Methods I tried > 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.",
+            "section_path": [
+              "Externel URL doesn't work",
+              "Methods I tried",
+              "1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work."
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 135,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02838164,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "static-file-serving",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:static-file-serving:v3:child:51b411f23db4ea408d60",
+          "source_id": "docs:static-file-serving",
+          "text": "# Static file serving\n\nStreamlit apps can host and serve small, static media files to support media embedding use cases that\nwon't work with the normal [media elements](/develop/api-reference/media).\n\nTo enable this feature, set `enableStaticServing = true` under `[server]` in your config file,\nor environment variable `STREAMLIT_SERVER_ENABLE_STATIC_SERVING=true`.\n\nMedia stored in the folder `./static/` relative to the running app file is served at path\n`app/static/[filename]`, such as `http://localhost:8501/app/static/cat.png`.\n",
+          "source_span": [
+            398,
+            933
+          ],
+          "source_sha256": "70428474b21f05b65bd74309b1fdb4f1728fe28e20bbea9830f2517e7a594c63",
+          "sha256": "7557a72a29202e2e541302ed9d4158a31c3fb66cf9400e0d063076d5df9d77af",
+          "lines": [
+            8,
+            17
+          ],
+          "section": "static-file-serving > Static file serving",
+          "section_path": [
+            "static-file-serving",
+            "Static file serving"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 121,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:static-file-serving:v3:parent:51b411f23db4ea408d60",
+          "parent": {
+            "kind": "docs",
+            "title": "static-file-serving",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:static-file-serving:v3:parent:51b411f23db4ea408d60",
+            "source_id": "docs:static-file-serving",
+            "text": "# Static file serving\n\nStreamlit apps can host and serve small, static media files to support media embedding use cases that\nwon't work with the normal [media elements](/develop/api-reference/media).\n\nTo enable this feature, set `enableStaticServing = true` under `[server]` in your config file,\nor environment variable `STREAMLIT_SERVER_ENABLE_STATIC_SERVING=true`.\n\nMedia stored in the folder `./static/` relative to the running app file is served at path\n`app/static/[filename]`, such as `http://localhost:8501/app/static/cat.png`.\n",
+            "source_span": [
+              398,
+              933
+            ],
+            "source_sha256": "70428474b21f05b65bd74309b1fdb4f1728fe28e20bbea9830f2517e7a594c63",
+            "sha256": "7557a72a29202e2e541302ed9d4158a31c3fb66cf9400e0d063076d5df9d77af",
+            "lines": [
+              8,
+              17
+            ],
+            "section": "static-file-serving > Static file serving",
+            "section_path": [
+              "static-file-serving",
+              "Static file serving"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 121,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03483871,
+          "rank": 3
+        },
+        {
+          "kind": "issue",
+          "title": "Externel URL doesn't work",
+          "url": "https://github.com/streamlit/streamlit/issues/4744",
+          "revision": "2024-08-15T20:59:01Z",
+          "product_version": null,
+          "issue_number": 4744,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:4744:v3:child:43bf83cbc3b7c03440b9",
+          "source_id": "issue:4744",
+          "text": "# Symmetric key used to produce signed cookies. If deploying on multiple replicas, this should be set to the same value across all replicas to ensure they all share the same secret.\n# Default: randomly generated secret key.\ncookieSecret = \"73d27e89aa0f890eb5e4fc63756c932b1d47f2c509bcf8bd9ceecc063e87f65f\"\n\n# If false, will attempt to open a browser window on start.\n# Default: false unless (1) we are on a Linux box where DISPLAY is unset, or (2) server.liveSave is set.\nheadless = false\n\n# Automatically rerun script when the file is modified on disk.\n# Default: false\nrunOnSave = false\n\n# The address where the server will listen for client and browser connections. Use this if you want to bind the server to a specific address. If set, the server will only be accessible\n from this address, and not from any aliases (like localhost).\n# Default: (unset)\n#address =\n\n# The port where the server will listen for browser connections.\n# Default: 8501\nport = 8501\n\n# The base path for the URL where Streamlit should be served from.\n# Default: \"\"\nbaseUrlPath = \"\"\n\n# Enables support for Cross-Origin Request Sharing (CORS) protection, for added security.\n",
+          "source_span": [
+            4018,
+            5170
+          ],
+          "source_sha256": "1c7ee805d9f6bad55b7d4e129ae4e0a1d1f50624f18c7048bdd0907c7e534a02",
+          "sha256": "697569059f4647a720c400953973649f91cda5f9b64df63d86a64502f67cc70c",
+          "lines": [
+            118,
+            143
+          ],
+          "section": "Externel URL doesn't work > Methods I tried > 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.",
+          "section_path": [
+            "Externel URL doesn't work",
+            "Methods I tried",
+            "1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work."
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 288,
+          "block_kinds": [
+            "code"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:4744:v3:parent:23617aa258ea3b91429f",
+          "parent": {
+            "kind": "issue",
+            "title": "Externel URL doesn't work",
+            "url": "https://github.com/streamlit/streamlit/issues/4744",
+            "revision": "2024-08-15T20:59:01Z",
+            "product_version": null,
+            "issue_number": 4744,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:4744:v3:parent:23617aa258ea3b91429f",
+            "source_id": "issue:4744",
+            "text": "# Symmetric key used to produce signed cookies. If deploying on multiple replicas, this should be set to the same value across all replicas to ensure they all share the same secret.\n# Default: randomly generated secret key.\ncookieSecret = \"73d27e89aa0f890eb5e4fc63756c932b1d47f2c509bcf8bd9ceecc063e87f65f\"\n\n# If false, will attempt to open a browser window on start.\n# Default: false unless (1) we are on a Linux box where DISPLAY is unset, or (2) server.liveSave is set.\nheadless = false\n\n# Automatically rerun script when the file is modified on disk.\n# Default: false\nrunOnSave = false\n\n# The address where the server will listen for client and browser connections. Use this if you want to bind the server to a specific address. If set, the server will only be accessible\n from this address, and not from any aliases (like localhost).\n# Default: (unset)\n#address =\n\n# The port where the server will listen for browser connections.\n# Default: 8501\nport = 8501\n\n# The base path for the URL where Streamlit should be served from.\n# Default: \"\"\nbaseUrlPath = \"\"\n\n# Enables support for Cross-Origin Request Sharing (CORS) protection, for added security.\n# Due to conflicts between CORS and XSRF, if `server.enableXsrfProtection` is on and `server.enableCORS` is off at the same time, we will prioritize `server.enableXsrfProtection`.\n# Default: true\nenableCORS = true\n\n# Enables support for Cross-Site Request Forgery (XSRF) protection, for added security.\n# Due to conflicts between CORS and XSRF, if `server.enableXsrfProtection` is on and `server.enableCORS` is off at the same time, we will prioritize `server.enableXsrfProtection`.\n# Default: true\nenableXsrfProtection = true\n\n# Max size, in megabytes, for files uploaded with the file_uploader.\n# Default: 200\nmaxUploadSize = 200\n\n# Enables support for websocket compression.\n# Default: true\nenableWebsocketCompression = true\n\n\n[browser]\n\n# Internet address where users should point their browsers in order to connect to the app. Can be IP address or DNS name and path.\n# This is used to: - Set the correct URL for CORS and XSRF protection purposes. - Show the URL on the terminal - Open the browser - Tell the browser where to connect to the server when\n in liveSave mode.\n# Default: 'localhost'\nserverAddress = \"localhost\"\n\n# Whether to send usage statistics to Streamlit.\n# Default: true\ngatherUsageStats = true\n\n# Port where users should point their browsers in order to connect to the app.\n# This is used to: - Set the correct URL for CORS and XSRF protection purposes. - Show the URL on the terminal - Open the browser - Tell the browser where to connect to the server when\n in liveSave mode.\n# Default: whatever value is set in server.port.\nserverPort = 8501\n\n\n[mapbox]\n\n# Configure Streamlit to use a custom Mapbox token for elements like st.pydeck_chart and st.map. To get a token for yourself, create an account at https://mapbox.com. It's free (for mo\nderate usage levels)!\n# Default: \"\"\ntoken = \"\"\n\n\n[deprecation]\n\n# Set to false to disable the deprecation warning for the file uploader encoding.\n# Default: true\nshowfileUploaderEncoding = true\n\n# Set to false to disable the deprecation warning for using the global pyplot instance.\n# Default: true\nshowPyplotGlobalUse = true\n\n\n[s3]\n\n",
+            "source_span": [
+              4018,
+              7269
+            ],
+            "source_sha256": "1c7ee805d9f6bad55b7d4e129ae4e0a1d1f50624f18c7048bdd0907c7e534a02",
+            "sha256": "d7c727f46831939abd0af1fb1a8f16173ceb5687a330f664375f2b51ea78b2b8",
+            "lines": [
+              118,
+              201
+            ],
+            "section": "Externel URL doesn't work > Methods I tried > 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.",
+            "section_path": [
+              "Externel URL doesn't work",
+              "Methods I tried",
+              "1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work."
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 796,
+            "block_kinds": [
+              "code"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0289916,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud)",
+          "url": "https://github.com/streamlit/streamlit/issues/11396",
+          "revision": "2025-05-23T22:25:01Z",
+          "product_version": null,
+          "issue_number": 11396,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:11396:v3:child:62b3cffe80e5ff2e7f1c",
+          "source_id": "issue:11396",
+          "text": "### Current Behavior\n\n\nThe upload fails when the filename contains Unicode characters, showing a 400 error.\n",
+          "source_span": [
+            1274,
+            1382
+          ],
+          "source_sha256": "2e6fc873072c744063502b98becd260fe2baa11427e69e4656450e12ebbc08f9",
+          "sha256": "94cf1c205e99fa478b8c86946f0504c6c3fbf7aeb22846e628d5c23fa3992996",
+          "lines": [
+            48,
+            51
+          ],
+          "section": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud) > Current Behavior",
+          "section_path": [
+            "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud)",
+            "Current Behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 20,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:11396:v3:parent:62b3cffe80e5ff2e7f1c",
+          "parent": {
+            "kind": "issue",
+            "title": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud)",
+            "url": "https://github.com/streamlit/streamlit/issues/11396",
+            "revision": "2025-05-23T22:25:01Z",
+            "product_version": null,
+            "issue_number": 11396,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:11396:v3:parent:62b3cffe80e5ff2e7f1c",
+            "source_id": "issue:11396",
+            "text": "### Current Behavior\n\n\nThe upload fails when the filename contains Unicode characters, showing a 400 error.\n",
+            "source_span": [
+              1274,
+              1382
+            ],
+            "source_sha256": "2e6fc873072c744063502b98becd260fe2baa11427e69e4656450e12ebbc08f9",
+            "sha256": "94cf1c205e99fa478b8c86946f0504c6c3fbf7aeb22846e628d5c23fa3992996",
+            "lines": [
+              48,
+              51
+            ],
+            "section": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud) > Current Behavior",
+            "section_path": [
+              "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud)",
+              "Current Behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 20,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02290341,
+          "rank": 5
+        }
+      ],
+      "packing": {
+        "encoding": "o200k_base",
+        "budget_tokens": 3000,
+        "used_tokens": 2047,
+        "expand_parent": false,
+        "items": [
+          {
+            "id": "docs:static-file-serving:v3:child:02f06fd6fde22070615f",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:static-file-serving:v3:child:02f06fd6fde22070615f"
+          },
+          {
+            "id": "issue:4744:v3:child:3668cde8fe085a5fcf41",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:4744:v3:child:3668cde8fe085a5fcf41"
+          },
+          {
+            "id": "docs:static-file-serving:v3:child:51b411f23db4ea408d60",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:static-file-serving:v3:child:51b411f23db4ea408d60"
+          },
+          {
+            "id": "issue:4744:v3:child:43bf83cbc3b7c03440b9",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:4744:v3:child:43bf83cbc3b7c03440b9"
+          },
+          {
+            "id": "issue:11396:v3:child:62b3cffe80e5ff2e7f1c",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:11396:v3:child:62b3cffe80e5ff2e7f1c"
+          },
+          {
+            "id": "issue:8971:v3:child:5418f7b418e0cb8e6819",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "docs:config-toml:v3:child:266f749b514cef111051",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:1530:v3:child:017c03b891d7fd73d906",
+            "status": "omitted",
+            "reason": "item_limit"
+          }
+        ]
+      },
+      "index": "v3",
+      "namespace": "6fbba079eb1323bf54c9d03ad4b956a7174e0f434f386ed66f0a50b489f55d4e"
+    },
+    "C": {
+      "candidates": [
+        {
+          "kind": "docs",
+          "title": "static-file-serving",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:static-file-serving:v3:child:02f06fd6fde22070615f",
+          "source_id": "docs:static-file-serving",
+          "text": "## Example usage\n\n- Put an image `cat.png` in the folder `./static/`\n- Add `enableStaticServing = true` under `[server]` in your `.streamlit/config.toml`\n- Any media in the `./static/` folder is served at the relative URL like `app/static/cat.png`\n\n```toml\n# .streamlit/config.toml\n\n[server]\nenableStaticServing = true\n```\n\n```python\n# app.py\nimport streamlit as st\n\nwith st.echo():\n    st.title(\"CAT\")\n\n    st.markdown(\"[![Click me](app/static/cat.png)](https://streamlit.io)\")\n\n```\n\nAdditional resources:\n\n- [https://docs.streamlit.io/develop/concepts/configuration](https://docs.streamlit.io/develop/concepts/configuration)\n- [https://static-file-serving.streamlit.app/](https://static-file-serving.streamlit.app/)\n\n<Cloud name=\"static-file-serving\" height=\"1000px\" />\n",
+          "source_span": [
+            1879,
+            2651
+          ],
+          "source_sha256": "70428474b21f05b65bd74309b1fdb4f1728fe28e20bbea9830f2517e7a594c63",
+          "sha256": "bc8c58cbe3f76fffec1001b015eb39d1f31861075e1d4ea610ed1f3f759421cc",
+          "lines": [
+            33,
+            62
+          ],
+          "section": "static-file-serving > Static file serving > Example usage",
+          "section_path": [
+            "static-file-serving",
+            "Static file serving",
+            "Example usage"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 207,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:static-file-serving:v3:parent:02f06fd6fde22070615f",
+          "parent": {
+            "kind": "docs",
+            "title": "static-file-serving",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:static-file-serving:v3:parent:02f06fd6fde22070615f",
+            "source_id": "docs:static-file-serving",
+            "text": "## Example usage\n\n- Put an image `cat.png` in the folder `./static/`\n- Add `enableStaticServing = true` under `[server]` in your `.streamlit/config.toml`\n- Any media in the `./static/` folder is served at the relative URL like `app/static/cat.png`\n\n```toml\n# .streamlit/config.toml\n\n[server]\nenableStaticServing = true\n```\n\n```python\n# app.py\nimport streamlit as st\n\nwith st.echo():\n    st.title(\"CAT\")\n\n    st.markdown(\"[![Click me](app/static/cat.png)](https://streamlit.io)\")\n\n```\n\nAdditional resources:\n\n- [https://docs.streamlit.io/develop/concepts/configuration](https://docs.streamlit.io/develop/concepts/configuration)\n- [https://static-file-serving.streamlit.app/](https://static-file-serving.streamlit.app/)\n\n<Cloud name=\"static-file-serving\" height=\"1000px\" />\n",
+            "source_span": [
+              1879,
+              2651
+            ],
+            "source_sha256": "70428474b21f05b65bd74309b1fdb4f1728fe28e20bbea9830f2517e7a594c63",
+            "sha256": "bc8c58cbe3f76fffec1001b015eb39d1f31861075e1d4ea610ed1f3f759421cc",
+            "lines": [
+              33,
+              62
+            ],
+            "section": "static-file-serving > Static file serving > Example usage",
+            "section_path": [
+              "static-file-serving",
+              "Static file serving",
+              "Example usage"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 207,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03540984,
+          "rank": 1
+        },
+        {
+          "kind": "issue",
+          "title": "Externel URL doesn't work",
+          "url": "https://github.com/streamlit/streamlit/issues/4744",
+          "revision": "2024-08-15T20:59:01Z",
+          "product_version": null,
+          "issue_number": 4744,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:4744:v3:child:3668cde8fe085a5fcf41",
+          "source_id": "issue:4744",
+          "text": "#### 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.\nCode snippet:\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n```\nHere is what my .toml file looks like.\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n\n[theme]\nprimaryColor = \"#826E7A\"\nbackgroundColor = \"#AAD3DF\"\nsecondaryBackgroundColor = \"#AAD3DF\"\ntextColor = \"#191970\"\nfont = \"sans serif\"\n```\n\nHere is my config.toml file\n",
+          "source_span": [
+            218,
+            675
+          ],
+          "source_sha256": "1c7ee805d9f6bad55b7d4e129ae4e0a1d1f50624f18c7048bdd0907c7e534a02",
+          "sha256": "6d3cdc6a645dd18512d0b27fc88bbd32b7d495577ce87383fdcc5b8a5b613fff",
+          "lines": [
+            10,
+            31
+          ],
+          "section": "Externel URL doesn't work > Methods I tried > 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.",
+          "section_path": [
+            "Externel URL doesn't work",
+            "Methods I tried",
+            "1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work."
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 135,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:4744:v3:parent:3668cde8fe085a5fcf41",
+          "parent": {
+            "kind": "issue",
+            "title": "Externel URL doesn't work",
+            "url": "https://github.com/streamlit/streamlit/issues/4744",
+            "revision": "2024-08-15T20:59:01Z",
+            "product_version": null,
+            "issue_number": 4744,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:4744:v3:parent:3668cde8fe085a5fcf41",
+            "source_id": "issue:4744",
+            "text": "#### 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.\nCode snippet:\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n```\nHere is what my .toml file looks like.\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n\n[theme]\nprimaryColor = \"#826E7A\"\nbackgroundColor = \"#AAD3DF\"\nsecondaryBackgroundColor = \"#AAD3DF\"\ntextColor = \"#191970\"\nfont = \"sans serif\"\n```\n\nHere is my config.toml file\n",
+            "source_span": [
+              218,
+              675
+            ],
+            "source_sha256": "1c7ee805d9f6bad55b7d4e129ae4e0a1d1f50624f18c7048bdd0907c7e534a02",
+            "sha256": "6d3cdc6a645dd18512d0b27fc88bbd32b7d495577ce87383fdcc5b8a5b613fff",
+            "lines": [
+              10,
+              31
+            ],
+            "section": "Externel URL doesn't work > Methods I tried > 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.",
+            "section_path": [
+              "Externel URL doesn't work",
+              "Methods I tried",
+              "1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work."
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 135,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02838164,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "static-file-serving",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:static-file-serving:v3:child:51b411f23db4ea408d60",
+          "source_id": "docs:static-file-serving",
+          "text": "# Static file serving\n\nStreamlit apps can host and serve small, static media files to support media embedding use cases that\nwon't work with the normal [media elements](/develop/api-reference/media).\n\nTo enable this feature, set `enableStaticServing = true` under `[server]` in your config file,\nor environment variable `STREAMLIT_SERVER_ENABLE_STATIC_SERVING=true`.\n\nMedia stored in the folder `./static/` relative to the running app file is served at path\n`app/static/[filename]`, such as `http://localhost:8501/app/static/cat.png`.\n",
+          "source_span": [
+            398,
+            933
+          ],
+          "source_sha256": "70428474b21f05b65bd74309b1fdb4f1728fe28e20bbea9830f2517e7a594c63",
+          "sha256": "7557a72a29202e2e541302ed9d4158a31c3fb66cf9400e0d063076d5df9d77af",
+          "lines": [
+            8,
+            17
+          ],
+          "section": "static-file-serving > Static file serving",
+          "section_path": [
+            "static-file-serving",
+            "Static file serving"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 121,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:static-file-serving:v3:parent:51b411f23db4ea408d60",
+          "parent": {
+            "kind": "docs",
+            "title": "static-file-serving",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:static-file-serving:v3:parent:51b411f23db4ea408d60",
+            "source_id": "docs:static-file-serving",
+            "text": "# Static file serving\n\nStreamlit apps can host and serve small, static media files to support media embedding use cases that\nwon't work with the normal [media elements](/develop/api-reference/media).\n\nTo enable this feature, set `enableStaticServing = true` under `[server]` in your config file,\nor environment variable `STREAMLIT_SERVER_ENABLE_STATIC_SERVING=true`.\n\nMedia stored in the folder `./static/` relative to the running app file is served at path\n`app/static/[filename]`, such as `http://localhost:8501/app/static/cat.png`.\n",
+            "source_span": [
+              398,
+              933
+            ],
+            "source_sha256": "70428474b21f05b65bd74309b1fdb4f1728fe28e20bbea9830f2517e7a594c63",
+            "sha256": "7557a72a29202e2e541302ed9d4158a31c3fb66cf9400e0d063076d5df9d77af",
+            "lines": [
+              8,
+              17
+            ],
+            "section": "static-file-serving > Static file serving",
+            "section_path": [
+              "static-file-serving",
+              "Static file serving"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 121,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03483871,
+          "rank": 3
+        },
+        {
+          "kind": "issue",
+          "title": "Externel URL doesn't work",
+          "url": "https://github.com/streamlit/streamlit/issues/4744",
+          "revision": "2024-08-15T20:59:01Z",
+          "product_version": null,
+          "issue_number": 4744,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:4744:v3:child:43bf83cbc3b7c03440b9",
+          "source_id": "issue:4744",
+          "text": "# Symmetric key used to produce signed cookies. If deploying on multiple replicas, this should be set to the same value across all replicas to ensure they all share the same secret.\n# Default: randomly generated secret key.\ncookieSecret = \"73d27e89aa0f890eb5e4fc63756c932b1d47f2c509bcf8bd9ceecc063e87f65f\"\n\n# If false, will attempt to open a browser window on start.\n# Default: false unless (1) we are on a Linux box where DISPLAY is unset, or (2) server.liveSave is set.\nheadless = false\n\n# Automatically rerun script when the file is modified on disk.\n# Default: false\nrunOnSave = false\n\n# The address where the server will listen for client and browser connections. Use this if you want to bind the server to a specific address. If set, the server will only be accessible\n from this address, and not from any aliases (like localhost).\n# Default: (unset)\n#address =\n\n# The port where the server will listen for browser connections.\n# Default: 8501\nport = 8501\n\n# The base path for the URL where Streamlit should be served from.\n# Default: \"\"\nbaseUrlPath = \"\"\n\n# Enables support for Cross-Origin Request Sharing (CORS) protection, for added security.\n",
+          "source_span": [
+            4018,
+            5170
+          ],
+          "source_sha256": "1c7ee805d9f6bad55b7d4e129ae4e0a1d1f50624f18c7048bdd0907c7e534a02",
+          "sha256": "697569059f4647a720c400953973649f91cda5f9b64df63d86a64502f67cc70c",
+          "lines": [
+            118,
+            143
+          ],
+          "section": "Externel URL doesn't work > Methods I tried > 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.",
+          "section_path": [
+            "Externel URL doesn't work",
+            "Methods I tried",
+            "1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work."
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 288,
+          "block_kinds": [
+            "code"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:4744:v3:parent:23617aa258ea3b91429f",
+          "parent": {
+            "kind": "issue",
+            "title": "Externel URL doesn't work",
+            "url": "https://github.com/streamlit/streamlit/issues/4744",
+            "revision": "2024-08-15T20:59:01Z",
+            "product_version": null,
+            "issue_number": 4744,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:4744:v3:parent:23617aa258ea3b91429f",
+            "source_id": "issue:4744",
+            "text": "# Symmetric key used to produce signed cookies. If deploying on multiple replicas, this should be set to the same value across all replicas to ensure they all share the same secret.\n# Default: randomly generated secret key.\ncookieSecret = \"73d27e89aa0f890eb5e4fc63756c932b1d47f2c509bcf8bd9ceecc063e87f65f\"\n\n# If false, will attempt to open a browser window on start.\n# Default: false unless (1) we are on a Linux box where DISPLAY is unset, or (2) server.liveSave is set.\nheadless = false\n\n# Automatically rerun script when the file is modified on disk.\n# Default: false\nrunOnSave = false\n\n# The address where the server will listen for client and browser connections. Use this if you want to bind the server to a specific address. If set, the server will only be accessible\n from this address, and not from any aliases (like localhost).\n# Default: (unset)\n#address =\n\n# The port where the server will listen for browser connections.\n# Default: 8501\nport = 8501\n\n# The base path for the URL where Streamlit should be served from.\n# Default: \"\"\nbaseUrlPath = \"\"\n\n# Enables support for Cross-Origin Request Sharing (CORS) protection, for added security.\n# Due to conflicts between CORS and XSRF, if `server.enableXsrfProtection` is on and `server.enableCORS` is off at the same time, we will prioritize `server.enableXsrfProtection`.\n# Default: true\nenableCORS = true\n\n# Enables support for Cross-Site Request Forgery (XSRF) protection, for added security.\n# Due to conflicts between CORS and XSRF, if `server.enableXsrfProtection` is on and `server.enableCORS` is off at the same time, we will prioritize `server.enableXsrfProtection`.\n# Default: true\nenableXsrfProtection = true\n\n# Max size, in megabytes, for files uploaded with the file_uploader.\n# Default: 200\nmaxUploadSize = 200\n\n# Enables support for websocket compression.\n# Default: true\nenableWebsocketCompression = true\n\n\n[browser]\n\n# Internet address where users should point their browsers in order to connect to the app. Can be IP address or DNS name and path.\n# This is used to: - Set the correct URL for CORS and XSRF protection purposes. - Show the URL on the terminal - Open the browser - Tell the browser where to connect to the server when\n in liveSave mode.\n# Default: 'localhost'\nserverAddress = \"localhost\"\n\n# Whether to send usage statistics to Streamlit.\n# Default: true\ngatherUsageStats = true\n\n# Port where users should point their browsers in order to connect to the app.\n# This is used to: - Set the correct URL for CORS and XSRF protection purposes. - Show the URL on the terminal - Open the browser - Tell the browser where to connect to the server when\n in liveSave mode.\n# Default: whatever value is set in server.port.\nserverPort = 8501\n\n\n[mapbox]\n\n# Configure Streamlit to use a custom Mapbox token for elements like st.pydeck_chart and st.map. To get a token for yourself, create an account at https://mapbox.com. It's free (for mo\nderate usage levels)!\n# Default: \"\"\ntoken = \"\"\n\n\n[deprecation]\n\n# Set to false to disable the deprecation warning for the file uploader encoding.\n# Default: true\nshowfileUploaderEncoding = true\n\n# Set to false to disable the deprecation warning for using the global pyplot instance.\n# Default: true\nshowPyplotGlobalUse = true\n\n\n[s3]\n\n",
+            "source_span": [
+              4018,
+              7269
+            ],
+            "source_sha256": "1c7ee805d9f6bad55b7d4e129ae4e0a1d1f50624f18c7048bdd0907c7e534a02",
+            "sha256": "d7c727f46831939abd0af1fb1a8f16173ceb5687a330f664375f2b51ea78b2b8",
+            "lines": [
+              118,
+              201
+            ],
+            "section": "Externel URL doesn't work > Methods I tried > 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.",
+            "section_path": [
+              "Externel URL doesn't work",
+              "Methods I tried",
+              "1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work."
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 796,
+            "block_kinds": [
+              "code"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0289916,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud)",
+          "url": "https://github.com/streamlit/streamlit/issues/11396",
+          "revision": "2025-05-23T22:25:01Z",
+          "product_version": null,
+          "issue_number": 11396,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:11396:v3:child:62b3cffe80e5ff2e7f1c",
+          "source_id": "issue:11396",
+          "text": "### Current Behavior\n\n\nThe upload fails when the filename contains Unicode characters, showing a 400 error.\n",
+          "source_span": [
+            1274,
+            1382
+          ],
+          "source_sha256": "2e6fc873072c744063502b98becd260fe2baa11427e69e4656450e12ebbc08f9",
+          "sha256": "94cf1c205e99fa478b8c86946f0504c6c3fbf7aeb22846e628d5c23fa3992996",
+          "lines": [
+            48,
+            51
+          ],
+          "section": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud) > Current Behavior",
+          "section_path": [
+            "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud)",
+            "Current Behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 20,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:11396:v3:parent:62b3cffe80e5ff2e7f1c",
+          "parent": {
+            "kind": "issue",
+            "title": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud)",
+            "url": "https://github.com/streamlit/streamlit/issues/11396",
+            "revision": "2025-05-23T22:25:01Z",
+            "product_version": null,
+            "issue_number": 11396,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:11396:v3:parent:62b3cffe80e5ff2e7f1c",
+            "source_id": "issue:11396",
+            "text": "### Current Behavior\n\n\nThe upload fails when the filename contains Unicode characters, showing a 400 error.\n",
+            "source_span": [
+              1274,
+              1382
+            ],
+            "source_sha256": "2e6fc873072c744063502b98becd260fe2baa11427e69e4656450e12ebbc08f9",
+            "sha256": "94cf1c205e99fa478b8c86946f0504c6c3fbf7aeb22846e628d5c23fa3992996",
+            "lines": [
+              48,
+              51
+            ],
+            "section": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud) > Current Behavior",
+            "section_path": [
+              "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud)",
+              "Current Behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 20,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02290341,
+          "rank": 5
+        },
+        {
+          "kind": "issue",
+          "title": "Support nested url paths for Multipage Apps",
+          "url": "https://github.com/streamlit/streamlit/issues/8971",
+          "revision": "2026-07-22T07:49:50Z",
+          "product_version": null,
+          "issue_number": 8971,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:8971:v3:child:5418f7b418e0cb8e6819",
+          "source_id": "issue:8971",
+          "text": "### Current Behavior\n\nI get the following error:\n[IMAGE OMITTED: not inspected]\n\nUpon opening the dev tools console, I see this:\n[IMAGE OMITTED: not inspected]\n\n\nThat `SyntaxError` piqued my interest, and it looks like that `<hash>.chunk.js` file's contents are this HTML blob:\n```html\n",
+          "source_span": [
+            1751,
+            2037
+          ],
+          "source_sha256": "ee2e3718f4bae2f3187ea060ff1954c336103f09c1bb10811edf17ce42048c8b",
+          "sha256": "4d0f96b0bf3f8dfa46f1b845c39960dbb16e860b75d2cd6bd792faabb9f623b5",
+          "lines": [
+            64,
+            74
+          ],
+          "section": "Support nested url paths for Multipage Apps > Current Behavior",
+          "section_path": [
+            "Support nested url paths for Multipage Apps",
+            "Current Behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 70,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:8971:v3:parent:bf0f029acf0192bb134a",
+          "parent": {
+            "kind": "issue",
+            "title": "Support nested url paths for Multipage Apps",
+            "url": "https://github.com/streamlit/streamlit/issues/8971",
+            "revision": "2026-07-22T07:49:50Z",
+            "product_version": null,
+            "issue_number": 8971,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:8971:v3:parent:bf0f029acf0192bb134a",
+            "source_id": "issue:8971",
+            "text": "### Current Behavior\n\nI get the following error:\n[IMAGE OMITTED: not inspected]\n\nUpon opening the dev tools console, I see this:\n[IMAGE OMITTED: not inspected]\n\n\nThat `SyntaxError` piqued my interest, and it looks like that `<hash>.chunk.js` file's contents are this HTML blob:\n```html\n<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,shrink-to-fit=no\"/><link rel=\"shortcut icon\" href=\"[./favicon.png](view-source:http://localhost:8501/excel/static/js/favicon.png)\"/><link rel=\"preload\" href=\"[./static/media/SourceSansPro-Regular.0d69e5ff5e92ac64a0c9.woff2](view-source:http://localhost:8501/excel/static/js/static/media/SourceSansPro-Regular.0d69e5ff5e92ac64a0c9.woff2)\" as=\"font\" type=\"font/woff2\" crossorigin><link rel=\"preload\" href=\"[./static/media/SourceSansPro-SemiBold.abed79cd0df1827e18cf.woff2](view-source:http://localhost:8501/excel/static/js/static/media/SourceSansPro-SemiBold.abed79cd0df1827e18cf.woff2)\" as=\"font\" type=\"font/woff2\" crossorigin><link rel=\"preload\" href=\"[./static/media/SourceSansPro-Bold.118dea98980e20a81ced.woff2](view-source:http://localhost:8501/excel/static/js/static/media/SourceSansPro-Bold.118dea98980e20a81ced.woff2)\" as=\"font\" type=\"font/woff2\" crossorigin><title>Streamlit</title><script>window.prerenderReady=!1</script><script defer=\"defer\" src=\"[./static/js/main.7994a814.js](view-source:http://localhost:8501/excel/static/js/static/js/main.7994a814.js)\"></script><link href=\"[./static/css/main.3aaaea00.css](view-source:http://localhost:8501/excel/static/js/static/css/main.3aaaea00.css)\" rel=\"stylesheet\"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id=\"root\"></div></body></html>\n```\n\nThis is where my frontend knowledge runs out - I have no idea what could be causing this HTML blob to be parsed as js. Any ideas?\n",
+            "source_span": [
+              1751,
+              3634
+            ],
+            "source_sha256": "ee2e3718f4bae2f3187ea060ff1954c336103f09c1bb10811edf17ce42048c8b",
+            "sha256": "fb5ec478f9335a83ce77273d4e2ede916885dd676b1a39ee5f57385266c80183",
+            "lines": [
+              64,
+              78
+            ],
+            "section": "Support nested url paths for Multipage Apps > Current Behavior",
+            "section_path": [
+              "Support nested url paths for Multipage Apps",
+              "Current Behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 554,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0205,
+          "rank": 6
+        },
+        {
+          "kind": "docs",
+          "title": "config-toml",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/configuration/config-toml.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:config-toml:v3:child:266f749b514cef111051",
+          "source_id": "docs:config-toml",
+          "text": "# The default value should work for most deployments. However, if you're\n# experiencing frequent disconnections in certain proxy setups (e.g.,\n# \"Connection error\" messages), you may want to try adjusting this value.\n#\n# Note: When you set this option, Streamlit automatically sets the ping\n# timeout to match this interval.\nwebsocketPingInterval =\n\n# Enable serving files from a `static` directory in the running app's\n# directory.\n#\n# Default: false\nenableStaticServing = false\n\n# TTL in seconds for sessions whose websockets have been disconnected.\n#\n# The server may choose to clean up session state, uploaded files, etc\n# for a given session with no active websocket connection at any point\n# after this time has passed. If you are using load balancing or\n# replication in your deployment, you must enable session stickiness\n# in your proxy to guarantee reconnection to the existing session. For\n# more information, see https://docs.streamlit.io/replication.\n#\n# Default: 120\ndisconnectedSessionTTL = 120\n\n# Server certificate file for connecting via HTTPS.\n# Must be set at the same time as \"server.sslKeyFile\".\n#\n# ['DO NOT USE THIS OPTION IN A PRODUCTION ENVIRONMENT. It has not gone through\n# security audits or performance tests. For a production environment, we\n# recommend performing SSL termination through a load balancer or reverse\n# proxy.']\n",
+          "source_span": [
+            17208,
+            18566
+          ],
+          "source_sha256": "a41c61df3509b3944ab0b2af91ec909d33973e04b0344b2b227cdc72cc2f81c9",
+          "sha256": "8304e8ea34fbeffcc194a3784a07ebd6bcf095d408084c2112c5399db6286477",
+          "lines": [
+            461,
+            493
+          ],
+          "section": "config-toml > config.toml > Available configuration options > Server",
+          "section_path": [
+            "config-toml",
+            "config.toml",
+            "Available configuration options",
+            "Server"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 298,
+          "block_kinds": [
+            "code"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:config-toml:v3:parent:359c6912371aa1f76005",
+          "parent": {
+            "kind": "docs",
+            "title": "config-toml",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/configuration/config-toml.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:config-toml:v3:parent:359c6912371aa1f76005",
+            "source_id": "docs:config-toml",
+            "text": "# The default value should work for most deployments. However, if you're\n# experiencing frequent disconnections in certain proxy setups (e.g.,\n# \"Connection error\" messages), you may want to try adjusting this value.\n#\n# Note: When you set this option, Streamlit automatically sets the ping\n# timeout to match this interval.\nwebsocketPingInterval =\n\n# Enable serving files from a `static` directory in the running app's\n# directory.\n#\n# Default: false\nenableStaticServing = false\n\n# TTL in seconds for sessions whose websockets have been disconnected.\n#\n# The server may choose to clean up session state, uploaded files, etc\n# for a given session with no active websocket connection at any point\n# after this time has passed. If you are using load balancing or\n# replication in your deployment, you must enable session stickiness\n# in your proxy to guarantee reconnection to the existing session. For\n# more information, see https://docs.streamlit.io/replication.\n#\n# Default: 120\ndisconnectedSessionTTL = 120\n\n# Server certificate file for connecting via HTTPS.\n# Must be set at the same time as \"server.sslKeyFile\".\n#\n# ['DO NOT USE THIS OPTION IN A PRODUCTION ENVIRONMENT. It has not gone through\n# security audits or performance tests. For a production environment, we\n# recommend performing SSL termination through a load balancer or reverse\n# proxy.']\nsslCertFile =\n\n# Cryptographic key file for connecting via HTTPS.\n# Must be set at the same time as \"server.sslCertFile\".\n#\n# ['DO NOT USE THIS OPTION IN A PRODUCTION ENVIRONMENT. It has not gone through\n# security audits or performance tests. For a production environment, we\n# recommend performing SSL termination through a load balancer or reverse\n# proxy.']\nsslKeyFile =\n```\n",
+            "source_span": [
+              17208,
+              18945
+            ],
+            "source_sha256": "a41c61df3509b3944ab0b2af91ec909d33973e04b0344b2b227cdc72cc2f81c9",
+            "sha256": "3134d504823f1a1c4c5de9505635faa745f3e251a84d5bf415e9f5617cea2f24",
+            "lines": [
+              461,
+              504
+            ],
+            "section": "config-toml > config.toml > Available configuration options > Server",
+            "section_path": [
+              "config-toml",
+              "config.toml",
+              "Available configuration options",
+              "Server"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 386,
+            "block_kinds": [
+              "code"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02394205,
+          "rank": 7
+        },
+        {
+          "kind": "issue",
+          "title": "Network URL missing from console output",
+          "url": "https://github.com/streamlit/streamlit/issues/1530",
+          "revision": "2020-08-06T23:07:47Z",
+          "product_version": null,
+          "issue_number": 1530,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:1530:v3:child:017c03b891d7fd73d906",
+          "source_id": "issue:1530",
+          "text": "# Summary\nWhen streamlit application is run on Ubuntu terminal. it shows two types of URL. Local URL and NetworkURL. But, in my case the NetworkURL is completely missing from the terminal output. Here is a sample output I get\n[IMAGE OMITTED: not inspected]\n\nType here a clear and concise description of the bug. Aim for 2-3 sentences.\nNetwork URL is missing from terminal output\n",
+          "source_span": [
+            41,
+            420
+          ],
+          "source_sha256": "52e046e71f907136114a7ccaa3d34d688049bb4f42e8ae09b917004869e0b578",
+          "sha256": "5bb5dedd20891d33b9a2461fd33fe1a35cc51a959779c39afc629b7ebf8b5f4f",
+          "lines": [
+            3,
+            8
+          ],
+          "section": "Network URL missing from console output > Summary",
+          "section_path": [
+            "Network URL missing from console output",
+            "Summary"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 85,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:1530:v3:parent:017c03b891d7fd73d906",
+          "parent": {
+            "kind": "issue",
+            "title": "Network URL missing from console output",
+            "url": "https://github.com/streamlit/streamlit/issues/1530",
+            "revision": "2020-08-06T23:07:47Z",
+            "product_version": null,
+            "issue_number": 1530,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:1530:v3:parent:017c03b891d7fd73d906",
+            "source_id": "issue:1530",
+            "text": "# Summary\nWhen streamlit application is run on Ubuntu terminal. it shows two types of URL. Local URL and NetworkURL. But, in my case the NetworkURL is completely missing from the terminal output. Here is a sample output I get\n[IMAGE OMITTED: not inspected]\n\nType here a clear and concise description of the bug. Aim for 2-3 sentences.\nNetwork URL is missing from terminal output\n",
+            "source_span": [
+              41,
+              420
+            ],
+            "source_sha256": "52e046e71f907136114a7ccaa3d34d688049bb4f42e8ae09b917004869e0b578",
+            "sha256": "5bb5dedd20891d33b9a2461fd33fe1a35cc51a959779c39afc629b7ebf8b5f4f",
+            "lines": [
+              3,
+              8
+            ],
+            "section": "Network URL missing from console output > Summary",
+            "section_path": [
+              "Network URL missing from console output",
+              "Summary"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 85,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0211391,
+          "rank": 8
+        }
+      ],
+      "candidate_hash": "3ce67fe8e4aa8e27f0b3b42fc9310f7de469da655a3c0d0805a4c058d030d6f1",
+      "context": [
+        {
+          "kind": "docs",
+          "title": "static-file-serving",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:static-file-serving:v3:child:02f06fd6fde22070615f",
+          "source_id": "docs:static-file-serving",
+          "text": "## Example usage\n\n- Put an image `cat.png` in the folder `./static/`\n- Add `enableStaticServing = true` under `[server]` in your `.streamlit/config.toml`\n- Any media in the `./static/` folder is served at the relative URL like `app/static/cat.png`\n\n```toml\n# .streamlit/config.toml\n\n[server]\nenableStaticServing = true\n```\n\n```python\n# app.py\nimport streamlit as st\n\nwith st.echo():\n    st.title(\"CAT\")\n\n    st.markdown(\"[![Click me](app/static/cat.png)](https://streamlit.io)\")\n\n```\n\nAdditional resources:\n\n- [https://docs.streamlit.io/develop/concepts/configuration](https://docs.streamlit.io/develop/concepts/configuration)\n- [https://static-file-serving.streamlit.app/](https://static-file-serving.streamlit.app/)\n\n<Cloud name=\"static-file-serving\" height=\"1000px\" />\n",
+          "source_span": [
+            1879,
+            2651
+          ],
+          "source_sha256": "70428474b21f05b65bd74309b1fdb4f1728fe28e20bbea9830f2517e7a594c63",
+          "sha256": "bc8c58cbe3f76fffec1001b015eb39d1f31861075e1d4ea610ed1f3f759421cc",
+          "lines": [
+            33,
+            62
+          ],
+          "section": "static-file-serving > Static file serving > Example usage",
+          "section_path": [
+            "static-file-serving",
+            "Static file serving",
+            "Example usage"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 207,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:static-file-serving:v3:parent:02f06fd6fde22070615f",
+          "parent": {
+            "kind": "docs",
+            "title": "static-file-serving",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:static-file-serving:v3:parent:02f06fd6fde22070615f",
+            "source_id": "docs:static-file-serving",
+            "text": "## Example usage\n\n- Put an image `cat.png` in the folder `./static/`\n- Add `enableStaticServing = true` under `[server]` in your `.streamlit/config.toml`\n- Any media in the `./static/` folder is served at the relative URL like `app/static/cat.png`\n\n```toml\n# .streamlit/config.toml\n\n[server]\nenableStaticServing = true\n```\n\n```python\n# app.py\nimport streamlit as st\n\nwith st.echo():\n    st.title(\"CAT\")\n\n    st.markdown(\"[![Click me](app/static/cat.png)](https://streamlit.io)\")\n\n```\n\nAdditional resources:\n\n- [https://docs.streamlit.io/develop/concepts/configuration](https://docs.streamlit.io/develop/concepts/configuration)\n- [https://static-file-serving.streamlit.app/](https://static-file-serving.streamlit.app/)\n\n<Cloud name=\"static-file-serving\" height=\"1000px\" />\n",
+            "source_span": [
+              1879,
+              2651
+            ],
+            "source_sha256": "70428474b21f05b65bd74309b1fdb4f1728fe28e20bbea9830f2517e7a594c63",
+            "sha256": "bc8c58cbe3f76fffec1001b015eb39d1f31861075e1d4ea610ed1f3f759421cc",
+            "lines": [
+              33,
+              62
+            ],
+            "section": "static-file-serving > Static file serving > Example usage",
+            "section_path": [
+              "static-file-serving",
+              "Static file serving",
+              "Example usage"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 207,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03540984,
+          "rank": 1
+        },
+        {
+          "kind": "issue",
+          "title": "Externel URL doesn't work",
+          "url": "https://github.com/streamlit/streamlit/issues/4744",
+          "revision": "2024-08-15T20:59:01Z",
+          "product_version": null,
+          "issue_number": 4744,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:4744:v3:child:3668cde8fe085a5fcf41",
+          "source_id": "issue:4744",
+          "text": "#### 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.\nCode snippet:\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n```\nHere is what my .toml file looks like.\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n\n[theme]\nprimaryColor = \"#826E7A\"\nbackgroundColor = \"#AAD3DF\"\nsecondaryBackgroundColor = \"#AAD3DF\"\ntextColor = \"#191970\"\nfont = \"sans serif\"\n```\n\nHere is my config.toml file\n",
+          "source_span": [
+            218,
+            675
+          ],
+          "source_sha256": "1c7ee805d9f6bad55b7d4e129ae4e0a1d1f50624f18c7048bdd0907c7e534a02",
+          "sha256": "6d3cdc6a645dd18512d0b27fc88bbd32b7d495577ce87383fdcc5b8a5b613fff",
+          "lines": [
+            10,
+            31
+          ],
+          "section": "Externel URL doesn't work > Methods I tried > 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.",
+          "section_path": [
+            "Externel URL doesn't work",
+            "Methods I tried",
+            "1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work."
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 135,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:4744:v3:parent:3668cde8fe085a5fcf41",
+          "parent": {
+            "kind": "issue",
+            "title": "Externel URL doesn't work",
+            "url": "https://github.com/streamlit/streamlit/issues/4744",
+            "revision": "2024-08-15T20:59:01Z",
+            "product_version": null,
+            "issue_number": 4744,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:4744:v3:parent:3668cde8fe085a5fcf41",
+            "source_id": "issue:4744",
+            "text": "#### 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.\nCode snippet:\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n```\nHere is what my .toml file looks like.\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n\n[theme]\nprimaryColor = \"#826E7A\"\nbackgroundColor = \"#AAD3DF\"\nsecondaryBackgroundColor = \"#AAD3DF\"\ntextColor = \"#191970\"\nfont = \"sans serif\"\n```\n\nHere is my config.toml file\n",
+            "source_span": [
+              218,
+              675
+            ],
+            "source_sha256": "1c7ee805d9f6bad55b7d4e129ae4e0a1d1f50624f18c7048bdd0907c7e534a02",
+            "sha256": "6d3cdc6a645dd18512d0b27fc88bbd32b7d495577ce87383fdcc5b8a5b613fff",
+            "lines": [
+              10,
+              31
+            ],
+            "section": "Externel URL doesn't work > Methods I tried > 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.",
+            "section_path": [
+              "Externel URL doesn't work",
+              "Methods I tried",
+              "1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work."
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 135,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02838164,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "static-file-serving",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:static-file-serving:v3:child:51b411f23db4ea408d60",
+          "source_id": "docs:static-file-serving",
+          "text": "# Static file serving\n\nStreamlit apps can host and serve small, static media files to support media embedding use cases that\nwon't work with the normal [media elements](/develop/api-reference/media).\n\nTo enable this feature, set `enableStaticServing = true` under `[server]` in your config file,\nor environment variable `STREAMLIT_SERVER_ENABLE_STATIC_SERVING=true`.\n\nMedia stored in the folder `./static/` relative to the running app file is served at path\n`app/static/[filename]`, such as `http://localhost:8501/app/static/cat.png`.\n",
+          "source_span": [
+            398,
+            933
+          ],
+          "source_sha256": "70428474b21f05b65bd74309b1fdb4f1728fe28e20bbea9830f2517e7a594c63",
+          "sha256": "7557a72a29202e2e541302ed9d4158a31c3fb66cf9400e0d063076d5df9d77af",
+          "lines": [
+            8,
+            17
+          ],
+          "section": "static-file-serving > Static file serving",
+          "section_path": [
+            "static-file-serving",
+            "Static file serving"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 121,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:static-file-serving:v3:parent:51b411f23db4ea408d60",
+          "parent": {
+            "kind": "docs",
+            "title": "static-file-serving",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:static-file-serving:v3:parent:51b411f23db4ea408d60",
+            "source_id": "docs:static-file-serving",
+            "text": "# Static file serving\n\nStreamlit apps can host and serve small, static media files to support media embedding use cases that\nwon't work with the normal [media elements](/develop/api-reference/media).\n\nTo enable this feature, set `enableStaticServing = true` under `[server]` in your config file,\nor environment variable `STREAMLIT_SERVER_ENABLE_STATIC_SERVING=true`.\n\nMedia stored in the folder `./static/` relative to the running app file is served at path\n`app/static/[filename]`, such as `http://localhost:8501/app/static/cat.png`.\n",
+            "source_span": [
+              398,
+              933
+            ],
+            "source_sha256": "70428474b21f05b65bd74309b1fdb4f1728fe28e20bbea9830f2517e7a594c63",
+            "sha256": "7557a72a29202e2e541302ed9d4158a31c3fb66cf9400e0d063076d5df9d77af",
+            "lines": [
+              8,
+              17
+            ],
+            "section": "static-file-serving > Static file serving",
+            "section_path": [
+              "static-file-serving",
+              "Static file serving"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 121,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03483871,
+          "rank": 3
+        },
+        {
+          "kind": "issue",
+          "title": "Externel URL doesn't work",
+          "url": "https://github.com/streamlit/streamlit/issues/4744",
+          "revision": "2024-08-15T20:59:01Z",
+          "product_version": null,
+          "issue_number": 4744,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:4744:v3:parent:23617aa258ea3b91429f",
+          "source_id": "issue:4744",
+          "text": "# Symmetric key used to produce signed cookies. If deploying on multiple replicas, this should be set to the same value across all replicas to ensure they all share the same secret.\n# Default: randomly generated secret key.\ncookieSecret = \"73d27e89aa0f890eb5e4fc63756c932b1d47f2c509bcf8bd9ceecc063e87f65f\"\n\n# If false, will attempt to open a browser window on start.\n# Default: false unless (1) we are on a Linux box where DISPLAY is unset, or (2) server.liveSave is set.\nheadless = false\n\n# Automatically rerun script when the file is modified on disk.\n# Default: false\nrunOnSave = false\n\n# The address where the server will listen for client and browser connections. Use this if you want to bind the server to a specific address. If set, the server will only be accessible\n from this address, and not from any aliases (like localhost).\n# Default: (unset)\n#address =\n\n# The port where the server will listen for browser connections.\n# Default: 8501\nport = 8501\n\n# The base path for the URL where Streamlit should be served from.\n# Default: \"\"\nbaseUrlPath = \"\"\n\n# Enables support for Cross-Origin Request Sharing (CORS) protection, for added security.\n# Due to conflicts between CORS and XSRF, if `server.enableXsrfProtection` is on and `server.enableCORS` is off at the same time, we will prioritize `server.enableXsrfProtection`.\n# Default: true\nenableCORS = true\n\n# Enables support for Cross-Site Request Forgery (XSRF) protection, for added security.\n# Due to conflicts between CORS and XSRF, if `server.enableXsrfProtection` is on and `server.enableCORS` is off at the same time, we will prioritize `server.enableXsrfProtection`.\n# Default: true\nenableXsrfProtection = true\n\n# Max size, in megabytes, for files uploaded with the file_uploader.\n# Default: 200\nmaxUploadSize = 200\n\n# Enables support for websocket compression.\n# Default: true\nenableWebsocketCompression = true\n\n\n[browser]\n\n# Internet address where users should point their browsers in order to connect to the app. Can be IP address or DNS name and path.\n# This is used to: - Set the correct URL for CORS and XSRF protection purposes. - Show the URL on the terminal - Open the browser - Tell the browser where to connect to the server when\n in liveSave mode.\n# Default: 'localhost'\nserverAddress = \"localhost\"\n\n# Whether to send usage statistics to Streamlit.\n# Default: true\ngatherUsageStats = true\n\n# Port where users should point their browsers in order to connect to the app.\n# This is used to: - Set the correct URL for CORS and XSRF protection purposes. - Show the URL on the terminal - Open the browser - Tell the browser where to connect to the server when\n in liveSave mode.\n# Default: whatever value is set in server.port.\nserverPort = 8501\n\n\n[mapbox]\n\n# Configure Streamlit to use a custom Mapbox token for elements like st.pydeck_chart and st.map. To get a token for yourself, create an account at https://mapbox.com. It's free (for mo\nderate usage levels)!\n# Default: \"\"\ntoken = \"\"\n\n\n[deprecation]\n\n# Set to false to disable the deprecation warning for the file uploader encoding.\n# Default: true\nshowfileUploaderEncoding = true\n\n# Set to false to disable the deprecation warning for using the global pyplot instance.\n# Default: true\nshowPyplotGlobalUse = true\n\n\n[s3]\n\n",
+          "source_span": [
+            4018,
+            7269
+          ],
+          "source_sha256": "1c7ee805d9f6bad55b7d4e129ae4e0a1d1f50624f18c7048bdd0907c7e534a02",
+          "sha256": "d7c727f46831939abd0af1fb1a8f16173ceb5687a330f664375f2b51ea78b2b8",
+          "lines": [
+            118,
+            201
+          ],
+          "section": "Externel URL doesn't work > Methods I tried > 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.",
+          "section_path": [
+            "Externel URL doesn't work",
+            "Methods I tried",
+            "1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work."
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 796,
+          "block_kinds": [
+            "code"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "selected_child_ids": [
+            "issue:4744:v3:child:43bf83cbc3b7c03440b9"
+          ],
+          "parent_id": "issue:4744:v3:parent:23617aa258ea3b91429f",
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation"
+        },
+        {
+          "kind": "issue",
+          "title": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud)",
+          "url": "https://github.com/streamlit/streamlit/issues/11396",
+          "revision": "2025-05-23T22:25:01Z",
+          "product_version": null,
+          "issue_number": 11396,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:11396:v3:child:62b3cffe80e5ff2e7f1c",
+          "source_id": "issue:11396",
+          "text": "### Current Behavior\n\n\nThe upload fails when the filename contains Unicode characters, showing a 400 error.\n",
+          "source_span": [
+            1274,
+            1382
+          ],
+          "source_sha256": "2e6fc873072c744063502b98becd260fe2baa11427e69e4656450e12ebbc08f9",
+          "sha256": "94cf1c205e99fa478b8c86946f0504c6c3fbf7aeb22846e628d5c23fa3992996",
+          "lines": [
+            48,
+            51
+          ],
+          "section": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud) > Current Behavior",
+          "section_path": [
+            "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud)",
+            "Current Behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 20,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:11396:v3:parent:62b3cffe80e5ff2e7f1c",
+          "parent": {
+            "kind": "issue",
+            "title": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud)",
+            "url": "https://github.com/streamlit/streamlit/issues/11396",
+            "revision": "2025-05-23T22:25:01Z",
+            "product_version": null,
+            "issue_number": 11396,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:11396:v3:parent:62b3cffe80e5ff2e7f1c",
+            "source_id": "issue:11396",
+            "text": "### Current Behavior\n\n\nThe upload fails when the filename contains Unicode characters, showing a 400 error.\n",
+            "source_span": [
+              1274,
+              1382
+            ],
+            "source_sha256": "2e6fc873072c744063502b98becd260fe2baa11427e69e4656450e12ebbc08f9",
+            "sha256": "94cf1c205e99fa478b8c86946f0504c6c3fbf7aeb22846e628d5c23fa3992996",
+            "lines": [
+              48,
+              51
+            ],
+            "section": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud) > Current Behavior",
+            "section_path": [
+              "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud)",
+              "Current Behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 20,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02290341,
+          "rank": 5
+        }
+      ],
+      "packing": {
+        "encoding": "o200k_base",
+        "budget_tokens": 3000,
+        "used_tokens": 2627,
+        "expand_parent": true,
+        "items": [
+          {
+            "id": "docs:static-file-serving:v3:child:02f06fd6fde22070615f",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:static-file-serving:v3:child:02f06fd6fde22070615f"
+          },
+          {
+            "id": "issue:4744:v3:child:3668cde8fe085a5fcf41",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:4744:v3:child:3668cde8fe085a5fcf41"
+          },
+          {
+            "id": "docs:static-file-serving:v3:child:51b411f23db4ea408d60",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:static-file-serving:v3:child:51b411f23db4ea408d60"
+          },
+          {
+            "id": "issue:4744:v3:child:43bf83cbc3b7c03440b9",
+            "status": "included",
+            "reason": "bounded_parent",
+            "context_id": "issue:4744:v3:parent:23617aa258ea3b91429f"
+          },
+          {
+            "id": "issue:11396:v3:child:62b3cffe80e5ff2e7f1c",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:11396:v3:child:62b3cffe80e5ff2e7f1c"
+          },
+          {
+            "id": "issue:8971:v3:child:5418f7b418e0cb8e6819",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "docs:config-toml:v3:child:266f749b514cef111051",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:1530:v3:child:017c03b891d7fd73d906",
+            "status": "omitted",
+            "reason": "item_limit"
+          }
+        ]
+      },
+      "index": "v3",
+      "namespace": "6fbba079eb1323bf54c9d03ad4b956a7174e0f434f386ed66f0a50b489f55d4e"
+    }
+  },
+  "code_hash": "c148d8cd099ab2f7dd82c13ef86c8525124fe15649ff8f335418dc5d867b8a6a",
+  "query_vector_hash": "a54cfea47bdcc950923fd0b5e32366150bb822a704be116ccb157b1aa7efa411",
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "reserved_usd": 1.9535999999999997e-05,
+      "ledger_id": "8bc19e2aca941f23f4179a4c",
+      "diagnostic": {
+        "request_id": "8bc19e2aca941f23f4179a4c",
+        "provider_request_id": null,
+        "role": "embedding",
+        "model": "text-embedding-3-small",
+        "requested_max_output_tokens": null,
+        "reported_usage": {
+          "prompt_tokens": 38,
+          "completion_tokens": null,
+          "total_tokens": 38
+        },
+        "http_status": 200,
+        "finish_reason": null,
+        "status": "parsed",
+        "failure_code": null
+      },
+      "input_tokens": 38,
+      "output_tokens": 0,
+      "cost_usd": 8.359999999999999e-07
+    }
+  ]
+}

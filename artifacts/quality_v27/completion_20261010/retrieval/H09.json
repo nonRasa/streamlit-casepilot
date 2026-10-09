@@ -1,0 +1,3260 @@
+{
+  "id": "H09",
+  "split": "holdout",
+  "query": "Which should I use to interactively edit tabular data, st.dataframe or st.data_editor? Version unknown.",
+  "query_hash": "8c8ffa56e5faf9f83c2980c60001f8df3f1ebe2bb6e7a89bd2ec19ea8d877caf",
+  "version": null,
+  "variants": {
+    "A": {
+      "candidates": [
+        {
+          "kind": "docs",
+          "title": "dataframes",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:dataframes:v2:191915fd89c27735",
+          "source_id": "docs:dataframes",
+          "section": "Dataframes",
+          "text": "# Dataframes\n\nDataframes are a great way to display and edit data in a tabular format. Working with Pandas DataFrames and other tabular data structures is key to data science workflows. If developers and data scientists want to display this data in Streamlit, they have multiple options: `st.dataframe` and `st.data_editor`. If you want to solely display data in a table-like UI, [st.dataframe](/develop/api-reference/data/st.dataframe) is the way to go. If you want to interactively edit data, use [st.data_editor](/develop/api-reference/data/st.data_editor). We explore the use cases and advantages of each option in the following sections.",
+          "lines": [
+            8,
+            10
+          ],
+          "sha256": "090ed418a4c3ce591c8ffd38501049bee02bfbd4665d6a94cddf624bb6f58c78",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 642,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03540984,
+          "rank": 1
+        },
+        {
+          "kind": "issue",
+          "title": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+          "url": "https://github.com/streamlit/streamlit/issues/17026",
+          "revision": "2026-09-28T00:58:38Z",
+          "product_version": null,
+          "issue_number": 17026,
+          "id": "issue:17026:v2:bc8310223233b291",
+          "source_id": "issue:17026",
+          "section": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+          "text": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+          "lines": [
+            1,
+            1
+          ],
+          "sha256": "53b7926f8cc3ebb0b2d4346079dafe683b8c329992dfd5b22af616b2fb5966d9",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 135,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03125763,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "dataframes",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:dataframes:v2:2bc5764b033f45b5",
+          "source_id": "docs:dataframes",
+          "section": "Edit data with st.data_editor",
+          "text": "## Edit data with st.data_editor\n\nStreamlit supports editable dataframes via the `st.data_editor` command. Check out its API in [st.data_editor](/develop/api-reference/data/st.data_editor). It shows the dataframe in a table, similar to `st.dataframe`. But in contrast to `st.dataframe`, this table isn't static! The user can click on cells and edit them. The edited data is then returned on the Python side. Here's an example:\n\n```python\ndf = pd.DataFrame(\n    [\n        {\"command\": \"st.selectbox\", \"rating\": 4, \"is_widget\": True},\n        {\"command\": \"st.balloons\", \"rating\": 5, \"is_widget\": False},\n        {\"command\": \"st.time_input\", \"rating\": 3, \"is_widget\": True},\n    ]\n)\n\nedited_df = st.data_editor(df) # 👈 An editable dataframe\n\nfavorite_command = edited_df.loc[edited_df[\"rating\"].idxmax()][\"command\"]\nst.markdown(f\"Your favorite command is **{favorite_command}** 🎈\")\n```\n\n<Cloud name=\"doc-data-editor\" height=\"300px\"/>\n\nTry it out by double-clicking on any cell. You'll notice you can edit all cell values. Try editing the values in the rating column and observe how the text output at the bottom changes:",
+          "lines": [
+            54,
+            75
+          ],
+          "sha256": "406510ba9523eda53aa866c383871f77b78dc222524f0ca1af19d0b5bd2e05f1",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1122,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03403474,
+          "rank": 3
+        },
+        {
+          "kind": "release",
+          "title": "2023",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2023.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:2023:v2:78e9a034c7d0bccd",
+          "source_id": "docs:2023",
+          "section": "**Version 1.23.0**",
+          "text": "## **Version 1.23.0**\n\n_Release date: June 1, 2023_\n\n**Highlights**\n\n- ✂️ Announcing the general availability of [st.data_editor](/develop/api-reference/data/st.data_editor), a widget that allows you to edit DataFrames and many other data structures in a table-like UI. **Breaking change:** the data editor's representation used in `st.session_state` was altered. Find out more about the new format in [Access edited data](/develop/concepts/design/dataframes#access-edited-data).\n- ⚙️ Introducing the [Column configuration API](/develop/api-reference/data/st.column_config) with a suite of methods to configure the display and editing behavior of `st.dataframe` and `st.data_editor` columns (e.g. their title, visibility, type, or format). Keep an eye out for a detailed [blog post](https://blog.streamlit.io/) and in-depth [documentation](/develop/concepts/design/dataframes#configuring-columns) upcoming in the next two weeks.\n- 🔌 Learn to use `st.experimental_connection` to create and manage data connections in your apps with the new [Connecting to data](/develop/concepts/connections/connecting-to-data) docs and [video tutorial](https://www.youtube.com/watch?v=xQwDfW7UHMo).\n\n**Notable Changes**\n\n\n\n\n\n\n\n**Other Changes**",
+          "lines": [
+            232,
+            250
+          ],
+          "sha256": "7f282496baaff09e978f9d4ef76cbb9b19c1b01d7c51010cbc730151c226be4f",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1238,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02941176,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+          "url": "https://github.com/streamlit/streamlit/issues/17026",
+          "revision": "2026-09-28T00:58:38Z",
+          "product_version": null,
+          "issue_number": 17026,
+          "id": "issue:17026:v2:64349a8f42245102",
+          "source_id": "issue:17026",
+          "section": "Debug info",
+          "text": "### Debug info\n\n- Streamlit version: 1.63.0 and 1.64.0, both reproduced\n- Python version: 3.14.6\n- Operating System: Linux Mint 22.3 Zena 64-bit\n- Browser: Version 152.0.7977.82 (Official Build) for Linux Mint (x86_64)",
+          "lines": [
+            92,
+            97
+          ],
+          "sha256": "3156e11a9755f980b8152c873d618c88ff6bef7a60e8d189da40aa286e26c79f",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 218,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03077652,
+          "rank": 5
+        },
+        {
+          "kind": "issue",
+          "title": "Concurrency issues with `st.data_editor` `on_change` callback: Using the `session_state` of the `st.data_editor` leads to multiple processing or potential data loss",
+          "url": "https://github.com/streamlit/streamlit/issues/11679",
+          "revision": "2026-09-01T13:48:58Z",
+          "product_version": null,
+          "issue_number": 11679,
+          "id": "issue:11679:v2:e2f6a007ef16ad59",
+          "source_id": "issue:11679",
+          "section": "How?",
+          "text": "In the demo videos below, the user first adds 9 cells at once and then does single cell changes afterwards (on other cells).\n\nDemo video of the code above (terminal output also shows that each edit/cell is just processed once, which is not the case when not filtering the `st.data_editor`'s session state):\n\nhttps://github.com/user-attachments/assets/9e924ae7-4cc0-4c96-8029-97c98f872548\n\nDemo video without thread locking:\n\nhttps://github.com/user-attachments/assets/aac91a5d-536c-4a44-97c0-1219d80684af",
+          "lines": [
+            113,
+            121
+          ],
+          "sha256": "f445696f0c6d27d6f1e39812f4f15944ba19b2162ffa17bd68966f65184ce0aa",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 504,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02315789,
+          "rank": 6
+        },
+        {
+          "kind": "release",
+          "title": "2023",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2023.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:2023:v2:83aaeeed42e87eba",
+          "source_id": "docs:2023",
+          "section": "**Version 1.19.0**",
+          "text": "## **Version 1.19.0**\n\n_Release date: February 23, 2023_\n\n**Highlights**\n\n- ✂️ Introducing `st.experimental_data_editor`, a widget that allows you to edit DataFrames and many other data structures in a table-like UI. Read more in our [documentation](/develop/concepts/design/dataframes) and [blog post](https://blog.streamlit.io/editable-dataframes-are-here/).\n\n**Other Changes**",
+          "lines": [
+            352,
+            360
+          ],
+          "sha256": "d253783aa6f6064239dc48ecda0eeb1e58dcf6775d68bc33a55c3ccfd04b7458",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 384,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02546334,
+          "rank": 7
+        },
+        {
+          "kind": "issue",
+          "title": "Make `st.table` use 14px font size",
+          "url": "https://github.com/streamlit/streamlit/issues/16389",
+          "revision": "2026-08-07T23:35:58Z",
+          "product_version": null,
+          "issue_number": 16389,
+          "id": "issue:16389:v2:0e874337a74c6e41",
+          "source_id": "issue:16389",
+          "section": "Summary",
+          "text": "### Summary\n\n`st.table` uses 16 px font size. Now that we use 14 px both for `st.dataframe` and for all widgets, it often looks out of place. We should change it to 14px as well. ",
+          "lines": [
+            8,
+            10
+          ],
+          "sha256": "d45113626a4f7a79cc6f7f58d7df81efb31dbd3ee0676f04efe88ea232fe8eb8",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 179,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.01880131,
+          "rank": 8
+        }
+      ],
+      "candidate_hash": "750c856fc40e9043f8edd841bfd1f6461d84df9cbbab7e55691ca8c9734824e8",
+      "context": [
+        {
+          "kind": "docs",
+          "title": "dataframes",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:dataframes:v2:191915fd89c27735",
+          "source_id": "docs:dataframes",
+          "section": "Dataframes",
+          "text": "# Dataframes\n\nDataframes are a great way to display and edit data in a tabular format. Working with Pandas DataFrames and other tabular data structures is key to data science workflows. If developers and data scientists want to display this data in Streamlit, they have multiple options: `st.dataframe` and `st.data_editor`. If you want to solely display data in a table-like UI, [st.dataframe](/develop/api-reference/data/st.dataframe) is the way to go. If you want to interactively edit data, use [st.data_editor](/develop/api-reference/data/st.data_editor). We explore the use cases and advantages of each option in the following sections.",
+          "lines": [
+            8,
+            10
+          ],
+          "sha256": "090ed418a4c3ce591c8ffd38501049bee02bfbd4665d6a94cddf624bb6f58c78",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 642,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03540984,
+          "rank": 1
+        },
+        {
+          "kind": "issue",
+          "title": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+          "url": "https://github.com/streamlit/streamlit/issues/17026",
+          "revision": "2026-09-28T00:58:38Z",
+          "product_version": null,
+          "issue_number": 17026,
+          "id": "issue:17026:v2:bc8310223233b291",
+          "source_id": "issue:17026",
+          "section": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+          "text": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+          "lines": [
+            1,
+            1
+          ],
+          "sha256": "53b7926f8cc3ebb0b2d4346079dafe683b8c329992dfd5b22af616b2fb5966d9",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 135,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03125763,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "dataframes",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:dataframes:v2:2bc5764b033f45b5",
+          "source_id": "docs:dataframes",
+          "section": "Edit data with st.data_editor",
+          "text": "## Edit data with st.data_editor\n\nStreamlit supports editable dataframes via the `st.data_editor` command. Check out its API in [st.data_editor](/develop/api-reference/data/st.data_editor). It shows the dataframe in a table, similar to `st.dataframe`. But in contrast to `st.dataframe`, this table isn't static! The user can click on cells and edit them. The edited data is then returned on the Python side. Here's an example:\n\n```python\ndf = pd.DataFrame(\n    [\n        {\"command\": \"st.selectbox\", \"rating\": 4, \"is_widget\": True},\n        {\"command\": \"st.balloons\", \"rating\": 5, \"is_widget\": False},\n        {\"command\": \"st.time_input\", \"rating\": 3, \"is_widget\": True},\n    ]\n)\n\nedited_df = st.data_editor(df) # 👈 An editable dataframe\n\nfavorite_command = edited_df.loc[edited_df[\"rating\"].idxmax()][\"command\"]\nst.markdown(f\"Your favorite command is **{favorite_command}** 🎈\")\n```\n\n<Cloud name=\"doc-data-editor\" height=\"300px\"/>\n\nTry it out by double-clicking on any cell. You'll notice you can edit all cell values. Try editing the values in the rating column and observe how the text output at the bottom changes:",
+          "lines": [
+            54,
+            75
+          ],
+          "sha256": "406510ba9523eda53aa866c383871f77b78dc222524f0ca1af19d0b5bd2e05f1",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1122,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03403474,
+          "rank": 3
+        },
+        {
+          "kind": "release",
+          "title": "2023",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2023.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:2023:v2:78e9a034c7d0bccd",
+          "source_id": "docs:2023",
+          "section": "**Version 1.23.0**",
+          "text": "## **Version 1.23.0**\n\n_Release date: June 1, 2023_\n\n**Highlights**\n\n- ✂️ Announcing the general availability of [st.data_editor](/develop/api-reference/data/st.data_editor), a widget that allows you to edit DataFrames and many other data structures in a table-like UI. **Breaking change:** the data editor's representation used in `st.session_state` was altered. Find out more about the new format in [Access edited data](/develop/concepts/design/dataframes#access-edited-data).\n- ⚙️ Introducing the [Column configuration API](/develop/api-reference/data/st.column_config) with a suite of methods to configure the display and editing behavior of `st.dataframe` and `st.data_editor` columns (e.g. their title, visibility, type, or format). Keep an eye out for a detailed [blog post](https://blog.streamlit.io/) and in-depth [documentation](/develop/concepts/design/dataframes#configuring-columns) upcoming in the next two weeks.\n- 🔌 Learn to use `st.experimental_connection` to create and manage data connections in your apps with the new [Connecting to data](/develop/concepts/connections/connecting-to-data) docs and [video tutorial](https://www.youtube.com/watch?v=xQwDfW7UHMo).\n\n**Notable Changes**\n\n\n\n\n\n\n\n**Other Changes**",
+          "lines": [
+            232,
+            250
+          ],
+          "sha256": "7f282496baaff09e978f9d4ef76cbb9b19c1b01d7c51010cbc730151c226be4f",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1238,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02941176,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+          "url": "https://github.com/streamlit/streamlit/issues/17026",
+          "revision": "2026-09-28T00:58:38Z",
+          "product_version": null,
+          "issue_number": 17026,
+          "id": "issue:17026:v2:64349a8f42245102",
+          "source_id": "issue:17026",
+          "section": "Debug info",
+          "text": "### Debug info\n\n- Streamlit version: 1.63.0 and 1.64.0, both reproduced\n- Python version: 3.14.6\n- Operating System: Linux Mint 22.3 Zena 64-bit\n- Browser: Version 152.0.7977.82 (Official Build) for Linux Mint (x86_64)",
+          "lines": [
+            92,
+            97
+          ],
+          "sha256": "3156e11a9755f980b8152c873d618c88ff6bef7a60e8d189da40aa286e26c79f",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 218,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03077652,
+          "rank": 5
+        }
+      ],
+      "packing": {
+        "encoding": "o200k_base",
+        "budget_tokens": 3000,
+        "used_tokens": 1633,
+        "expand_parent": false,
+        "items": [
+          {
+            "id": "docs:dataframes:v2:191915fd89c27735",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:dataframes:v2:191915fd89c27735"
+          },
+          {
+            "id": "issue:17026:v2:bc8310223233b291",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:17026:v2:bc8310223233b291"
+          },
+          {
+            "id": "docs:dataframes:v2:2bc5764b033f45b5",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:dataframes:v2:2bc5764b033f45b5"
+          },
+          {
+            "id": "docs:2023:v2:78e9a034c7d0bccd",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:2023:v2:78e9a034c7d0bccd"
+          },
+          {
+            "id": "issue:17026:v2:64349a8f42245102",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:17026:v2:64349a8f42245102"
+          },
+          {
+            "id": "issue:11679:v2:e2f6a007ef16ad59",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "docs:2023:v2:83aaeeed42e87eba",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:16389:v2:0e874337a74c6e41",
+            "status": "omitted",
+            "reason": "item_limit"
+          }
+        ]
+      },
+      "index": "v2",
+      "namespace": null
+    },
+    "B": {
+      "candidates": [
+        {
+          "kind": "docs",
+          "title": "dataframes",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:dataframes:v3:child:eeeadefad06817eb8ff5",
+          "source_id": "docs:dataframes",
+          "text": "# Dataframes\n\nDataframes are a great way to display and edit data in a tabular format. Working with Pandas DataFrames and other tabular data structures is key to data science workflows. If developers and data scientists want to display this data in Streamlit, they have multiple options: `st.dataframe` and `st.data_editor`. If you want to solely display data in a table-like UI, [st.dataframe](/develop/api-reference/data/st.dataframe) is the way to go. If you want to interactively edit data, use [st.data_editor](/develop/api-reference/data/st.data_editor). We explore the use cases and advantages of each option in the following sections.\n",
+          "source_span": [
+            410,
+            1053
+          ],
+          "source_sha256": "f09d0a310b70647c1ef83ec716fbeb057b26ab01c3fe4108daad46f481bb3472",
+          "sha256": "e62e950305ad40e7abcaff184d3db8c6ad944caa3f549710a35986e9ee23a143",
+          "lines": [
+            8,
+            10
+          ],
+          "section": "dataframes > Dataframes",
+          "section_path": [
+            "dataframes",
+            "Dataframes"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 142,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:dataframes:v3:parent:eeeadefad06817eb8ff5",
+          "parent": {
+            "kind": "docs",
+            "title": "dataframes",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:dataframes:v3:parent:eeeadefad06817eb8ff5",
+            "source_id": "docs:dataframes",
+            "text": "# Dataframes\n\nDataframes are a great way to display and edit data in a tabular format. Working with Pandas DataFrames and other tabular data structures is key to data science workflows. If developers and data scientists want to display this data in Streamlit, they have multiple options: `st.dataframe` and `st.data_editor`. If you want to solely display data in a table-like UI, [st.dataframe](/develop/api-reference/data/st.dataframe) is the way to go. If you want to interactively edit data, use [st.data_editor](/develop/api-reference/data/st.data_editor). We explore the use cases and advantages of each option in the following sections.\n",
+            "source_span": [
+              410,
+              1053
+            ],
+            "source_sha256": "f09d0a310b70647c1ef83ec716fbeb057b26ab01c3fe4108daad46f481bb3472",
+            "sha256": "e62e950305ad40e7abcaff184d3db8c6ad944caa3f549710a35986e9ee23a143",
+            "lines": [
+              8,
+              10
+            ],
+            "section": "dataframes > Dataframes",
+            "section_path": [
+              "dataframes",
+              "Dataframes"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 142,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03540984,
+          "rank": 1
+        },
+        {
+          "kind": "issue",
+          "title": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+          "url": "https://github.com/streamlit/streamlit/issues/17026",
+          "revision": "2026-09-28T00:58:38Z",
+          "product_version": null,
+          "issue_number": 17026,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:17026:v3:child:3abbbb8c2de503341663",
+          "source_id": "issue:17026",
+          "text": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row\n",
+          "source_span": [
+            0,
+            136
+          ],
+          "source_sha256": "9821d6ac21337d5c3097871852eae241353caa790a3daccc4b318496ffa5479c",
+          "sha256": "469e97f1bf5f3d0f9291a50392b9007095119c464aeb705ebd2a35daf92a0500",
+          "lines": [
+            1,
+            1
+          ],
+          "section": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+          "section_path": [
+            "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 32,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:17026:v3:parent:3abbbb8c2de503341663",
+          "parent": {
+            "kind": "issue",
+            "title": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+            "url": "https://github.com/streamlit/streamlit/issues/17026",
+            "revision": "2026-09-28T00:58:38Z",
+            "product_version": null,
+            "issue_number": 17026,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:17026:v3:parent:3abbbb8c2de503341663",
+            "source_id": "issue:17026",
+            "text": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row\n",
+            "source_span": [
+              0,
+              136
+            ],
+            "source_sha256": "9821d6ac21337d5c3097871852eae241353caa790a3daccc4b318496ffa5479c",
+            "sha256": "469e97f1bf5f3d0f9291a50392b9007095119c464aeb705ebd2a35daf92a0500",
+            "lines": [
+              1,
+              1
+            ],
+            "section": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+            "section_path": [
+              "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 32,
+            "block_kinds": [
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03055037,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "dataframes",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:dataframes:v3:child:f537d2ceb9fcc84aecf1",
+          "source_id": "docs:dataframes",
+          "text": "## Edit data with st.data_editor\n\nStreamlit supports editable dataframes via the `st.data_editor` command. Check out its API in [st.data_editor](/develop/api-reference/data/st.data_editor). It shows the dataframe in a table, similar to `st.dataframe`. But in contrast to `st.dataframe`, this table isn't static! The user can click on cells and edit them. The edited data is then returned on the Python side. Here's an example:\n\n```python\ndf = pd.DataFrame(\n    [\n        {\"command\": \"st.selectbox\", \"rating\": 4, \"is_widget\": True},\n        {\"command\": \"st.balloons\", \"rating\": 5, \"is_widget\": False},\n        {\"command\": \"st.time_input\", \"rating\": 3, \"is_widget\": True},\n    ]\n)\n\nedited_df = st.data_editor(df) # 👈 An editable dataframe\n\nfavorite_command = edited_df.loc[edited_df[\"rating\"].idxmax()][\"command\"]\nst.markdown(f\"Your favorite command is **{favorite_command}** 🎈\")\n```\n\n<Cloud name=\"doc-data-editor\" height=\"300px\"/>\n\nTry it out by double-clicking on any cell. You'll notice you can edit all cell values. Try editing the values in the rating column and observe how the text output at the bottom changes:\n",
+          "source_span": [
+            3906,
+            5023
+          ],
+          "source_sha256": "f09d0a310b70647c1ef83ec716fbeb057b26ab01c3fe4108daad46f481bb3472",
+          "sha256": "96dc104c67d3d9600efa9ef5e6bbcb4fcf2db6beba043979ed0884183ac61382",
+          "lines": [
+            54,
+            75
+          ],
+          "section": "dataframes > Dataframes > Edit data with st.data_editor",
+          "section_path": [
+            "dataframes",
+            "Dataframes",
+            "Edit data with st.data_editor"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 280,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:dataframes:v3:parent:f537d2ceb9fcc84aecf1",
+          "parent": {
+            "kind": "docs",
+            "title": "dataframes",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:dataframes:v3:parent:f537d2ceb9fcc84aecf1",
+            "source_id": "docs:dataframes",
+            "text": "## Edit data with st.data_editor\n\nStreamlit supports editable dataframes via the `st.data_editor` command. Check out its API in [st.data_editor](/develop/api-reference/data/st.data_editor). It shows the dataframe in a table, similar to `st.dataframe`. But in contrast to `st.dataframe`, this table isn't static! The user can click on cells and edit them. The edited data is then returned on the Python side. Here's an example:\n\n```python\ndf = pd.DataFrame(\n    [\n        {\"command\": \"st.selectbox\", \"rating\": 4, \"is_widget\": True},\n        {\"command\": \"st.balloons\", \"rating\": 5, \"is_widget\": False},\n        {\"command\": \"st.time_input\", \"rating\": 3, \"is_widget\": True},\n    ]\n)\n\nedited_df = st.data_editor(df) # 👈 An editable dataframe\n\nfavorite_command = edited_df.loc[edited_df[\"rating\"].idxmax()][\"command\"]\nst.markdown(f\"Your favorite command is **{favorite_command}** 🎈\")\n```\n\n<Cloud name=\"doc-data-editor\" height=\"300px\"/>\n\nTry it out by double-clicking on any cell. You'll notice you can edit all cell values. Try editing the values in the rating column and observe how the text output at the bottom changes:\n",
+            "source_span": [
+              3906,
+              5023
+            ],
+            "source_sha256": "f09d0a310b70647c1ef83ec716fbeb057b26ab01c3fe4108daad46f481bb3472",
+            "sha256": "96dc104c67d3d9600efa9ef5e6bbcb4fcf2db6beba043979ed0884183ac61382",
+            "lines": [
+              54,
+              75
+            ],
+            "section": "dataframes > Dataframes > Edit data with st.data_editor",
+            "section_path": [
+              "dataframes",
+              "Dataframes",
+              "Edit data with st.data_editor"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 280,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03378299,
+          "rank": 3
+        },
+        {
+          "kind": "release",
+          "title": "2023",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2023.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:2023:v3:child:9bf4fc606a773a5ba82b",
+          "source_id": "docs:2023",
+          "text": "## **Version 1.23.0**\n\n_Release date: June 1, 2023_\n\n**Highlights**\n\n- ✂️ Announcing the general availability of [st.data_editor](/develop/api-reference/data/st.data_editor), a widget that allows you to edit DataFrames and many other data structures in a table-like UI. **Breaking change:** the data editor's representation used in `st.session_state` was altered. Find out more about the new format in [Access edited data](/develop/concepts/design/dataframes#access-edited-data).\n- ⚙️ Introducing the [Column configuration API](/develop/api-reference/data/st.column_config) with a suite of methods to configure the display and editing behavior of `st.dataframe` and `st.data_editor` columns (e.g. their title, visibility, type, or format). Keep an eye out for a detailed [blog post](https://blog.streamlit.io/) and in-depth [documentation](/develop/concepts/design/dataframes#configuring-columns) upcoming in the next two weeks.\n- 🔌 Learn to use `st.experimental_connection` to create and manage data connections in your apps with the new [Connecting to data](/develop/concepts/connections/connecting-to-data) docs and [video tutorial](https://www.youtube.com/watch?v=xQwDfW7UHMo).\n\n**Notable Changes**\n\n\n\n\n\n\n\n**Other Changes**\n",
+          "source_span": [
+            29175,
+            30403
+          ],
+          "source_sha256": "0b2984b75201fec6c852064ac7ddcffda0856bcc302e71c2392a62c56507c9af",
+          "sha256": "913df1609eeaa9c8aa36aee858dca34127edcf58afef6667a3d541f9a0adb799",
+          "lines": [
+            232,
+            250
+          ],
+          "section": "2023 > 2023 release notes > **Version 1.23.0**",
+          "section_path": [
+            "2023",
+            "2023 release notes",
+            "**Version 1.23.0**"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 287,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:2023:v3:parent:9bf4fc606a773a5ba82b",
+          "parent": {
+            "kind": "release",
+            "title": "2023",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2023.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:2023:v3:parent:9bf4fc606a773a5ba82b",
+            "source_id": "docs:2023",
+            "text": "## **Version 1.23.0**\n\n_Release date: June 1, 2023_\n\n**Highlights**\n\n- ✂️ Announcing the general availability of [st.data_editor](/develop/api-reference/data/st.data_editor), a widget that allows you to edit DataFrames and many other data structures in a table-like UI. **Breaking change:** the data editor's representation used in `st.session_state` was altered. Find out more about the new format in [Access edited data](/develop/concepts/design/dataframes#access-edited-data).\n- ⚙️ Introducing the [Column configuration API](/develop/api-reference/data/st.column_config) with a suite of methods to configure the display and editing behavior of `st.dataframe` and `st.data_editor` columns (e.g. their title, visibility, type, or format). Keep an eye out for a detailed [blog post](https://blog.streamlit.io/) and in-depth [documentation](/develop/concepts/design/dataframes#configuring-columns) upcoming in the next two weeks.\n- 🔌 Learn to use `st.experimental_connection` to create and manage data connections in your apps with the new [Connecting to data](/develop/concepts/connections/connecting-to-data) docs and [video tutorial](https://www.youtube.com/watch?v=xQwDfW7UHMo).\n\n**Notable Changes**\n\n\n\n\n\n\n\n**Other Changes**\n",
+            "source_span": [
+              29175,
+              30403
+            ],
+            "source_sha256": "0b2984b75201fec6c852064ac7ddcffda0856bcc302e71c2392a62c56507c9af",
+            "sha256": "913df1609eeaa9c8aa36aee858dca34127edcf58afef6667a3d541f9a0adb799",
+            "lines": [
+              232,
+              250
+            ],
+            "section": "2023 > 2023 release notes > **Version 1.23.0**",
+            "section_path": [
+              "2023",
+              "2023 release notes",
+              "**Version 1.23.0**"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 287,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0274024,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+          "url": "https://github.com/streamlit/streamlit/issues/17026",
+          "revision": "2026-09-28T00:58:38Z",
+          "product_version": null,
+          "issue_number": 17026,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:17026:v3:child:b78df37b5de429df3f71",
+          "source_id": "issue:17026",
+          "text": "### Debug info\n\n- Streamlit version: 1.63.0 and 1.64.0, both reproduced\n- Python version: 3.14.6\n- Operating System: Linux Mint 22.3 Zena 64-bit\n- Browser: Version 152.0.7977.82 (Official Build) for Linux Mint (x86_64)\n",
+          "source_span": [
+            5198,
+            5417
+          ],
+          "source_sha256": "9821d6ac21337d5c3097871852eae241353caa790a3daccc4b318496ffa5479c",
+          "sha256": "e45a986d3408528e52cf65bf0964f8a861893ae9db14ffab462e76dd09228daa",
+          "lines": [
+            92,
+            97
+          ],
+          "section": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row > Debug info",
+          "section_path": [
+            "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+            "Debug info"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 79,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:17026:v3:parent:b78df37b5de429df3f71",
+          "parent": {
+            "kind": "issue",
+            "title": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+            "url": "https://github.com/streamlit/streamlit/issues/17026",
+            "revision": "2026-09-28T00:58:38Z",
+            "product_version": null,
+            "issue_number": 17026,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:17026:v3:parent:b78df37b5de429df3f71",
+            "source_id": "issue:17026",
+            "text": "### Debug info\n\n- Streamlit version: 1.63.0 and 1.64.0, both reproduced\n- Python version: 3.14.6\n- Operating System: Linux Mint 22.3 Zena 64-bit\n- Browser: Version 152.0.7977.82 (Official Build) for Linux Mint (x86_64)\n",
+            "source_span": [
+              5198,
+              5417
+            ],
+            "source_sha256": "9821d6ac21337d5c3097871852eae241353caa790a3daccc4b318496ffa5479c",
+            "sha256": "e45a986d3408528e52cf65bf0964f8a861893ae9db14ffab462e76dd09228daa",
+            "lines": [
+              92,
+              97
+            ],
+            "section": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row > Debug info",
+            "section_path": [
+              "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+              "Debug info"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 79,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02987737,
+          "rank": 5
+        },
+        {
+          "kind": "issue",
+          "title": "st.data_editor does not return added rows when dataframe from file",
+          "url": "https://github.com/streamlit/streamlit/issues/6995",
+          "revision": "2023-10-04T09:39:39Z",
+          "product_version": null,
+          "issue_number": 6995,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:6995:v3:child:48dbb8f375f75d635533",
+          "source_id": "issue:6995",
+          "text": "### Expected Behavior\n\ndata_editor should behave the same no matter where the dataframe used to create it comes from.\n",
+          "source_span": [
+            2820,
+            2938
+          ],
+          "source_sha256": "d02c406211870b5a823d33ede6d141197e9227be17ff00861b643c68a6cea7b1",
+          "sha256": "112b63cc57a83c4369f0424b6dbee811943ed19cf606fc6bd4c91c66a635f48f",
+          "lines": [
+            78,
+            80
+          ],
+          "section": "st.data_editor does not return added rows when dataframe from file > Expected Behavior",
+          "section_path": [
+            "st.data_editor does not return added rows when dataframe from file",
+            "Expected Behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 22,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:6995:v3:parent:48dbb8f375f75d635533",
+          "parent": {
+            "kind": "issue",
+            "title": "st.data_editor does not return added rows when dataframe from file",
+            "url": "https://github.com/streamlit/streamlit/issues/6995",
+            "revision": "2023-10-04T09:39:39Z",
+            "product_version": null,
+            "issue_number": 6995,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:6995:v3:parent:48dbb8f375f75d635533",
+            "source_id": "issue:6995",
+            "text": "### Expected Behavior\n\ndata_editor should behave the same no matter where the dataframe used to create it comes from.\n",
+            "source_span": [
+              2820,
+              2938
+            ],
+            "source_sha256": "d02c406211870b5a823d33ede6d141197e9227be17ff00861b643c68a6cea7b1",
+            "sha256": "112b63cc57a83c4369f0424b6dbee811943ed19cf606fc6bd4c91c66a635f48f",
+            "lines": [
+              78,
+              80
+            ],
+            "section": "st.data_editor does not return added rows when dataframe from file > Expected Behavior",
+            "section_path": [
+              "st.data_editor does not return added rows when dataframe from file",
+              "Expected Behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 22,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02297035,
+          "rank": 6
+        },
+        {
+          "kind": "issue",
+          "title": "Concurrency issues with `st.data_editor` `on_change` callback: Using the `session_state` of the `st.data_editor` leads to multiple processing or potential data loss",
+          "url": "https://github.com/streamlit/streamlit/issues/11679",
+          "revision": "2026-09-01T13:48:58Z",
+          "product_version": null,
+          "issue_number": 11679,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:11679:v3:child:0c336ab781b1ba8e968e",
+          "source_id": "issue:11679",
+          "text": "**Request:**\nI found a solution to this, but would like to know if I just use the `st.data_editor` object and corresponding `on_change` callback in a way that they were not meant to be used (passing/using the `session_state` of the `st.data_editor` in the callback).\n-> Is there another method to handle user edits on a dataframe, which ensures that those edits are processed exactly once, so neither multiple times nor never before the Streamlit page or `st.fragment` get reloaded?\n",
+          "source_span": [
+            1414,
+            1897
+          ],
+          "source_sha256": "1a7edb68e68eaf765ba7c474f3ef797fc3aea87bd20767e64f495bef0e119082",
+          "sha256": "062b2a9307935cb29787ed002d5dcc116cf6f7ca03cc9ccf01d0136ab8159446",
+          "lines": [
+            18,
+            20
+          ],
+          "section": "Concurrency issues with `st.data_editor` `on_change` callback: Using the `session_state` of the `st.data_editor` leads to multiple processing or potential data loss > Summary",
+          "section_path": [
+            "Concurrency issues with `st.data_editor` `on_change` callback: Using the `session_state` of the `st.data_editor` leads to multiple processing or potential data loss",
+            "Summary"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 108,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:11679:v3:parent:63a4c2889437f65ad39d",
+          "parent": {
+            "kind": "issue",
+            "title": "Concurrency issues with `st.data_editor` `on_change` callback: Using the `session_state` of the `st.data_editor` leads to multiple processing or potential data loss",
+            "url": "https://github.com/streamlit/streamlit/issues/11679",
+            "revision": "2026-09-01T13:48:58Z",
+            "product_version": null,
+            "issue_number": 11679,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:11679:v3:parent:63a4c2889437f65ad39d",
+            "source_id": "issue:11679",
+            "text": "### Summary\n\n**Issue Description:**\n\nWhen a user edits cells in the `st.data_editor` object, the `on_change` callback function is triggered. If the user makes additional edits while the `on_change` callback is still running, some edits are processed multiple times (in this case, twice for edits of the first interaction and once for the second interaction) when using the `session_state` of the `st.data_editor` to process the user edits. This occurs because the callback is threaded, and the `session_state` of the `st.data_editor` object still includes the edits from the previous user interaction.\n\n**Additional Issue:**\n\nAttempting to fix this revealed another issue: If the `on_change` callback for a previous call takes longer to execute than the latest call, the Streamlit page reloads before the previous `on_change` callbacks are finished. As a result, not all cells of the `st.data_editor` object are updated, leading to potential loss of user edits. This seems to be fixed by using `threading.Lock()` in the on_change callback function.\n\n**Request:**\nI found a solution to this, but would like to know if I just use the `st.data_editor` object and corresponding `on_change` callback in a way that they were not meant to be used (passing/using the `session_state` of the `st.data_editor` in the callback).\n-> Is there another method to handle user edits on a dataframe, which ensures that those edits are processed exactly once, so neither multiple times nor never before the Streamlit page or `st.fragment` get reloaded?\n",
+            "source_span": [
+              364,
+              1897
+            ],
+            "source_sha256": "1a7edb68e68eaf765ba7c474f3ef797fc3aea87bd20767e64f495bef0e119082",
+            "sha256": "2dc4c4a18e9e64a2d318be258541bb3a240b64cb40fdee9aa4989eaa2395440a",
+            "lines": [
+              8,
+              20
+            ],
+            "section": "Concurrency issues with `st.data_editor` `on_change` callback: Using the `session_state` of the `st.data_editor` leads to multiple processing or potential data loss > Summary",
+            "section_path": [
+              "Concurrency issues with `st.data_editor` `on_change` callback: Using the `session_state` of the `st.data_editor` leads to multiple processing or potential data loss",
+              "Summary"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 330,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02301587,
+          "rank": 7
+        },
+        {
+          "kind": "issue",
+          "title": "Using st.data_editor with session state, input data \"disappears\": Requires double input to register changes.",
+          "url": "https://github.com/streamlit/streamlit/issues/7749",
+          "revision": "2026-10-06T08:01:14Z",
+          "product_version": null,
+          "issue_number": 7749,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:7749:v3:child:0741cccdf1ad6a717067",
+          "source_id": "issue:7749",
+          "text": "### Debug info\n\n- Streamlit version: 1.28.1\n- Python version: 3.12\n- Operating System: Win 10\n- Browser: Edge or Firefox\n",
+          "source_span": [
+            2740,
+            2861
+          ],
+          "source_sha256": "1486e5e45fd13c960516433b387253d2c9f28fe56a6124b5f876243c8b3bf464",
+          "sha256": "b899c627142250888466b302f5a8702b395f47c6bbff2c648ffca13abf92bc3c",
+          "lines": [
+            68,
+            73
+          ],
+          "section": "Using st.data_editor with session state, input data \"disappears\": Requires double input to register changes. > Debug info",
+          "section_path": [
+            "Using st.data_editor with session state, input data \"disappears\": Requires double input to register changes.",
+            "Debug info"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 40,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:7749:v3:parent:0741cccdf1ad6a717067",
+          "parent": {
+            "kind": "issue",
+            "title": "Using st.data_editor with session state, input data \"disappears\": Requires double input to register changes.",
+            "url": "https://github.com/streamlit/streamlit/issues/7749",
+            "revision": "2026-10-06T08:01:14Z",
+            "product_version": null,
+            "issue_number": 7749,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:7749:v3:parent:0741cccdf1ad6a717067",
+            "source_id": "issue:7749",
+            "text": "### Debug info\n\n- Streamlit version: 1.28.1\n- Python version: 3.12\n- Operating System: Win 10\n- Browser: Edge or Firefox\n",
+            "source_span": [
+              2740,
+              2861
+            ],
+            "source_sha256": "1486e5e45fd13c960516433b387253d2c9f28fe56a6124b5f876243c8b3bf464",
+            "sha256": "b899c627142250888466b302f5a8702b395f47c6bbff2c648ffca13abf92bc3c",
+            "lines": [
+              68,
+              73
+            ],
+            "section": "Using st.data_editor with session state, input data \"disappears\": Requires double input to register changes. > Debug info",
+            "section_path": [
+              "Using st.data_editor with session state, input data \"disappears\": Requires double input to register changes.",
+              "Debug info"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 40,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02224667,
+          "rank": 8
+        }
+      ],
+      "candidate_hash": "7b01b095da53c07ef41f2a597a29c57c0b35abe52251f14f923a734708f409b5",
+      "context": [
+        {
+          "kind": "docs",
+          "title": "dataframes",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:dataframes:v3:child:eeeadefad06817eb8ff5",
+          "source_id": "docs:dataframes",
+          "text": "# Dataframes\n\nDataframes are a great way to display and edit data in a tabular format. Working with Pandas DataFrames and other tabular data structures is key to data science workflows. If developers and data scientists want to display this data in Streamlit, they have multiple options: `st.dataframe` and `st.data_editor`. If you want to solely display data in a table-like UI, [st.dataframe](/develop/api-reference/data/st.dataframe) is the way to go. If you want to interactively edit data, use [st.data_editor](/develop/api-reference/data/st.data_editor). We explore the use cases and advantages of each option in the following sections.\n",
+          "source_span": [
+            410,
+            1053
+          ],
+          "source_sha256": "f09d0a310b70647c1ef83ec716fbeb057b26ab01c3fe4108daad46f481bb3472",
+          "sha256": "e62e950305ad40e7abcaff184d3db8c6ad944caa3f549710a35986e9ee23a143",
+          "lines": [
+            8,
+            10
+          ],
+          "section": "dataframes > Dataframes",
+          "section_path": [
+            "dataframes",
+            "Dataframes"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 142,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:dataframes:v3:parent:eeeadefad06817eb8ff5",
+          "parent": {
+            "kind": "docs",
+            "title": "dataframes",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:dataframes:v3:parent:eeeadefad06817eb8ff5",
+            "source_id": "docs:dataframes",
+            "text": "# Dataframes\n\nDataframes are a great way to display and edit data in a tabular format. Working with Pandas DataFrames and other tabular data structures is key to data science workflows. If developers and data scientists want to display this data in Streamlit, they have multiple options: `st.dataframe` and `st.data_editor`. If you want to solely display data in a table-like UI, [st.dataframe](/develop/api-reference/data/st.dataframe) is the way to go. If you want to interactively edit data, use [st.data_editor](/develop/api-reference/data/st.data_editor). We explore the use cases and advantages of each option in the following sections.\n",
+            "source_span": [
+              410,
+              1053
+            ],
+            "source_sha256": "f09d0a310b70647c1ef83ec716fbeb057b26ab01c3fe4108daad46f481bb3472",
+            "sha256": "e62e950305ad40e7abcaff184d3db8c6ad944caa3f549710a35986e9ee23a143",
+            "lines": [
+              8,
+              10
+            ],
+            "section": "dataframes > Dataframes",
+            "section_path": [
+              "dataframes",
+              "Dataframes"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 142,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03540984,
+          "rank": 1
+        },
+        {
+          "kind": "issue",
+          "title": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+          "url": "https://github.com/streamlit/streamlit/issues/17026",
+          "revision": "2026-09-28T00:58:38Z",
+          "product_version": null,
+          "issue_number": 17026,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:17026:v3:child:3abbbb8c2de503341663",
+          "source_id": "issue:17026",
+          "text": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row\n",
+          "source_span": [
+            0,
+            136
+          ],
+          "source_sha256": "9821d6ac21337d5c3097871852eae241353caa790a3daccc4b318496ffa5479c",
+          "sha256": "469e97f1bf5f3d0f9291a50392b9007095119c464aeb705ebd2a35daf92a0500",
+          "lines": [
+            1,
+            1
+          ],
+          "section": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+          "section_path": [
+            "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 32,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:17026:v3:parent:3abbbb8c2de503341663",
+          "parent": {
+            "kind": "issue",
+            "title": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+            "url": "https://github.com/streamlit/streamlit/issues/17026",
+            "revision": "2026-09-28T00:58:38Z",
+            "product_version": null,
+            "issue_number": 17026,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:17026:v3:parent:3abbbb8c2de503341663",
+            "source_id": "issue:17026",
+            "text": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row\n",
+            "source_span": [
+              0,
+              136
+            ],
+            "source_sha256": "9821d6ac21337d5c3097871852eae241353caa790a3daccc4b318496ffa5479c",
+            "sha256": "469e97f1bf5f3d0f9291a50392b9007095119c464aeb705ebd2a35daf92a0500",
+            "lines": [
+              1,
+              1
+            ],
+            "section": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+            "section_path": [
+              "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 32,
+            "block_kinds": [
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03055037,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "dataframes",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:dataframes:v3:child:f537d2ceb9fcc84aecf1",
+          "source_id": "docs:dataframes",
+          "text": "## Edit data with st.data_editor\n\nStreamlit supports editable dataframes via the `st.data_editor` command. Check out its API in [st.data_editor](/develop/api-reference/data/st.data_editor). It shows the dataframe in a table, similar to `st.dataframe`. But in contrast to `st.dataframe`, this table isn't static! The user can click on cells and edit them. The edited data is then returned on the Python side. Here's an example:\n\n```python\ndf = pd.DataFrame(\n    [\n        {\"command\": \"st.selectbox\", \"rating\": 4, \"is_widget\": True},\n        {\"command\": \"st.balloons\", \"rating\": 5, \"is_widget\": False},\n        {\"command\": \"st.time_input\", \"rating\": 3, \"is_widget\": True},\n    ]\n)\n\nedited_df = st.data_editor(df) # 👈 An editable dataframe\n\nfavorite_command = edited_df.loc[edited_df[\"rating\"].idxmax()][\"command\"]\nst.markdown(f\"Your favorite command is **{favorite_command}** 🎈\")\n```\n\n<Cloud name=\"doc-data-editor\" height=\"300px\"/>\n\nTry it out by double-clicking on any cell. You'll notice you can edit all cell values. Try editing the values in the rating column and observe how the text output at the bottom changes:\n",
+          "source_span": [
+            3906,
+            5023
+          ],
+          "source_sha256": "f09d0a310b70647c1ef83ec716fbeb057b26ab01c3fe4108daad46f481bb3472",
+          "sha256": "96dc104c67d3d9600efa9ef5e6bbcb4fcf2db6beba043979ed0884183ac61382",
+          "lines": [
+            54,
+            75
+          ],
+          "section": "dataframes > Dataframes > Edit data with st.data_editor",
+          "section_path": [
+            "dataframes",
+            "Dataframes",
+            "Edit data with st.data_editor"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 280,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:dataframes:v3:parent:f537d2ceb9fcc84aecf1",
+          "parent": {
+            "kind": "docs",
+            "title": "dataframes",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:dataframes:v3:parent:f537d2ceb9fcc84aecf1",
+            "source_id": "docs:dataframes",
+            "text": "## Edit data with st.data_editor\n\nStreamlit supports editable dataframes via the `st.data_editor` command. Check out its API in [st.data_editor](/develop/api-reference/data/st.data_editor). It shows the dataframe in a table, similar to `st.dataframe`. But in contrast to `st.dataframe`, this table isn't static! The user can click on cells and edit them. The edited data is then returned on the Python side. Here's an example:\n\n```python\ndf = pd.DataFrame(\n    [\n        {\"command\": \"st.selectbox\", \"rating\": 4, \"is_widget\": True},\n        {\"command\": \"st.balloons\", \"rating\": 5, \"is_widget\": False},\n        {\"command\": \"st.time_input\", \"rating\": 3, \"is_widget\": True},\n    ]\n)\n\nedited_df = st.data_editor(df) # 👈 An editable dataframe\n\nfavorite_command = edited_df.loc[edited_df[\"rating\"].idxmax()][\"command\"]\nst.markdown(f\"Your favorite command is **{favorite_command}** 🎈\")\n```\n\n<Cloud name=\"doc-data-editor\" height=\"300px\"/>\n\nTry it out by double-clicking on any cell. You'll notice you can edit all cell values. Try editing the values in the rating column and observe how the text output at the bottom changes:\n",
+            "source_span": [
+              3906,
+              5023
+            ],
+            "source_sha256": "f09d0a310b70647c1ef83ec716fbeb057b26ab01c3fe4108daad46f481bb3472",
+            "sha256": "96dc104c67d3d9600efa9ef5e6bbcb4fcf2db6beba043979ed0884183ac61382",
+            "lines": [
+              54,
+              75
+            ],
+            "section": "dataframes > Dataframes > Edit data with st.data_editor",
+            "section_path": [
+              "dataframes",
+              "Dataframes",
+              "Edit data with st.data_editor"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 280,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03378299,
+          "rank": 3
+        },
+        {
+          "kind": "release",
+          "title": "2023",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2023.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:2023:v3:child:9bf4fc606a773a5ba82b",
+          "source_id": "docs:2023",
+          "text": "## **Version 1.23.0**\n\n_Release date: June 1, 2023_\n\n**Highlights**\n\n- ✂️ Announcing the general availability of [st.data_editor](/develop/api-reference/data/st.data_editor), a widget that allows you to edit DataFrames and many other data structures in a table-like UI. **Breaking change:** the data editor's representation used in `st.session_state` was altered. Find out more about the new format in [Access edited data](/develop/concepts/design/dataframes#access-edited-data).\n- ⚙️ Introducing the [Column configuration API](/develop/api-reference/data/st.column_config) with a suite of methods to configure the display and editing behavior of `st.dataframe` and `st.data_editor` columns (e.g. their title, visibility, type, or format). Keep an eye out for a detailed [blog post](https://blog.streamlit.io/) and in-depth [documentation](/develop/concepts/design/dataframes#configuring-columns) upcoming in the next two weeks.\n- 🔌 Learn to use `st.experimental_connection` to create and manage data connections in your apps with the new [Connecting to data](/develop/concepts/connections/connecting-to-data) docs and [video tutorial](https://www.youtube.com/watch?v=xQwDfW7UHMo).\n\n**Notable Changes**\n\n\n\n\n\n\n\n**Other Changes**\n",
+          "source_span": [
+            29175,
+            30403
+          ],
+          "source_sha256": "0b2984b75201fec6c852064ac7ddcffda0856bcc302e71c2392a62c56507c9af",
+          "sha256": "913df1609eeaa9c8aa36aee858dca34127edcf58afef6667a3d541f9a0adb799",
+          "lines": [
+            232,
+            250
+          ],
+          "section": "2023 > 2023 release notes > **Version 1.23.0**",
+          "section_path": [
+            "2023",
+            "2023 release notes",
+            "**Version 1.23.0**"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 287,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:2023:v3:parent:9bf4fc606a773a5ba82b",
+          "parent": {
+            "kind": "release",
+            "title": "2023",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2023.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:2023:v3:parent:9bf4fc606a773a5ba82b",
+            "source_id": "docs:2023",
+            "text": "## **Version 1.23.0**\n\n_Release date: June 1, 2023_\n\n**Highlights**\n\n- ✂️ Announcing the general availability of [st.data_editor](/develop/api-reference/data/st.data_editor), a widget that allows you to edit DataFrames and many other data structures in a table-like UI. **Breaking change:** the data editor's representation used in `st.session_state` was altered. Find out more about the new format in [Access edited data](/develop/concepts/design/dataframes#access-edited-data).\n- ⚙️ Introducing the [Column configuration API](/develop/api-reference/data/st.column_config) with a suite of methods to configure the display and editing behavior of `st.dataframe` and `st.data_editor` columns (e.g. their title, visibility, type, or format). Keep an eye out for a detailed [blog post](https://blog.streamlit.io/) and in-depth [documentation](/develop/concepts/design/dataframes#configuring-columns) upcoming in the next two weeks.\n- 🔌 Learn to use `st.experimental_connection` to create and manage data connections in your apps with the new [Connecting to data](/develop/concepts/connections/connecting-to-data) docs and [video tutorial](https://www.youtube.com/watch?v=xQwDfW7UHMo).\n\n**Notable Changes**\n\n\n\n\n\n\n\n**Other Changes**\n",
+            "source_span": [
+              29175,
+              30403
+            ],
+            "source_sha256": "0b2984b75201fec6c852064ac7ddcffda0856bcc302e71c2392a62c56507c9af",
+            "sha256": "913df1609eeaa9c8aa36aee858dca34127edcf58afef6667a3d541f9a0adb799",
+            "lines": [
+              232,
+              250
+            ],
+            "section": "2023 > 2023 release notes > **Version 1.23.0**",
+            "section_path": [
+              "2023",
+              "2023 release notes",
+              "**Version 1.23.0**"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 287,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0274024,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+          "url": "https://github.com/streamlit/streamlit/issues/17026",
+          "revision": "2026-09-28T00:58:38Z",
+          "product_version": null,
+          "issue_number": 17026,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:17026:v3:child:b78df37b5de429df3f71",
+          "source_id": "issue:17026",
+          "text": "### Debug info\n\n- Streamlit version: 1.63.0 and 1.64.0, both reproduced\n- Python version: 3.14.6\n- Operating System: Linux Mint 22.3 Zena 64-bit\n- Browser: Version 152.0.7977.82 (Official Build) for Linux Mint (x86_64)\n",
+          "source_span": [
+            5198,
+            5417
+          ],
+          "source_sha256": "9821d6ac21337d5c3097871852eae241353caa790a3daccc4b318496ffa5479c",
+          "sha256": "e45a986d3408528e52cf65bf0964f8a861893ae9db14ffab462e76dd09228daa",
+          "lines": [
+            92,
+            97
+          ],
+          "section": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row > Debug info",
+          "section_path": [
+            "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+            "Debug info"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 79,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:17026:v3:parent:b78df37b5de429df3f71",
+          "parent": {
+            "kind": "issue",
+            "title": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+            "url": "https://github.com/streamlit/streamlit/issues/17026",
+            "revision": "2026-09-28T00:58:38Z",
+            "product_version": null,
+            "issue_number": 17026,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:17026:v3:parent:b78df37b5de429df3f71",
+            "source_id": "issue:17026",
+            "text": "### Debug info\n\n- Streamlit version: 1.63.0 and 1.64.0, both reproduced\n- Python version: 3.14.6\n- Operating System: Linux Mint 22.3 Zena 64-bit\n- Browser: Version 152.0.7977.82 (Official Build) for Linux Mint (x86_64)\n",
+            "source_span": [
+              5198,
+              5417
+            ],
+            "source_sha256": "9821d6ac21337d5c3097871852eae241353caa790a3daccc4b318496ffa5479c",
+            "sha256": "e45a986d3408528e52cf65bf0964f8a861893ae9db14ffab462e76dd09228daa",
+            "lines": [
+              92,
+              97
+            ],
+            "section": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row > Debug info",
+            "section_path": [
+              "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+              "Debug info"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 79,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02987737,
+          "rank": 5
+        }
+      ],
+      "packing": {
+        "encoding": "o200k_base",
+        "budget_tokens": 3000,
+        "used_tokens": 2084,
+        "expand_parent": false,
+        "items": [
+          {
+            "id": "docs:dataframes:v3:child:eeeadefad06817eb8ff5",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:dataframes:v3:child:eeeadefad06817eb8ff5"
+          },
+          {
+            "id": "issue:17026:v3:child:3abbbb8c2de503341663",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:17026:v3:child:3abbbb8c2de503341663"
+          },
+          {
+            "id": "docs:dataframes:v3:child:f537d2ceb9fcc84aecf1",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:dataframes:v3:child:f537d2ceb9fcc84aecf1"
+          },
+          {
+            "id": "docs:2023:v3:child:9bf4fc606a773a5ba82b",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:2023:v3:child:9bf4fc606a773a5ba82b"
+          },
+          {
+            "id": "issue:17026:v3:child:b78df37b5de429df3f71",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:17026:v3:child:b78df37b5de429df3f71"
+          },
+          {
+            "id": "issue:6995:v3:child:48dbb8f375f75d635533",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:11679:v3:child:0c336ab781b1ba8e968e",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:7749:v3:child:0741cccdf1ad6a717067",
+            "status": "omitted",
+            "reason": "item_limit"
+          }
+        ]
+      },
+      "index": "v3",
+      "namespace": "6fbba079eb1323bf54c9d03ad4b956a7174e0f434f386ed66f0a50b489f55d4e"
+    },
+    "C": {
+      "candidates": [
+        {
+          "kind": "docs",
+          "title": "dataframes",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:dataframes:v3:child:eeeadefad06817eb8ff5",
+          "source_id": "docs:dataframes",
+          "text": "# Dataframes\n\nDataframes are a great way to display and edit data in a tabular format. Working with Pandas DataFrames and other tabular data structures is key to data science workflows. If developers and data scientists want to display this data in Streamlit, they have multiple options: `st.dataframe` and `st.data_editor`. If you want to solely display data in a table-like UI, [st.dataframe](/develop/api-reference/data/st.dataframe) is the way to go. If you want to interactively edit data, use [st.data_editor](/develop/api-reference/data/st.data_editor). We explore the use cases and advantages of each option in the following sections.\n",
+          "source_span": [
+            410,
+            1053
+          ],
+          "source_sha256": "f09d0a310b70647c1ef83ec716fbeb057b26ab01c3fe4108daad46f481bb3472",
+          "sha256": "e62e950305ad40e7abcaff184d3db8c6ad944caa3f549710a35986e9ee23a143",
+          "lines": [
+            8,
+            10
+          ],
+          "section": "dataframes > Dataframes",
+          "section_path": [
+            "dataframes",
+            "Dataframes"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 142,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:dataframes:v3:parent:eeeadefad06817eb8ff5",
+          "parent": {
+            "kind": "docs",
+            "title": "dataframes",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:dataframes:v3:parent:eeeadefad06817eb8ff5",
+            "source_id": "docs:dataframes",
+            "text": "# Dataframes\n\nDataframes are a great way to display and edit data in a tabular format. Working with Pandas DataFrames and other tabular data structures is key to data science workflows. If developers and data scientists want to display this data in Streamlit, they have multiple options: `st.dataframe` and `st.data_editor`. If you want to solely display data in a table-like UI, [st.dataframe](/develop/api-reference/data/st.dataframe) is the way to go. If you want to interactively edit data, use [st.data_editor](/develop/api-reference/data/st.data_editor). We explore the use cases and advantages of each option in the following sections.\n",
+            "source_span": [
+              410,
+              1053
+            ],
+            "source_sha256": "f09d0a310b70647c1ef83ec716fbeb057b26ab01c3fe4108daad46f481bb3472",
+            "sha256": "e62e950305ad40e7abcaff184d3db8c6ad944caa3f549710a35986e9ee23a143",
+            "lines": [
+              8,
+              10
+            ],
+            "section": "dataframes > Dataframes",
+            "section_path": [
+              "dataframes",
+              "Dataframes"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 142,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03540984,
+          "rank": 1
+        },
+        {
+          "kind": "issue",
+          "title": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+          "url": "https://github.com/streamlit/streamlit/issues/17026",
+          "revision": "2026-09-28T00:58:38Z",
+          "product_version": null,
+          "issue_number": 17026,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:17026:v3:child:3abbbb8c2de503341663",
+          "source_id": "issue:17026",
+          "text": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row\n",
+          "source_span": [
+            0,
+            136
+          ],
+          "source_sha256": "9821d6ac21337d5c3097871852eae241353caa790a3daccc4b318496ffa5479c",
+          "sha256": "469e97f1bf5f3d0f9291a50392b9007095119c464aeb705ebd2a35daf92a0500",
+          "lines": [
+            1,
+            1
+          ],
+          "section": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+          "section_path": [
+            "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 32,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:17026:v3:parent:3abbbb8c2de503341663",
+          "parent": {
+            "kind": "issue",
+            "title": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+            "url": "https://github.com/streamlit/streamlit/issues/17026",
+            "revision": "2026-09-28T00:58:38Z",
+            "product_version": null,
+            "issue_number": 17026,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:17026:v3:parent:3abbbb8c2de503341663",
+            "source_id": "issue:17026",
+            "text": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row\n",
+            "source_span": [
+              0,
+              136
+            ],
+            "source_sha256": "9821d6ac21337d5c3097871852eae241353caa790a3daccc4b318496ffa5479c",
+            "sha256": "469e97f1bf5f3d0f9291a50392b9007095119c464aeb705ebd2a35daf92a0500",
+            "lines": [
+              1,
+              1
+            ],
+            "section": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+            "section_path": [
+              "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 32,
+            "block_kinds": [
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03055037,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "dataframes",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:dataframes:v3:child:f537d2ceb9fcc84aecf1",
+          "source_id": "docs:dataframes",
+          "text": "## Edit data with st.data_editor\n\nStreamlit supports editable dataframes via the `st.data_editor` command. Check out its API in [st.data_editor](/develop/api-reference/data/st.data_editor). It shows the dataframe in a table, similar to `st.dataframe`. But in contrast to `st.dataframe`, this table isn't static! The user can click on cells and edit them. The edited data is then returned on the Python side. Here's an example:\n\n```python\ndf = pd.DataFrame(\n    [\n        {\"command\": \"st.selectbox\", \"rating\": 4, \"is_widget\": True},\n        {\"command\": \"st.balloons\", \"rating\": 5, \"is_widget\": False},\n        {\"command\": \"st.time_input\", \"rating\": 3, \"is_widget\": True},\n    ]\n)\n\nedited_df = st.data_editor(df) # 👈 An editable dataframe\n\nfavorite_command = edited_df.loc[edited_df[\"rating\"].idxmax()][\"command\"]\nst.markdown(f\"Your favorite command is **{favorite_command}** 🎈\")\n```\n\n<Cloud name=\"doc-data-editor\" height=\"300px\"/>\n\nTry it out by double-clicking on any cell. You'll notice you can edit all cell values. Try editing the values in the rating column and observe how the text output at the bottom changes:\n",
+          "source_span": [
+            3906,
+            5023
+          ],
+          "source_sha256": "f09d0a310b70647c1ef83ec716fbeb057b26ab01c3fe4108daad46f481bb3472",
+          "sha256": "96dc104c67d3d9600efa9ef5e6bbcb4fcf2db6beba043979ed0884183ac61382",
+          "lines": [
+            54,
+            75
+          ],
+          "section": "dataframes > Dataframes > Edit data with st.data_editor",
+          "section_path": [
+            "dataframes",
+            "Dataframes",
+            "Edit data with st.data_editor"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 280,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:dataframes:v3:parent:f537d2ceb9fcc84aecf1",
+          "parent": {
+            "kind": "docs",
+            "title": "dataframes",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:dataframes:v3:parent:f537d2ceb9fcc84aecf1",
+            "source_id": "docs:dataframes",
+            "text": "## Edit data with st.data_editor\n\nStreamlit supports editable dataframes via the `st.data_editor` command. Check out its API in [st.data_editor](/develop/api-reference/data/st.data_editor). It shows the dataframe in a table, similar to `st.dataframe`. But in contrast to `st.dataframe`, this table isn't static! The user can click on cells and edit them. The edited data is then returned on the Python side. Here's an example:\n\n```python\ndf = pd.DataFrame(\n    [\n        {\"command\": \"st.selectbox\", \"rating\": 4, \"is_widget\": True},\n        {\"command\": \"st.balloons\", \"rating\": 5, \"is_widget\": False},\n        {\"command\": \"st.time_input\", \"rating\": 3, \"is_widget\": True},\n    ]\n)\n\nedited_df = st.data_editor(df) # 👈 An editable dataframe\n\nfavorite_command = edited_df.loc[edited_df[\"rating\"].idxmax()][\"command\"]\nst.markdown(f\"Your favorite command is **{favorite_command}** 🎈\")\n```\n\n<Cloud name=\"doc-data-editor\" height=\"300px\"/>\n\nTry it out by double-clicking on any cell. You'll notice you can edit all cell values. Try editing the values in the rating column and observe how the text output at the bottom changes:\n",
+            "source_span": [
+              3906,
+              5023
+            ],
+            "source_sha256": "f09d0a310b70647c1ef83ec716fbeb057b26ab01c3fe4108daad46f481bb3472",
+            "sha256": "96dc104c67d3d9600efa9ef5e6bbcb4fcf2db6beba043979ed0884183ac61382",
+            "lines": [
+              54,
+              75
+            ],
+            "section": "dataframes > Dataframes > Edit data with st.data_editor",
+            "section_path": [
+              "dataframes",
+              "Dataframes",
+              "Edit data with st.data_editor"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 280,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03378299,
+          "rank": 3
+        },
+        {
+          "kind": "release",
+          "title": "2023",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2023.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:2023:v3:child:9bf4fc606a773a5ba82b",
+          "source_id": "docs:2023",
+          "text": "## **Version 1.23.0**\n\n_Release date: June 1, 2023_\n\n**Highlights**\n\n- ✂️ Announcing the general availability of [st.data_editor](/develop/api-reference/data/st.data_editor), a widget that allows you to edit DataFrames and many other data structures in a table-like UI. **Breaking change:** the data editor's representation used in `st.session_state` was altered. Find out more about the new format in [Access edited data](/develop/concepts/design/dataframes#access-edited-data).\n- ⚙️ Introducing the [Column configuration API](/develop/api-reference/data/st.column_config) with a suite of methods to configure the display and editing behavior of `st.dataframe` and `st.data_editor` columns (e.g. their title, visibility, type, or format). Keep an eye out for a detailed [blog post](https://blog.streamlit.io/) and in-depth [documentation](/develop/concepts/design/dataframes#configuring-columns) upcoming in the next two weeks.\n- 🔌 Learn to use `st.experimental_connection` to create and manage data connections in your apps with the new [Connecting to data](/develop/concepts/connections/connecting-to-data) docs and [video tutorial](https://www.youtube.com/watch?v=xQwDfW7UHMo).\n\n**Notable Changes**\n\n\n\n\n\n\n\n**Other Changes**\n",
+          "source_span": [
+            29175,
+            30403
+          ],
+          "source_sha256": "0b2984b75201fec6c852064ac7ddcffda0856bcc302e71c2392a62c56507c9af",
+          "sha256": "913df1609eeaa9c8aa36aee858dca34127edcf58afef6667a3d541f9a0adb799",
+          "lines": [
+            232,
+            250
+          ],
+          "section": "2023 > 2023 release notes > **Version 1.23.0**",
+          "section_path": [
+            "2023",
+            "2023 release notes",
+            "**Version 1.23.0**"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 287,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:2023:v3:parent:9bf4fc606a773a5ba82b",
+          "parent": {
+            "kind": "release",
+            "title": "2023",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2023.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:2023:v3:parent:9bf4fc606a773a5ba82b",
+            "source_id": "docs:2023",
+            "text": "## **Version 1.23.0**\n\n_Release date: June 1, 2023_\n\n**Highlights**\n\n- ✂️ Announcing the general availability of [st.data_editor](/develop/api-reference/data/st.data_editor), a widget that allows you to edit DataFrames and many other data structures in a table-like UI. **Breaking change:** the data editor's representation used in `st.session_state` was altered. Find out more about the new format in [Access edited data](/develop/concepts/design/dataframes#access-edited-data).\n- ⚙️ Introducing the [Column configuration API](/develop/api-reference/data/st.column_config) with a suite of methods to configure the display and editing behavior of `st.dataframe` and `st.data_editor` columns (e.g. their title, visibility, type, or format). Keep an eye out for a detailed [blog post](https://blog.streamlit.io/) and in-depth [documentation](/develop/concepts/design/dataframes#configuring-columns) upcoming in the next two weeks.\n- 🔌 Learn to use `st.experimental_connection` to create and manage data connections in your apps with the new [Connecting to data](/develop/concepts/connections/connecting-to-data) docs and [video tutorial](https://www.youtube.com/watch?v=xQwDfW7UHMo).\n\n**Notable Changes**\n\n\n\n\n\n\n\n**Other Changes**\n",
+            "source_span": [
+              29175,
+              30403
+            ],
+            "source_sha256": "0b2984b75201fec6c852064ac7ddcffda0856bcc302e71c2392a62c56507c9af",
+            "sha256": "913df1609eeaa9c8aa36aee858dca34127edcf58afef6667a3d541f9a0adb799",
+            "lines": [
+              232,
+              250
+            ],
+            "section": "2023 > 2023 release notes > **Version 1.23.0**",
+            "section_path": [
+              "2023",
+              "2023 release notes",
+              "**Version 1.23.0**"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 287,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0274024,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+          "url": "https://github.com/streamlit/streamlit/issues/17026",
+          "revision": "2026-09-28T00:58:38Z",
+          "product_version": null,
+          "issue_number": 17026,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:17026:v3:child:b78df37b5de429df3f71",
+          "source_id": "issue:17026",
+          "text": "### Debug info\n\n- Streamlit version: 1.63.0 and 1.64.0, both reproduced\n- Python version: 3.14.6\n- Operating System: Linux Mint 22.3 Zena 64-bit\n- Browser: Version 152.0.7977.82 (Official Build) for Linux Mint (x86_64)\n",
+          "source_span": [
+            5198,
+            5417
+          ],
+          "source_sha256": "9821d6ac21337d5c3097871852eae241353caa790a3daccc4b318496ffa5479c",
+          "sha256": "e45a986d3408528e52cf65bf0964f8a861893ae9db14ffab462e76dd09228daa",
+          "lines": [
+            92,
+            97
+          ],
+          "section": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row > Debug info",
+          "section_path": [
+            "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+            "Debug info"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 79,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:17026:v3:parent:b78df37b5de429df3f71",
+          "parent": {
+            "kind": "issue",
+            "title": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+            "url": "https://github.com/streamlit/streamlit/issues/17026",
+            "revision": "2026-09-28T00:58:38Z",
+            "product_version": null,
+            "issue_number": 17026,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:17026:v3:parent:b78df37b5de429df3f71",
+            "source_id": "issue:17026",
+            "text": "### Debug info\n\n- Streamlit version: 1.63.0 and 1.64.0, both reproduced\n- Python version: 3.14.6\n- Operating System: Linux Mint 22.3 Zena 64-bit\n- Browser: Version 152.0.7977.82 (Official Build) for Linux Mint (x86_64)\n",
+            "source_span": [
+              5198,
+              5417
+            ],
+            "source_sha256": "9821d6ac21337d5c3097871852eae241353caa790a3daccc4b318496ffa5479c",
+            "sha256": "e45a986d3408528e52cf65bf0964f8a861893ae9db14ffab462e76dd09228daa",
+            "lines": [
+              92,
+              97
+            ],
+            "section": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row > Debug info",
+            "section_path": [
+              "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+              "Debug info"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 79,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02987737,
+          "rank": 5
+        },
+        {
+          "kind": "issue",
+          "title": "st.data_editor does not return added rows when dataframe from file",
+          "url": "https://github.com/streamlit/streamlit/issues/6995",
+          "revision": "2023-10-04T09:39:39Z",
+          "product_version": null,
+          "issue_number": 6995,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:6995:v3:child:48dbb8f375f75d635533",
+          "source_id": "issue:6995",
+          "text": "### Expected Behavior\n\ndata_editor should behave the same no matter where the dataframe used to create it comes from.\n",
+          "source_span": [
+            2820,
+            2938
+          ],
+          "source_sha256": "d02c406211870b5a823d33ede6d141197e9227be17ff00861b643c68a6cea7b1",
+          "sha256": "112b63cc57a83c4369f0424b6dbee811943ed19cf606fc6bd4c91c66a635f48f",
+          "lines": [
+            78,
+            80
+          ],
+          "section": "st.data_editor does not return added rows when dataframe from file > Expected Behavior",
+          "section_path": [
+            "st.data_editor does not return added rows when dataframe from file",
+            "Expected Behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 22,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:6995:v3:parent:48dbb8f375f75d635533",
+          "parent": {
+            "kind": "issue",
+            "title": "st.data_editor does not return added rows when dataframe from file",
+            "url": "https://github.com/streamlit/streamlit/issues/6995",
+            "revision": "2023-10-04T09:39:39Z",
+            "product_version": null,
+            "issue_number": 6995,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:6995:v3:parent:48dbb8f375f75d635533",
+            "source_id": "issue:6995",
+            "text": "### Expected Behavior\n\ndata_editor should behave the same no matter where the dataframe used to create it comes from.\n",
+            "source_span": [
+              2820,
+              2938
+            ],
+            "source_sha256": "d02c406211870b5a823d33ede6d141197e9227be17ff00861b643c68a6cea7b1",
+            "sha256": "112b63cc57a83c4369f0424b6dbee811943ed19cf606fc6bd4c91c66a635f48f",
+            "lines": [
+              78,
+              80
+            ],
+            "section": "st.data_editor does not return added rows when dataframe from file > Expected Behavior",
+            "section_path": [
+              "st.data_editor does not return added rows when dataframe from file",
+              "Expected Behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 22,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02297035,
+          "rank": 6
+        },
+        {
+          "kind": "issue",
+          "title": "Concurrency issues with `st.data_editor` `on_change` callback: Using the `session_state` of the `st.data_editor` leads to multiple processing or potential data loss",
+          "url": "https://github.com/streamlit/streamlit/issues/11679",
+          "revision": "2026-09-01T13:48:58Z",
+          "product_version": null,
+          "issue_number": 11679,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:11679:v3:child:0c336ab781b1ba8e968e",
+          "source_id": "issue:11679",
+          "text": "**Request:**\nI found a solution to this, but would like to know if I just use the `st.data_editor` object and corresponding `on_change` callback in a way that they were not meant to be used (passing/using the `session_state` of the `st.data_editor` in the callback).\n-> Is there another method to handle user edits on a dataframe, which ensures that those edits are processed exactly once, so neither multiple times nor never before the Streamlit page or `st.fragment` get reloaded?\n",
+          "source_span": [
+            1414,
+            1897
+          ],
+          "source_sha256": "1a7edb68e68eaf765ba7c474f3ef797fc3aea87bd20767e64f495bef0e119082",
+          "sha256": "062b2a9307935cb29787ed002d5dcc116cf6f7ca03cc9ccf01d0136ab8159446",
+          "lines": [
+            18,
+            20
+          ],
+          "section": "Concurrency issues with `st.data_editor` `on_change` callback: Using the `session_state` of the `st.data_editor` leads to multiple processing or potential data loss > Summary",
+          "section_path": [
+            "Concurrency issues with `st.data_editor` `on_change` callback: Using the `session_state` of the `st.data_editor` leads to multiple processing or potential data loss",
+            "Summary"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 108,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:11679:v3:parent:63a4c2889437f65ad39d",
+          "parent": {
+            "kind": "issue",
+            "title": "Concurrency issues with `st.data_editor` `on_change` callback: Using the `session_state` of the `st.data_editor` leads to multiple processing or potential data loss",
+            "url": "https://github.com/streamlit/streamlit/issues/11679",
+            "revision": "2026-09-01T13:48:58Z",
+            "product_version": null,
+            "issue_number": 11679,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:11679:v3:parent:63a4c2889437f65ad39d",
+            "source_id": "issue:11679",
+            "text": "### Summary\n\n**Issue Description:**\n\nWhen a user edits cells in the `st.data_editor` object, the `on_change` callback function is triggered. If the user makes additional edits while the `on_change` callback is still running, some edits are processed multiple times (in this case, twice for edits of the first interaction and once for the second interaction) when using the `session_state` of the `st.data_editor` to process the user edits. This occurs because the callback is threaded, and the `session_state` of the `st.data_editor` object still includes the edits from the previous user interaction.\n\n**Additional Issue:**\n\nAttempting to fix this revealed another issue: If the `on_change` callback for a previous call takes longer to execute than the latest call, the Streamlit page reloads before the previous `on_change` callbacks are finished. As a result, not all cells of the `st.data_editor` object are updated, leading to potential loss of user edits. This seems to be fixed by using `threading.Lock()` in the on_change callback function.\n\n**Request:**\nI found a solution to this, but would like to know if I just use the `st.data_editor` object and corresponding `on_change` callback in a way that they were not meant to be used (passing/using the `session_state` of the `st.data_editor` in the callback).\n-> Is there another method to handle user edits on a dataframe, which ensures that those edits are processed exactly once, so neither multiple times nor never before the Streamlit page or `st.fragment` get reloaded?\n",
+            "source_span": [
+              364,
+              1897
+            ],
+            "source_sha256": "1a7edb68e68eaf765ba7c474f3ef797fc3aea87bd20767e64f495bef0e119082",
+            "sha256": "2dc4c4a18e9e64a2d318be258541bb3a240b64cb40fdee9aa4989eaa2395440a",
+            "lines": [
+              8,
+              20
+            ],
+            "section": "Concurrency issues with `st.data_editor` `on_change` callback: Using the `session_state` of the `st.data_editor` leads to multiple processing or potential data loss > Summary",
+            "section_path": [
+              "Concurrency issues with `st.data_editor` `on_change` callback: Using the `session_state` of the `st.data_editor` leads to multiple processing or potential data loss",
+              "Summary"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 330,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02301587,
+          "rank": 7
+        },
+        {
+          "kind": "issue",
+          "title": "Using st.data_editor with session state, input data \"disappears\": Requires double input to register changes.",
+          "url": "https://github.com/streamlit/streamlit/issues/7749",
+          "revision": "2026-10-06T08:01:14Z",
+          "product_version": null,
+          "issue_number": 7749,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:7749:v3:child:0741cccdf1ad6a717067",
+          "source_id": "issue:7749",
+          "text": "### Debug info\n\n- Streamlit version: 1.28.1\n- Python version: 3.12\n- Operating System: Win 10\n- Browser: Edge or Firefox\n",
+          "source_span": [
+            2740,
+            2861
+          ],
+          "source_sha256": "1486e5e45fd13c960516433b387253d2c9f28fe56a6124b5f876243c8b3bf464",
+          "sha256": "b899c627142250888466b302f5a8702b395f47c6bbff2c648ffca13abf92bc3c",
+          "lines": [
+            68,
+            73
+          ],
+          "section": "Using st.data_editor with session state, input data \"disappears\": Requires double input to register changes. > Debug info",
+          "section_path": [
+            "Using st.data_editor with session state, input data \"disappears\": Requires double input to register changes.",
+            "Debug info"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 40,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:7749:v3:parent:0741cccdf1ad6a717067",
+          "parent": {
+            "kind": "issue",
+            "title": "Using st.data_editor with session state, input data \"disappears\": Requires double input to register changes.",
+            "url": "https://github.com/streamlit/streamlit/issues/7749",
+            "revision": "2026-10-06T08:01:14Z",
+            "product_version": null,
+            "issue_number": 7749,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:7749:v3:parent:0741cccdf1ad6a717067",
+            "source_id": "issue:7749",
+            "text": "### Debug info\n\n- Streamlit version: 1.28.1\n- Python version: 3.12\n- Operating System: Win 10\n- Browser: Edge or Firefox\n",
+            "source_span": [
+              2740,
+              2861
+            ],
+            "source_sha256": "1486e5e45fd13c960516433b387253d2c9f28fe56a6124b5f876243c8b3bf464",
+            "sha256": "b899c627142250888466b302f5a8702b395f47c6bbff2c648ffca13abf92bc3c",
+            "lines": [
+              68,
+              73
+            ],
+            "section": "Using st.data_editor with session state, input data \"disappears\": Requires double input to register changes. > Debug info",
+            "section_path": [
+              "Using st.data_editor with session state, input data \"disappears\": Requires double input to register changes.",
+              "Debug info"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 40,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02224667,
+          "rank": 8
+        }
+      ],
+      "candidate_hash": "7b01b095da53c07ef41f2a597a29c57c0b35abe52251f14f923a734708f409b5",
+      "context": [
+        {
+          "kind": "docs",
+          "title": "dataframes",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:dataframes:v3:child:eeeadefad06817eb8ff5",
+          "source_id": "docs:dataframes",
+          "text": "# Dataframes\n\nDataframes are a great way to display and edit data in a tabular format. Working with Pandas DataFrames and other tabular data structures is key to data science workflows. If developers and data scientists want to display this data in Streamlit, they have multiple options: `st.dataframe` and `st.data_editor`. If you want to solely display data in a table-like UI, [st.dataframe](/develop/api-reference/data/st.dataframe) is the way to go. If you want to interactively edit data, use [st.data_editor](/develop/api-reference/data/st.data_editor). We explore the use cases and advantages of each option in the following sections.\n",
+          "source_span": [
+            410,
+            1053
+          ],
+          "source_sha256": "f09d0a310b70647c1ef83ec716fbeb057b26ab01c3fe4108daad46f481bb3472",
+          "sha256": "e62e950305ad40e7abcaff184d3db8c6ad944caa3f549710a35986e9ee23a143",
+          "lines": [
+            8,
+            10
+          ],
+          "section": "dataframes > Dataframes",
+          "section_path": [
+            "dataframes",
+            "Dataframes"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 142,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:dataframes:v3:parent:eeeadefad06817eb8ff5",
+          "parent": {
+            "kind": "docs",
+            "title": "dataframes",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:dataframes:v3:parent:eeeadefad06817eb8ff5",
+            "source_id": "docs:dataframes",
+            "text": "# Dataframes\n\nDataframes are a great way to display and edit data in a tabular format. Working with Pandas DataFrames and other tabular data structures is key to data science workflows. If developers and data scientists want to display this data in Streamlit, they have multiple options: `st.dataframe` and `st.data_editor`. If you want to solely display data in a table-like UI, [st.dataframe](/develop/api-reference/data/st.dataframe) is the way to go. If you want to interactively edit data, use [st.data_editor](/develop/api-reference/data/st.data_editor). We explore the use cases and advantages of each option in the following sections.\n",
+            "source_span": [
+              410,
+              1053
+            ],
+            "source_sha256": "f09d0a310b70647c1ef83ec716fbeb057b26ab01c3fe4108daad46f481bb3472",
+            "sha256": "e62e950305ad40e7abcaff184d3db8c6ad944caa3f549710a35986e9ee23a143",
+            "lines": [
+              8,
+              10
+            ],
+            "section": "dataframes > Dataframes",
+            "section_path": [
+              "dataframes",
+              "Dataframes"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 142,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03540984,
+          "rank": 1
+        },
+        {
+          "kind": "issue",
+          "title": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+          "url": "https://github.com/streamlit/streamlit/issues/17026",
+          "revision": "2026-09-28T00:58:38Z",
+          "product_version": null,
+          "issue_number": 17026,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:17026:v3:child:3abbbb8c2de503341663",
+          "source_id": "issue:17026",
+          "text": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row\n",
+          "source_span": [
+            0,
+            136
+          ],
+          "source_sha256": "9821d6ac21337d5c3097871852eae241353caa790a3daccc4b318496ffa5479c",
+          "sha256": "469e97f1bf5f3d0f9291a50392b9007095119c464aeb705ebd2a35daf92a0500",
+          "lines": [
+            1,
+            1
+          ],
+          "section": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+          "section_path": [
+            "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 32,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:17026:v3:parent:3abbbb8c2de503341663",
+          "parent": {
+            "kind": "issue",
+            "title": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+            "url": "https://github.com/streamlit/streamlit/issues/17026",
+            "revision": "2026-09-28T00:58:38Z",
+            "product_version": null,
+            "issue_number": 17026,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:17026:v3:parent:3abbbb8c2de503341663",
+            "source_id": "issue:17026",
+            "text": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row\n",
+            "source_span": [
+              0,
+              136
+            ],
+            "source_sha256": "9821d6ac21337d5c3097871852eae241353caa790a3daccc4b318496ffa5479c",
+            "sha256": "469e97f1bf5f3d0f9291a50392b9007095119c464aeb705ebd2a35daf92a0500",
+            "lines": [
+              1,
+              1
+            ],
+            "section": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+            "section_path": [
+              "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 32,
+            "block_kinds": [
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03055037,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "dataframes",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:dataframes:v3:child:f537d2ceb9fcc84aecf1",
+          "source_id": "docs:dataframes",
+          "text": "## Edit data with st.data_editor\n\nStreamlit supports editable dataframes via the `st.data_editor` command. Check out its API in [st.data_editor](/develop/api-reference/data/st.data_editor). It shows the dataframe in a table, similar to `st.dataframe`. But in contrast to `st.dataframe`, this table isn't static! The user can click on cells and edit them. The edited data is then returned on the Python side. Here's an example:\n\n```python\ndf = pd.DataFrame(\n    [\n        {\"command\": \"st.selectbox\", \"rating\": 4, \"is_widget\": True},\n        {\"command\": \"st.balloons\", \"rating\": 5, \"is_widget\": False},\n        {\"command\": \"st.time_input\", \"rating\": 3, \"is_widget\": True},\n    ]\n)\n\nedited_df = st.data_editor(df) # 👈 An editable dataframe\n\nfavorite_command = edited_df.loc[edited_df[\"rating\"].idxmax()][\"command\"]\nst.markdown(f\"Your favorite command is **{favorite_command}** 🎈\")\n```\n\n<Cloud name=\"doc-data-editor\" height=\"300px\"/>\n\nTry it out by double-clicking on any cell. You'll notice you can edit all cell values. Try editing the values in the rating column and observe how the text output at the bottom changes:\n",
+          "source_span": [
+            3906,
+            5023
+          ],
+          "source_sha256": "f09d0a310b70647c1ef83ec716fbeb057b26ab01c3fe4108daad46f481bb3472",
+          "sha256": "96dc104c67d3d9600efa9ef5e6bbcb4fcf2db6beba043979ed0884183ac61382",
+          "lines": [
+            54,
+            75
+          ],
+          "section": "dataframes > Dataframes > Edit data with st.data_editor",
+          "section_path": [
+            "dataframes",
+            "Dataframes",
+            "Edit data with st.data_editor"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 280,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:dataframes:v3:parent:f537d2ceb9fcc84aecf1",
+          "parent": {
+            "kind": "docs",
+            "title": "dataframes",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:dataframes:v3:parent:f537d2ceb9fcc84aecf1",
+            "source_id": "docs:dataframes",
+            "text": "## Edit data with st.data_editor\n\nStreamlit supports editable dataframes via the `st.data_editor` command. Check out its API in [st.data_editor](/develop/api-reference/data/st.data_editor). It shows the dataframe in a table, similar to `st.dataframe`. But in contrast to `st.dataframe`, this table isn't static! The user can click on cells and edit them. The edited data is then returned on the Python side. Here's an example:\n\n```python\ndf = pd.DataFrame(\n    [\n        {\"command\": \"st.selectbox\", \"rating\": 4, \"is_widget\": True},\n        {\"command\": \"st.balloons\", \"rating\": 5, \"is_widget\": False},\n        {\"command\": \"st.time_input\", \"rating\": 3, \"is_widget\": True},\n    ]\n)\n\nedited_df = st.data_editor(df) # 👈 An editable dataframe\n\nfavorite_command = edited_df.loc[edited_df[\"rating\"].idxmax()][\"command\"]\nst.markdown(f\"Your favorite command is **{favorite_command}** 🎈\")\n```\n\n<Cloud name=\"doc-data-editor\" height=\"300px\"/>\n\nTry it out by double-clicking on any cell. You'll notice you can edit all cell values. Try editing the values in the rating column and observe how the text output at the bottom changes:\n",
+            "source_span": [
+              3906,
+              5023
+            ],
+            "source_sha256": "f09d0a310b70647c1ef83ec716fbeb057b26ab01c3fe4108daad46f481bb3472",
+            "sha256": "96dc104c67d3d9600efa9ef5e6bbcb4fcf2db6beba043979ed0884183ac61382",
+            "lines": [
+              54,
+              75
+            ],
+            "section": "dataframes > Dataframes > Edit data with st.data_editor",
+            "section_path": [
+              "dataframes",
+              "Dataframes",
+              "Edit data with st.data_editor"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 280,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03378299,
+          "rank": 3
+        },
+        {
+          "kind": "release",
+          "title": "2023",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2023.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:2023:v3:child:9bf4fc606a773a5ba82b",
+          "source_id": "docs:2023",
+          "text": "## **Version 1.23.0**\n\n_Release date: June 1, 2023_\n\n**Highlights**\n\n- ✂️ Announcing the general availability of [st.data_editor](/develop/api-reference/data/st.data_editor), a widget that allows you to edit DataFrames and many other data structures in a table-like UI. **Breaking change:** the data editor's representation used in `st.session_state` was altered. Find out more about the new format in [Access edited data](/develop/concepts/design/dataframes#access-edited-data).\n- ⚙️ Introducing the [Column configuration API](/develop/api-reference/data/st.column_config) with a suite of methods to configure the display and editing behavior of `st.dataframe` and `st.data_editor` columns (e.g. their title, visibility, type, or format). Keep an eye out for a detailed [blog post](https://blog.streamlit.io/) and in-depth [documentation](/develop/concepts/design/dataframes#configuring-columns) upcoming in the next two weeks.\n- 🔌 Learn to use `st.experimental_connection` to create and manage data connections in your apps with the new [Connecting to data](/develop/concepts/connections/connecting-to-data) docs and [video tutorial](https://www.youtube.com/watch?v=xQwDfW7UHMo).\n\n**Notable Changes**\n\n\n\n\n\n\n\n**Other Changes**\n",
+          "source_span": [
+            29175,
+            30403
+          ],
+          "source_sha256": "0b2984b75201fec6c852064ac7ddcffda0856bcc302e71c2392a62c56507c9af",
+          "sha256": "913df1609eeaa9c8aa36aee858dca34127edcf58afef6667a3d541f9a0adb799",
+          "lines": [
+            232,
+            250
+          ],
+          "section": "2023 > 2023 release notes > **Version 1.23.0**",
+          "section_path": [
+            "2023",
+            "2023 release notes",
+            "**Version 1.23.0**"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 287,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:2023:v3:parent:9bf4fc606a773a5ba82b",
+          "parent": {
+            "kind": "release",
+            "title": "2023",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2023.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:2023:v3:parent:9bf4fc606a773a5ba82b",
+            "source_id": "docs:2023",
+            "text": "## **Version 1.23.0**\n\n_Release date: June 1, 2023_\n\n**Highlights**\n\n- ✂️ Announcing the general availability of [st.data_editor](/develop/api-reference/data/st.data_editor), a widget that allows you to edit DataFrames and many other data structures in a table-like UI. **Breaking change:** the data editor's representation used in `st.session_state` was altered. Find out more about the new format in [Access edited data](/develop/concepts/design/dataframes#access-edited-data).\n- ⚙️ Introducing the [Column configuration API](/develop/api-reference/data/st.column_config) with a suite of methods to configure the display and editing behavior of `st.dataframe` and `st.data_editor` columns (e.g. their title, visibility, type, or format). Keep an eye out for a detailed [blog post](https://blog.streamlit.io/) and in-depth [documentation](/develop/concepts/design/dataframes#configuring-columns) upcoming in the next two weeks.\n- 🔌 Learn to use `st.experimental_connection` to create and manage data connections in your apps with the new [Connecting to data](/develop/concepts/connections/connecting-to-data) docs and [video tutorial](https://www.youtube.com/watch?v=xQwDfW7UHMo).\n\n**Notable Changes**\n\n\n\n\n\n\n\n**Other Changes**\n",
+            "source_span": [
+              29175,
+              30403
+            ],
+            "source_sha256": "0b2984b75201fec6c852064ac7ddcffda0856bcc302e71c2392a62c56507c9af",
+            "sha256": "913df1609eeaa9c8aa36aee858dca34127edcf58afef6667a3d541f9a0adb799",
+            "lines": [
+              232,
+              250
+            ],
+            "section": "2023 > 2023 release notes > **Version 1.23.0**",
+            "section_path": [
+              "2023",
+              "2023 release notes",
+              "**Version 1.23.0**"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 287,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0274024,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+          "url": "https://github.com/streamlit/streamlit/issues/17026",
+          "revision": "2026-09-28T00:58:38Z",
+          "product_version": null,
+          "issue_number": 17026,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:17026:v3:child:b78df37b5de429df3f71",
+          "source_id": "issue:17026",
+          "text": "### Debug info\n\n- Streamlit version: 1.63.0 and 1.64.0, both reproduced\n- Python version: 3.14.6\n- Operating System: Linux Mint 22.3 Zena 64-bit\n- Browser: Version 152.0.7977.82 (Official Build) for Linux Mint (x86_64)\n",
+          "source_span": [
+            5198,
+            5417
+          ],
+          "source_sha256": "9821d6ac21337d5c3097871852eae241353caa790a3daccc4b318496ffa5479c",
+          "sha256": "e45a986d3408528e52cf65bf0964f8a861893ae9db14ffab462e76dd09228daa",
+          "lines": [
+            92,
+            97
+          ],
+          "section": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row > Debug info",
+          "section_path": [
+            "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+            "Debug info"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 79,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:17026:v3:parent:b78df37b5de429df3f71",
+          "parent": {
+            "kind": "issue",
+            "title": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+            "url": "https://github.com/streamlit/streamlit/issues/17026",
+            "revision": "2026-09-28T00:58:38Z",
+            "product_version": null,
+            "issue_number": 17026,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:17026:v3:parent:b78df37b5de429df3f71",
+            "source_id": "issue:17026",
+            "text": "### Debug info\n\n- Streamlit version: 1.63.0 and 1.64.0, both reproduced\n- Python version: 3.14.6\n- Operating System: Linux Mint 22.3 Zena 64-bit\n- Browser: Version 152.0.7977.82 (Official Build) for Linux Mint (x86_64)\n",
+            "source_span": [
+              5198,
+              5417
+            ],
+            "source_sha256": "9821d6ac21337d5c3097871852eae241353caa790a3daccc4b318496ffa5479c",
+            "sha256": "e45a986d3408528e52cf65bf0964f8a861893ae9db14ffab462e76dd09228daa",
+            "lines": [
+              92,
+              97
+            ],
+            "section": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row > Debug info",
+            "section_path": [
+              "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+              "Debug info"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 79,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02987737,
+          "rank": 5
+        }
+      ],
+      "packing": {
+        "encoding": "o200k_base",
+        "budget_tokens": 3000,
+        "used_tokens": 2084,
+        "expand_parent": true,
+        "items": [
+          {
+            "id": "docs:dataframes:v3:child:eeeadefad06817eb8ff5",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:dataframes:v3:child:eeeadefad06817eb8ff5"
+          },
+          {
+            "id": "issue:17026:v3:child:3abbbb8c2de503341663",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:17026:v3:child:3abbbb8c2de503341663"
+          },
+          {
+            "id": "docs:dataframes:v3:child:f537d2ceb9fcc84aecf1",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:dataframes:v3:child:f537d2ceb9fcc84aecf1"
+          },
+          {
+            "id": "docs:2023:v3:child:9bf4fc606a773a5ba82b",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:2023:v3:child:9bf4fc606a773a5ba82b"
+          },
+          {
+            "id": "issue:17026:v3:child:b78df37b5de429df3f71",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:17026:v3:child:b78df37b5de429df3f71"
+          },
+          {
+            "id": "issue:6995:v3:child:48dbb8f375f75d635533",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:11679:v3:child:0c336ab781b1ba8e968e",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:7749:v3:child:0741cccdf1ad6a717067",
+            "status": "omitted",
+            "reason": "item_limit"
+          }
+        ]
+      },
+      "index": "v3",
+      "namespace": "6fbba079eb1323bf54c9d03ad4b956a7174e0f434f386ed66f0a50b489f55d4e"
+    }
+  },
+  "code_hash": "c148d8cd099ab2f7dd82c13ef86c8525124fe15649ff8f335418dc5d867b8a6a",
+  "query_vector_hash": "d18e12eb94b84f9febd75e18e65fa936c251baabe50e73178e3b232756ec8a40",
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "reserved_usd": 1.78464e-05,
+      "ledger_id": "118cee3c64ad89136561dd46",
+      "diagnostic": {
+        "request_id": "118cee3c64ad89136561dd46",
+        "provider_request_id": null,
+        "role": "embedding",
+        "model": "text-embedding-3-small",
+        "requested_max_output_tokens": null,
+        "reported_usage": {
+          "prompt_tokens": 23,
+          "completion_tokens": null,
+          "total_tokens": 23
+        },
+        "http_status": 200,
+        "finish_reason": null,
+        "status": "parsed",
+        "failure_code": null
+      },
+      "input_tokens": 23,
+      "output_tokens": 0,
+      "cost_usd": 5.06e-07
+    }
+  ]
+}

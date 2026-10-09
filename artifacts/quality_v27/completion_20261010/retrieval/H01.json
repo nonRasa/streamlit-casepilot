@@ -1,0 +1,3242 @@
+{
+  "id": "H01",
+  "split": "holdout",
+  "query": "How do I read repeated URL query parameters through st.query_params? The installed version has not been recorded.",
+  "query_hash": "5dcfafaa84e4fd80a353d5ed7a8899adad0369e94dd49c1c50bc1e15d1fbe150",
+  "version": null,
+  "variants": {
+    "A": {
+      "candidates": [
+        {
+          "kind": "docs",
+          "title": "query_params",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/query_params.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:query_params:v2:302037cbe543a41e",
+          "source_id": "docs:query_params",
+          "section": "st.query_params",
+          "text": "## st.query_params\n\n`st.query_params` provides a dictionary-like interface to access query parameters in your app's URL and is available as of Streamlit 1.30.0. It behaves similarly to `st.session_state` with the notable exception that keys may be repeated in an app's URL. Handling of repeated keys requires special consideration as explained below.\n\n`st.query_params` can be used with both key and attribute notation. For example, `st.query_params.my_key` and `st.query_params[\"my_key\"]`. All keys and values will be set and returned as strings. When you write to `st.query_params`, key-value pair prefixed with `?` is added to the end of your app's URL. Each additional pair is prefixed with `&` instead of `?`. Query parameters are cleared when navigating between pages in a multipage app.\n\nFor example, consider the following URL:\n\n```javascript\nhttps://your_app.streamlit.app/?first_key=1&second_key=two&third_key=true\n```\n\nThe parameters in the URL above will be accessible in `st.query_params` as:\n\n```python\n{\n    \"first_key\" : \"1\",\n    \"second_key\" : \"two\",\n    \"third_key\" : \"true\"\n}\n```\n\nThis means you can use those parameters in your app like this:\n\n```python\n# You can read query params using key notation\nif st.query_params[\"first_key\"] == \"1\":\n    do_something()\n\n# ...or using attribute notation\nif st.query_params.second_key == \"two\":\n    do_something_else()\n\n# And you can change a param by just writing to it\nst.query_params.first_key = 2  # This gets converted to str automatically\n```",
+          "lines": [
+            8,
+            43
+          ],
+          "sha256": "f61b813dcb5f196668634d107bea0b91f3bc9707b6c20875c8ebdeba758a2032",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1507,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03540984,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "query_params",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/query_params.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:query_params:v2:039990445b9f7c6b",
+          "source_id": "docs:query_params",
+          "section": "Repeated keys",
+          "text": "### Repeated keys\n\nWhen a key is repeated in your app's URL (`?a=1&a=2&a=3`), dict-like methods will return only the last value. In this example, `st.query_params[\"a\"]` returns `\"3\"`. To get all keys as a list, use the [`.get_all()`](/develop/api-reference/caching-and-state/st.query_params#stquery_paramsget_all) method shown below. To set the value of a repeated key, assign the values as a list. For example, `st.query_params.a = [\"1\", \"2\", \"3\"]` produces the repeated key given at the beginning of this paragraph.",
+          "lines": [
+            45,
+            47
+          ],
+          "sha256": "d2ec27f2a315c1a195ff1b776f6392c925eb819621f6a839d8a6606c2d12bbba",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 517,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03429435,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:widget-behavior:v2:baed8384f45c1a16",
+          "source_id": "docs:widget-behavior",
+          "section": "Behavior details",
+          "text": "### Behavior details\n\n- **Default values keep URLs clean**: When a widget's value matches its default, the query parameter is removed from the URL.\n- **Invalid values are ignored**: If the URL contains an invalid value for the widget, the value is ignored and removed from the URL.\n- **Programmatic updates**: A bound query parameter can't be set or deleted through `st.query_params`. To programmatically change a bound widget's value, use `st.session_state`.\n- **Range values**: Widgets that return a range, like range sliders, use repeated query parameters. For example, a slider with a range of 10 to 90 will produce a URL ending with `?price=10&price=90`.\n\nTrigger-like widgets (`st.button`, `st.download_button`, `st.chat_input`, `st.file_uploader`, `st.camera_input`, and `st.audio_input`) don't support binding because their values are transient.",
+          "lines": [
+            278,
+            285
+          ],
+          "sha256": "2051656ea349d41d704425358aed1d26eccca6efe85edfc2369ab9975aaa7520",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 853,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02741935,
+          "rank": 3
+        },
+        {
+          "kind": "issue",
+          "title": "Coming soon: API update for Streamlit query params",
+          "url": "https://github.com/streamlit/streamlit/issues/7665",
+          "revision": "2024-01-03T22:27:55Z",
+          "product_version": null,
+          "issue_number": 7665,
+          "id": "issue:7665:v2:bb24794c15e85720",
+          "source_id": "issue:7665",
+          "section": "What do you think?",
+          "text": "### What do you think?\n\nLet us know your feedback about the changes. Our current plan is to release this minimal version, which simplifies the API for typical use cases and leaves room to extend to new features in the future such as better handling for type conversion, or binding query params to certain session_state keys or widget values.\n\nYour input can help impact whether we release this immediately as `st.query_params` or do an `st.experimental_query_params` to see more usage of the new API before finalizing it.\n\nThank you!",
+          "lines": [
+            58,
+            64
+          ],
+          "sha256": "7a3599e770b5001164e4e2e914f8e25eb0ae9683eb71db798a3660602089260a",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 533,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0292735,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "Query parameters reset when navigating between pages",
+          "url": "https://github.com/streamlit/streamlit/issues/7982",
+          "revision": "2024-08-15T20:51:27Z",
+          "product_version": null,
+          "issue_number": 7982,
+          "id": "issue:7982:v2:90d4ae886a91c690",
+          "source_id": "issue:7982",
+          "section": "Current Behavior",
+          "text": "### Current Behavior\n\nQuery parameters are reset.  This is also the case when using the new `query_params` api.",
+          "lines": [
+            43,
+            45
+          ],
+          "sha256": "f948e912b9795cea16a713dbd4a9a4b0cf85f050d0c4e791da3116dd11f63719",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 111,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02715098,
+          "rank": 5
+        },
+        {
+          "kind": "issue",
+          "title": "st.bind() to attach query_params to session state",
+          "url": "https://github.com/streamlit/streamlit/issues/9325",
+          "revision": "2025-11-08T00:57:16Z",
+          "product_version": null,
+          "issue_number": 9325,
+          "id": "issue:9325:v2:f6f1561b2c18155b",
+          "source_id": "issue:9325",
+          "section": "Why?",
+          "text": "What does this feature offer over just using `st.query_params`? It avoids a lot of boilerplate and conversion code, for one. To do this without `st.bind` would require a lot of legwork:\n\n```python\nimport streamlit as st\nfrom my_app import music_popularity_map, genre_options\n\nyear_string_from_url = st.query_params.get(\"year\", \"2000\")\ntry:\n     st.session_state.year = int(year_string_from_url)\nexcept ValueError:\n     pass\n\ndef update_year_callback():\n    if \"year\" in st.session_state:\n        st.query_params.year = str(st.session_state.year)\n\nyear = st.number_input(\"Pick a year\", key=\"year\", min_value=2000, max_value=2023, on_change=update_year_callback)\ngenres = st.multiselect(\"Pick some genres\", key=\"genre\" options=genre_options)\n\nmusic_popularity_map(year, genres)\n````\nAnd all that for just ONE widget!\n\nMy own extension's demo, https://query-string.streamlit.app/, has some other examples of the kinds of things you can do with this kind of feature. Due to not having access to all of the streamlit session state internals, it is limited to a smaller selection of widgets and tends to be a bit finicky with some of the more complex widgets like `datetime` or `slider`.\n\nI think an officially supported version of this would benefit a lot of people who are building apps with streamlit.",
+          "lines": [
+            58,
+            83
+          ],
+          "sha256": "1cc70316296089939a8622a05d05f509a7c401ede53ae0300525481833fac693",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1298,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.028624,
+          "rank": 6
+        },
+        {
+          "kind": "issue",
+          "title": "Coming soon: API update for Streamlit query params",
+          "url": "https://github.com/streamlit/streamlit/issues/7665",
+          "revision": "2024-01-03T22:27:55Z",
+          "product_version": null,
+          "issue_number": 7665,
+          "id": "issue:7665:v2:040e983611a93949",
+          "source_id": "issue:7665",
+          "section": "Handling lists and multiple values",
+          "text": "### Handling lists and multiple values\n\nA key concern for query parameters is handling multiple values. For normal get / retrieval calls on `query_params`, Streamlit will return **only the last value set for the given key**, whether in the URL directly via Streamlit API. To retrieve a list of all set values, developers can call `st.query_params.get_all(key)`. This approach is typical of several other python web API frameworks such as [tornado](https://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.get_query_argument) and [flask](https://github.com/pallets/werkzeug/blob/2.3.6/src/werkzeug/datastructures/structures.py#L118-L128). \n\n```python\n# URL: localhost:8501/?show_map=True&selected=asia&selected=america\n\nst.query_params[\"selected\"]\n# \"america\"\n\nst.query_params.get_all(\"selected\")\n# [\"asia\", \"america\"]\n\nst.query_params.get_all(\"show_map\")\n# [\"True\"]\n```",
+          "lines": [
+            37,
+            52
+          ],
+          "sha256": "cdee33314ca95169589b52723be6cbf3603c5a3b66f84d6c7e5cb9f8b9b1824a",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 885,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02879039,
+          "rank": 7
+        },
+        {
+          "kind": "release",
+          "title": "2024",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2024.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:2024:v2:8b61e1e6cb4fd641",
+          "source_id": "docs:2024",
+          "section": "**Version 1.30.0**",
+          "text": "## **Version 1.30.0**\n\n_Release date: January 11, 2024_\n\n**Release videos**\n\n- [What's new?](https://www.youtube.com/watch?v=OIQskkX_DK0)\n\n**Highlights**\n\n- 🔄 Announcing `st.switch_page` to programmatically switch pages in multipage apps! Check out our [docs](/develop/api-reference/navigation/st.switch_page) to learn about this highly anticipated feature!\n- ❓Introducing `st.query_params` to handle variables passed through your app's URL. Check out our [docs](/develop/api-reference/caching-and-state/st.query_params) to understand this feature and how it's been upgraded and improved from our experimental version!\n\n**Notable Changes**",
+          "lines": [
+            477,
+            490
+          ],
+          "sha256": "d1572cedcf1d9c5e4991a75d3f93ca1744feff13f12162cb1a68178c2bb691db",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 645,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0254884,
+          "rank": 8
+        }
+      ],
+      "candidate_hash": "685f8d960a23e26b07a64a136cc2b6fa4ca8b20bfb2c40907b841a4c43f82a0d",
+      "context": [
+        {
+          "kind": "docs",
+          "title": "query_params",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/query_params.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:query_params:v2:302037cbe543a41e",
+          "source_id": "docs:query_params",
+          "section": "st.query_params",
+          "text": "## st.query_params\n\n`st.query_params` provides a dictionary-like interface to access query parameters in your app's URL and is available as of Streamlit 1.30.0. It behaves similarly to `st.session_state` with the notable exception that keys may be repeated in an app's URL. Handling of repeated keys requires special consideration as explained below.\n\n`st.query_params` can be used with both key and attribute notation. For example, `st.query_params.my_key` and `st.query_params[\"my_key\"]`. All keys and values will be set and returned as strings. When you write to `st.query_params`, key-value pair prefixed with `?` is added to the end of your app's URL. Each additional pair is prefixed with `&` instead of `?`. Query parameters are cleared when navigating between pages in a multipage app.\n\nFor example, consider the following URL:\n\n```javascript\nhttps://your_app.streamlit.app/?first_key=1&second_key=two&third_key=true\n```\n\nThe parameters in the URL above will be accessible in `st.query_params` as:\n\n```python\n{\n    \"first_key\" : \"1\",\n    \"second_key\" : \"two\",\n    \"third_key\" : \"true\"\n}\n```\n\nThis means you can use those parameters in your app like this:\n\n```python\n# You can read query params using key notation\nif st.query_params[\"first_key\"] == \"1\":\n    do_something()\n\n# ...or using attribute notation\nif st.query_params.second_key == \"two\":\n    do_something_else()\n\n# And you can change a param by just writing to it\nst.query_params.first_key = 2  # This gets converted to str automatically\n```",
+          "lines": [
+            8,
+            43
+          ],
+          "sha256": "f61b813dcb5f196668634d107bea0b91f3bc9707b6c20875c8ebdeba758a2032",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1507,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03540984,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "query_params",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/query_params.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:query_params:v2:039990445b9f7c6b",
+          "source_id": "docs:query_params",
+          "section": "Repeated keys",
+          "text": "### Repeated keys\n\nWhen a key is repeated in your app's URL (`?a=1&a=2&a=3`), dict-like methods will return only the last value. In this example, `st.query_params[\"a\"]` returns `\"3\"`. To get all keys as a list, use the [`.get_all()`](/develop/api-reference/caching-and-state/st.query_params#stquery_paramsget_all) method shown below. To set the value of a repeated key, assign the values as a list. For example, `st.query_params.a = [\"1\", \"2\", \"3\"]` produces the repeated key given at the beginning of this paragraph.",
+          "lines": [
+            45,
+            47
+          ],
+          "sha256": "d2ec27f2a315c1a195ff1b776f6392c925eb819621f6a839d8a6606c2d12bbba",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 517,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03429435,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:widget-behavior:v2:baed8384f45c1a16",
+          "source_id": "docs:widget-behavior",
+          "section": "Behavior details",
+          "text": "### Behavior details\n\n- **Default values keep URLs clean**: When a widget's value matches its default, the query parameter is removed from the URL.\n- **Invalid values are ignored**: If the URL contains an invalid value for the widget, the value is ignored and removed from the URL.\n- **Programmatic updates**: A bound query parameter can't be set or deleted through `st.query_params`. To programmatically change a bound widget's value, use `st.session_state`.\n- **Range values**: Widgets that return a range, like range sliders, use repeated query parameters. For example, a slider with a range of 10 to 90 will produce a URL ending with `?price=10&price=90`.\n\nTrigger-like widgets (`st.button`, `st.download_button`, `st.chat_input`, `st.file_uploader`, `st.camera_input`, and `st.audio_input`) don't support binding because their values are transient.",
+          "lines": [
+            278,
+            285
+          ],
+          "sha256": "2051656ea349d41d704425358aed1d26eccca6efe85edfc2369ab9975aaa7520",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 853,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02741935,
+          "rank": 3
+        },
+        {
+          "kind": "issue",
+          "title": "Coming soon: API update for Streamlit query params",
+          "url": "https://github.com/streamlit/streamlit/issues/7665",
+          "revision": "2024-01-03T22:27:55Z",
+          "product_version": null,
+          "issue_number": 7665,
+          "id": "issue:7665:v2:bb24794c15e85720",
+          "source_id": "issue:7665",
+          "section": "What do you think?",
+          "text": "### What do you think?\n\nLet us know your feedback about the changes. Our current plan is to release this minimal version, which simplifies the API for typical use cases and leaves room to extend to new features in the future such as better handling for type conversion, or binding query params to certain session_state keys or widget values.\n\nYour input can help impact whether we release this immediately as `st.query_params` or do an `st.experimental_query_params` to see more usage of the new API before finalizing it.\n\nThank you!",
+          "lines": [
+            58,
+            64
+          ],
+          "sha256": "7a3599e770b5001164e4e2e914f8e25eb0ae9683eb71db798a3660602089260a",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 533,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0292735,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "Query parameters reset when navigating between pages",
+          "url": "https://github.com/streamlit/streamlit/issues/7982",
+          "revision": "2024-08-15T20:51:27Z",
+          "product_version": null,
+          "issue_number": 7982,
+          "id": "issue:7982:v2:90d4ae886a91c690",
+          "source_id": "issue:7982",
+          "section": "Current Behavior",
+          "text": "### Current Behavior\n\nQuery parameters are reset.  This is also the case when using the new `query_params` api.",
+          "lines": [
+            43,
+            45
+          ],
+          "sha256": "f948e912b9795cea16a713dbd4a9a4b0cf85f050d0c4e791da3116dd11f63719",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 111,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02715098,
+          "rank": 5
+        }
+      ],
+      "packing": {
+        "encoding": "o200k_base",
+        "budget_tokens": 3000,
+        "used_tokens": 1564,
+        "expand_parent": false,
+        "items": [
+          {
+            "id": "docs:query_params:v2:302037cbe543a41e",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:query_params:v2:302037cbe543a41e"
+          },
+          {
+            "id": "docs:query_params:v2:039990445b9f7c6b",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:query_params:v2:039990445b9f7c6b"
+          },
+          {
+            "id": "docs:widget-behavior:v2:baed8384f45c1a16",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:widget-behavior:v2:baed8384f45c1a16"
+          },
+          {
+            "id": "issue:7665:v2:bb24794c15e85720",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:7665:v2:bb24794c15e85720"
+          },
+          {
+            "id": "issue:7982:v2:90d4ae886a91c690",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:7982:v2:90d4ae886a91c690"
+          },
+          {
+            "id": "issue:9325:v2:f6f1561b2c18155b",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:7665:v2:040e983611a93949",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "docs:2024:v2:8b61e1e6cb4fd641",
+            "status": "omitted",
+            "reason": "item_limit"
+          }
+        ]
+      },
+      "index": "v2",
+      "namespace": null
+    },
+    "B": {
+      "candidates": [
+        {
+          "kind": "docs",
+          "title": "query_params",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/query_params.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:query_params:v3:child:fa15a0d9139f4deeedcc",
+          "source_id": "docs:query_params",
+          "text": "## st.query_params\n\n`st.query_params` provides a dictionary-like interface to access query parameters in your app's URL and is available as of Streamlit 1.30.0. It behaves similarly to `st.session_state` with the notable exception that keys may be repeated in an app's URL. Handling of repeated keys requires special consideration as explained below.\n\n`st.query_params` can be used with both key and attribute notation. For example, `st.query_params.my_key` and `st.query_params[\"my_key\"]`. All keys and values will be set and returned as strings. When you write to `st.query_params`, key-value pair prefixed with `?` is added to the end of your app's URL. Each additional pair is prefixed with `&` instead of `?`. Query parameters are cleared when navigating between pages in a multipage app.\n\nFor example, consider the following URL:\n\n```javascript\nhttps://your_app.streamlit.app/?first_key=1&second_key=two&third_key=true\n```\n\nThe parameters in the URL above will be accessible in `st.query_params` as:\n\n```python\n{\n    \"first_key\" : \"1\",\n    \"second_key\" : \"two\",\n    \"third_key\" : \"true\"\n}\n```\n\nThis means you can use those parameters in your app like this:\n",
+          "source_span": [
+            305,
+            1468
+          ],
+          "source_sha256": "c47ab2c25811a5cddd1d51b34c9fc2b84b3dcde971c107b0081bdacb5c73e1cb",
+          "sha256": "b079d45d110c60136337e81bd1acbbb1444e4d1ffb45a8cb40008fe0b8ba1ee7",
+          "lines": [
+            8,
+            30
+          ],
+          "section": "query_params > st.query_params",
+          "section_path": [
+            "query_params",
+            "st.query_params"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 277,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:query_params:v3:parent:36a9feb77245570c4dfc",
+          "parent": {
+            "kind": "docs",
+            "title": "query_params",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/query_params.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:query_params:v3:parent:36a9feb77245570c4dfc",
+            "source_id": "docs:query_params",
+            "text": "## st.query_params\n\n`st.query_params` provides a dictionary-like interface to access query parameters in your app's URL and is available as of Streamlit 1.30.0. It behaves similarly to `st.session_state` with the notable exception that keys may be repeated in an app's URL. Handling of repeated keys requires special consideration as explained below.\n\n`st.query_params` can be used with both key and attribute notation. For example, `st.query_params.my_key` and `st.query_params[\"my_key\"]`. All keys and values will be set and returned as strings. When you write to `st.query_params`, key-value pair prefixed with `?` is added to the end of your app's URL. Each additional pair is prefixed with `&` instead of `?`. Query parameters are cleared when navigating between pages in a multipage app.\n\nFor example, consider the following URL:\n\n```javascript\nhttps://your_app.streamlit.app/?first_key=1&second_key=two&third_key=true\n```\n\nThe parameters in the URL above will be accessible in `st.query_params` as:\n\n```python\n{\n    \"first_key\" : \"1\",\n    \"second_key\" : \"two\",\n    \"third_key\" : \"true\"\n}\n```\n\nThis means you can use those parameters in your app like this:\n\n```python\n# You can read query params using key notation\nif st.query_params[\"first_key\"] == \"1\":\n    do_something()\n\n# ...or using attribute notation\nif st.query_params.second_key == \"two\":\n    do_something_else()\n\n# And you can change a param by just writing to it\nst.query_params.first_key = 2  # This gets converted to str automatically\n```\n",
+            "source_span": [
+              305,
+              1813
+            ],
+            "source_sha256": "c47ab2c25811a5cddd1d51b34c9fc2b84b3dcde971c107b0081bdacb5c73e1cb",
+            "sha256": "6048dffc7739bc3887cf21fc51e2dfdd00922ea0330ba81c4f5ad7de2e2c5690",
+            "lines": [
+              8,
+              43
+            ],
+            "section": "query_params > st.query_params",
+            "section_path": [
+              "query_params",
+              "st.query_params"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 362,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03540984,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "query_params",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/query_params.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:query_params:v3:child:7e8b13ac21c469e95e6b",
+          "source_id": "docs:query_params",
+          "text": "### Repeated keys\n\nWhen a key is repeated in your app's URL (`?a=1&a=2&a=3`), dict-like methods will return only the last value. In this example, `st.query_params[\"a\"]` returns `\"3\"`. To get all keys as a list, use the [`.get_all()`](/develop/api-reference/caching-and-state/st.query_params#stquery_paramsget_all) method shown below. To set the value of a repeated key, assign the values as a list. For example, `st.query_params.a = [\"1\", \"2\", \"3\"]` produces the repeated key given at the beginning of this paragraph.\n",
+          "source_span": [
+            1814,
+            2332
+          ],
+          "source_sha256": "c47ab2c25811a5cddd1d51b34c9fc2b84b3dcde971c107b0081bdacb5c73e1cb",
+          "sha256": "41bcef083d036d4fed44fe106eafd1b6b1df5a9090076b0a78a2c7fbc7028506",
+          "lines": [
+            45,
+            47
+          ],
+          "section": "query_params > st.query_params > Repeated keys",
+          "section_path": [
+            "query_params",
+            "st.query_params",
+            "Repeated keys"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 140,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:query_params:v3:parent:7e8b13ac21c469e95e6b",
+          "parent": {
+            "kind": "docs",
+            "title": "query_params",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/query_params.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:query_params:v3:parent:7e8b13ac21c469e95e6b",
+            "source_id": "docs:query_params",
+            "text": "### Repeated keys\n\nWhen a key is repeated in your app's URL (`?a=1&a=2&a=3`), dict-like methods will return only the last value. In this example, `st.query_params[\"a\"]` returns `\"3\"`. To get all keys as a list, use the [`.get_all()`](/develop/api-reference/caching-and-state/st.query_params#stquery_paramsget_all) method shown below. To set the value of a repeated key, assign the values as a list. For example, `st.query_params.a = [\"1\", \"2\", \"3\"]` produces the repeated key given at the beginning of this paragraph.\n",
+            "source_span": [
+              1814,
+              2332
+            ],
+            "source_sha256": "c47ab2c25811a5cddd1d51b34c9fc2b84b3dcde971c107b0081bdacb5c73e1cb",
+            "sha256": "41bcef083d036d4fed44fe106eafd1b6b1df5a9090076b0a78a2c7fbc7028506",
+            "lines": [
+              45,
+              47
+            ],
+            "section": "query_params > st.query_params > Repeated keys",
+            "section_path": [
+              "query_params",
+              "st.query_params",
+              "Repeated keys"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 140,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03456221,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widget-behavior:v3:child:734d6b43cb10a0bba8be",
+          "source_id": "docs:widget-behavior",
+          "text": "### Behavior details\n\n- **Default values keep URLs clean**: When a widget's value matches its default, the query parameter is removed from the URL.\n- **Invalid values are ignored**: If the URL contains an invalid value for the widget, the value is ignored and removed from the URL.\n- **Programmatic updates**: A bound query parameter can't be set or deleted through `st.query_params`. To programmatically change a bound widget's value, use `st.session_state`.\n- **Range values**: Widgets that return a range, like range sliders, use repeated query parameters. For example, a slider with a range of 10 to 90 will produce a URL ending with `?price=10&price=90`.\n\nTrigger-like widgets (`st.button`, `st.download_button`, `st.chat_input`, `st.file_uploader`, `st.camera_input`, and `st.audio_input`) don't support binding because their values are transient.\n",
+          "source_span": [
+            18485,
+            19339
+          ],
+          "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+          "sha256": "3f51e6a44f2318e008489f30cb64cad3b540e42b34ddb79f10dd41225539bd36",
+          "lines": [
+            278,
+            285
+          ],
+          "section": "widget-behavior > Understanding widget behavior > Binding widgets to query parameters > Behavior details",
+          "section_path": [
+            "widget-behavior",
+            "Understanding widget behavior",
+            "Binding widgets to query parameters",
+            "Behavior details"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 192,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widget-behavior:v3:parent:734d6b43cb10a0bba8be",
+          "parent": {
+            "kind": "docs",
+            "title": "widget-behavior",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widget-behavior:v3:parent:734d6b43cb10a0bba8be",
+            "source_id": "docs:widget-behavior",
+            "text": "### Behavior details\n\n- **Default values keep URLs clean**: When a widget's value matches its default, the query parameter is removed from the URL.\n- **Invalid values are ignored**: If the URL contains an invalid value for the widget, the value is ignored and removed from the URL.\n- **Programmatic updates**: A bound query parameter can't be set or deleted through `st.query_params`. To programmatically change a bound widget's value, use `st.session_state`.\n- **Range values**: Widgets that return a range, like range sliders, use repeated query parameters. For example, a slider with a range of 10 to 90 will produce a URL ending with `?price=10&price=90`.\n\nTrigger-like widgets (`st.button`, `st.download_button`, `st.chat_input`, `st.file_uploader`, `st.camera_input`, and `st.audio_input`) don't support binding because their values are transient.\n",
+            "source_span": [
+              18485,
+              19339
+            ],
+            "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+            "sha256": "3f51e6a44f2318e008489f30cb64cad3b540e42b34ddb79f10dd41225539bd36",
+            "lines": [
+              278,
+              285
+            ],
+            "section": "widget-behavior > Understanding widget behavior > Binding widgets to query parameters > Behavior details",
+            "section_path": [
+              "widget-behavior",
+              "Understanding widget behavior",
+              "Binding widgets to query parameters",
+              "Behavior details"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 192,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02915849,
+          "rank": 3
+        },
+        {
+          "kind": "release",
+          "title": "2024",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2024.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:2024:v3:child:334a107f456daba00e4d",
+          "source_id": "docs:2024",
+          "text": "([#8034](https://github.com/streamlit/streamlit/pull/8034)).\n- 🐛 Bug fix: Casting `st.query_params` to `str` will print the content of the query parameters instead of the class description ([#8030](https://github.com/streamlit/streamlit/pull/8030)).\n",
+          "source_span": [
+            52216,
+            52466
+          ],
+          "source_sha256": "10581e91afe8a4bc680381c723a3315f7a85e5879c89ab400d6bb466e9d4e580",
+          "sha256": "d7b0f723e8cbd6513f1fadba2716afd4b70123992cb11898a208322800257319",
+          "lines": [
+            444,
+            445
+          ],
+          "section": "2024 > 2024 release notes > **Version 1.32.0**",
+          "section_path": [
+            "2024",
+            "2024 release notes",
+            "**Version 1.32.0**"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 73,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:2024:v3:parent:334a107f456daba00e4d",
+          "parent": {
+            "kind": "release",
+            "title": "2024",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2024.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:2024:v3:parent:334a107f456daba00e4d",
+            "source_id": "docs:2024",
+            "text": "([#8034](https://github.com/streamlit/streamlit/pull/8034)).\n- 🐛 Bug fix: Casting `st.query_params` to `str` will print the content of the query parameters instead of the class description ([#8030](https://github.com/streamlit/streamlit/pull/8030)).\n",
+            "source_span": [
+              52216,
+              52466
+            ],
+            "source_sha256": "10581e91afe8a4bc680381c723a3315f7a85e5879c89ab400d6bb466e9d4e580",
+            "sha256": "d7b0f723e8cbd6513f1fadba2716afd4b70123992cb11898a208322800257319",
+            "lines": [
+              444,
+              445
+            ],
+            "section": "2024 > 2024 release notes > **Version 1.32.0**",
+            "section_path": [
+              "2024",
+              "2024 release notes",
+              "**Version 1.32.0**"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 73,
+            "block_kinds": [
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02661064,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "Query parameters reset when navigating between pages",
+          "url": "https://github.com/streamlit/streamlit/issues/7982",
+          "revision": "2024-08-15T20:51:27Z",
+          "product_version": null,
+          "issue_number": 7982,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:7982:v3:child:d3783f802436af0f33b0",
+          "source_id": "issue:7982",
+          "text": "### Debug info\n\n- Streamlit version: 1.30.0\n- Python version: 3.9.12\n- Operating System: macOS 14.2\n- Browser: Chrome\n",
+          "source_span": [
+            1377,
+            1495
+          ],
+          "source_sha256": "33f7109e6229b0477e672c37baf1b65d8ddb833a63e9dc042e22ea76479b6c31",
+          "sha256": "4633960c23c56572ba9997a5376bbb15c8718ba7ec80ebc48b0a13e7b137b856",
+          "lines": [
+            51,
+            56
+          ],
+          "section": "Query parameters reset when navigating between pages > Debug info",
+          "section_path": [
+            "Query parameters reset when navigating between pages",
+            "Debug info"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 43,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:7982:v3:parent:d3783f802436af0f33b0",
+          "parent": {
+            "kind": "issue",
+            "title": "Query parameters reset when navigating between pages",
+            "url": "https://github.com/streamlit/streamlit/issues/7982",
+            "revision": "2024-08-15T20:51:27Z",
+            "product_version": null,
+            "issue_number": 7982,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:7982:v3:parent:d3783f802436af0f33b0",
+            "source_id": "issue:7982",
+            "text": "### Debug info\n\n- Streamlit version: 1.30.0\n- Python version: 3.9.12\n- Operating System: macOS 14.2\n- Browser: Chrome\n",
+            "source_span": [
+              1377,
+              1495
+            ],
+            "source_sha256": "33f7109e6229b0477e672c37baf1b65d8ddb833a63e9dc042e22ea76479b6c31",
+            "sha256": "4633960c23c56572ba9997a5376bbb15c8718ba7ec80ebc48b0a13e7b137b856",
+            "lines": [
+              51,
+              56
+            ],
+            "section": "Query parameters reset when navigating between pages > Debug info",
+            "section_path": [
+              "Query parameters reset when navigating between pages",
+              "Debug info"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 43,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02744361,
+          "rank": 5
+        },
+        {
+          "kind": "issue",
+          "title": "Coming soon: API update for Streamlit query params",
+          "url": "https://github.com/streamlit/streamlit/issues/7665",
+          "revision": "2024-01-03T22:27:55Z",
+          "product_version": null,
+          "issue_number": 7665,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:7665:v3:child:16cb4d836ef475dd64a1",
+          "source_id": "issue:7665",
+          "text": "### What do you think?\n\nLet us know your feedback about the changes. Our current plan is to release this minimal version, which simplifies the API for typical use cases and leaves room to extend to new features in the future such as better handling for type conversion, or binding query params to certain session_state keys or widget values.\n\nYour input can help impact whether we release this immediately as `st.query_params` or do an `st.experimental_query_params` to see more usage of the new API before finalizing it.\n\nThank you!\n",
+          "source_span": [
+            3146,
+            3680
+          ],
+          "source_sha256": "91899eac51b3fc04dc2cbcedfe51391441c6f2dd600fd4ba796f10deee9e1f6e",
+          "sha256": "cf863e28f61e3a6836ede5b5ddb42bb537d20940874b45dbbce0a718709fad11",
+          "lines": [
+            58,
+            64
+          ],
+          "section": "Coming soon: API update for Streamlit query params > What do you think?",
+          "section_path": [
+            "Coming soon: API update for Streamlit query params",
+            "What do you think?"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 106,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:7665:v3:parent:16cb4d836ef475dd64a1",
+          "parent": {
+            "kind": "issue",
+            "title": "Coming soon: API update for Streamlit query params",
+            "url": "https://github.com/streamlit/streamlit/issues/7665",
+            "revision": "2024-01-03T22:27:55Z",
+            "product_version": null,
+            "issue_number": 7665,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:7665:v3:parent:16cb4d836ef475dd64a1",
+            "source_id": "issue:7665",
+            "text": "### What do you think?\n\nLet us know your feedback about the changes. Our current plan is to release this minimal version, which simplifies the API for typical use cases and leaves room to extend to new features in the future such as better handling for type conversion, or binding query params to certain session_state keys or widget values.\n\nYour input can help impact whether we release this immediately as `st.query_params` or do an `st.experimental_query_params` to see more usage of the new API before finalizing it.\n\nThank you!\n",
+            "source_span": [
+              3146,
+              3680
+            ],
+            "source_sha256": "91899eac51b3fc04dc2cbcedfe51391441c6f2dd600fd4ba796f10deee9e1f6e",
+            "sha256": "cf863e28f61e3a6836ede5b5ddb42bb537d20940874b45dbbce0a718709fad11",
+            "lines": [
+              58,
+              64
+            ],
+            "section": "Coming soon: API update for Streamlit query params > What do you think?",
+            "section_path": [
+              "Coming soon: API update for Streamlit query params",
+              "What do you think?"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 106,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02843889,
+          "rank": 6
+        },
+        {
+          "kind": "issue",
+          "title": "Coming soon: API update for Streamlit query params",
+          "url": "https://github.com/streamlit/streamlit/issues/7665",
+          "revision": "2024-01-03T22:27:55Z",
+          "product_version": null,
+          "issue_number": 7665,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:7665:v3:child:a99d62f9dd9f94baf8e1",
+          "source_id": "issue:7665",
+          "text": "### Handling lists and multiple values\n\nA key concern for query parameters is handling multiple values. For normal get / retrieval calls on `query_params`, Streamlit will return **only the last value set for the given key**, whether in the URL directly via Streamlit API. To retrieve a list of all set values, developers can call `st.query_params.get_all(key)`. This approach is typical of several other python web API frameworks such as [tornado](https://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.get_query_argument) and [flask](https://github.com/pallets/werkzeug/blob/2.3.6/src/werkzeug/datastructures/structures.py#L118-L128). \n\n```python\n# URL: localhost:8501/?show_map=True&selected=asia&selected=america\n\nst.query_params[\"selected\"]\n# \"america\"\n\nst.query_params.get_all(\"selected\")\n# [\"asia\", \"america\"]\n\nst.query_params.get_all(\"show_map\")\n# [\"True\"]\n```\n",
+          "source_span": [
+            2070,
+            2956
+          ],
+          "source_sha256": "91899eac51b3fc04dc2cbcedfe51391441c6f2dd600fd4ba796f10deee9e1f6e",
+          "sha256": "df12cc7be889706d23111552edeebe1d64cb7d35fec1e31f133b6cf270306b69",
+          "lines": [
+            37,
+            52
+          ],
+          "section": "Coming soon: API update for Streamlit query params > Handling lists and multiple values",
+          "section_path": [
+            "Coming soon: API update for Streamlit query params",
+            "Handling lists and multiple values"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 218,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:7665:v3:parent:a99d62f9dd9f94baf8e1",
+          "parent": {
+            "kind": "issue",
+            "title": "Coming soon: API update for Streamlit query params",
+            "url": "https://github.com/streamlit/streamlit/issues/7665",
+            "revision": "2024-01-03T22:27:55Z",
+            "product_version": null,
+            "issue_number": 7665,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:7665:v3:parent:a99d62f9dd9f94baf8e1",
+            "source_id": "issue:7665",
+            "text": "### Handling lists and multiple values\n\nA key concern for query parameters is handling multiple values. For normal get / retrieval calls on `query_params`, Streamlit will return **only the last value set for the given key**, whether in the URL directly via Streamlit API. To retrieve a list of all set values, developers can call `st.query_params.get_all(key)`. This approach is typical of several other python web API frameworks such as [tornado](https://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.get_query_argument) and [flask](https://github.com/pallets/werkzeug/blob/2.3.6/src/werkzeug/datastructures/structures.py#L118-L128). \n\n```python\n# URL: localhost:8501/?show_map=True&selected=asia&selected=america\n\nst.query_params[\"selected\"]\n# \"america\"\n\nst.query_params.get_all(\"selected\")\n# [\"asia\", \"america\"]\n\nst.query_params.get_all(\"show_map\")\n# [\"True\"]\n```\n",
+            "source_span": [
+              2070,
+              2956
+            ],
+            "source_sha256": "91899eac51b3fc04dc2cbcedfe51391441c6f2dd600fd4ba796f10deee9e1f6e",
+            "sha256": "df12cc7be889706d23111552edeebe1d64cb7d35fec1e31f133b6cf270306b69",
+            "lines": [
+              37,
+              52
+            ],
+            "section": "Coming soon: API update for Streamlit query params > Handling lists and multiple values",
+            "section_path": [
+              "Coming soon: API update for Streamlit query params",
+              "Handling lists and multiple values"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 218,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02881426,
+          "rank": 7
+        },
+        {
+          "kind": "issue",
+          "title": "Query parameters reset when navigating between pages",
+          "url": "https://github.com/streamlit/streamlit/issues/7982",
+          "revision": "2024-08-15T20:51:27Z",
+          "product_version": null,
+          "issue_number": 7982,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:7982:v3:child:ff2a9126abaa5c230b8d",
+          "source_id": "issue:7982",
+          "text": "### Current Behavior\n\nQuery parameters are reset.  This is also the case when using the new `query_params` api.\n",
+          "source_span": [
+            1184,
+            1296
+          ],
+          "source_sha256": "33f7109e6229b0477e672c37baf1b65d8ddb833a63e9dc042e22ea76479b6c31",
+          "sha256": "f67135060c6b31cd5023a7a91be43f95a2a1323edc2529355370d11d599b05d7",
+          "lines": [
+            43,
+            45
+          ],
+          "section": "Query parameters reset when navigating between pages > Current Behavior",
+          "section_path": [
+            "Query parameters reset when navigating between pages",
+            "Current Behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 25,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:7982:v3:parent:ff2a9126abaa5c230b8d",
+          "parent": {
+            "kind": "issue",
+            "title": "Query parameters reset when navigating between pages",
+            "url": "https://github.com/streamlit/streamlit/issues/7982",
+            "revision": "2024-08-15T20:51:27Z",
+            "product_version": null,
+            "issue_number": 7982,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:7982:v3:parent:ff2a9126abaa5c230b8d",
+            "source_id": "issue:7982",
+            "text": "### Current Behavior\n\nQuery parameters are reset.  This is also the case when using the new `query_params` api.\n",
+            "source_span": [
+              1184,
+              1296
+            ],
+            "source_sha256": "33f7109e6229b0477e672c37baf1b65d8ddb833a63e9dc042e22ea76479b6c31",
+            "sha256": "f67135060c6b31cd5023a7a91be43f95a2a1323edc2529355370d11d599b05d7",
+            "lines": [
+              43,
+              45
+            ],
+            "section": "Query parameters reset when navigating between pages > Current Behavior",
+            "section_path": [
+              "Query parameters reset when navigating between pages",
+              "Current Behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 25,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02643019,
+          "rank": 8
+        }
+      ],
+      "candidate_hash": "8f4ce6a32e502ce5d9cf8526588e3bde0b51f09df38d70cc36b20b30324c9cd9",
+      "context": [
+        {
+          "kind": "docs",
+          "title": "query_params",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/query_params.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:query_params:v3:child:fa15a0d9139f4deeedcc",
+          "source_id": "docs:query_params",
+          "text": "## st.query_params\n\n`st.query_params` provides a dictionary-like interface to access query parameters in your app's URL and is available as of Streamlit 1.30.0. It behaves similarly to `st.session_state` with the notable exception that keys may be repeated in an app's URL. Handling of repeated keys requires special consideration as explained below.\n\n`st.query_params` can be used with both key and attribute notation. For example, `st.query_params.my_key` and `st.query_params[\"my_key\"]`. All keys and values will be set and returned as strings. When you write to `st.query_params`, key-value pair prefixed with `?` is added to the end of your app's URL. Each additional pair is prefixed with `&` instead of `?`. Query parameters are cleared when navigating between pages in a multipage app.\n\nFor example, consider the following URL:\n\n```javascript\nhttps://your_app.streamlit.app/?first_key=1&second_key=two&third_key=true\n```\n\nThe parameters in the URL above will be accessible in `st.query_params` as:\n\n```python\n{\n    \"first_key\" : \"1\",\n    \"second_key\" : \"two\",\n    \"third_key\" : \"true\"\n}\n```\n\nThis means you can use those parameters in your app like this:\n",
+          "source_span": [
+            305,
+            1468
+          ],
+          "source_sha256": "c47ab2c25811a5cddd1d51b34c9fc2b84b3dcde971c107b0081bdacb5c73e1cb",
+          "sha256": "b079d45d110c60136337e81bd1acbbb1444e4d1ffb45a8cb40008fe0b8ba1ee7",
+          "lines": [
+            8,
+            30
+          ],
+          "section": "query_params > st.query_params",
+          "section_path": [
+            "query_params",
+            "st.query_params"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 277,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:query_params:v3:parent:36a9feb77245570c4dfc",
+          "parent": {
+            "kind": "docs",
+            "title": "query_params",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/query_params.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:query_params:v3:parent:36a9feb77245570c4dfc",
+            "source_id": "docs:query_params",
+            "text": "## st.query_params\n\n`st.query_params` provides a dictionary-like interface to access query parameters in your app's URL and is available as of Streamlit 1.30.0. It behaves similarly to `st.session_state` with the notable exception that keys may be repeated in an app's URL. Handling of repeated keys requires special consideration as explained below.\n\n`st.query_params` can be used with both key and attribute notation. For example, `st.query_params.my_key` and `st.query_params[\"my_key\"]`. All keys and values will be set and returned as strings. When you write to `st.query_params`, key-value pair prefixed with `?` is added to the end of your app's URL. Each additional pair is prefixed with `&` instead of `?`. Query parameters are cleared when navigating between pages in a multipage app.\n\nFor example, consider the following URL:\n\n```javascript\nhttps://your_app.streamlit.app/?first_key=1&second_key=two&third_key=true\n```\n\nThe parameters in the URL above will be accessible in `st.query_params` as:\n\n```python\n{\n    \"first_key\" : \"1\",\n    \"second_key\" : \"two\",\n    \"third_key\" : \"true\"\n}\n```\n\nThis means you can use those parameters in your app like this:\n\n```python\n# You can read query params using key notation\nif st.query_params[\"first_key\"] == \"1\":\n    do_something()\n\n# ...or using attribute notation\nif st.query_params.second_key == \"two\":\n    do_something_else()\n\n# And you can change a param by just writing to it\nst.query_params.first_key = 2  # This gets converted to str automatically\n```\n",
+            "source_span": [
+              305,
+              1813
+            ],
+            "source_sha256": "c47ab2c25811a5cddd1d51b34c9fc2b84b3dcde971c107b0081bdacb5c73e1cb",
+            "sha256": "6048dffc7739bc3887cf21fc51e2dfdd00922ea0330ba81c4f5ad7de2e2c5690",
+            "lines": [
+              8,
+              43
+            ],
+            "section": "query_params > st.query_params",
+            "section_path": [
+              "query_params",
+              "st.query_params"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 362,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03540984,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "query_params",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/query_params.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:query_params:v3:child:7e8b13ac21c469e95e6b",
+          "source_id": "docs:query_params",
+          "text": "### Repeated keys\n\nWhen a key is repeated in your app's URL (`?a=1&a=2&a=3`), dict-like methods will return only the last value. In this example, `st.query_params[\"a\"]` returns `\"3\"`. To get all keys as a list, use the [`.get_all()`](/develop/api-reference/caching-and-state/st.query_params#stquery_paramsget_all) method shown below. To set the value of a repeated key, assign the values as a list. For example, `st.query_params.a = [\"1\", \"2\", \"3\"]` produces the repeated key given at the beginning of this paragraph.\n",
+          "source_span": [
+            1814,
+            2332
+          ],
+          "source_sha256": "c47ab2c25811a5cddd1d51b34c9fc2b84b3dcde971c107b0081bdacb5c73e1cb",
+          "sha256": "41bcef083d036d4fed44fe106eafd1b6b1df5a9090076b0a78a2c7fbc7028506",
+          "lines": [
+            45,
+            47
+          ],
+          "section": "query_params > st.query_params > Repeated keys",
+          "section_path": [
+            "query_params",
+            "st.query_params",
+            "Repeated keys"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 140,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:query_params:v3:parent:7e8b13ac21c469e95e6b",
+          "parent": {
+            "kind": "docs",
+            "title": "query_params",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/query_params.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:query_params:v3:parent:7e8b13ac21c469e95e6b",
+            "source_id": "docs:query_params",
+            "text": "### Repeated keys\n\nWhen a key is repeated in your app's URL (`?a=1&a=2&a=3`), dict-like methods will return only the last value. In this example, `st.query_params[\"a\"]` returns `\"3\"`. To get all keys as a list, use the [`.get_all()`](/develop/api-reference/caching-and-state/st.query_params#stquery_paramsget_all) method shown below. To set the value of a repeated key, assign the values as a list. For example, `st.query_params.a = [\"1\", \"2\", \"3\"]` produces the repeated key given at the beginning of this paragraph.\n",
+            "source_span": [
+              1814,
+              2332
+            ],
+            "source_sha256": "c47ab2c25811a5cddd1d51b34c9fc2b84b3dcde971c107b0081bdacb5c73e1cb",
+            "sha256": "41bcef083d036d4fed44fe106eafd1b6b1df5a9090076b0a78a2c7fbc7028506",
+            "lines": [
+              45,
+              47
+            ],
+            "section": "query_params > st.query_params > Repeated keys",
+            "section_path": [
+              "query_params",
+              "st.query_params",
+              "Repeated keys"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 140,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03456221,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widget-behavior:v3:child:734d6b43cb10a0bba8be",
+          "source_id": "docs:widget-behavior",
+          "text": "### Behavior details\n\n- **Default values keep URLs clean**: When a widget's value matches its default, the query parameter is removed from the URL.\n- **Invalid values are ignored**: If the URL contains an invalid value for the widget, the value is ignored and removed from the URL.\n- **Programmatic updates**: A bound query parameter can't be set or deleted through `st.query_params`. To programmatically change a bound widget's value, use `st.session_state`.\n- **Range values**: Widgets that return a range, like range sliders, use repeated query parameters. For example, a slider with a range of 10 to 90 will produce a URL ending with `?price=10&price=90`.\n\nTrigger-like widgets (`st.button`, `st.download_button`, `st.chat_input`, `st.file_uploader`, `st.camera_input`, and `st.audio_input`) don't support binding because their values are transient.\n",
+          "source_span": [
+            18485,
+            19339
+          ],
+          "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+          "sha256": "3f51e6a44f2318e008489f30cb64cad3b540e42b34ddb79f10dd41225539bd36",
+          "lines": [
+            278,
+            285
+          ],
+          "section": "widget-behavior > Understanding widget behavior > Binding widgets to query parameters > Behavior details",
+          "section_path": [
+            "widget-behavior",
+            "Understanding widget behavior",
+            "Binding widgets to query parameters",
+            "Behavior details"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 192,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widget-behavior:v3:parent:734d6b43cb10a0bba8be",
+          "parent": {
+            "kind": "docs",
+            "title": "widget-behavior",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widget-behavior:v3:parent:734d6b43cb10a0bba8be",
+            "source_id": "docs:widget-behavior",
+            "text": "### Behavior details\n\n- **Default values keep URLs clean**: When a widget's value matches its default, the query parameter is removed from the URL.\n- **Invalid values are ignored**: If the URL contains an invalid value for the widget, the value is ignored and removed from the URL.\n- **Programmatic updates**: A bound query parameter can't be set or deleted through `st.query_params`. To programmatically change a bound widget's value, use `st.session_state`.\n- **Range values**: Widgets that return a range, like range sliders, use repeated query parameters. For example, a slider with a range of 10 to 90 will produce a URL ending with `?price=10&price=90`.\n\nTrigger-like widgets (`st.button`, `st.download_button`, `st.chat_input`, `st.file_uploader`, `st.camera_input`, and `st.audio_input`) don't support binding because their values are transient.\n",
+            "source_span": [
+              18485,
+              19339
+            ],
+            "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+            "sha256": "3f51e6a44f2318e008489f30cb64cad3b540e42b34ddb79f10dd41225539bd36",
+            "lines": [
+              278,
+              285
+            ],
+            "section": "widget-behavior > Understanding widget behavior > Binding widgets to query parameters > Behavior details",
+            "section_path": [
+              "widget-behavior",
+              "Understanding widget behavior",
+              "Binding widgets to query parameters",
+              "Behavior details"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 192,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02915849,
+          "rank": 3
+        },
+        {
+          "kind": "release",
+          "title": "2024",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2024.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:2024:v3:child:334a107f456daba00e4d",
+          "source_id": "docs:2024",
+          "text": "([#8034](https://github.com/streamlit/streamlit/pull/8034)).\n- 🐛 Bug fix: Casting `st.query_params` to `str` will print the content of the query parameters instead of the class description ([#8030](https://github.com/streamlit/streamlit/pull/8030)).\n",
+          "source_span": [
+            52216,
+            52466
+          ],
+          "source_sha256": "10581e91afe8a4bc680381c723a3315f7a85e5879c89ab400d6bb466e9d4e580",
+          "sha256": "d7b0f723e8cbd6513f1fadba2716afd4b70123992cb11898a208322800257319",
+          "lines": [
+            444,
+            445
+          ],
+          "section": "2024 > 2024 release notes > **Version 1.32.0**",
+          "section_path": [
+            "2024",
+            "2024 release notes",
+            "**Version 1.32.0**"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 73,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:2024:v3:parent:334a107f456daba00e4d",
+          "parent": {
+            "kind": "release",
+            "title": "2024",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2024.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:2024:v3:parent:334a107f456daba00e4d",
+            "source_id": "docs:2024",
+            "text": "([#8034](https://github.com/streamlit/streamlit/pull/8034)).\n- 🐛 Bug fix: Casting `st.query_params` to `str` will print the content of the query parameters instead of the class description ([#8030](https://github.com/streamlit/streamlit/pull/8030)).\n",
+            "source_span": [
+              52216,
+              52466
+            ],
+            "source_sha256": "10581e91afe8a4bc680381c723a3315f7a85e5879c89ab400d6bb466e9d4e580",
+            "sha256": "d7b0f723e8cbd6513f1fadba2716afd4b70123992cb11898a208322800257319",
+            "lines": [
+              444,
+              445
+            ],
+            "section": "2024 > 2024 release notes > **Version 1.32.0**",
+            "section_path": [
+              "2024",
+              "2024 release notes",
+              "**Version 1.32.0**"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 73,
+            "block_kinds": [
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02661064,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "Query parameters reset when navigating between pages",
+          "url": "https://github.com/streamlit/streamlit/issues/7982",
+          "revision": "2024-08-15T20:51:27Z",
+          "product_version": null,
+          "issue_number": 7982,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:7982:v3:child:d3783f802436af0f33b0",
+          "source_id": "issue:7982",
+          "text": "### Debug info\n\n- Streamlit version: 1.30.0\n- Python version: 3.9.12\n- Operating System: macOS 14.2\n- Browser: Chrome\n",
+          "source_span": [
+            1377,
+            1495
+          ],
+          "source_sha256": "33f7109e6229b0477e672c37baf1b65d8ddb833a63e9dc042e22ea76479b6c31",
+          "sha256": "4633960c23c56572ba9997a5376bbb15c8718ba7ec80ebc48b0a13e7b137b856",
+          "lines": [
+            51,
+            56
+          ],
+          "section": "Query parameters reset when navigating between pages > Debug info",
+          "section_path": [
+            "Query parameters reset when navigating between pages",
+            "Debug info"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 43,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:7982:v3:parent:d3783f802436af0f33b0",
+          "parent": {
+            "kind": "issue",
+            "title": "Query parameters reset when navigating between pages",
+            "url": "https://github.com/streamlit/streamlit/issues/7982",
+            "revision": "2024-08-15T20:51:27Z",
+            "product_version": null,
+            "issue_number": 7982,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:7982:v3:parent:d3783f802436af0f33b0",
+            "source_id": "issue:7982",
+            "text": "### Debug info\n\n- Streamlit version: 1.30.0\n- Python version: 3.9.12\n- Operating System: macOS 14.2\n- Browser: Chrome\n",
+            "source_span": [
+              1377,
+              1495
+            ],
+            "source_sha256": "33f7109e6229b0477e672c37baf1b65d8ddb833a63e9dc042e22ea76479b6c31",
+            "sha256": "4633960c23c56572ba9997a5376bbb15c8718ba7ec80ebc48b0a13e7b137b856",
+            "lines": [
+              51,
+              56
+            ],
+            "section": "Query parameters reset when navigating between pages > Debug info",
+            "section_path": [
+              "Query parameters reset when navigating between pages",
+              "Debug info"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 43,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02744361,
+          "rank": 5
+        }
+      ],
+      "packing": {
+        "encoding": "o200k_base",
+        "budget_tokens": 3000,
+        "used_tokens": 1981,
+        "expand_parent": false,
+        "items": [
+          {
+            "id": "docs:query_params:v3:child:fa15a0d9139f4deeedcc",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:query_params:v3:child:fa15a0d9139f4deeedcc"
+          },
+          {
+            "id": "docs:query_params:v3:child:7e8b13ac21c469e95e6b",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:query_params:v3:child:7e8b13ac21c469e95e6b"
+          },
+          {
+            "id": "docs:widget-behavior:v3:child:734d6b43cb10a0bba8be",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:widget-behavior:v3:child:734d6b43cb10a0bba8be"
+          },
+          {
+            "id": "docs:2024:v3:child:334a107f456daba00e4d",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:2024:v3:child:334a107f456daba00e4d"
+          },
+          {
+            "id": "issue:7982:v3:child:d3783f802436af0f33b0",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:7982:v3:child:d3783f802436af0f33b0"
+          },
+          {
+            "id": "issue:7665:v3:child:16cb4d836ef475dd64a1",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:7665:v3:child:a99d62f9dd9f94baf8e1",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:7982:v3:child:ff2a9126abaa5c230b8d",
+            "status": "omitted",
+            "reason": "item_limit"
+          }
+        ]
+      },
+      "index": "v3",
+      "namespace": "6fbba079eb1323bf54c9d03ad4b956a7174e0f434f386ed66f0a50b489f55d4e"
+    },
+    "C": {
+      "candidates": [
+        {
+          "kind": "docs",
+          "title": "query_params",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/query_params.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:query_params:v3:child:fa15a0d9139f4deeedcc",
+          "source_id": "docs:query_params",
+          "text": "## st.query_params\n\n`st.query_params` provides a dictionary-like interface to access query parameters in your app's URL and is available as of Streamlit 1.30.0. It behaves similarly to `st.session_state` with the notable exception that keys may be repeated in an app's URL. Handling of repeated keys requires special consideration as explained below.\n\n`st.query_params` can be used with both key and attribute notation. For example, `st.query_params.my_key` and `st.query_params[\"my_key\"]`. All keys and values will be set and returned as strings. When you write to `st.query_params`, key-value pair prefixed with `?` is added to the end of your app's URL. Each additional pair is prefixed with `&` instead of `?`. Query parameters are cleared when navigating between pages in a multipage app.\n\nFor example, consider the following URL:\n\n```javascript\nhttps://your_app.streamlit.app/?first_key=1&second_key=two&third_key=true\n```\n\nThe parameters in the URL above will be accessible in `st.query_params` as:\n\n```python\n{\n    \"first_key\" : \"1\",\n    \"second_key\" : \"two\",\n    \"third_key\" : \"true\"\n}\n```\n\nThis means you can use those parameters in your app like this:\n",
+          "source_span": [
+            305,
+            1468
+          ],
+          "source_sha256": "c47ab2c25811a5cddd1d51b34c9fc2b84b3dcde971c107b0081bdacb5c73e1cb",
+          "sha256": "b079d45d110c60136337e81bd1acbbb1444e4d1ffb45a8cb40008fe0b8ba1ee7",
+          "lines": [
+            8,
+            30
+          ],
+          "section": "query_params > st.query_params",
+          "section_path": [
+            "query_params",
+            "st.query_params"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 277,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:query_params:v3:parent:36a9feb77245570c4dfc",
+          "parent": {
+            "kind": "docs",
+            "title": "query_params",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/query_params.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:query_params:v3:parent:36a9feb77245570c4dfc",
+            "source_id": "docs:query_params",
+            "text": "## st.query_params\n\n`st.query_params` provides a dictionary-like interface to access query parameters in your app's URL and is available as of Streamlit 1.30.0. It behaves similarly to `st.session_state` with the notable exception that keys may be repeated in an app's URL. Handling of repeated keys requires special consideration as explained below.\n\n`st.query_params` can be used with both key and attribute notation. For example, `st.query_params.my_key` and `st.query_params[\"my_key\"]`. All keys and values will be set and returned as strings. When you write to `st.query_params`, key-value pair prefixed with `?` is added to the end of your app's URL. Each additional pair is prefixed with `&` instead of `?`. Query parameters are cleared when navigating between pages in a multipage app.\n\nFor example, consider the following URL:\n\n```javascript\nhttps://your_app.streamlit.app/?first_key=1&second_key=two&third_key=true\n```\n\nThe parameters in the URL above will be accessible in `st.query_params` as:\n\n```python\n{\n    \"first_key\" : \"1\",\n    \"second_key\" : \"two\",\n    \"third_key\" : \"true\"\n}\n```\n\nThis means you can use those parameters in your app like this:\n\n```python\n# You can read query params using key notation\nif st.query_params[\"first_key\"] == \"1\":\n    do_something()\n\n# ...or using attribute notation\nif st.query_params.second_key == \"two\":\n    do_something_else()\n\n# And you can change a param by just writing to it\nst.query_params.first_key = 2  # This gets converted to str automatically\n```\n",
+            "source_span": [
+              305,
+              1813
+            ],
+            "source_sha256": "c47ab2c25811a5cddd1d51b34c9fc2b84b3dcde971c107b0081bdacb5c73e1cb",
+            "sha256": "6048dffc7739bc3887cf21fc51e2dfdd00922ea0330ba81c4f5ad7de2e2c5690",
+            "lines": [
+              8,
+              43
+            ],
+            "section": "query_params > st.query_params",
+            "section_path": [
+              "query_params",
+              "st.query_params"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 362,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03540984,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "query_params",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/query_params.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:query_params:v3:child:7e8b13ac21c469e95e6b",
+          "source_id": "docs:query_params",
+          "text": "### Repeated keys\n\nWhen a key is repeated in your app's URL (`?a=1&a=2&a=3`), dict-like methods will return only the last value. In this example, `st.query_params[\"a\"]` returns `\"3\"`. To get all keys as a list, use the [`.get_all()`](/develop/api-reference/caching-and-state/st.query_params#stquery_paramsget_all) method shown below. To set the value of a repeated key, assign the values as a list. For example, `st.query_params.a = [\"1\", \"2\", \"3\"]` produces the repeated key given at the beginning of this paragraph.\n",
+          "source_span": [
+            1814,
+            2332
+          ],
+          "source_sha256": "c47ab2c25811a5cddd1d51b34c9fc2b84b3dcde971c107b0081bdacb5c73e1cb",
+          "sha256": "41bcef083d036d4fed44fe106eafd1b6b1df5a9090076b0a78a2c7fbc7028506",
+          "lines": [
+            45,
+            47
+          ],
+          "section": "query_params > st.query_params > Repeated keys",
+          "section_path": [
+            "query_params",
+            "st.query_params",
+            "Repeated keys"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 140,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:query_params:v3:parent:7e8b13ac21c469e95e6b",
+          "parent": {
+            "kind": "docs",
+            "title": "query_params",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/query_params.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:query_params:v3:parent:7e8b13ac21c469e95e6b",
+            "source_id": "docs:query_params",
+            "text": "### Repeated keys\n\nWhen a key is repeated in your app's URL (`?a=1&a=2&a=3`), dict-like methods will return only the last value. In this example, `st.query_params[\"a\"]` returns `\"3\"`. To get all keys as a list, use the [`.get_all()`](/develop/api-reference/caching-and-state/st.query_params#stquery_paramsget_all) method shown below. To set the value of a repeated key, assign the values as a list. For example, `st.query_params.a = [\"1\", \"2\", \"3\"]` produces the repeated key given at the beginning of this paragraph.\n",
+            "source_span": [
+              1814,
+              2332
+            ],
+            "source_sha256": "c47ab2c25811a5cddd1d51b34c9fc2b84b3dcde971c107b0081bdacb5c73e1cb",
+            "sha256": "41bcef083d036d4fed44fe106eafd1b6b1df5a9090076b0a78a2c7fbc7028506",
+            "lines": [
+              45,
+              47
+            ],
+            "section": "query_params > st.query_params > Repeated keys",
+            "section_path": [
+              "query_params",
+              "st.query_params",
+              "Repeated keys"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 140,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03456221,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widget-behavior:v3:child:734d6b43cb10a0bba8be",
+          "source_id": "docs:widget-behavior",
+          "text": "### Behavior details\n\n- **Default values keep URLs clean**: When a widget's value matches its default, the query parameter is removed from the URL.\n- **Invalid values are ignored**: If the URL contains an invalid value for the widget, the value is ignored and removed from the URL.\n- **Programmatic updates**: A bound query parameter can't be set or deleted through `st.query_params`. To programmatically change a bound widget's value, use `st.session_state`.\n- **Range values**: Widgets that return a range, like range sliders, use repeated query parameters. For example, a slider with a range of 10 to 90 will produce a URL ending with `?price=10&price=90`.\n\nTrigger-like widgets (`st.button`, `st.download_button`, `st.chat_input`, `st.file_uploader`, `st.camera_input`, and `st.audio_input`) don't support binding because their values are transient.\n",
+          "source_span": [
+            18485,
+            19339
+          ],
+          "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+          "sha256": "3f51e6a44f2318e008489f30cb64cad3b540e42b34ddb79f10dd41225539bd36",
+          "lines": [
+            278,
+            285
+          ],
+          "section": "widget-behavior > Understanding widget behavior > Binding widgets to query parameters > Behavior details",
+          "section_path": [
+            "widget-behavior",
+            "Understanding widget behavior",
+            "Binding widgets to query parameters",
+            "Behavior details"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 192,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widget-behavior:v3:parent:734d6b43cb10a0bba8be",
+          "parent": {
+            "kind": "docs",
+            "title": "widget-behavior",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widget-behavior:v3:parent:734d6b43cb10a0bba8be",
+            "source_id": "docs:widget-behavior",
+            "text": "### Behavior details\n\n- **Default values keep URLs clean**: When a widget's value matches its default, the query parameter is removed from the URL.\n- **Invalid values are ignored**: If the URL contains an invalid value for the widget, the value is ignored and removed from the URL.\n- **Programmatic updates**: A bound query parameter can't be set or deleted through `st.query_params`. To programmatically change a bound widget's value, use `st.session_state`.\n- **Range values**: Widgets that return a range, like range sliders, use repeated query parameters. For example, a slider with a range of 10 to 90 will produce a URL ending with `?price=10&price=90`.\n\nTrigger-like widgets (`st.button`, `st.download_button`, `st.chat_input`, `st.file_uploader`, `st.camera_input`, and `st.audio_input`) don't support binding because their values are transient.\n",
+            "source_span": [
+              18485,
+              19339
+            ],
+            "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+            "sha256": "3f51e6a44f2318e008489f30cb64cad3b540e42b34ddb79f10dd41225539bd36",
+            "lines": [
+              278,
+              285
+            ],
+            "section": "widget-behavior > Understanding widget behavior > Binding widgets to query parameters > Behavior details",
+            "section_path": [
+              "widget-behavior",
+              "Understanding widget behavior",
+              "Binding widgets to query parameters",
+              "Behavior details"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 192,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02915849,
+          "rank": 3
+        },
+        {
+          "kind": "release",
+          "title": "2024",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2024.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:2024:v3:child:334a107f456daba00e4d",
+          "source_id": "docs:2024",
+          "text": "([#8034](https://github.com/streamlit/streamlit/pull/8034)).\n- 🐛 Bug fix: Casting `st.query_params` to `str` will print the content of the query parameters instead of the class description ([#8030](https://github.com/streamlit/streamlit/pull/8030)).\n",
+          "source_span": [
+            52216,
+            52466
+          ],
+          "source_sha256": "10581e91afe8a4bc680381c723a3315f7a85e5879c89ab400d6bb466e9d4e580",
+          "sha256": "d7b0f723e8cbd6513f1fadba2716afd4b70123992cb11898a208322800257319",
+          "lines": [
+            444,
+            445
+          ],
+          "section": "2024 > 2024 release notes > **Version 1.32.0**",
+          "section_path": [
+            "2024",
+            "2024 release notes",
+            "**Version 1.32.0**"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 73,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:2024:v3:parent:334a107f456daba00e4d",
+          "parent": {
+            "kind": "release",
+            "title": "2024",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2024.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:2024:v3:parent:334a107f456daba00e4d",
+            "source_id": "docs:2024",
+            "text": "([#8034](https://github.com/streamlit/streamlit/pull/8034)).\n- 🐛 Bug fix: Casting `st.query_params` to `str` will print the content of the query parameters instead of the class description ([#8030](https://github.com/streamlit/streamlit/pull/8030)).\n",
+            "source_span": [
+              52216,
+              52466
+            ],
+            "source_sha256": "10581e91afe8a4bc680381c723a3315f7a85e5879c89ab400d6bb466e9d4e580",
+            "sha256": "d7b0f723e8cbd6513f1fadba2716afd4b70123992cb11898a208322800257319",
+            "lines": [
+              444,
+              445
+            ],
+            "section": "2024 > 2024 release notes > **Version 1.32.0**",
+            "section_path": [
+              "2024",
+              "2024 release notes",
+              "**Version 1.32.0**"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 73,
+            "block_kinds": [
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02661064,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "Query parameters reset when navigating between pages",
+          "url": "https://github.com/streamlit/streamlit/issues/7982",
+          "revision": "2024-08-15T20:51:27Z",
+          "product_version": null,
+          "issue_number": 7982,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:7982:v3:child:d3783f802436af0f33b0",
+          "source_id": "issue:7982",
+          "text": "### Debug info\n\n- Streamlit version: 1.30.0\n- Python version: 3.9.12\n- Operating System: macOS 14.2\n- Browser: Chrome\n",
+          "source_span": [
+            1377,
+            1495
+          ],
+          "source_sha256": "33f7109e6229b0477e672c37baf1b65d8ddb833a63e9dc042e22ea76479b6c31",
+          "sha256": "4633960c23c56572ba9997a5376bbb15c8718ba7ec80ebc48b0a13e7b137b856",
+          "lines": [
+            51,
+            56
+          ],
+          "section": "Query parameters reset when navigating between pages > Debug info",
+          "section_path": [
+            "Query parameters reset when navigating between pages",
+            "Debug info"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 43,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:7982:v3:parent:d3783f802436af0f33b0",
+          "parent": {
+            "kind": "issue",
+            "title": "Query parameters reset when navigating between pages",
+            "url": "https://github.com/streamlit/streamlit/issues/7982",
+            "revision": "2024-08-15T20:51:27Z",
+            "product_version": null,
+            "issue_number": 7982,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:7982:v3:parent:d3783f802436af0f33b0",
+            "source_id": "issue:7982",
+            "text": "### Debug info\n\n- Streamlit version: 1.30.0\n- Python version: 3.9.12\n- Operating System: macOS 14.2\n- Browser: Chrome\n",
+            "source_span": [
+              1377,
+              1495
+            ],
+            "source_sha256": "33f7109e6229b0477e672c37baf1b65d8ddb833a63e9dc042e22ea76479b6c31",
+            "sha256": "4633960c23c56572ba9997a5376bbb15c8718ba7ec80ebc48b0a13e7b137b856",
+            "lines": [
+              51,
+              56
+            ],
+            "section": "Query parameters reset when navigating between pages > Debug info",
+            "section_path": [
+              "Query parameters reset when navigating between pages",
+              "Debug info"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 43,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02744361,
+          "rank": 5
+        },
+        {
+          "kind": "issue",
+          "title": "Coming soon: API update for Streamlit query params",
+          "url": "https://github.com/streamlit/streamlit/issues/7665",
+          "revision": "2024-01-03T22:27:55Z",
+          "product_version": null,
+          "issue_number": 7665,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:7665:v3:child:16cb4d836ef475dd64a1",
+          "source_id": "issue:7665",
+          "text": "### What do you think?\n\nLet us know your feedback about the changes. Our current plan is to release this minimal version, which simplifies the API for typical use cases and leaves room to extend to new features in the future such as better handling for type conversion, or binding query params to certain session_state keys or widget values.\n\nYour input can help impact whether we release this immediately as `st.query_params` or do an `st.experimental_query_params` to see more usage of the new API before finalizing it.\n\nThank you!\n",
+          "source_span": [
+            3146,
+            3680
+          ],
+          "source_sha256": "91899eac51b3fc04dc2cbcedfe51391441c6f2dd600fd4ba796f10deee9e1f6e",
+          "sha256": "cf863e28f61e3a6836ede5b5ddb42bb537d20940874b45dbbce0a718709fad11",
+          "lines": [
+            58,
+            64
+          ],
+          "section": "Coming soon: API update for Streamlit query params > What do you think?",
+          "section_path": [
+            "Coming soon: API update for Streamlit query params",
+            "What do you think?"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 106,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:7665:v3:parent:16cb4d836ef475dd64a1",
+          "parent": {
+            "kind": "issue",
+            "title": "Coming soon: API update for Streamlit query params",
+            "url": "https://github.com/streamlit/streamlit/issues/7665",
+            "revision": "2024-01-03T22:27:55Z",
+            "product_version": null,
+            "issue_number": 7665,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:7665:v3:parent:16cb4d836ef475dd64a1",
+            "source_id": "issue:7665",
+            "text": "### What do you think?\n\nLet us know your feedback about the changes. Our current plan is to release this minimal version, which simplifies the API for typical use cases and leaves room to extend to new features in the future such as better handling for type conversion, or binding query params to certain session_state keys or widget values.\n\nYour input can help impact whether we release this immediately as `st.query_params` or do an `st.experimental_query_params` to see more usage of the new API before finalizing it.\n\nThank you!\n",
+            "source_span": [
+              3146,
+              3680
+            ],
+            "source_sha256": "91899eac51b3fc04dc2cbcedfe51391441c6f2dd600fd4ba796f10deee9e1f6e",
+            "sha256": "cf863e28f61e3a6836ede5b5ddb42bb537d20940874b45dbbce0a718709fad11",
+            "lines": [
+              58,
+              64
+            ],
+            "section": "Coming soon: API update for Streamlit query params > What do you think?",
+            "section_path": [
+              "Coming soon: API update for Streamlit query params",
+              "What do you think?"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 106,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02843889,
+          "rank": 6
+        },
+        {
+          "kind": "issue",
+          "title": "Coming soon: API update for Streamlit query params",
+          "url": "https://github.com/streamlit/streamlit/issues/7665",
+          "revision": "2024-01-03T22:27:55Z",
+          "product_version": null,
+          "issue_number": 7665,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:7665:v3:child:a99d62f9dd9f94baf8e1",
+          "source_id": "issue:7665",
+          "text": "### Handling lists and multiple values\n\nA key concern for query parameters is handling multiple values. For normal get / retrieval calls on `query_params`, Streamlit will return **only the last value set for the given key**, whether in the URL directly via Streamlit API. To retrieve a list of all set values, developers can call `st.query_params.get_all(key)`. This approach is typical of several other python web API frameworks such as [tornado](https://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.get_query_argument) and [flask](https://github.com/pallets/werkzeug/blob/2.3.6/src/werkzeug/datastructures/structures.py#L118-L128). \n\n```python\n# URL: localhost:8501/?show_map=True&selected=asia&selected=america\n\nst.query_params[\"selected\"]\n# \"america\"\n\nst.query_params.get_all(\"selected\")\n# [\"asia\", \"america\"]\n\nst.query_params.get_all(\"show_map\")\n# [\"True\"]\n```\n",
+          "source_span": [
+            2070,
+            2956
+          ],
+          "source_sha256": "91899eac51b3fc04dc2cbcedfe51391441c6f2dd600fd4ba796f10deee9e1f6e",
+          "sha256": "df12cc7be889706d23111552edeebe1d64cb7d35fec1e31f133b6cf270306b69",
+          "lines": [
+            37,
+            52
+          ],
+          "section": "Coming soon: API update for Streamlit query params > Handling lists and multiple values",
+          "section_path": [
+            "Coming soon: API update for Streamlit query params",
+            "Handling lists and multiple values"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 218,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:7665:v3:parent:a99d62f9dd9f94baf8e1",
+          "parent": {
+            "kind": "issue",
+            "title": "Coming soon: API update for Streamlit query params",
+            "url": "https://github.com/streamlit/streamlit/issues/7665",
+            "revision": "2024-01-03T22:27:55Z",
+            "product_version": null,
+            "issue_number": 7665,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:7665:v3:parent:a99d62f9dd9f94baf8e1",
+            "source_id": "issue:7665",
+            "text": "### Handling lists and multiple values\n\nA key concern for query parameters is handling multiple values. For normal get / retrieval calls on `query_params`, Streamlit will return **only the last value set for the given key**, whether in the URL directly via Streamlit API. To retrieve a list of all set values, developers can call `st.query_params.get_all(key)`. This approach is typical of several other python web API frameworks such as [tornado](https://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.get_query_argument) and [flask](https://github.com/pallets/werkzeug/blob/2.3.6/src/werkzeug/datastructures/structures.py#L118-L128). \n\n```python\n# URL: localhost:8501/?show_map=True&selected=asia&selected=america\n\nst.query_params[\"selected\"]\n# \"america\"\n\nst.query_params.get_all(\"selected\")\n# [\"asia\", \"america\"]\n\nst.query_params.get_all(\"show_map\")\n# [\"True\"]\n```\n",
+            "source_span": [
+              2070,
+              2956
+            ],
+            "source_sha256": "91899eac51b3fc04dc2cbcedfe51391441c6f2dd600fd4ba796f10deee9e1f6e",
+            "sha256": "df12cc7be889706d23111552edeebe1d64cb7d35fec1e31f133b6cf270306b69",
+            "lines": [
+              37,
+              52
+            ],
+            "section": "Coming soon: API update for Streamlit query params > Handling lists and multiple values",
+            "section_path": [
+              "Coming soon: API update for Streamlit query params",
+              "Handling lists and multiple values"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 218,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02881426,
+          "rank": 7
+        },
+        {
+          "kind": "issue",
+          "title": "Query parameters reset when navigating between pages",
+          "url": "https://github.com/streamlit/streamlit/issues/7982",
+          "revision": "2024-08-15T20:51:27Z",
+          "product_version": null,
+          "issue_number": 7982,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:7982:v3:child:ff2a9126abaa5c230b8d",
+          "source_id": "issue:7982",
+          "text": "### Current Behavior\n\nQuery parameters are reset.  This is also the case when using the new `query_params` api.\n",
+          "source_span": [
+            1184,
+            1296
+          ],
+          "source_sha256": "33f7109e6229b0477e672c37baf1b65d8ddb833a63e9dc042e22ea76479b6c31",
+          "sha256": "f67135060c6b31cd5023a7a91be43f95a2a1323edc2529355370d11d599b05d7",
+          "lines": [
+            43,
+            45
+          ],
+          "section": "Query parameters reset when navigating between pages > Current Behavior",
+          "section_path": [
+            "Query parameters reset when navigating between pages",
+            "Current Behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 25,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:7982:v3:parent:ff2a9126abaa5c230b8d",
+          "parent": {
+            "kind": "issue",
+            "title": "Query parameters reset when navigating between pages",
+            "url": "https://github.com/streamlit/streamlit/issues/7982",
+            "revision": "2024-08-15T20:51:27Z",
+            "product_version": null,
+            "issue_number": 7982,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:7982:v3:parent:ff2a9126abaa5c230b8d",
+            "source_id": "issue:7982",
+            "text": "### Current Behavior\n\nQuery parameters are reset.  This is also the case when using the new `query_params` api.\n",
+            "source_span": [
+              1184,
+              1296
+            ],
+            "source_sha256": "33f7109e6229b0477e672c37baf1b65d8ddb833a63e9dc042e22ea76479b6c31",
+            "sha256": "f67135060c6b31cd5023a7a91be43f95a2a1323edc2529355370d11d599b05d7",
+            "lines": [
+              43,
+              45
+            ],
+            "section": "Query parameters reset when navigating between pages > Current Behavior",
+            "section_path": [
+              "Query parameters reset when navigating between pages",
+              "Current Behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 25,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02643019,
+          "rank": 8
+        }
+      ],
+      "candidate_hash": "8f4ce6a32e502ce5d9cf8526588e3bde0b51f09df38d70cc36b20b30324c9cd9",
+      "context": [
+        {
+          "kind": "docs",
+          "title": "query_params",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/query_params.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:query_params:v3:parent:36a9feb77245570c4dfc",
+          "source_id": "docs:query_params",
+          "text": "## st.query_params\n\n`st.query_params` provides a dictionary-like interface to access query parameters in your app's URL and is available as of Streamlit 1.30.0. It behaves similarly to `st.session_state` with the notable exception that keys may be repeated in an app's URL. Handling of repeated keys requires special consideration as explained below.\n\n`st.query_params` can be used with both key and attribute notation. For example, `st.query_params.my_key` and `st.query_params[\"my_key\"]`. All keys and values will be set and returned as strings. When you write to `st.query_params`, key-value pair prefixed with `?` is added to the end of your app's URL. Each additional pair is prefixed with `&` instead of `?`. Query parameters are cleared when navigating between pages in a multipage app.\n\nFor example, consider the following URL:\n\n```javascript\nhttps://your_app.streamlit.app/?first_key=1&second_key=two&third_key=true\n```\n\nThe parameters in the URL above will be accessible in `st.query_params` as:\n\n```python\n{\n    \"first_key\" : \"1\",\n    \"second_key\" : \"two\",\n    \"third_key\" : \"true\"\n}\n```\n\nThis means you can use those parameters in your app like this:\n\n```python\n# You can read query params using key notation\nif st.query_params[\"first_key\"] == \"1\":\n    do_something()\n\n# ...or using attribute notation\nif st.query_params.second_key == \"two\":\n    do_something_else()\n\n# And you can change a param by just writing to it\nst.query_params.first_key = 2  # This gets converted to str automatically\n```\n",
+          "source_span": [
+            305,
+            1813
+          ],
+          "source_sha256": "c47ab2c25811a5cddd1d51b34c9fc2b84b3dcde971c107b0081bdacb5c73e1cb",
+          "sha256": "6048dffc7739bc3887cf21fc51e2dfdd00922ea0330ba81c4f5ad7de2e2c5690",
+          "lines": [
+            8,
+            43
+          ],
+          "section": "query_params > st.query_params",
+          "section_path": [
+            "query_params",
+            "st.query_params"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 362,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "selected_child_ids": [
+            "docs:query_params:v3:child:fa15a0d9139f4deeedcc"
+          ],
+          "parent_id": "docs:query_params:v3:parent:36a9feb77245570c4dfc",
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation"
+        },
+        {
+          "kind": "docs",
+          "title": "query_params",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/query_params.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:query_params:v3:child:7e8b13ac21c469e95e6b",
+          "source_id": "docs:query_params",
+          "text": "### Repeated keys\n\nWhen a key is repeated in your app's URL (`?a=1&a=2&a=3`), dict-like methods will return only the last value. In this example, `st.query_params[\"a\"]` returns `\"3\"`. To get all keys as a list, use the [`.get_all()`](/develop/api-reference/caching-and-state/st.query_params#stquery_paramsget_all) method shown below. To set the value of a repeated key, assign the values as a list. For example, `st.query_params.a = [\"1\", \"2\", \"3\"]` produces the repeated key given at the beginning of this paragraph.\n",
+          "source_span": [
+            1814,
+            2332
+          ],
+          "source_sha256": "c47ab2c25811a5cddd1d51b34c9fc2b84b3dcde971c107b0081bdacb5c73e1cb",
+          "sha256": "41bcef083d036d4fed44fe106eafd1b6b1df5a9090076b0a78a2c7fbc7028506",
+          "lines": [
+            45,
+            47
+          ],
+          "section": "query_params > st.query_params > Repeated keys",
+          "section_path": [
+            "query_params",
+            "st.query_params",
+            "Repeated keys"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 140,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:query_params:v3:parent:7e8b13ac21c469e95e6b",
+          "parent": {
+            "kind": "docs",
+            "title": "query_params",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/query_params.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:query_params:v3:parent:7e8b13ac21c469e95e6b",
+            "source_id": "docs:query_params",
+            "text": "### Repeated keys\n\nWhen a key is repeated in your app's URL (`?a=1&a=2&a=3`), dict-like methods will return only the last value. In this example, `st.query_params[\"a\"]` returns `\"3\"`. To get all keys as a list, use the [`.get_all()`](/develop/api-reference/caching-and-state/st.query_params#stquery_paramsget_all) method shown below. To set the value of a repeated key, assign the values as a list. For example, `st.query_params.a = [\"1\", \"2\", \"3\"]` produces the repeated key given at the beginning of this paragraph.\n",
+            "source_span": [
+              1814,
+              2332
+            ],
+            "source_sha256": "c47ab2c25811a5cddd1d51b34c9fc2b84b3dcde971c107b0081bdacb5c73e1cb",
+            "sha256": "41bcef083d036d4fed44fe106eafd1b6b1df5a9090076b0a78a2c7fbc7028506",
+            "lines": [
+              45,
+              47
+            ],
+            "section": "query_params > st.query_params > Repeated keys",
+            "section_path": [
+              "query_params",
+              "st.query_params",
+              "Repeated keys"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 140,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03456221,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widget-behavior:v3:child:734d6b43cb10a0bba8be",
+          "source_id": "docs:widget-behavior",
+          "text": "### Behavior details\n\n- **Default values keep URLs clean**: When a widget's value matches its default, the query parameter is removed from the URL.\n- **Invalid values are ignored**: If the URL contains an invalid value for the widget, the value is ignored and removed from the URL.\n- **Programmatic updates**: A bound query parameter can't be set or deleted through `st.query_params`. To programmatically change a bound widget's value, use `st.session_state`.\n- **Range values**: Widgets that return a range, like range sliders, use repeated query parameters. For example, a slider with a range of 10 to 90 will produce a URL ending with `?price=10&price=90`.\n\nTrigger-like widgets (`st.button`, `st.download_button`, `st.chat_input`, `st.file_uploader`, `st.camera_input`, and `st.audio_input`) don't support binding because their values are transient.\n",
+          "source_span": [
+            18485,
+            19339
+          ],
+          "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+          "sha256": "3f51e6a44f2318e008489f30cb64cad3b540e42b34ddb79f10dd41225539bd36",
+          "lines": [
+            278,
+            285
+          ],
+          "section": "widget-behavior > Understanding widget behavior > Binding widgets to query parameters > Behavior details",
+          "section_path": [
+            "widget-behavior",
+            "Understanding widget behavior",
+            "Binding widgets to query parameters",
+            "Behavior details"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 192,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widget-behavior:v3:parent:734d6b43cb10a0bba8be",
+          "parent": {
+            "kind": "docs",
+            "title": "widget-behavior",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widget-behavior:v3:parent:734d6b43cb10a0bba8be",
+            "source_id": "docs:widget-behavior",
+            "text": "### Behavior details\n\n- **Default values keep URLs clean**: When a widget's value matches its default, the query parameter is removed from the URL.\n- **Invalid values are ignored**: If the URL contains an invalid value for the widget, the value is ignored and removed from the URL.\n- **Programmatic updates**: A bound query parameter can't be set or deleted through `st.query_params`. To programmatically change a bound widget's value, use `st.session_state`.\n- **Range values**: Widgets that return a range, like range sliders, use repeated query parameters. For example, a slider with a range of 10 to 90 will produce a URL ending with `?price=10&price=90`.\n\nTrigger-like widgets (`st.button`, `st.download_button`, `st.chat_input`, `st.file_uploader`, `st.camera_input`, and `st.audio_input`) don't support binding because their values are transient.\n",
+            "source_span": [
+              18485,
+              19339
+            ],
+            "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+            "sha256": "3f51e6a44f2318e008489f30cb64cad3b540e42b34ddb79f10dd41225539bd36",
+            "lines": [
+              278,
+              285
+            ],
+            "section": "widget-behavior > Understanding widget behavior > Binding widgets to query parameters > Behavior details",
+            "section_path": [
+              "widget-behavior",
+              "Understanding widget behavior",
+              "Binding widgets to query parameters",
+              "Behavior details"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 192,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02915849,
+          "rank": 3
+        },
+        {
+          "kind": "release",
+          "title": "2024",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2024.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:2024:v3:child:334a107f456daba00e4d",
+          "source_id": "docs:2024",
+          "text": "([#8034](https://github.com/streamlit/streamlit/pull/8034)).\n- 🐛 Bug fix: Casting `st.query_params` to `str` will print the content of the query parameters instead of the class description ([#8030](https://github.com/streamlit/streamlit/pull/8030)).\n",
+          "source_span": [
+            52216,
+            52466
+          ],
+          "source_sha256": "10581e91afe8a4bc680381c723a3315f7a85e5879c89ab400d6bb466e9d4e580",
+          "sha256": "d7b0f723e8cbd6513f1fadba2716afd4b70123992cb11898a208322800257319",
+          "lines": [
+            444,
+            445
+          ],
+          "section": "2024 > 2024 release notes > **Version 1.32.0**",
+          "section_path": [
+            "2024",
+            "2024 release notes",
+            "**Version 1.32.0**"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 73,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:2024:v3:parent:334a107f456daba00e4d",
+          "parent": {
+            "kind": "release",
+            "title": "2024",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2024.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:2024:v3:parent:334a107f456daba00e4d",
+            "source_id": "docs:2024",
+            "text": "([#8034](https://github.com/streamlit/streamlit/pull/8034)).\n- 🐛 Bug fix: Casting `st.query_params` to `str` will print the content of the query parameters instead of the class description ([#8030](https://github.com/streamlit/streamlit/pull/8030)).\n",
+            "source_span": [
+              52216,
+              52466
+            ],
+            "source_sha256": "10581e91afe8a4bc680381c723a3315f7a85e5879c89ab400d6bb466e9d4e580",
+            "sha256": "d7b0f723e8cbd6513f1fadba2716afd4b70123992cb11898a208322800257319",
+            "lines": [
+              444,
+              445
+            ],
+            "section": "2024 > 2024 release notes > **Version 1.32.0**",
+            "section_path": [
+              "2024",
+              "2024 release notes",
+              "**Version 1.32.0**"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 73,
+            "block_kinds": [
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02661064,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "Query parameters reset when navigating between pages",
+          "url": "https://github.com/streamlit/streamlit/issues/7982",
+          "revision": "2024-08-15T20:51:27Z",
+          "product_version": null,
+          "issue_number": 7982,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:7982:v3:child:d3783f802436af0f33b0",
+          "source_id": "issue:7982",
+          "text": "### Debug info\n\n- Streamlit version: 1.30.0\n- Python version: 3.9.12\n- Operating System: macOS 14.2\n- Browser: Chrome\n",
+          "source_span": [
+            1377,
+            1495
+          ],
+          "source_sha256": "33f7109e6229b0477e672c37baf1b65d8ddb833a63e9dc042e22ea76479b6c31",
+          "sha256": "4633960c23c56572ba9997a5376bbb15c8718ba7ec80ebc48b0a13e7b137b856",
+          "lines": [
+            51,
+            56
+          ],
+          "section": "Query parameters reset when navigating between pages > Debug info",
+          "section_path": [
+            "Query parameters reset when navigating between pages",
+            "Debug info"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 43,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:7982:v3:parent:d3783f802436af0f33b0",
+          "parent": {
+            "kind": "issue",
+            "title": "Query parameters reset when navigating between pages",
+            "url": "https://github.com/streamlit/streamlit/issues/7982",
+            "revision": "2024-08-15T20:51:27Z",
+            "product_version": null,
+            "issue_number": 7982,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:7982:v3:parent:d3783f802436af0f33b0",
+            "source_id": "issue:7982",
+            "text": "### Debug info\n\n- Streamlit version: 1.30.0\n- Python version: 3.9.12\n- Operating System: macOS 14.2\n- Browser: Chrome\n",
+            "source_span": [
+              1377,
+              1495
+            ],
+            "source_sha256": "33f7109e6229b0477e672c37baf1b65d8ddb833a63e9dc042e22ea76479b6c31",
+            "sha256": "4633960c23c56572ba9997a5376bbb15c8718ba7ec80ebc48b0a13e7b137b856",
+            "lines": [
+              51,
+              56
+            ],
+            "section": "Query parameters reset when navigating between pages > Debug info",
+            "section_path": [
+              "Query parameters reset when navigating between pages",
+              "Debug info"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 43,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02744361,
+          "rank": 5
+        }
+      ],
+      "packing": {
+        "encoding": "o200k_base",
+        "budget_tokens": 3000,
+        "used_tokens": 2103,
+        "expand_parent": true,
+        "items": [
+          {
+            "id": "docs:query_params:v3:child:fa15a0d9139f4deeedcc",
+            "status": "included",
+            "reason": "bounded_parent",
+            "context_id": "docs:query_params:v3:parent:36a9feb77245570c4dfc"
+          },
+          {
+            "id": "docs:query_params:v3:child:7e8b13ac21c469e95e6b",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:query_params:v3:child:7e8b13ac21c469e95e6b"
+          },
+          {
+            "id": "docs:widget-behavior:v3:child:734d6b43cb10a0bba8be",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:widget-behavior:v3:child:734d6b43cb10a0bba8be"
+          },
+          {
+            "id": "docs:2024:v3:child:334a107f456daba00e4d",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:2024:v3:child:334a107f456daba00e4d"
+          },
+          {
+            "id": "issue:7982:v3:child:d3783f802436af0f33b0",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:7982:v3:child:d3783f802436af0f33b0"
+          },
+          {
+            "id": "issue:7665:v3:child:16cb4d836ef475dd64a1",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:7665:v3:child:a99d62f9dd9f94baf8e1",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:7982:v3:child:ff2a9126abaa5c230b8d",
+            "status": "omitted",
+            "reason": "item_limit"
+          }
+        ]
+      },
+      "index": "v3",
+      "namespace": "6fbba079eb1323bf54c9d03ad4b956a7174e0f434f386ed66f0a50b489f55d4e"
+    }
+  },
+  "code_hash": "c148d8cd099ab2f7dd82c13ef86c8525124fe15649ff8f335418dc5d867b8a6a",
+  "query_vector_hash": "9f10299091269cf04d40c0add4949f20af75588aa4dcb06a9df37852615f105d",
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "reserved_usd": 1.81104e-05,
+      "ledger_id": "4739512f3774a1d0ab4fcd28",
+      "diagnostic": {
+        "request_id": "4739512f3774a1d0ab4fcd28",
+        "provider_request_id": null,
+        "role": "embedding",
+        "model": "text-embedding-3-small",
+        "requested_max_output_tokens": null,
+        "reported_usage": {
+          "prompt_tokens": 21,
+          "completion_tokens": null,
+          "total_tokens": 21
+        },
+        "http_status": 200,
+        "finish_reason": null,
+        "status": "parsed",
+        "failure_code": null
+      },
+      "input_tokens": 21,
+      "output_tokens": 0,
+      "cost_usd": 4.62e-07
+    }
+  ]
+}

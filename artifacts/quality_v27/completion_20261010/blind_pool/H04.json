@@ -1,0 +1,256 @@
+{
+  "id": "H04",
+  "report": "Feature request: offer a keyboard-triggered export of the currently selected chart region. Preserve the existing mouse interaction. Acceptance: a keyboard action exports only the selected region.",
+  "product_version": null,
+  "candidates": [
+    {
+      "source_id": "issue:15549",
+      "revision": "2026-09-11T23:49:48Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        9,
+        15
+      ],
+      "title": "Stucked Hover in streamlit-bokeh charts",
+      "section": "Summary",
+      "text": "### Summary\n\nWhen using Bokeh charts embedded in Streamlit, an issue occurs during page rerendering (triggered by widget interaction, page reload, or Streamlit state updates). If the cursor is hovering over a chart data point while the rerender is in progress and a Bokeh hover tooltip is visible, the tooltip remains rendered on the screen after the rerender completes.\n\nThe hover overlay becomes detached from the chart lifecycle and persists across page transitions. The artifact remains visible even when navigating to different Streamlit pages.\n\nThe issue disappears only after performing a full browser hard refresh (Ctrl + F5 / Ctrl + Shift + R).",
+      "candidate_key": "0a41d797cef8bd82f88b76893707a1c2beb14de142b7099ddf81640722240c3d"
+    },
+    {
+      "source_id": "docs:2026",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        20653,
+        21285
+      ],
+      "lines": [
+        209,
+        217
+      ],
+      "title": "2026",
+      "section": "2026 > 2026 release notes > **Version 1.60.0**",
+      "text": "## **Version 1.60.0**\n\n_Release date: July 21, 2026_\n\n**Highlights**\n\n- ✨ You can now disable bulk data export app-wide with the new `client.disableDataExport` config option. When set, the CSV export button is hidden for [`st.dataframe`](/develop/api-reference/data/st.dataframe), [`st.data_editor`](/develop/api-reference/data/st.data_editor), and chart table views, and clipboard copy is disabled for read-only dataframes ([#15910](https://github.com/streamlit/streamlit/pull/15910), [#8402](https://github.com/streamlit/streamlit/issues/8402), [#11358](https://github.com/streamlit/streamlit/issues/11358)).\n\n**Notable Changes**\n",
+      "candidate_key": "16fc3379699588b4727c7212bf53c7c6fcf4d3452efabc5a99e189ec0b9ca387"
+    },
+    {
+      "source_id": "issue:11053",
+      "revision": "2025-04-22T19:00:34Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        8,
+        14
+      ],
+      "title": "Disable st.data_editor by cell (and row): cell/row-level editability",
+      "section": "Summary",
+      "text": "### Summary\n\n**Current Behavior**: Only full columns of an `st.data_editor` can be enabled or disabled for user-editing.\n\n**Feature Request**: Allow for assigning editability on cell (and row) level. For example, an editable column should be disabled for cells (rows) where a certain condition is met.\n\n**Workaround**: Currently, there is no functional workaround. I tried to implement a customized handling of the user input to catch undesired edits and raise an exception when a user edits a cell that should not be editable (in a non-disabled column). However the session_state (e.g. `st.session_state[<data_editor_key>][\"edited_rows\"].items()`)of the `st.data_editor` does not allow for manipulating the user-input, so the user has to manually undo their changes or refresh the streamlit page and (potentially) re-enter all other edits (in case of bulk edits).",
+      "candidate_key": "222194d804399d83afe2bcfab2306c4a192d7f67b9ca444d392c53c55ea0bb01"
+    },
+    {
+      "source_id": "issue:16608",
+      "revision": "2026-08-29T14:03:01Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        53,
+        71
+      ],
+      "title": "A custom component cannot own the `r` or `c` keys: the app-level shortcuts fire regardless",
+      "section": "Current Behavior",
+      "text": "### Current Behavior\n\nThe capture-phase listener above receives the event, and the app reruns anyway.\n\nMeasured on **Streamlit 1.61.1**, driving a real browser and checking whether the app acted:\n\n| focused element | `r` | `c` |\n|---|---|---|\n| page body | app acts | app acts |\n| `<div tabindex=\"0\">` | **app acts** | **app acts** |\n| `<button>` | app acts | app acts |\n| `<input type=\"text\">` | — | — |\n| `<textarea>` | — | — |\n| `<select>` | — | — |\n| `contenteditable` region | — | — |\n\nSo the exemption is by element type. Anything a component builds that is not one of those four native types is subject to the shortcuts, including the focusable containers that keyboard-driven widgets normally use.\n\n<kbd>Esc</kbd> behaves differently and is **not** part of this report: it acts only while one of Streamlit's own overlays is open, which is ordinary dismiss behaviour.",
+      "candidate_key": "4ba3290038c444e044159b1d92f34777735e64274ee0a35e84394b0522569a55"
+    },
+    {
+      "source_id": "issue:16512",
+      "revision": "2026-08-17T17:48:18Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        12,
+        20
+      ],
+      "title": "Altair/Vega-Lite native toolbar: hover the download icon to choose PNG or SVG",
+      "section": "Why?",
+      "text": "### Why?\n\nI'm always frustrated when I hover an Altair/Vega-Lite chart, see the native download icon beside Fullscreen, click it, and can only get PNG.\n\nFor reports and papers I often need SVG (vector, scalable) as well as PNG. The old Vega-Embed ⋯ menu offered \"Save as PNG\" / \"Save as SVG\". After https://github.com/streamlit/streamlit/pull/15806, that menu is gone, SVG export is gone, and `usermeta.embedOptions` can no longer restore export actions.\n\nWorkarounds (custom HTML components, extra `st.download_button`s, or DOM hacks) either leave the native toolbar unused or drift out of style as Streamlit's toolbar design changes. There is no public API to attach a format menu to the existing toolbar download button.\n\nRelated but different: #8177 is about PNG resolution, not choosing a format.",
+      "candidate_key": "595b1bd2b8aa3e25a51c97319e207ffdc75f3cf47d6be1e4349f793c9431b2dc"
+    },
+    {
+      "source_id": "issue:14827",
+      "revision": "2026-07-29T12:38:16Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        22,
+        32
+      ],
+      "title": "Enhance menu button with download payload capability",
+      "section": "How?",
+      "text": "### How?\n\nShip either a **new widget** (for example `st.download_menu_button`) or an **extension** of `st.menu_button` / `st.download_button` so one control can:\n1. Show a dropdown of export labels.\n2. On selection, trigger a download using the **payload mapped to that label**.\n**Options API (sketch for discussion)**\nAccept a structured mapping instead of plain string labels only, for example:\n- A **list of tuples or small dicts**, e.g. `(label, file_name, mime, data)`; or  \n- A **dict** keyed by label with values like `{ \"data\": ..., \"file_name\": ..., \"mime\": ... }`.\n**Lazy payloads**\nAllow `data` (or the equivalent field) to be a **callable** that Streamlit invokes **only when that option is chosen**, so expensive exports are not built on every rerun. Document when the callable runs, error handling, and any constraints (e.g. serialization, size limits).",
+      "candidate_key": "5ef480803a14b12401a37d39ba764f2f8242ad79f2170e19115b96da6959c165"
+    },
+    {
+      "source_id": "issue:16312",
+      "revision": "2026-08-03T14:52:29Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        16,
+        36
+      ],
+      "title": "Add a command menu / command palette widget (CMD+K)",
+      "section": "How?",
+      "text": "### How?\n\nA widget that registers a searchable list of commands and opens as an overlay on `Cmd/Ctrl+K` (and/or programmatically). Rough sketch:\n\n```python\nchoice = st.command_menu(\n    [\n        {\"label\": \"Go to Dashboard\", \"icon\": \":material/dashboard:\", \"group\": \"Navigation\"},\n        {\"label\": \"Export data\", \"icon\": \":material/download:\", \"group\": \"Actions\"},\n    ],\n    placeholder=\"Type a command or search...\",\n)\nif choice == \"Export data\":\n    ...\n```\n\nPossible features:\n- Fuzzy search, grouping/sections, icons, keyboard navigation.\n- Customizable trigger shortcut and a programmatic open.\n- Returns the selected command (rerun-based), similar to other widgets.\n- Optionally integrate with multipage navigation (pages appear as commands automatically).",
+      "candidate_key": "7810ec836ba0f291b3b409390ba9406c8a3e7780ed73a17f940dac788a0b0ba7"
+    },
+    {
+      "source_id": "issue:15549",
+      "revision": "2026-09-11T23:49:48Z",
+      "product_version": null,
+      "source_span": [
+        303,
+        957
+      ],
+      "lines": [
+        9,
+        15
+      ],
+      "title": "Stucked Hover in streamlit-bokeh charts",
+      "section": "Stucked Hover in streamlit-bokeh charts > Summary",
+      "text": "### Summary\n\nWhen using Bokeh charts embedded in Streamlit, an issue occurs during page rerendering (triggered by widget interaction, page reload, or Streamlit state updates). If the cursor is hovering over a chart data point while the rerender is in progress and a Bokeh hover tooltip is visible, the tooltip remains rendered on the screen after the rerender completes.\n\nThe hover overlay becomes detached from the chart lifecycle and persists across page transitions. The artifact remains visible even when navigating to different Streamlit pages.\n\nThe issue disappears only after performing a full browser hard refresh (Ctrl + F5 / Ctrl + Shift + R).\n",
+      "candidate_key": "9c665ee9b5c910574670100889666e3a240f81648e2bd406ca457864406cfffd"
+    },
+    {
+      "source_id": "issue:16312",
+      "revision": "2026-08-03T14:52:29Z",
+      "product_version": null,
+      "source_span": [
+        880,
+        1645
+      ],
+      "lines": [
+        16,
+        36
+      ],
+      "title": "Add a command menu / command palette widget (CMD+K)",
+      "section": "Add a command menu / command palette widget (CMD+K) > How?",
+      "text": "### How?\n\nA widget that registers a searchable list of commands and opens as an overlay on `Cmd/Ctrl+K` (and/or programmatically). Rough sketch:\n\n```python\nchoice = st.command_menu(\n    [\n        {\"label\": \"Go to Dashboard\", \"icon\": \":material/dashboard:\", \"group\": \"Navigation\"},\n        {\"label\": \"Export data\", \"icon\": \":material/download:\", \"group\": \"Actions\"},\n    ],\n    placeholder=\"Type a command or search...\",\n)\nif choice == \"Export data\":\n    ...\n```\n\nPossible features:\n- Fuzzy search, grouping/sections, icons, keyboard navigation.\n- Customizable trigger shortcut and a programmatic open.\n- Returns the selected command (rerun-based), similar to other widgets.\n- Optionally integrate with multipage navigation (pages appear as commands automatically).\n",
+      "candidate_key": "a2561d93a3afd1170e35afb171e2f179a6fdcf5b269e039a62c846ba8c19e367"
+    },
+    {
+      "source_id": "issue:16608",
+      "revision": "2026-08-29T14:03:01Z",
+      "product_version": null,
+      "source_span": [
+        2054,
+        2929
+      ],
+      "lines": [
+        53,
+        71
+      ],
+      "title": "A custom component cannot own the `r` or `c` keys: the app-level shortcuts fire regardless",
+      "section": "A custom component cannot own the `r` or `c` keys: the app-level shortcuts fire regardless > Current Behavior",
+      "text": "### Current Behavior\n\nThe capture-phase listener above receives the event, and the app reruns anyway.\n\nMeasured on **Streamlit 1.61.1**, driving a real browser and checking whether the app acted:\n\n| focused element | `r` | `c` |\n|---|---|---|\n| page body | app acts | app acts |\n| `<div tabindex=\"0\">` | **app acts** | **app acts** |\n| `<button>` | app acts | app acts |\n| `<input type=\"text\">` | — | — |\n| `<textarea>` | — | — |\n| `<select>` | — | — |\n| `contenteditable` region | — | — |\n\nSo the exemption is by element type. Anything a component builds that is not one of those four native types is subject to the shortcuts, including the focusable containers that keyboard-driven widgets normally use.\n\n<kbd>Esc</kbd> behaves differently and is **not** part of this report: it acts only while one of Streamlit's own overlays is open, which is ordinary dismiss behaviour.\n",
+      "candidate_key": "a6614d562e1c725c7a0e71cc1752fc4562d4a03c7dbd8b408dc8290f93f62cba"
+    },
+    {
+      "source_id": "docs:2026",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        209,
+        217
+      ],
+      "title": "2026",
+      "section": "**Version 1.60.0**",
+      "text": "## **Version 1.60.0**\n\n_Release date: July 21, 2026_\n\n**Highlights**\n\n- ✨ You can now disable bulk data export app-wide with the new `client.disableDataExport` config option. When set, the CSV export button is hidden for [`st.dataframe`](/develop/api-reference/data/st.dataframe), [`st.data_editor`](/develop/api-reference/data/st.data_editor), and chart table views, and clipboard copy is disabled for read-only dataframes ([#15910](https://github.com/streamlit/streamlit/pull/15910), [#8402](https://github.com/streamlit/streamlit/issues/8402), [#11358](https://github.com/streamlit/streamlit/issues/11358)).\n\n**Notable Changes**",
+      "candidate_key": "a75b60ec2a27d094a1371c142aafd4a1b91d44fdb54883bccebb31fb4f623f5b"
+    },
+    {
+      "source_id": "issue:16512",
+      "revision": "2026-08-17T17:48:18Z",
+      "product_version": null,
+      "source_span": [
+        1356,
+        2251
+      ],
+      "lines": [
+        22,
+        37
+      ],
+      "title": "Altair/Vega-Lite native toolbar: hover the download icon to choose PNG or SVG",
+      "section": "Altair/Vega-Lite native toolbar: hover the download icon to choose PNG or SVG > How?",
+      "text": "### How?\n\nKeep the existing native download icon on Altair/Vega-Lite (and other Vega) charts, in the same toolbar row as Fullscreen.\n\nWhen the pointer hovers that download icon, show a compact dropdown that matches the toolbar (same icon size, radius, colors, light/dark theme). Suggested items:\n\n- Download PNG\n- Download SVG\n\nClicking an item exports from the current Vega view (`toImageURL(\"png\")` / `toImageURL(\"svg\")`) and starts a browser download.\n\nA click with no menu selection can keep today's PNG-only behavior as the default.\n\nI do not need a new `st` command. Optional later: `st.altair_chart(..., download_formats=(\"png\", \"svg\"))` to choose which items appear. A Python API is nice-to-have; the hover menu on the native icon is the main request.\n\nPlease do not bring back the old Vega-Embed ⋯ menu (View Source / Open in Vega Editor). This should stay a Streamlit toolbar control.\n",
+      "candidate_key": "bb7882e966b1271b5a5df4793eda77e2db7cec407b18c6c9e71b2b40bcbc440e"
+    },
+    {
+      "source_id": "issue:14827",
+      "revision": "2026-07-29T12:38:16Z",
+      "product_version": null,
+      "source_span": [
+        1712,
+        2580
+      ],
+      "lines": [
+        22,
+        32
+      ],
+      "title": "Enhance menu button with download payload capability",
+      "section": "Enhance menu button with download payload capability > How?",
+      "text": "### How?\n\nShip either a **new widget** (for example `st.download_menu_button`) or an **extension** of `st.menu_button` / `st.download_button` so one control can:\n1. Show a dropdown of export labels.\n2. On selection, trigger a download using the **payload mapped to that label**.\n**Options API (sketch for discussion)**\nAccept a structured mapping instead of plain string labels only, for example:\n- A **list of tuples or small dicts**, e.g. `(label, file_name, mime, data)`; or  \n- A **dict** keyed by label with values like `{ \"data\": ..., \"file_name\": ..., \"mime\": ... }`.\n**Lazy payloads**\nAllow `data` (or the equivalent field) to be a **callable** that Streamlit invokes **only when that option is chosen**, so expensive exports are not built on every rerun. Document when the callable runs, error handling, and any constraints (e.g. serialization, size limits).\n",
+      "candidate_key": "cacd5235d7c19dd640e35730ec135d8d57c7e87ee3b04f692e7ea21d2575cef8"
+    },
+    {
+      "source_id": "docs:config-toml",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        5925,
+        6423
+      ],
+      "lines": [
+        151,
+        162
+      ],
+      "title": "config-toml",
+      "section": "config-toml > config.toml > Available configuration options > Client",
+      "text": "#   and chart table views.\n# - Disables clipboard copy for read-only tables (st.dataframe and\n#   chart table views), while keeping st.data_editor copy/paste enabled.\n#\n# This only hides the built-in export and copy controls. It does not\n# prevent users from otherwise accessing the underlying data (e.g. via\n# screenshots, browser developer tools, or network inspection), so it\n# should not be relied upon as a security or data-protection control.\n#\n# Default: false\ndisableDataExport = false\n```\n",
+      "candidate_key": "d0a673747eabd6600cdbeb2937454124c285ac1549bd4410c2d421aa4710b0ba"
+    },
+    {
+      "source_id": "issue:6291",
+      "revision": "2023-07-24T10:05:49Z",
+      "product_version": null,
+      "source_span": [
+        82,
+        1390
+      ],
+      "lines": [
+        3,
+        34
+      ],
+      "title": "Option to set the chart background to something else than the primary background",
+      "section": "Option to set the chart background to something else than the primary background > Problem",
+      "text": "### Problem\n\nAs of streamlit 1.16 the chart background color has been changed to match the primary color. This can is some cases make graphs difficult to read. Hence I would like an option to set the chart background separately for all pages in a multipage app. \n\nI have tried to use\n```\nimport plotly.io as pio\npio.templates.default = \"none\" \n```\nI have also tried to add \"plot_bgcolor=\"grey\" to the streamlit theme.\n\nBut to no avail, the background color stays the same as the primary color.\n\nI can of cause set theme=None in each st.plotly_chart(), but as my app is large this is cumbersome, and will make it difficult to go back to the streamlit theme. \n\nMy suggestion is therefore twofold.\nMake a global option for setting the graph theme, either in the config.toml or on the main page.\n\nAdd an option to set the graph background color in config.toml like:\n`chartBackgroundColer=\"#F0F2F6\" `\nor \n`chartBackgroundColer=secondaryBackgroundColor`\n\n[IMAGE OMITTED: not inspected]\n\nBest regards Kristian\n\n-----------------------------\n\nCommunity voting on feature requests enables the Streamlit team to understand which features are most important to our users.\n\nIf you'd like the Streamlit team to prioritize this feature request, please use the 👍 (thumbs up emoji) reaction in response to the initial post.\n",
+      "candidate_key": "d495d386c62a2cc95ca0002989222d143f5eceaaf0ae78f3a26943672ace5eb6"
+    },
+    {
+      "source_id": "issue:16512",
+      "revision": "2026-08-17T17:48:18Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        22,
+        37
+      ],
+      "title": "Altair/Vega-Lite native toolbar: hover the download icon to choose PNG or SVG",
+      "section": "How?",
+      "text": "### How?\n\nKeep the existing native download icon on Altair/Vega-Lite (and other Vega) charts, in the same toolbar row as Fullscreen.\n\nWhen the pointer hovers that download icon, show a compact dropdown that matches the toolbar (same icon size, radius, colors, light/dark theme). Suggested items:\n\n- Download PNG\n- Download SVG\n\nClicking an item exports from the current Vega view (`toImageURL(\"png\")` / `toImageURL(\"svg\")`) and starts a browser download.\n\nA click with no menu selection can keep today's PNG-only behavior as the default.\n\nI do not need a new `st` command. Optional later: `st.altair_chart(..., download_formats=(\"png\", \"svg\"))` to choose which items appear. A Python API is nice-to-have; the hover menu on the native icon is the main request.\n\nPlease do not bring back the old Vega-Embed ⋯ menu (View Source / Open in Vega Editor). This should stay a Streamlit toolbar control.",
+      "candidate_key": "f85fc11d9960077769171bca142568e63fbb5cb4a3af92ee01aef470f6d4a965"
+    }
+  ],
+  "instructions": "Judge actual exact text relevance 0=irrelevant,1=topic only,2=useful partial,3=direct needed evidence; null=unjudged. Do not infer relevance from official source status. Record origin."
+}

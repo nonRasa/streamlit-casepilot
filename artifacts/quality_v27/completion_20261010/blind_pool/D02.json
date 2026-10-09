@@ -1,0 +1,273 @@
+{
+  "id": "D02",
+  "report": "How do I configure the maximum file upload size in Streamlit 1.49.0? I already set server.maxUploadSize=400.",
+  "product_version": "1.49.0",
+  "candidates": [
+    {
+      "source_id": "issue:5938",
+      "revision": "2024-04-11T10:38:04Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        45,
+        57
+      ],
+      "title": "\"ValueError: Value out of range\" when uploading large files (~>= 4.5GB) with `st.file_uploader`",
+      "section": "Steps To Reproduce",
+      "text": "### Steps To Reproduce\n\n1. Create a `.streamlit/config.toml` file to set the upload limit to 4.5 GB:\n\n    ```toml\n    [server]\n    maxUploadSize = 4500\n    ```\n2. Create a 4.4 GB file:\n    ```sh\n    truncate -s 4280m example.file\n    ```\n3. Run the above app and upload `example.file` to the file uploader widget",
+      "candidate_key": "0df825207638a17a7d74e4d24796cdc925001330788afd3150ddf8bea56f664a"
+    },
+    {
+      "source_id": "api:file_uploader",
+      "revision": "1.49.0",
+      "product_version": "1.49.0",
+      "source_span": [
+        0,
+        1263
+      ],
+      "lines": [
+        1,
+        30
+      ],
+      "title": "file_uploader API docstrings 1.49.0",
+      "section": "file_uploader API docstrings 1.49.0 > file_uploader (line 252)",
+      "text": "## file_uploader (line 252)\n\nDisplay a file uploader widget.\nBy default, uploaded files are limited to 200 MB each. You can\nconfigure this using the ``server.maxUploadSize`` config option. For\nmore information on how to set config options, see |config.toml|_.\n\n.. |config.toml| replace:: ``config.toml``\n.. _config.toml: https://docs.streamlit.io/develop/api-reference/configuration/config.toml\n\nParameters\n----------\nlabel : str\n    A short label explaining to the user what this file uploader is for.\n    The label can optionally contain GitHub-flavored Markdown of the\n    following types: Bold, Italics, Strikethroughs, Inline Code, Links,\n    and Images. Images display like icons, with a max height equal to\n    the font height.\n\n    Unsupported Markdown elements are unwrapped so only their children\n    (text contents) render. Display unsupported elements as literal\n    characters by backslash-escaping them. E.g.,\n    ``\"1\\. Not an ordered list\"``.\n\n    See the ``body`` parameter of |st.markdown|_ for additional,\n    supported Markdown directives.\n\n    For accessibility reasons, you should never set an empty label, but\n    you can hide it with ``label_visibility`` if needed. In the future,\n    we may disallow empty labels by raising an exception.\n",
+      "candidate_key": "137768bb6192d7bddf1560ee7a23e0c20644df8aa08459a0d525ccb44dc6aa87"
+    },
+    {
+      "source_id": "issue:3401",
+      "revision": "2026-06-05T15:24:13Z",
+      "product_version": null,
+      "source_span": [
+        0,
+        845
+      ],
+      "lines": [
+        1,
+        26
+      ],
+      "title": "file_uploader limit number of uploaded files",
+      "section": "file_uploader limit number of uploaded files",
+      "text": "file_uploader limit number of uploaded files\n\nwith `st.file_uploader(accept_multiple_files=True)`\nI can limit the **size** of files but not **number of files**.\n\n### Problem\nSome people spam upload which crashes app. (Because the file upload size limit is per file)\n\n### Solution\nst.file_uploader(accept_multiple_files=True, max_number_files=50)\n\n### Additional context\nWould be nice to also support a hard limit in config.\n```toml\n# Max size, in megabytes, for files uploaded with the file_uploader.\n# Default: 200\nmaxUploadSize = 200\nmaxNumberFiles = 100\n```\n\n---\n\nCommunity voting on feature requests enables the Streamlit team to understand which features are most important to our users.\n\n**If you'd like the Streamlit team to prioritize this feature request, please use the 👍 (thumbs up emoji) reaction in response to the initial post.**\n\n",
+      "candidate_key": "1eae0671ac3f116d324de1240861db8376ccedaea21ad90392e440ca3d944484"
+    },
+    {
+      "source_id": "api:file_uploader",
+      "revision": "1.49.0",
+      "product_version": "1.49.0",
+      "source_span": null,
+      "lines": [
+        1,
+        37
+      ],
+      "title": "file_uploader API docstrings 1.49.0",
+      "section": "file_uploader (line 252)",
+      "text": "## file_uploader (line 252)\n\nDisplay a file uploader widget.\nBy default, uploaded files are limited to 200 MB each. You can\nconfigure this using the ``server.maxUploadSize`` config option. For\nmore information on how to set config options, see |config.toml|_.\n\n.. |config.toml| replace:: ``config.toml``\n.. _config.toml: https://docs.streamlit.io/develop/api-reference/configuration/config.toml\n\nParameters\n----------\nlabel : str\n    A short label explaining to the user what this file uploader is for.\n    The label can optionally contain GitHub-flavored Markdown of the\n    following types: Bold, Italics, Strikethroughs, Inline Code, Links,\n    and Images. Images display like icons, with a max height equal to\n    the font height.\n\n    Unsupported Markdown elements are unwrapped so only their children\n    (text contents) render. Display unsupported elements as literal\n    characters by backslash-escaping them. E.g.,\n    ``\"1\\. Not an ordered list\"``.\n\n    See the ``body`` parameter of |st.markdown|_ for additional,\n    supported Markdown directives.\n\n    For accessibility reasons, you should never set an empty label, but\n    you can hide it with ``label_visibility`` if needed. In the future,\n    we may disallow empty labels by raising an exception.\n\n    .. |st.markdown| replace:: ``st.markdown``\n    .. _st.markdown: https://docs.streamlit.io/develop/api-reference/text/st.markdown\n\ntype : str, list of str, or None\n    The allowed file extension(s) for uploaded files. This can be one\n    of the following types:",
+      "candidate_key": "33242438618f3ca86e641de72c74fbbe2efc032ccc3ceb95280b80d6145dcc80"
+    },
+    {
+      "source_id": "api:file_uploader",
+      "revision": "1.49.0",
+      "product_version": "1.49.0",
+      "source_span": [
+        6280,
+        6592
+      ],
+      "lines": [
+        168,
+        178
+      ],
+      "title": "file_uploader API docstrings 1.49.0",
+      "section": "file_uploader API docstrings 1.49.0 > file_uploader (line 252)",
+      "text": ">>> import streamlit as st\n>>>\n>>> uploaded_files = st.file_uploader(\n...     \"Upload images\", accept_multiple_files=\"directory\", type=[\"jpg\", \"png\"]\n... )\n>>> for uploaded_file in uploaded_files:\n...     st.image(uploaded_file)\n\n.. output::\n   https://doc-file-uploader-directory.streamlit.app/\n   height: 375px",
+      "candidate_key": "33bbc4fbee39b6eec0b8d56009f3c5dfad1d050e8d9e799e468becf54ca98ffe"
+    },
+    {
+      "source_id": "issue:5938",
+      "revision": "2024-04-11T10:38:04Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        59,
+        64
+      ],
+      "title": "\"ValueError: Value out of range\" when uploading large files (~>= 4.5GB) with `st.file_uploader`",
+      "section": "Expected Behavior",
+      "text": "### Expected Behavior\n\nAs the uploaded 4.4 GB file is under the 4.5 GB limit set in `.streamlit/config.toml`, one would expect:\n1. to see the upload successfully complete\n2. the file uploader widget to be visible after the upload\n3. see the output of the filename and filesize displayed",
+      "candidate_key": "43df89a3f2baa249bab277768ef7f4ff68dc5917439f4dd663df236fee6b399e"
+    },
+    {
+      "source_id": "issue:11396",
+      "revision": "2025-05-23T22:25:01Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        48,
+        51
+      ],
+      "title": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud)",
+      "section": "Current Behavior",
+      "text": "### Current Behavior\n\n\nThe upload fails when the filename contains Unicode characters, showing a 400 error.",
+      "candidate_key": "440012b1058d3dd6c7eacec591f4296b560c2ec9c62baf88e066331947a1e361"
+    },
+    {
+      "source_id": "docs:2026",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        81781,
+        84670
+      ],
+      "lines": [
+        580,
+        588
+      ],
+      "title": "2026",
+      "section": "2026 > 2026 release notes > **Version 1.53.0**",
+      "text": "values for [`st.slider`](/develop/api-reference/widgets/st.slider) with a new `format` parameter ([#13392](https://github.com/streamlit/streamlit/pull/13392), [#13243](https://github.com/streamlit/streamlit/issues/13243)).\n- 🖼️ [`st.dialog`](/develop/api-reference/execution-flow/st.dialog) has a new `icon` parameter to add an icon next to the dialog title ([#13244](https://github.com/streamlit/streamlit/pull/13244), [#13202](https://github.com/streamlit/streamlit/issues/13202)). Thanks, [KaranPradhan266](https://github.com/KaranPradhan266)!\n- ✏️ You can configure [`st.data_editor`](/develop/api-reference/data/st.data_editor) to allow only adding or only deleting rows ([#13228](https://github.com/streamlit/streamlit/pull/13228), [#7091](https://github.com/streamlit/streamlit/issues/7091)).\n- ➡️ You can display a [button](/develop/api-reference/widgets/st.button) icon on the right instead of the left with a new `icon_position` parameter ([#13150](https://github.com/streamlit/streamlit/pull/13150), [#13069](https://github.com/streamlit/streamlit/issues/13069)). Thanks, [SiddhantSadangi](https://github.com/SiddhantSadangi)!\n- ↔️ [`st.columns`](/develop/api-reference/layout/st.columns), [`st.container`](/develop/api-reference/layout/st.container), and [`st.space`](/develop/api-reference/layout/st.space) support larger and smaller `gap` and `size` values ([#13345](https://github.com/streamlit/streamlit/pull/13345)).\n- 📦 You can configure the maximum file size for [`st.file_uploader`](/develop/api-reference/widgets/st.file_uploader) and [`st.chat_input`](/develop/api-reference/chat/st.chat_input) with a new parameter that overrides the `server.maxUploadSize` configuration option ([#12816](https://github.com/streamlit/streamlit/pull/12816), [#12692](https://github.com/streamlit/streamlit/issues/12692), [#12579](https://github.com/streamlit/streamlit/issues/12579)). Thanks, [rishabhjain1712](https://github.com/rishabhjain1712)!\n- 📐 You can configure the default width of the sidebar with [`st.set_page_config`](/develop/api-reference/configuration/st.set_page_config) ([#12154](https://github.com/streamlit/streamlit/pull/12154), [#11980](https://github.com/streamlit/streamlit/issues/11980)). Thanks, [jose-mindwayai](https://github.com/jose-mindwayai)!\n- 📝 The `options` parameter in [`st.select_slider`](/develop/api-reference/widgets/st.select_slider) supports Markdown ([#12960](https://github.com/streamlit/streamlit/pull/12960), [#11774](https://github.com/streamlit/streamlit/issues/11774)). Thanks, [jensonjohnathon](https://github.com/jensonjohnathon)!\n- 📊 The `delta` and `value` parameters in [`st.metric`](/develop/api-reference/data/st.metric) support Markdown ([#13094](https://github.com/streamlit/streamlit/pull/13094), [#11773](https://github.com/streamlit/streamlit/issues/11773)). Thanks, [jensonjohnathon](https://github.com/jensonjohnathon)!\n",
+      "candidate_key": "4c8fa720a63402d8653a7685fddc5b1f8966691bd943d83869746d6efc3efa52"
+    },
+    {
+      "source_id": "issue:4789",
+      "revision": "2024-08-15T20:59:05Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        21,
+        26
+      ],
+      "title": "file_uploader set type and it contains png,but i cant upload png file",
+      "section": "Debug info",
+      "text": "### Debug info\n\n- Streamlit version: Streamlit, version 1.8.0\n- Python version: 3.9.10\n- Using Conda? PipEnv? PyEnv? Pex? venv\n- OS version: windows 10",
+      "candidate_key": "4f9448ad47074a41db1b303c52ca299a4e25dce95d41ffabe5e73d483311bf1c"
+    },
+    {
+      "source_id": "issue:3722",
+      "revision": "2023-01-18T02:38:19Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        12,
+        30
+      ],
+      "title": "file_uploader is slow when deployed",
+      "section": "Steps to reproduce",
+      "text": "### Steps to reproduce\n\nAdd a file uploader:\n`uploaded_file = st.file_uploader(\"Choose a file\", type=['mp4', 'avi'])`\nDeploy to any of the above environments. I followed this guide https://github.com/ash2shukla/streamlit-heroku for docker+heroku, and just the standard stuff for streamlit sharing.\nUpload a >1 gb Video file.\n\n**Expected behavior:**\n\nFile upload is as fast or nearly as fast as it is when run locally. App does not crash for large files.\n\n**Actual behavior:**\n\nThe app crashed.\nIssue from when I thought this was just a streamlit sharing issue: https://discuss.streamlit.io/t/website-crashes-during-file-upload/16130\nSome logs:\nFrom streamlit sharing console:\n`[manager] Streamlit server consistently failed status checks`\nI've seen `H20 App Boot Timeout` numerous times",
+      "candidate_key": "70b823adf56a7e2881bc67a7cf08dc07b5efdf45c0b88c1774e9cb645be56230"
+    },
+    {
+      "source_id": "issue:5938",
+      "revision": "2024-04-11T10:38:04Z",
+      "product_version": null,
+      "source_span": [
+        2111,
+        2424
+      ],
+      "lines": [
+        45,
+        57
+      ],
+      "title": "\"ValueError: Value out of range\" when uploading large files (~>= 4.5GB) with `st.file_uploader`",
+      "section": "\"ValueError: Value out of range\" when uploading large files (~>= 4.5GB) with `st.file_uploader` > Steps To Reproduce",
+      "text": "### Steps To Reproduce\n\n1. Create a `.streamlit/config.toml` file to set the upload limit to 4.5 GB:\n\n    ```toml\n    [server]\n    maxUploadSize = 4500\n    ```\n2. Create a 4.4 GB file:\n    ```sh\n    truncate -s 4280m example.file\n    ```\n3. Run the above app and upload `example.file` to the file uploader widget\n",
+      "candidate_key": "8c6df7a151a233854f2bff0d4f028e4636de5d4af8c46ef4fca482cf6bdf5b07"
+    },
+    {
+      "source_id": "issue:5938",
+      "revision": "2024-04-11T10:38:04Z",
+      "product_version": null,
+      "source_span": [
+        1410,
+        1940
+      ],
+      "lines": [
+        26,
+        30
+      ],
+      "title": "\"ValueError: Value out of range\" when uploading large files (~>= 4.5GB) with `st.file_uploader`",
+      "section": "\"ValueError: Value out of range\" when uploading large files (~>= 4.5GB) with `st.file_uploader` > Summary",
+      "text": "File \"/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/streamlit/elements/file_uploader.py\", line 108, in serialize\n    file_info.size = f.size\n```\n\nwhere \"large\" in my case was approximately close to or greater than 4.5GB. I'm not sure whether the specific size after which this error is thrown is machine dependant. [USER] who first [reported](https://discuss.streamlit.io/t/how-to-upload-large-files-using-st-file-uploader/35654) this on the Streamlit forum encountered the error for files >= 2GB.\n",
+      "candidate_key": "aa3ba6452ec031fd829d7a5c2c5c1c721f33be1eb43c41780db278e95e599984"
+    },
+    {
+      "source_id": "docs:2026",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        82792,
+        83874
+      ],
+      "lines": [
+        583,
+        586
+      ],
+      "title": "2026",
+      "section": "2026 > 2026 release notes > **Version 1.53.0**",
+      "text": "[#13069](https://github.com/streamlit/streamlit/issues/13069)). Thanks, [SiddhantSadangi](https://github.com/SiddhantSadangi)!\n- ↔️ [`st.columns`](/develop/api-reference/layout/st.columns), [`st.container`](/develop/api-reference/layout/st.container), and [`st.space`](/develop/api-reference/layout/st.space) support larger and smaller `gap` and `size` values ([#13345](https://github.com/streamlit/streamlit/pull/13345)).\n- 📦 You can configure the maximum file size for [`st.file_uploader`](/develop/api-reference/widgets/st.file_uploader) and [`st.chat_input`](/develop/api-reference/chat/st.chat_input) with a new parameter that overrides the `server.maxUploadSize` configuration option ([#12816](https://github.com/streamlit/streamlit/pull/12816), [#12692](https://github.com/streamlit/streamlit/issues/12692), [#12579](https://github.com/streamlit/streamlit/issues/12579)). Thanks, [rishabhjain1712](https://github.com/rishabhjain1712)!\n- 📐 You can configure the default width of the sidebar with [`st.set_page_config`](/develop/api-reference/configuration/st.set_page_config) ",
+      "candidate_key": "b3ec84633c9843a643e6b729808702ff8add9e4605527d8fd27f056e35f7e540"
+    },
+    {
+      "source_id": "issue:912",
+      "revision": "2020-12-15T11:59:45Z",
+      "product_version": null,
+      "source_span": [
+        0,
+        132
+      ],
+      "lines": [
+        1,
+        4
+      ],
+      "title": "can file_uploader upload multi files at one time?",
+      "section": "can file_uploader upload multi files at one time?",
+      "text": "can file_uploader upload multi files at one time?\n\nI want to upload several file at one time, can streamlit file_uploader do this?\n\n",
+      "candidate_key": "b5500edac48c9fe99948b54ea65105a17cf6dc332a82ad809ce8463e7cc0f2c4"
+    },
+    {
+      "source_id": "issue:912",
+      "revision": "2020-12-15T11:59:45Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        1,
+        3
+      ],
+      "title": "can file_uploader upload multi files at one time?",
+      "section": "can file_uploader upload multi files at one time?",
+      "text": "can file_uploader upload multi files at one time?\n\nI want to upload several file at one time, can streamlit file_uploader do this?",
+      "candidate_key": "b86626e00cc9ba1f6c2c8f23963fec27f610ea964e731bf9cc4d6f22fcdac612"
+    },
+    {
+      "source_id": "api:file_uploader",
+      "revision": "1.49.0",
+      "product_version": "1.49.0",
+      "source_span": null,
+      "lines": [
+        168,
+        178
+      ],
+      "title": "file_uploader API docstrings 1.49.0",
+      "section": "file_uploader (line 252)",
+      "text": ">>> import streamlit as st\n>>>\n>>> uploaded_files = st.file_uploader(\n...     \"Upload images\", accept_multiple_files=\"directory\", type=[\"jpg\", \"png\"]\n... )\n>>> for uploaded_file in uploaded_files:\n...     st.image(uploaded_file)\n\n.. output::\n   https://doc-file-uploader-directory.streamlit.app/\n   height: 375px",
+      "candidate_key": "db7170afe845f0dbdbd4b5d02c89d78372dab7d74da2dffa53f9a4d7a25def62"
+    },
+    {
+      "source_id": "issue:11396",
+      "revision": "2025-05-23T22:25:01Z",
+      "product_version": null,
+      "source_span": [
+        1274,
+        1382
+      ],
+      "lines": [
+        48,
+        51
+      ],
+      "title": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud)",
+      "section": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud) > Current Behavior",
+      "text": "### Current Behavior\n\n\nThe upload fails when the filename contains Unicode characters, showing a 400 error.\n",
+      "candidate_key": "f7f11cc12b97c2c2fe875745597b2212384bcfd8cfb386cfe6cdf8abef96243e"
+    }
+  ],
+  "instructions": "Judge actual exact text relevance 0=irrelevant,1=topic only,2=useful partial,3=direct needed evidence; null=unjudged. Do not infer relevance from official source status. Record origin."
+}

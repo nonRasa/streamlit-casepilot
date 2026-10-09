@@ -1,0 +1,3212 @@
+{
+  "id": "D11",
+  "split": "dev",
+  "query": "How do widgets isolate interactions between different users? The version is unknown.",
+  "query_hash": "ae189283890c35de1f99ebc5a01a4ef13baf08272f0003d9e2c4f6756dfc1f7a",
+  "version": null,
+  "variants": {
+    "A": {
+      "candidates": [
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:widget-behavior:v2:493c19d8284c62a8",
+          "source_id": "docs:widget-behavior",
+          "section": "Understanding widget behavior",
+          "text": "# Understanding widget behavior\n\nWidgets (like `st.button`, `st.selectbox`, and `st.text_input`) are at the heart of Streamlit apps. They are the interactive elements of Streamlit that pass information from your users into your Python code. Widgets are magical and often work how you want, but they can have surprising behavior in some situations. Understanding the different parts of a widget and the precise order in which events occur helps you achieve your desired results.\n\nThis guide covers advanced concepts about widgets. Generally, it begins with simpler concepts and increases in complexity. For most beginning users, these details won't be important to know right away. When you want to dynamically change widgets or preserve widget information between pages, these concepts will be important to understand. We recommend having a basic understanding of [Session State](/develop/api-reference/caching-and-state/st.session_state) before reading this guide.\n\n<Collapse title=\"🎈 TL;DR\" expanded={false}>",
+          "lines": [
+            8,
+            14
+          ],
+          "sha256": "e1f4e85e6450f3586e2bb1b37a90edacf7692a578cc3d69caa852f6c3c7b31b0",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1013,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03406855,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "widget-updating-session-state",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/widget-updating-session-state.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:widget-updating-session-state:v2:911df70fec804b06",
+          "source_id": "docs:widget-updating-session-state",
+          "section": "Overview",
+          "text": "## Overview\n\nYou are using [session state](/develop/api-reference/caching-and-state/st.session_state) to store page interactions in your app. When users interact with a widget in your app (e.g., click a button), you expect your app to update its widget states and reflect the new values. However, you notice that it doesn't. Instead, users have to interact with the widget twice (e.g., click a button twice) for the app to show the correct values. What do you do now? 🤔 Let's walk through the solution in the section below.",
+          "lines": [
+            8,
+            10
+          ],
+          "sha256": "4c205e379a9e0ef2c00512403e415d7c3a0c2b713a13d23632f1acf1d8cc73c9",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 526,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03162988,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:widget-behavior:v2:3733a3c52f7d9a4a",
+          "source_id": "docs:widget-behavior",
+          "section": "Widgets are session dependent",
+          "text": "### Widgets are session dependent\n\nWidget states are dependent on a particular session (browser connection). The actions of one user do not affect the widgets of any other user. Furthermore, if a user opens up multiple tabs to access an app, each tab will be a unique session. Changing a widget in one tab will not affect the same widget in another tab.",
+          "lines": [
+            51,
+            53
+          ],
+          "sha256": "7ad43fe1eba6d67b30272ef94fe428456d2d1cdc2974de2efd2787551fc93d4b",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 353,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03026306,
+          "rank": 3
+        },
+        {
+          "kind": "docs",
+          "title": "widgets",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/multipage-apps/widgets.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:widgets:v2:826627d3bc0baac4",
+          "source_id": "docs:widgets",
+          "section": "Working with widgets in multipage apps",
+          "text": "# Working with widgets in multipage apps\n\nWhen you create a widget in a Streamlit app, Streamlit generates a widget ID and uses it to make your widget stateful. As your app reruns with user interaction, Streamlit keeps track of the widget's value by associating its value to its ID. In particular, a widget's ID depends on the page where it's created. If you define an identical widget on two different pages, then the widget will reset to its default value when you switch pages.\n\nThis guide explains three strategies to deal with the behavior if you'd like to have a widget remain stateful across all pages. If don't want a widget to appear on all pages, but you do want it to remain stateful when you navigate away from its page (and then back), Options 2 and 3 can be used. For detailed information about these strategies, see [Understanding widget behavior](/develop/concepts/architecture/widget-behavior).",
+          "lines": [
+            8,
+            12
+          ],
+          "sha256": "5cda64b5e28b89ff7af2e80b022e3fbec008e5515e5f37522c65d28c3fead487",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 911,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02945455,
+          "rank": 4
+        },
+        {
+          "kind": "docs",
+          "title": "fragments",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:fragments:v2:38982838053bb2d2",
+          "source_id": "docs:fragments",
+          "section": "Fragments vs forms",
+          "text": "### Fragments vs forms\n\nHere is a comparison between fragments and forms:\n\n- **Forms** allow users to interact with widgets without rerunning your app. Streamlit does not send user actions within a form to your app's Python backend until the form is submitted. Widgets within a form can not dynamically update other widgets (in or out of the form) in real-time.\n- **Fragments** run independently from the rest of your code. As your users interact with fragment widgets, their actions are immediately processed by your app's Python backend and your fragment code is rerun. Widgets within a fragment can dynamically update other widgets within the same fragment in real-time.\n\nA form batches user input without interaction between any widgets. A fragment immediately processes user input but limits the scope of the rerun.",
+          "lines": [
+            212,
+            219
+          ],
+          "sha256": "7fe27766745e87eb6c74fcfdf6dc4f90451bf22a886ce55bfd0f80cb6e2edf80",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 820,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.025515,
+          "rank": 5
+        },
+        {
+          "kind": "issue",
+          "title": "All widgets in st.Navigation app reset when a widget is changed before previous execution finishes",
+          "url": "https://github.com/streamlit/streamlit/issues/9100",
+          "revision": "2024-09-17T04:36:01Z",
+          "product_version": null,
+          "issue_number": 9100,
+          "id": "issue:9100:v2:6aa35baa2dae028b",
+          "source_id": "issue:9100",
+          "section": "Current Behavior",
+          "text": "### Current Behavior\n\nThe page refreshes and all widget states are lost. This is particularly problematic for complex apps where users may have spent a lot of time filling out various widgets!",
+          "lines": [
+            46,
+            48
+          ],
+          "sha256": "a3f68770dbbaa51cab84dc92537c2c3078c30e377db2ebe28e34a846323ba152",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 192,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02247475,
+          "rank": 6
+        },
+        {
+          "kind": "issue",
+          "title": "Persist widget state if `key` is set, even if the widget is not rendered",
+          "url": "https://github.com/streamlit/streamlit/issues/6074",
+          "revision": "2026-07-22T10:27:22Z",
+          "product_version": null,
+          "issue_number": 6074,
+          "id": "issue:6074:v2:66f31eeda7b5ae5c",
+          "source_id": "issue:6074",
+          "section": "Possible fixes",
+          "text": "### Possible fixes\n\nIt seems like most developers we hear from find the current behavior very unintuitive, and we see a lot more use cases that have to work around this rather than benefit from it.\n- Given that, should we just do a breaking change to the default behavior to persist, like most of us seem to expect?\n- If so: We should still provide a path to clear keyed widget state when needed. Need to figure out how to best do this.\n\nIf not a breaking change: most proposals seem to prefer something like a `persist=` key. For example, both [USER] and [USER] propose something like this in [#4458](https://github.com/streamlit/streamlit/issues/4458). Thoughts on this approach, or other ideas?\n\n---\n\nCommunity voting on feature requests enables the Streamlit team to understand which features are most important to our users.\n\n**If you'd like the Streamlit team to prioritize this feature request, please use the 👍 (thumbs up emoji) reaction in response to the initial post.**\n\n[IMAGE OMITTED: not inspected]",
+          "lines": [
+            31,
+            45
+          ],
+          "sha256": "f4402167e57fc68f34809c37159e6384b33babe1ee43031e81e0f44e7fc7ef71",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1015,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02175693,
+          "rank": 7
+        },
+        {
+          "kind": "issue",
+          "title": "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range",
+          "url": "https://github.com/streamlit/streamlit/issues/16675",
+          "revision": "2026-09-09T11:36:05Z",
+          "product_version": null,
+          "issue_number": 16675,
+          "id": "issue:16675:v2:5e040ee98de336d5",
+          "source_id": "issue:16675",
+          "section": "Is this a regression?",
+          "text": "### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\nUnknown.",
+          "lines": [
+            94,
+            98
+          ],
+          "sha256": "b4c353cbf55d278db7fee4aad90e7a21ef9b8602eb82f8a738997f58ab01082e",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 88,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.01587302,
+          "rank": 8
+        }
+      ],
+      "candidate_hash": "ad19efc940ba8254d48a241fc38a95b145411421e317df3f472539eec5d9f2ba",
+      "context": [
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:widget-behavior:v2:493c19d8284c62a8",
+          "source_id": "docs:widget-behavior",
+          "section": "Understanding widget behavior",
+          "text": "# Understanding widget behavior\n\nWidgets (like `st.button`, `st.selectbox`, and `st.text_input`) are at the heart of Streamlit apps. They are the interactive elements of Streamlit that pass information from your users into your Python code. Widgets are magical and often work how you want, but they can have surprising behavior in some situations. Understanding the different parts of a widget and the precise order in which events occur helps you achieve your desired results.\n\nThis guide covers advanced concepts about widgets. Generally, it begins with simpler concepts and increases in complexity. For most beginning users, these details won't be important to know right away. When you want to dynamically change widgets or preserve widget information between pages, these concepts will be important to understand. We recommend having a basic understanding of [Session State](/develop/api-reference/caching-and-state/st.session_state) before reading this guide.\n\n<Collapse title=\"🎈 TL;DR\" expanded={false}>",
+          "lines": [
+            8,
+            14
+          ],
+          "sha256": "e1f4e85e6450f3586e2bb1b37a90edacf7692a578cc3d69caa852f6c3c7b31b0",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1013,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03406855,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "widget-updating-session-state",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/widget-updating-session-state.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:widget-updating-session-state:v2:911df70fec804b06",
+          "source_id": "docs:widget-updating-session-state",
+          "section": "Overview",
+          "text": "## Overview\n\nYou are using [session state](/develop/api-reference/caching-and-state/st.session_state) to store page interactions in your app. When users interact with a widget in your app (e.g., click a button), you expect your app to update its widget states and reflect the new values. However, you notice that it doesn't. Instead, users have to interact with the widget twice (e.g., click a button twice) for the app to show the correct values. What do you do now? 🤔 Let's walk through the solution in the section below.",
+          "lines": [
+            8,
+            10
+          ],
+          "sha256": "4c205e379a9e0ef2c00512403e415d7c3a0c2b713a13d23632f1acf1d8cc73c9",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 526,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03162988,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:widget-behavior:v2:3733a3c52f7d9a4a",
+          "source_id": "docs:widget-behavior",
+          "section": "Widgets are session dependent",
+          "text": "### Widgets are session dependent\n\nWidget states are dependent on a particular session (browser connection). The actions of one user do not affect the widgets of any other user. Furthermore, if a user opens up multiple tabs to access an app, each tab will be a unique session. Changing a widget in one tab will not affect the same widget in another tab.",
+          "lines": [
+            51,
+            53
+          ],
+          "sha256": "7ad43fe1eba6d67b30272ef94fe428456d2d1cdc2974de2efd2787551fc93d4b",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 353,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03026306,
+          "rank": 3
+        },
+        {
+          "kind": "docs",
+          "title": "widgets",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/multipage-apps/widgets.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:widgets:v2:826627d3bc0baac4",
+          "source_id": "docs:widgets",
+          "section": "Working with widgets in multipage apps",
+          "text": "# Working with widgets in multipage apps\n\nWhen you create a widget in a Streamlit app, Streamlit generates a widget ID and uses it to make your widget stateful. As your app reruns with user interaction, Streamlit keeps track of the widget's value by associating its value to its ID. In particular, a widget's ID depends on the page where it's created. If you define an identical widget on two different pages, then the widget will reset to its default value when you switch pages.\n\nThis guide explains three strategies to deal with the behavior if you'd like to have a widget remain stateful across all pages. If don't want a widget to appear on all pages, but you do want it to remain stateful when you navigate away from its page (and then back), Options 2 and 3 can be used. For detailed information about these strategies, see [Understanding widget behavior](/develop/concepts/architecture/widget-behavior).",
+          "lines": [
+            8,
+            12
+          ],
+          "sha256": "5cda64b5e28b89ff7af2e80b022e3fbec008e5515e5f37522c65d28c3fead487",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 911,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02945455,
+          "rank": 4
+        },
+        {
+          "kind": "docs",
+          "title": "fragments",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:fragments:v2:38982838053bb2d2",
+          "source_id": "docs:fragments",
+          "section": "Fragments vs forms",
+          "text": "### Fragments vs forms\n\nHere is a comparison between fragments and forms:\n\n- **Forms** allow users to interact with widgets without rerunning your app. Streamlit does not send user actions within a form to your app's Python backend until the form is submitted. Widgets within a form can not dynamically update other widgets (in or out of the form) in real-time.\n- **Fragments** run independently from the rest of your code. As your users interact with fragment widgets, their actions are immediately processed by your app's Python backend and your fragment code is rerun. Widgets within a fragment can dynamically update other widgets within the same fragment in real-time.\n\nA form batches user input without interaction between any widgets. A fragment immediately processes user input but limits the scope of the rerun.",
+          "lines": [
+            212,
+            219
+          ],
+          "sha256": "7fe27766745e87eb6c74fcfdf6dc4f90451bf22a886ce55bfd0f80cb6e2edf80",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 820,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.025515,
+          "rank": 5
+        }
+      ],
+      "packing": {
+        "encoding": "o200k_base",
+        "budget_tokens": 3000,
+        "used_tokens": 1521,
+        "expand_parent": false,
+        "items": [
+          {
+            "id": "docs:widget-behavior:v2:493c19d8284c62a8",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:widget-behavior:v2:493c19d8284c62a8"
+          },
+          {
+            "id": "docs:widget-updating-session-state:v2:911df70fec804b06",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:widget-updating-session-state:v2:911df70fec804b06"
+          },
+          {
+            "id": "docs:widget-behavior:v2:3733a3c52f7d9a4a",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:widget-behavior:v2:3733a3c52f7d9a4a"
+          },
+          {
+            "id": "docs:widgets:v2:826627d3bc0baac4",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:widgets:v2:826627d3bc0baac4"
+          },
+          {
+            "id": "docs:fragments:v2:38982838053bb2d2",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:fragments:v2:38982838053bb2d2"
+          },
+          {
+            "id": "issue:9100:v2:6aa35baa2dae028b",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:6074:v2:66f31eeda7b5ae5c",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:16675:v2:5e040ee98de336d5",
+            "status": "omitted",
+            "reason": "item_limit"
+          }
+        ]
+      },
+      "index": "v2",
+      "namespace": null
+    },
+    "B": {
+      "candidates": [
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widget-behavior:v3:child:d04859e221c72d5a0695",
+          "source_id": "docs:widget-behavior",
+          "text": "# Understanding widget behavior\n\nWidgets (like `st.button`, `st.selectbox`, and `st.text_input`) are at the heart of Streamlit apps. They are the interactive elements of Streamlit that pass information from your users into your Python code. Widgets are magical and often work how you want, but they can have surprising behavior in some situations. Understanding the different parts of a widget and the precise order in which events occur helps you achieve your desired results.\n\nThis guide covers advanced concepts about widgets. Generally, it begins with simpler concepts and increases in complexity. For most beginning users, these details won't be important to know right away. When you want to dynamically change widgets or preserve widget information between pages, these concepts will be important to understand. We recommend having a basic understanding of [Session State](/develop/api-reference/caching-and-state/st.session_state) before reading this guide.\n\n<Collapse title=\"🎈 TL;DR\" expanded={false}>\n",
+          "source_span": [
+            428,
+            1439
+          ],
+          "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+          "sha256": "59d4dbf84fcf60ef3c061ab87b125a6d01b146ece554f06e9fa1c66c7515633e",
+          "lines": [
+            8,
+            14
+          ],
+          "section": "widget-behavior > Understanding widget behavior",
+          "section_path": [
+            "widget-behavior",
+            "Understanding widget behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 192,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widget-behavior:v3:parent:6a28949cec4e5f0ff711",
+          "parent": {
+            "kind": "docs",
+            "title": "widget-behavior",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widget-behavior:v3:parent:6a28949cec4e5f0ff711",
+            "source_id": "docs:widget-behavior",
+            "text": "# Understanding widget behavior\n\nWidgets (like `st.button`, `st.selectbox`, and `st.text_input`) are at the heart of Streamlit apps. They are the interactive elements of Streamlit that pass information from your users into your Python code. Widgets are magical and often work how you want, but they can have surprising behavior in some situations. Understanding the different parts of a widget and the precise order in which events occur helps you achieve your desired results.\n\nThis guide covers advanced concepts about widgets. Generally, it begins with simpler concepts and increases in complexity. For most beginning users, these details won't be important to know right away. When you want to dynamically change widgets or preserve widget information between pages, these concepts will be important to understand. We recommend having a basic understanding of [Session State](/develop/api-reference/caching-and-state/st.session_state) before reading this guide.\n\n<Collapse title=\"🎈 TL;DR\" expanded={false}>\n\n1. The actions of one user don't affect the widgets of any other user.\n2. A widget command returns the widget's current value, which is a simple Python type. For example, `st.button` returns a Boolean value.\n3. Widgets return their default values on their first call before a user interacts with them.\n4. A widget's identity depends on the arguments passed to the widget command. If a key is provided, the key determines the widget's identity, with limited exceptions noted in each widget's `key` parameter description. If no key is provided, changing a widget's label, min value, max value, default value, placeholder text, or help text will cause it to reset.\n5. If you don't call a widget command in a script run, Streamlit will delete the widget's information&mdash;_including its key-value pair in Session State_. If you call the same widget command later, Streamlit treats it as a new widget.\n6. Widgets are not stateful between pages. If you have two widgets with the same key on different pages, they will be treated as two different widgets.\n\nThe last three points (widget identity and widget deletion) are the most relevant when dynamically changing widgets or working with multi-page applications. This is covered in detail later in this guide: [Statefulness of widgets](#statefulness-of-widgets) and [Widget life cycle](#widget-life-cycle).\n\n</Collapse>\n\n<Important>\n\n**Key-based widget identity (v1.55.0)**\n\nAs of v1.55.0, all widgets support key-based identity. When a `key` is provided, the key is the primary determinant of the widget's identity, and changing other parameters (like `label`, `options`, or `default`) won't reset the widget. Some parameters that constrain valid values still affect identity for specific widgets, even when a key is provided. For example, changing `min_value` or `max_value` for `st.slider` will reset the widget because the current value could be invalidated. These exceptions are noted in each widget's `key` parameter description.\n\nKey-based identity was progressively introduced from v1.50.0 through v1.55.0. If you're using an older version, check the [release notes](/develop/quick-reference/release-notes) to see which widgets support key-based identity in your version.\n\n**Other notable changes:**\n\n- **v1.46.0**: When navigating between pages, widget keys in `st.session_state` are deleted at the beginning of the new page's script run instead of the end.\n- **v1.55.0**: Most widgets support a new `bind` parameter to sync widget values with URL query parameters. See [Binding widgets to query parameters](#binding-widgets-to-query-parameters).\n\n</Important>\n",
+            "source_span": [
+              428,
+              4056
+            ],
+            "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+            "sha256": "625e901678b9184db8f6a7bc5bfe5b3034df668e1a041909d8a6eadc08a3f087",
+            "lines": [
+              8,
+              40
+            ],
+            "section": "widget-behavior > Understanding widget behavior",
+            "section_path": [
+              "widget-behavior",
+              "Understanding widget behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 772,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03406855,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "widget-updating-session-state",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/widget-updating-session-state.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widget-updating-session-state:v3:child:502abe8e52dd6e606c25",
+          "source_id": "docs:widget-updating-session-state",
+          "text": "## Overview\n\nYou are using [session state](/develop/api-reference/caching-and-state/st.session_state) to store page interactions in your app. When users interact with a widget in your app (e.g., click a button), you expect your app to update its widget states and reflect the new values. However, you notice that it doesn't. Instead, users have to interact with the widget twice (e.g., click a button twice) for the app to show the correct values. What do you do now? 🤔 Let's walk through the solution in the section below.\n",
+          "source_span": [
+            215,
+            739
+          ],
+          "source_sha256": "4fb35eac6d028569dc70a6d2b9e0eb1a4e1c1872cce986e6d933c14c79f94a22",
+          "sha256": "c7c14fbf449aa2fa2c96a9aa097ac7ceeab184e727128100bd447d4b76571385",
+          "lines": [
+            8,
+            10
+          ],
+          "section": "widget-updating-session-state > Widget updating for every second input when using session state > Overview",
+          "section_path": [
+            "widget-updating-session-state",
+            "Widget updating for every second input when using session state",
+            "Overview"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 116,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widget-updating-session-state:v3:parent:502abe8e52dd6e606c25",
+          "parent": {
+            "kind": "docs",
+            "title": "widget-updating-session-state",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/widget-updating-session-state.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widget-updating-session-state:v3:parent:502abe8e52dd6e606c25",
+            "source_id": "docs:widget-updating-session-state",
+            "text": "## Overview\n\nYou are using [session state](/develop/api-reference/caching-and-state/st.session_state) to store page interactions in your app. When users interact with a widget in your app (e.g., click a button), you expect your app to update its widget states and reflect the new values. However, you notice that it doesn't. Instead, users have to interact with the widget twice (e.g., click a button twice) for the app to show the correct values. What do you do now? 🤔 Let's walk through the solution in the section below.\n",
+            "source_span": [
+              215,
+              739
+            ],
+            "source_sha256": "4fb35eac6d028569dc70a6d2b9e0eb1a4e1c1872cce986e6d933c14c79f94a22",
+            "sha256": "c7c14fbf449aa2fa2c96a9aa097ac7ceeab184e727128100bd447d4b76571385",
+            "lines": [
+              8,
+              10
+            ],
+            "section": "widget-updating-session-state > Widget updating for every second input when using session state > Overview",
+            "section_path": [
+              "widget-updating-session-state",
+              "Widget updating for every second input when using session state",
+              "Overview"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 116,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03241935,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widget-behavior:v3:child:4c8ce9dad96a6d63362f",
+          "source_id": "docs:widget-behavior",
+          "text": "1. The actions of one user don't affect the widgets of any other user.\n2. A widget command returns the widget's current value, which is a simple Python type. For example, `st.button` returns a Boolean value.\n3. Widgets return their default values on their first call before a user interacts with them.\n4. A widget's identity depends on the arguments passed to the widget command. If a key is provided, the key determines the widget's identity, with limited exceptions noted in each widget's `key` parameter description. If no key is provided, changing a widget's label, min value, max value, default value, placeholder text, or help text will cause it to reset.\n5. If you don't call a widget command in a script run, Streamlit will delete the widget's information&mdash;_including its key-value pair in Session State_. If you call the same widget command later, Streamlit treats it as a new widget.\n6. Widgets are not stateful between pages. If you have two widgets with the same key on different pages, they will be treated as two different widgets.\n\nThe last three points (widget identity and widget deletion) are the most relevant when dynamically changing widgets or working with multi-page applications. This is covered in detail later in this guide: [Statefulness of widgets](#statefulness-of-widgets) and [Widget life cycle](#widget-life-cycle).\n\n</Collapse>\n\n<Important>\n",
+          "source_span": [
+            1440,
+            2819
+          ],
+          "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+          "sha256": "996c05d4e0a1d1a426033384fa36064d89fbbaa52b4630358331f1af2f967420",
+          "lines": [
+            16,
+            27
+          ],
+          "section": "widget-behavior > Understanding widget behavior",
+          "section_path": [
+            "widget-behavior",
+            "Understanding widget behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 293,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widget-behavior:v3:parent:6a28949cec4e5f0ff711",
+          "parent": {
+            "kind": "docs",
+            "title": "widget-behavior",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widget-behavior:v3:parent:6a28949cec4e5f0ff711",
+            "source_id": "docs:widget-behavior",
+            "text": "# Understanding widget behavior\n\nWidgets (like `st.button`, `st.selectbox`, and `st.text_input`) are at the heart of Streamlit apps. They are the interactive elements of Streamlit that pass information from your users into your Python code. Widgets are magical and often work how you want, but they can have surprising behavior in some situations. Understanding the different parts of a widget and the precise order in which events occur helps you achieve your desired results.\n\nThis guide covers advanced concepts about widgets. Generally, it begins with simpler concepts and increases in complexity. For most beginning users, these details won't be important to know right away. When you want to dynamically change widgets or preserve widget information between pages, these concepts will be important to understand. We recommend having a basic understanding of [Session State](/develop/api-reference/caching-and-state/st.session_state) before reading this guide.\n\n<Collapse title=\"🎈 TL;DR\" expanded={false}>\n\n1. The actions of one user don't affect the widgets of any other user.\n2. A widget command returns the widget's current value, which is a simple Python type. For example, `st.button` returns a Boolean value.\n3. Widgets return their default values on their first call before a user interacts with them.\n4. A widget's identity depends on the arguments passed to the widget command. If a key is provided, the key determines the widget's identity, with limited exceptions noted in each widget's `key` parameter description. If no key is provided, changing a widget's label, min value, max value, default value, placeholder text, or help text will cause it to reset.\n5. If you don't call a widget command in a script run, Streamlit will delete the widget's information&mdash;_including its key-value pair in Session State_. If you call the same widget command later, Streamlit treats it as a new widget.\n6. Widgets are not stateful between pages. If you have two widgets with the same key on different pages, they will be treated as two different widgets.\n\nThe last three points (widget identity and widget deletion) are the most relevant when dynamically changing widgets or working with multi-page applications. This is covered in detail later in this guide: [Statefulness of widgets](#statefulness-of-widgets) and [Widget life cycle](#widget-life-cycle).\n\n</Collapse>\n\n<Important>\n\n**Key-based widget identity (v1.55.0)**\n\nAs of v1.55.0, all widgets support key-based identity. When a `key` is provided, the key is the primary determinant of the widget's identity, and changing other parameters (like `label`, `options`, or `default`) won't reset the widget. Some parameters that constrain valid values still affect identity for specific widgets, even when a key is provided. For example, changing `min_value` or `max_value` for `st.slider` will reset the widget because the current value could be invalidated. These exceptions are noted in each widget's `key` parameter description.\n\nKey-based identity was progressively introduced from v1.50.0 through v1.55.0. If you're using an older version, check the [release notes](/develop/quick-reference/release-notes) to see which widgets support key-based identity in your version.\n\n**Other notable changes:**\n\n- **v1.46.0**: When navigating between pages, widget keys in `st.session_state` are deleted at the beginning of the new page's script run instead of the end.\n- **v1.55.0**: Most widgets support a new `bind` parameter to sync widget values with URL query parameters. See [Binding widgets to query parameters](#binding-widgets-to-query-parameters).\n\n</Important>\n",
+            "source_span": [
+              428,
+              4056
+            ],
+            "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+            "sha256": "625e901678b9184db8f6a7bc5bfe5b3034df668e1a041909d8a6eadc08a3f087",
+            "lines": [
+              8,
+              40
+            ],
+            "section": "widget-behavior > Understanding widget behavior",
+            "section_path": [
+              "widget-behavior",
+              "Understanding widget behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 772,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03279503,
+          "rank": 3
+        },
+        {
+          "kind": "docs",
+          "title": "widgets",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/multipage-apps/widgets.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widgets:v3:child:bb5a946d3f1dd5114b1f",
+          "source_id": "docs:widgets",
+          "text": "# Working with widgets in multipage apps\n\nWhen you create a widget in a Streamlit app, Streamlit generates a widget ID and uses it to make your widget stateful. As your app reruns with user interaction, Streamlit keeps track of the widget's value by associating its value to its ID. In particular, a widget's ID depends on the page where it's created. If you define an identical widget on two different pages, then the widget will reset to its default value when you switch pages.\n\nThis guide explains three strategies to deal with the behavior if you'd like to have a widget remain stateful across all pages. If don't want a widget to appear on all pages, but you do want it to remain stateful when you navigate away from its page (and then back), Options 2 and 3 can be used. For detailed information about these strategies, see [Understanding widget behavior](/develop/concepts/architecture/widget-behavior).\n",
+          "source_span": [
+            404,
+            1316
+          ],
+          "source_sha256": "66a0ce7e12c9c3886d485e14c23a3c313218680ebb163ad3fd28ce9ebf82f112",
+          "sha256": "2a9e66b758a6bae352263614a25588829a117ec2dcb9a488ea166a88e79b0a9e",
+          "lines": [
+            8,
+            12
+          ],
+          "section": "widgets > Working with widgets in multipage apps",
+          "section_path": [
+            "widgets",
+            "Working with widgets in multipage apps"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 193,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widgets:v3:parent:bb5a946d3f1dd5114b1f",
+          "parent": {
+            "kind": "docs",
+            "title": "widgets",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/multipage-apps/widgets.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widgets:v3:parent:bb5a946d3f1dd5114b1f",
+            "source_id": "docs:widgets",
+            "text": "# Working with widgets in multipage apps\n\nWhen you create a widget in a Streamlit app, Streamlit generates a widget ID and uses it to make your widget stateful. As your app reruns with user interaction, Streamlit keeps track of the widget's value by associating its value to its ID. In particular, a widget's ID depends on the page where it's created. If you define an identical widget on two different pages, then the widget will reset to its default value when you switch pages.\n\nThis guide explains three strategies to deal with the behavior if you'd like to have a widget remain stateful across all pages. If don't want a widget to appear on all pages, but you do want it to remain stateful when you navigate away from its page (and then back), Options 2 and 3 can be used. For detailed information about these strategies, see [Understanding widget behavior](/develop/concepts/architecture/widget-behavior).\n",
+            "source_span": [
+              404,
+              1316
+            ],
+            "source_sha256": "66a0ce7e12c9c3886d485e14c23a3c313218680ebb163ad3fd28ce9ebf82f112",
+            "sha256": "2a9e66b758a6bae352263614a25588829a117ec2dcb9a488ea166a88e79b0a9e",
+            "lines": [
+              8,
+              12
+            ],
+            "section": "widgets > Working with widgets in multipage apps",
+            "section_path": [
+              "widgets",
+              "Working with widgets in multipage apps"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 193,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03042857,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range",
+          "url": "https://github.com/streamlit/streamlit/issues/16675",
+          "revision": "2026-09-09T11:36:05Z",
+          "product_version": null,
+          "issue_number": 16675,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:16675:v3:child:c945f0f8fbe27281a33e",
+          "source_id": "issue:16675",
+          "text": "### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\nUnknown.\n",
+          "source_span": [
+            4127,
+            4216
+          ],
+          "source_sha256": "641484a834264171679c272e4cb5717ee7f7ba80b6285ec876ffcf44c863bb91",
+          "sha256": "e5de05bf318f155e713b60ef8133f48a54574df2fa36581dda74fda466d28dc6",
+          "lines": [
+            94,
+            98
+          ],
+          "section": "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range > Is this a regression?",
+          "section_path": [
+            "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range",
+            "Is this a regression?"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 22,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:16675:v3:parent:c945f0f8fbe27281a33e",
+          "parent": {
+            "kind": "issue",
+            "title": "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range",
+            "url": "https://github.com/streamlit/streamlit/issues/16675",
+            "revision": "2026-09-09T11:36:05Z",
+            "product_version": null,
+            "issue_number": 16675,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:16675:v3:parent:c945f0f8fbe27281a33e",
+            "source_id": "issue:16675",
+            "text": "### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\nUnknown.\n",
+            "source_span": [
+              4127,
+              4216
+            ],
+            "source_sha256": "641484a834264171679c272e4cb5717ee7f7ba80b6285ec876ffcf44c863bb91",
+            "sha256": "e5de05bf318f155e713b60ef8133f48a54574df2fa36581dda74fda466d28dc6",
+            "lines": [
+              94,
+              98
+            ],
+            "section": "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range > Is this a regression?",
+            "section_path": [
+              "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range",
+              "Is this a regression?"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 22,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.015625,
+          "rank": 5
+        },
+        {
+          "kind": "issue",
+          "title": "Widgets in an st.popover opened inside an st.dialog are occluded by the dialog and unusable",
+          "url": "https://github.com/streamlit/streamlit/issues/16005",
+          "revision": "2026-07-20T15:04:39Z",
+          "product_version": null,
+          "issue_number": 16005,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:16005:v3:child:e58f257baa384b8df069",
+          "source_id": "issue:16005",
+          "text": "### Expected Behavior\n\nThe popover body renders above the dialog and its widgets are fully interactive:\nopening the `selectbox`, picking an option, and having the value commit —\ndismissing neither the popover nor the dialog. (This is how it behaved in 1.58.0.)\n",
+          "source_span": [
+            1394,
+            1655
+          ],
+          "source_sha256": "95ea0d1be40a256e1671414b100dfbe08e7b09abc2d70d864731722eef5c66a6",
+          "sha256": "f5657cb1ebce0b00b7de9a02538b7cdf6308059cf03bd33ab17678afd8273822",
+          "lines": [
+            42,
+            46
+          ],
+          "section": "Widgets in an st.popover opened inside an st.dialog are occluded by the dialog and unusable > Expected Behavior",
+          "section_path": [
+            "Widgets in an st.popover opened inside an st.dialog are occluded by the dialog and unusable",
+            "Expected Behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 60,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:16005:v3:parent:e58f257baa384b8df069",
+          "parent": {
+            "kind": "issue",
+            "title": "Widgets in an st.popover opened inside an st.dialog are occluded by the dialog and unusable",
+            "url": "https://github.com/streamlit/streamlit/issues/16005",
+            "revision": "2026-07-20T15:04:39Z",
+            "product_version": null,
+            "issue_number": 16005,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:16005:v3:parent:e58f257baa384b8df069",
+            "source_id": "issue:16005",
+            "text": "### Expected Behavior\n\nThe popover body renders above the dialog and its widgets are fully interactive:\nopening the `selectbox`, picking an option, and having the value commit —\ndismissing neither the popover nor the dialog. (This is how it behaved in 1.58.0.)\n",
+            "source_span": [
+              1394,
+              1655
+            ],
+            "source_sha256": "95ea0d1be40a256e1671414b100dfbe08e7b09abc2d70d864731722eef5c66a6",
+            "sha256": "f5657cb1ebce0b00b7de9a02538b7cdf6308059cf03bd33ab17678afd8273822",
+            "lines": [
+              42,
+              46
+            ],
+            "section": "Widgets in an st.popover opened inside an st.dialog are occluded by the dialog and unusable > Expected Behavior",
+            "section_path": [
+              "Widgets in an st.popover opened inside an st.dialog are occluded by the dialog and unusable",
+              "Expected Behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 60,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.01869322,
+          "rank": 6
+        },
+        {
+          "kind": "issue",
+          "title": "All widgets in st.Navigation app reset when a widget is changed before previous execution finishes",
+          "url": "https://github.com/streamlit/streamlit/issues/9100",
+          "revision": "2024-09-17T04:36:01Z",
+          "product_version": null,
+          "issue_number": 9100,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:9100:v3:child:45f93717212b058b95bc",
+          "source_id": "issue:9100",
+          "text": "### Current Behavior\n\nThe page refreshes and all widget states are lost. This is particularly problematic for complex apps where users may have spent a lot of time filling out various widgets!\n",
+          "source_span": [
+            1368,
+            1561
+          ],
+          "source_sha256": "64bae781a88013c0beabd33cb317085556e01a161f72b80b9e6e671e4bca41f8",
+          "sha256": "26dac43bed7addc0778734773e37b4c0573c9a1c1b7df3b3d63c74e6fa7c119d",
+          "lines": [
+            46,
+            48
+          ],
+          "section": "All widgets in st.Navigation app reset when a widget is changed before previous execution finishes > Current Behavior",
+          "section_path": [
+            "All widgets in st.Navigation app reset when a widget is changed before previous execution finishes",
+            "Current Behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 36,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:9100:v3:parent:45f93717212b058b95bc",
+          "parent": {
+            "kind": "issue",
+            "title": "All widgets in st.Navigation app reset when a widget is changed before previous execution finishes",
+            "url": "https://github.com/streamlit/streamlit/issues/9100",
+            "revision": "2024-09-17T04:36:01Z",
+            "product_version": null,
+            "issue_number": 9100,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:9100:v3:parent:45f93717212b058b95bc",
+            "source_id": "issue:9100",
+            "text": "### Current Behavior\n\nThe page refreshes and all widget states are lost. This is particularly problematic for complex apps where users may have spent a lot of time filling out various widgets!\n",
+            "source_span": [
+              1368,
+              1561
+            ],
+            "source_sha256": "64bae781a88013c0beabd33cb317085556e01a161f72b80b9e6e671e4bca41f8",
+            "sha256": "26dac43bed7addc0778734773e37b4c0573c9a1c1b7df3b3d63c74e6fa7c119d",
+            "lines": [
+              46,
+              48
+            ],
+            "section": "All widgets in st.Navigation app reset when a widget is changed before previous execution finishes > Current Behavior",
+            "section_path": [
+              "All widgets in st.Navigation app reset when a widget is changed before previous execution finishes",
+              "Current Behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 36,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.01892997,
+          "rank": 7
+        },
+        {
+          "kind": "issue",
+          "title": "Persist widget state if `key` is set, even if the widget is not rendered",
+          "url": "https://github.com/streamlit/streamlit/issues/6074",
+          "revision": "2026-07-22T10:27:22Z",
+          "product_version": null,
+          "issue_number": 6074,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:6074:v3:child:5a006c3c8149e088bd8a",
+          "source_id": "issue:6074",
+          "text": "### Possible fixes\n\nIt seems like most developers we hear from find the current behavior very unintuitive, and we see a lot more use cases that have to work around this rather than benefit from it.\n- Given that, should we just do a breaking change to the default behavior to persist, like most of us seem to expect?\n- If so: We should still provide a path to clear keyed widget state when needed. Need to figure out how to best do this.\n\nIf not a breaking change: most proposals seem to prefer something like a `persist=` key. For example, both [USER] and [USER] propose something like this in [#4458](https://github.com/streamlit/streamlit/issues/4458). Thoughts on this approach, or other ideas?\n\n---\n\nCommunity voting on feature requests enables the Streamlit team to understand which features are most important to our users.\n\n**If you'd like the Streamlit team to prioritize this feature request, please use the 👍 (thumbs up emoji) reaction in response to the initial post.**\n\n[IMAGE OMITTED: not inspected]\n",
+          "source_span": [
+            1851,
+            2864
+          ],
+          "source_sha256": "5d2c4cdbfc30e394761d04ab226be2bd29c3a724aa7a1d06587d35f78aa1117e",
+          "sha256": "6976e3d8541fb991d2b0dedcdf7228ecb474797874a4e07963c6891b02ac1070",
+          "lines": [
+            31,
+            45
+          ],
+          "section": "Persist widget state if `key` is set, even if the widget is not rendered > Possible fixes",
+          "section_path": [
+            "Persist widget state if `key` is set, even if the widget is not rendered",
+            "Possible fixes"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 221,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:6074:v3:parent:5a006c3c8149e088bd8a",
+          "parent": {
+            "kind": "issue",
+            "title": "Persist widget state if `key` is set, even if the widget is not rendered",
+            "url": "https://github.com/streamlit/streamlit/issues/6074",
+            "revision": "2026-07-22T10:27:22Z",
+            "product_version": null,
+            "issue_number": 6074,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:6074:v3:parent:5a006c3c8149e088bd8a",
+            "source_id": "issue:6074",
+            "text": "### Possible fixes\n\nIt seems like most developers we hear from find the current behavior very unintuitive, and we see a lot more use cases that have to work around this rather than benefit from it.\n- Given that, should we just do a breaking change to the default behavior to persist, like most of us seem to expect?\n- If so: We should still provide a path to clear keyed widget state when needed. Need to figure out how to best do this.\n\nIf not a breaking change: most proposals seem to prefer something like a `persist=` key. For example, both [USER] and [USER] propose something like this in [#4458](https://github.com/streamlit/streamlit/issues/4458). Thoughts on this approach, or other ideas?\n\n---\n\nCommunity voting on feature requests enables the Streamlit team to understand which features are most important to our users.\n\n**If you'd like the Streamlit team to prioritize this feature request, please use the 👍 (thumbs up emoji) reaction in response to the initial post.**\n\n[IMAGE OMITTED: not inspected]\n",
+            "source_span": [
+              1851,
+              2864
+            ],
+            "source_sha256": "5d2c4cdbfc30e394761d04ab226be2bd29c3a724aa7a1d06587d35f78aa1117e",
+            "sha256": "6976e3d8541fb991d2b0dedcdf7228ecb474797874a4e07963c6891b02ac1070",
+            "lines": [
+              31,
+              45
+            ],
+            "section": "Persist widget state if `key` is set, even if the widget is not rendered > Possible fixes",
+            "section_path": [
+              "Persist widget state if `key` is set, even if the widget is not rendered",
+              "Possible fixes"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 221,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.01853523,
+          "rank": 8
+        }
+      ],
+      "candidate_hash": "060a948e5a410848dd25744bfe5e04ca2de614ec5c93e4d9418b8c793aa4015e",
+      "context": [
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widget-behavior:v3:child:d04859e221c72d5a0695",
+          "source_id": "docs:widget-behavior",
+          "text": "# Understanding widget behavior\n\nWidgets (like `st.button`, `st.selectbox`, and `st.text_input`) are at the heart of Streamlit apps. They are the interactive elements of Streamlit that pass information from your users into your Python code. Widgets are magical and often work how you want, but they can have surprising behavior in some situations. Understanding the different parts of a widget and the precise order in which events occur helps you achieve your desired results.\n\nThis guide covers advanced concepts about widgets. Generally, it begins with simpler concepts and increases in complexity. For most beginning users, these details won't be important to know right away. When you want to dynamically change widgets or preserve widget information between pages, these concepts will be important to understand. We recommend having a basic understanding of [Session State](/develop/api-reference/caching-and-state/st.session_state) before reading this guide.\n\n<Collapse title=\"🎈 TL;DR\" expanded={false}>\n",
+          "source_span": [
+            428,
+            1439
+          ],
+          "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+          "sha256": "59d4dbf84fcf60ef3c061ab87b125a6d01b146ece554f06e9fa1c66c7515633e",
+          "lines": [
+            8,
+            14
+          ],
+          "section": "widget-behavior > Understanding widget behavior",
+          "section_path": [
+            "widget-behavior",
+            "Understanding widget behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 192,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widget-behavior:v3:parent:6a28949cec4e5f0ff711",
+          "parent": {
+            "kind": "docs",
+            "title": "widget-behavior",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widget-behavior:v3:parent:6a28949cec4e5f0ff711",
+            "source_id": "docs:widget-behavior",
+            "text": "# Understanding widget behavior\n\nWidgets (like `st.button`, `st.selectbox`, and `st.text_input`) are at the heart of Streamlit apps. They are the interactive elements of Streamlit that pass information from your users into your Python code. Widgets are magical and often work how you want, but they can have surprising behavior in some situations. Understanding the different parts of a widget and the precise order in which events occur helps you achieve your desired results.\n\nThis guide covers advanced concepts about widgets. Generally, it begins with simpler concepts and increases in complexity. For most beginning users, these details won't be important to know right away. When you want to dynamically change widgets or preserve widget information between pages, these concepts will be important to understand. We recommend having a basic understanding of [Session State](/develop/api-reference/caching-and-state/st.session_state) before reading this guide.\n\n<Collapse title=\"🎈 TL;DR\" expanded={false}>\n\n1. The actions of one user don't affect the widgets of any other user.\n2. A widget command returns the widget's current value, which is a simple Python type. For example, `st.button` returns a Boolean value.\n3. Widgets return their default values on their first call before a user interacts with them.\n4. A widget's identity depends on the arguments passed to the widget command. If a key is provided, the key determines the widget's identity, with limited exceptions noted in each widget's `key` parameter description. If no key is provided, changing a widget's label, min value, max value, default value, placeholder text, or help text will cause it to reset.\n5. If you don't call a widget command in a script run, Streamlit will delete the widget's information&mdash;_including its key-value pair in Session State_. If you call the same widget command later, Streamlit treats it as a new widget.\n6. Widgets are not stateful between pages. If you have two widgets with the same key on different pages, they will be treated as two different widgets.\n\nThe last three points (widget identity and widget deletion) are the most relevant when dynamically changing widgets or working with multi-page applications. This is covered in detail later in this guide: [Statefulness of widgets](#statefulness-of-widgets) and [Widget life cycle](#widget-life-cycle).\n\n</Collapse>\n\n<Important>\n\n**Key-based widget identity (v1.55.0)**\n\nAs of v1.55.0, all widgets support key-based identity. When a `key` is provided, the key is the primary determinant of the widget's identity, and changing other parameters (like `label`, `options`, or `default`) won't reset the widget. Some parameters that constrain valid values still affect identity for specific widgets, even when a key is provided. For example, changing `min_value` or `max_value` for `st.slider` will reset the widget because the current value could be invalidated. These exceptions are noted in each widget's `key` parameter description.\n\nKey-based identity was progressively introduced from v1.50.0 through v1.55.0. If you're using an older version, check the [release notes](/develop/quick-reference/release-notes) to see which widgets support key-based identity in your version.\n\n**Other notable changes:**\n\n- **v1.46.0**: When navigating between pages, widget keys in `st.session_state` are deleted at the beginning of the new page's script run instead of the end.\n- **v1.55.0**: Most widgets support a new `bind` parameter to sync widget values with URL query parameters. See [Binding widgets to query parameters](#binding-widgets-to-query-parameters).\n\n</Important>\n",
+            "source_span": [
+              428,
+              4056
+            ],
+            "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+            "sha256": "625e901678b9184db8f6a7bc5bfe5b3034df668e1a041909d8a6eadc08a3f087",
+            "lines": [
+              8,
+              40
+            ],
+            "section": "widget-behavior > Understanding widget behavior",
+            "section_path": [
+              "widget-behavior",
+              "Understanding widget behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 772,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03406855,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "widget-updating-session-state",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/widget-updating-session-state.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widget-updating-session-state:v3:child:502abe8e52dd6e606c25",
+          "source_id": "docs:widget-updating-session-state",
+          "text": "## Overview\n\nYou are using [session state](/develop/api-reference/caching-and-state/st.session_state) to store page interactions in your app. When users interact with a widget in your app (e.g., click a button), you expect your app to update its widget states and reflect the new values. However, you notice that it doesn't. Instead, users have to interact with the widget twice (e.g., click a button twice) for the app to show the correct values. What do you do now? 🤔 Let's walk through the solution in the section below.\n",
+          "source_span": [
+            215,
+            739
+          ],
+          "source_sha256": "4fb35eac6d028569dc70a6d2b9e0eb1a4e1c1872cce986e6d933c14c79f94a22",
+          "sha256": "c7c14fbf449aa2fa2c96a9aa097ac7ceeab184e727128100bd447d4b76571385",
+          "lines": [
+            8,
+            10
+          ],
+          "section": "widget-updating-session-state > Widget updating for every second input when using session state > Overview",
+          "section_path": [
+            "widget-updating-session-state",
+            "Widget updating for every second input when using session state",
+            "Overview"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 116,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widget-updating-session-state:v3:parent:502abe8e52dd6e606c25",
+          "parent": {
+            "kind": "docs",
+            "title": "widget-updating-session-state",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/widget-updating-session-state.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widget-updating-session-state:v3:parent:502abe8e52dd6e606c25",
+            "source_id": "docs:widget-updating-session-state",
+            "text": "## Overview\n\nYou are using [session state](/develop/api-reference/caching-and-state/st.session_state) to store page interactions in your app. When users interact with a widget in your app (e.g., click a button), you expect your app to update its widget states and reflect the new values. However, you notice that it doesn't. Instead, users have to interact with the widget twice (e.g., click a button twice) for the app to show the correct values. What do you do now? 🤔 Let's walk through the solution in the section below.\n",
+            "source_span": [
+              215,
+              739
+            ],
+            "source_sha256": "4fb35eac6d028569dc70a6d2b9e0eb1a4e1c1872cce986e6d933c14c79f94a22",
+            "sha256": "c7c14fbf449aa2fa2c96a9aa097ac7ceeab184e727128100bd447d4b76571385",
+            "lines": [
+              8,
+              10
+            ],
+            "section": "widget-updating-session-state > Widget updating for every second input when using session state > Overview",
+            "section_path": [
+              "widget-updating-session-state",
+              "Widget updating for every second input when using session state",
+              "Overview"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 116,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03241935,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widget-behavior:v3:child:4c8ce9dad96a6d63362f",
+          "source_id": "docs:widget-behavior",
+          "text": "1. The actions of one user don't affect the widgets of any other user.\n2. A widget command returns the widget's current value, which is a simple Python type. For example, `st.button` returns a Boolean value.\n3. Widgets return their default values on their first call before a user interacts with them.\n4. A widget's identity depends on the arguments passed to the widget command. If a key is provided, the key determines the widget's identity, with limited exceptions noted in each widget's `key` parameter description. If no key is provided, changing a widget's label, min value, max value, default value, placeholder text, or help text will cause it to reset.\n5. If you don't call a widget command in a script run, Streamlit will delete the widget's information&mdash;_including its key-value pair in Session State_. If you call the same widget command later, Streamlit treats it as a new widget.\n6. Widgets are not stateful between pages. If you have two widgets with the same key on different pages, they will be treated as two different widgets.\n\nThe last three points (widget identity and widget deletion) are the most relevant when dynamically changing widgets or working with multi-page applications. This is covered in detail later in this guide: [Statefulness of widgets](#statefulness-of-widgets) and [Widget life cycle](#widget-life-cycle).\n\n</Collapse>\n\n<Important>\n",
+          "source_span": [
+            1440,
+            2819
+          ],
+          "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+          "sha256": "996c05d4e0a1d1a426033384fa36064d89fbbaa52b4630358331f1af2f967420",
+          "lines": [
+            16,
+            27
+          ],
+          "section": "widget-behavior > Understanding widget behavior",
+          "section_path": [
+            "widget-behavior",
+            "Understanding widget behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 293,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widget-behavior:v3:parent:6a28949cec4e5f0ff711",
+          "parent": {
+            "kind": "docs",
+            "title": "widget-behavior",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widget-behavior:v3:parent:6a28949cec4e5f0ff711",
+            "source_id": "docs:widget-behavior",
+            "text": "# Understanding widget behavior\n\nWidgets (like `st.button`, `st.selectbox`, and `st.text_input`) are at the heart of Streamlit apps. They are the interactive elements of Streamlit that pass information from your users into your Python code. Widgets are magical and often work how you want, but they can have surprising behavior in some situations. Understanding the different parts of a widget and the precise order in which events occur helps you achieve your desired results.\n\nThis guide covers advanced concepts about widgets. Generally, it begins with simpler concepts and increases in complexity. For most beginning users, these details won't be important to know right away. When you want to dynamically change widgets or preserve widget information between pages, these concepts will be important to understand. We recommend having a basic understanding of [Session State](/develop/api-reference/caching-and-state/st.session_state) before reading this guide.\n\n<Collapse title=\"🎈 TL;DR\" expanded={false}>\n\n1. The actions of one user don't affect the widgets of any other user.\n2. A widget command returns the widget's current value, which is a simple Python type. For example, `st.button` returns a Boolean value.\n3. Widgets return their default values on their first call before a user interacts with them.\n4. A widget's identity depends on the arguments passed to the widget command. If a key is provided, the key determines the widget's identity, with limited exceptions noted in each widget's `key` parameter description. If no key is provided, changing a widget's label, min value, max value, default value, placeholder text, or help text will cause it to reset.\n5. If you don't call a widget command in a script run, Streamlit will delete the widget's information&mdash;_including its key-value pair in Session State_. If you call the same widget command later, Streamlit treats it as a new widget.\n6. Widgets are not stateful between pages. If you have two widgets with the same key on different pages, they will be treated as two different widgets.\n\nThe last three points (widget identity and widget deletion) are the most relevant when dynamically changing widgets or working with multi-page applications. This is covered in detail later in this guide: [Statefulness of widgets](#statefulness-of-widgets) and [Widget life cycle](#widget-life-cycle).\n\n</Collapse>\n\n<Important>\n\n**Key-based widget identity (v1.55.0)**\n\nAs of v1.55.0, all widgets support key-based identity. When a `key` is provided, the key is the primary determinant of the widget's identity, and changing other parameters (like `label`, `options`, or `default`) won't reset the widget. Some parameters that constrain valid values still affect identity for specific widgets, even when a key is provided. For example, changing `min_value` or `max_value` for `st.slider` will reset the widget because the current value could be invalidated. These exceptions are noted in each widget's `key` parameter description.\n\nKey-based identity was progressively introduced from v1.50.0 through v1.55.0. If you're using an older version, check the [release notes](/develop/quick-reference/release-notes) to see which widgets support key-based identity in your version.\n\n**Other notable changes:**\n\n- **v1.46.0**: When navigating between pages, widget keys in `st.session_state` are deleted at the beginning of the new page's script run instead of the end.\n- **v1.55.0**: Most widgets support a new `bind` parameter to sync widget values with URL query parameters. See [Binding widgets to query parameters](#binding-widgets-to-query-parameters).\n\n</Important>\n",
+            "source_span": [
+              428,
+              4056
+            ],
+            "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+            "sha256": "625e901678b9184db8f6a7bc5bfe5b3034df668e1a041909d8a6eadc08a3f087",
+            "lines": [
+              8,
+              40
+            ],
+            "section": "widget-behavior > Understanding widget behavior",
+            "section_path": [
+              "widget-behavior",
+              "Understanding widget behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 772,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03279503,
+          "rank": 3
+        },
+        {
+          "kind": "docs",
+          "title": "widgets",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/multipage-apps/widgets.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widgets:v3:child:bb5a946d3f1dd5114b1f",
+          "source_id": "docs:widgets",
+          "text": "# Working with widgets in multipage apps\n\nWhen you create a widget in a Streamlit app, Streamlit generates a widget ID and uses it to make your widget stateful. As your app reruns with user interaction, Streamlit keeps track of the widget's value by associating its value to its ID. In particular, a widget's ID depends on the page where it's created. If you define an identical widget on two different pages, then the widget will reset to its default value when you switch pages.\n\nThis guide explains three strategies to deal with the behavior if you'd like to have a widget remain stateful across all pages. If don't want a widget to appear on all pages, but you do want it to remain stateful when you navigate away from its page (and then back), Options 2 and 3 can be used. For detailed information about these strategies, see [Understanding widget behavior](/develop/concepts/architecture/widget-behavior).\n",
+          "source_span": [
+            404,
+            1316
+          ],
+          "source_sha256": "66a0ce7e12c9c3886d485e14c23a3c313218680ebb163ad3fd28ce9ebf82f112",
+          "sha256": "2a9e66b758a6bae352263614a25588829a117ec2dcb9a488ea166a88e79b0a9e",
+          "lines": [
+            8,
+            12
+          ],
+          "section": "widgets > Working with widgets in multipage apps",
+          "section_path": [
+            "widgets",
+            "Working with widgets in multipage apps"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 193,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widgets:v3:parent:bb5a946d3f1dd5114b1f",
+          "parent": {
+            "kind": "docs",
+            "title": "widgets",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/multipage-apps/widgets.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widgets:v3:parent:bb5a946d3f1dd5114b1f",
+            "source_id": "docs:widgets",
+            "text": "# Working with widgets in multipage apps\n\nWhen you create a widget in a Streamlit app, Streamlit generates a widget ID and uses it to make your widget stateful. As your app reruns with user interaction, Streamlit keeps track of the widget's value by associating its value to its ID. In particular, a widget's ID depends on the page where it's created. If you define an identical widget on two different pages, then the widget will reset to its default value when you switch pages.\n\nThis guide explains three strategies to deal with the behavior if you'd like to have a widget remain stateful across all pages. If don't want a widget to appear on all pages, but you do want it to remain stateful when you navigate away from its page (and then back), Options 2 and 3 can be used. For detailed information about these strategies, see [Understanding widget behavior](/develop/concepts/architecture/widget-behavior).\n",
+            "source_span": [
+              404,
+              1316
+            ],
+            "source_sha256": "66a0ce7e12c9c3886d485e14c23a3c313218680ebb163ad3fd28ce9ebf82f112",
+            "sha256": "2a9e66b758a6bae352263614a25588829a117ec2dcb9a488ea166a88e79b0a9e",
+            "lines": [
+              8,
+              12
+            ],
+            "section": "widgets > Working with widgets in multipage apps",
+            "section_path": [
+              "widgets",
+              "Working with widgets in multipage apps"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 193,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03042857,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range",
+          "url": "https://github.com/streamlit/streamlit/issues/16675",
+          "revision": "2026-09-09T11:36:05Z",
+          "product_version": null,
+          "issue_number": 16675,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:16675:v3:child:c945f0f8fbe27281a33e",
+          "source_id": "issue:16675",
+          "text": "### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\nUnknown.\n",
+          "source_span": [
+            4127,
+            4216
+          ],
+          "source_sha256": "641484a834264171679c272e4cb5717ee7f7ba80b6285ec876ffcf44c863bb91",
+          "sha256": "e5de05bf318f155e713b60ef8133f48a54574df2fa36581dda74fda466d28dc6",
+          "lines": [
+            94,
+            98
+          ],
+          "section": "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range > Is this a regression?",
+          "section_path": [
+            "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range",
+            "Is this a regression?"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 22,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:16675:v3:parent:c945f0f8fbe27281a33e",
+          "parent": {
+            "kind": "issue",
+            "title": "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range",
+            "url": "https://github.com/streamlit/streamlit/issues/16675",
+            "revision": "2026-09-09T11:36:05Z",
+            "product_version": null,
+            "issue_number": 16675,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:16675:v3:parent:c945f0f8fbe27281a33e",
+            "source_id": "issue:16675",
+            "text": "### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\nUnknown.\n",
+            "source_span": [
+              4127,
+              4216
+            ],
+            "source_sha256": "641484a834264171679c272e4cb5717ee7f7ba80b6285ec876ffcf44c863bb91",
+            "sha256": "e5de05bf318f155e713b60ef8133f48a54574df2fa36581dda74fda466d28dc6",
+            "lines": [
+              94,
+              98
+            ],
+            "section": "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range > Is this a regression?",
+            "section_path": [
+              "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range",
+              "Is this a regression?"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 22,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.015625,
+          "rank": 5
+        }
+      ],
+      "packing": {
+        "encoding": "o200k_base",
+        "budget_tokens": 3000,
+        "used_tokens": 2081,
+        "expand_parent": false,
+        "items": [
+          {
+            "id": "docs:widget-behavior:v3:child:d04859e221c72d5a0695",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:widget-behavior:v3:child:d04859e221c72d5a0695"
+          },
+          {
+            "id": "docs:widget-updating-session-state:v3:child:502abe8e52dd6e606c25",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:widget-updating-session-state:v3:child:502abe8e52dd6e606c25"
+          },
+          {
+            "id": "docs:widget-behavior:v3:child:4c8ce9dad96a6d63362f",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:widget-behavior:v3:child:4c8ce9dad96a6d63362f"
+          },
+          {
+            "id": "docs:widgets:v3:child:bb5a946d3f1dd5114b1f",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:widgets:v3:child:bb5a946d3f1dd5114b1f"
+          },
+          {
+            "id": "issue:16675:v3:child:c945f0f8fbe27281a33e",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:16675:v3:child:c945f0f8fbe27281a33e"
+          },
+          {
+            "id": "issue:16005:v3:child:e58f257baa384b8df069",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:9100:v3:child:45f93717212b058b95bc",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:6074:v3:child:5a006c3c8149e088bd8a",
+            "status": "omitted",
+            "reason": "item_limit"
+          }
+        ]
+      },
+      "index": "v3",
+      "namespace": "6fbba079eb1323bf54c9d03ad4b956a7174e0f434f386ed66f0a50b489f55d4e"
+    },
+    "C": {
+      "candidates": [
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widget-behavior:v3:child:d04859e221c72d5a0695",
+          "source_id": "docs:widget-behavior",
+          "text": "# Understanding widget behavior\n\nWidgets (like `st.button`, `st.selectbox`, and `st.text_input`) are at the heart of Streamlit apps. They are the interactive elements of Streamlit that pass information from your users into your Python code. Widgets are magical and often work how you want, but they can have surprising behavior in some situations. Understanding the different parts of a widget and the precise order in which events occur helps you achieve your desired results.\n\nThis guide covers advanced concepts about widgets. Generally, it begins with simpler concepts and increases in complexity. For most beginning users, these details won't be important to know right away. When you want to dynamically change widgets or preserve widget information between pages, these concepts will be important to understand. We recommend having a basic understanding of [Session State](/develop/api-reference/caching-and-state/st.session_state) before reading this guide.\n\n<Collapse title=\"🎈 TL;DR\" expanded={false}>\n",
+          "source_span": [
+            428,
+            1439
+          ],
+          "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+          "sha256": "59d4dbf84fcf60ef3c061ab87b125a6d01b146ece554f06e9fa1c66c7515633e",
+          "lines": [
+            8,
+            14
+          ],
+          "section": "widget-behavior > Understanding widget behavior",
+          "section_path": [
+            "widget-behavior",
+            "Understanding widget behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 192,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widget-behavior:v3:parent:6a28949cec4e5f0ff711",
+          "parent": {
+            "kind": "docs",
+            "title": "widget-behavior",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widget-behavior:v3:parent:6a28949cec4e5f0ff711",
+            "source_id": "docs:widget-behavior",
+            "text": "# Understanding widget behavior\n\nWidgets (like `st.button`, `st.selectbox`, and `st.text_input`) are at the heart of Streamlit apps. They are the interactive elements of Streamlit that pass information from your users into your Python code. Widgets are magical and often work how you want, but they can have surprising behavior in some situations. Understanding the different parts of a widget and the precise order in which events occur helps you achieve your desired results.\n\nThis guide covers advanced concepts about widgets. Generally, it begins with simpler concepts and increases in complexity. For most beginning users, these details won't be important to know right away. When you want to dynamically change widgets or preserve widget information between pages, these concepts will be important to understand. We recommend having a basic understanding of [Session State](/develop/api-reference/caching-and-state/st.session_state) before reading this guide.\n\n<Collapse title=\"🎈 TL;DR\" expanded={false}>\n\n1. The actions of one user don't affect the widgets of any other user.\n2. A widget command returns the widget's current value, which is a simple Python type. For example, `st.button` returns a Boolean value.\n3. Widgets return their default values on their first call before a user interacts with them.\n4. A widget's identity depends on the arguments passed to the widget command. If a key is provided, the key determines the widget's identity, with limited exceptions noted in each widget's `key` parameter description. If no key is provided, changing a widget's label, min value, max value, default value, placeholder text, or help text will cause it to reset.\n5. If you don't call a widget command in a script run, Streamlit will delete the widget's information&mdash;_including its key-value pair in Session State_. If you call the same widget command later, Streamlit treats it as a new widget.\n6. Widgets are not stateful between pages. If you have two widgets with the same key on different pages, they will be treated as two different widgets.\n\nThe last three points (widget identity and widget deletion) are the most relevant when dynamically changing widgets or working with multi-page applications. This is covered in detail later in this guide: [Statefulness of widgets](#statefulness-of-widgets) and [Widget life cycle](#widget-life-cycle).\n\n</Collapse>\n\n<Important>\n\n**Key-based widget identity (v1.55.0)**\n\nAs of v1.55.0, all widgets support key-based identity. When a `key` is provided, the key is the primary determinant of the widget's identity, and changing other parameters (like `label`, `options`, or `default`) won't reset the widget. Some parameters that constrain valid values still affect identity for specific widgets, even when a key is provided. For example, changing `min_value` or `max_value` for `st.slider` will reset the widget because the current value could be invalidated. These exceptions are noted in each widget's `key` parameter description.\n\nKey-based identity was progressively introduced from v1.50.0 through v1.55.0. If you're using an older version, check the [release notes](/develop/quick-reference/release-notes) to see which widgets support key-based identity in your version.\n\n**Other notable changes:**\n\n- **v1.46.0**: When navigating between pages, widget keys in `st.session_state` are deleted at the beginning of the new page's script run instead of the end.\n- **v1.55.0**: Most widgets support a new `bind` parameter to sync widget values with URL query parameters. See [Binding widgets to query parameters](#binding-widgets-to-query-parameters).\n\n</Important>\n",
+            "source_span": [
+              428,
+              4056
+            ],
+            "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+            "sha256": "625e901678b9184db8f6a7bc5bfe5b3034df668e1a041909d8a6eadc08a3f087",
+            "lines": [
+              8,
+              40
+            ],
+            "section": "widget-behavior > Understanding widget behavior",
+            "section_path": [
+              "widget-behavior",
+              "Understanding widget behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 772,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03406855,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "widget-updating-session-state",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/widget-updating-session-state.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widget-updating-session-state:v3:child:502abe8e52dd6e606c25",
+          "source_id": "docs:widget-updating-session-state",
+          "text": "## Overview\n\nYou are using [session state](/develop/api-reference/caching-and-state/st.session_state) to store page interactions in your app. When users interact with a widget in your app (e.g., click a button), you expect your app to update its widget states and reflect the new values. However, you notice that it doesn't. Instead, users have to interact with the widget twice (e.g., click a button twice) for the app to show the correct values. What do you do now? 🤔 Let's walk through the solution in the section below.\n",
+          "source_span": [
+            215,
+            739
+          ],
+          "source_sha256": "4fb35eac6d028569dc70a6d2b9e0eb1a4e1c1872cce986e6d933c14c79f94a22",
+          "sha256": "c7c14fbf449aa2fa2c96a9aa097ac7ceeab184e727128100bd447d4b76571385",
+          "lines": [
+            8,
+            10
+          ],
+          "section": "widget-updating-session-state > Widget updating for every second input when using session state > Overview",
+          "section_path": [
+            "widget-updating-session-state",
+            "Widget updating for every second input when using session state",
+            "Overview"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 116,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widget-updating-session-state:v3:parent:502abe8e52dd6e606c25",
+          "parent": {
+            "kind": "docs",
+            "title": "widget-updating-session-state",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/widget-updating-session-state.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widget-updating-session-state:v3:parent:502abe8e52dd6e606c25",
+            "source_id": "docs:widget-updating-session-state",
+            "text": "## Overview\n\nYou are using [session state](/develop/api-reference/caching-and-state/st.session_state) to store page interactions in your app. When users interact with a widget in your app (e.g., click a button), you expect your app to update its widget states and reflect the new values. However, you notice that it doesn't. Instead, users have to interact with the widget twice (e.g., click a button twice) for the app to show the correct values. What do you do now? 🤔 Let's walk through the solution in the section below.\n",
+            "source_span": [
+              215,
+              739
+            ],
+            "source_sha256": "4fb35eac6d028569dc70a6d2b9e0eb1a4e1c1872cce986e6d933c14c79f94a22",
+            "sha256": "c7c14fbf449aa2fa2c96a9aa097ac7ceeab184e727128100bd447d4b76571385",
+            "lines": [
+              8,
+              10
+            ],
+            "section": "widget-updating-session-state > Widget updating for every second input when using session state > Overview",
+            "section_path": [
+              "widget-updating-session-state",
+              "Widget updating for every second input when using session state",
+              "Overview"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 116,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03241935,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widget-behavior:v3:child:4c8ce9dad96a6d63362f",
+          "source_id": "docs:widget-behavior",
+          "text": "1. The actions of one user don't affect the widgets of any other user.\n2. A widget command returns the widget's current value, which is a simple Python type. For example, `st.button` returns a Boolean value.\n3. Widgets return their default values on their first call before a user interacts with them.\n4. A widget's identity depends on the arguments passed to the widget command. If a key is provided, the key determines the widget's identity, with limited exceptions noted in each widget's `key` parameter description. If no key is provided, changing a widget's label, min value, max value, default value, placeholder text, or help text will cause it to reset.\n5. If you don't call a widget command in a script run, Streamlit will delete the widget's information&mdash;_including its key-value pair in Session State_. If you call the same widget command later, Streamlit treats it as a new widget.\n6. Widgets are not stateful between pages. If you have two widgets with the same key on different pages, they will be treated as two different widgets.\n\nThe last three points (widget identity and widget deletion) are the most relevant when dynamically changing widgets or working with multi-page applications. This is covered in detail later in this guide: [Statefulness of widgets](#statefulness-of-widgets) and [Widget life cycle](#widget-life-cycle).\n\n</Collapse>\n\n<Important>\n",
+          "source_span": [
+            1440,
+            2819
+          ],
+          "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+          "sha256": "996c05d4e0a1d1a426033384fa36064d89fbbaa52b4630358331f1af2f967420",
+          "lines": [
+            16,
+            27
+          ],
+          "section": "widget-behavior > Understanding widget behavior",
+          "section_path": [
+            "widget-behavior",
+            "Understanding widget behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 293,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widget-behavior:v3:parent:6a28949cec4e5f0ff711",
+          "parent": {
+            "kind": "docs",
+            "title": "widget-behavior",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widget-behavior:v3:parent:6a28949cec4e5f0ff711",
+            "source_id": "docs:widget-behavior",
+            "text": "# Understanding widget behavior\n\nWidgets (like `st.button`, `st.selectbox`, and `st.text_input`) are at the heart of Streamlit apps. They are the interactive elements of Streamlit that pass information from your users into your Python code. Widgets are magical and often work how you want, but they can have surprising behavior in some situations. Understanding the different parts of a widget and the precise order in which events occur helps you achieve your desired results.\n\nThis guide covers advanced concepts about widgets. Generally, it begins with simpler concepts and increases in complexity. For most beginning users, these details won't be important to know right away. When you want to dynamically change widgets or preserve widget information between pages, these concepts will be important to understand. We recommend having a basic understanding of [Session State](/develop/api-reference/caching-and-state/st.session_state) before reading this guide.\n\n<Collapse title=\"🎈 TL;DR\" expanded={false}>\n\n1. The actions of one user don't affect the widgets of any other user.\n2. A widget command returns the widget's current value, which is a simple Python type. For example, `st.button` returns a Boolean value.\n3. Widgets return their default values on their first call before a user interacts with them.\n4. A widget's identity depends on the arguments passed to the widget command. If a key is provided, the key determines the widget's identity, with limited exceptions noted in each widget's `key` parameter description. If no key is provided, changing a widget's label, min value, max value, default value, placeholder text, or help text will cause it to reset.\n5. If you don't call a widget command in a script run, Streamlit will delete the widget's information&mdash;_including its key-value pair in Session State_. If you call the same widget command later, Streamlit treats it as a new widget.\n6. Widgets are not stateful between pages. If you have two widgets with the same key on different pages, they will be treated as two different widgets.\n\nThe last three points (widget identity and widget deletion) are the most relevant when dynamically changing widgets or working with multi-page applications. This is covered in detail later in this guide: [Statefulness of widgets](#statefulness-of-widgets) and [Widget life cycle](#widget-life-cycle).\n\n</Collapse>\n\n<Important>\n\n**Key-based widget identity (v1.55.0)**\n\nAs of v1.55.0, all widgets support key-based identity. When a `key` is provided, the key is the primary determinant of the widget's identity, and changing other parameters (like `label`, `options`, or `default`) won't reset the widget. Some parameters that constrain valid values still affect identity for specific widgets, even when a key is provided. For example, changing `min_value` or `max_value` for `st.slider` will reset the widget because the current value could be invalidated. These exceptions are noted in each widget's `key` parameter description.\n\nKey-based identity was progressively introduced from v1.50.0 through v1.55.0. If you're using an older version, check the [release notes](/develop/quick-reference/release-notes) to see which widgets support key-based identity in your version.\n\n**Other notable changes:**\n\n- **v1.46.0**: When navigating between pages, widget keys in `st.session_state` are deleted at the beginning of the new page's script run instead of the end.\n- **v1.55.0**: Most widgets support a new `bind` parameter to sync widget values with URL query parameters. See [Binding widgets to query parameters](#binding-widgets-to-query-parameters).\n\n</Important>\n",
+            "source_span": [
+              428,
+              4056
+            ],
+            "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+            "sha256": "625e901678b9184db8f6a7bc5bfe5b3034df668e1a041909d8a6eadc08a3f087",
+            "lines": [
+              8,
+              40
+            ],
+            "section": "widget-behavior > Understanding widget behavior",
+            "section_path": [
+              "widget-behavior",
+              "Understanding widget behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 772,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03279503,
+          "rank": 3
+        },
+        {
+          "kind": "docs",
+          "title": "widgets",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/multipage-apps/widgets.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widgets:v3:child:bb5a946d3f1dd5114b1f",
+          "source_id": "docs:widgets",
+          "text": "# Working with widgets in multipage apps\n\nWhen you create a widget in a Streamlit app, Streamlit generates a widget ID and uses it to make your widget stateful. As your app reruns with user interaction, Streamlit keeps track of the widget's value by associating its value to its ID. In particular, a widget's ID depends on the page where it's created. If you define an identical widget on two different pages, then the widget will reset to its default value when you switch pages.\n\nThis guide explains three strategies to deal with the behavior if you'd like to have a widget remain stateful across all pages. If don't want a widget to appear on all pages, but you do want it to remain stateful when you navigate away from its page (and then back), Options 2 and 3 can be used. For detailed information about these strategies, see [Understanding widget behavior](/develop/concepts/architecture/widget-behavior).\n",
+          "source_span": [
+            404,
+            1316
+          ],
+          "source_sha256": "66a0ce7e12c9c3886d485e14c23a3c313218680ebb163ad3fd28ce9ebf82f112",
+          "sha256": "2a9e66b758a6bae352263614a25588829a117ec2dcb9a488ea166a88e79b0a9e",
+          "lines": [
+            8,
+            12
+          ],
+          "section": "widgets > Working with widgets in multipage apps",
+          "section_path": [
+            "widgets",
+            "Working with widgets in multipage apps"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 193,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widgets:v3:parent:bb5a946d3f1dd5114b1f",
+          "parent": {
+            "kind": "docs",
+            "title": "widgets",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/multipage-apps/widgets.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widgets:v3:parent:bb5a946d3f1dd5114b1f",
+            "source_id": "docs:widgets",
+            "text": "# Working with widgets in multipage apps\n\nWhen you create a widget in a Streamlit app, Streamlit generates a widget ID and uses it to make your widget stateful. As your app reruns with user interaction, Streamlit keeps track of the widget's value by associating its value to its ID. In particular, a widget's ID depends on the page where it's created. If you define an identical widget on two different pages, then the widget will reset to its default value when you switch pages.\n\nThis guide explains three strategies to deal with the behavior if you'd like to have a widget remain stateful across all pages. If don't want a widget to appear on all pages, but you do want it to remain stateful when you navigate away from its page (and then back), Options 2 and 3 can be used. For detailed information about these strategies, see [Understanding widget behavior](/develop/concepts/architecture/widget-behavior).\n",
+            "source_span": [
+              404,
+              1316
+            ],
+            "source_sha256": "66a0ce7e12c9c3886d485e14c23a3c313218680ebb163ad3fd28ce9ebf82f112",
+            "sha256": "2a9e66b758a6bae352263614a25588829a117ec2dcb9a488ea166a88e79b0a9e",
+            "lines": [
+              8,
+              12
+            ],
+            "section": "widgets > Working with widgets in multipage apps",
+            "section_path": [
+              "widgets",
+              "Working with widgets in multipage apps"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 193,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03042857,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range",
+          "url": "https://github.com/streamlit/streamlit/issues/16675",
+          "revision": "2026-09-09T11:36:05Z",
+          "product_version": null,
+          "issue_number": 16675,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:16675:v3:child:c945f0f8fbe27281a33e",
+          "source_id": "issue:16675",
+          "text": "### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\nUnknown.\n",
+          "source_span": [
+            4127,
+            4216
+          ],
+          "source_sha256": "641484a834264171679c272e4cb5717ee7f7ba80b6285ec876ffcf44c863bb91",
+          "sha256": "e5de05bf318f155e713b60ef8133f48a54574df2fa36581dda74fda466d28dc6",
+          "lines": [
+            94,
+            98
+          ],
+          "section": "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range > Is this a regression?",
+          "section_path": [
+            "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range",
+            "Is this a regression?"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 22,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:16675:v3:parent:c945f0f8fbe27281a33e",
+          "parent": {
+            "kind": "issue",
+            "title": "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range",
+            "url": "https://github.com/streamlit/streamlit/issues/16675",
+            "revision": "2026-09-09T11:36:05Z",
+            "product_version": null,
+            "issue_number": 16675,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:16675:v3:parent:c945f0f8fbe27281a33e",
+            "source_id": "issue:16675",
+            "text": "### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\nUnknown.\n",
+            "source_span": [
+              4127,
+              4216
+            ],
+            "source_sha256": "641484a834264171679c272e4cb5717ee7f7ba80b6285ec876ffcf44c863bb91",
+            "sha256": "e5de05bf318f155e713b60ef8133f48a54574df2fa36581dda74fda466d28dc6",
+            "lines": [
+              94,
+              98
+            ],
+            "section": "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range > Is this a regression?",
+            "section_path": [
+              "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range",
+              "Is this a regression?"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 22,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.015625,
+          "rank": 5
+        },
+        {
+          "kind": "issue",
+          "title": "Widgets in an st.popover opened inside an st.dialog are occluded by the dialog and unusable",
+          "url": "https://github.com/streamlit/streamlit/issues/16005",
+          "revision": "2026-07-20T15:04:39Z",
+          "product_version": null,
+          "issue_number": 16005,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:16005:v3:child:e58f257baa384b8df069",
+          "source_id": "issue:16005",
+          "text": "### Expected Behavior\n\nThe popover body renders above the dialog and its widgets are fully interactive:\nopening the `selectbox`, picking an option, and having the value commit —\ndismissing neither the popover nor the dialog. (This is how it behaved in 1.58.0.)\n",
+          "source_span": [
+            1394,
+            1655
+          ],
+          "source_sha256": "95ea0d1be40a256e1671414b100dfbe08e7b09abc2d70d864731722eef5c66a6",
+          "sha256": "f5657cb1ebce0b00b7de9a02538b7cdf6308059cf03bd33ab17678afd8273822",
+          "lines": [
+            42,
+            46
+          ],
+          "section": "Widgets in an st.popover opened inside an st.dialog are occluded by the dialog and unusable > Expected Behavior",
+          "section_path": [
+            "Widgets in an st.popover opened inside an st.dialog are occluded by the dialog and unusable",
+            "Expected Behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 60,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:16005:v3:parent:e58f257baa384b8df069",
+          "parent": {
+            "kind": "issue",
+            "title": "Widgets in an st.popover opened inside an st.dialog are occluded by the dialog and unusable",
+            "url": "https://github.com/streamlit/streamlit/issues/16005",
+            "revision": "2026-07-20T15:04:39Z",
+            "product_version": null,
+            "issue_number": 16005,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:16005:v3:parent:e58f257baa384b8df069",
+            "source_id": "issue:16005",
+            "text": "### Expected Behavior\n\nThe popover body renders above the dialog and its widgets are fully interactive:\nopening the `selectbox`, picking an option, and having the value commit —\ndismissing neither the popover nor the dialog. (This is how it behaved in 1.58.0.)\n",
+            "source_span": [
+              1394,
+              1655
+            ],
+            "source_sha256": "95ea0d1be40a256e1671414b100dfbe08e7b09abc2d70d864731722eef5c66a6",
+            "sha256": "f5657cb1ebce0b00b7de9a02538b7cdf6308059cf03bd33ab17678afd8273822",
+            "lines": [
+              42,
+              46
+            ],
+            "section": "Widgets in an st.popover opened inside an st.dialog are occluded by the dialog and unusable > Expected Behavior",
+            "section_path": [
+              "Widgets in an st.popover opened inside an st.dialog are occluded by the dialog and unusable",
+              "Expected Behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 60,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.01869322,
+          "rank": 6
+        },
+        {
+          "kind": "issue",
+          "title": "All widgets in st.Navigation app reset when a widget is changed before previous execution finishes",
+          "url": "https://github.com/streamlit/streamlit/issues/9100",
+          "revision": "2024-09-17T04:36:01Z",
+          "product_version": null,
+          "issue_number": 9100,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:9100:v3:child:45f93717212b058b95bc",
+          "source_id": "issue:9100",
+          "text": "### Current Behavior\n\nThe page refreshes and all widget states are lost. This is particularly problematic for complex apps where users may have spent a lot of time filling out various widgets!\n",
+          "source_span": [
+            1368,
+            1561
+          ],
+          "source_sha256": "64bae781a88013c0beabd33cb317085556e01a161f72b80b9e6e671e4bca41f8",
+          "sha256": "26dac43bed7addc0778734773e37b4c0573c9a1c1b7df3b3d63c74e6fa7c119d",
+          "lines": [
+            46,
+            48
+          ],
+          "section": "All widgets in st.Navigation app reset when a widget is changed before previous execution finishes > Current Behavior",
+          "section_path": [
+            "All widgets in st.Navigation app reset when a widget is changed before previous execution finishes",
+            "Current Behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 36,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:9100:v3:parent:45f93717212b058b95bc",
+          "parent": {
+            "kind": "issue",
+            "title": "All widgets in st.Navigation app reset when a widget is changed before previous execution finishes",
+            "url": "https://github.com/streamlit/streamlit/issues/9100",
+            "revision": "2024-09-17T04:36:01Z",
+            "product_version": null,
+            "issue_number": 9100,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:9100:v3:parent:45f93717212b058b95bc",
+            "source_id": "issue:9100",
+            "text": "### Current Behavior\n\nThe page refreshes and all widget states are lost. This is particularly problematic for complex apps where users may have spent a lot of time filling out various widgets!\n",
+            "source_span": [
+              1368,
+              1561
+            ],
+            "source_sha256": "64bae781a88013c0beabd33cb317085556e01a161f72b80b9e6e671e4bca41f8",
+            "sha256": "26dac43bed7addc0778734773e37b4c0573c9a1c1b7df3b3d63c74e6fa7c119d",
+            "lines": [
+              46,
+              48
+            ],
+            "section": "All widgets in st.Navigation app reset when a widget is changed before previous execution finishes > Current Behavior",
+            "section_path": [
+              "All widgets in st.Navigation app reset when a widget is changed before previous execution finishes",
+              "Current Behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 36,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.01892997,
+          "rank": 7
+        },
+        {
+          "kind": "issue",
+          "title": "Persist widget state if `key` is set, even if the widget is not rendered",
+          "url": "https://github.com/streamlit/streamlit/issues/6074",
+          "revision": "2026-07-22T10:27:22Z",
+          "product_version": null,
+          "issue_number": 6074,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:6074:v3:child:5a006c3c8149e088bd8a",
+          "source_id": "issue:6074",
+          "text": "### Possible fixes\n\nIt seems like most developers we hear from find the current behavior very unintuitive, and we see a lot more use cases that have to work around this rather than benefit from it.\n- Given that, should we just do a breaking change to the default behavior to persist, like most of us seem to expect?\n- If so: We should still provide a path to clear keyed widget state when needed. Need to figure out how to best do this.\n\nIf not a breaking change: most proposals seem to prefer something like a `persist=` key. For example, both [USER] and [USER] propose something like this in [#4458](https://github.com/streamlit/streamlit/issues/4458). Thoughts on this approach, or other ideas?\n\n---\n\nCommunity voting on feature requests enables the Streamlit team to understand which features are most important to our users.\n\n**If you'd like the Streamlit team to prioritize this feature request, please use the 👍 (thumbs up emoji) reaction in response to the initial post.**\n\n[IMAGE OMITTED: not inspected]\n",
+          "source_span": [
+            1851,
+            2864
+          ],
+          "source_sha256": "5d2c4cdbfc30e394761d04ab226be2bd29c3a724aa7a1d06587d35f78aa1117e",
+          "sha256": "6976e3d8541fb991d2b0dedcdf7228ecb474797874a4e07963c6891b02ac1070",
+          "lines": [
+            31,
+            45
+          ],
+          "section": "Persist widget state if `key` is set, even if the widget is not rendered > Possible fixes",
+          "section_path": [
+            "Persist widget state if `key` is set, even if the widget is not rendered",
+            "Possible fixes"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 221,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:6074:v3:parent:5a006c3c8149e088bd8a",
+          "parent": {
+            "kind": "issue",
+            "title": "Persist widget state if `key` is set, even if the widget is not rendered",
+            "url": "https://github.com/streamlit/streamlit/issues/6074",
+            "revision": "2026-07-22T10:27:22Z",
+            "product_version": null,
+            "issue_number": 6074,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:6074:v3:parent:5a006c3c8149e088bd8a",
+            "source_id": "issue:6074",
+            "text": "### Possible fixes\n\nIt seems like most developers we hear from find the current behavior very unintuitive, and we see a lot more use cases that have to work around this rather than benefit from it.\n- Given that, should we just do a breaking change to the default behavior to persist, like most of us seem to expect?\n- If so: We should still provide a path to clear keyed widget state when needed. Need to figure out how to best do this.\n\nIf not a breaking change: most proposals seem to prefer something like a `persist=` key. For example, both [USER] and [USER] propose something like this in [#4458](https://github.com/streamlit/streamlit/issues/4458). Thoughts on this approach, or other ideas?\n\n---\n\nCommunity voting on feature requests enables the Streamlit team to understand which features are most important to our users.\n\n**If you'd like the Streamlit team to prioritize this feature request, please use the 👍 (thumbs up emoji) reaction in response to the initial post.**\n\n[IMAGE OMITTED: not inspected]\n",
+            "source_span": [
+              1851,
+              2864
+            ],
+            "source_sha256": "5d2c4cdbfc30e394761d04ab226be2bd29c3a724aa7a1d06587d35f78aa1117e",
+            "sha256": "6976e3d8541fb991d2b0dedcdf7228ecb474797874a4e07963c6891b02ac1070",
+            "lines": [
+              31,
+              45
+            ],
+            "section": "Persist widget state if `key` is set, even if the widget is not rendered > Possible fixes",
+            "section_path": [
+              "Persist widget state if `key` is set, even if the widget is not rendered",
+              "Possible fixes"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 221,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.01853523,
+          "rank": 8
+        }
+      ],
+      "candidate_hash": "060a948e5a410848dd25744bfe5e04ca2de614ec5c93e4d9418b8c793aa4015e",
+      "context": [
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widget-behavior:v3:child:d04859e221c72d5a0695",
+          "source_id": "docs:widget-behavior",
+          "text": "# Understanding widget behavior\n\nWidgets (like `st.button`, `st.selectbox`, and `st.text_input`) are at the heart of Streamlit apps. They are the interactive elements of Streamlit that pass information from your users into your Python code. Widgets are magical and often work how you want, but they can have surprising behavior in some situations. Understanding the different parts of a widget and the precise order in which events occur helps you achieve your desired results.\n\nThis guide covers advanced concepts about widgets. Generally, it begins with simpler concepts and increases in complexity. For most beginning users, these details won't be important to know right away. When you want to dynamically change widgets or preserve widget information between pages, these concepts will be important to understand. We recommend having a basic understanding of [Session State](/develop/api-reference/caching-and-state/st.session_state) before reading this guide.\n\n<Collapse title=\"🎈 TL;DR\" expanded={false}>\n",
+          "source_span": [
+            428,
+            1439
+          ],
+          "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+          "sha256": "59d4dbf84fcf60ef3c061ab87b125a6d01b146ece554f06e9fa1c66c7515633e",
+          "lines": [
+            8,
+            14
+          ],
+          "section": "widget-behavior > Understanding widget behavior",
+          "section_path": [
+            "widget-behavior",
+            "Understanding widget behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 192,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widget-behavior:v3:parent:6a28949cec4e5f0ff711",
+          "parent": {
+            "kind": "docs",
+            "title": "widget-behavior",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widget-behavior:v3:parent:6a28949cec4e5f0ff711",
+            "source_id": "docs:widget-behavior",
+            "text": "# Understanding widget behavior\n\nWidgets (like `st.button`, `st.selectbox`, and `st.text_input`) are at the heart of Streamlit apps. They are the interactive elements of Streamlit that pass information from your users into your Python code. Widgets are magical and often work how you want, but they can have surprising behavior in some situations. Understanding the different parts of a widget and the precise order in which events occur helps you achieve your desired results.\n\nThis guide covers advanced concepts about widgets. Generally, it begins with simpler concepts and increases in complexity. For most beginning users, these details won't be important to know right away. When you want to dynamically change widgets or preserve widget information between pages, these concepts will be important to understand. We recommend having a basic understanding of [Session State](/develop/api-reference/caching-and-state/st.session_state) before reading this guide.\n\n<Collapse title=\"🎈 TL;DR\" expanded={false}>\n\n1. The actions of one user don't affect the widgets of any other user.\n2. A widget command returns the widget's current value, which is a simple Python type. For example, `st.button` returns a Boolean value.\n3. Widgets return their default values on their first call before a user interacts with them.\n4. A widget's identity depends on the arguments passed to the widget command. If a key is provided, the key determines the widget's identity, with limited exceptions noted in each widget's `key` parameter description. If no key is provided, changing a widget's label, min value, max value, default value, placeholder text, or help text will cause it to reset.\n5. If you don't call a widget command in a script run, Streamlit will delete the widget's information&mdash;_including its key-value pair in Session State_. If you call the same widget command later, Streamlit treats it as a new widget.\n6. Widgets are not stateful between pages. If you have two widgets with the same key on different pages, they will be treated as two different widgets.\n\nThe last three points (widget identity and widget deletion) are the most relevant when dynamically changing widgets or working with multi-page applications. This is covered in detail later in this guide: [Statefulness of widgets](#statefulness-of-widgets) and [Widget life cycle](#widget-life-cycle).\n\n</Collapse>\n\n<Important>\n\n**Key-based widget identity (v1.55.0)**\n\nAs of v1.55.0, all widgets support key-based identity. When a `key` is provided, the key is the primary determinant of the widget's identity, and changing other parameters (like `label`, `options`, or `default`) won't reset the widget. Some parameters that constrain valid values still affect identity for specific widgets, even when a key is provided. For example, changing `min_value` or `max_value` for `st.slider` will reset the widget because the current value could be invalidated. These exceptions are noted in each widget's `key` parameter description.\n\nKey-based identity was progressively introduced from v1.50.0 through v1.55.0. If you're using an older version, check the [release notes](/develop/quick-reference/release-notes) to see which widgets support key-based identity in your version.\n\n**Other notable changes:**\n\n- **v1.46.0**: When navigating between pages, widget keys in `st.session_state` are deleted at the beginning of the new page's script run instead of the end.\n- **v1.55.0**: Most widgets support a new `bind` parameter to sync widget values with URL query parameters. See [Binding widgets to query parameters](#binding-widgets-to-query-parameters).\n\n</Important>\n",
+            "source_span": [
+              428,
+              4056
+            ],
+            "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+            "sha256": "625e901678b9184db8f6a7bc5bfe5b3034df668e1a041909d8a6eadc08a3f087",
+            "lines": [
+              8,
+              40
+            ],
+            "section": "widget-behavior > Understanding widget behavior",
+            "section_path": [
+              "widget-behavior",
+              "Understanding widget behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 772,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03406855,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "widget-updating-session-state",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/widget-updating-session-state.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widget-updating-session-state:v3:child:502abe8e52dd6e606c25",
+          "source_id": "docs:widget-updating-session-state",
+          "text": "## Overview\n\nYou are using [session state](/develop/api-reference/caching-and-state/st.session_state) to store page interactions in your app. When users interact with a widget in your app (e.g., click a button), you expect your app to update its widget states and reflect the new values. However, you notice that it doesn't. Instead, users have to interact with the widget twice (e.g., click a button twice) for the app to show the correct values. What do you do now? 🤔 Let's walk through the solution in the section below.\n",
+          "source_span": [
+            215,
+            739
+          ],
+          "source_sha256": "4fb35eac6d028569dc70a6d2b9e0eb1a4e1c1872cce986e6d933c14c79f94a22",
+          "sha256": "c7c14fbf449aa2fa2c96a9aa097ac7ceeab184e727128100bd447d4b76571385",
+          "lines": [
+            8,
+            10
+          ],
+          "section": "widget-updating-session-state > Widget updating for every second input when using session state > Overview",
+          "section_path": [
+            "widget-updating-session-state",
+            "Widget updating for every second input when using session state",
+            "Overview"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 116,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widget-updating-session-state:v3:parent:502abe8e52dd6e606c25",
+          "parent": {
+            "kind": "docs",
+            "title": "widget-updating-session-state",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/kb/FAQ/widget-updating-session-state.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widget-updating-session-state:v3:parent:502abe8e52dd6e606c25",
+            "source_id": "docs:widget-updating-session-state",
+            "text": "## Overview\n\nYou are using [session state](/develop/api-reference/caching-and-state/st.session_state) to store page interactions in your app. When users interact with a widget in your app (e.g., click a button), you expect your app to update its widget states and reflect the new values. However, you notice that it doesn't. Instead, users have to interact with the widget twice (e.g., click a button twice) for the app to show the correct values. What do you do now? 🤔 Let's walk through the solution in the section below.\n",
+            "source_span": [
+              215,
+              739
+            ],
+            "source_sha256": "4fb35eac6d028569dc70a6d2b9e0eb1a4e1c1872cce986e6d933c14c79f94a22",
+            "sha256": "c7c14fbf449aa2fa2c96a9aa097ac7ceeab184e727128100bd447d4b76571385",
+            "lines": [
+              8,
+              10
+            ],
+            "section": "widget-updating-session-state > Widget updating for every second input when using session state > Overview",
+            "section_path": [
+              "widget-updating-session-state",
+              "Widget updating for every second input when using session state",
+              "Overview"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 116,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03241935,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widget-behavior:v3:parent:6a28949cec4e5f0ff711",
+          "source_id": "docs:widget-behavior",
+          "text": "# Understanding widget behavior\n\nWidgets (like `st.button`, `st.selectbox`, and `st.text_input`) are at the heart of Streamlit apps. They are the interactive elements of Streamlit that pass information from your users into your Python code. Widgets are magical and often work how you want, but they can have surprising behavior in some situations. Understanding the different parts of a widget and the precise order in which events occur helps you achieve your desired results.\n\nThis guide covers advanced concepts about widgets. Generally, it begins with simpler concepts and increases in complexity. For most beginning users, these details won't be important to know right away. When you want to dynamically change widgets or preserve widget information between pages, these concepts will be important to understand. We recommend having a basic understanding of [Session State](/develop/api-reference/caching-and-state/st.session_state) before reading this guide.\n\n<Collapse title=\"🎈 TL;DR\" expanded={false}>\n\n1. The actions of one user don't affect the widgets of any other user.\n2. A widget command returns the widget's current value, which is a simple Python type. For example, `st.button` returns a Boolean value.\n3. Widgets return their default values on their first call before a user interacts with them.\n4. A widget's identity depends on the arguments passed to the widget command. If a key is provided, the key determines the widget's identity, with limited exceptions noted in each widget's `key` parameter description. If no key is provided, changing a widget's label, min value, max value, default value, placeholder text, or help text will cause it to reset.\n5. If you don't call a widget command in a script run, Streamlit will delete the widget's information&mdash;_including its key-value pair in Session State_. If you call the same widget command later, Streamlit treats it as a new widget.\n6. Widgets are not stateful between pages. If you have two widgets with the same key on different pages, they will be treated as two different widgets.\n\nThe last three points (widget identity and widget deletion) are the most relevant when dynamically changing widgets or working with multi-page applications. This is covered in detail later in this guide: [Statefulness of widgets](#statefulness-of-widgets) and [Widget life cycle](#widget-life-cycle).\n\n</Collapse>\n\n<Important>\n\n**Key-based widget identity (v1.55.0)**\n\nAs of v1.55.0, all widgets support key-based identity. When a `key` is provided, the key is the primary determinant of the widget's identity, and changing other parameters (like `label`, `options`, or `default`) won't reset the widget. Some parameters that constrain valid values still affect identity for specific widgets, even when a key is provided. For example, changing `min_value` or `max_value` for `st.slider` will reset the widget because the current value could be invalidated. These exceptions are noted in each widget's `key` parameter description.\n\nKey-based identity was progressively introduced from v1.50.0 through v1.55.0. If you're using an older version, check the [release notes](/develop/quick-reference/release-notes) to see which widgets support key-based identity in your version.\n\n**Other notable changes:**\n\n- **v1.46.0**: When navigating between pages, widget keys in `st.session_state` are deleted at the beginning of the new page's script run instead of the end.\n- **v1.55.0**: Most widgets support a new `bind` parameter to sync widget values with URL query parameters. See [Binding widgets to query parameters](#binding-widgets-to-query-parameters).\n\n</Important>\n",
+          "source_span": [
+            428,
+            4056
+          ],
+          "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+          "sha256": "625e901678b9184db8f6a7bc5bfe5b3034df668e1a041909d8a6eadc08a3f087",
+          "lines": [
+            8,
+            40
+          ],
+          "section": "widget-behavior > Understanding widget behavior",
+          "section_path": [
+            "widget-behavior",
+            "Understanding widget behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 772,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "selected_child_ids": [
+            "docs:widget-behavior:v3:child:4c8ce9dad96a6d63362f"
+          ],
+          "parent_id": "docs:widget-behavior:v3:parent:6a28949cec4e5f0ff711",
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation"
+        },
+        {
+          "kind": "docs",
+          "title": "widgets",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/multipage-apps/widgets.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widgets:v3:child:bb5a946d3f1dd5114b1f",
+          "source_id": "docs:widgets",
+          "text": "# Working with widgets in multipage apps\n\nWhen you create a widget in a Streamlit app, Streamlit generates a widget ID and uses it to make your widget stateful. As your app reruns with user interaction, Streamlit keeps track of the widget's value by associating its value to its ID. In particular, a widget's ID depends on the page where it's created. If you define an identical widget on two different pages, then the widget will reset to its default value when you switch pages.\n\nThis guide explains three strategies to deal with the behavior if you'd like to have a widget remain stateful across all pages. If don't want a widget to appear on all pages, but you do want it to remain stateful when you navigate away from its page (and then back), Options 2 and 3 can be used. For detailed information about these strategies, see [Understanding widget behavior](/develop/concepts/architecture/widget-behavior).\n",
+          "source_span": [
+            404,
+            1316
+          ],
+          "source_sha256": "66a0ce7e12c9c3886d485e14c23a3c313218680ebb163ad3fd28ce9ebf82f112",
+          "sha256": "2a9e66b758a6bae352263614a25588829a117ec2dcb9a488ea166a88e79b0a9e",
+          "lines": [
+            8,
+            12
+          ],
+          "section": "widgets > Working with widgets in multipage apps",
+          "section_path": [
+            "widgets",
+            "Working with widgets in multipage apps"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 193,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widgets:v3:parent:bb5a946d3f1dd5114b1f",
+          "parent": {
+            "kind": "docs",
+            "title": "widgets",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/multipage-apps/widgets.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widgets:v3:parent:bb5a946d3f1dd5114b1f",
+            "source_id": "docs:widgets",
+            "text": "# Working with widgets in multipage apps\n\nWhen you create a widget in a Streamlit app, Streamlit generates a widget ID and uses it to make your widget stateful. As your app reruns with user interaction, Streamlit keeps track of the widget's value by associating its value to its ID. In particular, a widget's ID depends on the page where it's created. If you define an identical widget on two different pages, then the widget will reset to its default value when you switch pages.\n\nThis guide explains three strategies to deal with the behavior if you'd like to have a widget remain stateful across all pages. If don't want a widget to appear on all pages, but you do want it to remain stateful when you navigate away from its page (and then back), Options 2 and 3 can be used. For detailed information about these strategies, see [Understanding widget behavior](/develop/concepts/architecture/widget-behavior).\n",
+            "source_span": [
+              404,
+              1316
+            ],
+            "source_sha256": "66a0ce7e12c9c3886d485e14c23a3c313218680ebb163ad3fd28ce9ebf82f112",
+            "sha256": "2a9e66b758a6bae352263614a25588829a117ec2dcb9a488ea166a88e79b0a9e",
+            "lines": [
+              8,
+              12
+            ],
+            "section": "widgets > Working with widgets in multipage apps",
+            "section_path": [
+              "widgets",
+              "Working with widgets in multipage apps"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 193,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03042857,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range",
+          "url": "https://github.com/streamlit/streamlit/issues/16675",
+          "revision": "2026-09-09T11:36:05Z",
+          "product_version": null,
+          "issue_number": 16675,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:16675:v3:child:c945f0f8fbe27281a33e",
+          "source_id": "issue:16675",
+          "text": "### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\nUnknown.\n",
+          "source_span": [
+            4127,
+            4216
+          ],
+          "source_sha256": "641484a834264171679c272e4cb5717ee7f7ba80b6285ec876ffcf44c863bb91",
+          "sha256": "e5de05bf318f155e713b60ef8133f48a54574df2fa36581dda74fda466d28dc6",
+          "lines": [
+            94,
+            98
+          ],
+          "section": "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range > Is this a regression?",
+          "section_path": [
+            "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range",
+            "Is this a regression?"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 22,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:16675:v3:parent:c945f0f8fbe27281a33e",
+          "parent": {
+            "kind": "issue",
+            "title": "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range",
+            "url": "https://github.com/streamlit/streamlit/issues/16675",
+            "revision": "2026-09-09T11:36:05Z",
+            "product_version": null,
+            "issue_number": 16675,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:16675:v3:parent:c945f0f8fbe27281a33e",
+            "source_id": "issue:16675",
+            "text": "### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\nUnknown.\n",
+            "source_span": [
+              4127,
+              4216
+            ],
+            "source_sha256": "641484a834264171679c272e4cb5717ee7f7ba80b6285ec876ffcf44c863bb91",
+            "sha256": "e5de05bf318f155e713b60ef8133f48a54574df2fa36581dda74fda466d28dc6",
+            "lines": [
+              94,
+              98
+            ],
+            "section": "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range > Is this a regression?",
+            "section_path": [
+              "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range",
+              "Is this a regression?"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 22,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.015625,
+          "rank": 5
+        }
+      ],
+      "packing": {
+        "encoding": "o200k_base",
+        "budget_tokens": 3000,
+        "used_tokens": 2608,
+        "expand_parent": true,
+        "items": [
+          {
+            "id": "docs:widget-behavior:v3:child:d04859e221c72d5a0695",
+            "status": "included",
+            "reason": "parent_relevance_window_exceeded_use_child",
+            "context_id": "docs:widget-behavior:v3:child:d04859e221c72d5a0695"
+          },
+          {
+            "id": "docs:widget-updating-session-state:v3:child:502abe8e52dd6e606c25",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:widget-updating-session-state:v3:child:502abe8e52dd6e606c25"
+          },
+          {
+            "id": "docs:widget-behavior:v3:child:4c8ce9dad96a6d63362f",
+            "status": "included",
+            "reason": "bounded_parent",
+            "context_id": "docs:widget-behavior:v3:parent:6a28949cec4e5f0ff711"
+          },
+          {
+            "id": "docs:widgets:v3:child:bb5a946d3f1dd5114b1f",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:widgets:v3:child:bb5a946d3f1dd5114b1f"
+          },
+          {
+            "id": "issue:16675:v3:child:c945f0f8fbe27281a33e",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:16675:v3:child:c945f0f8fbe27281a33e"
+          },
+          {
+            "id": "issue:16005:v3:child:e58f257baa384b8df069",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:9100:v3:child:45f93717212b058b95bc",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:6074:v3:child:5a006c3c8149e088bd8a",
+            "status": "omitted",
+            "reason": "item_limit"
+          }
+        ]
+      },
+      "index": "v3",
+      "namespace": "6fbba079eb1323bf54c9d03ad4b956a7174e0f434f386ed66f0a50b489f55d4e"
+    }
+  },
+  "code_hash": "c148d8cd099ab2f7dd82c13ef86c8525124fe15649ff8f335418dc5d867b8a6a",
+  "query_vector_hash": "37c194a86fd510c4eb54f96c0c0a13b758b57bd73f1ccab31a56c8452acbc5cb",
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "reserved_usd": 1.73448e-05,
+      "ledger_id": "7f6218cc1e5234bb1cf9ca89",
+      "diagnostic": {
+        "request_id": "7f6218cc1e5234bb1cf9ca89",
+        "provider_request_id": null,
+        "role": "embedding",
+        "model": "text-embedding-3-small",
+        "requested_max_output_tokens": null,
+        "reported_usage": {
+          "prompt_tokens": 14,
+          "completion_tokens": null,
+          "total_tokens": 14
+        },
+        "http_status": 200,
+        "finish_reason": null,
+        "status": "parsed",
+        "failure_code": null
+      },
+      "input_tokens": 14,
+      "output_tokens": 0,
+      "cost_usd": 3.08e-07
+    }
+  ]
+}

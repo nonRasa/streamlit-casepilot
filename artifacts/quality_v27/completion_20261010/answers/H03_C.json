@@ -1,0 +1,711 @@
+{
+  "id": "H03",
+  "variant": "C",
+  "split": "holdout",
+  "output": {
+    "case_id": "H03",
+    "request_id": "completion-initial",
+    "architecture": "v2",
+    "quality_revision": "v2.7-readable-parent-child",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": false,
+      "quality": true,
+      "parent_context": true,
+      "context_tokens": 3000
+    },
+    "decision": "escalate",
+    "response": "پاسخ پیشنهادی: وضعیت سامانه: پردازش پاسخ متوقف شد؛ گزارش و بررسی‌های شما محفوظ است. اپراتور باید مرحلهٔ شکست‌خورده با کد `judge_contract_error` را بررسی کند. ارسال دوبارهٔ اطلاعات پرونده لازم نیست.\n\nمحدودیت: این خطای داخلی دربارهٔ علت مشکل یا لزوم ارجاع آن به نگه‌دارنده نتیجه‌ای نمی‌دهد.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nBug report: a static image URL fails. My config already contains [server] enableStaticServing=true and I tested the exact URL in a fresh browser; it still returns 404.\n```\n\nمحیط گزارش‌شده:\n\n```text\nsymptom_scope=static image URL fails\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\nstreamlit_version, python_version, deployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_contract_error`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند.",
+    "summary": {
+      "problem": "Bug report: a static image URL fails. My config already contains [server] enableStaticServing=true and I tested the exact URL in a fresh browser; it still returns 404.",
+      "facts": {
+        "symptom_scope": "static image URL fails"
+      },
+      "unknowns": [
+        "streamlit_version",
+        "python_version",
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [
+        "My config already contains [server] enableStaticServing=true",
+        "I tested the exact URL in a fresh browser; it still returns 404"
+      ],
+      "sources": [],
+      "decision": "escalate",
+      "next_step": "وضعیت سامانه: پردازش پاسخ متوقف شد؛ گزارش و بررسی‌های شما محفوظ است. اپراتور باید مرحلهٔ شکست‌خورده با کد `judge_contract_error` را بررسی کند. ارسال دوبارهٔ اطلاعات پرونده لازم نیست.",
+      "rationale": "محدودیت: این خطای داخلی دربارهٔ علت مشکل یا لزوم ارجاع آن به نگه‌دارنده نتیجه‌ای نمی‌دهد.",
+      "hypotheses": [],
+      "ambiguities": [],
+      "judge": null,
+      "investigation_plan": {
+        "acceptance_condition": "هنگامی که enableStaticServing=true است، URL تصویر ثابت باید 404 برنگرداند و تصویر را به درستی نمایش دهد",
+        "intent": "bug",
+        "known_report_spans": [
+          "Bug report: a static image URL fails. My config already contains [server] enableStaticServing=true and I tested the exact URL in a fresh browser; it still returns 404."
+        ],
+        "missing_detail": "لطفاً بدنه کامل پیکربندی مربوط به بخش server را ارائه دهید، به خصوص مسیرهای فایل static و تنظیمات مرتبط دیگر را شامل شود",
+        "new_condition": "",
+        "problem_summary": "static image URL returns 404 despite enableStaticServing=true",
+        "suggested_question": "آیا می‌توانید بخش کامل پیکربندی server، به خصوص تنظیمات مربوط به مسیرهای static را ارسال کنید؟"
+      },
+      "experiments": [],
+      "memory_version": 3,
+      "handoff": {
+        "request_type": "bug",
+        "reported_problem": "Bug report: a static image URL fails. My config already contains [server] enableStaticServing=true and I tested the exact URL in a fresh browser; it still returns 404.",
+        "environment": {
+          "symptom_scope": "static image URL fails"
+        },
+        "experiments": [],
+        "evidence": [],
+        "unknowns": [
+          "streamlit_version",
+          "python_version",
+          "deployment",
+          "reproducible"
+        ],
+        "escalation_basis": "internal_review_failure",
+        "valid_findings": [],
+        "limitations": [
+          "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+          "محدودیت: کد توقف `judge_contract_error`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند."
+        ],
+        "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+        "feature": {},
+        "feature_origins": []
+      },
+      "review_failures": [
+        {
+          "kind": "judge_contract",
+          "code": "judge_contract_error",
+          "reason": "قالب فشردهٔ داور ناقص، منقضی یا دارای ارجاع نامعتبر است.",
+          "draft_version": "a618b53aa83394d056f95043cdcf7ac49b15092cd7349bdc65ea2679c9345955"
+        }
+      ]
+    },
+    "proposal": {
+      "id": "762a913b395c00cc55fb8c02",
+      "case_id": "H03",
+      "revision": 1,
+      "hash": "3f434e9e5811923fb1beec016c99440ecdd8d45e9234ec68e05bca4dd9901be6",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: وضعیت سامانه: پردازش پاسخ متوقف شد؛ گزارش و بررسی‌های شما محفوظ است. اپراتور باید مرحلهٔ شکست‌خورده با کد `judge_contract_error` را بررسی کند. ارسال دوبارهٔ اطلاعات پرونده لازم نیست.\n\nمحدودیت: این خطای داخلی دربارهٔ علت مشکل یا لزوم ارجاع آن به نگه‌دارنده نتیجه‌ای نمی‌دهد.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nBug report: a static image URL fails. My config already contains [server] enableStaticServing=true and I tested the exact URL in a fresh browser; it still returns 404.\n```\n\nمحیط گزارش‌شده:\n\n```text\nsymptom_scope=static image URL fails\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\nstreamlit_version, python_version, deployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_contract_error`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند."
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "problem": "Bug report: a static image URL fails. My config already contains [server] enableStaticServing=true and I tested the exact URL in a fresh browser; it still returns 404.",
+          "facts": {
+            "symptom_scope": "static image URL fails"
+          },
+          "unknowns": [
+            "streamlit_version",
+            "python_version",
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [
+            "My config already contains [server] enableStaticServing=true",
+            "I tested the exact URL in a fresh browser; it still returns 404"
+          ],
+          "sources": [],
+          "decision": "escalate",
+          "next_step": "وضعیت سامانه: پردازش پاسخ متوقف شد؛ گزارش و بررسی‌های شما محفوظ است. اپراتور باید مرحلهٔ شکست‌خورده با کد `judge_contract_error` را بررسی کند. ارسال دوبارهٔ اطلاعات پرونده لازم نیست.",
+          "rationale": "محدودیت: این خطای داخلی دربارهٔ علت مشکل یا لزوم ارجاع آن به نگه‌دارنده نتیجه‌ای نمی‌دهد.",
+          "hypotheses": [],
+          "ambiguities": [],
+          "judge": null,
+          "investigation_plan": {
+            "acceptance_condition": "هنگامی که enableStaticServing=true است، URL تصویر ثابت باید 404 برنگرداند و تصویر را به درستی نمایش دهد",
+            "intent": "bug",
+            "known_report_spans": [
+              "Bug report: a static image URL fails. My config already contains [server] enableStaticServing=true and I tested the exact URL in a fresh browser; it still returns 404."
+            ],
+            "missing_detail": "لطفاً بدنه کامل پیکربندی مربوط به بخش server را ارائه دهید، به خصوص مسیرهای فایل static و تنظیمات مرتبط دیگر را شامل شود",
+            "new_condition": "",
+            "problem_summary": "static image URL returns 404 despite enableStaticServing=true",
+            "suggested_question": "آیا می‌توانید بخش کامل پیکربندی server، به خصوص تنظیمات مربوط به مسیرهای static را ارسال کنید؟"
+          },
+          "experiments": [],
+          "memory_version": 3,
+          "handoff": {
+            "request_type": "bug",
+            "reported_problem": "Bug report: a static image URL fails. My config already contains [server] enableStaticServing=true and I tested the exact URL in a fresh browser; it still returns 404.",
+            "environment": {
+              "symptom_scope": "static image URL fails"
+            },
+            "experiments": [],
+            "evidence": [],
+            "unknowns": [
+              "streamlit_version",
+              "python_version",
+              "deployment",
+              "reproducible"
+            ],
+            "escalation_basis": "internal_review_failure",
+            "valid_findings": [],
+            "limitations": [
+              "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+              "محدودیت: کد توقف `judge_contract_error`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند."
+            ],
+            "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+            "feature": {},
+            "feature_origins": []
+          },
+          "review_failures": [
+            {
+              "kind": "judge_contract",
+              "code": "judge_contract_error",
+              "reason": "قالب فشردهٔ داور ناقص، منقضی یا دارای ارجاع نامعتبر است.",
+              "draft_version": "a618b53aa83394d056f95043cdcf7ac49b15092cd7349bdc65ea2679c9345955"
+            }
+          ]
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "docs:static-file-serving:v3:child:51b411f23db4ea408d60",
+        "source_id": "docs:static-file-serving",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+        "section": "static-file-serving > Static file serving",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.03483871
+      },
+      {
+        "id": "docs:static-file-serving:v3:child:02f06fd6fde22070615f",
+        "source_id": "docs:static-file-serving",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/configuration/static-file-serving.md",
+        "section": "static-file-serving > Static file serving > Example usage",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.03540984
+      },
+      {
+        "id": "docs:config-toml:v3:parent:359c6912371aa1f76005",
+        "source_id": "docs:config-toml",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/configuration/config-toml.md",
+        "section": "config-toml > config.toml > Available configuration options > Server",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": null
+      },
+      {
+        "id": "issue:4744:v3:parent:23617aa258ea3b91429f",
+        "source_id": "issue:4744",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/4744",
+        "section": "Externel URL doesn't work > Methods I tried > 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "retrieval_score": null
+      }
+    ],
+    "steps": 9,
+    "model_calls": 4,
+    "max_calls": 8,
+    "repair_count": 0,
+    "judge": null,
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "ok",
+        "keys": [
+          "symptom_scope"
+        ],
+        "facts_with_quotes": [
+          {
+            "key": "symptom_scope",
+            "quote": "a static image URL fails",
+            "value": "static image URL fails"
+          }
+        ],
+        "checks": [
+          "My config already contains [server] enableStaticServing=true",
+          "I tested the exact URL in a fresh browser; it still returns 404"
+        ],
+        "ambiguities": []
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "controlled_persisted_live_hybrid",
+        "candidate_hash": "3ce67fe8e4aa8e27f0b3b42fc9310f7de469da655a3c0d0805a4c058d030d6f1",
+        "candidates": [
+          "docs:static-file-serving:v3:child:02f06fd6fde22070615f",
+          "issue:4744:v3:child:3668cde8fe085a5fcf41",
+          "docs:static-file-serving:v3:child:51b411f23db4ea408d60",
+          "issue:4744:v3:child:43bf83cbc3b7c03440b9",
+          "issue:11396:v3:child:62b3cffe80e5ff2e7f1c",
+          "issue:8971:v3:child:5418f7b418e0cb8e6819",
+          "docs:config-toml:v3:child:266f749b514cef111051",
+          "issue:1530:v3:child:017c03b891d7fd73d906"
+        ],
+        "query": "Bug report: a static image URL fails. My config already contains [server] enableStaticServing=true and I tested the exact URL in a fresh browser; it still returns 404.",
+        "query_vector_hash": "a54cfea47bdcc950923fd0b5e32366150bb822a704be116ccb157b1aa7efa411",
+        "generated_query_not_used": "static image URL returns 404 despite enableStaticServing=true\nBug report: a static image URL fails. My config already contains [server] enableStaticServing=true and I tested the exact URL in a fresh browser; it still returns 404.\nAPIs: \nErrors: ",
+        "embedding": {
+          "usage": []
+        },
+        "index": "v3",
+        "namespace": "6fbba079eb1323bf54c9d03ad4b956a7174e0f434f386ed66f0a50b489f55d4e"
+      },
+      {
+        "stage": "rerank",
+        "status": "selected",
+        "ids": [
+          "docs:static-file-serving:v3:child:51b411f23db4ea408d60",
+          "docs:static-file-serving:v3:child:02f06fd6fde22070615f",
+          "docs:config-toml:v3:child:266f749b514cef111051",
+          "issue:4744:v3:child:43bf83cbc3b7c03440b9",
+          "issue:4744:v3:child:3668cde8fe085a5fcf41"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "encoding": "o200k_base",
+        "budget_tokens": 3000,
+        "used_tokens": 2682,
+        "expand_parent": true,
+        "items": [
+          {
+            "id": "docs:static-file-serving:v3:child:51b411f23db4ea408d60",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:static-file-serving:v3:child:51b411f23db4ea408d60"
+          },
+          {
+            "id": "docs:static-file-serving:v3:child:02f06fd6fde22070615f",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:static-file-serving:v3:child:02f06fd6fde22070615f"
+          },
+          {
+            "id": "docs:config-toml:v3:child:266f749b514cef111051",
+            "status": "included",
+            "reason": "bounded_parent",
+            "context_id": "docs:config-toml:v3:parent:359c6912371aa1f76005"
+          },
+          {
+            "id": "issue:4744:v3:child:43bf83cbc3b7c03440b9",
+            "status": "included",
+            "reason": "bounded_parent",
+            "context_id": "issue:4744:v3:parent:23617aa258ea3b91429f"
+          },
+          {
+            "id": "issue:4744:v3:child:3668cde8fe085a5fcf41",
+            "status": "omitted",
+            "reason": "context_budget",
+            "tokens": 399
+          }
+        ],
+        "ids": [
+          "docs:static-file-serving:v3:child:51b411f23db4ea408d60",
+          "docs:static-file-serving:v3:child:02f06fd6fde22070615f",
+          "docs:config-toml:v3:parent:359c6912371aa1f76005",
+          "issue:4744:v3:parent:23617aa258ea3b91429f"
+        ]
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge_contract_failure",
+        "kind": "judge_contract",
+        "code": "judge_contract_error",
+        "reason": "قالب فشردهٔ داور ناقص، منقضی یا دارای ارجاع نامعتبر است.",
+        "draft_version": "a618b53aa83394d056f95043cdcf7ac49b15092cd7349bdc65ea2679c9345955"
+      },
+      {
+        "stage": "safe_escalation",
+        "error": "judge_contract_error"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "762a913b395c00cc55fb8c02",
+        "hash": "3f434e9e5811923fb1beec016c99440ecdd8d45e9234ec68e05bca4dd9901be6",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 3,
+      "cost_usd": 0.00627836,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "cached_live",
+          "cost_usd": 0,
+          "provider_requests": 0,
+          "kind": "extract",
+          "original_usage": {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "extract",
+            "reserved_usd": 0.007097375999999999,
+            "ledger_id": "a5b1e32116714a49c05c09d0",
+            "diagnostic": {
+              "request_id": "a5b1e32116714a49c05c09d0",
+              "provider_request_id": "chatcmpl-EXBtmo7n2WN0CY1F3OvBK7LL1CYpi",
+              "role": "extract",
+              "model": "gpt-4.1-mini",
+              "requested_max_output_tokens": 1200,
+              "reported_usage": {
+                "prompt_tokens": 1433,
+                "completion_tokens": 234,
+                "total_tokens": 1667
+              },
+              "http_status": 200,
+              "finish_reason": "stop",
+              "status": "parsed",
+              "failure_code": null
+            },
+            "input_tokens": 1433,
+            "output_tokens": 234,
+            "cost_usd": 0.00104236
+          },
+          "diagnostic": {
+            "request_id": null,
+            "provider_request_id": null,
+            "role": "extract",
+            "model": "gpt-4.1-mini",
+            "requested_max_output_tokens": 1200,
+            "reported_usage": null,
+            "http_status": null,
+            "finish_reason": null,
+            "status": "cached",
+            "failure_code": null,
+            "original_diagnostic": {
+              "request_id": "a5b1e32116714a49c05c09d0",
+              "provider_request_id": "chatcmpl-EXBtmo7n2WN0CY1F3OvBK7LL1CYpi",
+              "role": "extract",
+              "model": "gpt-4.1-mini",
+              "requested_max_output_tokens": 1200,
+              "reported_usage": {
+                "prompt_tokens": 1433,
+                "completion_tokens": 234,
+                "total_tokens": 1667
+              },
+              "http_status": 200,
+              "finish_reason": "stop",
+              "status": "parsed",
+              "failure_code": null
+            }
+          }
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "reserved_usd": 0.009067344,
+          "ledger_id": "0bb57596c38f1be297d13488",
+          "diagnostic": {
+            "request_id": "0bb57596c38f1be297d13488",
+            "provider_request_id": "chatcmpl-EXBuQDylMMDo3M2IRMcD9WLoX5LEi",
+            "role": "rerank",
+            "model": "gpt-4.1-mini",
+            "requested_max_output_tokens": 350,
+            "reported_usage": {
+              "prompt_tokens": 3887,
+              "completion_tokens": 112,
+              "total_tokens": 3999
+            },
+            "http_status": 200,
+            "finish_reason": "stop",
+            "status": "parsed",
+            "failure_code": null
+          },
+          "input_tokens": 3887,
+          "output_tokens": 112,
+          "cost_usd": 0.0019074
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "reserved_usd": 0.012641375999999998,
+          "ledger_id": "9ebc884b9ddaedb4b4148603",
+          "diagnostic": {
+            "request_id": "9ebc884b9ddaedb4b4148603",
+            "provider_request_id": "chatcmpl-EXBuTbBeaYXGgs5Yyd6S3W1JB84Mv",
+            "role": "chat",
+            "model": "gpt-4.1-mini",
+            "requested_max_output_tokens": 1600,
+            "reported_usage": {
+              "prompt_tokens": 3380,
+              "completion_tokens": 320,
+              "total_tokens": 3700
+            },
+            "http_status": 200,
+            "finish_reason": "stop",
+            "status": "parsed",
+            "failure_code": null
+          },
+          "input_tokens": 3380,
+          "output_tokens": 320,
+          "cost_usd": 0.0020504
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "reserved_usd": 0.010844064,
+          "ledger_id": "f7fe5a67cb8b3c6927c35ce5",
+          "diagnostic": {
+            "request_id": "f7fe5a67cb8b3c6927c35ce5",
+            "provider_request_id": "chatcmpl-EXBuWJaFdiZjyHaIRI3zlHe66IuFu",
+            "role": "judge",
+            "model": "gpt-4.1-mini",
+            "requested_max_output_tokens": 1600,
+            "reported_usage": {
+              "prompt_tokens": 3010,
+              "completion_tokens": 566,
+              "total_tokens": 3576
+            },
+            "http_status": 200,
+            "finish_reason": "stop",
+            "status": "contract_failed",
+            "failure_code": "judge_contract_error",
+            "diagnostic_file": "F:\\Quera AI\\Project\\streamlit-casepilot\\runtime\\quality_v27\\completion_20261010\\diagnostics\\f7fe5a67cb8b3c6927c35ce5.json"
+          },
+          "input_tokens": 3010,
+          "output_tokens": 566,
+          "cost_usd": 0.00232056
+        }
+      ],
+      "charged_or_reserved_usd": 0.006278360000000038
+    },
+    "validation_error": "judge_contract_error",
+    "review_failures": [
+      {
+        "kind": "judge_contract",
+        "code": "judge_contract_error",
+        "reason": "قالب فشردهٔ داور ناقص، منقضی یا دارای ارجاع نامعتبر است.",
+        "draft_version": "a618b53aa83394d056f95043cdcf7ac49b15092cd7349bdc65ea2679c9345955"
+      }
+    ],
+    "reviewed_draft": {
+      "draft_version": "a618b53aa83394d056f95043cdcf7ac49b15092cd7349bdc65ea2679c9345955",
+      "case_id": "H03",
+      "case_revision": 1,
+      "generation": 0,
+      "units": [
+        {
+          "unit_id": "u_845372e18e34cbc73c5e62e5",
+          "field": "question",
+          "text": "آیا می‌توانید کل بخش [server] از فایل پیکربندی خود را بفرستید، به خصوص تنظیمات مربوط به enableStaticServing و مسیر فولدر static؟",
+          "start": 0,
+          "end": 128
+        },
+        {
+          "unit_id": "u_7f78a08fab4210c4be07a632",
+          "field": "next_step",
+          "text": "لطفاً بخش کامل پیکربندی سرور در فایل config.toml را ارسال کنید تا موارد مرتبط با فعال سازی سروینگ فایل‌های static و مسیر آنها بررسی شود.",
+          "start": 0,
+          "end": 136
+        },
+        {
+          "unit_id": "u_b5e547d3bbaa7b6fea969449",
+          "field": "rationale",
+          "text": "پیکربندی enableStaticServing=true در مستندات ذکر شده به عنوان شرط لازمی برای سرو کردن فایل‌های استاتیک است. اما گزارش خطای 404 با وجود این تنظیم می‌تواند به نبود پوشه static یا مشکل در مسیر آن مربوط باشد. بررسی دقیق پیکربندی عمومی سرور و مسیر فایل استاتیک در فایل config.toml برای تشخیص مشکل ضروری است.",
+          "start": 0,
+          "end": 302
+        },
+        {
+          "unit_id": "u_0cd80b6e9f3df17ef0cd4d7d",
+          "field": "hypotheses.0",
+          "text": "امکان دارد پوشه static به درستی در پروژه قرار نگرفته باشد یا نام آن اشتباه باشد که باعث بازگشت 404 می‌شود.",
+          "start": 0,
+          "end": 106
+        }
+      ]
+    },
+    "request_type": "bug",
+    "response_policy": {
+      "request_type": "bug",
+      "evidence_state": "selected",
+      "objective": "Answer with direct compatible evidence if sufficient. Otherwise ask exactly one genuinely missing detail or propose a specific new discriminating experiment; never infer cause from a similar issue.",
+      "claim_rule": "Technical source-dependent assertions need evidence; a proposed new capability is a request, not an assertion of existing support.",
+      "novelty_scope": "Entire user report, code, all prior messages, supplied checks and performed experiments; an absent extracted field is not a missing fact."
+    },
+    "outcome": "internal_error",
+    "latency_seconds": 10.807442
+  },
+  "failure": null,
+  "failure_category": "schema_or_reference",
+  "usage": [
+    {
+      "mode": "cached_live",
+      "cost_usd": 0,
+      "provider_requests": 0,
+      "kind": "extract",
+      "original_usage": {
+        "mode": "live",
+        "provider_requests": 1,
+        "kind": "extract",
+        "reserved_usd": 0.007097375999999999,
+        "ledger_id": "a5b1e32116714a49c05c09d0",
+        "diagnostic": {
+          "request_id": "a5b1e32116714a49c05c09d0",
+          "provider_request_id": "chatcmpl-EXBtmo7n2WN0CY1F3OvBK7LL1CYpi",
+          "role": "extract",
+          "model": "gpt-4.1-mini",
+          "requested_max_output_tokens": 1200,
+          "reported_usage": {
+            "prompt_tokens": 1433,
+            "completion_tokens": 234,
+            "total_tokens": 1667
+          },
+          "http_status": 200,
+          "finish_reason": "stop",
+          "status": "parsed",
+          "failure_code": null
+        },
+        "input_tokens": 1433,
+        "output_tokens": 234,
+        "cost_usd": 0.00104236
+      },
+      "diagnostic": {
+        "request_id": null,
+        "provider_request_id": null,
+        "role": "extract",
+        "model": "gpt-4.1-mini",
+        "requested_max_output_tokens": 1200,
+        "reported_usage": null,
+        "http_status": null,
+        "finish_reason": null,
+        "status": "cached",
+        "failure_code": null,
+        "original_diagnostic": {
+          "request_id": "a5b1e32116714a49c05c09d0",
+          "provider_request_id": "chatcmpl-EXBtmo7n2WN0CY1F3OvBK7LL1CYpi",
+          "role": "extract",
+          "model": "gpt-4.1-mini",
+          "requested_max_output_tokens": 1200,
+          "reported_usage": {
+            "prompt_tokens": 1433,
+            "completion_tokens": 234,
+            "total_tokens": 1667
+          },
+          "http_status": 200,
+          "finish_reason": "stop",
+          "status": "parsed",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "reserved_usd": 0.009067344,
+      "ledger_id": "0bb57596c38f1be297d13488",
+      "diagnostic": {
+        "request_id": "0bb57596c38f1be297d13488",
+        "provider_request_id": "chatcmpl-EXBuQDylMMDo3M2IRMcD9WLoX5LEi",
+        "role": "rerank",
+        "model": "gpt-4.1-mini",
+        "requested_max_output_tokens": 350,
+        "reported_usage": {
+          "prompt_tokens": 3887,
+          "completion_tokens": 112,
+          "total_tokens": 3999
+        },
+        "http_status": 200,
+        "finish_reason": "stop",
+        "status": "parsed",
+        "failure_code": null
+      },
+      "input_tokens": 3887,
+      "output_tokens": 112,
+      "cost_usd": 0.0019074
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "reserved_usd": 0.012641375999999998,
+      "ledger_id": "9ebc884b9ddaedb4b4148603",
+      "diagnostic": {
+        "request_id": "9ebc884b9ddaedb4b4148603",
+        "provider_request_id": "chatcmpl-EXBuTbBeaYXGgs5Yyd6S3W1JB84Mv",
+        "role": "chat",
+        "model": "gpt-4.1-mini",
+        "requested_max_output_tokens": 1600,
+        "reported_usage": {
+          "prompt_tokens": 3380,
+          "completion_tokens": 320,
+          "total_tokens": 3700
+        },
+        "http_status": 200,
+        "finish_reason": "stop",
+        "status": "parsed",
+        "failure_code": null
+      },
+      "input_tokens": 3380,
+      "output_tokens": 320,
+      "cost_usd": 0.0020504
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "reserved_usd": 0.010844064,
+      "ledger_id": "f7fe5a67cb8b3c6927c35ce5",
+      "diagnostic": {
+        "request_id": "f7fe5a67cb8b3c6927c35ce5",
+        "provider_request_id": "chatcmpl-EXBuWJaFdiZjyHaIRI3zlHe66IuFu",
+        "role": "judge",
+        "model": "gpt-4.1-mini",
+        "requested_max_output_tokens": 1600,
+        "reported_usage": {
+          "prompt_tokens": 3010,
+          "completion_tokens": 566,
+          "total_tokens": 3576
+        },
+        "http_status": 200,
+        "finish_reason": "stop",
+        "status": "contract_failed",
+        "failure_code": "judge_contract_error",
+        "diagnostic_file": "F:\\Quera AI\\Project\\streamlit-casepilot\\runtime\\quality_v27\\completion_20261010\\diagnostics\\f7fe5a67cb8b3c6927c35ce5.json"
+      },
+      "input_tokens": 3010,
+      "output_tokens": 566,
+      "cost_usd": 0.00232056
+    }
+  ],
+  "code_hash": "c148d8cd099ab2f7dd82c13ef86c8525124fe15649ff8f335418dc5d867b8a6a",
+  "retrieval_hash": "6ab83d1be783ce43d994a441a21f9fbbd63845e880887db739c64c28011ff9ea",
+  "human_review": null,
+  "independent_review": null
+}

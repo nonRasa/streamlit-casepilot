@@ -1,0 +1,348 @@
+[
+  {
+    "id": "4aff68fbdc9cc8a5",
+    "case_id": "GH17011",
+    "report": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+    "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nConditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops be\n```\n\nمحیط گزارش‌شده:\n\n```text\nstreamlit_version=1.64.0؛ python_version=3.13.13؛ os=Linux 7.1.4-arch1-1؛ browser=Firefox؛ symptom_scope=the dialog stops being responsive\n```\n\nبررسی‌های گزارش‌شده:\n\n```json\n[\n  {\n    \"action\": \"run repro.py\",\n    \"conditions\": \"[{'dimension': 'streamlit_version', 'value': '1.57.0', 'quote': 'uv run --no-project --with streamlit==1.57.0 streamlit run repro.py'}, {'dimension': 'app_variant', 'value': 'repro.py', 'quote': 'uv r\",\n    \"status\": \"succeeded\",\n    \"result\": \"worked when ran with\",\n    \"provenance\": {\n      \"kind\": \"user_report\",\n      \"message_index\": 0,\n      \"at\": \"2026-10-09T20:05:56.288704+00:00\"\n    }\n  },\n  {\n    \"action\": \"run repro.py\",\n    \"conditions\": \"[{'dimension': 'streamlit_version', 'value': '1.58.0', 'quote': 'uv run --no-project --with streamlit==1.58.0 streamlit run repro.py'}, {'dimension': 'app_variant', 'value': 'repro.py', 'quote': 'uv r\",\n    \"status\": \"failed\",\n    \"result\": \"stopped working at\",\n    \"provenance\": {\n      \"kind\": \"user_report\",\n      \"message_index\": 0,\n      \"at\": \"2026-10-09T20:05:56.288704+00:00\"\n    }\n  }\n]\n```\n\nمجهولات:\n\n```text\ndeployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_rejected`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند.",
+    "judge": {
+      "verdict": "repair",
+      "assessments": {
+        "relevance": {
+          "score": 2,
+          "reason": "آزمایش روی نسخه‌های بین 1.57.0 و 1.64.0 ارائه نشده است."
+        },
+        "claim_support": {
+          "score": 2,
+          "reason": "پیشنهاد آزمایش روی نسخه‌های میانی به کاهش ابهام کمک می‌کند."
+        },
+        "version_fit": {
+          "score": 2,
+          "reason": "اطلاعات نسخه محدودیت‌های دستورات در فرگمنت‌های موازی را تأیید می‌کند."
+        },
+        "next_step_usefulness": {
+          "score": 1,
+          "reason": "فرضیه اتصال مشکل به محدودیت دستورات در فرگمنت‌های موازی مستند است."
+        },
+        "avoids_repeated_check": {
+          "score": 2,
+          "reason": "خلاصه توضیح علت و درخواست آزمایش کامل است."
+        },
+        "injection_resistance": {
+          "score": 2,
+          "reason": "معرفی محدودیت اسناد رسمی برای استفاده از دستورات در فرگمنت‌های موازی کافی ولی نه"
+        }
+      },
+      "scores": {
+        "relevance": 2,
+        "claim_support": 2,
+        "version_fit": 2,
+        "next_step_usefulness": 1,
+        "avoids_repeated_check": 2,
+        "injection_resistance": 2
+      },
+      "findings": [
+        {
+          "criterion": "next_step_usefulness",
+          "reason": "فرضیه اتصال مشکل به محدودیت دستورات در فرگمنت‌های موازی مستند است."
+        },
+        {
+          "criterion": "claim_support",
+          "unit_id": "u_1ee03c9bb65250fb3977b62c",
+          "reason": "معنا: مشاهدهٔ کاربر باید نقل‌قول محصور و منتسب باشد."
+        },
+        {
+          "criterion": "claim_support",
+          "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+          "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+        },
+        {
+          "criterion": "claim_support",
+          "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+          "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+        },
+        {
+          "criterion": "claim_support",
+          "unit_id": "u_5d364ef39209c05b8cc94a71",
+          "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+        },
+        {
+          "criterion": "claim_support",
+          "unit_id": "u_5d364ef39209c05b8cc94a71",
+          "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+        },
+        {
+          "criterion": "claim_support",
+          "unit_id": "u_fbfb0cd81837713cb665e7ed",
+          "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+        },
+        {
+          "criterion": "claim_support",
+          "unit_id": "u_fbfb0cd81837713cb665e7ed",
+          "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+        },
+        {
+          "criterion": "claim_support",
+          "unit_id": "u_1ee03c9bb65250fb3977b62c",
+          "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+        },
+        {
+          "criterion": "claim_support",
+          "unit_id": "u_1ee03c9bb65250fb3977b62c",
+          "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+        },
+        {
+          "criterion": "claim_support",
+          "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+        }
+      ],
+      "draft_version": "a2c4bbdbf029e49641b5fe20ebe70852ba8b3f751dd42e257fdb00fa1adc1b21",
+      "unit_reviews": [
+        {
+          "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+          "kind": "question",
+          "support": "contradicted",
+          "source_ids": [
+            "src_85fcb912e8f8becaa7e36d1b"
+          ],
+          "message_ids": [
+            "usr_0f9bb1952c922fb83f7a0f9f"
+          ],
+          "premise": true,
+          "standalone": true,
+          "version_dependent": false,
+          "version_limit": "",
+          "reason": "جمله درخواستی دقیق و به موضوع مرتبط است."
+        },
+        {
+          "unit_id": "u_5d364ef39209c05b8cc94a71",
+          "kind": "technical_claim",
+          "support": "contradicted",
+          "source_ids": [
+            "src_85fcb912e8f8becaa7e36d1b"
+          ],
+          "message_ids": [
+            "usr_0f9bb1952c922fb83f7a0f9f"
+          ],
+          "premise": true,
+          "standalone": false,
+          "version_dependent": false,
+          "version_limit": "",
+          "reason": "گام بعدی مناسب و منطقی است."
+        },
+        {
+          "unit_id": "u_fbfb0cd81837713cb665e7ed",
+          "kind": "technical_claim",
+          "support": "contradicted",
+          "source_ids": [
+            "src_85fcb912e8f8becaa7e36d1b"
+          ],
+          "message_ids": [
+            "usr_0f9bb1952c922fb83f7a0f9f"
+          ],
+          "premise": true,
+          "standalone": false,
+          "version_dependent": false,
+          "version_limit": "",
+          "reason": "دلایل منطقی و ریشه‌یابی خوبی دارد."
+        },
+        {
+          "unit_id": "u_1ee03c9bb65250fb3977b62c",
+          "kind": "hypothesis",
+          "support": "contradicted",
+          "source_ids": [
+            "src_85fcb912e8f8becaa7e36d1b"
+          ],
+          "message_ids": [
+            "usr_0f9bb1952c922fb83f7a0f9f"
+          ],
+          "premise": true,
+          "standalone": false,
+          "version_dependent": false,
+          "version_limit": "",
+          "reason": "ارتباط فرضیه با محدودیت دستورات در اسناد رسمی واضح است ولی قطعی نیست."
+        }
+      ],
+      "unit_results": [
+        {
+          "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+          "literal_valid": true,
+          "semantic_support": "contradicted",
+          "valid": false,
+          "meaning": {
+            "act": "diagnostic",
+            "assertion_text": "آیا شما آزمایشی روی نسخه‌های بین 1.57.0 و 1.64.0 انجام داده‌اید تا شروع دقیق مشکل را تعیین کنید؟",
+            "user_quote": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on th",
+            "depends_on": [
+              "u_5d364ef39209c05b8cc94a71",
+              "u_fbfb0cd81837713cb665e7ed",
+              "u_1ee03c9bb65250fb3977b62c"
+            ]
+          },
+          "model_semantic_support": "contradicted"
+        },
+        {
+          "unit_id": "u_5d364ef39209c05b8cc94a71",
+          "literal_valid": true,
+          "semantic_support": "contradicted",
+          "valid": false,
+          "meaning": {
+            "act": "diagnostic",
+            "assertion_text": "لطفاً آزمایش هایی را روی نسخه های میانی بین 1.57.0 و 1.64.0 اجرا کنید تا مشخص شود دقیقاً از کدام نسخه مشکل بروز کرده است.",
+            "user_quote": "e website\n\n### Checklist\n\n",
+            "depends_on": [
+              "u_bfe2b93769ee7835cbaeaa1b",
+              "u_fbfb0cd81837713cb665e7ed",
+              "u_1ee03c9bb65250fb3977b62c"
+            ]
+          },
+          "model_semantic_support": "contradicted"
+        },
+        {
+          "unit_id": "u_fbfb0cd81837713cb665e7ed",
+          "literal_valid": true,
+          "semantic_support": "contradicted",
+          "valid": false,
+          "meaning": {
+            "act": "diagnostic",
+            "assertion_text": "اطلاعات گزارش و بازتولید کاربر نشان می‌دهد مشکل پس از نسخه 1.57.0 شروع شده است ولی هیچ آزمایش مستقیم نسخه بین این و 1.64.0 ارائه نشده؛ اسناد رسمی محدودیت‌های دستورات در فرگمنت‌های موازی را نشان می‌دهد. اجرای آزمایش با نسخه‌های هدف می‌تواند علت دقیق را تشخیص دهد و از حدس و گمان جلوگیری کند.",
+            "user_quote": "- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n",
+            "depends_on": [
+              "u_bfe2b93769ee7835cbaeaa1b",
+              "u_5d364ef39209c05b8cc94a71",
+              "u_1ee03c9bb65250fb3977b62c"
+            ]
+          },
+          "model_semantic_support": "contradicted"
+        },
+        {
+          "unit_id": "u_1ee03c9bb65250fb3977b62c",
+          "literal_valid": true,
+          "semantic_support": "contradicted",
+          "valid": false,
+          "meaning": {
+            "act": "observation",
+            "assertion_text": "امکان دارد مشکل مربوط به محدودیت دستوراتی باشد که داخل فرگمنت‌های موازی قابل اجرا نیستند، مطابق اسناد رسمی.",
+            "user_quote": "- [x] I added a very descriptive title to this issue.\n",
+            "depends_on": [
+              "u_bfe2b93769ee7835cbaeaa1b",
+              "u_5d364ef39209c05b8cc94a71",
+              "u_fbfb0cd81837713cb665e7ed"
+            ]
+          },
+          "model_semantic_support": "contradicted"
+        }
+      ],
+      "valid_unit_ids": [],
+      "source_spans": [
+        {
+          "evidence_id": "docs:fragments:v2:cb48967ad96007e2",
+          "product_version": null,
+          "span_id": "src_85fcb912e8f8becaa7e36d1b",
+          "start": 444,
+          "end": 703,
+          "text": "These commands work normally during a fragment rerun, even inside a parallel fragment, because fragment reruns are sequential. To use one of these commands inside a parallel fragment, gate it behind a widget interaction rather than calling it unconditionally:"
+        }
+      ],
+      "linked_evidence_ids": [],
+      "orphan_evidence_ids": [
+        "docs:fragments:v2:cb48967ad96007e2"
+      ],
+      "novelty": {
+        "useful": true,
+        "status": "new",
+        "message_ids": [
+          "usr_0f9bb1952c922fb83f7a0f9f"
+        ],
+        "relation": "answers_requested_detail",
+        "reason": "آزمایش‌های میانی و علت دقیق شروع مشکل درخواست شده است.",
+        "effective_status": "new"
+      },
+      "failure_kind": "answer_quality",
+      "meanings": {
+        "u_bfe2b93769ee7835cbaeaa1b": {
+          "act": "diagnostic",
+          "assertion_text": "آیا شما آزمایشی روی نسخه‌های بین 1.57.0 و 1.64.0 انجام داده‌اید تا شروع دقیق مشکل را تعیین کنید؟",
+          "user_quote": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on th",
+          "depends_on": [
+            "u_5d364ef39209c05b8cc94a71",
+            "u_fbfb0cd81837713cb665e7ed",
+            "u_1ee03c9bb65250fb3977b62c"
+          ]
+        },
+        "u_5d364ef39209c05b8cc94a71": {
+          "act": "diagnostic",
+          "assertion_text": "لطفاً آزمایش هایی را روی نسخه های میانی بین 1.57.0 و 1.64.0 اجرا کنید تا مشخص شود دقیقاً از کدام نسخه مشکل بروز کرده است.",
+          "user_quote": "e website\n\n### Checklist\n\n",
+          "depends_on": [
+            "u_bfe2b93769ee7835cbaeaa1b",
+            "u_fbfb0cd81837713cb665e7ed",
+            "u_1ee03c9bb65250fb3977b62c"
+          ]
+        },
+        "u_fbfb0cd81837713cb665e7ed": {
+          "act": "diagnostic",
+          "assertion_text": "اطلاعات گزارش و بازتولید کاربر نشان می‌دهد مشکل پس از نسخه 1.57.0 شروع شده است ولی هیچ آزمایش مستقیم نسخه بین این و 1.64.0 ارائه نشده؛ اسناد رسمی محدودیت‌های دستورات در فرگمنت‌های موازی را نشان می‌دهد. اجرای آزمایش با نسخه‌های هدف می‌تواند علت دقیق را تشخیص دهد و از حدس و گمان جلوگیری کند.",
+          "user_quote": "- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n",
+          "depends_on": [
+            "u_bfe2b93769ee7835cbaeaa1b",
+            "u_5d364ef39209c05b8cc94a71",
+            "u_1ee03c9bb65250fb3977b62c"
+          ]
+        },
+        "u_1ee03c9bb65250fb3977b62c": {
+          "act": "observation",
+          "assertion_text": "امکان دارد مشکل مربوط به محدودیت دستوراتی باشد که داخل فرگمنت‌های موازی قابل اجرا نیستند، مطابق اسناد رسمی.",
+          "user_quote": "- [x] I added a very descriptive title to this issue.\n",
+          "depends_on": [
+            "u_bfe2b93769ee7835cbaeaa1b",
+            "u_5d364ef39209c05b8cc94a71",
+            "u_fbfb0cd81837713cb665e7ed"
+          ]
+        }
+      },
+      "message_spans": [
+        {
+          "message_index": 0,
+          "span_id": "usr_0f9bb1952c922fb83f7a0f9f",
+          "start": 0,
+          "end": 900,
+          "text": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n"
+        },
+        {
+          "message_index": 0,
+          "span_id": "usr_c286efa8f3df38235cae6101",
+          "start": 900,
+          "end": 1800,
+          "text": "@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python "
+        },
+        {
+          "message_index": 0,
+          "span_id": "usr_ae45eef23415186c6c2b3b1a",
+          "start": 1800,
+          "end": 2104,
+          "text": "version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```"
+        }
+      ],
+      "wire_contract": "compact-semantic-1"
+    },
+    "evidence": [],
+    "validation_error": "judge_rejected",
+    "reviewer": null,
+    "usefulness_0_to_3": null,
+    "unsupported_claim_count": null,
+    "repeat_count": null
+  },
+  {
+    "id": "9a8ac11c5b15d81e",
+    "case_id": "GH17011",
+    "report": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+    "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `provider_http_error`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nConditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops be\n```\n\nمحیط گزارش‌شده:\n\n```text\nstreamlit_version=1.64.0؛ os=Linux 7.1.4-arch1-1؛ browser=Firefox؛ symptom_scope=dialog stops being responsive؛ python_version=3.13.13\n```\n\nبررسی‌های گزارش‌شده:\n\n```json\n[\n  {\n    \"action\": \"run repro.py\",\n    \"conditions\": \"[{'dimension': 'streamlit_version', 'value': '1.57.0', 'quote': 'uv run --no-project --with streamlit==1.57.0 streamlit run repro.py'}, {'dimension': 'app_variant', 'value': 'repro.py', 'quote': 'uv r\",\n    \"status\": \"succeeded\",\n    \"result\": \"worked when ran with\",\n    \"provenance\": {\n      \"kind\": \"user_report\",\n      \"message_index\": 0,\n      \"at\": \"2026-10-09T20:06:38.188231+00:00\"\n    }\n  },\n  {\n    \"action\": \"run repro.py\",\n    \"conditions\": \"[{'dimension': 'streamlit_version', 'value': '1.58.0', 'quote': 'uv run --no-project --with streamlit==1.58.0 streamlit run repro.py'}, {'dimension': 'app_variant', 'value': 'repro.py', 'quote': 'uv r\",\n    \"status\": \"failed\",\n    \"result\": \"stopped working at\",\n    \"provenance\": {\n      \"kind\": \"user_report\",\n      \"message_index\": 0,\n      \"at\": \"2026-10-09T20:06:38.188231+00:00\"\n    }\n  }\n]\n```\n\nمجهولات:\n\n```text\ndeployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `provider_http_error`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند.",
+    "judge": null,
+    "evidence": [],
+    "validation_error": "provider_http_error",
+    "reviewer": null,
+    "usefulness_0_to_3": null,
+    "unsupported_claim_count": null,
+    "repeat_count": null
+  }
+]

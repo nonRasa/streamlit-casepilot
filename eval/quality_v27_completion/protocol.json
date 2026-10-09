@@ -1,0 +1,66 @@
+{
+  "date": "2026-10-10",
+  "variants": {
+    "A": "v2",
+    "B": "v3_child",
+    "C": "v3_bounded_parent"
+  },
+  "context_budget_tokens": 3000,
+  "k": 5,
+  "initial_candidates": 8,
+  "fixed_components": {
+    "models": [
+      "gpt-4.1-mini",
+      "text-embedding-3-small"
+    ],
+    "dense": true,
+    "mmr": true,
+    "quality": true,
+    "rrf_k": 60,
+    "mmr_lambda": 0.7,
+    "rerank": true,
+    "rewrite": false
+  },
+  "answer_cases": [
+    "D01",
+    "D03",
+    "D05",
+    "H02",
+    "H03",
+    "H09"
+  ],
+  "max_development_repeat_turns": 6,
+  "max_contract_attempts": 3,
+  "retrieval_scope": "Raw hybrid retrieval first; reranking measured separately during real answers.",
+  "BC_control": "Same persisted query vector and candidate list, identical extraction/rerank inputs/cache, only parent_context differs.",
+  "acceptance": {
+    "contract_valid_rate": 1.0,
+    "unsupported_claims": 0,
+    "repeated_questions_or_tests": 0,
+    "route_fit_rate": 1.0,
+    "usefulness_min_per_case": 2,
+    "judgment_coverage_min": 0.9,
+    "recall_regression_max": 0,
+    "witness_coverage_gain_min": 0.1,
+    "type_witness_regression_max": 0.1,
+    "context_budget_ok_rate": 1.0,
+    "independent_or_human_usefulness_required_for_default_change": true
+  },
+  "metrics": [
+    "Recall@5",
+    "pooled nDCG@5 only fully judged top-k",
+    "judgment coverage",
+    "exact witness coverage",
+    "irrelevant fraction among judged",
+    "version relation",
+    "context tokens",
+    "contract validity",
+    "unsupported/repeated findings",
+    "route fit",
+    "usefulness",
+    "cost"
+  ],
+  "judgment_origin": "Assistant/model labels are not human or independent.",
+  "holdout_policy": "Freeze before fresh tuning. Old H01-H06 are previously seen diagnostic cases; new H07-H12 are fresh authored holdout.",
+  "unjudged_policy": "grade=null, ordinary nDCG=null when top-k not fully judged; never map missing judgments to grade 0."
+}

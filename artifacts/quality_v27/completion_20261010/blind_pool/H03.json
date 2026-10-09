@@ -1,0 +1,273 @@
+{
+  "id": "H03",
+  "report": "Bug report: a static image URL fails. My config already contains [server] enableStaticServing=true and I tested the exact URL in a fresh browser; it still returns 404.",
+  "product_version": null,
+  "candidates": [
+    {
+      "source_id": "issue:1530",
+      "revision": "2020-08-06T23:07:47Z",
+      "product_version": null,
+      "source_span": [
+        41,
+        420
+      ],
+      "lines": [
+        3,
+        8
+      ],
+      "title": "Network URL missing from console output",
+      "section": "Network URL missing from console output > Summary",
+      "text": "# Summary\nWhen streamlit application is run on Ubuntu terminal. it shows two types of URL. Local URL and NetworkURL. But, in my case the NetworkURL is completely missing from the terminal output. Here is a sample output I get\n[IMAGE OMITTED: not inspected]\n\nType here a clear and concise description of the bug. Aim for 2-3 sentences.\nNetwork URL is missing from terminal output\n",
+      "candidate_key": "1667ff8d259ed6d53c37b72901604b86c3d6f38389897aa1b5121f579a1ad1ed"
+    },
+    {
+      "source_id": "issue:8971",
+      "revision": "2026-07-22T07:49:50Z",
+      "product_version": null,
+      "source_span": [
+        1751,
+        2037
+      ],
+      "lines": [
+        64,
+        74
+      ],
+      "title": "Support nested url paths for Multipage Apps",
+      "section": "Support nested url paths for Multipage Apps > Current Behavior",
+      "text": "### Current Behavior\n\nI get the following error:\n[IMAGE OMITTED: not inspected]\n\nUpon opening the dev tools console, I see this:\n[IMAGE OMITTED: not inspected]\n\n\nThat `SyntaxError` piqued my interest, and it looks like that `<hash>.chunk.js` file's contents are this HTML blob:\n```html\n",
+      "candidate_key": "20f664de1ebf8ab98185e736ec6fddd2d36d3159f5b070f5840ca4a136c218f3"
+    },
+    {
+      "source_id": "issue:8971",
+      "revision": "2026-07-22T07:49:50Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        66,
+        76
+      ],
+      "title": "Support nested url paths for Multipage Apps",
+      "section": "Current Behavior",
+      "text": "I get the following error:\n[IMAGE OMITTED: not inspected]\n\nUpon opening the dev tools console, I see this:\n[IMAGE OMITTED: not inspected]\n\n\nThat `SyntaxError` piqued my interest, and it looks like that `<hash>.chunk.js` file's contents are this HTML blob:\n```html\n<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1,shrink-to-fit=no\"/><link rel=\"shortcut icon\" href=\"[./favicon.png](view-source:http://localhost:8501/excel/static/js/favicon.png)\"/><link rel=\"preload\" href=\"[./static/media/SourceSansPro-Regular.0d69e5ff5e92ac64a0c9.woff2](view-source:http://localhost:8501/excel/static/js/static/media/SourceSansPro-Regular.0d69e5ff5e92ac64a0c9.woff2)\" as=\"font\" type=\"font/woff2\" crossorigin><link rel=\"preload\" href=\"[./static/media/SourceSansPro-SemiBold.abed79cd0df1827e18cf.woff2](view-source:http://localhost:8501/excel/static/js/static/media/SourceSansPro-SemiBold.abed79cd0df1827e18cf.woff2)\" as=\"font\" type=\"font/woff2\" crossorigin><link rel=\"preload\" href=\"[./static/media/SourceSansPro-Bold.118dea98980e20a81ced.woff2](view-source:http://localhost:8501/excel/static/js/static/media/SourceSansPro-Bold.118dea98980e20a81ced.woff2)\" as=\"font\" type=\"font/woff2\" crossorigin><title>Streamlit</title><script>window.prerenderReady=!1</script><script defer=\"defer\" src=\"[./static/js/main.7994a814.js](view-source:http://localhost:8501/excel/static/js/static/js/main.7994a814.js)\"></script><link href=\"[./static/css/main.3aaaea00.css](view-source:http://localhost:8501/excel/static/js/static/css/main.3aaaea00.css)\" rel=\"stylesheet\"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id=\"root\"></div></body></html>\n```",
+      "candidate_key": "24051aa4b0c94990fa4ff0520e8ad4d51bbe40a7f066e313b1acf5bdea071740"
+    },
+    {
+      "source_id": "issue:11396",
+      "revision": "2025-05-23T22:25:01Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        48,
+        51
+      ],
+      "title": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud)",
+      "section": "Current Behavior",
+      "text": "### Current Behavior\n\n\nThe upload fails when the filename contains Unicode characters, showing a 400 error.",
+      "candidate_key": "440012b1058d3dd6c7eacec591f4296b560c2ec9c62baf88e066331947a1e361"
+    },
+    {
+      "source_id": "docs:config-toml",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        17208,
+        18566
+      ],
+      "lines": [
+        461,
+        493
+      ],
+      "title": "config-toml",
+      "section": "config-toml > config.toml > Available configuration options > Server",
+      "text": "# The default value should work for most deployments. However, if you're\n# experiencing frequent disconnections in certain proxy setups (e.g.,\n# \"Connection error\" messages), you may want to try adjusting this value.\n#\n# Note: When you set this option, Streamlit automatically sets the ping\n# timeout to match this interval.\nwebsocketPingInterval =\n\n# Enable serving files from a `static` directory in the running app's\n# directory.\n#\n# Default: false\nenableStaticServing = false\n\n# TTL in seconds for sessions whose websockets have been disconnected.\n#\n# The server may choose to clean up session state, uploaded files, etc\n# for a given session with no active websocket connection at any point\n# after this time has passed. If you are using load balancing or\n# replication in your deployment, you must enable session stickiness\n# in your proxy to guarantee reconnection to the existing session. For\n# more information, see https://docs.streamlit.io/replication.\n#\n# Default: 120\ndisconnectedSessionTTL = 120\n\n# Server certificate file for connecting via HTTPS.\n# Must be set at the same time as \"server.sslKeyFile\".\n#\n# ['DO NOT USE THIS OPTION IN A PRODUCTION ENVIRONMENT. It has not gone through\n# security audits or performance tests. For a production environment, we\n# recommend performing SSL termination through a load balancer or reverse\n# proxy.']\n",
+      "candidate_key": "4d28f94be70ca1e51ffdfa8b3e1dfd4a26b40f3266d262833e77e853dfaa083e"
+    },
+    {
+      "source_id": "issue:1530",
+      "revision": "2020-08-06T23:07:47Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        3,
+        8
+      ],
+      "title": "Network URL missing from console output",
+      "section": "Summary",
+      "text": "# Summary\nWhen streamlit application is run on Ubuntu terminal. it shows two types of URL. Local URL and NetworkURL. But, in my case the NetworkURL is completely missing from the terminal output. Here is a sample output I get\n[IMAGE OMITTED: not inspected]\n\nType here a clear and concise description of the bug. Aim for 2-3 sentences.\nNetwork URL is missing from terminal output",
+      "candidate_key": "4dbdfec05008cb3fe437decd75e98333c5d60be92160328abfb18f70351f1ced"
+    },
+    {
+      "source_id": "issue:4789",
+      "revision": "2024-08-15T20:59:05Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        3,
+        5
+      ],
+      "title": "file_uploader set type and it contains png,but i cant upload png file",
+      "section": "Summary",
+      "text": "### Summary\n\n[IMAGE OMITTED: not inspected]",
+      "candidate_key": "53ed3e359c6479b39e4af2498160152768dc1f07bbe9a9d34a759089d235c553"
+    },
+    {
+      "source_id": "issue:4744",
+      "revision": "2024-08-15T20:59:01Z",
+      "product_version": null,
+      "source_span": [
+        4018,
+        7269
+      ],
+      "lines": [
+        118,
+        201
+      ],
+      "title": "Externel URL doesn't work",
+      "section": "Externel URL doesn't work > Methods I tried > 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.",
+      "text": "# Symmetric key used to produce signed cookies. If deploying on multiple replicas, this should be set to the same value across all replicas to ensure they all share the same secret.\n# Default: randomly generated secret key.\ncookieSecret = \"73d27e89aa0f890eb5e4fc63756c932b1d47f2c509bcf8bd9ceecc063e87f65f\"\n\n# If false, will attempt to open a browser window on start.\n# Default: false unless (1) we are on a Linux box where DISPLAY is unset, or (2) server.liveSave is set.\nheadless = false\n\n# Automatically rerun script when the file is modified on disk.\n# Default: false\nrunOnSave = false\n\n# The address where the server will listen for client and browser connections. Use this if you want to bind the server to a specific address. If set, the server will only be accessible\n from this address, and not from any aliases (like localhost).\n# Default: (unset)\n#address =\n\n# The port where the server will listen for browser connections.\n# Default: 8501\nport = 8501\n\n# The base path for the URL where Streamlit should be served from.\n# Default: \"\"\nbaseUrlPath = \"\"\n\n# Enables support for Cross-Origin Request Sharing (CORS) protection, for added security.\n# Due to conflicts between CORS and XSRF, if `server.enableXsrfProtection` is on and `server.enableCORS` is off at the same time, we will prioritize `server.enableXsrfProtection`.\n# Default: true\nenableCORS = true\n\n# Enables support for Cross-Site Request Forgery (XSRF) protection, for added security.\n# Due to conflicts between CORS and XSRF, if `server.enableXsrfProtection` is on and `server.enableCORS` is off at the same time, we will prioritize `server.enableXsrfProtection`.\n# Default: true\nenableXsrfProtection = true\n\n# Max size, in megabytes, for files uploaded with the file_uploader.\n# Default: 200\nmaxUploadSize = 200\n\n# Enables support for websocket compression.\n# Default: true\nenableWebsocketCompression = true\n\n\n[browser]\n\n# Internet address where users should point their browsers in order to connect to the app. Can be IP address or DNS name and path.\n# This is used to: - Set the correct URL for CORS and XSRF protection purposes. - Show the URL on the terminal - Open the browser - Tell the browser where to connect to the server when\n in liveSave mode.\n# Default: 'localhost'\nserverAddress = \"localhost\"\n\n# Whether to send usage statistics to Streamlit.\n# Default: true\ngatherUsageStats = true\n\n# Port where users should point their browsers in order to connect to the app.\n# This is used to: - Set the correct URL for CORS and XSRF protection purposes. - Show the URL on the terminal - Open the browser - Tell the browser where to connect to the server when\n in liveSave mode.\n# Default: whatever value is set in server.port.\nserverPort = 8501\n\n\n[mapbox]\n\n# Configure Streamlit to use a custom Mapbox token for elements like st.pydeck_chart and st.map. To get a token for yourself, create an account at https://mapbox.com. It's free (for mo\nderate usage levels)!\n# Default: \"\"\ntoken = \"\"\n\n\n[deprecation]\n\n# Set to false to disable the deprecation warning for the file uploader encoding.\n# Default: true\nshowfileUploaderEncoding = true\n\n# Set to false to disable the deprecation warning for using the global pyplot instance.\n# Default: true\nshowPyplotGlobalUse = true\n\n\n[s3]\n\n",
+      "candidate_key": "54cbc6313a15e9b1daa5364b5ed6524272f06418acd80c5017664750094310a5"
+    },
+    {
+      "source_id": "issue:4744",
+      "revision": "2024-08-15T20:59:01Z",
+      "product_version": null,
+      "source_span": [
+        4018,
+        5170
+      ],
+      "lines": [
+        118,
+        143
+      ],
+      "title": "Externel URL doesn't work",
+      "section": "Externel URL doesn't work > Methods I tried > 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.",
+      "text": "# Symmetric key used to produce signed cookies. If deploying on multiple replicas, this should be set to the same value across all replicas to ensure they all share the same secret.\n# Default: randomly generated secret key.\ncookieSecret = \"73d27e89aa0f890eb5e4fc63756c932b1d47f2c509bcf8bd9ceecc063e87f65f\"\n\n# If false, will attempt to open a browser window on start.\n# Default: false unless (1) we are on a Linux box where DISPLAY is unset, or (2) server.liveSave is set.\nheadless = false\n\n# Automatically rerun script when the file is modified on disk.\n# Default: false\nrunOnSave = false\n\n# The address where the server will listen for client and browser connections. Use this if you want to bind the server to a specific address. If set, the server will only be accessible\n from this address, and not from any aliases (like localhost).\n# Default: (unset)\n#address =\n\n# The port where the server will listen for browser connections.\n# Default: 8501\nport = 8501\n\n# The base path for the URL where Streamlit should be served from.\n# Default: \"\"\nbaseUrlPath = \"\"\n\n# Enables support for Cross-Origin Request Sharing (CORS) protection, for added security.\n",
+      "candidate_key": "5561b8b929035fdd4b1d7e113ba11cb9d40c076176fddb7f9c8df79c5535c253"
+    },
+    {
+      "source_id": "issue:11797",
+      "revision": "2025-07-09T17:09:50Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        14,
+        56
+      ],
+      "title": "Cannot open multi-page app on specific page when [theme] config is set in .streamlit/config.toml",
+      "section": "Reproducible Code Example",
+      "text": "### Reproducible Code Example\n\n`streamlit_app.py`:\n```Python\n\n\nimport streamlit as st\n\ndef home_page():\n    st.title(f\"Demo App (Streamlit version: {st.__version__})\")\n\ndef about_page():\n    st.title(\"About\")\n\npg = st.navigation([            \nst.Page(home_page, title=\"Home\", icon=\":material/home:\"),st.Page(about_page, title=\"About\", icon=\":material/info:\") \n])\npg.run()\n\n```\n\n`.streamlit/config.toml`:\n```toml\n\n[server]\nenableStaticServing = false\n\n[theme]\nbase = \"dark\"\nprimaryColor = \"#1ED760\"\nbackgroundColor = \"#121212\"\nsecondaryBackgroundColor = \"#333333\"\ntextColor = \"#FFFFFF\"\nlinkColor = \"#9D9D9D\"\nborderColor = \"#7F7F7F\"\nshowWidgetBorder = false\nbaseRadius = \"0.3rem\"\n\n[theme.sidebar]\nbackgroundColor = \"#000000\"\nsecondaryBackgroundColor = \"#333333\"\nborderColor = \"#696969\"\n```",
+      "candidate_key": "57d1b469e07a70ba1b87fc66d87cea8a6ec82c011833f2bbbd2bfe6ffe9da202"
+    },
+    {
+      "source_id": "docs:static-file-serving",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        398,
+        933
+      ],
+      "lines": [
+        8,
+        17
+      ],
+      "title": "static-file-serving",
+      "section": "static-file-serving > Static file serving",
+      "text": "# Static file serving\n\nStreamlit apps can host and serve small, static media files to support media embedding use cases that\nwon't work with the normal [media elements](/develop/api-reference/media).\n\nTo enable this feature, set `enableStaticServing = true` under `[server]` in your config file,\nor environment variable `STREAMLIT_SERVER_ENABLE_STATIC_SERVING=true`.\n\nMedia stored in the folder `./static/` relative to the running app file is served at path\n`app/static/[filename]`, such as `http://localhost:8501/app/static/cat.png`.\n",
+      "candidate_key": "7f31e5cb83d771377a4b271624aa553097c70678f6495405f5f513da3e6ca7e2"
+    },
+    {
+      "source_id": "issue:4744",
+      "revision": "2024-08-15T20:59:01Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        10,
+        31
+      ],
+      "title": "Externel URL doesn't work",
+      "section": "1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.",
+      "text": "#### 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.\nCode snippet:\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n```\nHere is what my .toml file looks like.\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n\n[theme]\nprimaryColor = \"#826E7A\"\nbackgroundColor = \"#AAD3DF\"\nsecondaryBackgroundColor = \"#AAD3DF\"\ntextColor = \"#191970\"\nfont = \"sans serif\"\n```\n\nHere is my config.toml file",
+      "candidate_key": "ad1b8861cb183ebada8e90a2282ad9dbdf50994b9aaa04c51e527fa72907dc31"
+    },
+    {
+      "source_id": "docs:static-file-serving",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        33,
+        62
+      ],
+      "title": "static-file-serving",
+      "section": "Example usage",
+      "text": "## Example usage\n\n- Put an image `cat.png` in the folder `./static/`\n- Add `enableStaticServing = true` under `[server]` in your `.streamlit/config.toml`\n- Any media in the `./static/` folder is served at the relative URL like `app/static/cat.png`\n\n```toml\n# .streamlit/config.toml\n\n[server]\nenableStaticServing = true\n```\n\n```python\n# app.py\nimport streamlit as st\n\nwith st.echo():\n    st.title(\"CAT\")\n\n    st.markdown(\"[![Click me](app/static/cat.png)](https://streamlit.io)\")\n\n```\n\nAdditional resources:\n\n- [https://docs.streamlit.io/develop/concepts/configuration](https://docs.streamlit.io/develop/concepts/configuration)\n- [https://static-file-serving.streamlit.app/](https://static-file-serving.streamlit.app/)\n\n<Cloud name=\"static-file-serving\" height=\"1000px\" />",
+      "candidate_key": "b8877adfd3e85c53e139597858393d0a6d0a1ef73cdd08dbcb85e23d5358b410"
+    },
+    {
+      "source_id": "issue:4744",
+      "revision": "2024-08-15T20:59:01Z",
+      "product_version": null,
+      "source_span": [
+        218,
+        675
+      ],
+      "lines": [
+        10,
+        31
+      ],
+      "title": "Externel URL doesn't work",
+      "section": "Externel URL doesn't work > Methods I tried > 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.",
+      "text": "#### 1.  change the config .toml file. I add these two things on my .toml file. But it is doesn't work.\nCode snippet:\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n```\nHere is what my .toml file looks like.\n```\n[server]\nenableCORS = false\nenableXsrfProtection = false\n\n[theme]\nprimaryColor = \"#826E7A\"\nbackgroundColor = \"#AAD3DF\"\nsecondaryBackgroundColor = \"#AAD3DF\"\ntextColor = \"#191970\"\nfont = \"sans serif\"\n```\n\nHere is my config.toml file\n",
+      "candidate_key": "baef6793e0902dc7f639a81b8e13a23771caf52c0b41db6d5cbbffc829fa6897"
+    },
+    {
+      "source_id": "docs:static-file-serving",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        1879,
+        2651
+      ],
+      "lines": [
+        33,
+        62
+      ],
+      "title": "static-file-serving",
+      "section": "static-file-serving > Static file serving > Example usage",
+      "text": "## Example usage\n\n- Put an image `cat.png` in the folder `./static/`\n- Add `enableStaticServing = true` under `[server]` in your `.streamlit/config.toml`\n- Any media in the `./static/` folder is served at the relative URL like `app/static/cat.png`\n\n```toml\n# .streamlit/config.toml\n\n[server]\nenableStaticServing = true\n```\n\n```python\n# app.py\nimport streamlit as st\n\nwith st.echo():\n    st.title(\"CAT\")\n\n    st.markdown(\"[![Click me](app/static/cat.png)](https://streamlit.io)\")\n\n```\n\nAdditional resources:\n\n- [https://docs.streamlit.io/develop/concepts/configuration](https://docs.streamlit.io/develop/concepts/configuration)\n- [https://static-file-serving.streamlit.app/](https://static-file-serving.streamlit.app/)\n\n<Cloud name=\"static-file-serving\" height=\"1000px\" />\n",
+      "candidate_key": "bceacf80ef970ff2628412dae94aabbd834325a2c264e2207eea71bcd3eecd9d"
+    },
+    {
+      "source_id": "docs:static-file-serving",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        8,
+        17
+      ],
+      "title": "static-file-serving",
+      "section": "Static file serving",
+      "text": "# Static file serving\n\nStreamlit apps can host and serve small, static media files to support media embedding use cases that\nwon't work with the normal [media elements](/develop/api-reference/media).\n\nTo enable this feature, set `enableStaticServing = true` under `[server]` in your config file,\nor environment variable `STREAMLIT_SERVER_ENABLE_STATIC_SERVING=true`.\n\nMedia stored in the folder `./static/` relative to the running app file is served at path\n`app/static/[filename]`, such as `http://localhost:8501/app/static/cat.png`.",
+      "candidate_key": "eda4eb74544354a9b34f6dcb4a35f8d13bbd61d5e0d2a34e1f9d9cb091795aa4"
+    },
+    {
+      "source_id": "issue:11396",
+      "revision": "2025-05-23T22:25:01Z",
+      "product_version": null,
+      "source_span": [
+        1274,
+        1382
+      ],
+      "lines": [
+        48,
+        51
+      ],
+      "title": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud)",
+      "section": "file_uploader fails for files with Unicode characters in filename (Streamlit Community Cloud) > Current Behavior",
+      "text": "### Current Behavior\n\n\nThe upload fails when the filename contains Unicode characters, showing a 400 error.\n",
+      "candidate_key": "f7f11cc12b97c2c2fe875745597b2212384bcfd8cfb386cfe6cdf8abef96243e"
+    }
+  ],
+  "instructions": "Judge actual exact text relevance 0=irrelevant,1=topic only,2=useful partial,3=direct needed evidence; null=unjudged. Do not infer relevance from official source status. Record origin."
+}

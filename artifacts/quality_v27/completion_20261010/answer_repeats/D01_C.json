@@ -1,0 +1,1985 @@
+{
+  "id": "D01",
+  "variant": "C",
+  "split": "dev",
+  "output": {
+    "case_id": "D01",
+    "request_id": "completion-corrective",
+    "architecture": "v2",
+    "quality_revision": "v2.7-readable-parent-child",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": false,
+      "quality": true,
+      "parent_context": true,
+      "context_tokens": 3000
+    },
+    "decision": "escalate",
+    "response": "پاسخ پیشنهادی: وضعیت سامانه: پردازش پاسخ متوقف شد؛ گزارش و بررسی‌های شما محفوظ است. اپراتور باید مرحلهٔ شکست‌خورده با کد `provider_connection_error` را بررسی کند. ارسال دوبارهٔ اطلاعات پرونده لازم نیست.\n\nمحدودیت: این خطای داخلی دربارهٔ علت مشکل یا لزوم ارجاع آن به نگه‌دارنده نتیجه‌ای نمی‌دهد.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nBug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. I tested pickle outside Streamlit and it works. What fresh diagnostic would isolate this?\n```\n\nمحیط گزارش‌شده:\n\n```text\nsymptom_scope=pickle error؛ python_version=3.11؛ streamlit_version=1.49.0\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\ndeployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `provider_connection_error`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند.",
+    "summary": {
+      "problem": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. I tested pickle outside Streamlit and it works. What fresh diagnostic would isolate this?",
+      "facts": {
+        "symptom_scope": "pickle error",
+        "python_version": "3.11",
+        "streamlit_version": "1.49.0"
+      },
+      "unknowns": [
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [],
+      "sources": [],
+      "decision": "escalate",
+      "next_step": "وضعیت سامانه: پردازش پاسخ متوقف شد؛ گزارش و بررسی‌های شما محفوظ است. اپراتور باید مرحلهٔ شکست‌خورده با کد `provider_connection_error` را بررسی کند. ارسال دوبارهٔ اطلاعات پرونده لازم نیست.",
+      "rationale": "محدودیت: این خطای داخلی دربارهٔ علت مشکل یا لزوم ارجاع آن به نگه‌دارنده نتیجه‌ای نمی‌دهد.",
+      "hypotheses": [],
+      "ambiguities": [
+        "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: streamlit_version"
+      ],
+      "judge": {
+        "verdict": "repair",
+        "assessments": {
+          "relevance": {
+            "score": 2,
+            "reason": "آسایش تشخیص با دریافت استک‌تریس کامل خطا"
+          },
+          "claim_support": {
+            "score": 2,
+            "reason": "مشکل مشخص شده مربوط به پیکل کردن متدهای کلاس است"
+          },
+          "version_fit": {
+            "score": 2,
+            "reason": "پیش‌زمینه تست خارج از استریم‌لیت موفق است"
+          },
+          "next_step_usefulness": {
+            "score": 2,
+            "reason": "نیاز به تحلیل خطای دقیق در محیط استریم‌لیت داریم"
+          },
+          "avoids_repeated_check": {
+            "score": 2,
+            "reason": "ارائه استک‌تریس به فهم بهتر خطا کمک می‌کند"
+          },
+          "injection_resistance": {
+            "score": 2,
+            "reason": "پیشنهاد تست تکمیلی جهت تمایز مسئله ارائه شده است"
+          }
+        },
+        "scores": {
+          "relevance": 2,
+          "claim_support": 2,
+          "version_fit": 2,
+          "next_step_usefulness": 2,
+          "avoids_repeated_check": 2,
+          "injection_resistance": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_2cd96ff784257940c0d20772",
+            "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_90d71305ad40e2bd6bb6dfcf",
+            "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_327653baa8e6e755a1a86f6d",
+            "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_327653baa8e6e755a1a86f6d",
+            "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_dc2a5c97076bd29fc36661d5",
+            "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+          }
+        ],
+        "draft_version": "65b02c0ac3b27ab5403c358b92991cf0b94c7bb6dabb7a28191e01c9fca8364f",
+        "unit_reviews": [
+          {
+            "unit_id": "u_2cd96ff784257940c0d20772",
+            "kind": "question",
+            "support": "supported",
+            "source_ids": [
+              "src_4f632d5b62d7d270cf7688fa"
+            ],
+            "message_ids": [
+              "usr_cd18ad4499e554d5201c0b48"
+            ],
+            "premise": true,
+            "standalone": true,
+            "version_dependent": true,
+            "version_limit": "آیا می‌توانید استک‌تریس کامل خطای pickle که از اجرای `st.cache_data` هنگام استفاده از کلاس `Payload` رخ داده است را ارائه دهید؟",
+            "reason": "درخواست استک‌تریس کامل خطای پیکل در st.cache_data هنگام استفاده در کلاس Payload"
+          },
+          {
+            "unit_id": "u_90d71305ad40e2bd6bb6dfcf",
+            "kind": "next_step",
+            "support": "supported",
+            "source_ids": [
+              "src_4f632d5b62d7d270cf7688fa"
+            ],
+            "message_ids": [
+              "usr_cd18ad4499e554d5201c0b48"
+            ],
+            "premise": true,
+            "standalone": true,
+            "version_dependent": true,
+            "version_limit": "لطفاً استک‌تریس کامل خطای pickle که توسط `st.cache_data` ایجاد شده است را ارسال کنید تا تشخیص دقیق‌تر صورت گیرد.",
+            "reason": "درخواست ارسال استک‌تریس کامل خطا برای بررسی عمیق‌تر"
+          },
+          {
+            "unit_id": "u_327653baa8e6e755a1a86f6d",
+            "kind": "reported_fact",
+            "support": "supported",
+            "source_ids": [
+              "src_4f632d5b62d7d270cf7688fa"
+            ],
+            "message_ids": [
+              "usr_cd18ad4499e554d5201c0b48"
+            ],
+            "premise": true,
+            "standalone": true,
+            "version_dependent": true,
+            "version_limit": "از گزارش موجود می‌دانیم که `st.cache_data` هنگام استفاده از متد کلاس منجر به خطای مربوط به آرگومان `self` می‌شود که نشان می‌دهد مکانیزم pickle کردن داده‌ها در آن دخیل است (issue:6138 q1). برای فهمیدن دلیل دقیق خطا و تمایز آن از تست pickle خارج از Streamlit، نیاز به استک‌تریس کامل خطای مربوطه داریم.",
+            "reason": "فهم کلی خطا و نیاز به استک‌تریس برای تشخیص دقیق"
+          },
+          {
+            "unit_id": "u_dc2a5c97076bd29fc36661d5",
+            "kind": "hypothesis",
+            "support": "supported",
+            "source_ids": [
+              "src_4f632d5b62d7d270cf7688fa"
+            ],
+            "message_ids": [
+              "usr_cd18ad4499e554d5201c0b48"
+            ],
+            "premise": true,
+            "standalone": true,
+            "version_dependent": true,
+            "version_limit": "استک‌تریس خطا می‌تواند تفاوت‌های خاص pickle شدن در `st.cache_data` را که خارج از Streamlit نیست نشان دهد.",
+            "reason": "فرضیه اینکه استک‌تریس باعث یافتن تفاوت‌های خاص پیکل در استریم‌لیت شود"
+          }
+        ],
+        "unit_results": [
+          {
+            "unit_id": "u_2cd96ff784257940c0d20772",
+            "literal_valid": true,
+            "semantic_support": "supported",
+            "valid": false,
+            "meaning": {
+              "act": "request",
+              "assertion_text": "آیا می‌توانید استک‌تریس کامل خطای pickle که از اجرای `st.cache_data` هنگام استفاده از کلاس `Payload` رخ داده است را ارائه دهید؟",
+              "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+              "depends_on": [
+                "u_90d71305ad40e2bd6bb6dfcf",
+                "u_327653baa8e6e755a1a86f6d",
+                "u_dc2a5c97076bd29fc36661d5"
+              ]
+            },
+            "model_semantic_support": "supported"
+          },
+          {
+            "unit_id": "u_90d71305ad40e2bd6bb6dfcf",
+            "literal_valid": true,
+            "semantic_support": "supported",
+            "valid": false,
+            "meaning": {
+              "act": "procedure",
+              "assertion_text": "لطفاً استک‌تریس کامل خطای pickle که توسط `st.cache_data` ایجاد شده است را ارسال کنید تا تشخیص دقیق‌تر صورت گیرد.",
+              "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+              "depends_on": [
+                "u_2cd96ff784257940c0d20772",
+                "u_327653baa8e6e755a1a86f6d",
+                "u_dc2a5c97076bd29fc36661d5"
+              ]
+            },
+            "model_semantic_support": "supported"
+          },
+          {
+            "unit_id": "u_327653baa8e6e755a1a86f6d",
+            "literal_valid": true,
+            "semantic_support": "supported",
+            "valid": false,
+            "meaning": {
+              "act": "technical",
+              "assertion_text": "از گزارش موجود می‌دانیم که `st.cache_data` هنگام استفاده از متد کلاس منجر به خطای مربوط به آرگومان `self` می‌شود که نشان می‌دهد مکانیزم pickle کردن داده‌ها در آن دخیل است (issue:6138 q1). برای فهمیدن دلیل دقیق خطا و تمایز آن از تست pickle خارج از Streamlit، نیاز به استک‌تریس کامل خطای مربوطه داریم.",
+              "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+              "depends_on": [
+                "u_2cd96ff784257940c0d20772",
+                "u_90d71305ad40e2bd6bb6dfcf",
+                "u_dc2a5c97076bd29fc36661d5"
+              ]
+            },
+            "model_semantic_support": "supported"
+          },
+          {
+            "unit_id": "u_dc2a5c97076bd29fc36661d5",
+            "literal_valid": true,
+            "semantic_support": "supported",
+            "valid": false,
+            "meaning": {
+              "act": "technical",
+              "assertion_text": "استک‌تریس خطا می‌تواند تفاوت‌های خاص pickle شدن در `st.cache_data` را که خارج از Streamlit نیست نشان دهد.",
+              "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+              "depends_on": [
+                "u_2cd96ff784257940c0d20772",
+                "u_90d71305ad40e2bd6bb6dfcf",
+                "u_327653baa8e6e755a1a86f6d"
+              ]
+            },
+            "model_semantic_support": "supported"
+          }
+        ],
+        "valid_unit_ids": [],
+        "source_spans": [
+          {
+            "evidence_id": "issue:6138:v3:child:73cce16ff8261e2c1cea",
+            "product_version": null,
+            "source_span": [
+              305,
+              584
+            ],
+            "header_spans": [],
+            "span_id": "src_4f632d5b62d7d270cf7688fa",
+            "start": 13,
+            "end": 235,
+            "text": "st.cache_data is giving an error.\nI used to use st.cache and worked well.\nI guess the problem is that I am using st.cache in a class method:\nError:\nTypeError: Dal.get_tables() missing 1 required positional argument: ‘self’"
+          }
+        ],
+        "linked_evidence_ids": [],
+        "orphan_evidence_ids": [
+          "issue:6138:v3:child:73cce16ff8261e2c1cea"
+        ],
+        "novelty": {
+          "useful": true,
+          "status": "new",
+          "message_ids": [
+            "usr_cd18ad4499e554d5201c0b48"
+          ],
+          "relation": "answers_requested_detail",
+          "reason": "درخواست استک‌تریس خطای کامل برای تشخیص دقیق‌تر مشکل پیکل در st.cache_data",
+          "effective_status": "new"
+        },
+        "failure_kind": "answer_quality",
+        "meanings": {
+          "u_2cd96ff784257940c0d20772": {
+            "act": "request",
+            "assertion_text": "آیا می‌توانید استک‌تریس کامل خطای pickle که از اجرای `st.cache_data` هنگام استفاده از کلاس `Payload` رخ داده است را ارائه دهید؟",
+            "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+            "depends_on": [
+              "u_90d71305ad40e2bd6bb6dfcf",
+              "u_327653baa8e6e755a1a86f6d",
+              "u_dc2a5c97076bd29fc36661d5"
+            ]
+          },
+          "u_90d71305ad40e2bd6bb6dfcf": {
+            "act": "procedure",
+            "assertion_text": "لطفاً استک‌تریس کامل خطای pickle که توسط `st.cache_data` ایجاد شده است را ارسال کنید تا تشخیص دقیق‌تر صورت گیرد.",
+            "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+            "depends_on": [
+              "u_2cd96ff784257940c0d20772",
+              "u_327653baa8e6e755a1a86f6d",
+              "u_dc2a5c97076bd29fc36661d5"
+            ]
+          },
+          "u_327653baa8e6e755a1a86f6d": {
+            "act": "technical",
+            "assertion_text": "از گزارش موجود می‌دانیم که `st.cache_data` هنگام استفاده از متد کلاس منجر به خطای مربوط به آرگومان `self` می‌شود که نشان می‌دهد مکانیزم pickle کردن داده‌ها در آن دخیل است (issue:6138 q1). برای فهمیدن دلیل دقیق خطا و تمایز آن از تست pickle خارج از Streamlit، نیاز به استک‌تریس کامل خطای مربوطه داریم.",
+            "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+            "depends_on": [
+              "u_2cd96ff784257940c0d20772",
+              "u_90d71305ad40e2bd6bb6dfcf",
+              "u_dc2a5c97076bd29fc36661d5"
+            ]
+          },
+          "u_dc2a5c97076bd29fc36661d5": {
+            "act": "technical",
+            "assertion_text": "استک‌تریس خطا می‌تواند تفاوت‌های خاص pickle شدن در `st.cache_data` را که خارج از Streamlit نیست نشان دهد.",
+            "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+            "depends_on": [
+              "u_2cd96ff784257940c0d20772",
+              "u_90d71305ad40e2bd6bb6dfcf",
+              "u_327653baa8e6e755a1a86f6d"
+            ]
+          }
+        },
+        "message_spans": [
+          {
+            "message_index": 0,
+            "span_id": "usr_cd18ad4499e554d5201c0b48",
+            "start": 0,
+            "end": 202,
+            "text": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. I tested pickle outside Streamlit and it works. What fresh diagnostic would isolate this?"
+          }
+        ],
+        "wire_contract": "readable-semantic-2"
+      },
+      "investigation_plan": {
+        "acceptance_condition": "اجرای st.cache_data بدون خطای pickle",
+        "intent": "bug",
+        "known_report_spans": [
+          "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. I tested pickle outside Streamlit and it works. What fresh diagnostic would isolate this?"
+        ],
+        "missing_detail": "نتایج اجرای دقیق کد نمونه و استک‌تریس خطا هنگام وقوع pickle error داخل st.cache_data",
+        "new_condition": "تست کد نمونه حداقلی داخل st.cache_data و دریافت استک‌تریس خطا",
+        "problem_summary": "st.cache_data pickle error Python 3.11",
+        "suggested_question": "لطفاً استک‌تریس کامل خطای pickle که توسط st.cache_data ایجاد شده را ارسال کنید؟"
+      },
+      "experiments": [],
+      "memory_version": 3,
+      "handoff": {
+        "request_type": "bug",
+        "reported_problem": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. I tested pickle outside Streamlit and it works. What fresh diagnostic would isolate this?",
+        "environment": {
+          "symptom_scope": "pickle error",
+          "python_version": "3.11",
+          "streamlit_version": "1.49.0"
+        },
+        "experiments": [],
+        "evidence": [],
+        "unknowns": [
+          "deployment",
+          "reproducible"
+        ],
+        "escalation_basis": "internal_review_failure",
+        "valid_findings": [],
+        "limitations": [
+          "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+          "محدودیت: کد توقف `provider_connection_error`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند."
+        ],
+        "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+        "feature": {},
+        "feature_origins": []
+      },
+      "review_failures": [
+        {
+          "kind": "answer_quality",
+          "draft_version": "65b02c0ac3b27ab5403c358b92991cf0b94c7bb6dabb7a28191e01c9fca8364f",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_2cd96ff784257940c0d20772",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_90d71305ad40e2bd6bb6dfcf",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_327653baa8e6e755a1a86f6d",
+              "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_327653baa8e6e755a1a86f6d",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_dc2a5c97076bd29fc36661d5",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+            }
+          ]
+        }
+      ]
+    },
+    "proposal": {
+      "id": "0b192a13ea04cc15b16ec3f8",
+      "case_id": "D01",
+      "revision": 1,
+      "hash": "898102b707f8bfd9021d134d5ddd47e450326b2161a443e09f1fca438542ccce",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: وضعیت سامانه: پردازش پاسخ متوقف شد؛ گزارش و بررسی‌های شما محفوظ است. اپراتور باید مرحلهٔ شکست‌خورده با کد `provider_connection_error` را بررسی کند. ارسال دوبارهٔ اطلاعات پرونده لازم نیست.\n\nمحدودیت: این خطای داخلی دربارهٔ علت مشکل یا لزوم ارجاع آن به نگه‌دارنده نتیجه‌ای نمی‌دهد.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nBug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. I tested pickle outside Streamlit and it works. What fresh diagnostic would isolate this?\n```\n\nمحیط گزارش‌شده:\n\n```text\nsymptom_scope=pickle error؛ python_version=3.11؛ streamlit_version=1.49.0\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\ndeployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `provider_connection_error`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند."
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "problem": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. I tested pickle outside Streamlit and it works. What fresh diagnostic would isolate this?",
+          "facts": {
+            "symptom_scope": "pickle error",
+            "python_version": "3.11",
+            "streamlit_version": "1.49.0"
+          },
+          "unknowns": [
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [],
+          "sources": [],
+          "decision": "escalate",
+          "next_step": "وضعیت سامانه: پردازش پاسخ متوقف شد؛ گزارش و بررسی‌های شما محفوظ است. اپراتور باید مرحلهٔ شکست‌خورده با کد `provider_connection_error` را بررسی کند. ارسال دوبارهٔ اطلاعات پرونده لازم نیست.",
+          "rationale": "محدودیت: این خطای داخلی دربارهٔ علت مشکل یا لزوم ارجاع آن به نگه‌دارنده نتیجه‌ای نمی‌دهد.",
+          "hypotheses": [],
+          "ambiguities": [
+            "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: streamlit_version"
+          ],
+          "judge": {
+            "verdict": "repair",
+            "assessments": {
+              "relevance": {
+                "score": 2,
+                "reason": "آسایش تشخیص با دریافت استک‌تریس کامل خطا"
+              },
+              "claim_support": {
+                "score": 2,
+                "reason": "مشکل مشخص شده مربوط به پیکل کردن متدهای کلاس است"
+              },
+              "version_fit": {
+                "score": 2,
+                "reason": "پیش‌زمینه تست خارج از استریم‌لیت موفق است"
+              },
+              "next_step_usefulness": {
+                "score": 2,
+                "reason": "نیاز به تحلیل خطای دقیق در محیط استریم‌لیت داریم"
+              },
+              "avoids_repeated_check": {
+                "score": 2,
+                "reason": "ارائه استک‌تریس به فهم بهتر خطا کمک می‌کند"
+              },
+              "injection_resistance": {
+                "score": 2,
+                "reason": "پیشنهاد تست تکمیلی جهت تمایز مسئله ارائه شده است"
+              }
+            },
+            "scores": {
+              "relevance": 2,
+              "claim_support": 2,
+              "version_fit": 2,
+              "next_step_usefulness": 2,
+              "avoids_repeated_check": 2,
+              "injection_resistance": 2
+            },
+            "findings": [
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_2cd96ff784257940c0d20772",
+                "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+              },
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_90d71305ad40e2bd6bb6dfcf",
+                "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+              },
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_327653baa8e6e755a1a86f6d",
+                "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود."
+              },
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_327653baa8e6e755a1a86f6d",
+                "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+              },
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_dc2a5c97076bd29fc36661d5",
+                "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+              },
+              {
+                "criterion": "claim_support",
+                "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+              }
+            ],
+            "draft_version": "65b02c0ac3b27ab5403c358b92991cf0b94c7bb6dabb7a28191e01c9fca8364f",
+            "unit_reviews": [
+              {
+                "unit_id": "u_2cd96ff784257940c0d20772",
+                "kind": "question",
+                "support": "supported",
+                "source_ids": [
+                  "src_4f632d5b62d7d270cf7688fa"
+                ],
+                "message_ids": [
+                  "usr_cd18ad4499e554d5201c0b48"
+                ],
+                "premise": true,
+                "standalone": true,
+                "version_dependent": true,
+                "version_limit": "آیا می‌توانید استک‌تریس کامل خطای pickle که از اجرای `st.cache_data` هنگام استفاده از کلاس `Payload` رخ داده است را ارائه دهید؟",
+                "reason": "درخواست استک‌تریس کامل خطای پیکل در st.cache_data هنگام استفاده در کلاس Payload"
+              },
+              {
+                "unit_id": "u_90d71305ad40e2bd6bb6dfcf",
+                "kind": "next_step",
+                "support": "supported",
+                "source_ids": [
+                  "src_4f632d5b62d7d270cf7688fa"
+                ],
+                "message_ids": [
+                  "usr_cd18ad4499e554d5201c0b48"
+                ],
+                "premise": true,
+                "standalone": true,
+                "version_dependent": true,
+                "version_limit": "لطفاً استک‌تریس کامل خطای pickle که توسط `st.cache_data` ایجاد شده است را ارسال کنید تا تشخیص دقیق‌تر صورت گیرد.",
+                "reason": "درخواست ارسال استک‌تریس کامل خطا برای بررسی عمیق‌تر"
+              },
+              {
+                "unit_id": "u_327653baa8e6e755a1a86f6d",
+                "kind": "reported_fact",
+                "support": "supported",
+                "source_ids": [
+                  "src_4f632d5b62d7d270cf7688fa"
+                ],
+                "message_ids": [
+                  "usr_cd18ad4499e554d5201c0b48"
+                ],
+                "premise": true,
+                "standalone": true,
+                "version_dependent": true,
+                "version_limit": "از گزارش موجود می‌دانیم که `st.cache_data` هنگام استفاده از متد کلاس منجر به خطای مربوط به آرگومان `self` می‌شود که نشان می‌دهد مکانیزم pickle کردن داده‌ها در آن دخیل است (issue:6138 q1). برای فهمیدن دلیل دقیق خطا و تمایز آن از تست pickle خارج از Streamlit، نیاز به استک‌تریس کامل خطای مربوطه داریم.",
+                "reason": "فهم کلی خطا و نیاز به استک‌تریس برای تشخیص دقیق"
+              },
+              {
+                "unit_id": "u_dc2a5c97076bd29fc36661d5",
+                "kind": "hypothesis",
+                "support": "supported",
+                "source_ids": [
+                  "src_4f632d5b62d7d270cf7688fa"
+                ],
+                "message_ids": [
+                  "usr_cd18ad4499e554d5201c0b48"
+                ],
+                "premise": true,
+                "standalone": true,
+                "version_dependent": true,
+                "version_limit": "استک‌تریس خطا می‌تواند تفاوت‌های خاص pickle شدن در `st.cache_data` را که خارج از Streamlit نیست نشان دهد.",
+                "reason": "فرضیه اینکه استک‌تریس باعث یافتن تفاوت‌های خاص پیکل در استریم‌لیت شود"
+              }
+            ],
+            "unit_results": [
+              {
+                "unit_id": "u_2cd96ff784257940c0d20772",
+                "literal_valid": true,
+                "semantic_support": "supported",
+                "valid": false,
+                "meaning": {
+                  "act": "request",
+                  "assertion_text": "آیا می‌توانید استک‌تریس کامل خطای pickle که از اجرای `st.cache_data` هنگام استفاده از کلاس `Payload` رخ داده است را ارائه دهید؟",
+                  "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+                  "depends_on": [
+                    "u_90d71305ad40e2bd6bb6dfcf",
+                    "u_327653baa8e6e755a1a86f6d",
+                    "u_dc2a5c97076bd29fc36661d5"
+                  ]
+                },
+                "model_semantic_support": "supported"
+              },
+              {
+                "unit_id": "u_90d71305ad40e2bd6bb6dfcf",
+                "literal_valid": true,
+                "semantic_support": "supported",
+                "valid": false,
+                "meaning": {
+                  "act": "procedure",
+                  "assertion_text": "لطفاً استک‌تریس کامل خطای pickle که توسط `st.cache_data` ایجاد شده است را ارسال کنید تا تشخیص دقیق‌تر صورت گیرد.",
+                  "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+                  "depends_on": [
+                    "u_2cd96ff784257940c0d20772",
+                    "u_327653baa8e6e755a1a86f6d",
+                    "u_dc2a5c97076bd29fc36661d5"
+                  ]
+                },
+                "model_semantic_support": "supported"
+              },
+              {
+                "unit_id": "u_327653baa8e6e755a1a86f6d",
+                "literal_valid": true,
+                "semantic_support": "supported",
+                "valid": false,
+                "meaning": {
+                  "act": "technical",
+                  "assertion_text": "از گزارش موجود می‌دانیم که `st.cache_data` هنگام استفاده از متد کلاس منجر به خطای مربوط به آرگومان `self` می‌شود که نشان می‌دهد مکانیزم pickle کردن داده‌ها در آن دخیل است (issue:6138 q1). برای فهمیدن دلیل دقیق خطا و تمایز آن از تست pickle خارج از Streamlit، نیاز به استک‌تریس کامل خطای مربوطه داریم.",
+                  "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+                  "depends_on": [
+                    "u_2cd96ff784257940c0d20772",
+                    "u_90d71305ad40e2bd6bb6dfcf",
+                    "u_dc2a5c97076bd29fc36661d5"
+                  ]
+                },
+                "model_semantic_support": "supported"
+              },
+              {
+                "unit_id": "u_dc2a5c97076bd29fc36661d5",
+                "literal_valid": true,
+                "semantic_support": "supported",
+                "valid": false,
+                "meaning": {
+                  "act": "technical",
+                  "assertion_text": "استک‌تریس خطا می‌تواند تفاوت‌های خاص pickle شدن در `st.cache_data` را که خارج از Streamlit نیست نشان دهد.",
+                  "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+                  "depends_on": [
+                    "u_2cd96ff784257940c0d20772",
+                    "u_90d71305ad40e2bd6bb6dfcf",
+                    "u_327653baa8e6e755a1a86f6d"
+                  ]
+                },
+                "model_semantic_support": "supported"
+              }
+            ],
+            "valid_unit_ids": [],
+            "source_spans": [
+              {
+                "evidence_id": "issue:6138:v3:child:73cce16ff8261e2c1cea",
+                "product_version": null,
+                "source_span": [
+                  305,
+                  584
+                ],
+                "header_spans": [],
+                "span_id": "src_4f632d5b62d7d270cf7688fa",
+                "start": 13,
+                "end": 235,
+                "text": "st.cache_data is giving an error.\nI used to use st.cache and worked well.\nI guess the problem is that I am using st.cache in a class method:\nError:\nTypeError: Dal.get_tables() missing 1 required positional argument: ‘self’"
+              }
+            ],
+            "linked_evidence_ids": [],
+            "orphan_evidence_ids": [
+              "issue:6138:v3:child:73cce16ff8261e2c1cea"
+            ],
+            "novelty": {
+              "useful": true,
+              "status": "new",
+              "message_ids": [
+                "usr_cd18ad4499e554d5201c0b48"
+              ],
+              "relation": "answers_requested_detail",
+              "reason": "درخواست استک‌تریس خطای کامل برای تشخیص دقیق‌تر مشکل پیکل در st.cache_data",
+              "effective_status": "new"
+            },
+            "failure_kind": "answer_quality",
+            "meanings": {
+              "u_2cd96ff784257940c0d20772": {
+                "act": "request",
+                "assertion_text": "آیا می‌توانید استک‌تریس کامل خطای pickle که از اجرای `st.cache_data` هنگام استفاده از کلاس `Payload` رخ داده است را ارائه دهید؟",
+                "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+                "depends_on": [
+                  "u_90d71305ad40e2bd6bb6dfcf",
+                  "u_327653baa8e6e755a1a86f6d",
+                  "u_dc2a5c97076bd29fc36661d5"
+                ]
+              },
+              "u_90d71305ad40e2bd6bb6dfcf": {
+                "act": "procedure",
+                "assertion_text": "لطفاً استک‌تریس کامل خطای pickle که توسط `st.cache_data` ایجاد شده است را ارسال کنید تا تشخیص دقیق‌تر صورت گیرد.",
+                "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+                "depends_on": [
+                  "u_2cd96ff784257940c0d20772",
+                  "u_327653baa8e6e755a1a86f6d",
+                  "u_dc2a5c97076bd29fc36661d5"
+                ]
+              },
+              "u_327653baa8e6e755a1a86f6d": {
+                "act": "technical",
+                "assertion_text": "از گزارش موجود می‌دانیم که `st.cache_data` هنگام استفاده از متد کلاس منجر به خطای مربوط به آرگومان `self` می‌شود که نشان می‌دهد مکانیزم pickle کردن داده‌ها در آن دخیل است (issue:6138 q1). برای فهمیدن دلیل دقیق خطا و تمایز آن از تست pickle خارج از Streamlit، نیاز به استک‌تریس کامل خطای مربوطه داریم.",
+                "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+                "depends_on": [
+                  "u_2cd96ff784257940c0d20772",
+                  "u_90d71305ad40e2bd6bb6dfcf",
+                  "u_dc2a5c97076bd29fc36661d5"
+                ]
+              },
+              "u_dc2a5c97076bd29fc36661d5": {
+                "act": "technical",
+                "assertion_text": "استک‌تریس خطا می‌تواند تفاوت‌های خاص pickle شدن در `st.cache_data` را که خارج از Streamlit نیست نشان دهد.",
+                "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+                "depends_on": [
+                  "u_2cd96ff784257940c0d20772",
+                  "u_90d71305ad40e2bd6bb6dfcf",
+                  "u_327653baa8e6e755a1a86f6d"
+                ]
+              }
+            },
+            "message_spans": [
+              {
+                "message_index": 0,
+                "span_id": "usr_cd18ad4499e554d5201c0b48",
+                "start": 0,
+                "end": 202,
+                "text": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. I tested pickle outside Streamlit and it works. What fresh diagnostic would isolate this?"
+              }
+            ],
+            "wire_contract": "readable-semantic-2"
+          },
+          "investigation_plan": {
+            "acceptance_condition": "اجرای st.cache_data بدون خطای pickle",
+            "intent": "bug",
+            "known_report_spans": [
+              "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. I tested pickle outside Streamlit and it works. What fresh diagnostic would isolate this?"
+            ],
+            "missing_detail": "نتایج اجرای دقیق کد نمونه و استک‌تریس خطا هنگام وقوع pickle error داخل st.cache_data",
+            "new_condition": "تست کد نمونه حداقلی داخل st.cache_data و دریافت استک‌تریس خطا",
+            "problem_summary": "st.cache_data pickle error Python 3.11",
+            "suggested_question": "لطفاً استک‌تریس کامل خطای pickle که توسط st.cache_data ایجاد شده را ارسال کنید؟"
+          },
+          "experiments": [],
+          "memory_version": 3,
+          "handoff": {
+            "request_type": "bug",
+            "reported_problem": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. I tested pickle outside Streamlit and it works. What fresh diagnostic would isolate this?",
+            "environment": {
+              "symptom_scope": "pickle error",
+              "python_version": "3.11",
+              "streamlit_version": "1.49.0"
+            },
+            "experiments": [],
+            "evidence": [],
+            "unknowns": [
+              "deployment",
+              "reproducible"
+            ],
+            "escalation_basis": "internal_review_failure",
+            "valid_findings": [],
+            "limitations": [
+              "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+              "محدودیت: کد توقف `provider_connection_error`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند."
+            ],
+            "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+            "feature": {},
+            "feature_origins": []
+          },
+          "review_failures": [
+            {
+              "kind": "answer_quality",
+              "draft_version": "65b02c0ac3b27ab5403c358b92991cf0b94c7bb6dabb7a28191e01c9fca8364f",
+              "findings": [
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_2cd96ff784257940c0d20772",
+                  "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_90d71305ad40e2bd6bb6dfcf",
+                  "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_327653baa8e6e755a1a86f6d",
+                  "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_327653baa8e6e755a1a86f6d",
+                  "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_dc2a5c97076bd29fc36661d5",
+                  "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+                },
+                {
+                  "criterion": "claim_support",
+                  "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "docs:cache-data:v3:child:bdb35610bbd7224fbeec",
+        "source_id": "docs:cache-data",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-data.md",
+        "section": "cache-data",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.03230357
+      },
+      {
+        "id": "docs:caching:v3:child:e108a963eca3e0b8f477",
+        "source_id": "docs:caching",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/caching.md",
+        "section": "caching > Caching overview > Basic usage > st.cache_data > Behavior",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.03075269
+      },
+      {
+        "id": "docs:cache-data:v3:child:6d737751012b2dcb73b9",
+        "source_id": "docs:cache-data",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/cache-data.md",
+        "section": "cache-data > Using Streamlit commands in cached functions > Static elements",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.02681379
+      },
+      {
+        "id": "issue:6138:v3:child:73cce16ff8261e2c1cea",
+        "source_id": "issue:6138",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/6138",
+        "section": "Cache_data ignoring self in class method. > Summary",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "retrieval_score": 0.0298574
+      }
+    ],
+    "steps": 9,
+    "model_calls": 5,
+    "max_calls": 8,
+    "repair_count": 1,
+    "judge": {
+      "verdict": "repair",
+      "assessments": {
+        "relevance": {
+          "score": 2,
+          "reason": "آسایش تشخیص با دریافت استک‌تریس کامل خطا"
+        },
+        "claim_support": {
+          "score": 2,
+          "reason": "مشکل مشخص شده مربوط به پیکل کردن متدهای کلاس است"
+        },
+        "version_fit": {
+          "score": 2,
+          "reason": "پیش‌زمینه تست خارج از استریم‌لیت موفق است"
+        },
+        "next_step_usefulness": {
+          "score": 2,
+          "reason": "نیاز به تحلیل خطای دقیق در محیط استریم‌لیت داریم"
+        },
+        "avoids_repeated_check": {
+          "score": 2,
+          "reason": "ارائه استک‌تریس به فهم بهتر خطا کمک می‌کند"
+        },
+        "injection_resistance": {
+          "score": 2,
+          "reason": "پیشنهاد تست تکمیلی جهت تمایز مسئله ارائه شده است"
+        }
+      },
+      "scores": {
+        "relevance": 2,
+        "claim_support": 2,
+        "version_fit": 2,
+        "next_step_usefulness": 2,
+        "avoids_repeated_check": 2,
+        "injection_resistance": 2
+      },
+      "findings": [
+        {
+          "criterion": "claim_support",
+          "unit_id": "u_2cd96ff784257940c0d20772",
+          "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+        },
+        {
+          "criterion": "claim_support",
+          "unit_id": "u_90d71305ad40e2bd6bb6dfcf",
+          "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+        },
+        {
+          "criterion": "claim_support",
+          "unit_id": "u_327653baa8e6e755a1a86f6d",
+          "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود."
+        },
+        {
+          "criterion": "claim_support",
+          "unit_id": "u_327653baa8e6e755a1a86f6d",
+          "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+        },
+        {
+          "criterion": "claim_support",
+          "unit_id": "u_dc2a5c97076bd29fc36661d5",
+          "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+        },
+        {
+          "criterion": "claim_support",
+          "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+        }
+      ],
+      "draft_version": "65b02c0ac3b27ab5403c358b92991cf0b94c7bb6dabb7a28191e01c9fca8364f",
+      "unit_reviews": [
+        {
+          "unit_id": "u_2cd96ff784257940c0d20772",
+          "kind": "question",
+          "support": "supported",
+          "source_ids": [
+            "src_4f632d5b62d7d270cf7688fa"
+          ],
+          "message_ids": [
+            "usr_cd18ad4499e554d5201c0b48"
+          ],
+          "premise": true,
+          "standalone": true,
+          "version_dependent": true,
+          "version_limit": "آیا می‌توانید استک‌تریس کامل خطای pickle که از اجرای `st.cache_data` هنگام استفاده از کلاس `Payload` رخ داده است را ارائه دهید؟",
+          "reason": "درخواست استک‌تریس کامل خطای پیکل در st.cache_data هنگام استفاده در کلاس Payload"
+        },
+        {
+          "unit_id": "u_90d71305ad40e2bd6bb6dfcf",
+          "kind": "next_step",
+          "support": "supported",
+          "source_ids": [
+            "src_4f632d5b62d7d270cf7688fa"
+          ],
+          "message_ids": [
+            "usr_cd18ad4499e554d5201c0b48"
+          ],
+          "premise": true,
+          "standalone": true,
+          "version_dependent": true,
+          "version_limit": "لطفاً استک‌تریس کامل خطای pickle که توسط `st.cache_data` ایجاد شده است را ارسال کنید تا تشخیص دقیق‌تر صورت گیرد.",
+          "reason": "درخواست ارسال استک‌تریس کامل خطا برای بررسی عمیق‌تر"
+        },
+        {
+          "unit_id": "u_327653baa8e6e755a1a86f6d",
+          "kind": "reported_fact",
+          "support": "supported",
+          "source_ids": [
+            "src_4f632d5b62d7d270cf7688fa"
+          ],
+          "message_ids": [
+            "usr_cd18ad4499e554d5201c0b48"
+          ],
+          "premise": true,
+          "standalone": true,
+          "version_dependent": true,
+          "version_limit": "از گزارش موجود می‌دانیم که `st.cache_data` هنگام استفاده از متد کلاس منجر به خطای مربوط به آرگومان `self` می‌شود که نشان می‌دهد مکانیزم pickle کردن داده‌ها در آن دخیل است (issue:6138 q1). برای فهمیدن دلیل دقیق خطا و تمایز آن از تست pickle خارج از Streamlit، نیاز به استک‌تریس کامل خطای مربوطه داریم.",
+          "reason": "فهم کلی خطا و نیاز به استک‌تریس برای تشخیص دقیق"
+        },
+        {
+          "unit_id": "u_dc2a5c97076bd29fc36661d5",
+          "kind": "hypothesis",
+          "support": "supported",
+          "source_ids": [
+            "src_4f632d5b62d7d270cf7688fa"
+          ],
+          "message_ids": [
+            "usr_cd18ad4499e554d5201c0b48"
+          ],
+          "premise": true,
+          "standalone": true,
+          "version_dependent": true,
+          "version_limit": "استک‌تریس خطا می‌تواند تفاوت‌های خاص pickle شدن در `st.cache_data` را که خارج از Streamlit نیست نشان دهد.",
+          "reason": "فرضیه اینکه استک‌تریس باعث یافتن تفاوت‌های خاص پیکل در استریم‌لیت شود"
+        }
+      ],
+      "unit_results": [
+        {
+          "unit_id": "u_2cd96ff784257940c0d20772",
+          "literal_valid": true,
+          "semantic_support": "supported",
+          "valid": false,
+          "meaning": {
+            "act": "request",
+            "assertion_text": "آیا می‌توانید استک‌تریس کامل خطای pickle که از اجرای `st.cache_data` هنگام استفاده از کلاس `Payload` رخ داده است را ارائه دهید؟",
+            "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+            "depends_on": [
+              "u_90d71305ad40e2bd6bb6dfcf",
+              "u_327653baa8e6e755a1a86f6d",
+              "u_dc2a5c97076bd29fc36661d5"
+            ]
+          },
+          "model_semantic_support": "supported"
+        },
+        {
+          "unit_id": "u_90d71305ad40e2bd6bb6dfcf",
+          "literal_valid": true,
+          "semantic_support": "supported",
+          "valid": false,
+          "meaning": {
+            "act": "procedure",
+            "assertion_text": "لطفاً استک‌تریس کامل خطای pickle که توسط `st.cache_data` ایجاد شده است را ارسال کنید تا تشخیص دقیق‌تر صورت گیرد.",
+            "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+            "depends_on": [
+              "u_2cd96ff784257940c0d20772",
+              "u_327653baa8e6e755a1a86f6d",
+              "u_dc2a5c97076bd29fc36661d5"
+            ]
+          },
+          "model_semantic_support": "supported"
+        },
+        {
+          "unit_id": "u_327653baa8e6e755a1a86f6d",
+          "literal_valid": true,
+          "semantic_support": "supported",
+          "valid": false,
+          "meaning": {
+            "act": "technical",
+            "assertion_text": "از گزارش موجود می‌دانیم که `st.cache_data` هنگام استفاده از متد کلاس منجر به خطای مربوط به آرگومان `self` می‌شود که نشان می‌دهد مکانیزم pickle کردن داده‌ها در آن دخیل است (issue:6138 q1). برای فهمیدن دلیل دقیق خطا و تمایز آن از تست pickle خارج از Streamlit، نیاز به استک‌تریس کامل خطای مربوطه داریم.",
+            "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+            "depends_on": [
+              "u_2cd96ff784257940c0d20772",
+              "u_90d71305ad40e2bd6bb6dfcf",
+              "u_dc2a5c97076bd29fc36661d5"
+            ]
+          },
+          "model_semantic_support": "supported"
+        },
+        {
+          "unit_id": "u_dc2a5c97076bd29fc36661d5",
+          "literal_valid": true,
+          "semantic_support": "supported",
+          "valid": false,
+          "meaning": {
+            "act": "technical",
+            "assertion_text": "استک‌تریس خطا می‌تواند تفاوت‌های خاص pickle شدن در `st.cache_data` را که خارج از Streamlit نیست نشان دهد.",
+            "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+            "depends_on": [
+              "u_2cd96ff784257940c0d20772",
+              "u_90d71305ad40e2bd6bb6dfcf",
+              "u_327653baa8e6e755a1a86f6d"
+            ]
+          },
+          "model_semantic_support": "supported"
+        }
+      ],
+      "valid_unit_ids": [],
+      "source_spans": [
+        {
+          "evidence_id": "issue:6138:v3:child:73cce16ff8261e2c1cea",
+          "product_version": null,
+          "source_span": [
+            305,
+            584
+          ],
+          "header_spans": [],
+          "span_id": "src_4f632d5b62d7d270cf7688fa",
+          "start": 13,
+          "end": 235,
+          "text": "st.cache_data is giving an error.\nI used to use st.cache and worked well.\nI guess the problem is that I am using st.cache in a class method:\nError:\nTypeError: Dal.get_tables() missing 1 required positional argument: ‘self’"
+        }
+      ],
+      "linked_evidence_ids": [],
+      "orphan_evidence_ids": [
+        "issue:6138:v3:child:73cce16ff8261e2c1cea"
+      ],
+      "novelty": {
+        "useful": true,
+        "status": "new",
+        "message_ids": [
+          "usr_cd18ad4499e554d5201c0b48"
+        ],
+        "relation": "answers_requested_detail",
+        "reason": "درخواست استک‌تریس خطای کامل برای تشخیص دقیق‌تر مشکل پیکل در st.cache_data",
+        "effective_status": "new"
+      },
+      "failure_kind": "answer_quality",
+      "meanings": {
+        "u_2cd96ff784257940c0d20772": {
+          "act": "request",
+          "assertion_text": "آیا می‌توانید استک‌تریس کامل خطای pickle که از اجرای `st.cache_data` هنگام استفاده از کلاس `Payload` رخ داده است را ارائه دهید؟",
+          "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+          "depends_on": [
+            "u_90d71305ad40e2bd6bb6dfcf",
+            "u_327653baa8e6e755a1a86f6d",
+            "u_dc2a5c97076bd29fc36661d5"
+          ]
+        },
+        "u_90d71305ad40e2bd6bb6dfcf": {
+          "act": "procedure",
+          "assertion_text": "لطفاً استک‌تریس کامل خطای pickle که توسط `st.cache_data` ایجاد شده است را ارسال کنید تا تشخیص دقیق‌تر صورت گیرد.",
+          "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+          "depends_on": [
+            "u_2cd96ff784257940c0d20772",
+            "u_327653baa8e6e755a1a86f6d",
+            "u_dc2a5c97076bd29fc36661d5"
+          ]
+        },
+        "u_327653baa8e6e755a1a86f6d": {
+          "act": "technical",
+          "assertion_text": "از گزارش موجود می‌دانیم که `st.cache_data` هنگام استفاده از متد کلاس منجر به خطای مربوط به آرگومان `self` می‌شود که نشان می‌دهد مکانیزم pickle کردن داده‌ها در آن دخیل است (issue:6138 q1). برای فهمیدن دلیل دقیق خطا و تمایز آن از تست pickle خارج از Streamlit، نیاز به استک‌تریس کامل خطای مربوطه داریم.",
+          "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+          "depends_on": [
+            "u_2cd96ff784257940c0d20772",
+            "u_90d71305ad40e2bd6bb6dfcf",
+            "u_dc2a5c97076bd29fc36661d5"
+          ]
+        },
+        "u_dc2a5c97076bd29fc36661d5": {
+          "act": "technical",
+          "assertion_text": "استک‌تریس خطا می‌تواند تفاوت‌های خاص pickle شدن در `st.cache_data` را که خارج از Streamlit نیست نشان دهد.",
+          "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+          "depends_on": [
+            "u_2cd96ff784257940c0d20772",
+            "u_90d71305ad40e2bd6bb6dfcf",
+            "u_327653baa8e6e755a1a86f6d"
+          ]
+        }
+      },
+      "message_spans": [
+        {
+          "message_index": 0,
+          "span_id": "usr_cd18ad4499e554d5201c0b48",
+          "start": 0,
+          "end": 202,
+          "text": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. I tested pickle outside Streamlit and it works. What fresh diagnostic would isolate this?"
+        }
+      ],
+      "wire_contract": "readable-semantic-2"
+    },
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "ok",
+        "keys": [
+          "python_version",
+          "symptom_scope"
+        ],
+        "facts_with_quotes": [
+          {
+            "key": "symptom_scope",
+            "quote": "st.cache_data raises a pickle error",
+            "value": "pickle error"
+          },
+          {
+            "key": "python_version",
+            "quote": "Python 3.11",
+            "value": "3.11"
+          },
+          {
+            "key": "streamlit_version",
+            "quote": "streamlit_version\":\"1.49.0",
+            "value": "1.49.0"
+          }
+        ],
+        "checks": [],
+        "ambiguities": [
+          "ابهام: واقعیت بدون شاهد صریح کنار گذاشته شد: streamlit_version"
+        ]
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "controlled_persisted_live_hybrid",
+        "candidate_hash": "2b0d73a7f76661caf00c5bd1d0b7f4b1de0c31cbee74406a8651d55a86424d8c",
+        "candidates": [
+          "docs:cache-data:v3:child:bdb35610bbd7224fbeec",
+          "issue:6138:v3:child:73cce16ff8261e2c1cea",
+          "docs:caching:v3:child:e108a963eca3e0b8f477",
+          "docs:caching:v3:child:87d33cd6983ec7419eed",
+          "docs:cache-data:v3:child:6d737751012b2dcb73b9",
+          "issue:3072:v3:child:8abb0feeef09cc17ad00",
+          "issue:13409:v3:child:da6257f33d356e8479a0",
+          "issue:16383:v3:child:12b4b1d6272e40eb10c0"
+        ],
+        "query": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. I tested pickle outside Streamlit and it works. What fresh diagnostic would isolate this?",
+        "query_vector_hash": "00b0476e054cf8a94b7efb2deb6fbf35386558f63b55bb1272af2858d88681f1",
+        "generated_query_not_used": "st.cache_data pickle error Python 3.11\nBug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. I tested pickle outside Streamlit and it works. What fresh diagnostic would isolate this?\nAPIs: st.cache_data\nErrors: ",
+        "embedding": {
+          "usage": []
+        },
+        "index": "v3",
+        "namespace": "6fbba079eb1323bf54c9d03ad4b956a7174e0f434f386ed66f0a50b489f55d4e"
+      },
+      {
+        "stage": "rerank",
+        "status": "selected",
+        "ids": [
+          "docs:cache-data:v3:child:bdb35610bbd7224fbeec",
+          "docs:caching:v3:child:e108a963eca3e0b8f477",
+          "docs:cache-data:v3:child:6d737751012b2dcb73b9",
+          "issue:6138:v3:child:73cce16ff8261e2c1cea"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "encoding": "o200k_base",
+        "budget_tokens": 3000,
+        "used_tokens": 1612,
+        "expand_parent": true,
+        "items": [
+          {
+            "id": "docs:cache-data:v3:child:bdb35610bbd7224fbeec",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:cache-data:v3:child:bdb35610bbd7224fbeec"
+          },
+          {
+            "id": "docs:caching:v3:child:e108a963eca3e0b8f477",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:caching:v3:child:e108a963eca3e0b8f477"
+          },
+          {
+            "id": "docs:cache-data:v3:child:6d737751012b2dcb73b9",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:cache-data:v3:child:6d737751012b2dcb73b9"
+          },
+          {
+            "id": "issue:6138:v3:child:73cce16ff8261e2c1cea",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:6138:v3:child:73cce16ff8261e2c1cea"
+          }
+        ],
+        "ids": [
+          "docs:cache-data:v3:child:bdb35610bbd7224fbeec",
+          "docs:caching:v3:child:e108a963eca3e0b8f477",
+          "docs:cache-data:v3:child:6d737751012b2dcb73b9",
+          "issue:6138:v3:child:73cce16ff8261e2c1cea"
+        ]
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge",
+        "attempt": 1,
+        "verdict": "repair",
+        "assessments": {
+          "relevance": {
+            "score": 2,
+            "reason": "آسایش تشخیص با دریافت استک‌تریس کامل خطا"
+          },
+          "claim_support": {
+            "score": 2,
+            "reason": "مشکل مشخص شده مربوط به پیکل کردن متدهای کلاس است"
+          },
+          "version_fit": {
+            "score": 2,
+            "reason": "پیش‌زمینه تست خارج از استریم‌لیت موفق است"
+          },
+          "next_step_usefulness": {
+            "score": 2,
+            "reason": "نیاز به تحلیل خطای دقیق در محیط استریم‌لیت داریم"
+          },
+          "avoids_repeated_check": {
+            "score": 2,
+            "reason": "ارائه استک‌تریس به فهم بهتر خطا کمک می‌کند"
+          },
+          "injection_resistance": {
+            "score": 2,
+            "reason": "پیشنهاد تست تکمیلی جهت تمایز مسئله ارائه شده است"
+          }
+        },
+        "scores": {
+          "relevance": 2,
+          "claim_support": 2,
+          "version_fit": 2,
+          "next_step_usefulness": 2,
+          "avoids_repeated_check": 2,
+          "injection_resistance": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_2cd96ff784257940c0d20772",
+            "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_90d71305ad40e2bd6bb6dfcf",
+            "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_327653baa8e6e755a1a86f6d",
+            "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_327653baa8e6e755a1a86f6d",
+            "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_dc2a5c97076bd29fc36661d5",
+            "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+          }
+        ],
+        "draft_version": "65b02c0ac3b27ab5403c358b92991cf0b94c7bb6dabb7a28191e01c9fca8364f",
+        "unit_reviews": [
+          {
+            "unit_id": "u_2cd96ff784257940c0d20772",
+            "kind": "question",
+            "support": "supported",
+            "source_ids": [
+              "src_4f632d5b62d7d270cf7688fa"
+            ],
+            "message_ids": [
+              "usr_cd18ad4499e554d5201c0b48"
+            ],
+            "premise": true,
+            "standalone": true,
+            "version_dependent": true,
+            "version_limit": "آیا می‌توانید استک‌تریس کامل خطای pickle که از اجرای `st.cache_data` هنگام استفاده از کلاس `Payload` رخ داده است را ارائه دهید؟",
+            "reason": "درخواست استک‌تریس کامل خطای پیکل در st.cache_data هنگام استفاده در کلاس Payload"
+          },
+          {
+            "unit_id": "u_90d71305ad40e2bd6bb6dfcf",
+            "kind": "next_step",
+            "support": "supported",
+            "source_ids": [
+              "src_4f632d5b62d7d270cf7688fa"
+            ],
+            "message_ids": [
+              "usr_cd18ad4499e554d5201c0b48"
+            ],
+            "premise": true,
+            "standalone": true,
+            "version_dependent": true,
+            "version_limit": "لطفاً استک‌تریس کامل خطای pickle که توسط `st.cache_data` ایجاد شده است را ارسال کنید تا تشخیص دقیق‌تر صورت گیرد.",
+            "reason": "درخواست ارسال استک‌تریس کامل خطا برای بررسی عمیق‌تر"
+          },
+          {
+            "unit_id": "u_327653baa8e6e755a1a86f6d",
+            "kind": "reported_fact",
+            "support": "supported",
+            "source_ids": [
+              "src_4f632d5b62d7d270cf7688fa"
+            ],
+            "message_ids": [
+              "usr_cd18ad4499e554d5201c0b48"
+            ],
+            "premise": true,
+            "standalone": true,
+            "version_dependent": true,
+            "version_limit": "از گزارش موجود می‌دانیم که `st.cache_data` هنگام استفاده از متد کلاس منجر به خطای مربوط به آرگومان `self` می‌شود که نشان می‌دهد مکانیزم pickle کردن داده‌ها در آن دخیل است (issue:6138 q1). برای فهمیدن دلیل دقیق خطا و تمایز آن از تست pickle خارج از Streamlit، نیاز به استک‌تریس کامل خطای مربوطه داریم.",
+            "reason": "فهم کلی خطا و نیاز به استک‌تریس برای تشخیص دقیق"
+          },
+          {
+            "unit_id": "u_dc2a5c97076bd29fc36661d5",
+            "kind": "hypothesis",
+            "support": "supported",
+            "source_ids": [
+              "src_4f632d5b62d7d270cf7688fa"
+            ],
+            "message_ids": [
+              "usr_cd18ad4499e554d5201c0b48"
+            ],
+            "premise": true,
+            "standalone": true,
+            "version_dependent": true,
+            "version_limit": "استک‌تریس خطا می‌تواند تفاوت‌های خاص pickle شدن در `st.cache_data` را که خارج از Streamlit نیست نشان دهد.",
+            "reason": "فرضیه اینکه استک‌تریس باعث یافتن تفاوت‌های خاص پیکل در استریم‌لیت شود"
+          }
+        ],
+        "unit_results": [
+          {
+            "unit_id": "u_2cd96ff784257940c0d20772",
+            "literal_valid": true,
+            "semantic_support": "supported",
+            "valid": false,
+            "meaning": {
+              "act": "request",
+              "assertion_text": "آیا می‌توانید استک‌تریس کامل خطای pickle که از اجرای `st.cache_data` هنگام استفاده از کلاس `Payload` رخ داده است را ارائه دهید؟",
+              "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+              "depends_on": [
+                "u_90d71305ad40e2bd6bb6dfcf",
+                "u_327653baa8e6e755a1a86f6d",
+                "u_dc2a5c97076bd29fc36661d5"
+              ]
+            },
+            "model_semantic_support": "supported"
+          },
+          {
+            "unit_id": "u_90d71305ad40e2bd6bb6dfcf",
+            "literal_valid": true,
+            "semantic_support": "supported",
+            "valid": false,
+            "meaning": {
+              "act": "procedure",
+              "assertion_text": "لطفاً استک‌تریس کامل خطای pickle که توسط `st.cache_data` ایجاد شده است را ارسال کنید تا تشخیص دقیق‌تر صورت گیرد.",
+              "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+              "depends_on": [
+                "u_2cd96ff784257940c0d20772",
+                "u_327653baa8e6e755a1a86f6d",
+                "u_dc2a5c97076bd29fc36661d5"
+              ]
+            },
+            "model_semantic_support": "supported"
+          },
+          {
+            "unit_id": "u_327653baa8e6e755a1a86f6d",
+            "literal_valid": true,
+            "semantic_support": "supported",
+            "valid": false,
+            "meaning": {
+              "act": "technical",
+              "assertion_text": "از گزارش موجود می‌دانیم که `st.cache_data` هنگام استفاده از متد کلاس منجر به خطای مربوط به آرگومان `self` می‌شود که نشان می‌دهد مکانیزم pickle کردن داده‌ها در آن دخیل است (issue:6138 q1). برای فهمیدن دلیل دقیق خطا و تمایز آن از تست pickle خارج از Streamlit، نیاز به استک‌تریس کامل خطای مربوطه داریم.",
+              "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+              "depends_on": [
+                "u_2cd96ff784257940c0d20772",
+                "u_90d71305ad40e2bd6bb6dfcf",
+                "u_dc2a5c97076bd29fc36661d5"
+              ]
+            },
+            "model_semantic_support": "supported"
+          },
+          {
+            "unit_id": "u_dc2a5c97076bd29fc36661d5",
+            "literal_valid": true,
+            "semantic_support": "supported",
+            "valid": false,
+            "meaning": {
+              "act": "technical",
+              "assertion_text": "استک‌تریس خطا می‌تواند تفاوت‌های خاص pickle شدن در `st.cache_data` را که خارج از Streamlit نیست نشان دهد.",
+              "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+              "depends_on": [
+                "u_2cd96ff784257940c0d20772",
+                "u_90d71305ad40e2bd6bb6dfcf",
+                "u_327653baa8e6e755a1a86f6d"
+              ]
+            },
+            "model_semantic_support": "supported"
+          }
+        ],
+        "valid_unit_ids": [],
+        "source_spans": [
+          {
+            "evidence_id": "issue:6138:v3:child:73cce16ff8261e2c1cea",
+            "product_version": null,
+            "source_span": [
+              305,
+              584
+            ],
+            "header_spans": [],
+            "span_id": "src_4f632d5b62d7d270cf7688fa",
+            "start": 13,
+            "end": 235,
+            "text": "st.cache_data is giving an error.\nI used to use st.cache and worked well.\nI guess the problem is that I am using st.cache in a class method:\nError:\nTypeError: Dal.get_tables() missing 1 required positional argument: ‘self’"
+          }
+        ],
+        "linked_evidence_ids": [],
+        "orphan_evidence_ids": [
+          "issue:6138:v3:child:73cce16ff8261e2c1cea"
+        ],
+        "novelty": {
+          "useful": true,
+          "status": "new",
+          "message_ids": [
+            "usr_cd18ad4499e554d5201c0b48"
+          ],
+          "relation": "answers_requested_detail",
+          "reason": "درخواست استک‌تریس خطای کامل برای تشخیص دقیق‌تر مشکل پیکل در st.cache_data",
+          "effective_status": "new"
+        },
+        "failure_kind": "answer_quality",
+        "meanings": {
+          "u_2cd96ff784257940c0d20772": {
+            "act": "request",
+            "assertion_text": "آیا می‌توانید استک‌تریس کامل خطای pickle که از اجرای `st.cache_data` هنگام استفاده از کلاس `Payload` رخ داده است را ارائه دهید؟",
+            "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+            "depends_on": [
+              "u_90d71305ad40e2bd6bb6dfcf",
+              "u_327653baa8e6e755a1a86f6d",
+              "u_dc2a5c97076bd29fc36661d5"
+            ]
+          },
+          "u_90d71305ad40e2bd6bb6dfcf": {
+            "act": "procedure",
+            "assertion_text": "لطفاً استک‌تریس کامل خطای pickle که توسط `st.cache_data` ایجاد شده است را ارسال کنید تا تشخیص دقیق‌تر صورت گیرد.",
+            "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+            "depends_on": [
+              "u_2cd96ff784257940c0d20772",
+              "u_327653baa8e6e755a1a86f6d",
+              "u_dc2a5c97076bd29fc36661d5"
+            ]
+          },
+          "u_327653baa8e6e755a1a86f6d": {
+            "act": "technical",
+            "assertion_text": "از گزارش موجود می‌دانیم که `st.cache_data` هنگام استفاده از متد کلاس منجر به خطای مربوط به آرگومان `self` می‌شود که نشان می‌دهد مکانیزم pickle کردن داده‌ها در آن دخیل است (issue:6138 q1). برای فهمیدن دلیل دقیق خطا و تمایز آن از تست pickle خارج از Streamlit، نیاز به استک‌تریس کامل خطای مربوطه داریم.",
+            "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+            "depends_on": [
+              "u_2cd96ff784257940c0d20772",
+              "u_90d71305ad40e2bd6bb6dfcf",
+              "u_dc2a5c97076bd29fc36661d5"
+            ]
+          },
+          "u_dc2a5c97076bd29fc36661d5": {
+            "act": "technical",
+            "assertion_text": "استک‌تریس خطا می‌تواند تفاوت‌های خاص pickle شدن در `st.cache_data` را که خارج از Streamlit نیست نشان دهد.",
+            "user_quote": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. ",
+            "depends_on": [
+              "u_2cd96ff784257940c0d20772",
+              "u_90d71305ad40e2bd6bb6dfcf",
+              "u_327653baa8e6e755a1a86f6d"
+            ]
+          }
+        },
+        "message_spans": [
+          {
+            "message_index": 0,
+            "span_id": "usr_cd18ad4499e554d5201c0b48",
+            "start": 0,
+            "end": 202,
+            "text": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. I tested pickle outside Streamlit and it works. What fresh diagnostic would isolate this?"
+          }
+        ],
+        "wire_contract": "readable-semantic-2",
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "safe_escalation",
+        "error": "provider_connection_error"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "0b192a13ea04cc15b16ec3f8",
+        "hash": "898102b707f8bfd9021d134d5ddd47e450326b2161a443e09f1fca438542ccce",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 4,
+      "cost_usd": 0.0065912,
+      "reserved_usd": 0.019990608,
+      "stages": [
+        {
+          "mode": "cached_live",
+          "cost_usd": 0,
+          "provider_requests": 0,
+          "kind": "extract",
+          "original_usage": {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "extract",
+            "reserved_usd": 0.007285872,
+            "ledger_id": "814f907b00967c74f0e8b555",
+            "diagnostic": {
+              "request_id": "814f907b00967c74f0e8b555",
+              "provider_request_id": "chatcmpl-EXBwVm95jtU8bHDpBeKBfiXEkRcYe",
+              "role": "extract",
+              "model": "gpt-4.1-mini",
+              "requested_max_output_tokens": 1200,
+              "reported_usage": {
+                "prompt_tokens": 1517,
+                "completion_tokens": 251,
+                "total_tokens": 1768
+              },
+              "http_status": 200,
+              "finish_reason": "stop",
+              "status": "parsed",
+              "failure_code": null
+            },
+            "input_tokens": 1517,
+            "output_tokens": 251,
+            "cost_usd": 0.00110924
+          },
+          "diagnostic": {
+            "request_id": null,
+            "provider_request_id": null,
+            "role": "extract",
+            "model": "gpt-4.1-mini",
+            "requested_max_output_tokens": 1200,
+            "reported_usage": null,
+            "http_status": null,
+            "finish_reason": null,
+            "status": "cached",
+            "failure_code": null,
+            "original_diagnostic": {
+              "request_id": "814f907b00967c74f0e8b555",
+              "provider_request_id": "chatcmpl-EXBwVm95jtU8bHDpBeKBfiXEkRcYe",
+              "role": "extract",
+              "model": "gpt-4.1-mini",
+              "requested_max_output_tokens": 1200,
+              "reported_usage": {
+                "prompt_tokens": 1517,
+                "completion_tokens": 251,
+                "total_tokens": 1768
+              },
+              "http_status": 200,
+              "finish_reason": "stop",
+              "status": "parsed",
+              "failure_code": null
+            }
+          }
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "reserved_usd": 0.009724176,
+          "ledger_id": "36f12cce7cc766778591ce7c",
+          "diagnostic": {
+            "request_id": "36f12cce7cc766778591ce7c",
+            "provider_request_id": "chatcmpl-EXBxH20ivlcpn9M4U0wKiweJrEle0",
+            "role": "rerank",
+            "model": "gpt-4.1-mini",
+            "requested_max_output_tokens": 350,
+            "reported_usage": {
+              "prompt_tokens": 4162,
+              "completion_tokens": 89,
+              "total_tokens": 4251
+            },
+            "http_status": 200,
+            "finish_reason": "stop",
+            "status": "parsed",
+            "failure_code": null
+          },
+          "input_tokens": 4162,
+          "output_tokens": 89,
+          "cost_usd": 0.0019879200000000002
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "reserved_usd": 0.014111855999999997,
+          "ledger_id": "b6f8785360ded5c3b7374361",
+          "diagnostic": {
+            "request_id": "b6f8785360ded5c3b7374361",
+            "provider_request_id": "chatcmpl-EXBxK5dOGWp4R4IogTPc7A6S58OJT",
+            "role": "chat",
+            "model": "gpt-4.1-mini",
+            "requested_max_output_tokens": 1600,
+            "reported_usage": {
+              "prompt_tokens": 4070,
+              "completion_tokens": 315,
+              "total_tokens": 4385
+            },
+            "http_status": 200,
+            "finish_reason": "stop",
+            "status": "parsed",
+            "failure_code": null
+          },
+          "input_tokens": 4070,
+          "output_tokens": 315,
+          "cost_usd": 0.0023452
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "reserved_usd": 0.010777535999999999,
+          "ledger_id": "2afe14850b422261a9c43bc6",
+          "diagnostic": {
+            "request_id": "2afe14850b422261a9c43bc6",
+            "provider_request_id": "chatcmpl-EXBxOpfesLoLoVS6agPVqHZN0ZUjR",
+            "role": "judge",
+            "model": "gpt-4.1-mini",
+            "requested_max_output_tokens": 1600,
+            "reported_usage": {
+              "prompt_tokens": 3000,
+              "completion_tokens": 533,
+              "total_tokens": 3533
+            },
+            "http_status": 200,
+            "finish_reason": "stop",
+            "status": "parsed",
+            "failure_code": null
+          },
+          "input_tokens": 3000,
+          "output_tokens": 533,
+          "cost_usd": 0.00225808
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "repair",
+          "reserved_usd": 0.019990608,
+          "ledger_id": "560a7169436a401f8eb33528",
+          "diagnostic": {
+            "request_id": "560a7169436a401f8eb33528",
+            "provider_request_id": null,
+            "role": "repair",
+            "model": "gpt-4.1-mini",
+            "requested_max_output_tokens": 1600,
+            "reported_usage": null,
+            "http_status": null,
+            "finish_reason": null,
+            "status": "failed",
+            "failure_code": "provider_connection_error",
+            "diagnostic_file": "F:\\Quera AI\\Project\\streamlit-casepilot\\runtime\\quality_v27\\completion_20261010\\diagnostics\\560a7169436a401f8eb33528.json"
+          },
+          "usage_unknown": true
+        }
+      ],
+      "charged_or_reserved_usd": 0.026581807999999985
+    },
+    "validation_error": "provider_connection_error",
+    "review_failures": [
+      {
+        "kind": "answer_quality",
+        "draft_version": "65b02c0ac3b27ab5403c358b92991cf0b94c7bb6dabb7a28191e01c9fca8364f",
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_2cd96ff784257940c0d20772",
+            "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_90d71305ad40e2bd6bb6dfcf",
+            "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_327653baa8e6e755a1a86f6d",
+            "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_327653baa8e6e755a1a86f6d",
+            "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_dc2a5c97076bd29fc36661d5",
+            "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+          }
+        ]
+      }
+    ],
+    "reviewed_draft": {
+      "draft_version": "65b02c0ac3b27ab5403c358b92991cf0b94c7bb6dabb7a28191e01c9fca8364f",
+      "case_id": "D01",
+      "case_revision": 1,
+      "generation": 0,
+      "units": [
+        {
+          "unit_id": "u_2cd96ff784257940c0d20772",
+          "field": "question",
+          "text": "آیا می‌توانید استک‌تریس کامل خطای pickle که از اجرای `st.cache_data` هنگام استفاده از کلاس `Payload` رخ داده است را ارائه دهید؟",
+          "start": 0,
+          "end": 127
+        },
+        {
+          "unit_id": "u_90d71305ad40e2bd6bb6dfcf",
+          "field": "next_step",
+          "text": "لطفاً استک‌تریس کامل خطای pickle که توسط `st.cache_data` ایجاد شده است را ارسال کنید تا تشخیص دقیق‌تر صورت گیرد.",
+          "start": 0,
+          "end": 112
+        },
+        {
+          "unit_id": "u_327653baa8e6e755a1a86f6d",
+          "field": "rationale",
+          "text": "از گزارش موجود می‌دانیم که `st.cache_data` هنگام استفاده از متد کلاس منجر به خطای مربوط به آرگومان `self` می‌شود که نشان می‌دهد مکانیزم pickle کردن داده‌ها در آن دخیل است (issue:6138 q1). برای فهمیدن دلیل دقیق خطا و تمایز آن از تست pickle خارج از Streamlit، نیاز به استک‌تریس کامل خطای مربوطه داریم.",
+          "start": 0,
+          "end": 299
+        },
+        {
+          "unit_id": "u_dc2a5c97076bd29fc36661d5",
+          "field": "hypotheses.0",
+          "text": "استک‌تریس خطا می‌تواند تفاوت‌های خاص pickle شدن در `st.cache_data` را که خارج از Streamlit نیست نشان دهد.",
+          "start": 0,
+          "end": 105
+        }
+      ]
+    },
+    "request_type": "bug",
+    "response_policy": {
+      "request_type": "bug",
+      "evidence_state": "selected",
+      "objective": "Answer with direct compatible evidence if sufficient. Otherwise ask exactly one genuinely missing detail or propose a specific new discriminating experiment; never infer cause from a similar issue.",
+      "claim_rule": "Technical source-dependent assertions need evidence; a proposed new capability is a request, not an assertion of existing support.",
+      "novelty_scope": "Entire user report, code, all prior messages, supplied checks and performed experiments; an absent extracted field is not a missing fact."
+    },
+    "outcome": "internal_error",
+    "latency_seconds": 12.151206
+  },
+  "failure": null,
+  "usage": [
+    {
+      "mode": "cached_live",
+      "cost_usd": 0,
+      "provider_requests": 0,
+      "kind": "extract",
+      "original_usage": {
+        "mode": "live",
+        "provider_requests": 1,
+        "kind": "extract",
+        "reserved_usd": 0.007285872,
+        "ledger_id": "814f907b00967c74f0e8b555",
+        "diagnostic": {
+          "request_id": "814f907b00967c74f0e8b555",
+          "provider_request_id": "chatcmpl-EXBwVm95jtU8bHDpBeKBfiXEkRcYe",
+          "role": "extract",
+          "model": "gpt-4.1-mini",
+          "requested_max_output_tokens": 1200,
+          "reported_usage": {
+            "prompt_tokens": 1517,
+            "completion_tokens": 251,
+            "total_tokens": 1768
+          },
+          "http_status": 200,
+          "finish_reason": "stop",
+          "status": "parsed",
+          "failure_code": null
+        },
+        "input_tokens": 1517,
+        "output_tokens": 251,
+        "cost_usd": 0.00110924
+      },
+      "diagnostic": {
+        "request_id": null,
+        "provider_request_id": null,
+        "role": "extract",
+        "model": "gpt-4.1-mini",
+        "requested_max_output_tokens": 1200,
+        "reported_usage": null,
+        "http_status": null,
+        "finish_reason": null,
+        "status": "cached",
+        "failure_code": null,
+        "original_diagnostic": {
+          "request_id": "814f907b00967c74f0e8b555",
+          "provider_request_id": "chatcmpl-EXBwVm95jtU8bHDpBeKBfiXEkRcYe",
+          "role": "extract",
+          "model": "gpt-4.1-mini",
+          "requested_max_output_tokens": 1200,
+          "reported_usage": {
+            "prompt_tokens": 1517,
+            "completion_tokens": 251,
+            "total_tokens": 1768
+          },
+          "http_status": 200,
+          "finish_reason": "stop",
+          "status": "parsed",
+          "failure_code": null
+        }
+      }
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "reserved_usd": 0.009724176,
+      "ledger_id": "36f12cce7cc766778591ce7c",
+      "diagnostic": {
+        "request_id": "36f12cce7cc766778591ce7c",
+        "provider_request_id": "chatcmpl-EXBxH20ivlcpn9M4U0wKiweJrEle0",
+        "role": "rerank",
+        "model": "gpt-4.1-mini",
+        "requested_max_output_tokens": 350,
+        "reported_usage": {
+          "prompt_tokens": 4162,
+          "completion_tokens": 89,
+          "total_tokens": 4251
+        },
+        "http_status": 200,
+        "finish_reason": "stop",
+        "status": "parsed",
+        "failure_code": null
+      },
+      "input_tokens": 4162,
+      "output_tokens": 89,
+      "cost_usd": 0.0019879200000000002
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "reserved_usd": 0.014111855999999997,
+      "ledger_id": "b6f8785360ded5c3b7374361",
+      "diagnostic": {
+        "request_id": "b6f8785360ded5c3b7374361",
+        "provider_request_id": "chatcmpl-EXBxK5dOGWp4R4IogTPc7A6S58OJT",
+        "role": "chat",
+        "model": "gpt-4.1-mini",
+        "requested_max_output_tokens": 1600,
+        "reported_usage": {
+          "prompt_tokens": 4070,
+          "completion_tokens": 315,
+          "total_tokens": 4385
+        },
+        "http_status": 200,
+        "finish_reason": "stop",
+        "status": "parsed",
+        "failure_code": null
+      },
+      "input_tokens": 4070,
+      "output_tokens": 315,
+      "cost_usd": 0.0023452
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "reserved_usd": 0.010777535999999999,
+      "ledger_id": "2afe14850b422261a9c43bc6",
+      "diagnostic": {
+        "request_id": "2afe14850b422261a9c43bc6",
+        "provider_request_id": "chatcmpl-EXBxOpfesLoLoVS6agPVqHZN0ZUjR",
+        "role": "judge",
+        "model": "gpt-4.1-mini",
+        "requested_max_output_tokens": 1600,
+        "reported_usage": {
+          "prompt_tokens": 3000,
+          "completion_tokens": 533,
+          "total_tokens": 3533
+        },
+        "http_status": 200,
+        "finish_reason": "stop",
+        "status": "parsed",
+        "failure_code": null
+      },
+      "input_tokens": 3000,
+      "output_tokens": 533,
+      "cost_usd": 0.00225808
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "repair",
+      "reserved_usd": 0.019990608,
+      "ledger_id": "560a7169436a401f8eb33528",
+      "diagnostic": {
+        "request_id": "560a7169436a401f8eb33528",
+        "provider_request_id": null,
+        "role": "repair",
+        "model": "gpt-4.1-mini",
+        "requested_max_output_tokens": 1600,
+        "reported_usage": null,
+        "http_status": null,
+        "finish_reason": null,
+        "status": "failed",
+        "failure_code": "provider_connection_error",
+        "diagnostic_file": "F:\\Quera AI\\Project\\streamlit-casepilot\\runtime\\quality_v27\\completion_20261010\\diagnostics\\560a7169436a401f8eb33528.json"
+      },
+      "usage_unknown": true
+    }
+  ],
+  "code_hash": "a009b06336e75a7479eee3a5fc5373310625e67716720fbd7ef48634e11fa2f8",
+  "hypothesis": "Retrieval prerequisite corrected with cached real query; generator now constrains quote identifiers to their actual source, offline tests passed. Three variants remain fixed.",
+  "previous_hash": "46462904a26d8f818e9b10397765543b4749889271a5822bc2c46e8dd6351925",
+  "retrieval_hash": "0739a03293c056069395a615edb88d1ddb346955170e44affd7dc8983d8500d9",
+  "human_review": null,
+  "independent_review": null
+}

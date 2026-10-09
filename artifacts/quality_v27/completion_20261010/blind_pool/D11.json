@@ -1,0 +1,273 @@
+{
+  "id": "D11",
+  "report": "How do widgets isolate interactions between different users? The version is unknown.",
+  "product_version": null,
+  "candidates": [
+    {
+      "source_id": "docs:fragments",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        212,
+        219
+      ],
+      "title": "fragments",
+      "section": "Fragments vs forms",
+      "text": "### Fragments vs forms\n\nHere is a comparison between fragments and forms:\n\n- **Forms** allow users to interact with widgets without rerunning your app. Streamlit does not send user actions within a form to your app's Python backend until the form is submitted. Widgets within a form can not dynamically update other widgets (in or out of the form) in real-time.\n- **Fragments** run independently from the rest of your code. As your users interact with fragment widgets, their actions are immediately processed by your app's Python backend and your fragment code is rerun. Widgets within a fragment can dynamically update other widgets within the same fragment in real-time.\n\nA form batches user input without interaction between any widgets. A fragment immediately processes user input but limits the scope of the rerun.",
+      "candidate_key": "04c4c76fba32e3e9d311c5dc06eec5c11cd24a826f5a1e7732ff4a19275cf116"
+    },
+    {
+      "source_id": "docs:widget-updating-session-state",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        215,
+        739
+      ],
+      "lines": [
+        8,
+        10
+      ],
+      "title": "widget-updating-session-state",
+      "section": "widget-updating-session-state > Widget updating for every second input when using session state > Overview",
+      "text": "## Overview\n\nYou are using [session state](/develop/api-reference/caching-and-state/st.session_state) to store page interactions in your app. When users interact with a widget in your app (e.g., click a button), you expect your app to update its widget states and reflect the new values. However, you notice that it doesn't. Instead, users have to interact with the widget twice (e.g., click a button twice) for the app to show the correct values. What do you do now? 🤔 Let's walk through the solution in the section below.\n",
+      "candidate_key": "115d2f29f8296eed6642cc6688fcc138fab3eb97dbf658919a7d126207fd830f"
+    },
+    {
+      "source_id": "issue:6074",
+      "revision": "2026-07-22T10:27:22Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        31,
+        45
+      ],
+      "title": "Persist widget state if `key` is set, even if the widget is not rendered",
+      "section": "Possible fixes",
+      "text": "### Possible fixes\n\nIt seems like most developers we hear from find the current behavior very unintuitive, and we see a lot more use cases that have to work around this rather than benefit from it.\n- Given that, should we just do a breaking change to the default behavior to persist, like most of us seem to expect?\n- If so: We should still provide a path to clear keyed widget state when needed. Need to figure out how to best do this.\n\nIf not a breaking change: most proposals seem to prefer something like a `persist=` key. For example, both [USER] and [USER] propose something like this in [#4458](https://github.com/streamlit/streamlit/issues/4458). Thoughts on this approach, or other ideas?\n\n---\n\nCommunity voting on feature requests enables the Streamlit team to understand which features are most important to our users.\n\n**If you'd like the Streamlit team to prioritize this feature request, please use the 👍 (thumbs up emoji) reaction in response to the initial post.**\n\n[IMAGE OMITTED: not inspected]",
+      "candidate_key": "2d06b57029d33ac95309a66af158f26e4e26ae42754e4068dec4caef92274c44"
+    },
+    {
+      "source_id": "issue:16675",
+      "revision": "2026-09-09T11:36:05Z",
+      "product_version": null,
+      "source_span": [
+        4127,
+        4216
+      ],
+      "lines": [
+        94,
+        98
+      ],
+      "title": "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range",
+      "section": "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range > Is this a regression?",
+      "text": "### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\nUnknown.\n",
+      "candidate_key": "46b21302c3212dc6d4a5eb838839d9b847837d03b2bb81825273bd78feab3261"
+    },
+    {
+      "source_id": "docs:widget-behavior",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        8,
+        14
+      ],
+      "title": "widget-behavior",
+      "section": "Understanding widget behavior",
+      "text": "# Understanding widget behavior\n\nWidgets (like `st.button`, `st.selectbox`, and `st.text_input`) are at the heart of Streamlit apps. They are the interactive elements of Streamlit that pass information from your users into your Python code. Widgets are magical and often work how you want, but they can have surprising behavior in some situations. Understanding the different parts of a widget and the precise order in which events occur helps you achieve your desired results.\n\nThis guide covers advanced concepts about widgets. Generally, it begins with simpler concepts and increases in complexity. For most beginning users, these details won't be important to know right away. When you want to dynamically change widgets or preserve widget information between pages, these concepts will be important to understand. We recommend having a basic understanding of [Session State](/develop/api-reference/caching-and-state/st.session_state) before reading this guide.\n\n<Collapse title=\"🎈 TL;DR\" expanded={false}>",
+      "candidate_key": "4dad9f75051b0c03b0f2e29cc50798425d1934eeeafba741f6c2b83378f7dcad"
+    },
+    {
+      "source_id": "issue:9100",
+      "revision": "2024-09-17T04:36:01Z",
+      "product_version": null,
+      "source_span": [
+        1368,
+        1561
+      ],
+      "lines": [
+        46,
+        48
+      ],
+      "title": "All widgets in st.Navigation app reset when a widget is changed before previous execution finishes",
+      "section": "All widgets in st.Navigation app reset when a widget is changed before previous execution finishes > Current Behavior",
+      "text": "### Current Behavior\n\nThe page refreshes and all widget states are lost. This is particularly problematic for complex apps where users may have spent a lot of time filling out various widgets!\n",
+      "candidate_key": "4eb78f2719fb90a746441b9c095f515e9be37b344ef66c33988a9bb3fc89e224"
+    },
+    {
+      "source_id": "docs:widgets",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        8,
+        12
+      ],
+      "title": "widgets",
+      "section": "Working with widgets in multipage apps",
+      "text": "# Working with widgets in multipage apps\n\nWhen you create a widget in a Streamlit app, Streamlit generates a widget ID and uses it to make your widget stateful. As your app reruns with user interaction, Streamlit keeps track of the widget's value by associating its value to its ID. In particular, a widget's ID depends on the page where it's created. If you define an identical widget on two different pages, then the widget will reset to its default value when you switch pages.\n\nThis guide explains three strategies to deal with the behavior if you'd like to have a widget remain stateful across all pages. If don't want a widget to appear on all pages, but you do want it to remain stateful when you navigate away from its page (and then back), Options 2 and 3 can be used. For detailed information about these strategies, see [Understanding widget behavior](/develop/concepts/architecture/widget-behavior).",
+      "candidate_key": "5f5fa8910ca22000ce14e1ecd4f8f82188c69f51d70d65fdb014a98b0767f485"
+    },
+    {
+      "source_id": "docs:widget-behavior",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        428,
+        1439
+      ],
+      "lines": [
+        8,
+        14
+      ],
+      "title": "widget-behavior",
+      "section": "widget-behavior > Understanding widget behavior",
+      "text": "# Understanding widget behavior\n\nWidgets (like `st.button`, `st.selectbox`, and `st.text_input`) are at the heart of Streamlit apps. They are the interactive elements of Streamlit that pass information from your users into your Python code. Widgets are magical and often work how you want, but they can have surprising behavior in some situations. Understanding the different parts of a widget and the precise order in which events occur helps you achieve your desired results.\n\nThis guide covers advanced concepts about widgets. Generally, it begins with simpler concepts and increases in complexity. For most beginning users, these details won't be important to know right away. When you want to dynamically change widgets or preserve widget information between pages, these concepts will be important to understand. We recommend having a basic understanding of [Session State](/develop/api-reference/caching-and-state/st.session_state) before reading this guide.\n\n<Collapse title=\"🎈 TL;DR\" expanded={false}>\n",
+      "candidate_key": "73bf350e1b106a73e8ba6026d247f6b6911dc4c1a0b47bde9c0bf8d2588a5855"
+    },
+    {
+      "source_id": "docs:widget-behavior",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        51,
+        53
+      ],
+      "title": "widget-behavior",
+      "section": "Widgets are session dependent",
+      "text": "### Widgets are session dependent\n\nWidget states are dependent on a particular session (browser connection). The actions of one user do not affect the widgets of any other user. Furthermore, if a user opens up multiple tabs to access an app, each tab will be a unique session. Changing a widget in one tab will not affect the same widget in another tab.",
+      "candidate_key": "97642c2f3471eeda5ebe43bd9bd17f88a39b1b9a2c55ced09f737353e4acc1f5"
+    },
+    {
+      "source_id": "docs:widgets",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        404,
+        1316
+      ],
+      "lines": [
+        8,
+        12
+      ],
+      "title": "widgets",
+      "section": "widgets > Working with widgets in multipage apps",
+      "text": "# Working with widgets in multipage apps\n\nWhen you create a widget in a Streamlit app, Streamlit generates a widget ID and uses it to make your widget stateful. As your app reruns with user interaction, Streamlit keeps track of the widget's value by associating its value to its ID. In particular, a widget's ID depends on the page where it's created. If you define an identical widget on two different pages, then the widget will reset to its default value when you switch pages.\n\nThis guide explains three strategies to deal with the behavior if you'd like to have a widget remain stateful across all pages. If don't want a widget to appear on all pages, but you do want it to remain stateful when you navigate away from its page (and then back), Options 2 and 3 can be used. For detailed information about these strategies, see [Understanding widget behavior](/develop/concepts/architecture/widget-behavior).\n",
+      "candidate_key": "aabf38cd2701a1246a33ed922870da3f7efe581056d23a25de006c025ce3e188"
+    },
+    {
+      "source_id": "issue:6074",
+      "revision": "2026-07-22T10:27:22Z",
+      "product_version": null,
+      "source_span": [
+        1851,
+        2864
+      ],
+      "lines": [
+        31,
+        45
+      ],
+      "title": "Persist widget state if `key` is set, even if the widget is not rendered",
+      "section": "Persist widget state if `key` is set, even if the widget is not rendered > Possible fixes",
+      "text": "### Possible fixes\n\nIt seems like most developers we hear from find the current behavior very unintuitive, and we see a lot more use cases that have to work around this rather than benefit from it.\n- Given that, should we just do a breaking change to the default behavior to persist, like most of us seem to expect?\n- If so: We should still provide a path to clear keyed widget state when needed. Need to figure out how to best do this.\n\nIf not a breaking change: most proposals seem to prefer something like a `persist=` key. For example, both [USER] and [USER] propose something like this in [#4458](https://github.com/streamlit/streamlit/issues/4458). Thoughts on this approach, or other ideas?\n\n---\n\nCommunity voting on feature requests enables the Streamlit team to understand which features are most important to our users.\n\n**If you'd like the Streamlit team to prioritize this feature request, please use the 👍 (thumbs up emoji) reaction in response to the initial post.**\n\n[IMAGE OMITTED: not inspected]\n",
+      "candidate_key": "af1fe259b81a374c000453c74ecc5fdb06189868fca73cbaf18c4ae57278c893"
+    },
+    {
+      "source_id": "docs:widget-behavior",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        428,
+        4056
+      ],
+      "lines": [
+        8,
+        40
+      ],
+      "title": "widget-behavior",
+      "section": "widget-behavior > Understanding widget behavior",
+      "text": "# Understanding widget behavior\n\nWidgets (like `st.button`, `st.selectbox`, and `st.text_input`) are at the heart of Streamlit apps. They are the interactive elements of Streamlit that pass information from your users into your Python code. Widgets are magical and often work how you want, but they can have surprising behavior in some situations. Understanding the different parts of a widget and the precise order in which events occur helps you achieve your desired results.\n\nThis guide covers advanced concepts about widgets. Generally, it begins with simpler concepts and increases in complexity. For most beginning users, these details won't be important to know right away. When you want to dynamically change widgets or preserve widget information between pages, these concepts will be important to understand. We recommend having a basic understanding of [Session State](/develop/api-reference/caching-and-state/st.session_state) before reading this guide.\n\n<Collapse title=\"🎈 TL;DR\" expanded={false}>\n\n1. The actions of one user don't affect the widgets of any other user.\n2. A widget command returns the widget's current value, which is a simple Python type. For example, `st.button` returns a Boolean value.\n3. Widgets return their default values on their first call before a user interacts with them.\n4. A widget's identity depends on the arguments passed to the widget command. If a key is provided, the key determines the widget's identity, with limited exceptions noted in each widget's `key` parameter description. If no key is provided, changing a widget's label, min value, max value, default value, placeholder text, or help text will cause it to reset.\n5. If you don't call a widget command in a script run, Streamlit will delete the widget's information&mdash;_including its key-value pair in Session State_. If you call the same widget command later, Streamlit treats it as a new widget.\n6. Widgets are not stateful between pages. If you have two widgets with the same key on different pages, they will be treated as two different widgets.\n\nThe last three points (widget identity and widget deletion) are the most relevant when dynamically changing widgets or working with multi-page applications. This is covered in detail later in this guide: [Statefulness of widgets](#statefulness-of-widgets) and [Widget life cycle](#widget-life-cycle).\n\n</Collapse>\n\n<Important>\n\n**Key-based widget identity (v1.55.0)**\n\nAs of v1.55.0, all widgets support key-based identity. When a `key` is provided, the key is the primary determinant of the widget's identity, and changing other parameters (like `label`, `options`, or `default`) won't reset the widget. Some parameters that constrain valid values still affect identity for specific widgets, even when a key is provided. For example, changing `min_value` or `max_value` for `st.slider` will reset the widget because the current value could be invalidated. These exceptions are noted in each widget's `key` parameter description.\n\nKey-based identity was progressively introduced from v1.50.0 through v1.55.0. If you're using an older version, check the [release notes](/develop/quick-reference/release-notes) to see which widgets support key-based identity in your version.\n\n**Other notable changes:**\n\n- **v1.46.0**: When navigating between pages, widget keys in `st.session_state` are deleted at the beginning of the new page's script run instead of the end.\n- **v1.55.0**: Most widgets support a new `bind` parameter to sync widget values with URL query parameters. See [Binding widgets to query parameters](#binding-widgets-to-query-parameters).\n\n</Important>\n",
+      "candidate_key": "b5edf24b146b5c807f96392e08c98c5c6eafc72a593e9061874f04ab26ad5531"
+    },
+    {
+      "source_id": "issue:9100",
+      "revision": "2024-09-17T04:36:01Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        46,
+        48
+      ],
+      "title": "All widgets in st.Navigation app reset when a widget is changed before previous execution finishes",
+      "section": "Current Behavior",
+      "text": "### Current Behavior\n\nThe page refreshes and all widget states are lost. This is particularly problematic for complex apps where users may have spent a lot of time filling out various widgets!",
+      "candidate_key": "dc7931098d40842a488d01050a16f959ab708d10e5f155a134730ae73e71a9bb"
+    },
+    {
+      "source_id": "issue:16675",
+      "revision": "2026-09-09T11:36:05Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        94,
+        98
+      ],
+      "title": "st.slider corrupts min_value/max_value when bounds are reversed, silently producing a wrong range",
+      "section": "Is this a regression?",
+      "text": "### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\nUnknown.",
+      "candidate_key": "e19b0617a5f62480bf235195a153a22f0b08c483b7e76a3cfe3d3443dab0df2e"
+    },
+    {
+      "source_id": "issue:16005",
+      "revision": "2026-07-20T15:04:39Z",
+      "product_version": null,
+      "source_span": [
+        1394,
+        1655
+      ],
+      "lines": [
+        42,
+        46
+      ],
+      "title": "Widgets in an st.popover opened inside an st.dialog are occluded by the dialog and unusable",
+      "section": "Widgets in an st.popover opened inside an st.dialog are occluded by the dialog and unusable > Expected Behavior",
+      "text": "### Expected Behavior\n\nThe popover body renders above the dialog and its widgets are fully interactive:\nopening the `selectbox`, picking an option, and having the value commit —\ndismissing neither the popover nor the dialog. (This is how it behaved in 1.58.0.)\n",
+      "candidate_key": "e2f9eb2c8d929fdf31697ffeeb01158c6e742f1e3e815d9a8117ebf88349b6c8"
+    },
+    {
+      "source_id": "docs:widget-behavior",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        1440,
+        2819
+      ],
+      "lines": [
+        16,
+        27
+      ],
+      "title": "widget-behavior",
+      "section": "widget-behavior > Understanding widget behavior",
+      "text": "1. The actions of one user don't affect the widgets of any other user.\n2. A widget command returns the widget's current value, which is a simple Python type. For example, `st.button` returns a Boolean value.\n3. Widgets return their default values on their first call before a user interacts with them.\n4. A widget's identity depends on the arguments passed to the widget command. If a key is provided, the key determines the widget's identity, with limited exceptions noted in each widget's `key` parameter description. If no key is provided, changing a widget's label, min value, max value, default value, placeholder text, or help text will cause it to reset.\n5. If you don't call a widget command in a script run, Streamlit will delete the widget's information&mdash;_including its key-value pair in Session State_. If you call the same widget command later, Streamlit treats it as a new widget.\n6. Widgets are not stateful between pages. If you have two widgets with the same key on different pages, they will be treated as two different widgets.\n\nThe last three points (widget identity and widget deletion) are the most relevant when dynamically changing widgets or working with multi-page applications. This is covered in detail later in this guide: [Statefulness of widgets](#statefulness-of-widgets) and [Widget life cycle](#widget-life-cycle).\n\n</Collapse>\n\n<Important>\n",
+      "candidate_key": "e740f7cedf4bce4be7303c4ad8306c21512ea21c763a0e74dd9340ab8c1ca9ca"
+    },
+    {
+      "source_id": "docs:widget-updating-session-state",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        8,
+        10
+      ],
+      "title": "widget-updating-session-state",
+      "section": "Overview",
+      "text": "## Overview\n\nYou are using [session state](/develop/api-reference/caching-and-state/st.session_state) to store page interactions in your app. When users interact with a widget in your app (e.g., click a button), you expect your app to update its widget states and reflect the new values. However, you notice that it doesn't. Instead, users have to interact with the widget twice (e.g., click a button twice) for the app to show the correct values. What do you do now? 🤔 Let's walk through the solution in the section below.",
+      "candidate_key": "ef23878a66a4c9b24871b2ad6c36815b939ae8d43a4158f1a24dc5f05392faa9"
+    }
+  ],
+  "instructions": "Judge actual exact text relevance 0=irrelevant,1=topic only,2=useful partial,3=direct needed evidence; null=unjudged. Do not infer relevance from official source status. Record origin."
+}

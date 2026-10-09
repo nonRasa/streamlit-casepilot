@@ -1,0 +1,3276 @@
+{
+  "id": "D06",
+  "split": "dev",
+  "query": "How can I batch multiple widget inputs using st.form and submit them together? I have not supplied a product version.",
+  "query_hash": "6332a3929c4423408e0c9910c2cf51b3e8d44fd6149f28ee7cb8e653cb9b25d7",
+  "version": null,
+  "variants": {
+    "A": {
+      "candidates": [
+        {
+          "kind": "docs",
+          "title": "forms",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/forms.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:forms:v2:1621631c4d3b7661",
+          "source_id": "docs:forms",
+          "section": "Using forms",
+          "text": "# Using forms\n\nWhen you don't want to rerun your script with each input made by a user, [`st.form`](/develop/api-reference/execution-flow/st.form) is here to help! Forms make it easy to batch user input into a single rerun. This guide to using forms provides examples and explains how users interact with forms.",
+          "lines": [
+            8,
+            10
+          ],
+          "sha256": "46f8307775baf3263e8bdff4d0d2b4de6f284f02e95fda7b543f6a57ee118244",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 311,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0343203,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "forms",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/forms.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:forms:v2:b1c1d464172afd40",
+          "source_id": "docs:forms",
+          "section": "Widget values",
+          "text": "## Widget values\n\nBefore a form is submitted, all widgets within that form will have default values, just like widgets outside of a form have default values.\n\n```python\nimport streamlit as st\n\nwith st.form(\"my_form\"):\n   st.write(\"Inside the form\")\n   my_number = st.slider('Pick a number', 1, 10)\n   my_color = st.selectbox('Pick a color', ['red','orange','green','blue','violet'])\n   st.form_submit_button('Submit my picks')\n\n# This is outside the form\nst.write(my_number)\nst.write(my_color)\n```\n\n<Cloud name=\"doc-forms-default\" height=\"450px\"/>",
+          "lines": [
+            82,
+            100
+          ],
+          "sha256": "40ee66dfbf4a1db97c6a03ee427c6bd1c43806137e750e94305e823e581cc74c",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 547,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03403474,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "session_state",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/session_state.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:session_state:v2:751fb7916d352e2d",
+          "source_id": "docs:session_state",
+          "section": "Forms and Callbacks",
+          "text": "### Forms and Callbacks\n\nWidgets inside a form can have their values be accessed and set via the Session State API. `st.form_submit_button` can have a callback associated with it. The callback gets executed upon clicking on the submit button. For example:\n\n```python\ndef form_callback():\n    st.write(st.session_state.my_slider)\n    st.write(st.session_state.my_checkbox)\n\nwith st.form(key='my_form'):\n    slider_input = st.slider('My slider', 0, 10, 5, key='my_slider')\n    checkbox_input = st.checkbox('Yes or No', key='my_checkbox')\n    submit_button = st.form_submit_button(label='Submit', on_click=form_callback)\n```",
+          "lines": [
+            135,
+            148
+          ],
+          "sha256": "bd51eec313f88d2dd8b877b8dca37878062587ec0051453208f997ee4c232b4e",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 621,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03201581,
+          "rank": 3
+        },
+        {
+          "kind": "issue",
+          "title": "File uploader does not return multiple files",
+          "url": "https://github.com/streamlit/streamlit/issues/3531",
+          "revision": "2021-07-19T21:40:55Z",
+          "product_version": null,
+          "issue_number": 3531,
+          "id": "issue:3531:v2:8598912df8e6f8d3",
+          "source_id": "issue:3531",
+          "section": "File uploader does not return multiple files",
+          "text": "File uploader does not return multiple files\n\nFrom: https://discuss.streamlit.io/t/issue-with-file-uploader-and-streamlit-version-0-84-0/14812\n\n---\n\nHi everyone,\n\nI'm new here. First of all thank you really much for your great work in this forum. It helped me out multiple times. But now I encountered an issue where I couldn't find a thread on, yet.\n\nWith the latest version (0.84.0) I'm experiencing a problem with the file_uploader widget.\n\nIn the prior version (0.82.0) it was very handy, for my case, to select one file after another and drag&drop it to the widget. With the latest version this doesn't seems possible anymore. When one or more files were uploaded the next file/s draged and droped to the widget are not accessible, even though these files appear in the interactive list below the widget. \nI want to use st.session_state is the app I'm working on and for that reason the version 0.84.0 is necessary to my understanding.\n\nIn order for you to reproduce the situation I made up this example:\n\n```\nimport streamlit as st\n\nuploaded_files = st.file_uploader('Select files',type=['txt'],accept_multiple_files=True)\nfile_lst = [uploaded_file.name for uploaded_file in uploaded_files]\nst.write(file_lst)\n```\n\nAssuming I want to upload the two files test1.txt and test2.txt one after another. For the first file (test1.txt) the behavior is as expected and equivalent for both versions:\n\n[IMAGE OMITTED: not inspected]",
+          "lines": [
+            1,
+            28
+          ],
+          "sha256": "7fbccff5fc8f73796b9861764730b66f78d62d1b4824c274c0b3d5519ede50a5",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1428,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02651914,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "Preserve widget state when a widget disappears from the page (demoed via Multipage Apps)",
+          "url": "https://github.com/streamlit/streamlit/issues/5813",
+          "revision": "2026-07-22T07:33:36Z",
+          "product_version": null,
+          "issue_number": 5813,
+          "id": "issue:5813:v2:8bbf4f51b9f0339a",
+          "source_id": "issue:5813",
+          "section": "Are you willing to submit a PR?",
+          "text": "### Are you willing to submit a PR?\n\n- [ ] Yes, I am willing to submit a PR!\n\n[IMAGE OMITTED: not inspected]",
+          "lines": [
+            63,
+            67
+          ],
+          "sha256": "3f9ab9098c38148375e5e0bb903b4ecc9aae86e11ee38d81c14415231e9df8db",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 108,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0250384,
+          "rank": 5
+        },
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:widget-behavior:v2:bfcf53599ec9c62c",
+          "source_id": "docs:widget-behavior",
+          "section": "Using callback functions with forms",
+          "text": "### Using callback functions with forms\n\nUsing a callback function with a form requires understanding of this order of operations.\n\n```python\nimport streamlit as st\n\nif \"attendance\" not in st.session_state:\n    st.session_state.attendance = set()\n\n\ndef take_attendance():\n    if st.session_state.name in st.session_state.attendance:\n        st.info(f\"{st.session_state.name} has already been counted.\")\n    else:\n        st.session_state.attendance.add(st.session_state.name)\n\n\nwith st.form(key=\"my_form\"):\n    st.text_input(\"Name\", key=\"name\")\n    st.form_submit_button(\"I'm here!\", on_click=take_attendance)\n```\n\n<Cloud name=\"doc-guide-widgets-form-callbacks\" height=\"250px\"/>",
+          "lines": [
+            118,
+            141
+          ],
+          "sha256": "01114c19d5fbb7fb010550c29dd910e6fbf9e39c461d1464de286a66db8a843e",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 678,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02861053,
+          "rank": 6
+        },
+        {
+          "kind": "docs",
+          "title": "get-started",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-testing/get-started.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:get-started:v2:1a98fb08c8d03d33",
+          "source_id": "docs:get-started",
+          "section": "Retrieve widgets by key",
+          "text": "#### Retrieve widgets by key\n\nYou can retrieve keyed widgets by their keys instead of their order on the page. The key of the widget is passed as either an arg or kwarg. For example, look at this app and the following (true) assertions:\n\n```python\nimport streamlit as st\n\nst.button(\"Next\", key=\"submit\")\nst.button(\"Back\", key=\"cancel\")\n```\n\n```python\nassert at.button(key=\"submit\").label == \"Next\"\nassert at.button(\"cancel\").label == \"Back\"\n```",
+          "lines": [
+            222,
+            236
+          ],
+          "sha256": "65faada665bc891b89c5f5fa13c4ee19c2de99c4264de6c6d18f42bca55d792c",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 444,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02070968,
+          "rank": 7
+        },
+        {
+          "kind": "issue",
+          "title": "Regression (1.50.0): widget value no longer updates when dependent on another widget",
+          "url": "https://github.com/streamlit/streamlit/issues/12629",
+          "revision": "2026-05-01T20:15:34Z",
+          "product_version": null,
+          "issue_number": 12629,
+          "id": "issue:12629:v2:3928fba6c6569d25",
+          "source_id": "issue:12629",
+          "section": "Additional Information",
+          "text": "Now, I cannot realize my use-case now in the new scheme of things.\nPlease educate me on how to handle this scenario.\nThanks!\n\n**UPDATE**\nI worked around the issue after a lot of headache.\n1. I created a \"_twin\" session state that mirrors the session_state value of the widget. I created a wrapper over the selectbox function to create and maintain this _twin variable\n2. The _twin variable enables me to tell whether the current streamlit run was triggered due to a change in the widget (or) due to change of something else. The same is reported as an additional return value from the selectbox() wrapper.\n3. I save the change variables of important selectboxes I care about for a particular widget\n4. Using the \"change\" state and the \"_twin\" state --> I decide to write or not to write into st.session_state variable of the widget before rendering the widget.",
+          "lines": [
+            112,
+            121
+          ],
+          "sha256": "c51af572f88cf7a20d3d67ceeb55c4e3de29b68a692a5f3d3ee968399ed4a44f",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 860,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02067901,
+          "rank": 8
+        }
+      ],
+      "candidate_hash": "8d179686aba95e3b571afd8cb182a21d1d073212a3d72eedf93936a14423177c",
+      "context": [
+        {
+          "kind": "docs",
+          "title": "forms",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/forms.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:forms:v2:1621631c4d3b7661",
+          "source_id": "docs:forms",
+          "section": "Using forms",
+          "text": "# Using forms\n\nWhen you don't want to rerun your script with each input made by a user, [`st.form`](/develop/api-reference/execution-flow/st.form) is here to help! Forms make it easy to batch user input into a single rerun. This guide to using forms provides examples and explains how users interact with forms.",
+          "lines": [
+            8,
+            10
+          ],
+          "sha256": "46f8307775baf3263e8bdff4d0d2b4de6f284f02e95fda7b543f6a57ee118244",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 311,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0343203,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "forms",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/forms.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:forms:v2:b1c1d464172afd40",
+          "source_id": "docs:forms",
+          "section": "Widget values",
+          "text": "## Widget values\n\nBefore a form is submitted, all widgets within that form will have default values, just like widgets outside of a form have default values.\n\n```python\nimport streamlit as st\n\nwith st.form(\"my_form\"):\n   st.write(\"Inside the form\")\n   my_number = st.slider('Pick a number', 1, 10)\n   my_color = st.selectbox('Pick a color', ['red','orange','green','blue','violet'])\n   st.form_submit_button('Submit my picks')\n\n# This is outside the form\nst.write(my_number)\nst.write(my_color)\n```\n\n<Cloud name=\"doc-forms-default\" height=\"450px\"/>",
+          "lines": [
+            82,
+            100
+          ],
+          "sha256": "40ee66dfbf4a1db97c6a03ee427c6bd1c43806137e750e94305e823e581cc74c",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 547,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03403474,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "session_state",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/session_state.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:session_state:v2:751fb7916d352e2d",
+          "source_id": "docs:session_state",
+          "section": "Forms and Callbacks",
+          "text": "### Forms and Callbacks\n\nWidgets inside a form can have their values be accessed and set via the Session State API. `st.form_submit_button` can have a callback associated with it. The callback gets executed upon clicking on the submit button. For example:\n\n```python\ndef form_callback():\n    st.write(st.session_state.my_slider)\n    st.write(st.session_state.my_checkbox)\n\nwith st.form(key='my_form'):\n    slider_input = st.slider('My slider', 0, 10, 5, key='my_slider')\n    checkbox_input = st.checkbox('Yes or No', key='my_checkbox')\n    submit_button = st.form_submit_button(label='Submit', on_click=form_callback)\n```",
+          "lines": [
+            135,
+            148
+          ],
+          "sha256": "bd51eec313f88d2dd8b877b8dca37878062587ec0051453208f997ee4c232b4e",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 621,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03201581,
+          "rank": 3
+        },
+        {
+          "kind": "issue",
+          "title": "File uploader does not return multiple files",
+          "url": "https://github.com/streamlit/streamlit/issues/3531",
+          "revision": "2021-07-19T21:40:55Z",
+          "product_version": null,
+          "issue_number": 3531,
+          "id": "issue:3531:v2:8598912df8e6f8d3",
+          "source_id": "issue:3531",
+          "section": "File uploader does not return multiple files",
+          "text": "File uploader does not return multiple files\n\nFrom: https://discuss.streamlit.io/t/issue-with-file-uploader-and-streamlit-version-0-84-0/14812\n\n---\n\nHi everyone,\n\nI'm new here. First of all thank you really much for your great work in this forum. It helped me out multiple times. But now I encountered an issue where I couldn't find a thread on, yet.\n\nWith the latest version (0.84.0) I'm experiencing a problem with the file_uploader widget.\n\nIn the prior version (0.82.0) it was very handy, for my case, to select one file after another and drag&drop it to the widget. With the latest version this doesn't seems possible anymore. When one or more files were uploaded the next file/s draged and droped to the widget are not accessible, even though these files appear in the interactive list below the widget. \nI want to use st.session_state is the app I'm working on and for that reason the version 0.84.0 is necessary to my understanding.\n\nIn order for you to reproduce the situation I made up this example:\n\n```\nimport streamlit as st\n\nuploaded_files = st.file_uploader('Select files',type=['txt'],accept_multiple_files=True)\nfile_lst = [uploaded_file.name for uploaded_file in uploaded_files]\nst.write(file_lst)\n```\n\nAssuming I want to upload the two files test1.txt and test2.txt one after another. For the first file (test1.txt) the behavior is as expected and equivalent for both versions:\n\n[IMAGE OMITTED: not inspected]",
+          "lines": [
+            1,
+            28
+          ],
+          "sha256": "7fbccff5fc8f73796b9861764730b66f78d62d1b4824c274c0b3d5519ede50a5",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1428,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02651914,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "Preserve widget state when a widget disappears from the page (demoed via Multipage Apps)",
+          "url": "https://github.com/streamlit/streamlit/issues/5813",
+          "revision": "2026-07-22T07:33:36Z",
+          "product_version": null,
+          "issue_number": 5813,
+          "id": "issue:5813:v2:8bbf4f51b9f0339a",
+          "source_id": "issue:5813",
+          "section": "Are you willing to submit a PR?",
+          "text": "### Are you willing to submit a PR?\n\n- [ ] Yes, I am willing to submit a PR!\n\n[IMAGE OMITTED: not inspected]",
+          "lines": [
+            63,
+            67
+          ],
+          "sha256": "3f9ab9098c38148375e5e0bb903b4ecc9aae86e11ee38d81c14415231e9df8db",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 108,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0250384,
+          "rank": 5
+        }
+      ],
+      "packing": {
+        "encoding": "o200k_base",
+        "budget_tokens": 3000,
+        "used_tokens": 1471,
+        "expand_parent": false,
+        "items": [
+          {
+            "id": "docs:forms:v2:1621631c4d3b7661",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:forms:v2:1621631c4d3b7661"
+          },
+          {
+            "id": "docs:forms:v2:b1c1d464172afd40",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:forms:v2:b1c1d464172afd40"
+          },
+          {
+            "id": "docs:session_state:v2:751fb7916d352e2d",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:session_state:v2:751fb7916d352e2d"
+          },
+          {
+            "id": "issue:3531:v2:8598912df8e6f8d3",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:3531:v2:8598912df8e6f8d3"
+          },
+          {
+            "id": "issue:5813:v2:8bbf4f51b9f0339a",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:5813:v2:8bbf4f51b9f0339a"
+          },
+          {
+            "id": "docs:widget-behavior:v2:bfcf53599ec9c62c",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "docs:get-started:v2:1a98fb08c8d03d33",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:12629:v2:3928fba6c6569d25",
+            "status": "omitted",
+            "reason": "item_limit"
+          }
+        ]
+      },
+      "index": "v2",
+      "namespace": null
+    },
+    "B": {
+      "candidates": [
+        {
+          "kind": "docs",
+          "title": "forms",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/forms.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:forms:v3:child:a7840f1725bb9a5d83bf",
+          "source_id": "docs:forms",
+          "text": "## Widget values\n\nBefore a form is submitted, all widgets within that form will have default values, just like widgets outside of a form have default values.\n\n```python\nimport streamlit as st\n\nwith st.form(\"my_form\"):\n   st.write(\"Inside the form\")\n   my_number = st.slider('Pick a number', 1, 10)\n   my_color = st.selectbox('Pick a color', ['red','orange','green','blue','violet'])\n   st.form_submit_button('Submit my picks')\n\n# This is outside the form\nst.write(my_number)\nst.write(my_color)\n```\n\n<Cloud name=\"doc-forms-default\" height=\"450px\"/>\n",
+          "source_span": [
+            3886,
+            4434
+          ],
+          "source_sha256": "9bc4499efe84514958c107943f5191038248d66ee1125189be39df67acfddda0",
+          "sha256": "883105ee33dfc10b9a99f4ef4a8ea44a40e1d0ce8a1a19f02b9145ab366d67ea",
+          "lines": [
+            82,
+            100
+          ],
+          "section": "forms > Using forms > Widget values",
+          "section_path": [
+            "forms",
+            "Using forms",
+            "Widget values"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 139,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:forms:v3:parent:a7840f1725bb9a5d83bf",
+          "parent": {
+            "kind": "docs",
+            "title": "forms",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/forms.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:forms:v3:parent:a7840f1725bb9a5d83bf",
+            "source_id": "docs:forms",
+            "text": "## Widget values\n\nBefore a form is submitted, all widgets within that form will have default values, just like widgets outside of a form have default values.\n\n```python\nimport streamlit as st\n\nwith st.form(\"my_form\"):\n   st.write(\"Inside the form\")\n   my_number = st.slider('Pick a number', 1, 10)\n   my_color = st.selectbox('Pick a color', ['red','orange','green','blue','violet'])\n   st.form_submit_button('Submit my picks')\n\n# This is outside the form\nst.write(my_number)\nst.write(my_color)\n```\n\n<Cloud name=\"doc-forms-default\" height=\"450px\"/>\n",
+            "source_span": [
+              3886,
+              4434
+            ],
+            "source_sha256": "9bc4499efe84514958c107943f5191038248d66ee1125189be39df67acfddda0",
+            "sha256": "883105ee33dfc10b9a99f4ef4a8ea44a40e1d0ce8a1a19f02b9145ab366d67ea",
+            "lines": [
+              82,
+              100
+            ],
+            "section": "forms > Using forms > Widget values",
+            "section_path": [
+              "forms",
+              "Using forms",
+              "Widget values"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 139,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03512427,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "forms",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/forms.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:forms:v3:child:746bb040d4d63d9f795a",
+          "source_id": "docs:forms",
+          "text": "# Using forms\n\nWhen you don't want to rerun your script with each input made by a user, [`st.form`](/develop/api-reference/execution-flow/st.form) is here to help! Forms make it easy to batch user input into a single rerun. This guide to using forms provides examples and explains how users interact with forms.\n",
+          "source_span": [
+            403,
+            715
+          ],
+          "source_sha256": "9bc4499efe84514958c107943f5191038248d66ee1125189be39df67acfddda0",
+          "sha256": "595a8219953bf250d3c317be1a1773dc1a6b28e0794d7af22572f39baf9d375f",
+          "lines": [
+            8,
+            10
+          ],
+          "section": "forms > Using forms",
+          "section_path": [
+            "forms",
+            "Using forms"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 69,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:forms:v3:parent:746bb040d4d63d9f795a",
+          "parent": {
+            "kind": "docs",
+            "title": "forms",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/forms.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:forms:v3:parent:746bb040d4d63d9f795a",
+            "source_id": "docs:forms",
+            "text": "# Using forms\n\nWhen you don't want to rerun your script with each input made by a user, [`st.form`](/develop/api-reference/execution-flow/st.form) is here to help! Forms make it easy to batch user input into a single rerun. This guide to using forms provides examples and explains how users interact with forms.\n",
+            "source_span": [
+              403,
+              715
+            ],
+            "source_sha256": "9bc4499efe84514958c107943f5191038248d66ee1125189be39df67acfddda0",
+            "sha256": "595a8219953bf250d3c317be1a1773dc1a6b28e0794d7af22572f39baf9d375f",
+            "lines": [
+              8,
+              10
+            ],
+            "section": "forms > Using forms",
+            "section_path": [
+              "forms",
+              "Using forms"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 69,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0343203,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widget-behavior:v3:child:acaf06be033bb1b473ee",
+          "source_id": "docs:widget-behavior",
+          "text": "### Using callback functions with forms\n\nUsing a callback function with a form requires understanding of this order of operations.\n\n```python\nimport streamlit as st\n\nif \"attendance\" not in st.session_state:\n    st.session_state.attendance = set()\n\n\ndef take_attendance():\n    if st.session_state.name in st.session_state.attendance:\n        st.info(f\"{st.session_state.name} has already been counted.\")\n    else:\n        st.session_state.attendance.add(st.session_state.name)\n\n\nwith st.form(key=\"my_form\"):\n    st.text_input(\"Name\", key=\"name\")\n    st.form_submit_button(\"I'm here!\", on_click=take_attendance)\n```\n\n<Cloud name=\"doc-guide-widgets-form-callbacks\" height=\"250px\"/>\n",
+          "source_span": [
+            9376,
+            10055
+          ],
+          "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+          "sha256": "b2ca69f4e37a9fcf39acc1594fb32476ce4569a26a2bcd4fb646206523b469a5",
+          "lines": [
+            118,
+            141
+          ],
+          "section": "widget-behavior > Understanding widget behavior > Order of operations > Using callback functions with forms",
+          "section_path": [
+            "widget-behavior",
+            "Understanding widget behavior",
+            "Order of operations",
+            "Using callback functions with forms"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 153,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widget-behavior:v3:parent:acaf06be033bb1b473ee",
+          "parent": {
+            "kind": "docs",
+            "title": "widget-behavior",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widget-behavior:v3:parent:acaf06be033bb1b473ee",
+            "source_id": "docs:widget-behavior",
+            "text": "### Using callback functions with forms\n\nUsing a callback function with a form requires understanding of this order of operations.\n\n```python\nimport streamlit as st\n\nif \"attendance\" not in st.session_state:\n    st.session_state.attendance = set()\n\n\ndef take_attendance():\n    if st.session_state.name in st.session_state.attendance:\n        st.info(f\"{st.session_state.name} has already been counted.\")\n    else:\n        st.session_state.attendance.add(st.session_state.name)\n\n\nwith st.form(key=\"my_form\"):\n    st.text_input(\"Name\", key=\"name\")\n    st.form_submit_button(\"I'm here!\", on_click=take_attendance)\n```\n\n<Cloud name=\"doc-guide-widgets-form-callbacks\" height=\"250px\"/>\n",
+            "source_span": [
+              9376,
+              10055
+            ],
+            "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+            "sha256": "b2ca69f4e37a9fcf39acc1594fb32476ce4569a26a2bcd4fb646206523b469a5",
+            "lines": [
+              118,
+              141
+            ],
+            "section": "widget-behavior > Understanding widget behavior > Order of operations > Using callback functions with forms",
+            "section_path": [
+              "widget-behavior",
+              "Understanding widget behavior",
+              "Order of operations",
+              "Using callback functions with forms"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 153,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03091392,
+          "rank": 3
+        },
+        {
+          "kind": "issue",
+          "title": "File_uploader widget is problematic",
+          "url": "https://github.com/streamlit/streamlit/issues/897",
+          "revision": "2020-12-09T21:06:02Z",
+          "product_version": null,
+          "issue_number": 897,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:897:v3:child:fa9145718d6717e4474a",
+          "source_id": "issue:897",
+          "text": "```\n# pylint: disable=line-too-long\n\"\"\"This is example shows how to **upload multiple files** via the\n[File Uploader Widget](https://streamlit.io/docs/api.html?highlight=file%20upload#streamlit.file_uploader)\n\nAs far as I can see you can only upload one file at a time. So if you need multiple files in your\napp, you need to store them in a static List or Dictionary. Alternatively they should be uploaded\nas one .zip file.\n\nPlease note that file uploader is a **bit problematic** because\n- You can only upload one file at the time.\n- You get no additional information on the file like name, size, upload time, type etc. So you\ncannot distinguish the files without reading the content.\n- every time you interact with any widget, the script is rerun and you risk processing or storing\nthe file again!\n- The file uploader widget is not cleared when you clear the cache and there is no way to clear the\nfile uploader widget programmatically.\n\nThis example was based on\n[Discourse 1445](https://discuss.streamlit.io/t/uploading-multiple-files-with-file-uploader/1445)\n\"\"\"\n# pylint: enable=line-too-long\nfrom typing import Dict\n\nimport streamlit as st\n\n\n@st.cache(allow_output_mutation=True)\n",
+          "source_span": [
+            1035,
+            2222
+          ],
+          "source_sha256": "ef763453fb1f7928d4b846e8cbe3fd8965e996049c2a8edafdc82910a54d4a87",
+          "sha256": "aa1c3f77ddef2a3d6b3e6faa21b5986e8f0f9e31678d31752e4206ce6b0e2500",
+          "lines": [
+            17,
+            44
+          ],
+          "section": "File_uploader widget is problematic > Summary",
+          "section_path": [
+            "File_uploader widget is problematic",
+            "Summary"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 276,
+          "block_kinds": [
+            "code"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:897:v3:parent:fc83bd61bef7ba655435",
+          "parent": {
+            "kind": "issue",
+            "title": "File_uploader widget is problematic",
+            "url": "https://github.com/streamlit/streamlit/issues/897",
+            "revision": "2020-12-09T21:06:02Z",
+            "product_version": null,
+            "issue_number": 897,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:897:v3:parent:fc83bd61bef7ba655435",
+            "source_id": "issue:897",
+            "text": "# Summary\n\nI tried to make an example answer for [Discourse 1445](https://discuss.streamlit.io/t/uploading-multiple-files-with-file-uploader/1445) but found out its difficult to use the file_uploader widget as soon as its part of an interactive application where the user may wish to upload multiple files,  interact with several widgets after file upload or clear the cache.\n\n- You can only upload one file at the time.\n- You get no additional information on the file like name, size, upload time, type etc. So you\ncannot distinguish the files without reading the content. The python object id changes for each script rerun so you cannot use that either.\n- every time you interact with any widget, the script is rerun and you risk processing or storing\nthe file again!\n- The file uploader widget is not cleared when you clear the cache and there is no way to clear the\nfile uploader widget programmatically.\n\nSee also https://discuss.streamlit.io/t/awesome-streamlit-org-change-log/1414/7?u=marc\n\n```\n# pylint: disable=line-too-long\n\"\"\"This is example shows how to **upload multiple files** via the\n[File Uploader Widget](https://streamlit.io/docs/api.html?highlight=file%20upload#streamlit.file_uploader)\n\nAs far as I can see you can only upload one file at a time. So if you need multiple files in your\napp, you need to store them in a static List or Dictionary. Alternatively they should be uploaded\nas one .zip file.\n\nPlease note that file uploader is a **bit problematic** because\n- You can only upload one file at the time.\n- You get no additional information on the file like name, size, upload time, type etc. So you\ncannot distinguish the files without reading the content.\n- every time you interact with any widget, the script is rerun and you risk processing or storing\nthe file again!\n- The file uploader widget is not cleared when you clear the cache and there is no way to clear the\nfile uploader widget programmatically.\n\nThis example was based on\n[Discourse 1445](https://discuss.streamlit.io/t/uploading-multiple-files-with-file-uploader/1445)\n\"\"\"\n# pylint: enable=line-too-long\nfrom typing import Dict\n\nimport streamlit as st\n\n\n@st.cache(allow_output_mutation=True)\ndef get_static_store() -> Dict:\n    \"\"\"This dictionary is initialized once and can be used to store the files uploaded\"\"\"\n    return {}\n\n\ndef main():\n    \"\"\"Run this function to run the app\"\"\"\n    static_store = get_static_store()\n\n    st.info(__doc__)\n    result = st.file_uploader(\"Upload\", type=\"py\")\n    if result:\n        # Process you file here\n        value = result.getvalue()\n\n        # And add it to the static_store if not already in\n        if not value in static_store.values():\n            static_store[result] = value\n    else:\n        static_store.clear()  # Hack to clear list if the user clears the cache and reloads the page\n        st.info(\"Upload one or more `.py` files.\")\n\n    if st.button(\"Clear file list\"):\n        static_store.clear()\n    if st.checkbox(\"Show file list?\", True):\n        st.write(list(static_store.keys()))\n    if st.checkbox(\"Show content of files?\"):\n        for value in static_store.values():\n            st.code(value)\n\n\nmain()\n```\n",
+            "source_span": [
+              37,
+              3203
+            ],
+            "source_sha256": "ef763453fb1f7928d4b846e8cbe3fd8965e996049c2a8edafdc82910a54d4a87",
+            "sha256": "388152e9715517b6790d88ec1e209e5987b8f866f6de730d2a5168b554aced62",
+            "lines": [
+              3,
+              77
+            ],
+            "section": "File_uploader widget is problematic > Summary",
+            "section_path": [
+              "File_uploader widget is problematic",
+              "Summary"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 719,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02779923,
+          "rank": 4
+        },
+        {
+          "kind": "docs",
+          "title": "session_state",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/session_state.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:session_state:v3:child:a5b4eadb97ef620431d9",
+          "source_id": "docs:session_state",
+          "text": "### Forms and Callbacks\n\nWidgets inside a form can have their values be accessed and set via the Session State API. `st.form_submit_button` can have a callback associated with it. The callback gets executed upon clicking on the submit button. For example:\n\n```python\ndef form_callback():\n    st.write(st.session_state.my_slider)\n    st.write(st.session_state.my_checkbox)\n\nwith st.form(key='my_form'):\n    slider_input = st.slider('My slider', 0, 10, 5, key='my_slider')\n    checkbox_input = st.checkbox('Yes or No', key='my_checkbox')\n    submit_button = st.form_submit_button(label='Submit', on_click=form_callback)\n```\n",
+          "source_span": [
+            3760,
+            4382
+          ],
+          "source_sha256": "f1969fd2fbc693a3e961cdbf65b00b08eedbb97b8efbaa0c5287a71a53b3affc",
+          "sha256": "8322a4f28985b528fe41a2d64c84af286c8a398e04adcf777763df57021f769f",
+          "lines": [
+            135,
+            148
+          ],
+          "section": "session_state > Session State > Forms and Callbacks",
+          "section_path": [
+            "session_state",
+            "Session State",
+            "Forms and Callbacks"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 144,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:session_state:v3:parent:a5b4eadb97ef620431d9",
+          "parent": {
+            "kind": "docs",
+            "title": "session_state",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/session_state.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:session_state:v3:parent:a5b4eadb97ef620431d9",
+            "source_id": "docs:session_state",
+            "text": "### Forms and Callbacks\n\nWidgets inside a form can have their values be accessed and set via the Session State API. `st.form_submit_button` can have a callback associated with it. The callback gets executed upon clicking on the submit button. For example:\n\n```python\ndef form_callback():\n    st.write(st.session_state.my_slider)\n    st.write(st.session_state.my_checkbox)\n\nwith st.form(key='my_form'):\n    slider_input = st.slider('My slider', 0, 10, 5, key='my_slider')\n    checkbox_input = st.checkbox('Yes or No', key='my_checkbox')\n    submit_button = st.form_submit_button(label='Submit', on_click=form_callback)\n```\n",
+            "source_span": [
+              3760,
+              4382
+            ],
+            "source_sha256": "f1969fd2fbc693a3e961cdbf65b00b08eedbb97b8efbaa0c5287a71a53b3affc",
+            "sha256": "8322a4f28985b528fe41a2d64c84af286c8a398e04adcf777763df57021f769f",
+            "lines": [
+              135,
+              148
+            ],
+            "section": "session_state > Session State > Forms and Callbacks",
+            "section_path": [
+              "session_state",
+              "Session State",
+              "Forms and Callbacks"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 144,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03095823,
+          "rank": 5
+        },
+        {
+          "kind": "issue",
+          "title": "Preserve widget state when a widget disappears from the page (demoed via Multipage Apps)",
+          "url": "https://github.com/streamlit/streamlit/issues/5813",
+          "revision": "2026-07-22T07:33:36Z",
+          "product_version": null,
+          "issue_number": 5813,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:5813:v3:child:15f7b778507b7b6c0c14",
+          "source_id": "issue:5813",
+          "text": "### Are you willing to submit a PR?\n\n- [ ] Yes, I am willing to submit a PR!\n\n[IMAGE OMITTED: not inspected]\n",
+          "source_span": [
+            1929,
+            2038
+          ],
+          "source_sha256": "57322614a9c3164f9a01b92bf715341e75b7e0f209481b2717f2ff251d83434a",
+          "sha256": "ef1600bbe370388bbc31fcf0afb94d66170cff65a94de6d8b7c45d3bab6bfe06",
+          "lines": [
+            63,
+            67
+          ],
+          "section": "Preserve widget state when a widget disappears from the page (demoed via Multipage Apps) > Are you willing to submit a PR?",
+          "section_path": [
+            "Preserve widget state when a widget disappears from the page (demoed via Multipage Apps)",
+            "Are you willing to submit a PR?"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 30,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:5813:v3:parent:15f7b778507b7b6c0c14",
+          "parent": {
+            "kind": "issue",
+            "title": "Preserve widget state when a widget disappears from the page (demoed via Multipage Apps)",
+            "url": "https://github.com/streamlit/streamlit/issues/5813",
+            "revision": "2026-07-22T07:33:36Z",
+            "product_version": null,
+            "issue_number": 5813,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:5813:v3:parent:15f7b778507b7b6c0c14",
+            "source_id": "issue:5813",
+            "text": "### Are you willing to submit a PR?\n\n- [ ] Yes, I am willing to submit a PR!\n\n[IMAGE OMITTED: not inspected]\n",
+            "source_span": [
+              1929,
+              2038
+            ],
+            "source_sha256": "57322614a9c3164f9a01b92bf715341e75b7e0f209481b2717f2ff251d83434a",
+            "sha256": "ef1600bbe370388bbc31fcf0afb94d66170cff65a94de6d8b7c45d3bab6bfe06",
+            "lines": [
+              63,
+              67
+            ],
+            "section": "Preserve widget state when a widget disappears from the page (demoed via Multipage Apps) > Are you willing to submit a PR?",
+            "section_path": [
+              "Preserve widget state when a widget disappears from the page (demoed via Multipage Apps)",
+              "Are you willing to submit a PR?"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 30,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02188034,
+          "rank": 6
+        },
+        {
+          "kind": "issue",
+          "title": "File uploader does not return multiple files",
+          "url": "https://github.com/streamlit/streamlit/issues/3531",
+          "revision": "2021-07-19T21:40:55Z",
+          "product_version": null,
+          "issue_number": 3531,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:3531:v3:child:1d04d6270bb1fd628d88",
+          "source_id": "issue:3531",
+          "text": "File uploader does not return multiple files\n\nFrom: https://discuss.streamlit.io/t/issue-with-file-uploader-and-streamlit-version-0-84-0/14812\n\n---\n\nHi everyone,\n\nI'm new here. First of all thank you really much for your great work in this forum. It helped me out multiple times. But now I encountered an issue where I couldn't find a thread on, yet.\n\nWith the latest version (0.84.0) I'm experiencing a problem with the file_uploader widget.\n\nIn the prior version (0.82.0) it was very handy, for my case, to select one file after another and drag&drop it to the widget. With the latest version this doesn't seems possible anymore. When one or more files were uploaded the next file/s draged and droped to the widget are not accessible, even though these files appear in the interactive list below the widget. \nI want to use st.session_state is the app I'm working on and for that reason the version 0.84.0 is necessary to my understanding.\n\nIn order for you to reproduce the situation I made up this example:\n\n```\nimport streamlit as st\n\nuploaded_files = st.file_uploader('Select files',type=['txt'],accept_multiple_files=True)\nfile_lst = [uploaded_file.name for uploaded_file in uploaded_files]\nst.write(file_lst)\n```\n",
+          "source_span": [
+            0,
+            1220
+          ],
+          "source_sha256": "f891f2b35d128d4787000efbea121a6aa5604923faab4994ec3d4777ee8fc5ac",
+          "sha256": "e2b2f68164e37d55c2a5735fa5fd2e0d031fa19687228c7b42e5ad304616013a",
+          "lines": [
+            1,
+            24
+          ],
+          "section": "File uploader does not return multiple files",
+          "section_path": [
+            "File uploader does not return multiple files"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 282,
+          "block_kinds": [
+            "code",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:3531:v3:parent:a2a064208e686ec4dbb1",
+          "parent": {
+            "kind": "issue",
+            "title": "File uploader does not return multiple files",
+            "url": "https://github.com/streamlit/streamlit/issues/3531",
+            "revision": "2021-07-19T21:40:55Z",
+            "product_version": null,
+            "issue_number": 3531,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:3531:v3:parent:a2a064208e686ec4dbb1",
+            "source_id": "issue:3531",
+            "text": "File uploader does not return multiple files\n\nFrom: https://discuss.streamlit.io/t/issue-with-file-uploader-and-streamlit-version-0-84-0/14812\n\n---\n\nHi everyone,\n\nI'm new here. First of all thank you really much for your great work in this forum. It helped me out multiple times. But now I encountered an issue where I couldn't find a thread on, yet.\n\nWith the latest version (0.84.0) I'm experiencing a problem with the file_uploader widget.\n\nIn the prior version (0.82.0) it was very handy, for my case, to select one file after another and drag&drop it to the widget. With the latest version this doesn't seems possible anymore. When one or more files were uploaded the next file/s draged and droped to the widget are not accessible, even though these files appear in the interactive list below the widget. \nI want to use st.session_state is the app I'm working on and for that reason the version 0.84.0 is necessary to my understanding.\n\nIn order for you to reproduce the situation I made up this example:\n\n```\nimport streamlit as st\n\nuploaded_files = st.file_uploader('Select files',type=['txt'],accept_multiple_files=True)\nfile_lst = [uploaded_file.name for uploaded_file in uploaded_files]\nst.write(file_lst)\n```\n\nAssuming I want to upload the two files test1.txt and test2.txt one after another. For the first file (test1.txt) the behavior is as expected and equivalent for both versions:\n\n[IMAGE OMITTED: not inspected]\n\nThen later I want to upload another file in this case test2.txt. \nThe expected behavior can be seen with version 0.82.0. Both files are shown in the interactive list below the widget as well as in the written file_lst.\n\n[IMAGE OMITTED: not inspected]\n\nWith version 0.84.0 only the interactive list below the widget shows both files. The written file_lst shows only test1.txt.\n\n[IMAGE OMITTED: not inspected]\n\nAnyone had a similar issue? I apologize, if the solution is obvious, but I got stuck with it and can't figure out, how to solve the issue.\n",
+            "source_span": [
+              0,
+              1978
+            ],
+            "source_sha256": "f891f2b35d128d4787000efbea121a6aa5604923faab4994ec3d4777ee8fc5ac",
+            "sha256": "e04631244714ec34d03ecbf64f4631b2613f2a35ea444d009a8a9bb745d5e131",
+            "lines": [
+              1,
+              39
+            ],
+            "section": "File uploader does not return multiple files",
+            "section_path": [
+              "File uploader does not return multiple files"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 458,
+            "block_kinds": [
+              "code",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0267094,
+          "rank": 7
+        },
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widget-behavior:v3:child:bedc02e93d50741f3103",
+          "source_id": "docs:widget-behavior",
+          "text": "#### Save widget values in Session State to preserve them between pages\n\nIf you want to navigate away from a widget and return to it while keeping its value, use a separate key in `st.session_state` to save the information independently from the widget. This technique is also recommended to carry a widget's state to a new instance on another page. In this example, an underscore-prefixed, temporary key is used with a widget. Hence, `\"_my_key\"` is used as the widget key, but the data is copied to `\"my_key\"` to preserve it between pages.\n\n```python\nimport streamlit as st\n\ndef store_value():\n    # Copy the value to the permanent key\n    st.session_state[\"my_key\"] = st.session_state[\"_my_key\"]\n\n# Copy the saved value to the temporary key\nst.session_state[\"_my_key\"] = st.session_state[\"my_key\"]\nst.number_input(\"Number of filters\", key=\"_my_key\", on_change=store_value)\n```\n\nIf this is functionalized to work with multiple widgets, it could look something like this:\n\n```python\nimport streamlit as st\n\ndef store_value(key):\n    st.session_state[key] = st.session_state[\"_\"+key]\ndef load_value(key):\n    st.session_state[\"_\"+key] = st.session_state[key]\n\nload_value(\"my_key\")\nst.number_input(\"Number of filters\", key=\"_my_key\", on_change=store_value, args=[\"my_key\"])\n```\n",
+          "source_span": [
+            13414,
+            14690
+          ],
+          "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+          "sha256": "60f0bc301482fe11f3012bb8c9fa902a528ce91df0a6f7871aea9856f99ae711",
+          "lines": [
+            198,
+            226
+          ],
+          "section": "widget-behavior > Understanding widget behavior > Statefulness of widgets > Widgets do not persist when not continually rendered > Save widget values in Session State to preserve them between pages",
+          "section_path": [
+            "widget-behavior",
+            "Understanding widget behavior",
+            "Statefulness of widgets",
+            "Widgets do not persist when not continually rendered",
+            "Save widget values in Session State to preserve them between pages"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 298,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widget-behavior:v3:parent:bedc02e93d50741f3103",
+          "parent": {
+            "kind": "docs",
+            "title": "widget-behavior",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widget-behavior:v3:parent:bedc02e93d50741f3103",
+            "source_id": "docs:widget-behavior",
+            "text": "#### Save widget values in Session State to preserve them between pages\n\nIf you want to navigate away from a widget and return to it while keeping its value, use a separate key in `st.session_state` to save the information independently from the widget. This technique is also recommended to carry a widget's state to a new instance on another page. In this example, an underscore-prefixed, temporary key is used with a widget. Hence, `\"_my_key\"` is used as the widget key, but the data is copied to `\"my_key\"` to preserve it between pages.\n\n```python\nimport streamlit as st\n\ndef store_value():\n    # Copy the value to the permanent key\n    st.session_state[\"my_key\"] = st.session_state[\"_my_key\"]\n\n# Copy the saved value to the temporary key\nst.session_state[\"_my_key\"] = st.session_state[\"my_key\"]\nst.number_input(\"Number of filters\", key=\"_my_key\", on_change=store_value)\n```\n\nIf this is functionalized to work with multiple widgets, it could look something like this:\n\n```python\nimport streamlit as st\n\ndef store_value(key):\n    st.session_state[key] = st.session_state[\"_\"+key]\ndef load_value(key):\n    st.session_state[\"_\"+key] = st.session_state[key]\n\nload_value(\"my_key\")\nst.number_input(\"Number of filters\", key=\"_my_key\", on_change=store_value, args=[\"my_key\"])\n```\n",
+            "source_span": [
+              13414,
+              14690
+            ],
+            "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+            "sha256": "60f0bc301482fe11f3012bb8c9fa902a528ce91df0a6f7871aea9856f99ae711",
+            "lines": [
+              198,
+              226
+            ],
+            "section": "widget-behavior > Understanding widget behavior > Statefulness of widgets > Widgets do not persist when not continually rendered > Save widget values in Session State to preserve them between pages",
+            "section_path": [
+              "widget-behavior",
+              "Understanding widget behavior",
+              "Statefulness of widgets",
+              "Widgets do not persist when not continually rendered",
+              "Save widget values in Session State to preserve them between pages"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 298,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02097744,
+          "rank": 8
+        }
+      ],
+      "candidate_hash": "3d2de3c372671b3aa1d88e46631ffef7fa56a84ef803f125081fc6c54b57c9f2",
+      "context": [
+        {
+          "kind": "docs",
+          "title": "forms",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/forms.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:forms:v3:child:a7840f1725bb9a5d83bf",
+          "source_id": "docs:forms",
+          "text": "## Widget values\n\nBefore a form is submitted, all widgets within that form will have default values, just like widgets outside of a form have default values.\n\n```python\nimport streamlit as st\n\nwith st.form(\"my_form\"):\n   st.write(\"Inside the form\")\n   my_number = st.slider('Pick a number', 1, 10)\n   my_color = st.selectbox('Pick a color', ['red','orange','green','blue','violet'])\n   st.form_submit_button('Submit my picks')\n\n# This is outside the form\nst.write(my_number)\nst.write(my_color)\n```\n\n<Cloud name=\"doc-forms-default\" height=\"450px\"/>\n",
+          "source_span": [
+            3886,
+            4434
+          ],
+          "source_sha256": "9bc4499efe84514958c107943f5191038248d66ee1125189be39df67acfddda0",
+          "sha256": "883105ee33dfc10b9a99f4ef4a8ea44a40e1d0ce8a1a19f02b9145ab366d67ea",
+          "lines": [
+            82,
+            100
+          ],
+          "section": "forms > Using forms > Widget values",
+          "section_path": [
+            "forms",
+            "Using forms",
+            "Widget values"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 139,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:forms:v3:parent:a7840f1725bb9a5d83bf",
+          "parent": {
+            "kind": "docs",
+            "title": "forms",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/forms.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:forms:v3:parent:a7840f1725bb9a5d83bf",
+            "source_id": "docs:forms",
+            "text": "## Widget values\n\nBefore a form is submitted, all widgets within that form will have default values, just like widgets outside of a form have default values.\n\n```python\nimport streamlit as st\n\nwith st.form(\"my_form\"):\n   st.write(\"Inside the form\")\n   my_number = st.slider('Pick a number', 1, 10)\n   my_color = st.selectbox('Pick a color', ['red','orange','green','blue','violet'])\n   st.form_submit_button('Submit my picks')\n\n# This is outside the form\nst.write(my_number)\nst.write(my_color)\n```\n\n<Cloud name=\"doc-forms-default\" height=\"450px\"/>\n",
+            "source_span": [
+              3886,
+              4434
+            ],
+            "source_sha256": "9bc4499efe84514958c107943f5191038248d66ee1125189be39df67acfddda0",
+            "sha256": "883105ee33dfc10b9a99f4ef4a8ea44a40e1d0ce8a1a19f02b9145ab366d67ea",
+            "lines": [
+              82,
+              100
+            ],
+            "section": "forms > Using forms > Widget values",
+            "section_path": [
+              "forms",
+              "Using forms",
+              "Widget values"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 139,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03512427,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "forms",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/forms.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:forms:v3:child:746bb040d4d63d9f795a",
+          "source_id": "docs:forms",
+          "text": "# Using forms\n\nWhen you don't want to rerun your script with each input made by a user, [`st.form`](/develop/api-reference/execution-flow/st.form) is here to help! Forms make it easy to batch user input into a single rerun. This guide to using forms provides examples and explains how users interact with forms.\n",
+          "source_span": [
+            403,
+            715
+          ],
+          "source_sha256": "9bc4499efe84514958c107943f5191038248d66ee1125189be39df67acfddda0",
+          "sha256": "595a8219953bf250d3c317be1a1773dc1a6b28e0794d7af22572f39baf9d375f",
+          "lines": [
+            8,
+            10
+          ],
+          "section": "forms > Using forms",
+          "section_path": [
+            "forms",
+            "Using forms"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 69,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:forms:v3:parent:746bb040d4d63d9f795a",
+          "parent": {
+            "kind": "docs",
+            "title": "forms",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/forms.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:forms:v3:parent:746bb040d4d63d9f795a",
+            "source_id": "docs:forms",
+            "text": "# Using forms\n\nWhen you don't want to rerun your script with each input made by a user, [`st.form`](/develop/api-reference/execution-flow/st.form) is here to help! Forms make it easy to batch user input into a single rerun. This guide to using forms provides examples and explains how users interact with forms.\n",
+            "source_span": [
+              403,
+              715
+            ],
+            "source_sha256": "9bc4499efe84514958c107943f5191038248d66ee1125189be39df67acfddda0",
+            "sha256": "595a8219953bf250d3c317be1a1773dc1a6b28e0794d7af22572f39baf9d375f",
+            "lines": [
+              8,
+              10
+            ],
+            "section": "forms > Using forms",
+            "section_path": [
+              "forms",
+              "Using forms"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 69,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0343203,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widget-behavior:v3:child:acaf06be033bb1b473ee",
+          "source_id": "docs:widget-behavior",
+          "text": "### Using callback functions with forms\n\nUsing a callback function with a form requires understanding of this order of operations.\n\n```python\nimport streamlit as st\n\nif \"attendance\" not in st.session_state:\n    st.session_state.attendance = set()\n\n\ndef take_attendance():\n    if st.session_state.name in st.session_state.attendance:\n        st.info(f\"{st.session_state.name} has already been counted.\")\n    else:\n        st.session_state.attendance.add(st.session_state.name)\n\n\nwith st.form(key=\"my_form\"):\n    st.text_input(\"Name\", key=\"name\")\n    st.form_submit_button(\"I'm here!\", on_click=take_attendance)\n```\n\n<Cloud name=\"doc-guide-widgets-form-callbacks\" height=\"250px\"/>\n",
+          "source_span": [
+            9376,
+            10055
+          ],
+          "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+          "sha256": "b2ca69f4e37a9fcf39acc1594fb32476ce4569a26a2bcd4fb646206523b469a5",
+          "lines": [
+            118,
+            141
+          ],
+          "section": "widget-behavior > Understanding widget behavior > Order of operations > Using callback functions with forms",
+          "section_path": [
+            "widget-behavior",
+            "Understanding widget behavior",
+            "Order of operations",
+            "Using callback functions with forms"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 153,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widget-behavior:v3:parent:acaf06be033bb1b473ee",
+          "parent": {
+            "kind": "docs",
+            "title": "widget-behavior",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widget-behavior:v3:parent:acaf06be033bb1b473ee",
+            "source_id": "docs:widget-behavior",
+            "text": "### Using callback functions with forms\n\nUsing a callback function with a form requires understanding of this order of operations.\n\n```python\nimport streamlit as st\n\nif \"attendance\" not in st.session_state:\n    st.session_state.attendance = set()\n\n\ndef take_attendance():\n    if st.session_state.name in st.session_state.attendance:\n        st.info(f\"{st.session_state.name} has already been counted.\")\n    else:\n        st.session_state.attendance.add(st.session_state.name)\n\n\nwith st.form(key=\"my_form\"):\n    st.text_input(\"Name\", key=\"name\")\n    st.form_submit_button(\"I'm here!\", on_click=take_attendance)\n```\n\n<Cloud name=\"doc-guide-widgets-form-callbacks\" height=\"250px\"/>\n",
+            "source_span": [
+              9376,
+              10055
+            ],
+            "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+            "sha256": "b2ca69f4e37a9fcf39acc1594fb32476ce4569a26a2bcd4fb646206523b469a5",
+            "lines": [
+              118,
+              141
+            ],
+            "section": "widget-behavior > Understanding widget behavior > Order of operations > Using callback functions with forms",
+            "section_path": [
+              "widget-behavior",
+              "Understanding widget behavior",
+              "Order of operations",
+              "Using callback functions with forms"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 153,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03091392,
+          "rank": 3
+        },
+        {
+          "kind": "issue",
+          "title": "File_uploader widget is problematic",
+          "url": "https://github.com/streamlit/streamlit/issues/897",
+          "revision": "2020-12-09T21:06:02Z",
+          "product_version": null,
+          "issue_number": 897,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:897:v3:child:fa9145718d6717e4474a",
+          "source_id": "issue:897",
+          "text": "```\n# pylint: disable=line-too-long\n\"\"\"This is example shows how to **upload multiple files** via the\n[File Uploader Widget](https://streamlit.io/docs/api.html?highlight=file%20upload#streamlit.file_uploader)\n\nAs far as I can see you can only upload one file at a time. So if you need multiple files in your\napp, you need to store them in a static List or Dictionary. Alternatively they should be uploaded\nas one .zip file.\n\nPlease note that file uploader is a **bit problematic** because\n- You can only upload one file at the time.\n- You get no additional information on the file like name, size, upload time, type etc. So you\ncannot distinguish the files without reading the content.\n- every time you interact with any widget, the script is rerun and you risk processing or storing\nthe file again!\n- The file uploader widget is not cleared when you clear the cache and there is no way to clear the\nfile uploader widget programmatically.\n\nThis example was based on\n[Discourse 1445](https://discuss.streamlit.io/t/uploading-multiple-files-with-file-uploader/1445)\n\"\"\"\n# pylint: enable=line-too-long\nfrom typing import Dict\n\nimport streamlit as st\n\n\n@st.cache(allow_output_mutation=True)\n",
+          "source_span": [
+            1035,
+            2222
+          ],
+          "source_sha256": "ef763453fb1f7928d4b846e8cbe3fd8965e996049c2a8edafdc82910a54d4a87",
+          "sha256": "aa1c3f77ddef2a3d6b3e6faa21b5986e8f0f9e31678d31752e4206ce6b0e2500",
+          "lines": [
+            17,
+            44
+          ],
+          "section": "File_uploader widget is problematic > Summary",
+          "section_path": [
+            "File_uploader widget is problematic",
+            "Summary"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 276,
+          "block_kinds": [
+            "code"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:897:v3:parent:fc83bd61bef7ba655435",
+          "parent": {
+            "kind": "issue",
+            "title": "File_uploader widget is problematic",
+            "url": "https://github.com/streamlit/streamlit/issues/897",
+            "revision": "2020-12-09T21:06:02Z",
+            "product_version": null,
+            "issue_number": 897,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:897:v3:parent:fc83bd61bef7ba655435",
+            "source_id": "issue:897",
+            "text": "# Summary\n\nI tried to make an example answer for [Discourse 1445](https://discuss.streamlit.io/t/uploading-multiple-files-with-file-uploader/1445) but found out its difficult to use the file_uploader widget as soon as its part of an interactive application where the user may wish to upload multiple files,  interact with several widgets after file upload or clear the cache.\n\n- You can only upload one file at the time.\n- You get no additional information on the file like name, size, upload time, type etc. So you\ncannot distinguish the files without reading the content. The python object id changes for each script rerun so you cannot use that either.\n- every time you interact with any widget, the script is rerun and you risk processing or storing\nthe file again!\n- The file uploader widget is not cleared when you clear the cache and there is no way to clear the\nfile uploader widget programmatically.\n\nSee also https://discuss.streamlit.io/t/awesome-streamlit-org-change-log/1414/7?u=marc\n\n```\n# pylint: disable=line-too-long\n\"\"\"This is example shows how to **upload multiple files** via the\n[File Uploader Widget](https://streamlit.io/docs/api.html?highlight=file%20upload#streamlit.file_uploader)\n\nAs far as I can see you can only upload one file at a time. So if you need multiple files in your\napp, you need to store them in a static List or Dictionary. Alternatively they should be uploaded\nas one .zip file.\n\nPlease note that file uploader is a **bit problematic** because\n- You can only upload one file at the time.\n- You get no additional information on the file like name, size, upload time, type etc. So you\ncannot distinguish the files without reading the content.\n- every time you interact with any widget, the script is rerun and you risk processing or storing\nthe file again!\n- The file uploader widget is not cleared when you clear the cache and there is no way to clear the\nfile uploader widget programmatically.\n\nThis example was based on\n[Discourse 1445](https://discuss.streamlit.io/t/uploading-multiple-files-with-file-uploader/1445)\n\"\"\"\n# pylint: enable=line-too-long\nfrom typing import Dict\n\nimport streamlit as st\n\n\n@st.cache(allow_output_mutation=True)\ndef get_static_store() -> Dict:\n    \"\"\"This dictionary is initialized once and can be used to store the files uploaded\"\"\"\n    return {}\n\n\ndef main():\n    \"\"\"Run this function to run the app\"\"\"\n    static_store = get_static_store()\n\n    st.info(__doc__)\n    result = st.file_uploader(\"Upload\", type=\"py\")\n    if result:\n        # Process you file here\n        value = result.getvalue()\n\n        # And add it to the static_store if not already in\n        if not value in static_store.values():\n            static_store[result] = value\n    else:\n        static_store.clear()  # Hack to clear list if the user clears the cache and reloads the page\n        st.info(\"Upload one or more `.py` files.\")\n\n    if st.button(\"Clear file list\"):\n        static_store.clear()\n    if st.checkbox(\"Show file list?\", True):\n        st.write(list(static_store.keys()))\n    if st.checkbox(\"Show content of files?\"):\n        for value in static_store.values():\n            st.code(value)\n\n\nmain()\n```\n",
+            "source_span": [
+              37,
+              3203
+            ],
+            "source_sha256": "ef763453fb1f7928d4b846e8cbe3fd8965e996049c2a8edafdc82910a54d4a87",
+            "sha256": "388152e9715517b6790d88ec1e209e5987b8f866f6de730d2a5168b554aced62",
+            "lines": [
+              3,
+              77
+            ],
+            "section": "File_uploader widget is problematic > Summary",
+            "section_path": [
+              "File_uploader widget is problematic",
+              "Summary"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 719,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02779923,
+          "rank": 4
+        },
+        {
+          "kind": "docs",
+          "title": "session_state",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/session_state.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:session_state:v3:child:a5b4eadb97ef620431d9",
+          "source_id": "docs:session_state",
+          "text": "### Forms and Callbacks\n\nWidgets inside a form can have their values be accessed and set via the Session State API. `st.form_submit_button` can have a callback associated with it. The callback gets executed upon clicking on the submit button. For example:\n\n```python\ndef form_callback():\n    st.write(st.session_state.my_slider)\n    st.write(st.session_state.my_checkbox)\n\nwith st.form(key='my_form'):\n    slider_input = st.slider('My slider', 0, 10, 5, key='my_slider')\n    checkbox_input = st.checkbox('Yes or No', key='my_checkbox')\n    submit_button = st.form_submit_button(label='Submit', on_click=form_callback)\n```\n",
+          "source_span": [
+            3760,
+            4382
+          ],
+          "source_sha256": "f1969fd2fbc693a3e961cdbf65b00b08eedbb97b8efbaa0c5287a71a53b3affc",
+          "sha256": "8322a4f28985b528fe41a2d64c84af286c8a398e04adcf777763df57021f769f",
+          "lines": [
+            135,
+            148
+          ],
+          "section": "session_state > Session State > Forms and Callbacks",
+          "section_path": [
+            "session_state",
+            "Session State",
+            "Forms and Callbacks"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 144,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:session_state:v3:parent:a5b4eadb97ef620431d9",
+          "parent": {
+            "kind": "docs",
+            "title": "session_state",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/session_state.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:session_state:v3:parent:a5b4eadb97ef620431d9",
+            "source_id": "docs:session_state",
+            "text": "### Forms and Callbacks\n\nWidgets inside a form can have their values be accessed and set via the Session State API. `st.form_submit_button` can have a callback associated with it. The callback gets executed upon clicking on the submit button. For example:\n\n```python\ndef form_callback():\n    st.write(st.session_state.my_slider)\n    st.write(st.session_state.my_checkbox)\n\nwith st.form(key='my_form'):\n    slider_input = st.slider('My slider', 0, 10, 5, key='my_slider')\n    checkbox_input = st.checkbox('Yes or No', key='my_checkbox')\n    submit_button = st.form_submit_button(label='Submit', on_click=form_callback)\n```\n",
+            "source_span": [
+              3760,
+              4382
+            ],
+            "source_sha256": "f1969fd2fbc693a3e961cdbf65b00b08eedbb97b8efbaa0c5287a71a53b3affc",
+            "sha256": "8322a4f28985b528fe41a2d64c84af286c8a398e04adcf777763df57021f769f",
+            "lines": [
+              135,
+              148
+            ],
+            "section": "session_state > Session State > Forms and Callbacks",
+            "section_path": [
+              "session_state",
+              "Session State",
+              "Forms and Callbacks"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 144,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03095823,
+          "rank": 5
+        }
+      ],
+      "packing": {
+        "encoding": "o200k_base",
+        "budget_tokens": 3000,
+        "used_tokens": 2019,
+        "expand_parent": false,
+        "items": [
+          {
+            "id": "docs:forms:v3:child:a7840f1725bb9a5d83bf",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:forms:v3:child:a7840f1725bb9a5d83bf"
+          },
+          {
+            "id": "docs:forms:v3:child:746bb040d4d63d9f795a",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:forms:v3:child:746bb040d4d63d9f795a"
+          },
+          {
+            "id": "docs:widget-behavior:v3:child:acaf06be033bb1b473ee",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:widget-behavior:v3:child:acaf06be033bb1b473ee"
+          },
+          {
+            "id": "issue:897:v3:child:fa9145718d6717e4474a",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:897:v3:child:fa9145718d6717e4474a"
+          },
+          {
+            "id": "docs:session_state:v3:child:a5b4eadb97ef620431d9",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:session_state:v3:child:a5b4eadb97ef620431d9"
+          },
+          {
+            "id": "issue:5813:v3:child:15f7b778507b7b6c0c14",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:3531:v3:child:1d04d6270bb1fd628d88",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "docs:widget-behavior:v3:child:bedc02e93d50741f3103",
+            "status": "omitted",
+            "reason": "item_limit"
+          }
+        ]
+      },
+      "index": "v3",
+      "namespace": "6fbba079eb1323bf54c9d03ad4b956a7174e0f434f386ed66f0a50b489f55d4e"
+    },
+    "C": {
+      "candidates": [
+        {
+          "kind": "docs",
+          "title": "forms",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/forms.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:forms:v3:child:a7840f1725bb9a5d83bf",
+          "source_id": "docs:forms",
+          "text": "## Widget values\n\nBefore a form is submitted, all widgets within that form will have default values, just like widgets outside of a form have default values.\n\n```python\nimport streamlit as st\n\nwith st.form(\"my_form\"):\n   st.write(\"Inside the form\")\n   my_number = st.slider('Pick a number', 1, 10)\n   my_color = st.selectbox('Pick a color', ['red','orange','green','blue','violet'])\n   st.form_submit_button('Submit my picks')\n\n# This is outside the form\nst.write(my_number)\nst.write(my_color)\n```\n\n<Cloud name=\"doc-forms-default\" height=\"450px\"/>\n",
+          "source_span": [
+            3886,
+            4434
+          ],
+          "source_sha256": "9bc4499efe84514958c107943f5191038248d66ee1125189be39df67acfddda0",
+          "sha256": "883105ee33dfc10b9a99f4ef4a8ea44a40e1d0ce8a1a19f02b9145ab366d67ea",
+          "lines": [
+            82,
+            100
+          ],
+          "section": "forms > Using forms > Widget values",
+          "section_path": [
+            "forms",
+            "Using forms",
+            "Widget values"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 139,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:forms:v3:parent:a7840f1725bb9a5d83bf",
+          "parent": {
+            "kind": "docs",
+            "title": "forms",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/forms.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:forms:v3:parent:a7840f1725bb9a5d83bf",
+            "source_id": "docs:forms",
+            "text": "## Widget values\n\nBefore a form is submitted, all widgets within that form will have default values, just like widgets outside of a form have default values.\n\n```python\nimport streamlit as st\n\nwith st.form(\"my_form\"):\n   st.write(\"Inside the form\")\n   my_number = st.slider('Pick a number', 1, 10)\n   my_color = st.selectbox('Pick a color', ['red','orange','green','blue','violet'])\n   st.form_submit_button('Submit my picks')\n\n# This is outside the form\nst.write(my_number)\nst.write(my_color)\n```\n\n<Cloud name=\"doc-forms-default\" height=\"450px\"/>\n",
+            "source_span": [
+              3886,
+              4434
+            ],
+            "source_sha256": "9bc4499efe84514958c107943f5191038248d66ee1125189be39df67acfddda0",
+            "sha256": "883105ee33dfc10b9a99f4ef4a8ea44a40e1d0ce8a1a19f02b9145ab366d67ea",
+            "lines": [
+              82,
+              100
+            ],
+            "section": "forms > Using forms > Widget values",
+            "section_path": [
+              "forms",
+              "Using forms",
+              "Widget values"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 139,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03512427,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "forms",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/forms.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:forms:v3:child:746bb040d4d63d9f795a",
+          "source_id": "docs:forms",
+          "text": "# Using forms\n\nWhen you don't want to rerun your script with each input made by a user, [`st.form`](/develop/api-reference/execution-flow/st.form) is here to help! Forms make it easy to batch user input into a single rerun. This guide to using forms provides examples and explains how users interact with forms.\n",
+          "source_span": [
+            403,
+            715
+          ],
+          "source_sha256": "9bc4499efe84514958c107943f5191038248d66ee1125189be39df67acfddda0",
+          "sha256": "595a8219953bf250d3c317be1a1773dc1a6b28e0794d7af22572f39baf9d375f",
+          "lines": [
+            8,
+            10
+          ],
+          "section": "forms > Using forms",
+          "section_path": [
+            "forms",
+            "Using forms"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 69,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:forms:v3:parent:746bb040d4d63d9f795a",
+          "parent": {
+            "kind": "docs",
+            "title": "forms",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/forms.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:forms:v3:parent:746bb040d4d63d9f795a",
+            "source_id": "docs:forms",
+            "text": "# Using forms\n\nWhen you don't want to rerun your script with each input made by a user, [`st.form`](/develop/api-reference/execution-flow/st.form) is here to help! Forms make it easy to batch user input into a single rerun. This guide to using forms provides examples and explains how users interact with forms.\n",
+            "source_span": [
+              403,
+              715
+            ],
+            "source_sha256": "9bc4499efe84514958c107943f5191038248d66ee1125189be39df67acfddda0",
+            "sha256": "595a8219953bf250d3c317be1a1773dc1a6b28e0794d7af22572f39baf9d375f",
+            "lines": [
+              8,
+              10
+            ],
+            "section": "forms > Using forms",
+            "section_path": [
+              "forms",
+              "Using forms"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 69,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0343203,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widget-behavior:v3:child:acaf06be033bb1b473ee",
+          "source_id": "docs:widget-behavior",
+          "text": "### Using callback functions with forms\n\nUsing a callback function with a form requires understanding of this order of operations.\n\n```python\nimport streamlit as st\n\nif \"attendance\" not in st.session_state:\n    st.session_state.attendance = set()\n\n\ndef take_attendance():\n    if st.session_state.name in st.session_state.attendance:\n        st.info(f\"{st.session_state.name} has already been counted.\")\n    else:\n        st.session_state.attendance.add(st.session_state.name)\n\n\nwith st.form(key=\"my_form\"):\n    st.text_input(\"Name\", key=\"name\")\n    st.form_submit_button(\"I'm here!\", on_click=take_attendance)\n```\n\n<Cloud name=\"doc-guide-widgets-form-callbacks\" height=\"250px\"/>\n",
+          "source_span": [
+            9376,
+            10055
+          ],
+          "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+          "sha256": "b2ca69f4e37a9fcf39acc1594fb32476ce4569a26a2bcd4fb646206523b469a5",
+          "lines": [
+            118,
+            141
+          ],
+          "section": "widget-behavior > Understanding widget behavior > Order of operations > Using callback functions with forms",
+          "section_path": [
+            "widget-behavior",
+            "Understanding widget behavior",
+            "Order of operations",
+            "Using callback functions with forms"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 153,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widget-behavior:v3:parent:acaf06be033bb1b473ee",
+          "parent": {
+            "kind": "docs",
+            "title": "widget-behavior",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widget-behavior:v3:parent:acaf06be033bb1b473ee",
+            "source_id": "docs:widget-behavior",
+            "text": "### Using callback functions with forms\n\nUsing a callback function with a form requires understanding of this order of operations.\n\n```python\nimport streamlit as st\n\nif \"attendance\" not in st.session_state:\n    st.session_state.attendance = set()\n\n\ndef take_attendance():\n    if st.session_state.name in st.session_state.attendance:\n        st.info(f\"{st.session_state.name} has already been counted.\")\n    else:\n        st.session_state.attendance.add(st.session_state.name)\n\n\nwith st.form(key=\"my_form\"):\n    st.text_input(\"Name\", key=\"name\")\n    st.form_submit_button(\"I'm here!\", on_click=take_attendance)\n```\n\n<Cloud name=\"doc-guide-widgets-form-callbacks\" height=\"250px\"/>\n",
+            "source_span": [
+              9376,
+              10055
+            ],
+            "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+            "sha256": "b2ca69f4e37a9fcf39acc1594fb32476ce4569a26a2bcd4fb646206523b469a5",
+            "lines": [
+              118,
+              141
+            ],
+            "section": "widget-behavior > Understanding widget behavior > Order of operations > Using callback functions with forms",
+            "section_path": [
+              "widget-behavior",
+              "Understanding widget behavior",
+              "Order of operations",
+              "Using callback functions with forms"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 153,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03091392,
+          "rank": 3
+        },
+        {
+          "kind": "issue",
+          "title": "File_uploader widget is problematic",
+          "url": "https://github.com/streamlit/streamlit/issues/897",
+          "revision": "2020-12-09T21:06:02Z",
+          "product_version": null,
+          "issue_number": 897,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:897:v3:child:fa9145718d6717e4474a",
+          "source_id": "issue:897",
+          "text": "```\n# pylint: disable=line-too-long\n\"\"\"This is example shows how to **upload multiple files** via the\n[File Uploader Widget](https://streamlit.io/docs/api.html?highlight=file%20upload#streamlit.file_uploader)\n\nAs far as I can see you can only upload one file at a time. So if you need multiple files in your\napp, you need to store them in a static List or Dictionary. Alternatively they should be uploaded\nas one .zip file.\n\nPlease note that file uploader is a **bit problematic** because\n- You can only upload one file at the time.\n- You get no additional information on the file like name, size, upload time, type etc. So you\ncannot distinguish the files without reading the content.\n- every time you interact with any widget, the script is rerun and you risk processing or storing\nthe file again!\n- The file uploader widget is not cleared when you clear the cache and there is no way to clear the\nfile uploader widget programmatically.\n\nThis example was based on\n[Discourse 1445](https://discuss.streamlit.io/t/uploading-multiple-files-with-file-uploader/1445)\n\"\"\"\n# pylint: enable=line-too-long\nfrom typing import Dict\n\nimport streamlit as st\n\n\n@st.cache(allow_output_mutation=True)\n",
+          "source_span": [
+            1035,
+            2222
+          ],
+          "source_sha256": "ef763453fb1f7928d4b846e8cbe3fd8965e996049c2a8edafdc82910a54d4a87",
+          "sha256": "aa1c3f77ddef2a3d6b3e6faa21b5986e8f0f9e31678d31752e4206ce6b0e2500",
+          "lines": [
+            17,
+            44
+          ],
+          "section": "File_uploader widget is problematic > Summary",
+          "section_path": [
+            "File_uploader widget is problematic",
+            "Summary"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 276,
+          "block_kinds": [
+            "code"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:897:v3:parent:fc83bd61bef7ba655435",
+          "parent": {
+            "kind": "issue",
+            "title": "File_uploader widget is problematic",
+            "url": "https://github.com/streamlit/streamlit/issues/897",
+            "revision": "2020-12-09T21:06:02Z",
+            "product_version": null,
+            "issue_number": 897,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:897:v3:parent:fc83bd61bef7ba655435",
+            "source_id": "issue:897",
+            "text": "# Summary\n\nI tried to make an example answer for [Discourse 1445](https://discuss.streamlit.io/t/uploading-multiple-files-with-file-uploader/1445) but found out its difficult to use the file_uploader widget as soon as its part of an interactive application where the user may wish to upload multiple files,  interact with several widgets after file upload or clear the cache.\n\n- You can only upload one file at the time.\n- You get no additional information on the file like name, size, upload time, type etc. So you\ncannot distinguish the files without reading the content. The python object id changes for each script rerun so you cannot use that either.\n- every time you interact with any widget, the script is rerun and you risk processing or storing\nthe file again!\n- The file uploader widget is not cleared when you clear the cache and there is no way to clear the\nfile uploader widget programmatically.\n\nSee also https://discuss.streamlit.io/t/awesome-streamlit-org-change-log/1414/7?u=marc\n\n```\n# pylint: disable=line-too-long\n\"\"\"This is example shows how to **upload multiple files** via the\n[File Uploader Widget](https://streamlit.io/docs/api.html?highlight=file%20upload#streamlit.file_uploader)\n\nAs far as I can see you can only upload one file at a time. So if you need multiple files in your\napp, you need to store them in a static List or Dictionary. Alternatively they should be uploaded\nas one .zip file.\n\nPlease note that file uploader is a **bit problematic** because\n- You can only upload one file at the time.\n- You get no additional information on the file like name, size, upload time, type etc. So you\ncannot distinguish the files without reading the content.\n- every time you interact with any widget, the script is rerun and you risk processing or storing\nthe file again!\n- The file uploader widget is not cleared when you clear the cache and there is no way to clear the\nfile uploader widget programmatically.\n\nThis example was based on\n[Discourse 1445](https://discuss.streamlit.io/t/uploading-multiple-files-with-file-uploader/1445)\n\"\"\"\n# pylint: enable=line-too-long\nfrom typing import Dict\n\nimport streamlit as st\n\n\n@st.cache(allow_output_mutation=True)\ndef get_static_store() -> Dict:\n    \"\"\"This dictionary is initialized once and can be used to store the files uploaded\"\"\"\n    return {}\n\n\ndef main():\n    \"\"\"Run this function to run the app\"\"\"\n    static_store = get_static_store()\n\n    st.info(__doc__)\n    result = st.file_uploader(\"Upload\", type=\"py\")\n    if result:\n        # Process you file here\n        value = result.getvalue()\n\n        # And add it to the static_store if not already in\n        if not value in static_store.values():\n            static_store[result] = value\n    else:\n        static_store.clear()  # Hack to clear list if the user clears the cache and reloads the page\n        st.info(\"Upload one or more `.py` files.\")\n\n    if st.button(\"Clear file list\"):\n        static_store.clear()\n    if st.checkbox(\"Show file list?\", True):\n        st.write(list(static_store.keys()))\n    if st.checkbox(\"Show content of files?\"):\n        for value in static_store.values():\n            st.code(value)\n\n\nmain()\n```\n",
+            "source_span": [
+              37,
+              3203
+            ],
+            "source_sha256": "ef763453fb1f7928d4b846e8cbe3fd8965e996049c2a8edafdc82910a54d4a87",
+            "sha256": "388152e9715517b6790d88ec1e209e5987b8f866f6de730d2a5168b554aced62",
+            "lines": [
+              3,
+              77
+            ],
+            "section": "File_uploader widget is problematic > Summary",
+            "section_path": [
+              "File_uploader widget is problematic",
+              "Summary"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 719,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02779923,
+          "rank": 4
+        },
+        {
+          "kind": "docs",
+          "title": "session_state",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/session_state.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:session_state:v3:child:a5b4eadb97ef620431d9",
+          "source_id": "docs:session_state",
+          "text": "### Forms and Callbacks\n\nWidgets inside a form can have their values be accessed and set via the Session State API. `st.form_submit_button` can have a callback associated with it. The callback gets executed upon clicking on the submit button. For example:\n\n```python\ndef form_callback():\n    st.write(st.session_state.my_slider)\n    st.write(st.session_state.my_checkbox)\n\nwith st.form(key='my_form'):\n    slider_input = st.slider('My slider', 0, 10, 5, key='my_slider')\n    checkbox_input = st.checkbox('Yes or No', key='my_checkbox')\n    submit_button = st.form_submit_button(label='Submit', on_click=form_callback)\n```\n",
+          "source_span": [
+            3760,
+            4382
+          ],
+          "source_sha256": "f1969fd2fbc693a3e961cdbf65b00b08eedbb97b8efbaa0c5287a71a53b3affc",
+          "sha256": "8322a4f28985b528fe41a2d64c84af286c8a398e04adcf777763df57021f769f",
+          "lines": [
+            135,
+            148
+          ],
+          "section": "session_state > Session State > Forms and Callbacks",
+          "section_path": [
+            "session_state",
+            "Session State",
+            "Forms and Callbacks"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 144,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:session_state:v3:parent:a5b4eadb97ef620431d9",
+          "parent": {
+            "kind": "docs",
+            "title": "session_state",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/session_state.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:session_state:v3:parent:a5b4eadb97ef620431d9",
+            "source_id": "docs:session_state",
+            "text": "### Forms and Callbacks\n\nWidgets inside a form can have their values be accessed and set via the Session State API. `st.form_submit_button` can have a callback associated with it. The callback gets executed upon clicking on the submit button. For example:\n\n```python\ndef form_callback():\n    st.write(st.session_state.my_slider)\n    st.write(st.session_state.my_checkbox)\n\nwith st.form(key='my_form'):\n    slider_input = st.slider('My slider', 0, 10, 5, key='my_slider')\n    checkbox_input = st.checkbox('Yes or No', key='my_checkbox')\n    submit_button = st.form_submit_button(label='Submit', on_click=form_callback)\n```\n",
+            "source_span": [
+              3760,
+              4382
+            ],
+            "source_sha256": "f1969fd2fbc693a3e961cdbf65b00b08eedbb97b8efbaa0c5287a71a53b3affc",
+            "sha256": "8322a4f28985b528fe41a2d64c84af286c8a398e04adcf777763df57021f769f",
+            "lines": [
+              135,
+              148
+            ],
+            "section": "session_state > Session State > Forms and Callbacks",
+            "section_path": [
+              "session_state",
+              "Session State",
+              "Forms and Callbacks"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 144,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03095823,
+          "rank": 5
+        },
+        {
+          "kind": "issue",
+          "title": "Preserve widget state when a widget disappears from the page (demoed via Multipage Apps)",
+          "url": "https://github.com/streamlit/streamlit/issues/5813",
+          "revision": "2026-07-22T07:33:36Z",
+          "product_version": null,
+          "issue_number": 5813,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:5813:v3:child:15f7b778507b7b6c0c14",
+          "source_id": "issue:5813",
+          "text": "### Are you willing to submit a PR?\n\n- [ ] Yes, I am willing to submit a PR!\n\n[IMAGE OMITTED: not inspected]\n",
+          "source_span": [
+            1929,
+            2038
+          ],
+          "source_sha256": "57322614a9c3164f9a01b92bf715341e75b7e0f209481b2717f2ff251d83434a",
+          "sha256": "ef1600bbe370388bbc31fcf0afb94d66170cff65a94de6d8b7c45d3bab6bfe06",
+          "lines": [
+            63,
+            67
+          ],
+          "section": "Preserve widget state when a widget disappears from the page (demoed via Multipage Apps) > Are you willing to submit a PR?",
+          "section_path": [
+            "Preserve widget state when a widget disappears from the page (demoed via Multipage Apps)",
+            "Are you willing to submit a PR?"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 30,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:5813:v3:parent:15f7b778507b7b6c0c14",
+          "parent": {
+            "kind": "issue",
+            "title": "Preserve widget state when a widget disappears from the page (demoed via Multipage Apps)",
+            "url": "https://github.com/streamlit/streamlit/issues/5813",
+            "revision": "2026-07-22T07:33:36Z",
+            "product_version": null,
+            "issue_number": 5813,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:5813:v3:parent:15f7b778507b7b6c0c14",
+            "source_id": "issue:5813",
+            "text": "### Are you willing to submit a PR?\n\n- [ ] Yes, I am willing to submit a PR!\n\n[IMAGE OMITTED: not inspected]\n",
+            "source_span": [
+              1929,
+              2038
+            ],
+            "source_sha256": "57322614a9c3164f9a01b92bf715341e75b7e0f209481b2717f2ff251d83434a",
+            "sha256": "ef1600bbe370388bbc31fcf0afb94d66170cff65a94de6d8b7c45d3bab6bfe06",
+            "lines": [
+              63,
+              67
+            ],
+            "section": "Preserve widget state when a widget disappears from the page (demoed via Multipage Apps) > Are you willing to submit a PR?",
+            "section_path": [
+              "Preserve widget state when a widget disappears from the page (demoed via Multipage Apps)",
+              "Are you willing to submit a PR?"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 30,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02188034,
+          "rank": 6
+        },
+        {
+          "kind": "issue",
+          "title": "File uploader does not return multiple files",
+          "url": "https://github.com/streamlit/streamlit/issues/3531",
+          "revision": "2021-07-19T21:40:55Z",
+          "product_version": null,
+          "issue_number": 3531,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:3531:v3:child:1d04d6270bb1fd628d88",
+          "source_id": "issue:3531",
+          "text": "File uploader does not return multiple files\n\nFrom: https://discuss.streamlit.io/t/issue-with-file-uploader-and-streamlit-version-0-84-0/14812\n\n---\n\nHi everyone,\n\nI'm new here. First of all thank you really much for your great work in this forum. It helped me out multiple times. But now I encountered an issue where I couldn't find a thread on, yet.\n\nWith the latest version (0.84.0) I'm experiencing a problem with the file_uploader widget.\n\nIn the prior version (0.82.0) it was very handy, for my case, to select one file after another and drag&drop it to the widget. With the latest version this doesn't seems possible anymore. When one or more files were uploaded the next file/s draged and droped to the widget are not accessible, even though these files appear in the interactive list below the widget. \nI want to use st.session_state is the app I'm working on and for that reason the version 0.84.0 is necessary to my understanding.\n\nIn order for you to reproduce the situation I made up this example:\n\n```\nimport streamlit as st\n\nuploaded_files = st.file_uploader('Select files',type=['txt'],accept_multiple_files=True)\nfile_lst = [uploaded_file.name for uploaded_file in uploaded_files]\nst.write(file_lst)\n```\n",
+          "source_span": [
+            0,
+            1220
+          ],
+          "source_sha256": "f891f2b35d128d4787000efbea121a6aa5604923faab4994ec3d4777ee8fc5ac",
+          "sha256": "e2b2f68164e37d55c2a5735fa5fd2e0d031fa19687228c7b42e5ad304616013a",
+          "lines": [
+            1,
+            24
+          ],
+          "section": "File uploader does not return multiple files",
+          "section_path": [
+            "File uploader does not return multiple files"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 282,
+          "block_kinds": [
+            "code",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:3531:v3:parent:a2a064208e686ec4dbb1",
+          "parent": {
+            "kind": "issue",
+            "title": "File uploader does not return multiple files",
+            "url": "https://github.com/streamlit/streamlit/issues/3531",
+            "revision": "2021-07-19T21:40:55Z",
+            "product_version": null,
+            "issue_number": 3531,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:3531:v3:parent:a2a064208e686ec4dbb1",
+            "source_id": "issue:3531",
+            "text": "File uploader does not return multiple files\n\nFrom: https://discuss.streamlit.io/t/issue-with-file-uploader-and-streamlit-version-0-84-0/14812\n\n---\n\nHi everyone,\n\nI'm new here. First of all thank you really much for your great work in this forum. It helped me out multiple times. But now I encountered an issue where I couldn't find a thread on, yet.\n\nWith the latest version (0.84.0) I'm experiencing a problem with the file_uploader widget.\n\nIn the prior version (0.82.0) it was very handy, for my case, to select one file after another and drag&drop it to the widget. With the latest version this doesn't seems possible anymore. When one or more files were uploaded the next file/s draged and droped to the widget are not accessible, even though these files appear in the interactive list below the widget. \nI want to use st.session_state is the app I'm working on and for that reason the version 0.84.0 is necessary to my understanding.\n\nIn order for you to reproduce the situation I made up this example:\n\n```\nimport streamlit as st\n\nuploaded_files = st.file_uploader('Select files',type=['txt'],accept_multiple_files=True)\nfile_lst = [uploaded_file.name for uploaded_file in uploaded_files]\nst.write(file_lst)\n```\n\nAssuming I want to upload the two files test1.txt and test2.txt one after another. For the first file (test1.txt) the behavior is as expected and equivalent for both versions:\n\n[IMAGE OMITTED: not inspected]\n\nThen later I want to upload another file in this case test2.txt. \nThe expected behavior can be seen with version 0.82.0. Both files are shown in the interactive list below the widget as well as in the written file_lst.\n\n[IMAGE OMITTED: not inspected]\n\nWith version 0.84.0 only the interactive list below the widget shows both files. The written file_lst shows only test1.txt.\n\n[IMAGE OMITTED: not inspected]\n\nAnyone had a similar issue? I apologize, if the solution is obvious, but I got stuck with it and can't figure out, how to solve the issue.\n",
+            "source_span": [
+              0,
+              1978
+            ],
+            "source_sha256": "f891f2b35d128d4787000efbea121a6aa5604923faab4994ec3d4777ee8fc5ac",
+            "sha256": "e04631244714ec34d03ecbf64f4631b2613f2a35ea444d009a8a9bb745d5e131",
+            "lines": [
+              1,
+              39
+            ],
+            "section": "File uploader does not return multiple files",
+            "section_path": [
+              "File uploader does not return multiple files"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 458,
+            "block_kinds": [
+              "code",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0267094,
+          "rank": 7
+        },
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widget-behavior:v3:child:bedc02e93d50741f3103",
+          "source_id": "docs:widget-behavior",
+          "text": "#### Save widget values in Session State to preserve them between pages\n\nIf you want to navigate away from a widget and return to it while keeping its value, use a separate key in `st.session_state` to save the information independently from the widget. This technique is also recommended to carry a widget's state to a new instance on another page. In this example, an underscore-prefixed, temporary key is used with a widget. Hence, `\"_my_key\"` is used as the widget key, but the data is copied to `\"my_key\"` to preserve it between pages.\n\n```python\nimport streamlit as st\n\ndef store_value():\n    # Copy the value to the permanent key\n    st.session_state[\"my_key\"] = st.session_state[\"_my_key\"]\n\n# Copy the saved value to the temporary key\nst.session_state[\"_my_key\"] = st.session_state[\"my_key\"]\nst.number_input(\"Number of filters\", key=\"_my_key\", on_change=store_value)\n```\n\nIf this is functionalized to work with multiple widgets, it could look something like this:\n\n```python\nimport streamlit as st\n\ndef store_value(key):\n    st.session_state[key] = st.session_state[\"_\"+key]\ndef load_value(key):\n    st.session_state[\"_\"+key] = st.session_state[key]\n\nload_value(\"my_key\")\nst.number_input(\"Number of filters\", key=\"_my_key\", on_change=store_value, args=[\"my_key\"])\n```\n",
+          "source_span": [
+            13414,
+            14690
+          ],
+          "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+          "sha256": "60f0bc301482fe11f3012bb8c9fa902a528ce91df0a6f7871aea9856f99ae711",
+          "lines": [
+            198,
+            226
+          ],
+          "section": "widget-behavior > Understanding widget behavior > Statefulness of widgets > Widgets do not persist when not continually rendered > Save widget values in Session State to preserve them between pages",
+          "section_path": [
+            "widget-behavior",
+            "Understanding widget behavior",
+            "Statefulness of widgets",
+            "Widgets do not persist when not continually rendered",
+            "Save widget values in Session State to preserve them between pages"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 298,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widget-behavior:v3:parent:bedc02e93d50741f3103",
+          "parent": {
+            "kind": "docs",
+            "title": "widget-behavior",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widget-behavior:v3:parent:bedc02e93d50741f3103",
+            "source_id": "docs:widget-behavior",
+            "text": "#### Save widget values in Session State to preserve them between pages\n\nIf you want to navigate away from a widget and return to it while keeping its value, use a separate key in `st.session_state` to save the information independently from the widget. This technique is also recommended to carry a widget's state to a new instance on another page. In this example, an underscore-prefixed, temporary key is used with a widget. Hence, `\"_my_key\"` is used as the widget key, but the data is copied to `\"my_key\"` to preserve it between pages.\n\n```python\nimport streamlit as st\n\ndef store_value():\n    # Copy the value to the permanent key\n    st.session_state[\"my_key\"] = st.session_state[\"_my_key\"]\n\n# Copy the saved value to the temporary key\nst.session_state[\"_my_key\"] = st.session_state[\"my_key\"]\nst.number_input(\"Number of filters\", key=\"_my_key\", on_change=store_value)\n```\n\nIf this is functionalized to work with multiple widgets, it could look something like this:\n\n```python\nimport streamlit as st\n\ndef store_value(key):\n    st.session_state[key] = st.session_state[\"_\"+key]\ndef load_value(key):\n    st.session_state[\"_\"+key] = st.session_state[key]\n\nload_value(\"my_key\")\nst.number_input(\"Number of filters\", key=\"_my_key\", on_change=store_value, args=[\"my_key\"])\n```\n",
+            "source_span": [
+              13414,
+              14690
+            ],
+            "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+            "sha256": "60f0bc301482fe11f3012bb8c9fa902a528ce91df0a6f7871aea9856f99ae711",
+            "lines": [
+              198,
+              226
+            ],
+            "section": "widget-behavior > Understanding widget behavior > Statefulness of widgets > Widgets do not persist when not continually rendered > Save widget values in Session State to preserve them between pages",
+            "section_path": [
+              "widget-behavior",
+              "Understanding widget behavior",
+              "Statefulness of widgets",
+              "Widgets do not persist when not continually rendered",
+              "Save widget values in Session State to preserve them between pages"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 298,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02097744,
+          "rank": 8
+        }
+      ],
+      "candidate_hash": "3d2de3c372671b3aa1d88e46631ffef7fa56a84ef803f125081fc6c54b57c9f2",
+      "context": [
+        {
+          "kind": "docs",
+          "title": "forms",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/forms.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:forms:v3:child:a7840f1725bb9a5d83bf",
+          "source_id": "docs:forms",
+          "text": "## Widget values\n\nBefore a form is submitted, all widgets within that form will have default values, just like widgets outside of a form have default values.\n\n```python\nimport streamlit as st\n\nwith st.form(\"my_form\"):\n   st.write(\"Inside the form\")\n   my_number = st.slider('Pick a number', 1, 10)\n   my_color = st.selectbox('Pick a color', ['red','orange','green','blue','violet'])\n   st.form_submit_button('Submit my picks')\n\n# This is outside the form\nst.write(my_number)\nst.write(my_color)\n```\n\n<Cloud name=\"doc-forms-default\" height=\"450px\"/>\n",
+          "source_span": [
+            3886,
+            4434
+          ],
+          "source_sha256": "9bc4499efe84514958c107943f5191038248d66ee1125189be39df67acfddda0",
+          "sha256": "883105ee33dfc10b9a99f4ef4a8ea44a40e1d0ce8a1a19f02b9145ab366d67ea",
+          "lines": [
+            82,
+            100
+          ],
+          "section": "forms > Using forms > Widget values",
+          "section_path": [
+            "forms",
+            "Using forms",
+            "Widget values"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 139,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:forms:v3:parent:a7840f1725bb9a5d83bf",
+          "parent": {
+            "kind": "docs",
+            "title": "forms",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/forms.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:forms:v3:parent:a7840f1725bb9a5d83bf",
+            "source_id": "docs:forms",
+            "text": "## Widget values\n\nBefore a form is submitted, all widgets within that form will have default values, just like widgets outside of a form have default values.\n\n```python\nimport streamlit as st\n\nwith st.form(\"my_form\"):\n   st.write(\"Inside the form\")\n   my_number = st.slider('Pick a number', 1, 10)\n   my_color = st.selectbox('Pick a color', ['red','orange','green','blue','violet'])\n   st.form_submit_button('Submit my picks')\n\n# This is outside the form\nst.write(my_number)\nst.write(my_color)\n```\n\n<Cloud name=\"doc-forms-default\" height=\"450px\"/>\n",
+            "source_span": [
+              3886,
+              4434
+            ],
+            "source_sha256": "9bc4499efe84514958c107943f5191038248d66ee1125189be39df67acfddda0",
+            "sha256": "883105ee33dfc10b9a99f4ef4a8ea44a40e1d0ce8a1a19f02b9145ab366d67ea",
+            "lines": [
+              82,
+              100
+            ],
+            "section": "forms > Using forms > Widget values",
+            "section_path": [
+              "forms",
+              "Using forms",
+              "Widget values"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 139,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03512427,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "forms",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/forms.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:forms:v3:child:746bb040d4d63d9f795a",
+          "source_id": "docs:forms",
+          "text": "# Using forms\n\nWhen you don't want to rerun your script with each input made by a user, [`st.form`](/develop/api-reference/execution-flow/st.form) is here to help! Forms make it easy to batch user input into a single rerun. This guide to using forms provides examples and explains how users interact with forms.\n",
+          "source_span": [
+            403,
+            715
+          ],
+          "source_sha256": "9bc4499efe84514958c107943f5191038248d66ee1125189be39df67acfddda0",
+          "sha256": "595a8219953bf250d3c317be1a1773dc1a6b28e0794d7af22572f39baf9d375f",
+          "lines": [
+            8,
+            10
+          ],
+          "section": "forms > Using forms",
+          "section_path": [
+            "forms",
+            "Using forms"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 69,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:forms:v3:parent:746bb040d4d63d9f795a",
+          "parent": {
+            "kind": "docs",
+            "title": "forms",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/forms.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:forms:v3:parent:746bb040d4d63d9f795a",
+            "source_id": "docs:forms",
+            "text": "# Using forms\n\nWhen you don't want to rerun your script with each input made by a user, [`st.form`](/develop/api-reference/execution-flow/st.form) is here to help! Forms make it easy to batch user input into a single rerun. This guide to using forms provides examples and explains how users interact with forms.\n",
+            "source_span": [
+              403,
+              715
+            ],
+            "source_sha256": "9bc4499efe84514958c107943f5191038248d66ee1125189be39df67acfddda0",
+            "sha256": "595a8219953bf250d3c317be1a1773dc1a6b28e0794d7af22572f39baf9d375f",
+            "lines": [
+              8,
+              10
+            ],
+            "section": "forms > Using forms",
+            "section_path": [
+              "forms",
+              "Using forms"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 69,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0343203,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:widget-behavior:v3:child:acaf06be033bb1b473ee",
+          "source_id": "docs:widget-behavior",
+          "text": "### Using callback functions with forms\n\nUsing a callback function with a form requires understanding of this order of operations.\n\n```python\nimport streamlit as st\n\nif \"attendance\" not in st.session_state:\n    st.session_state.attendance = set()\n\n\ndef take_attendance():\n    if st.session_state.name in st.session_state.attendance:\n        st.info(f\"{st.session_state.name} has already been counted.\")\n    else:\n        st.session_state.attendance.add(st.session_state.name)\n\n\nwith st.form(key=\"my_form\"):\n    st.text_input(\"Name\", key=\"name\")\n    st.form_submit_button(\"I'm here!\", on_click=take_attendance)\n```\n\n<Cloud name=\"doc-guide-widgets-form-callbacks\" height=\"250px\"/>\n",
+          "source_span": [
+            9376,
+            10055
+          ],
+          "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+          "sha256": "b2ca69f4e37a9fcf39acc1594fb32476ce4569a26a2bcd4fb646206523b469a5",
+          "lines": [
+            118,
+            141
+          ],
+          "section": "widget-behavior > Understanding widget behavior > Order of operations > Using callback functions with forms",
+          "section_path": [
+            "widget-behavior",
+            "Understanding widget behavior",
+            "Order of operations",
+            "Using callback functions with forms"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 153,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:widget-behavior:v3:parent:acaf06be033bb1b473ee",
+          "parent": {
+            "kind": "docs",
+            "title": "widget-behavior",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:widget-behavior:v3:parent:acaf06be033bb1b473ee",
+            "source_id": "docs:widget-behavior",
+            "text": "### Using callback functions with forms\n\nUsing a callback function with a form requires understanding of this order of operations.\n\n```python\nimport streamlit as st\n\nif \"attendance\" not in st.session_state:\n    st.session_state.attendance = set()\n\n\ndef take_attendance():\n    if st.session_state.name in st.session_state.attendance:\n        st.info(f\"{st.session_state.name} has already been counted.\")\n    else:\n        st.session_state.attendance.add(st.session_state.name)\n\n\nwith st.form(key=\"my_form\"):\n    st.text_input(\"Name\", key=\"name\")\n    st.form_submit_button(\"I'm here!\", on_click=take_attendance)\n```\n\n<Cloud name=\"doc-guide-widgets-form-callbacks\" height=\"250px\"/>\n",
+            "source_span": [
+              9376,
+              10055
+            ],
+            "source_sha256": "82720b12b59acce08742eaeb1ebfcd299daa4cbd88a0927c75a55a8a36e828b3",
+            "sha256": "b2ca69f4e37a9fcf39acc1594fb32476ce4569a26a2bcd4fb646206523b469a5",
+            "lines": [
+              118,
+              141
+            ],
+            "section": "widget-behavior > Understanding widget behavior > Order of operations > Using callback functions with forms",
+            "section_path": [
+              "widget-behavior",
+              "Understanding widget behavior",
+              "Order of operations",
+              "Using callback functions with forms"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 153,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03091392,
+          "rank": 3
+        },
+        {
+          "kind": "issue",
+          "title": "File_uploader widget is problematic",
+          "url": "https://github.com/streamlit/streamlit/issues/897",
+          "revision": "2020-12-09T21:06:02Z",
+          "product_version": null,
+          "issue_number": 897,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:897:v3:parent:fc83bd61bef7ba655435",
+          "source_id": "issue:897",
+          "text": "# Summary\n\nI tried to make an example answer for [Discourse 1445](https://discuss.streamlit.io/t/uploading-multiple-files-with-file-uploader/1445) but found out its difficult to use the file_uploader widget as soon as its part of an interactive application where the user may wish to upload multiple files,  interact with several widgets after file upload or clear the cache.\n\n- You can only upload one file at the time.\n- You get no additional information on the file like name, size, upload time, type etc. So you\ncannot distinguish the files without reading the content. The python object id changes for each script rerun so you cannot use that either.\n- every time you interact with any widget, the script is rerun and you risk processing or storing\nthe file again!\n- The file uploader widget is not cleared when you clear the cache and there is no way to clear the\nfile uploader widget programmatically.\n\nSee also https://discuss.streamlit.io/t/awesome-streamlit-org-change-log/1414/7?u=marc\n\n```\n# pylint: disable=line-too-long\n\"\"\"This is example shows how to **upload multiple files** via the\n[File Uploader Widget](https://streamlit.io/docs/api.html?highlight=file%20upload#streamlit.file_uploader)\n\nAs far as I can see you can only upload one file at a time. So if you need multiple files in your\napp, you need to store them in a static List or Dictionary. Alternatively they should be uploaded\nas one .zip file.\n\nPlease note that file uploader is a **bit problematic** because\n- You can only upload one file at the time.\n- You get no additional information on the file like name, size, upload time, type etc. So you\ncannot distinguish the files without reading the content.\n- every time you interact with any widget, the script is rerun and you risk processing or storing\nthe file again!\n- The file uploader widget is not cleared when you clear the cache and there is no way to clear the\nfile uploader widget programmatically.\n\nThis example was based on\n[Discourse 1445](https://discuss.streamlit.io/t/uploading-multiple-files-with-file-uploader/1445)\n\"\"\"\n# pylint: enable=line-too-long\nfrom typing import Dict\n\nimport streamlit as st\n\n\n@st.cache(allow_output_mutation=True)\ndef get_static_store() -> Dict:\n    \"\"\"This dictionary is initialized once and can be used to store the files uploaded\"\"\"\n    return {}\n\n\ndef main():\n    \"\"\"Run this function to run the app\"\"\"\n    static_store = get_static_store()\n\n    st.info(__doc__)\n    result = st.file_uploader(\"Upload\", type=\"py\")\n    if result:\n        # Process you file here\n        value = result.getvalue()\n\n        # And add it to the static_store if not already in\n        if not value in static_store.values():\n            static_store[result] = value\n    else:\n        static_store.clear()  # Hack to clear list if the user clears the cache and reloads the page\n        st.info(\"Upload one or more `.py` files.\")\n\n    if st.button(\"Clear file list\"):\n        static_store.clear()\n    if st.checkbox(\"Show file list?\", True):\n        st.write(list(static_store.keys()))\n    if st.checkbox(\"Show content of files?\"):\n        for value in static_store.values():\n            st.code(value)\n\n\nmain()\n```\n",
+          "source_span": [
+            37,
+            3203
+          ],
+          "source_sha256": "ef763453fb1f7928d4b846e8cbe3fd8965e996049c2a8edafdc82910a54d4a87",
+          "sha256": "388152e9715517b6790d88ec1e209e5987b8f866f6de730d2a5168b554aced62",
+          "lines": [
+            3,
+            77
+          ],
+          "section": "File_uploader widget is problematic > Summary",
+          "section_path": [
+            "File_uploader widget is problematic",
+            "Summary"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 719,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "selected_child_ids": [
+            "issue:897:v3:child:fa9145718d6717e4474a"
+          ],
+          "parent_id": "issue:897:v3:parent:fc83bd61bef7ba655435",
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation"
+        },
+        {
+          "kind": "docs",
+          "title": "session_state",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/session_state.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:session_state:v3:child:a5b4eadb97ef620431d9",
+          "source_id": "docs:session_state",
+          "text": "### Forms and Callbacks\n\nWidgets inside a form can have their values be accessed and set via the Session State API. `st.form_submit_button` can have a callback associated with it. The callback gets executed upon clicking on the submit button. For example:\n\n```python\ndef form_callback():\n    st.write(st.session_state.my_slider)\n    st.write(st.session_state.my_checkbox)\n\nwith st.form(key='my_form'):\n    slider_input = st.slider('My slider', 0, 10, 5, key='my_slider')\n    checkbox_input = st.checkbox('Yes or No', key='my_checkbox')\n    submit_button = st.form_submit_button(label='Submit', on_click=form_callback)\n```\n",
+          "source_span": [
+            3760,
+            4382
+          ],
+          "source_sha256": "f1969fd2fbc693a3e961cdbf65b00b08eedbb97b8efbaa0c5287a71a53b3affc",
+          "sha256": "8322a4f28985b528fe41a2d64c84af286c8a398e04adcf777763df57021f769f",
+          "lines": [
+            135,
+            148
+          ],
+          "section": "session_state > Session State > Forms and Callbacks",
+          "section_path": [
+            "session_state",
+            "Session State",
+            "Forms and Callbacks"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 144,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:session_state:v3:parent:a5b4eadb97ef620431d9",
+          "parent": {
+            "kind": "docs",
+            "title": "session_state",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/session_state.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:session_state:v3:parent:a5b4eadb97ef620431d9",
+            "source_id": "docs:session_state",
+            "text": "### Forms and Callbacks\n\nWidgets inside a form can have their values be accessed and set via the Session State API. `st.form_submit_button` can have a callback associated with it. The callback gets executed upon clicking on the submit button. For example:\n\n```python\ndef form_callback():\n    st.write(st.session_state.my_slider)\n    st.write(st.session_state.my_checkbox)\n\nwith st.form(key='my_form'):\n    slider_input = st.slider('My slider', 0, 10, 5, key='my_slider')\n    checkbox_input = st.checkbox('Yes or No', key='my_checkbox')\n    submit_button = st.form_submit_button(label='Submit', on_click=form_callback)\n```\n",
+            "source_span": [
+              3760,
+              4382
+            ],
+            "source_sha256": "f1969fd2fbc693a3e961cdbf65b00b08eedbb97b8efbaa0c5287a71a53b3affc",
+            "sha256": "8322a4f28985b528fe41a2d64c84af286c8a398e04adcf777763df57021f769f",
+            "lines": [
+              135,
+              148
+            ],
+            "section": "session_state > Session State > Forms and Callbacks",
+            "section_path": [
+              "session_state",
+              "Session State",
+              "Forms and Callbacks"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 144,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03095823,
+          "rank": 5
+        }
+      ],
+      "packing": {
+        "encoding": "o200k_base",
+        "budget_tokens": 3000,
+        "used_tokens": 2541,
+        "expand_parent": true,
+        "items": [
+          {
+            "id": "docs:forms:v3:child:a7840f1725bb9a5d83bf",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:forms:v3:child:a7840f1725bb9a5d83bf"
+          },
+          {
+            "id": "docs:forms:v3:child:746bb040d4d63d9f795a",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:forms:v3:child:746bb040d4d63d9f795a"
+          },
+          {
+            "id": "docs:widget-behavior:v3:child:acaf06be033bb1b473ee",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:widget-behavior:v3:child:acaf06be033bb1b473ee"
+          },
+          {
+            "id": "issue:897:v3:child:fa9145718d6717e4474a",
+            "status": "included",
+            "reason": "bounded_parent",
+            "context_id": "issue:897:v3:parent:fc83bd61bef7ba655435"
+          },
+          {
+            "id": "docs:session_state:v3:child:a5b4eadb97ef620431d9",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:session_state:v3:child:a5b4eadb97ef620431d9"
+          },
+          {
+            "id": "issue:5813:v3:child:15f7b778507b7b6c0c14",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:3531:v3:child:1d04d6270bb1fd628d88",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "docs:widget-behavior:v3:child:bedc02e93d50741f3103",
+            "status": "omitted",
+            "reason": "item_limit"
+          }
+        ]
+      },
+      "index": "v3",
+      "namespace": "6fbba079eb1323bf54c9d03ad4b956a7174e0f434f386ed66f0a50b489f55d4e"
+    }
+  },
+  "code_hash": "c148d8cd099ab2f7dd82c13ef86c8525124fe15649ff8f335418dc5d867b8a6a",
+  "query_vector_hash": "b359e4a69311d65501b9097bf291244e48865c4ed3b201306402dea805afcc35",
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "reserved_usd": 1.8215999999999996e-05,
+      "ledger_id": "9919ed433c7489a916b7bb80",
+      "diagnostic": {
+        "request_id": "9919ed433c7489a916b7bb80",
+        "provider_request_id": null,
+        "role": "embedding",
+        "model": "text-embedding-3-small",
+        "requested_max_output_tokens": null,
+        "reported_usage": {
+          "prompt_tokens": 23,
+          "completion_tokens": null,
+          "total_tokens": 23
+        },
+        "http_status": 200,
+        "finish_reason": null,
+        "status": "parsed",
+        "failure_code": null
+      },
+      "input_tokens": 23,
+      "output_tokens": 0,
+      "cost_usd": 5.06e-07
+    }
+  ]
+}

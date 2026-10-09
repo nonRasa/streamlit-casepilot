@@ -1,0 +1,273 @@
+{
+  "id": "D01",
+  "report": "Bug report: st.cache_data raises a pickle error. Python 3.11. My class is already included: class Payload: pass. I tested pickle outside Streamlit and it works. What fresh diagnostic would isolate this?",
+  "product_version": "1.49.0",
+  "candidates": [
+    {
+      "source_id": "docs:cache-data",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        1767,
+        2869
+      ],
+      "lines": [
+        49,
+        77
+      ],
+      "title": "cache-data",
+      "section": "cache-data > Using Streamlit commands in cached functions > Static elements",
+      "text": "### Static elements\n\nSince version 1.16.0, cached functions can contain Streamlit commands! For example, you can do this:\n\n```python\n@st.cache_data\ndef get_api_data():\n    data = api.get(...)\n    st.success(\"Fetched data from API!\")  # 👈 Show a success message\n    return data\n```\n\nAs we know, Streamlit only runs this function if it hasn’t been cached before. On this first run, the `st.success` message will appear in the app. But what happens on subsequent runs? It still shows up! Streamlit realizes that there is an `st.` command inside the cached function, saves it during the first run, and replays it on subsequent runs. Replaying static elements works for both caching decorators.\n\nYou can also use this functionality to cache entire parts of your UI:\n\n```python\n@st.cache_data\ndef show_data():\n    st.header(\"Data analysis\")\n    data = api.get(...)\n    st.success(\"Fetched data from API!\")\n    st.write(\"Here is a plot of the data:\")\n    st.line_chart(data)\n    st.write(\"And here is the raw data:\")\n    st.dataframe(data)\n```\n\n<GitHubIssuesHint label=\"feature:cache\" name=\"st.cache_data\" />\n",
+      "candidate_key": "03792a8f7f7bf6571f13bfb6be4a4c293cb2dba2f867b5680953b01744fdbbd9"
+    },
+    {
+      "source_id": "issue:3072",
+      "revision": "2021-05-23T20:10:43Z",
+      "product_version": null,
+      "source_span": [
+        1600,
+        1764
+      ],
+      "lines": [
+        67,
+        73
+      ],
+      "title": "Cache issues with file_uploader",
+      "section": "Cache issues with file_uploader > Debug info",
+      "text": "### Debug info\n\n- Streamlit version: 0.74.1\n- Python version: 3.8.5\n- Conda:  4.8.3\n- OS version: Windows 10\n- Browser version: tested on latest firefox and chrome\n",
+      "candidate_key": "221aeb97ebf485363419abc2c0fc7fbedb9f763c1d2d59303f1a9f9da4e0fd73"
+    },
+    {
+      "source_id": "docs:caching",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        455,
+        478
+      ],
+      "title": "caching",
+      "section": "Example 1: Hashing a custom class",
+      "text": "If you run this app, you'll see that Streamlit raises a `UnhashableParamError` since it cannot hash the argument `'self' (of type __main__.MyCustomClass) in 'multiply_score'`. A simple fix here could be to use Python's `hash()` function to hash the object:\n\n```python\nimport streamlit as st\n\nclass MyCustomClass:\n    def __init__(self, initial_score: int):\n        self.my_score = initial_score\n\n    @st.cache_data(hash_funcs={\"__main__.MyCustomClass\": lambda x: hash(x.my_score)})\n    def multiply_score(self, multiplier: int) -> int:\n        return self.my_score * multiplier\n\ninitial_score = st.number_input(\"Enter initial score\", value=15)\n\nscore = MyCustomClass(initial_score)\nmultiplier = 2\n\nst.write(score.multiply_score(multiplier))\n```\n\nAbove, the hash function is defined as `lambda x: hash(x.my_score)`. This creates a hash based on the `my_score` attribute of the `MyCustomClass` instance. As long as `my_score` remains the same, the hash remains the same. Thus, the result of `multiply_score` can be retrieved from the cache without recomputation.\n\nAs an astute Pythonista, you may have been tempted to use Python's `id()` function to hash the object like so:",
+      "candidate_key": "272443e298afb88a2a05cb3844275e5dd20e753ca99648f70dc51c817e10f502"
+    },
+    {
+      "source_id": "issue:6138",
+      "revision": "2024-08-15T20:55:07Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        9,
+        17
+      ],
+      "title": "Cache_data ignoring self in class method.",
+      "section": "Summary",
+      "text": "### Summary\n\nst.cache_data is giving an error.\nI used to use st.cache and worked well.\nI guess the problem is that I am using st.cache in a class method:\nError:\nTypeError: Dal.get_tables() missing 1 required positional argument: ‘self’\n\nIf I remove st.cache_data it works again.",
+      "candidate_key": "2865146dbef7e0e2d67fd3fde622ee97a9ccbe615287181015ee203b1552a8c6"
+    },
+    {
+      "source_id": "docs:cache-data",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        334,
+        1220
+      ],
+      "lines": [
+        8,
+        22
+      ],
+      "title": "cache-data",
+      "section": "cache-data",
+      "text": "<Tip>\n\nThis page only contains information on the `st.cache_data` API. For a deeper dive into caching and how to use it, check out [Caching](/develop/concepts/architecture/caching).\n\n</Tip>\n\n<Autofunction function=\"streamlit.cache_data\" oldName=\"streamlit.experimental_memo\" />\n\n<Warning>\n\n`st.cache_data` implicitly uses the `pickle` module, which is known to be insecure. Anything your cached function returns is pickled and stored, then unpickled on retrieval. Ensure your cached functions return trusted values because it is possible to construct malicious pickle data that will execute arbitrary code during unpickling. Never load data that could have come from an untrusted source in an unsafe mode or that could have been tampered with. **Only load data you trust**.\n\n</Warning>\n\n<Autofunction function=\"streamlit.cache_data.clear\" oldName=\"streamlit.experimental_memo.clear\" />\n",
+      "candidate_key": "458eaad0fbd650ca2601984d4e2c460952e51a1bb18bc5378564109a24db26ba"
+    },
+    {
+      "source_id": "docs:caching",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        25246,
+        28310
+      ],
+      "lines": [
+        379,
+        455
+      ],
+      "title": "caching",
+      "section": "caching > Caching overview > Advanced usage > The `hash_funcs` parameter > Example 1: Hashing a custom class",
+      "text": "#### Example 1: Hashing a custom class\n\nStreamlit does not know how to hash custom classes. If you pass a custom class to a cached function, Streamlit will raise a `UnhashableParamError`. For example, let's define a custom class `MyCustomClass` that accepts an initial integer score. Let's also define a cached function `multiply_score` that multiplies the score by a multiplier:\n\n```python\nimport streamlit as st\n\nclass MyCustomClass:\n    def __init__(self, initial_score: int):\n        self.my_score = initial_score\n\n@st.cache_data\ndef multiply_score(obj: MyCustomClass, multiplier: int) -> int:\n    return obj.my_score * multiplier\n\ninitial_score = st.number_input(\"Enter initial score\", value=15)\n\nscore = MyCustomClass(initial_score)\nmultiplier = 2\n\nst.write(multiply_score(score, multiplier))\n```\n\nIf you run this app, you'll see that Streamlit raises a `UnhashableParamError` since it does not know how to hash `MyCustomClass`:\n\n```python\nUnhashableParamError: Cannot hash argument 'obj' (of type __main__.MyCustomClass) in 'multiply_score'.\n```\n\nTo fix this, we can use the `hash_funcs` parameter to tell Streamlit how to hash `MyCustomClass`. We do this by passing a dictionary to `hash_funcs` that maps the name of the parameter to a hash function. The choice of hash function is up to the developer. In this case, let's define a custom hash function `hash_func` that takes the custom class as input and returns the score. We want the score to be the unique identifier of the object, so we can use it to deterministically hash the object:\n\n```python\nimport streamlit as st\n\nclass MyCustomClass:\n    def __init__(self, initial_score: int):\n        self.my_score = initial_score\n\ndef hash_func(obj: MyCustomClass) -> int:\n    return obj.my_score  # or any other value that uniquely identifies the object\n\n@st.cache_data(hash_funcs={MyCustomClass: hash_func})\ndef multiply_score(obj: MyCustomClass, multiplier: int) -> int:\n    return obj.my_score * multiplier\n\ninitial_score = st.number_input(\"Enter initial score\", value=15)\n\nscore = MyCustomClass(initial_score)\nmultiplier = 2\n\nst.write(multiply_score(score, multiplier))\n```\n\nNow if you run the app, you'll see that Streamlit no longer raises a `UnhashableParamError` and the app runs as expected.\n\nLet's now consider the case where `multiply_score` is an attribute of `MyCustomClass` and we want to hash the entire object:\n\n```python\nimport streamlit as st\n\nclass MyCustomClass:\n    def __init__(self, initial_score: int):\n        self.my_score = initial_score\n\n    @st.cache_data\n    def multiply_score(self, multiplier: int) -> int:\n        return self.my_score * multiplier\n\ninitial_score = st.number_input(\"Enter initial score\", value=15)\n\nscore = MyCustomClass(initial_score)\nmultiplier = 2\n\nst.write(score.multiply_score(multiplier))\n```\n\nIf you run this app, you'll see that Streamlit raises a `UnhashableParamError` since it cannot hash the argument `'self' (of type __main__.MyCustomClass) in 'multiply_score'`. A simple fix here could be to use Python's `hash()` function to hash the object:\n",
+      "candidate_key": "5fa847bb58e2bcd7bf7ae010012cd04b6201035612061c152e5f7f16641ddb26"
+    },
+    {
+      "source_id": "issue:16383",
+      "revision": "2026-08-06T10:59:46Z",
+      "product_version": null,
+      "source_span": [
+        266,
+        775
+      ],
+      "lines": [
+        8,
+        10
+      ],
+      "title": "Deduplicate identical `st.cache_data` return values to save memory",
+      "section": "Deduplicate identical `st.cache_data` return values to save memory > Summary",
+      "text": "### Summary\n\n`st.cache_data` stores one serialized (pickled) blob per cache key, where the key is derived only from the function + input arguments. If a function returns the *same* value (e.g. the same dataframe) for many different inputs, each of those cache entries stores a full, redundant copy. We could recognize identical serialized return values (e.g. by hashing the serialized value bytes) and store the payload only once, with each cache key referencing it — saving memory (and disk when persisted).\n",
+      "candidate_key": "698d5b5d150c7a38cccdadcc9ba2f9b986c84d630daf7f2a453c51b3bf2840f9"
+    },
+    {
+      "source_id": "docs:cache-data",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        49,
+        77
+      ],
+      "title": "cache-data",
+      "section": "Static elements",
+      "text": "### Static elements\n\nSince version 1.16.0, cached functions can contain Streamlit commands! For example, you can do this:\n\n```python\n@st.cache_data\ndef get_api_data():\n    data = api.get(...)\n    st.success(\"Fetched data from API!\")  # 👈 Show a success message\n    return data\n```\n\nAs we know, Streamlit only runs this function if it hasn’t been cached before. On this first run, the `st.success` message will appear in the app. But what happens on subsequent runs? It still shows up! Streamlit realizes that there is an `st.` command inside the cached function, saves it during the first run, and replays it on subsequent runs. Replaying static elements works for both caching decorators.\n\nYou can also use this functionality to cache entire parts of your UI:\n\n```python\n@st.cache_data\ndef show_data():\n    st.header(\"Data analysis\")\n    data = api.get(...)\n    st.success(\"Fetched data from API!\")\n    st.write(\"Here is a plot of the data:\")\n    st.line_chart(data)\n    st.write(\"And here is the raw data:\")\n    st.dataframe(data)\n```\n\n<GitHubIssuesHint label=\"feature:cache\" name=\"st.cache_data\" />",
+      "candidate_key": "788aaa50fb486f5a6ee5aa192c0a96dc39f6275d4cdb906700785b0dd1ff3067"
+    },
+    {
+      "source_id": "issue:2266",
+      "revision": "2020-11-05T20:25:31Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        3,
+        21
+      ],
+      "title": "file_uploader broken after upgrading streamlit",
+      "section": "Summary - Upgraded Streamlit file_uploader breaking",
+      "text": "# Summary - Upgraded Streamlit file_uploader breaking\n\nType here a clear and concise description of the bug. Aim for 2-3 sentences.\nI upgraded Streamlit (10/23/2020) and file_uploader broke our program.  On first run through it lets you select the file and works fine.  When it runs through a second time it seems to not know what file was uploaded before and throws errors and none of subsequent logic after the file_uploader will work. \n\n Implemented recommendations on Streamlit site but getting below error:\n\"InternalHashError: I/O operation on closed file.\n\nWhile caching the arguments of load_data(), Streamlit encountered an object of type streamlit.uploaded_file_manager.UploadedFile, which it does not know how to hash.\"\n\nHere is the code we used following the upgrade, based on streamlit site recommendation:\ndata = st.file_uploader(\"Upload Training File for Data Analysis (CSV format)\", type=[\"csv\"])\n\n@st.cache(suppress_st_warning=True)\ndef load_data(data):\n   st.write(\"load_data ran in @st.cache\") # <--- this should be printed on your app each time this function is run\n    return pd.read_csv(data, sep=',', encoding='utf-8')\nif data:\n   df = load_data(data)",
+      "candidate_key": "7c3a302fab12d8bb6c9605621148ed1d22101205d5647f929c22e9fd16f8bd97"
+    },
+    {
+      "source_id": "issue:6138",
+      "revision": "2024-08-15T20:55:07Z",
+      "product_version": null,
+      "source_span": [
+        305,
+        584
+      ],
+      "lines": [
+        9,
+        17
+      ],
+      "title": "Cache_data ignoring self in class method.",
+      "section": "Cache_data ignoring self in class method. > Summary",
+      "text": "### Summary\n\nst.cache_data is giving an error.\nI used to use st.cache and worked well.\nI guess the problem is that I am using st.cache in a class method:\nError:\nTypeError: Dal.get_tables() missing 1 required positional argument: ‘self’\n\nIf I remove st.cache_data it works again.\n",
+      "candidate_key": "81349015c5861d7da51f43bd7a0b24c0dd0d3e778f27a3c366fefb36444d1138"
+    },
+    {
+      "source_id": "issue:13409",
+      "revision": "2026-09-01T18:51:38Z",
+      "product_version": null,
+      "source_span": [
+        1468,
+        2608
+      ],
+      "lines": [
+        65,
+        77
+      ],
+      "title": "download_button with data=callable runs without ScriptRunContext",
+      "section": "download_button with data=callable runs without ScriptRunContext > Debug info",
+      "text": "### Debug info\n\n- Streamlit version: 1.52.2\n- Python version: 3.13\n- Operating System: Win\n- Browser: Chrome\n\nSomehow I missed this issue https://github.com/streamlit/streamlit/issues/13337\nClosing as duplicate\n\nConfirming this from a production incident — and it's a bit worse than \"missing ScriptRunContext produces a warning\": inside that thread, `st.session_state` reads return stale values and `@st.cache_data`-wrapped calls silently return whatever was already cached, **with no error and no warning**. Both just look like they worked.\n\nOur incident: a `data=callable` on `st.download_button` called into functions that (transitively) read `@st.cache_data`-cached helpers. Because those calls run outside `ScriptRunContext`, they picked up cached results from a *different* request context — users occasionally downloaded a file that didn't match what they'd just generated on screen, with nothing in the logs to explain why. We only found the mechanism by tracing the full call graph of the callable, not just inspecting it — a lambda that looks pure can still be unsafe if anything it calls touches cached/session state indirectly.\n",
+      "candidate_key": "95a84db889faed291da28dc59546d515c94dcf92a73b4e128803092a59bbd37b"
+    },
+    {
+      "source_id": "docs:cache-data",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        8,
+        22
+      ],
+      "title": "cache-data",
+      "section": "cache-data",
+      "text": "<Tip>\n\nThis page only contains information on the `st.cache_data` API. For a deeper dive into caching and how to use it, check out [Caching](/develop/concepts/architecture/caching).\n\n</Tip>\n\n<Autofunction function=\"streamlit.cache_data\" oldName=\"streamlit.experimental_memo\" />\n\n<Warning>\n\n`st.cache_data` implicitly uses the `pickle` module, which is known to be insecure. Anything your cached function returns is pickled and stored, then unpickled on retrieval. Ensure your cached functions return trusted values because it is possible to construct malicious pickle data that will execute arbitrary code during unpickling. Never load data that could have come from an untrusted source in an unsafe mode or that could have been tampered with. **Only load data you trust**.\n\n</Warning>\n\n<Autofunction function=\"streamlit.cache_data.clear\" oldName=\"streamlit.experimental_memo.clear\" />",
+      "candidate_key": "96301725878d726bf9852da91a3e422a5a284ded5c14a2c2634490e17144aa70"
+    },
+    {
+      "source_id": "docs:caching",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        6786,
+        7282
+      ],
+      "lines": [
+        105,
+        107
+      ],
+      "title": "caching",
+      "section": "caching > Caching overview > Basic usage > st.cache_data > Behavior",
+      "text": "`st.cache_data` implicitly uses the `pickle` module, which is known to be insecure. Anything your cached function returns is pickled and stored, then unpickled on retrieval. Ensure your cached functions return trusted values because it is possible to construct malicious pickle data that will execute arbitrary code during unpickling. Never load data that could have come from an untrusted source in an unsafe mode or that could have been tampered with. **Only load data you trust**.\n\n</Warning>\n",
+      "candidate_key": "9d9797d5904da3a412c018bd0704328af36a44972bc51710ac95993dbdeb1170"
+    },
+    {
+      "source_id": "issue:13409",
+      "revision": "2026-09-01T18:51:38Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        65,
+        79
+      ],
+      "title": "download_button with data=callable runs without ScriptRunContext",
+      "section": "Debug info",
+      "text": "### Debug info\n\n- Streamlit version: 1.52.2\n- Python version: 3.13\n- Operating System: Win\n- Browser: Chrome\n\nSomehow I missed this issue https://github.com/streamlit/streamlit/issues/13337\nClosing as duplicate\n\nConfirming this from a production incident — and it's a bit worse than \"missing ScriptRunContext produces a warning\": inside that thread, `st.session_state` reads return stale values and `@st.cache_data`-wrapped calls silently return whatever was already cached, **with no error and no warning**. Both just look like they worked.\n\nOur incident: a `data=callable` on `st.download_button` called into functions that (transitively) read `@st.cache_data`-cached helpers. Because those calls run outside `ScriptRunContext`, they picked up cached results from a *different* request context — users occasionally downloaded a file that didn't match what they'd just generated on screen, with nothing in the logs to explain why. We only found the mechanism by tracing the full call graph of the callable, not just inspecting it — a lambda that looks pure can still be unsafe if anything it calls touches cached/session state indirectly.\n\nWe ended up moving off lazy `data=` entirely (eager bytes, pre-warmed at save time) because we couldn't make the callable's dependency tree provably free of session/cache reads. For anyone hitting this: if your callable calls anything that isn't a pure function of its arguments, the missing context isn't just a perf/warning issue, it's a correctness one.",
+      "candidate_key": "b1b26731bba3eba6802fc8c8456ca07b040d606f54f292f09537e31c6bb50205"
+    },
+    {
+      "source_id": "docs:caching",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        794,
+        802
+      ],
+      "title": "caching",
+      "section": "Copying behavior",
+      "text": "Let's run it and see what happens! The first run should work fine. But in the second run, you see an exception: `KeyError: \"['Lat'] not found in axis\"`. Why is that happening? Let's go step by step:\n\n- On the first run, Streamlit runs `load_data` and stores the resulting DataFrame in the cache. Since we're using `st.cache_resource`, it does **not** create a copy but stores the original DataFrame.\n- Then we drop the column `\"Lat\"` from the DataFrame. Note that this is dropping the column from the _original_ DataFrame stored in the cache. We are manipulating it!\n- On the second run, Streamlit returns that exact same manipulated DataFrame from the cache. It does not have the column `\"Lat\"` anymore! So our call to `df.drop` results in an exception. Pandas cannot drop a column that doesn't exist.\n\nThe copying behavior of `st.cache_data` prevents this kind of mutation error. Mutations can only affect a specific copy and not the underlying object in the cache. The next rerun will get its own, unmutated copy of the DataFrame. You can try it yourself, just replace `st.cache_resource` with `st.cache_data` above, and you'll see that everything works.\n\nBecause of this copying behavior, `st.cache_data` is the recommended way to cache data transforms and computations – anything that returns a serializable object.",
+      "candidate_key": "e157f1eeb2fce0a5b495b1f859db4ce95f861dd9bf1e875067460f93602b87e0"
+    },
+    {
+      "source_id": "api:cache_data",
+      "revision": "1.49.0",
+      "product_version": "1.49.0",
+      "source_span": null,
+      "lines": [
+        1,
+        33
+      ],
+      "title": "cache_data API docstrings 1.49.0",
+      "section": "_decorator (line 384)",
+      "text": "## _decorator (line 384)\n\nDecorator to cache functions that return data (e.g. dataframe transforms, database queries, ML inference).\n\nCached objects are stored in \"pickled\" form, which means that the return\nvalue of a cached function must be pickleable. Each caller of the cached\nfunction gets its own copy of the cached data.\n\nYou can clear a function's cache with ``func.clear()`` or clear the entire\ncache with ``st.cache_data.clear()``.\n\nA function's arguments must be hashable to cache it. If you have an\nunhashable argument (like a database connection) or an argument you\nwant to exclude from caching, use an underscore prefix in the argument\nname. In this case, Streamlit will return a cached value when all other\narguments match a previous function call. Alternatively, you can\ndeclare custom hashing functions with ``hash_funcs``.\n\nCached values are available to all users of your app. If you need to\nsave results that should only be accessible within a session, use\n`Session State\n<https://docs.streamlit.io/develop/concepts/architecture/session-state>`_\ninstead. Within each user session, an ``@st.cache_data``-decorated\nfunction returns a *copy* of the cached return value (if the value is\nalready cached). To cache shared global resources (singletons), use\n``st.cache_resource`` instead. To learn more about caching, see\n`Caching overview\n<https://docs.streamlit.io/develop/concepts/architecture/caching>`_.\n\n.. note::\n    Caching async functions is not supported. To upvote this feature,\n    see GitHub issue `#8308\n    <https://github.com/streamlit/streamlit/issues/8308>`_.",
+      "candidate_key": "e75ec4d09526d48b47b5a7b791ee0df52d4d8c70b08aafb4aae9bdd4d520cfc5"
+    },
+    {
+      "source_id": "docs:caching",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        25246,
+        26299
+      ],
+      "lines": [
+        379,
+        406
+      ],
+      "title": "caching",
+      "section": "caching > Caching overview > Advanced usage > The `hash_funcs` parameter > Example 1: Hashing a custom class",
+      "text": "#### Example 1: Hashing a custom class\n\nStreamlit does not know how to hash custom classes. If you pass a custom class to a cached function, Streamlit will raise a `UnhashableParamError`. For example, let's define a custom class `MyCustomClass` that accepts an initial integer score. Let's also define a cached function `multiply_score` that multiplies the score by a multiplier:\n\n```python\nimport streamlit as st\n\nclass MyCustomClass:\n    def __init__(self, initial_score: int):\n        self.my_score = initial_score\n\n@st.cache_data\ndef multiply_score(obj: MyCustomClass, multiplier: int) -> int:\n    return obj.my_score * multiplier\n\ninitial_score = st.number_input(\"Enter initial score\", value=15)\n\nscore = MyCustomClass(initial_score)\nmultiplier = 2\n\nst.write(multiply_score(score, multiplier))\n```\n\nIf you run this app, you'll see that Streamlit raises a `UnhashableParamError` since it does not know how to hash `MyCustomClass`:\n\n```python\nUnhashableParamError: Cannot hash argument 'obj' (of type __main__.MyCustomClass) in 'multiply_score'.\n```\n",
+      "candidate_key": "e97092b9d8390b5d3a1e8df3509a29f17125d35a492769850f1e637404948cce"
+    }
+  ],
+  "instructions": "Judge actual exact text relevance 0=irrelevant,1=topic only,2=useful partial,3=direct needed evidence; null=unjudged. Do not infer relevance from official source status. Record origin."
+}

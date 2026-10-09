@@ -68,9 +68,10 @@ class EmbeddingTests(unittest.TestCase):
         self.assertEqual(version_relation(dict(row(),product_version=None),'1.18.1'),'unknown')
 
 class RoleTests(unittest.TestCase):
-    def test_foreign_duplicate_empty_rerank_ids_fall_back_contract(self):
+    def test_foreign_duplicate_rejected_empty_is_valid_selection(self):
         rows=[row()]
-        for ids in ([],['foreign'],[rows[0]['id']]*2):
+        self.assertEqual(rerank_ids({'ordered_ids':[]},rows),[])
+        for ids in (['foreign'],[rows[0]['id']]*2):
             with self.subTest(ids=ids),self.assertRaises(CasePilotError): rerank_ids({'ordered_ids':ids},rows)
     def test_extraction_requires_exact_quote_and_rejects_permission(self):
         with self.assertRaises(CasePilotError): checked_extraction({'facts':[{'key':'resolved','value':'true','quote':'problem fixed'}],'completed_checks':[],'ambiguities':[]},'problem fixed')
@@ -136,10 +137,11 @@ class PipelineTests(unittest.TestCase):
             return original(name,packet)
         with patch.object(pipeline,'fixture_role',side_effect=role): out=self.turn()
         self.assertEqual(len(reviews),2); self.assertEqual(out['repair_count'],1); self.assertEqual(out['judge']['verdict'],'accept'); self.assertIsNone(out['validation_error'])
-    def test_rerank_foreign_id_retains_original_candidates(self):
+    def test_rerank_foreign_id_fails_closed_without_candidates(self):
         original=pipeline.fixture_role
         with patch.object(pipeline,'fixture_role',side_effect=lambda n,p: {'ordered_ids':['invented']} if n=='rerank' else original(n,p)): out=self.turn()
-        self.assertEqual(out['retrieved'][0]['id'],self.hybrid.rows[0]['id']); self.assertTrue(any(s.get('error')=='invalid_rerank' for s in out['pipeline']))
+        self.assertEqual(out['retrieved'],[]); self.assertEqual(out['validation_error'],'evidence_selection_error')
+        self.assertTrue(any(s.get('error')=='invalid_rerank' for s in out['pipeline']))
     def test_version_mismatch_cannot_be_accepted_by_fixture_judge(self):
         out=self.agent.turn('A','Streamlit 1.18.1 widget problem','r1',facts={'reproducible':True})
         # Production retriever supplies mismatch metadata; direct fixture emulates it.

@@ -1,0 +1,273 @@
+{
+  "id": "D08",
+  "report": "How can st.fragment rerun a portion of the app instead of the full script? Installed Streamlit version is unknown.",
+  "product_version": null,
+  "candidates": [
+    {
+      "source_id": "docs:fragments",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        6180,
+        6475
+      ],
+      "lines": [
+        93,
+        93
+      ],
+      "title": "fragments",
+      "section": "fragments > Working with fragments > Fragment return values and interacting with the rest of your app",
+      "text": "If you need to trigger a full-script rerun from inside a fragment, call [`st.rerun`](/develop/api-reference/execution-flow/st.rerun). For a related tutorial, see [Trigger a full-script rerun from inside a fragment](/develop/tutorials/execution-flow/trigger-a-full-script-rerun-from-a-fragment).\n",
+      "candidate_key": "0fd0706ccb74a8f5cfa61268149ff8f76d78bfb624f72e987dc748ce506d3194"
+    },
+    {
+      "source_id": "docs:fragments",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        490,
+        1315
+      ],
+      "lines": [
+        8,
+        12
+      ],
+      "title": "fragments",
+      "section": "fragments > Working with fragments",
+      "text": "# Working with fragments\n\nReruns are a central part of every Streamlit app. When users interact with widgets, your script reruns from top to bottom, and your app's frontend is updated. Streamlit provides several features to help you develop your app within this execution model. Streamlit version 1.37.0 introduced fragments to allow rerunning a portion of your code instead of your full script. As your app grows larger and more complex, these fragment reruns help your app be efficient and performant. Fragments give you finer, easy-to-understand control over your app's execution flow.\n\nBefore you read about fragments, we recommend having a basic understanding of [caching](/develop/concepts/architecture/caching), [Session State](/concepts/architecture/session-state), and [forms](/develop/concepts/architecture/forms).\n",
+      "candidate_key": "1e00010326d0840b09b5155cf2e491c2cb7f0eac19d083a994c7b4c2811c558e"
+    },
+    {
+      "source_id": "issue:10045",
+      "revision": "2026-09-07T11:29:38Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        16,
+        42
+      ],
+      "title": "Fragment to fragment (co-fragment) communication instead of rerunning entire app",
+      "section": "How?",
+      "text": "### How?\n\nMy app looks like the below:\n\n[IMAGE OMITTED: not inspected]\n\nThe black outlines are fragments. The purple/pink outlines are nested fragments. I understand co-fragment communication occurs through session_state which is great but for this communication to be recognised, one must re-run the whole app. This makes the app more slow and somewhat buggy in my experience of operating my app. \n\nSeeing as fragments can be re-run periodically, it would be great to add the possibility to communicate between specific fragments via an action. For example, in my app image, After I input details in the \"Contact Details\" expander, I want to update the CV Preview fragment. But to do that, I have to re-run the entire app. Perhaps the possibility to rerun specific fragments based on some unique Id (like a key of a streamlit widget) when I say click on the submit form button in the Contact Details expander would be great. \n\nJust an example\n```\n@st.fragment(key=\"test_frag\", keys_to_update=[\"frag1\", \"frag2\"])\n```\n\nThe issue with the above is for every rerun action, the `keys to update` will rerun. So perhaps, we could create a trigger command parameter.\n\n```\n@st.fragment(key=\"test_frag\", keys_to_update=[\"frag1\", \"frag2\"], trigger_keys=[\"form_submit_btn\"])\n```\n\nWe could also get fancy and connect trigger keys to keys to update:\n\n\n```\n@st.fragment(key=\"test_frag\", keys_to_update=[\"frag1\", \"frag2\"], trigger_keys=[{\"frag1\":\"form_submit_btn\"}])\n```",
+      "candidate_key": "214d64bc30ee2a7e5d58db01f54b8c2dd6105680049fae1ae8b08ece80d4bca9"
+    },
+    {
+      "source_id": "issue:11266",
+      "revision": "2025-05-07T14:09:05Z",
+      "product_version": null,
+      "source_span": [
+        1625,
+        1762
+      ],
+      "lines": [
+        54,
+        59
+      ],
+      "title": "Rerun() inside an st.fragment resets widget values to defaults.",
+      "section": "Rerun() inside an st.fragment resets widget values to defaults. > Debug info",
+      "text": "### Debug info\n\n- Streamlit version: 1.45.0\n- Python version: 3.13.2\n- Operating System: MasOS 15.1\n- Browser: Safari, Chrome, and Brave\n",
+      "candidate_key": "27fbeb7c96ca5f2d1f102ab1fa630c74e6ed22eebac053b7073d4537ab647823"
+    },
+    {
+      "source_id": "docs:2026",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        2639,
+        3771
+      ],
+      "lines": [
+        68,
+        72
+      ],
+      "title": "2026",
+      "section": "2026 > 2026 release notes > **Version 1.63.0**",
+      "text": "- 🎯 Introducing event-scoped fragment reruns, which let a widget callback rerun just one named fragment:\n    - Name a fragment with `@st.fragment(key=…)` and target it with [`st.rerun`](/develop/api-reference/execution-flow/st.rerun)`(\"filters\")` or `st.rerun([\"alpha\", \"beta\"])` from an `on_change` or `on_click` callback ([#16161](https://github.com/streamlit/streamlit/pull/16161)).\n    - `st.rerun()` and `st.switch_page()` now take effect inside widget callbacks instead of being discarded with a warning; apps that relied on the previous no-op will now rerun ([#16158](https://github.com/streamlit/streamlit/pull/16158)).\n- ✨ Introducing `on_change=\"ignore\"`, a new mode that updates a widget in the browser without rerunning your app. Your script receives the buffered value on the next rerun, such as a button click, and the mode is available on [`st.slider`](/develop/api-reference/widgets/st.slider) and [`st.text_input`](/develop/api-reference/widgets/st.text_input) ([#14828](https://github.com/streamlit/streamlit/pull/14828), [#16605](https://github.com/streamlit/streamlit/pull/16605)).\n- 🍿 Introducing `type=\"step\"` ",
+      "candidate_key": "3a00a2e8e944a91a3d4dd28f4f95ff64eddb1a2f4217b72b6c46ee7f1fdbcf79"
+    },
+    {
+      "source_id": "docs:fragments",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        8,
+        12
+      ],
+      "title": "fragments",
+      "section": "Working with fragments",
+      "text": "# Working with fragments\n\nReruns are a central part of every Streamlit app. When users interact with widgets, your script reruns from top to bottom, and your app's frontend is updated. Streamlit provides several features to help you develop your app within this execution model. Streamlit version 1.37.0 introduced fragments to allow rerunning a portion of your code instead of your full script. As your app grows larger and more complex, these fragment reruns help your app be efficient and performant. Fragments give you finer, easy-to-understand control over your app's execution flow.\n\nBefore you read about fragments, we recommend having a basic understanding of [caching](/develop/concepts/architecture/caching), [Session State](/concepts/architecture/session-state), and [forms](/develop/concepts/architecture/forms).",
+      "candidate_key": "493dee84fec161f35413c913a22e1a2b2da7d0b65c0b3a77dc34560e9f1f0efc"
+    },
+    {
+      "source_id": "docs:fragments",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        93,
+        93
+      ],
+      "title": "fragments",
+      "section": "Fragment return values and interacting with the rest of your app",
+      "text": "If you need to trigger a full-script rerun from inside a fragment, call [`st.rerun`](/develop/api-reference/execution-flow/st.rerun). For a related tutorial, see [Trigger a full-script rerun from inside a fragment](/develop/tutorials/execution-flow/trigger-a-full-script-rerun-from-a-fragment).",
+      "candidate_key": "76225a0a423b93828b6d2b2ab159ecb526c5eed32e83e4b44f573bac148ff325"
+    },
+    {
+      "source_id": "issue:11266",
+      "revision": "2025-05-07T14:09:05Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        17,
+        33
+      ],
+      "title": "Rerun() inside an st.fragment resets widget values to defaults.",
+      "section": "Reproducible Code Example",
+      "text": "### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n@st.fragment()\ndef toggle_and_text():\n    if st.button(\"rerun\"):\n        st.rerun()\n    t = st.text_input(\"Enter t:\",value='foo', key='t')\n    st.info(f't = {t}')\n\ntoggle_and_text()\nst.header('Outside Fragment')\nst.info(f'session_state_t = {st.session_state.t}')\nst.button(\"Update\")\n```",
+      "candidate_key": "7a907b419ea24e0dc50b152e3e964e12effefeb5f0780174ca69764c34fb587b"
+    },
+    {
+      "source_id": "docs:2026",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        31548,
+        32650
+      ],
+      "lines": [
+        278,
+        281
+      ],
+      "title": "2026",
+      "section": "2026 > 2026 release notes > **Version 1.59.0**",
+      "text": "Streamlit apps directly with `python app.py` or `uv run app.py` using the new `App.run()` entry point — no more `streamlit run` required ([#15563](https://github.com/streamlit/streamlit/pull/15563), [#9450](https://github.com/streamlit/streamlit/issues/9450), [#11420](https://github.com/streamlit/streamlit/issues/11420)).\n- 🧩 [`st.fragment`](/develop/api-reference/execution-flow/st.fragment) can now write to containers defined outside the fragment. Fragments can update any part of your app — including elements created before the fragment — without triggering a full rerun ([#15623](https://github.com/streamlit/streamlit/pull/15623), [#15620](https://github.com/streamlit/streamlit/pull/15620), [#10481](https://github.com/streamlit/streamlit/issues/10481)).\n- 📎 [`st.chat_input`](/develop/api-reference/chat/st.chat_input) now supports pasting files directly into the input field ([#15558](https://github.com/streamlit/streamlit/pull/15558), [#10307](https://github.com/streamlit/streamlit/issues/10307)).\n- 🤖 [`st.write_stream`](/develop/api-reference/write-magic/st.write_stream) now supports ",
+      "candidate_key": "9355c124b53a842a25afdc07c488efbaffe7ac76d88d085a61136f053b504328"
+    },
+    {
+      "source_id": "docs:2026",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        30407,
+        33373
+      ],
+      "lines": [
+        275,
+        284
+      ],
+      "title": "2026",
+      "section": "2026 > 2026 release notes > **Version 1.59.0**",
+      "text": "- 🎛 [`st.chat_input`](/develop/api-reference/chat/st.chat_input) has a new `submit_mode` parameter that controls widget behavior after the user submits a message, e.g. showing a stop button or disabling the chat input ([#14344](https://github.com/streamlit/streamlit/pull/14344), [#8323](https://github.com/streamlit/streamlit/issues/8323), [#11854](https://github.com/streamlit/streamlit/issues/11854)).\n- 📋 [`st.dataframe`](/develop/api-reference/data/st.dataframe) and [`st.data_editor`](/develop/api-reference/data/st.data_editor) support a new [`MarkdownColumn`](/develop/api-reference/data/st.column_config/st.column_config.markdowncolumn) type in `st.column_config` that renders Markdown text inside table cells ([#13931](https://github.com/streamlit/streamlit/pull/13931), [#10211](https://github.com/streamlit/streamlit/issues/10211)).\n- 🔗 [`st.markdown`](/develop/api-reference/text/st.markdown) has a new `anchors` parameter for adding linkable heading anchors to Markdown content ([#15722](https://github.com/streamlit/streamlit/pull/15722), [#13913](https://github.com/streamlit/streamlit/issues/13913)).\n- 💻 You can now launch Streamlit apps directly with `python app.py` or `uv run app.py` using the new `App.run()` entry point — no more `streamlit run` required ([#15563](https://github.com/streamlit/streamlit/pull/15563), [#9450](https://github.com/streamlit/streamlit/issues/9450), [#11420](https://github.com/streamlit/streamlit/issues/11420)).\n- 🧩 [`st.fragment`](/develop/api-reference/execution-flow/st.fragment) can now write to containers defined outside the fragment. Fragments can update any part of your app — including elements created before the fragment — without triggering a full rerun ([#15623](https://github.com/streamlit/streamlit/pull/15623), [#15620](https://github.com/streamlit/streamlit/pull/15620), [#10481](https://github.com/streamlit/streamlit/issues/10481)).\n- 📎 [`st.chat_input`](/develop/api-reference/chat/st.chat_input) now supports pasting files directly into the input field ([#15558](https://github.com/streamlit/streamlit/pull/15558), [#10307](https://github.com/streamlit/streamlit/issues/10307)).\n- 🤖 [`st.write_stream`](/develop/api-reference/write-magic/st.write_stream) now supports OpenAI Responses API streams in addition to the existing Chat Completions streams ([#15559](https://github.com/streamlit/streamlit/pull/15559), [#11061](https://github.com/streamlit/streamlit/issues/11061)).\n- 🔒 [`st.set_page_config`](/develop/api-reference/configuration/st.set_page_config) supports a new `\"locked\"` option for `initial_sidebar_state` that prevents users from toggling the sidebar open or closed ([#15459](https://github.com/streamlit/streamlit/pull/15459), [#15411](https://github.com/streamlit/streamlit/issues/15411)).\n- 💅 Widgets have a new `persist_state` parameter for finer control over how widget state is preserved across reruns ([#15645](https://github.com/streamlit/streamlit/pull/15645)).\n- 📷 ",
+      "candidate_key": "94a0acc34043542e36430f48db087ff405e78737afa795085d7ad76bff2b50a1"
+    },
+    {
+      "source_id": "docs:2024",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        365,
+        374
+      ],
+      "title": "2024",
+      "section": "**Version 1.33.0**",
+      "text": "## **Version 1.33.0**\n\n_Release date: April 4, 2024_\n\n**Highlights**\n\n- 👟 Introducing [`st.experimental_fragment`](/develop/api-reference/execution-flow/st.fragment) to decorate functions and rerun them independently of the whole page. Check out the [docs](/develop/concepts/architecture/fragments) and give your apps a speed boost!\n- 🌐 Introducing `st.html` to insert custom HTML into your app! Check out the [docs](/develop/api-reference/utilities/st.html) for how to use it.\n\n**Notable Changes**",
+      "candidate_key": "9957844b3b2c1275325e44a57c8c9bc6e8c86365790c455fe5f77cd84fc07323"
+    },
+    {
+      "source_id": "issue:10045",
+      "revision": "2026-09-07T11:29:38Z",
+      "product_version": null,
+      "source_span": [
+        2032,
+        2149
+      ],
+      "lines": [
+        40,
+        42
+      ],
+      "title": "Fragment to fragment (co-fragment) communication instead of rerunning entire app",
+      "section": "Fragment to fragment (co-fragment) communication instead of rerunning entire app > How?",
+      "text": "```\n@st.fragment(key=\"test_frag\", keys_to_update=[\"frag1\", \"frag2\"], trigger_keys=[{\"frag1\":\"form_submit_btn\"}])\n```\n",
+      "candidate_key": "b252346e4f7e4e0f0cd9737f11137195c1dd96ff1d6371991278fc6a7c754035"
+    },
+    {
+      "source_id": "issue:9267",
+      "revision": "2024-08-15T23:21:41Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        49,
+        54
+      ],
+      "title": "Call arguments don't propogate to st.fragment correctly starting with v1.37",
+      "section": "Steps To Reproduce",
+      "text": "### Steps To Reproduce\n\n1. Launch the provides Streamlit app with Streamlit v1.36\n2. You will observe that on the 2nd and later pages the UI responds appropriately in each fragment.\n3. Now instead launch it with Streamlit v1.37.1\n4. Now, when toggling and 2nd and later pages, the \"offset\" is incorrectly populated in the fragment, and state from the first page is displayed and affected.",
+      "candidate_key": "c77655e7ed5af8effb026efb41fbf40106d3f9f59815988a1a1856733b5bea68"
+    },
+    {
+      "source_id": "docs:2026",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        62,
+        74
+      ],
+      "title": "2026",
+      "section": "**Version 1.63.0**",
+      "text": "## **Version 1.63.0**\n\n_Release date: September 1, 2026_\n\n**Highlights**\n\n- 🎯 Introducing event-scoped fragment reruns, which let a widget callback rerun just one named fragment:\n    - Name a fragment with `@st.fragment(key=…)` and target it with [`st.rerun`](/develop/api-reference/execution-flow/st.rerun)`(\"filters\")` or `st.rerun([\"alpha\", \"beta\"])` from an `on_change` or `on_click` callback ([#16161](https://github.com/streamlit/streamlit/pull/16161)).\n    - `st.rerun()` and `st.switch_page()` now take effect inside widget callbacks instead of being discarded with a warning; apps that relied on the previous no-op will now rerun ([#16158](https://github.com/streamlit/streamlit/pull/16158)).\n- ✨ Introducing `on_change=\"ignore\"`, a new mode that updates a widget in the browser without rerunning your app. Your script receives the buffered value on the next rerun, such as a button click, and the mode is available on [`st.slider`](/develop/api-reference/widgets/st.slider) and [`st.text_input`](/develop/api-reference/widgets/st.text_input) ([#14828](https://github.com/streamlit/streamlit/pull/14828), [#16605](https://github.com/streamlit/streamlit/pull/16605)).\n- 🍿 Introducing `type=\"step\"` for [`st.expander`](/develop/api-reference/layout/st.expander) and [`st.status`](/develop/api-reference/status/st.status), which renders containers as a connected timeline — well suited to showing an agent's or a pipeline's progress ([#16558](https://github.com/streamlit/streamlit/pull/16558), [#13248](https://github.com/streamlit/streamlit/issues/13248)).\n\n**Notable Changes**",
+      "candidate_key": "e564e47f22ef2a09e6bd0d6b3848ded540e59fc20d750aa44fb70bf0b6a2e261"
+    },
+    {
+      "source_id": "docs:2024",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        39842,
+        40341
+      ],
+      "lines": [
+        365,
+        374
+      ],
+      "title": "2024",
+      "section": "2024 > 2024 release notes > **Version 1.33.0**",
+      "text": "## **Version 1.33.0**\n\n_Release date: April 4, 2024_\n\n**Highlights**\n\n- 👟 Introducing [`st.experimental_fragment`](/develop/api-reference/execution-flow/st.fragment) to decorate functions and rerun them independently of the whole page. Check out the [docs](/develop/concepts/architecture/fragments) and give your apps a speed boost!\n- 🌐 Introducing `st.html` to insert custom HTML into your app! Check out the [docs](/develop/api-reference/utilities/st.html) for how to use it.\n\n**Notable Changes**\n",
+      "candidate_key": "efb94b029500c007a0dbd334f961b41a0cc52e52b444ab9f7dd91ef946ed0ac0"
+    },
+    {
+      "source_id": "issue:9267",
+      "revision": "2024-08-15T23:21:41Z",
+      "product_version": null,
+      "source_span": [
+        1602,
+        1991
+      ],
+      "lines": [
+        49,
+        54
+      ],
+      "title": "Call arguments don't propogate to st.fragment correctly starting with v1.37",
+      "section": "Call arguments don't propogate to st.fragment correctly starting with v1.37 > Steps To Reproduce",
+      "text": "### Steps To Reproduce\n\n1. Launch the provides Streamlit app with Streamlit v1.36\n2. You will observe that on the 2nd and later pages the UI responds appropriately in each fragment.\n3. Now instead launch it with Streamlit v1.37.1\n4. Now, when toggling and 2nd and later pages, the \"offset\" is incorrectly populated in the fragment, and state from the first page is displayed and affected.\n",
+      "candidate_key": "f1acb3ddff6db9e40810efeda9cb5e223c0b7723e6f7d5271f04e480c5dc6b69"
+    },
+    {
+      "source_id": "issue:11266",
+      "revision": "2025-05-07T14:09:05Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        54,
+        59
+      ],
+      "title": "Rerun() inside an st.fragment resets widget values to defaults.",
+      "section": "Debug info",
+      "text": "### Debug info\n\n- Streamlit version: 1.45.0\n- Python version: 3.13.2\n- Operating System: MasOS 15.1\n- Browser: Safari, Chrome, and Brave",
+      "candidate_key": "f725782bd2498b8835ec55f8f80e0a7e2184e5a55465d5e17660d906f77f5b64"
+    }
+  ],
+  "instructions": "Judge actual exact text relevance 0=irrelevant,1=topic only,2=useful partial,3=direct needed evidence; null=unjudged. Do not infer relevance from official source status. Record origin."
+}

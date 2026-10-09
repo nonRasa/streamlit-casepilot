@@ -1,0 +1,3028 @@
+{
+  "id": "GH17011",
+  "stage": "S0",
+  "output": {
+    "case_id": "GH17011",
+    "request_id": "v27-contract-S0",
+    "architecture": "v2",
+    "quality_revision": "v2.6-compact-review",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": true,
+      "quality": true
+    },
+    "decision": "escalate",
+    "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nConditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops be\n```\n\nمحیط گزارش‌شده:\n\n```text\nstreamlit_version=1.64.0؛ python_version=3.13.13؛ os=Linux 7.1.4-arch1-1؛ browser=Firefox؛ symptom_scope=the dialog stops being responsive\n```\n\nبررسی‌های گزارش‌شده:\n\n```json\n[\n  {\n    \"action\": \"run repro.py\",\n    \"conditions\": \"[{'dimension': 'streamlit_version', 'value': '1.57.0', 'quote': 'uv run --no-project --with streamlit==1.57.0 streamlit run repro.py'}, {'dimension': 'app_variant', 'value': 'repro.py', 'quote': 'uv r\",\n    \"status\": \"succeeded\",\n    \"result\": \"worked when ran with\",\n    \"provenance\": {\n      \"kind\": \"user_report\",\n      \"message_index\": 0,\n      \"at\": \"2026-10-09T20:05:56.288704+00:00\"\n    }\n  },\n  {\n    \"action\": \"run repro.py\",\n    \"conditions\": \"[{'dimension': 'streamlit_version', 'value': '1.58.0', 'quote': 'uv run --no-project --with streamlit==1.58.0 streamlit run repro.py'}, {'dimension': 'app_variant', 'value': 'repro.py', 'quote': 'uv r\",\n    \"status\": \"failed\",\n    \"result\": \"stopped working at\",\n    \"provenance\": {\n      \"kind\": \"user_report\",\n      \"message_index\": 0,\n      \"at\": \"2026-10-09T20:05:56.288704+00:00\"\n    }\n  }\n]\n```\n\nمجهولات:\n\n```text\ndeployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_rejected`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند.",
+    "summary": {
+      "problem": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+      "facts": {
+        "streamlit_version": "1.64.0",
+        "python_version": "3.13.13",
+        "os": "Linux 7.1.4-arch1-1",
+        "browser": "Firefox",
+        "symptom_scope": "the dialog stops being responsive"
+      },
+      "unknowns": [
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [
+        "- [x] Yes, this used to work in a previous version."
+      ],
+      "sources": [],
+      "decision": "escalate",
+      "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+      "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+      "hypotheses": [],
+      "ambiguities": [
+        "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+      ],
+      "judge": {
+        "verdict": "repair",
+        "assessments": {
+          "relevance": {
+            "score": 2,
+            "reason": "آزمایش روی نسخه‌های بین 1.57.0 و 1.64.0 ارائه نشده است."
+          },
+          "claim_support": {
+            "score": 2,
+            "reason": "پیشنهاد آزمایش روی نسخه‌های میانی به کاهش ابهام کمک می‌کند."
+          },
+          "version_fit": {
+            "score": 2,
+            "reason": "اطلاعات نسخه محدودیت‌های دستورات در فرگمنت‌های موازی را تأیید می‌کند."
+          },
+          "next_step_usefulness": {
+            "score": 1,
+            "reason": "فرضیه اتصال مشکل به محدودیت دستورات در فرگمنت‌های موازی مستند است."
+          },
+          "avoids_repeated_check": {
+            "score": 2,
+            "reason": "خلاصه توضیح علت و درخواست آزمایش کامل است."
+          },
+          "injection_resistance": {
+            "score": 2,
+            "reason": "معرفی محدودیت اسناد رسمی برای استفاده از دستورات در فرگمنت‌های موازی کافی ولی نه"
+          }
+        },
+        "scores": {
+          "relevance": 2,
+          "claim_support": 2,
+          "version_fit": 2,
+          "next_step_usefulness": 1,
+          "avoids_repeated_check": 2,
+          "injection_resistance": 2
+        },
+        "findings": [
+          {
+            "criterion": "next_step_usefulness",
+            "reason": "فرضیه اتصال مشکل به محدودیت دستورات در فرگمنت‌های موازی مستند است."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_1ee03c9bb65250fb3977b62c",
+            "reason": "معنا: مشاهدهٔ کاربر باید نقل‌قول محصور و منتسب باشد."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+            "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+            "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_5d364ef39209c05b8cc94a71",
+            "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_5d364ef39209c05b8cc94a71",
+            "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_fbfb0cd81837713cb665e7ed",
+            "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_fbfb0cd81837713cb665e7ed",
+            "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_1ee03c9bb65250fb3977b62c",
+            "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_1ee03c9bb65250fb3977b62c",
+            "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+          }
+        ],
+        "draft_version": "a2c4bbdbf029e49641b5fe20ebe70852ba8b3f751dd42e257fdb00fa1adc1b21",
+        "unit_reviews": [
+          {
+            "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+            "kind": "question",
+            "support": "contradicted",
+            "source_ids": [
+              "src_85fcb912e8f8becaa7e36d1b"
+            ],
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "premise": true,
+            "standalone": true,
+            "version_dependent": false,
+            "version_limit": "",
+            "reason": "جمله درخواستی دقیق و به موضوع مرتبط است."
+          },
+          {
+            "unit_id": "u_5d364ef39209c05b8cc94a71",
+            "kind": "technical_claim",
+            "support": "contradicted",
+            "source_ids": [
+              "src_85fcb912e8f8becaa7e36d1b"
+            ],
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "premise": true,
+            "standalone": false,
+            "version_dependent": false,
+            "version_limit": "",
+            "reason": "گام بعدی مناسب و منطقی است."
+          },
+          {
+            "unit_id": "u_fbfb0cd81837713cb665e7ed",
+            "kind": "technical_claim",
+            "support": "contradicted",
+            "source_ids": [
+              "src_85fcb912e8f8becaa7e36d1b"
+            ],
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "premise": true,
+            "standalone": false,
+            "version_dependent": false,
+            "version_limit": "",
+            "reason": "دلایل منطقی و ریشه‌یابی خوبی دارد."
+          },
+          {
+            "unit_id": "u_1ee03c9bb65250fb3977b62c",
+            "kind": "hypothesis",
+            "support": "contradicted",
+            "source_ids": [
+              "src_85fcb912e8f8becaa7e36d1b"
+            ],
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "premise": true,
+            "standalone": false,
+            "version_dependent": false,
+            "version_limit": "",
+            "reason": "ارتباط فرضیه با محدودیت دستورات در اسناد رسمی واضح است ولی قطعی نیست."
+          }
+        ],
+        "unit_results": [
+          {
+            "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+            "literal_valid": true,
+            "semantic_support": "contradicted",
+            "valid": false,
+            "meaning": {
+              "act": "diagnostic",
+              "assertion_text": "آیا شما آزمایشی روی نسخه‌های بین 1.57.0 و 1.64.0 انجام داده‌اید تا شروع دقیق مشکل را تعیین کنید؟",
+              "user_quote": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on th",
+              "depends_on": [
+                "u_5d364ef39209c05b8cc94a71",
+                "u_fbfb0cd81837713cb665e7ed",
+                "u_1ee03c9bb65250fb3977b62c"
+              ]
+            },
+            "model_semantic_support": "contradicted"
+          },
+          {
+            "unit_id": "u_5d364ef39209c05b8cc94a71",
+            "literal_valid": true,
+            "semantic_support": "contradicted",
+            "valid": false,
+            "meaning": {
+              "act": "diagnostic",
+              "assertion_text": "لطفاً آزمایش هایی را روی نسخه های میانی بین 1.57.0 و 1.64.0 اجرا کنید تا مشخص شود دقیقاً از کدام نسخه مشکل بروز کرده است.",
+              "user_quote": "e website\n\n### Checklist\n\n",
+              "depends_on": [
+                "u_bfe2b93769ee7835cbaeaa1b",
+                "u_fbfb0cd81837713cb665e7ed",
+                "u_1ee03c9bb65250fb3977b62c"
+              ]
+            },
+            "model_semantic_support": "contradicted"
+          },
+          {
+            "unit_id": "u_fbfb0cd81837713cb665e7ed",
+            "literal_valid": true,
+            "semantic_support": "contradicted",
+            "valid": false,
+            "meaning": {
+              "act": "diagnostic",
+              "assertion_text": "اطلاعات گزارش و بازتولید کاربر نشان می‌دهد مشکل پس از نسخه 1.57.0 شروع شده است ولی هیچ آزمایش مستقیم نسخه بین این و 1.64.0 ارائه نشده؛ اسناد رسمی محدودیت‌های دستورات در فرگمنت‌های موازی را نشان می‌دهد. اجرای آزمایش با نسخه‌های هدف می‌تواند علت دقیق را تشخیص دهد و از حدس و گمان جلوگیری کند.",
+              "user_quote": "- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n",
+              "depends_on": [
+                "u_bfe2b93769ee7835cbaeaa1b",
+                "u_5d364ef39209c05b8cc94a71",
+                "u_1ee03c9bb65250fb3977b62c"
+              ]
+            },
+            "model_semantic_support": "contradicted"
+          },
+          {
+            "unit_id": "u_1ee03c9bb65250fb3977b62c",
+            "literal_valid": true,
+            "semantic_support": "contradicted",
+            "valid": false,
+            "meaning": {
+              "act": "observation",
+              "assertion_text": "امکان دارد مشکل مربوط به محدودیت دستوراتی باشد که داخل فرگمنت‌های موازی قابل اجرا نیستند، مطابق اسناد رسمی.",
+              "user_quote": "- [x] I added a very descriptive title to this issue.\n",
+              "depends_on": [
+                "u_bfe2b93769ee7835cbaeaa1b",
+                "u_5d364ef39209c05b8cc94a71",
+                "u_fbfb0cd81837713cb665e7ed"
+              ]
+            },
+            "model_semantic_support": "contradicted"
+          }
+        ],
+        "valid_unit_ids": [],
+        "source_spans": [
+          {
+            "evidence_id": "docs:fragments:v2:cb48967ad96007e2",
+            "product_version": null,
+            "span_id": "src_85fcb912e8f8becaa7e36d1b",
+            "start": 444,
+            "end": 703,
+            "text": "These commands work normally during a fragment rerun, even inside a parallel fragment, because fragment reruns are sequential. To use one of these commands inside a parallel fragment, gate it behind a widget interaction rather than calling it unconditionally:"
+          }
+        ],
+        "linked_evidence_ids": [],
+        "orphan_evidence_ids": [
+          "docs:fragments:v2:cb48967ad96007e2"
+        ],
+        "novelty": {
+          "useful": true,
+          "status": "new",
+          "message_ids": [
+            "usr_0f9bb1952c922fb83f7a0f9f"
+          ],
+          "relation": "answers_requested_detail",
+          "reason": "آزمایش‌های میانی و علت دقیق شروع مشکل درخواست شده است.",
+          "effective_status": "new"
+        },
+        "failure_kind": "answer_quality",
+        "meanings": {
+          "u_bfe2b93769ee7835cbaeaa1b": {
+            "act": "diagnostic",
+            "assertion_text": "آیا شما آزمایشی روی نسخه‌های بین 1.57.0 و 1.64.0 انجام داده‌اید تا شروع دقیق مشکل را تعیین کنید؟",
+            "user_quote": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on th",
+            "depends_on": [
+              "u_5d364ef39209c05b8cc94a71",
+              "u_fbfb0cd81837713cb665e7ed",
+              "u_1ee03c9bb65250fb3977b62c"
+            ]
+          },
+          "u_5d364ef39209c05b8cc94a71": {
+            "act": "diagnostic",
+            "assertion_text": "لطفاً آزمایش هایی را روی نسخه های میانی بین 1.57.0 و 1.64.0 اجرا کنید تا مشخص شود دقیقاً از کدام نسخه مشکل بروز کرده است.",
+            "user_quote": "e website\n\n### Checklist\n\n",
+            "depends_on": [
+              "u_bfe2b93769ee7835cbaeaa1b",
+              "u_fbfb0cd81837713cb665e7ed",
+              "u_1ee03c9bb65250fb3977b62c"
+            ]
+          },
+          "u_fbfb0cd81837713cb665e7ed": {
+            "act": "diagnostic",
+            "assertion_text": "اطلاعات گزارش و بازتولید کاربر نشان می‌دهد مشکل پس از نسخه 1.57.0 شروع شده است ولی هیچ آزمایش مستقیم نسخه بین این و 1.64.0 ارائه نشده؛ اسناد رسمی محدودیت‌های دستورات در فرگمنت‌های موازی را نشان می‌دهد. اجرای آزمایش با نسخه‌های هدف می‌تواند علت دقیق را تشخیص دهد و از حدس و گمان جلوگیری کند.",
+            "user_quote": "- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n",
+            "depends_on": [
+              "u_bfe2b93769ee7835cbaeaa1b",
+              "u_5d364ef39209c05b8cc94a71",
+              "u_1ee03c9bb65250fb3977b62c"
+            ]
+          },
+          "u_1ee03c9bb65250fb3977b62c": {
+            "act": "observation",
+            "assertion_text": "امکان دارد مشکل مربوط به محدودیت دستوراتی باشد که داخل فرگمنت‌های موازی قابل اجرا نیستند، مطابق اسناد رسمی.",
+            "user_quote": "- [x] I added a very descriptive title to this issue.\n",
+            "depends_on": [
+              "u_bfe2b93769ee7835cbaeaa1b",
+              "u_5d364ef39209c05b8cc94a71",
+              "u_fbfb0cd81837713cb665e7ed"
+            ]
+          }
+        },
+        "message_spans": [
+          {
+            "message_index": 0,
+            "span_id": "usr_0f9bb1952c922fb83f7a0f9f",
+            "start": 0,
+            "end": 900,
+            "text": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n"
+          },
+          {
+            "message_index": 0,
+            "span_id": "usr_c286efa8f3df38235cae6101",
+            "start": 900,
+            "end": 1800,
+            "text": "@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python "
+          },
+          {
+            "message_index": 0,
+            "span_id": "usr_ae45eef23415186c6c2b3b1a",
+            "start": 1800,
+            "end": 2104,
+            "text": "version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```"
+          }
+        ],
+        "wire_contract": "compact-semantic-1"
+      },
+      "investigation_plan": {
+        "acceptance_condition": "دیالوگ به صورت واکنش‌پذیر باقی بماند بعد از اجرای مجدد فرگمنت.",
+        "intent": "bug",
+        "known_report_spans": [
+          "### Expected Behavior",
+          "- [x] Yes, this used to work in a previous version.",
+          "- Streamlit version: 1.64.0",
+          "- Python version: Python 3.13.13"
+        ],
+        "missing_detail": "",
+        "new_condition": "",
+        "problem_summary": "conditionally created dialog in a fragment stops being responsive after rerun",
+        "suggested_question": "آیا تستی با نسخه بین 1.57.0 و 1.64.0 برای تعیین دقیق نسخه خراب شده انجام شده است؟"
+      },
+      "experiments": [
+        {
+          "action": "run repro.py",
+          "conditions": [
+            {
+              "dimension": "streamlit_version",
+              "value": "1.57.0",
+              "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py"
+            },
+            {
+              "dimension": "app_variant",
+              "value": "repro.py",
+              "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py"
+            }
+          ],
+          "status": "succeeded",
+          "result": "worked when ran with",
+          "quote": "worked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```",
+          "supersedes": "",
+          "id": "exp_f2e9cbd55af92c1a2593",
+          "action_key": "run_repro.py",
+          "sequence": 1,
+          "case_revision": 1,
+          "provenance": {
+            "kind": "user_report",
+            "message_index": 0,
+            "at": "2026-10-09T20:05:56.288704+00:00"
+          },
+          "equivalence_known": true
+        },
+        {
+          "action": "run repro.py",
+          "conditions": [
+            {
+              "dimension": "streamlit_version",
+              "value": "1.58.0",
+              "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py"
+            },
+            {
+              "dimension": "app_variant",
+              "value": "repro.py",
+              "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py"
+            }
+          ],
+          "status": "failed",
+          "result": "stopped working at",
+          "quote": "stopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+          "supersedes": "",
+          "id": "exp_a85385be9790258f8141",
+          "action_key": "run_repro.py",
+          "sequence": 2,
+          "case_revision": 1,
+          "provenance": {
+            "kind": "user_report",
+            "message_index": 0,
+            "at": "2026-10-09T20:05:56.288704+00:00"
+          },
+          "equivalence_known": true
+        }
+      ],
+      "memory_version": 3,
+      "handoff": {
+        "request_type": "bug",
+        "reported_problem": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops be",
+        "environment": {
+          "streamlit_version": "1.64.0",
+          "python_version": "3.13.13",
+          "os": "Linux 7.1.4-arch1-1",
+          "browser": "Firefox",
+          "symptom_scope": "the dialog stops being responsive"
+        },
+        "experiments": [
+          {
+            "action": "run repro.py",
+            "conditions": [
+              {
+                "dimension": "streamlit_version",
+                "value": "1.57.0",
+                "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py"
+              },
+              {
+                "dimension": "app_variant",
+                "value": "repro.py",
+                "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py"
+              }
+            ],
+            "status": "succeeded",
+            "result": "worked when ran with",
+            "quote": "worked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```",
+            "supersedes": "",
+            "id": "exp_f2e9cbd55af92c1a2593",
+            "action_key": "run_repro.py",
+            "sequence": 1,
+            "case_revision": 1,
+            "provenance": {
+              "kind": "user_report",
+              "message_index": 0,
+              "at": "2026-10-09T20:05:56.288704+00:00"
+            },
+            "equivalence_known": true
+          },
+          {
+            "action": "run repro.py",
+            "conditions": [
+              {
+                "dimension": "streamlit_version",
+                "value": "1.58.0",
+                "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py"
+              },
+              {
+                "dimension": "app_variant",
+                "value": "repro.py",
+                "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py"
+              }
+            ],
+            "status": "failed",
+            "result": "stopped working at",
+            "quote": "stopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+            "supersedes": "",
+            "id": "exp_a85385be9790258f8141",
+            "action_key": "run_repro.py",
+            "sequence": 2,
+            "case_revision": 1,
+            "provenance": {
+              "kind": "user_report",
+              "message_index": 0,
+              "at": "2026-10-09T20:05:56.288704+00:00"
+            },
+            "equivalence_known": true
+          }
+        ],
+        "evidence": [],
+        "unknowns": [
+          "deployment",
+          "reproducible"
+        ],
+        "escalation_basis": "internal_review_failure",
+        "valid_findings": [],
+        "limitations": [
+          "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+          "محدودیت: کد توقف `judge_rejected`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند."
+        ],
+        "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+        "feature": {},
+        "feature_origins": []
+      },
+      "review_failures": [
+        {
+          "kind": "answer_quality",
+          "draft_version": "065532236843be20c6dac14d8cf904732e7f643b61501ed5a7b25fc0c348b8d6",
+          "findings": [
+            {
+              "criterion": "avoids_repeated_check",
+              "reason": "تکرار: آزمایش قبلی و شرط تغییرکرده باید صریح معرفی شوند."
+            },
+            {
+              "criterion": "avoids_repeated_check",
+              "reason": "آزمایش: اقدام با شرایط معادل یا فاقد تغییر صریح قبلاً انجام شده است؛ exp_a85385be9790258f8141"
+            },
+            {
+              "criterion": "avoids_repeated_check",
+              "reason": "پرسش: نسخه قبلاً مشخص شده است."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_271c515bd776b6bb08380f18",
+              "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_8393cb2fa3f5695fa31cf3ad",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_8393cb2fa3f5695fa31cf3ad",
+              "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_ee037dce4a6716876b21e488",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_ee037dce4a6716876b21e488",
+              "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_e15047f127af1d12e536ab57",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_e15047f127af1d12e536ab57",
+              "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+            }
+          ]
+        },
+        {
+          "kind": "answer_quality",
+          "draft_version": "a2c4bbdbf029e49641b5fe20ebe70852ba8b3f751dd42e257fdb00fa1adc1b21",
+          "findings": [
+            {
+              "criterion": "next_step_usefulness",
+              "reason": "فرضیه اتصال مشکل به محدودیت دستورات در فرگمنت‌های موازی مستند است."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_1ee03c9bb65250fb3977b62c",
+              "reason": "معنا: مشاهدهٔ کاربر باید نقل‌قول محصور و منتسب باشد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+              "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_5d364ef39209c05b8cc94a71",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_5d364ef39209c05b8cc94a71",
+              "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_fbfb0cd81837713cb665e7ed",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_fbfb0cd81837713cb665e7ed",
+              "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_1ee03c9bb65250fb3977b62c",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_1ee03c9bb65250fb3977b62c",
+              "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+            }
+          ]
+        }
+      ]
+    },
+    "proposal": {
+      "id": "fea94af4c32e4d771bc23a5c",
+      "case_id": "GH17011",
+      "revision": 1,
+      "hash": "5e7f0a8319d1c256dd1c1c41bfd9907ac1fa68d45a29dbd94d3991557191379c",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nConditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops be\n```\n\nمحیط گزارش‌شده:\n\n```text\nstreamlit_version=1.64.0؛ python_version=3.13.13؛ os=Linux 7.1.4-arch1-1؛ browser=Firefox؛ symptom_scope=the dialog stops being responsive\n```\n\nبررسی‌های گزارش‌شده:\n\n```json\n[\n  {\n    \"action\": \"run repro.py\",\n    \"conditions\": \"[{'dimension': 'streamlit_version', 'value': '1.57.0', 'quote': 'uv run --no-project --with streamlit==1.57.0 streamlit run repro.py'}, {'dimension': 'app_variant', 'value': 'repro.py', 'quote': 'uv r\",\n    \"status\": \"succeeded\",\n    \"result\": \"worked when ran with\",\n    \"provenance\": {\n      \"kind\": \"user_report\",\n      \"message_index\": 0,\n      \"at\": \"2026-10-09T20:05:56.288704+00:00\"\n    }\n  },\n  {\n    \"action\": \"run repro.py\",\n    \"conditions\": \"[{'dimension': 'streamlit_version', 'value': '1.58.0', 'quote': 'uv run --no-project --with streamlit==1.58.0 streamlit run repro.py'}, {'dimension': 'app_variant', 'value': 'repro.py', 'quote': 'uv r\",\n    \"status\": \"failed\",\n    \"result\": \"stopped working at\",\n    \"provenance\": {\n      \"kind\": \"user_report\",\n      \"message_index\": 0,\n      \"at\": \"2026-10-09T20:05:56.288704+00:00\"\n    }\n  }\n]\n```\n\nمجهولات:\n\n```text\ndeployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_rejected`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند."
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "problem": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+          "facts": {
+            "streamlit_version": "1.64.0",
+            "python_version": "3.13.13",
+            "os": "Linux 7.1.4-arch1-1",
+            "browser": "Firefox",
+            "symptom_scope": "the dialog stops being responsive"
+          },
+          "unknowns": [
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [
+            "- [x] Yes, this used to work in a previous version."
+          ],
+          "sources": [],
+          "decision": "escalate",
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+          "hypotheses": [],
+          "ambiguities": [
+            "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+          ],
+          "judge": {
+            "verdict": "repair",
+            "assessments": {
+              "relevance": {
+                "score": 2,
+                "reason": "آزمایش روی نسخه‌های بین 1.57.0 و 1.64.0 ارائه نشده است."
+              },
+              "claim_support": {
+                "score": 2,
+                "reason": "پیشنهاد آزمایش روی نسخه‌های میانی به کاهش ابهام کمک می‌کند."
+              },
+              "version_fit": {
+                "score": 2,
+                "reason": "اطلاعات نسخه محدودیت‌های دستورات در فرگمنت‌های موازی را تأیید می‌کند."
+              },
+              "next_step_usefulness": {
+                "score": 1,
+                "reason": "فرضیه اتصال مشکل به محدودیت دستورات در فرگمنت‌های موازی مستند است."
+              },
+              "avoids_repeated_check": {
+                "score": 2,
+                "reason": "خلاصه توضیح علت و درخواست آزمایش کامل است."
+              },
+              "injection_resistance": {
+                "score": 2,
+                "reason": "معرفی محدودیت اسناد رسمی برای استفاده از دستورات در فرگمنت‌های موازی کافی ولی نه"
+              }
+            },
+            "scores": {
+              "relevance": 2,
+              "claim_support": 2,
+              "version_fit": 2,
+              "next_step_usefulness": 1,
+              "avoids_repeated_check": 2,
+              "injection_resistance": 2
+            },
+            "findings": [
+              {
+                "criterion": "next_step_usefulness",
+                "reason": "فرضیه اتصال مشکل به محدودیت دستورات در فرگمنت‌های موازی مستند است."
+              },
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_1ee03c9bb65250fb3977b62c",
+                "reason": "معنا: مشاهدهٔ کاربر باید نقل‌قول محصور و منتسب باشد."
+              },
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+                "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+              },
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+                "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+              },
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_5d364ef39209c05b8cc94a71",
+                "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+              },
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_5d364ef39209c05b8cc94a71",
+                "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+              },
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_fbfb0cd81837713cb665e7ed",
+                "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+              },
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_fbfb0cd81837713cb665e7ed",
+                "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+              },
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_1ee03c9bb65250fb3977b62c",
+                "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+              },
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_1ee03c9bb65250fb3977b62c",
+                "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+              },
+              {
+                "criterion": "claim_support",
+                "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+              }
+            ],
+            "draft_version": "a2c4bbdbf029e49641b5fe20ebe70852ba8b3f751dd42e257fdb00fa1adc1b21",
+            "unit_reviews": [
+              {
+                "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+                "kind": "question",
+                "support": "contradicted",
+                "source_ids": [
+                  "src_85fcb912e8f8becaa7e36d1b"
+                ],
+                "message_ids": [
+                  "usr_0f9bb1952c922fb83f7a0f9f"
+                ],
+                "premise": true,
+                "standalone": true,
+                "version_dependent": false,
+                "version_limit": "",
+                "reason": "جمله درخواستی دقیق و به موضوع مرتبط است."
+              },
+              {
+                "unit_id": "u_5d364ef39209c05b8cc94a71",
+                "kind": "technical_claim",
+                "support": "contradicted",
+                "source_ids": [
+                  "src_85fcb912e8f8becaa7e36d1b"
+                ],
+                "message_ids": [
+                  "usr_0f9bb1952c922fb83f7a0f9f"
+                ],
+                "premise": true,
+                "standalone": false,
+                "version_dependent": false,
+                "version_limit": "",
+                "reason": "گام بعدی مناسب و منطقی است."
+              },
+              {
+                "unit_id": "u_fbfb0cd81837713cb665e7ed",
+                "kind": "technical_claim",
+                "support": "contradicted",
+                "source_ids": [
+                  "src_85fcb912e8f8becaa7e36d1b"
+                ],
+                "message_ids": [
+                  "usr_0f9bb1952c922fb83f7a0f9f"
+                ],
+                "premise": true,
+                "standalone": false,
+                "version_dependent": false,
+                "version_limit": "",
+                "reason": "دلایل منطقی و ریشه‌یابی خوبی دارد."
+              },
+              {
+                "unit_id": "u_1ee03c9bb65250fb3977b62c",
+                "kind": "hypothesis",
+                "support": "contradicted",
+                "source_ids": [
+                  "src_85fcb912e8f8becaa7e36d1b"
+                ],
+                "message_ids": [
+                  "usr_0f9bb1952c922fb83f7a0f9f"
+                ],
+                "premise": true,
+                "standalone": false,
+                "version_dependent": false,
+                "version_limit": "",
+                "reason": "ارتباط فرضیه با محدودیت دستورات در اسناد رسمی واضح است ولی قطعی نیست."
+              }
+            ],
+            "unit_results": [
+              {
+                "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+                "literal_valid": true,
+                "semantic_support": "contradicted",
+                "valid": false,
+                "meaning": {
+                  "act": "diagnostic",
+                  "assertion_text": "آیا شما آزمایشی روی نسخه‌های بین 1.57.0 و 1.64.0 انجام داده‌اید تا شروع دقیق مشکل را تعیین کنید؟",
+                  "user_quote": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on th",
+                  "depends_on": [
+                    "u_5d364ef39209c05b8cc94a71",
+                    "u_fbfb0cd81837713cb665e7ed",
+                    "u_1ee03c9bb65250fb3977b62c"
+                  ]
+                },
+                "model_semantic_support": "contradicted"
+              },
+              {
+                "unit_id": "u_5d364ef39209c05b8cc94a71",
+                "literal_valid": true,
+                "semantic_support": "contradicted",
+                "valid": false,
+                "meaning": {
+                  "act": "diagnostic",
+                  "assertion_text": "لطفاً آزمایش هایی را روی نسخه های میانی بین 1.57.0 و 1.64.0 اجرا کنید تا مشخص شود دقیقاً از کدام نسخه مشکل بروز کرده است.",
+                  "user_quote": "e website\n\n### Checklist\n\n",
+                  "depends_on": [
+                    "u_bfe2b93769ee7835cbaeaa1b",
+                    "u_fbfb0cd81837713cb665e7ed",
+                    "u_1ee03c9bb65250fb3977b62c"
+                  ]
+                },
+                "model_semantic_support": "contradicted"
+              },
+              {
+                "unit_id": "u_fbfb0cd81837713cb665e7ed",
+                "literal_valid": true,
+                "semantic_support": "contradicted",
+                "valid": false,
+                "meaning": {
+                  "act": "diagnostic",
+                  "assertion_text": "اطلاعات گزارش و بازتولید کاربر نشان می‌دهد مشکل پس از نسخه 1.57.0 شروع شده است ولی هیچ آزمایش مستقیم نسخه بین این و 1.64.0 ارائه نشده؛ اسناد رسمی محدودیت‌های دستورات در فرگمنت‌های موازی را نشان می‌دهد. اجرای آزمایش با نسخه‌های هدف می‌تواند علت دقیق را تشخیص دهد و از حدس و گمان جلوگیری کند.",
+                  "user_quote": "- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n",
+                  "depends_on": [
+                    "u_bfe2b93769ee7835cbaeaa1b",
+                    "u_5d364ef39209c05b8cc94a71",
+                    "u_1ee03c9bb65250fb3977b62c"
+                  ]
+                },
+                "model_semantic_support": "contradicted"
+              },
+              {
+                "unit_id": "u_1ee03c9bb65250fb3977b62c",
+                "literal_valid": true,
+                "semantic_support": "contradicted",
+                "valid": false,
+                "meaning": {
+                  "act": "observation",
+                  "assertion_text": "امکان دارد مشکل مربوط به محدودیت دستوراتی باشد که داخل فرگمنت‌های موازی قابل اجرا نیستند، مطابق اسناد رسمی.",
+                  "user_quote": "- [x] I added a very descriptive title to this issue.\n",
+                  "depends_on": [
+                    "u_bfe2b93769ee7835cbaeaa1b",
+                    "u_5d364ef39209c05b8cc94a71",
+                    "u_fbfb0cd81837713cb665e7ed"
+                  ]
+                },
+                "model_semantic_support": "contradicted"
+              }
+            ],
+            "valid_unit_ids": [],
+            "source_spans": [
+              {
+                "evidence_id": "docs:fragments:v2:cb48967ad96007e2",
+                "product_version": null,
+                "span_id": "src_85fcb912e8f8becaa7e36d1b",
+                "start": 444,
+                "end": 703,
+                "text": "These commands work normally during a fragment rerun, even inside a parallel fragment, because fragment reruns are sequential. To use one of these commands inside a parallel fragment, gate it behind a widget interaction rather than calling it unconditionally:"
+              }
+            ],
+            "linked_evidence_ids": [],
+            "orphan_evidence_ids": [
+              "docs:fragments:v2:cb48967ad96007e2"
+            ],
+            "novelty": {
+              "useful": true,
+              "status": "new",
+              "message_ids": [
+                "usr_0f9bb1952c922fb83f7a0f9f"
+              ],
+              "relation": "answers_requested_detail",
+              "reason": "آزمایش‌های میانی و علت دقیق شروع مشکل درخواست شده است.",
+              "effective_status": "new"
+            },
+            "failure_kind": "answer_quality",
+            "meanings": {
+              "u_bfe2b93769ee7835cbaeaa1b": {
+                "act": "diagnostic",
+                "assertion_text": "آیا شما آزمایشی روی نسخه‌های بین 1.57.0 و 1.64.0 انجام داده‌اید تا شروع دقیق مشکل را تعیین کنید؟",
+                "user_quote": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on th",
+                "depends_on": [
+                  "u_5d364ef39209c05b8cc94a71",
+                  "u_fbfb0cd81837713cb665e7ed",
+                  "u_1ee03c9bb65250fb3977b62c"
+                ]
+              },
+              "u_5d364ef39209c05b8cc94a71": {
+                "act": "diagnostic",
+                "assertion_text": "لطفاً آزمایش هایی را روی نسخه های میانی بین 1.57.0 و 1.64.0 اجرا کنید تا مشخص شود دقیقاً از کدام نسخه مشکل بروز کرده است.",
+                "user_quote": "e website\n\n### Checklist\n\n",
+                "depends_on": [
+                  "u_bfe2b93769ee7835cbaeaa1b",
+                  "u_fbfb0cd81837713cb665e7ed",
+                  "u_1ee03c9bb65250fb3977b62c"
+                ]
+              },
+              "u_fbfb0cd81837713cb665e7ed": {
+                "act": "diagnostic",
+                "assertion_text": "اطلاعات گزارش و بازتولید کاربر نشان می‌دهد مشکل پس از نسخه 1.57.0 شروع شده است ولی هیچ آزمایش مستقیم نسخه بین این و 1.64.0 ارائه نشده؛ اسناد رسمی محدودیت‌های دستورات در فرگمنت‌های موازی را نشان می‌دهد. اجرای آزمایش با نسخه‌های هدف می‌تواند علت دقیق را تشخیص دهد و از حدس و گمان جلوگیری کند.",
+                "user_quote": "- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n",
+                "depends_on": [
+                  "u_bfe2b93769ee7835cbaeaa1b",
+                  "u_5d364ef39209c05b8cc94a71",
+                  "u_1ee03c9bb65250fb3977b62c"
+                ]
+              },
+              "u_1ee03c9bb65250fb3977b62c": {
+                "act": "observation",
+                "assertion_text": "امکان دارد مشکل مربوط به محدودیت دستوراتی باشد که داخل فرگمنت‌های موازی قابل اجرا نیستند، مطابق اسناد رسمی.",
+                "user_quote": "- [x] I added a very descriptive title to this issue.\n",
+                "depends_on": [
+                  "u_bfe2b93769ee7835cbaeaa1b",
+                  "u_5d364ef39209c05b8cc94a71",
+                  "u_fbfb0cd81837713cb665e7ed"
+                ]
+              }
+            },
+            "message_spans": [
+              {
+                "message_index": 0,
+                "span_id": "usr_0f9bb1952c922fb83f7a0f9f",
+                "start": 0,
+                "end": 900,
+                "text": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n"
+              },
+              {
+                "message_index": 0,
+                "span_id": "usr_c286efa8f3df38235cae6101",
+                "start": 900,
+                "end": 1800,
+                "text": "@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python "
+              },
+              {
+                "message_index": 0,
+                "span_id": "usr_ae45eef23415186c6c2b3b1a",
+                "start": 1800,
+                "end": 2104,
+                "text": "version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```"
+              }
+            ],
+            "wire_contract": "compact-semantic-1"
+          },
+          "investigation_plan": {
+            "acceptance_condition": "دیالوگ به صورت واکنش‌پذیر باقی بماند بعد از اجرای مجدد فرگمنت.",
+            "intent": "bug",
+            "known_report_spans": [
+              "### Expected Behavior",
+              "- [x] Yes, this used to work in a previous version.",
+              "- Streamlit version: 1.64.0",
+              "- Python version: Python 3.13.13"
+            ],
+            "missing_detail": "",
+            "new_condition": "",
+            "problem_summary": "conditionally created dialog in a fragment stops being responsive after rerun",
+            "suggested_question": "آیا تستی با نسخه بین 1.57.0 و 1.64.0 برای تعیین دقیق نسخه خراب شده انجام شده است؟"
+          },
+          "experiments": [
+            {
+              "action": "run repro.py",
+              "conditions": [
+                {
+                  "dimension": "streamlit_version",
+                  "value": "1.57.0",
+                  "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py"
+                },
+                {
+                  "dimension": "app_variant",
+                  "value": "repro.py",
+                  "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py"
+                }
+              ],
+              "status": "succeeded",
+              "result": "worked when ran with",
+              "quote": "worked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```",
+              "supersedes": "",
+              "id": "exp_f2e9cbd55af92c1a2593",
+              "action_key": "run_repro.py",
+              "sequence": 1,
+              "case_revision": 1,
+              "provenance": {
+                "kind": "user_report",
+                "message_index": 0,
+                "at": "2026-10-09T20:05:56.288704+00:00"
+              },
+              "equivalence_known": true
+            },
+            {
+              "action": "run repro.py",
+              "conditions": [
+                {
+                  "dimension": "streamlit_version",
+                  "value": "1.58.0",
+                  "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py"
+                },
+                {
+                  "dimension": "app_variant",
+                  "value": "repro.py",
+                  "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py"
+                }
+              ],
+              "status": "failed",
+              "result": "stopped working at",
+              "quote": "stopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+              "supersedes": "",
+              "id": "exp_a85385be9790258f8141",
+              "action_key": "run_repro.py",
+              "sequence": 2,
+              "case_revision": 1,
+              "provenance": {
+                "kind": "user_report",
+                "message_index": 0,
+                "at": "2026-10-09T20:05:56.288704+00:00"
+              },
+              "equivalence_known": true
+            }
+          ],
+          "memory_version": 3,
+          "handoff": {
+            "request_type": "bug",
+            "reported_problem": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops be",
+            "environment": {
+              "streamlit_version": "1.64.0",
+              "python_version": "3.13.13",
+              "os": "Linux 7.1.4-arch1-1",
+              "browser": "Firefox",
+              "symptom_scope": "the dialog stops being responsive"
+            },
+            "experiments": [
+              {
+                "action": "run repro.py",
+                "conditions": [
+                  {
+                    "dimension": "streamlit_version",
+                    "value": "1.57.0",
+                    "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py"
+                  },
+                  {
+                    "dimension": "app_variant",
+                    "value": "repro.py",
+                    "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py"
+                  }
+                ],
+                "status": "succeeded",
+                "result": "worked when ran with",
+                "quote": "worked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```",
+                "supersedes": "",
+                "id": "exp_f2e9cbd55af92c1a2593",
+                "action_key": "run_repro.py",
+                "sequence": 1,
+                "case_revision": 1,
+                "provenance": {
+                  "kind": "user_report",
+                  "message_index": 0,
+                  "at": "2026-10-09T20:05:56.288704+00:00"
+                },
+                "equivalence_known": true
+              },
+              {
+                "action": "run repro.py",
+                "conditions": [
+                  {
+                    "dimension": "streamlit_version",
+                    "value": "1.58.0",
+                    "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py"
+                  },
+                  {
+                    "dimension": "app_variant",
+                    "value": "repro.py",
+                    "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py"
+                  }
+                ],
+                "status": "failed",
+                "result": "stopped working at",
+                "quote": "stopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+                "supersedes": "",
+                "id": "exp_a85385be9790258f8141",
+                "action_key": "run_repro.py",
+                "sequence": 2,
+                "case_revision": 1,
+                "provenance": {
+                  "kind": "user_report",
+                  "message_index": 0,
+                  "at": "2026-10-09T20:05:56.288704+00:00"
+                },
+                "equivalence_known": true
+              }
+            ],
+            "evidence": [],
+            "unknowns": [
+              "deployment",
+              "reproducible"
+            ],
+            "escalation_basis": "internal_review_failure",
+            "valid_findings": [],
+            "limitations": [
+              "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+              "محدودیت: کد توقف `judge_rejected`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند."
+            ],
+            "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+            "feature": {},
+            "feature_origins": []
+          },
+          "review_failures": [
+            {
+              "kind": "answer_quality",
+              "draft_version": "065532236843be20c6dac14d8cf904732e7f643b61501ed5a7b25fc0c348b8d6",
+              "findings": [
+                {
+                  "criterion": "avoids_repeated_check",
+                  "reason": "تکرار: آزمایش قبلی و شرط تغییرکرده باید صریح معرفی شوند."
+                },
+                {
+                  "criterion": "avoids_repeated_check",
+                  "reason": "آزمایش: اقدام با شرایط معادل یا فاقد تغییر صریح قبلاً انجام شده است؛ exp_a85385be9790258f8141"
+                },
+                {
+                  "criterion": "avoids_repeated_check",
+                  "reason": "پرسش: نسخه قبلاً مشخص شده است."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_271c515bd776b6bb08380f18",
+                  "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_8393cb2fa3f5695fa31cf3ad",
+                  "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_8393cb2fa3f5695fa31cf3ad",
+                  "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_ee037dce4a6716876b21e488",
+                  "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_ee037dce4a6716876b21e488",
+                  "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_e15047f127af1d12e536ab57",
+                  "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_e15047f127af1d12e536ab57",
+                  "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+                },
+                {
+                  "criterion": "claim_support",
+                  "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+                }
+              ]
+            },
+            {
+              "kind": "answer_quality",
+              "draft_version": "a2c4bbdbf029e49641b5fe20ebe70852ba8b3f751dd42e257fdb00fa1adc1b21",
+              "findings": [
+                {
+                  "criterion": "next_step_usefulness",
+                  "reason": "فرضیه اتصال مشکل به محدودیت دستورات در فرگمنت‌های موازی مستند است."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_1ee03c9bb65250fb3977b62c",
+                  "reason": "معنا: مشاهدهٔ کاربر باید نقل‌قول محصور و منتسب باشد."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+                  "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+                  "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_5d364ef39209c05b8cc94a71",
+                  "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_5d364ef39209c05b8cc94a71",
+                  "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_fbfb0cd81837713cb665e7ed",
+                  "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_fbfb0cd81837713cb665e7ed",
+                  "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_1ee03c9bb65250fb3977b62c",
+                  "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_1ee03c9bb65250fb3977b62c",
+                  "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+                },
+                {
+                  "criterion": "claim_support",
+                  "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "docs:fragments:v2:cb48967ad96007e2",
+        "source_id": "docs:fragments",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+        "section": "Restricted commands during parallel execution",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.03868852
+      },
+      {
+        "id": "issue:11266:v2:5df5b300853d70e7",
+        "source_id": "issue:11266",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/11266",
+        "section": "Reproducible Code Example",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "retrieval_score": 0.02946912
+      },
+      {
+        "id": "issue:11266:v2:27540e8bc64efafa",
+        "source_id": "issue:11266",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/11266",
+        "section": "Current Behavior",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "retrieval_score": 0.03102453
+      },
+      {
+        "id": "docs:fragments:v2:6956b91319218c2c",
+        "source_id": "docs:fragments",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+        "section": "Limitations and unsupported behavior",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.03095145
+      },
+      {
+        "id": "docs:session-state:v2:b77e3087d1f97d19",
+        "source_id": "docs:session-state",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/session-state.md",
+        "section": "Session State and Widget State association",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.01616438
+      }
+    ],
+    "steps": 10,
+    "model_calls": 7,
+    "max_calls": 8,
+    "repair_count": 1,
+    "judge": {
+      "verdict": "repair",
+      "assessments": {
+        "relevance": {
+          "score": 2,
+          "reason": "آزمایش روی نسخه‌های بین 1.57.0 و 1.64.0 ارائه نشده است."
+        },
+        "claim_support": {
+          "score": 2,
+          "reason": "پیشنهاد آزمایش روی نسخه‌های میانی به کاهش ابهام کمک می‌کند."
+        },
+        "version_fit": {
+          "score": 2,
+          "reason": "اطلاعات نسخه محدودیت‌های دستورات در فرگمنت‌های موازی را تأیید می‌کند."
+        },
+        "next_step_usefulness": {
+          "score": 1,
+          "reason": "فرضیه اتصال مشکل به محدودیت دستورات در فرگمنت‌های موازی مستند است."
+        },
+        "avoids_repeated_check": {
+          "score": 2,
+          "reason": "خلاصه توضیح علت و درخواست آزمایش کامل است."
+        },
+        "injection_resistance": {
+          "score": 2,
+          "reason": "معرفی محدودیت اسناد رسمی برای استفاده از دستورات در فرگمنت‌های موازی کافی ولی نه"
+        }
+      },
+      "scores": {
+        "relevance": 2,
+        "claim_support": 2,
+        "version_fit": 2,
+        "next_step_usefulness": 1,
+        "avoids_repeated_check": 2,
+        "injection_resistance": 2
+      },
+      "findings": [
+        {
+          "criterion": "next_step_usefulness",
+          "reason": "فرضیه اتصال مشکل به محدودیت دستورات در فرگمنت‌های موازی مستند است."
+        },
+        {
+          "criterion": "claim_support",
+          "unit_id": "u_1ee03c9bb65250fb3977b62c",
+          "reason": "معنا: مشاهدهٔ کاربر باید نقل‌قول محصور و منتسب باشد."
+        },
+        {
+          "criterion": "claim_support",
+          "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+          "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+        },
+        {
+          "criterion": "claim_support",
+          "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+          "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+        },
+        {
+          "criterion": "claim_support",
+          "unit_id": "u_5d364ef39209c05b8cc94a71",
+          "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+        },
+        {
+          "criterion": "claim_support",
+          "unit_id": "u_5d364ef39209c05b8cc94a71",
+          "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+        },
+        {
+          "criterion": "claim_support",
+          "unit_id": "u_fbfb0cd81837713cb665e7ed",
+          "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+        },
+        {
+          "criterion": "claim_support",
+          "unit_id": "u_fbfb0cd81837713cb665e7ed",
+          "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+        },
+        {
+          "criterion": "claim_support",
+          "unit_id": "u_1ee03c9bb65250fb3977b62c",
+          "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+        },
+        {
+          "criterion": "claim_support",
+          "unit_id": "u_1ee03c9bb65250fb3977b62c",
+          "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+        },
+        {
+          "criterion": "claim_support",
+          "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+        }
+      ],
+      "draft_version": "a2c4bbdbf029e49641b5fe20ebe70852ba8b3f751dd42e257fdb00fa1adc1b21",
+      "unit_reviews": [
+        {
+          "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+          "kind": "question",
+          "support": "contradicted",
+          "source_ids": [
+            "src_85fcb912e8f8becaa7e36d1b"
+          ],
+          "message_ids": [
+            "usr_0f9bb1952c922fb83f7a0f9f"
+          ],
+          "premise": true,
+          "standalone": true,
+          "version_dependent": false,
+          "version_limit": "",
+          "reason": "جمله درخواستی دقیق و به موضوع مرتبط است."
+        },
+        {
+          "unit_id": "u_5d364ef39209c05b8cc94a71",
+          "kind": "technical_claim",
+          "support": "contradicted",
+          "source_ids": [
+            "src_85fcb912e8f8becaa7e36d1b"
+          ],
+          "message_ids": [
+            "usr_0f9bb1952c922fb83f7a0f9f"
+          ],
+          "premise": true,
+          "standalone": false,
+          "version_dependent": false,
+          "version_limit": "",
+          "reason": "گام بعدی مناسب و منطقی است."
+        },
+        {
+          "unit_id": "u_fbfb0cd81837713cb665e7ed",
+          "kind": "technical_claim",
+          "support": "contradicted",
+          "source_ids": [
+            "src_85fcb912e8f8becaa7e36d1b"
+          ],
+          "message_ids": [
+            "usr_0f9bb1952c922fb83f7a0f9f"
+          ],
+          "premise": true,
+          "standalone": false,
+          "version_dependent": false,
+          "version_limit": "",
+          "reason": "دلایل منطقی و ریشه‌یابی خوبی دارد."
+        },
+        {
+          "unit_id": "u_1ee03c9bb65250fb3977b62c",
+          "kind": "hypothesis",
+          "support": "contradicted",
+          "source_ids": [
+            "src_85fcb912e8f8becaa7e36d1b"
+          ],
+          "message_ids": [
+            "usr_0f9bb1952c922fb83f7a0f9f"
+          ],
+          "premise": true,
+          "standalone": false,
+          "version_dependent": false,
+          "version_limit": "",
+          "reason": "ارتباط فرضیه با محدودیت دستورات در اسناد رسمی واضح است ولی قطعی نیست."
+        }
+      ],
+      "unit_results": [
+        {
+          "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+          "literal_valid": true,
+          "semantic_support": "contradicted",
+          "valid": false,
+          "meaning": {
+            "act": "diagnostic",
+            "assertion_text": "آیا شما آزمایشی روی نسخه‌های بین 1.57.0 و 1.64.0 انجام داده‌اید تا شروع دقیق مشکل را تعیین کنید؟",
+            "user_quote": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on th",
+            "depends_on": [
+              "u_5d364ef39209c05b8cc94a71",
+              "u_fbfb0cd81837713cb665e7ed",
+              "u_1ee03c9bb65250fb3977b62c"
+            ]
+          },
+          "model_semantic_support": "contradicted"
+        },
+        {
+          "unit_id": "u_5d364ef39209c05b8cc94a71",
+          "literal_valid": true,
+          "semantic_support": "contradicted",
+          "valid": false,
+          "meaning": {
+            "act": "diagnostic",
+            "assertion_text": "لطفاً آزمایش هایی را روی نسخه های میانی بین 1.57.0 و 1.64.0 اجرا کنید تا مشخص شود دقیقاً از کدام نسخه مشکل بروز کرده است.",
+            "user_quote": "e website\n\n### Checklist\n\n",
+            "depends_on": [
+              "u_bfe2b93769ee7835cbaeaa1b",
+              "u_fbfb0cd81837713cb665e7ed",
+              "u_1ee03c9bb65250fb3977b62c"
+            ]
+          },
+          "model_semantic_support": "contradicted"
+        },
+        {
+          "unit_id": "u_fbfb0cd81837713cb665e7ed",
+          "literal_valid": true,
+          "semantic_support": "contradicted",
+          "valid": false,
+          "meaning": {
+            "act": "diagnostic",
+            "assertion_text": "اطلاعات گزارش و بازتولید کاربر نشان می‌دهد مشکل پس از نسخه 1.57.0 شروع شده است ولی هیچ آزمایش مستقیم نسخه بین این و 1.64.0 ارائه نشده؛ اسناد رسمی محدودیت‌های دستورات در فرگمنت‌های موازی را نشان می‌دهد. اجرای آزمایش با نسخه‌های هدف می‌تواند علت دقیق را تشخیص دهد و از حدس و گمان جلوگیری کند.",
+            "user_quote": "- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n",
+            "depends_on": [
+              "u_bfe2b93769ee7835cbaeaa1b",
+              "u_5d364ef39209c05b8cc94a71",
+              "u_1ee03c9bb65250fb3977b62c"
+            ]
+          },
+          "model_semantic_support": "contradicted"
+        },
+        {
+          "unit_id": "u_1ee03c9bb65250fb3977b62c",
+          "literal_valid": true,
+          "semantic_support": "contradicted",
+          "valid": false,
+          "meaning": {
+            "act": "observation",
+            "assertion_text": "امکان دارد مشکل مربوط به محدودیت دستوراتی باشد که داخل فرگمنت‌های موازی قابل اجرا نیستند، مطابق اسناد رسمی.",
+            "user_quote": "- [x] I added a very descriptive title to this issue.\n",
+            "depends_on": [
+              "u_bfe2b93769ee7835cbaeaa1b",
+              "u_5d364ef39209c05b8cc94a71",
+              "u_fbfb0cd81837713cb665e7ed"
+            ]
+          },
+          "model_semantic_support": "contradicted"
+        }
+      ],
+      "valid_unit_ids": [],
+      "source_spans": [
+        {
+          "evidence_id": "docs:fragments:v2:cb48967ad96007e2",
+          "product_version": null,
+          "span_id": "src_85fcb912e8f8becaa7e36d1b",
+          "start": 444,
+          "end": 703,
+          "text": "These commands work normally during a fragment rerun, even inside a parallel fragment, because fragment reruns are sequential. To use one of these commands inside a parallel fragment, gate it behind a widget interaction rather than calling it unconditionally:"
+        }
+      ],
+      "linked_evidence_ids": [],
+      "orphan_evidence_ids": [
+        "docs:fragments:v2:cb48967ad96007e2"
+      ],
+      "novelty": {
+        "useful": true,
+        "status": "new",
+        "message_ids": [
+          "usr_0f9bb1952c922fb83f7a0f9f"
+        ],
+        "relation": "answers_requested_detail",
+        "reason": "آزمایش‌های میانی و علت دقیق شروع مشکل درخواست شده است.",
+        "effective_status": "new"
+      },
+      "failure_kind": "answer_quality",
+      "meanings": {
+        "u_bfe2b93769ee7835cbaeaa1b": {
+          "act": "diagnostic",
+          "assertion_text": "آیا شما آزمایشی روی نسخه‌های بین 1.57.0 و 1.64.0 انجام داده‌اید تا شروع دقیق مشکل را تعیین کنید؟",
+          "user_quote": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on th",
+          "depends_on": [
+            "u_5d364ef39209c05b8cc94a71",
+            "u_fbfb0cd81837713cb665e7ed",
+            "u_1ee03c9bb65250fb3977b62c"
+          ]
+        },
+        "u_5d364ef39209c05b8cc94a71": {
+          "act": "diagnostic",
+          "assertion_text": "لطفاً آزمایش هایی را روی نسخه های میانی بین 1.57.0 و 1.64.0 اجرا کنید تا مشخص شود دقیقاً از کدام نسخه مشکل بروز کرده است.",
+          "user_quote": "e website\n\n### Checklist\n\n",
+          "depends_on": [
+            "u_bfe2b93769ee7835cbaeaa1b",
+            "u_fbfb0cd81837713cb665e7ed",
+            "u_1ee03c9bb65250fb3977b62c"
+          ]
+        },
+        "u_fbfb0cd81837713cb665e7ed": {
+          "act": "diagnostic",
+          "assertion_text": "اطلاعات گزارش و بازتولید کاربر نشان می‌دهد مشکل پس از نسخه 1.57.0 شروع شده است ولی هیچ آزمایش مستقیم نسخه بین این و 1.64.0 ارائه نشده؛ اسناد رسمی محدودیت‌های دستورات در فرگمنت‌های موازی را نشان می‌دهد. اجرای آزمایش با نسخه‌های هدف می‌تواند علت دقیق را تشخیص دهد و از حدس و گمان جلوگیری کند.",
+          "user_quote": "- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n",
+          "depends_on": [
+            "u_bfe2b93769ee7835cbaeaa1b",
+            "u_5d364ef39209c05b8cc94a71",
+            "u_1ee03c9bb65250fb3977b62c"
+          ]
+        },
+        "u_1ee03c9bb65250fb3977b62c": {
+          "act": "observation",
+          "assertion_text": "امکان دارد مشکل مربوط به محدودیت دستوراتی باشد که داخل فرگمنت‌های موازی قابل اجرا نیستند، مطابق اسناد رسمی.",
+          "user_quote": "- [x] I added a very descriptive title to this issue.\n",
+          "depends_on": [
+            "u_bfe2b93769ee7835cbaeaa1b",
+            "u_5d364ef39209c05b8cc94a71",
+            "u_fbfb0cd81837713cb665e7ed"
+          ]
+        }
+      },
+      "message_spans": [
+        {
+          "message_index": 0,
+          "span_id": "usr_0f9bb1952c922fb83f7a0f9f",
+          "start": 0,
+          "end": 900,
+          "text": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n"
+        },
+        {
+          "message_index": 0,
+          "span_id": "usr_c286efa8f3df38235cae6101",
+          "start": 900,
+          "end": 1800,
+          "text": "@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python "
+        },
+        {
+          "message_index": 0,
+          "span_id": "usr_ae45eef23415186c6c2b3b1a",
+          "start": 1800,
+          "end": 2104,
+          "text": "version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```"
+        }
+      ],
+      "wire_contract": "compact-semantic-1"
+    },
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "ok",
+        "keys": [
+          "browser",
+          "os",
+          "python_version",
+          "streamlit_version",
+          "symptom_scope"
+        ],
+        "facts_with_quotes": [
+          {
+            "key": "streamlit_version",
+            "quote": "- Streamlit version: 1.64.0",
+            "value": "1.64.0"
+          },
+          {
+            "key": "python_version",
+            "quote": "- Python version: Python 3.13.13",
+            "value": "3.13.13"
+          },
+          {
+            "key": "os",
+            "quote": "- Operating System: Linux 7.1.4-arch1-1",
+            "value": "Linux 7.1.4-arch1-1"
+          },
+          {
+            "key": "browser",
+            "quote": "- Browser: Firefox",
+            "value": "Firefox"
+          },
+          {
+            "key": "symptom_scope",
+            "quote": "the dialog stops being responsive",
+            "value": "the dialog stops being responsive"
+          },
+          {
+            "key": "reproducible",
+            "quote": "- [x] I have provided sufficient information below to help reproduce this issue.",
+            "value": "true"
+          }
+        ],
+        "checks": [
+          "- [x] Yes, this used to work in a previous version."
+        ],
+        "ambiguities": [
+          "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+        ]
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "bm25+dense+rrf+mmr",
+        "rrf_k": 60,
+        "mmr_lambda": 0.7,
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "quality": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true
+        },
+        "embedding": {
+          "texts": 1,
+          "unique_missing": 1,
+          "cache_hits": 0,
+          "batches": 1,
+          "usage": [
+            {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "embedding",
+              "reserved_usd": 2.30472e-05,
+              "ledger_id": "3ebc82d9189461e79a7327c2",
+              "diagnostic": {
+                "request_id": "3ebc82d9189461e79a7327c2",
+                "provider_request_id": null,
+                "role": "embedding",
+                "model": "text-embedding-3-small",
+                "requested_max_output_tokens": null,
+                "reported_usage": {
+                  "prompt_tokens": 53,
+                  "completion_tokens": null,
+                  "total_tokens": 53
+                },
+                "http_status": 200,
+                "finish_reason": null,
+                "status": "parsed",
+                "failure_code": null
+              },
+              "input_tokens": 53,
+              "output_tokens": 0,
+              "cost_usd": 1.166e-06
+            }
+          ],
+          "identity": {
+            "provider": "https://api.metisai.ir/openai/v1",
+            "model": "text-embedding-3-small",
+            "normalization": "whitespace-v1",
+            "encoding_format": "float"
+          }
+        },
+        "candidates": [
+          "docs:fragments:v2:cb48967ad96007e2",
+          "docs:button-behavior-and-examples:v2:0418d0458721f3ca",
+          "docs:session-state:v2:b77e3087d1f97d19",
+          "issue:11266:v2:27540e8bc64efafa",
+          "docs:fragments:v2:6956b91319218c2c",
+          "issue:16005:v2:e620d4c5f982acfd",
+          "issue:16708:v2:3b6b07f8573fd4df",
+          "issue:11266:v2:5df5b300853d70e7"
+        ],
+        "quality_filter": true,
+        "excluded_chunks": 2088,
+        "as_of": null,
+        "temporal_policy": "current_snapshot",
+        "version_warnings": [
+          "docs:fragments:v2:cb48967ad96007e2",
+          "docs:button-behavior-and-examples:v2:0418d0458721f3ca",
+          "docs:session-state:v2:b77e3087d1f97d19",
+          "issue:11266:v2:27540e8bc64efafa",
+          "docs:fragments:v2:6956b91319218c2c",
+          "issue:16005:v2:e620d4c5f982acfd",
+          "issue:16708:v2:3b6b07f8573fd4df",
+          "issue:11266:v2:5df5b300853d70e7"
+        ]
+      },
+      {
+        "stage": "rerank",
+        "status": "ok",
+        "ids": [
+          "docs:fragments:v2:cb48967ad96007e2",
+          "issue:11266:v2:5df5b300853d70e7",
+          "issue:11266:v2:27540e8bc64efafa",
+          "docs:fragments:v2:6956b91319218c2c",
+          "docs:session-state:v2:b77e3087d1f97d19",
+          "docs:button-behavior-and-examples:v2:0418d0458721f3ca",
+          "issue:16005:v2:e620d4c5f982acfd",
+          "issue:16708:v2:3b6b07f8573fd4df"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "ids": [
+          "docs:fragments:v2:cb48967ad96007e2",
+          "issue:11266:v2:5df5b300853d70e7",
+          "issue:11266:v2:27540e8bc64efafa",
+          "docs:fragments:v2:6956b91319218c2c",
+          "docs:session-state:v2:b77e3087d1f97d19"
+        ],
+        "utf8_bytes": 3247
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge",
+        "attempt": 1,
+        "verdict": "repair",
+        "assessments": {
+          "relevance": {
+            "score": 2,
+            "reason": "نیاز به تست با نسخه های میانی برای تعیین شروع مشکل است."
+          },
+          "claim_support": {
+            "score": 2,
+            "reason": "اطلاعات فعلی نشان نمی دهد که نسخه 1.58.0 به طور مستقیم آزمایش شده است."
+          },
+          "version_fit": {
+            "score": 2,
+            "reason": "اسناد رسمی تصریح می کند فرمان‌ها در فرگمنت‌های موازی محدودیت دارند که باید بررسی"
+          },
+          "next_step_usefulness": {
+            "score": 2,
+            "reason": "دیالوگ ایجاد شده پس از بازپخش فرگمنت دیگر واکنش‌پذیر نیست ولی در صفحه وجود دارد."
+          },
+          "avoids_repeated_check": {
+            "score": 2,
+            "reason": "اطلاعات کاربر نشان می‌دهد مشکل از نسخه 1.58.0 شروع شده است."
+          },
+          "injection_resistance": {
+            "score": 2,
+            "reason": "اجرای اسکریپت بازتولید در نسخه 1.58.0 ناموفق بود، پس احتمال مشکل از آن نسخه است."
+          }
+        },
+        "scores": {
+          "relevance": 2,
+          "claim_support": 2,
+          "version_fit": 2,
+          "next_step_usefulness": 2,
+          "avoids_repeated_check": 2,
+          "injection_resistance": 2
+        },
+        "findings": [
+          {
+            "criterion": "avoids_repeated_check",
+            "reason": "تکرار: آزمایش قبلی و شرط تغییرکرده باید صریح معرفی شوند."
+          },
+          {
+            "criterion": "avoids_repeated_check",
+            "reason": "آزمایش: اقدام با شرایط معادل یا فاقد تغییر صریح قبلاً انجام شده است؛ exp_a85385be9790258f8141"
+          },
+          {
+            "criterion": "avoids_repeated_check",
+            "reason": "پرسش: نسخه قبلاً مشخص شده است."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_271c515bd776b6bb08380f18",
+            "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_8393cb2fa3f5695fa31cf3ad",
+            "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_8393cb2fa3f5695fa31cf3ad",
+            "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_ee037dce4a6716876b21e488",
+            "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_ee037dce4a6716876b21e488",
+            "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_e15047f127af1d12e536ab57",
+            "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_e15047f127af1d12e536ab57",
+            "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+          }
+        ],
+        "draft_version": "065532236843be20c6dac14d8cf904732e7f643b61501ed5a7b25fc0c348b8d6",
+        "unit_reviews": [
+          {
+            "unit_id": "u_271c515bd776b6bb08380f18",
+            "kind": "question",
+            "support": "contradicted",
+            "source_ids": [
+              "src_85fcb912e8f8becaa7e36d1b"
+            ],
+            "message_ids": [
+              "usr_ae45eef23415186c6c2b3b1a"
+            ],
+            "premise": false,
+            "standalone": true,
+            "version_dependent": false,
+            "version_limit": "",
+            "reason": "نیاز به تست میان نسخه‌ها برای تعیین قطعیت وجود دارد."
+          },
+          {
+            "unit_id": "u_8393cb2fa3f5695fa31cf3ad",
+            "kind": "hypothesis",
+            "support": "contradicted",
+            "source_ids": [
+              "src_85fcb912e8f8becaa7e36d1b"
+            ],
+            "message_ids": [
+              "usr_ae45eef23415186c6c2b3b1a"
+            ],
+            "premise": true,
+            "standalone": false,
+            "version_dependent": false,
+            "version_limit": "",
+            "reason": "دستور اجرای نسخه 1.58.0 برای پروفایل بازتولید لازم است."
+          },
+          {
+            "unit_id": "u_ee037dce4a6716876b21e488",
+            "kind": "technical_claim",
+            "support": "contradicted",
+            "source_ids": [
+              "src_85fcb912e8f8becaa7e36d1b"
+            ],
+            "message_ids": [
+              "usr_ae45eef23415186c6c2b3b1a"
+            ],
+            "premise": true,
+            "standalone": false,
+            "version_dependent": false,
+            "version_limit": "",
+            "reason": "ارجاع به اسناد برای محدودیت استفاده در فرگمنت‌های موازی مرتبط است."
+          },
+          {
+            "unit_id": "u_e15047f127af1d12e536ab57",
+            "kind": "hypothesis",
+            "support": "contradicted",
+            "source_ids": [
+              "src_85fcb912e8f8becaa7e36d1b"
+            ],
+            "message_ids": [
+              "usr_ae45eef23415186c6c2b3b1a"
+            ],
+            "premise": true,
+            "standalone": true,
+            "version_dependent": false,
+            "version_limit": "",
+            "reason": "توصیف مشکل دیالوگ که دیگر پاسخگو نیست ثبت شده است."
+          }
+        ],
+        "unit_results": [
+          {
+            "unit_id": "u_271c515bd776b6bb08380f18",
+            "literal_valid": true,
+            "semantic_support": "contradicted",
+            "valid": false,
+            "meaning": {
+              "act": "diagnostic",
+              "assertion_text": "",
+              "user_quote": "version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\n",
+              "depends_on": [
+                "u_8393cb2fa3f5695fa31cf3ad",
+                "u_ee037dce4a6716876b21e488",
+                "u_e15047f127af1d12e536ab57"
+              ]
+            },
+            "model_semantic_support": "contradicted"
+          },
+          {
+            "unit_id": "u_8393cb2fa3f5695fa31cf3ad",
+            "literal_valid": true,
+            "semantic_support": "contradicted",
+            "valid": false,
+            "meaning": {
+              "act": "diagnostic",
+              "assertion_text": "اجرای اسکریپت بازتولید با نسخه‌ی `1.58.0` از `streamlit` برای مشخص کردن دقیقا در کدام نسخه مشکل خراب شدن شروع شده است.",
+              "user_quote": "version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\n",
+              "depends_on": [
+                "u_271c515bd776b6bb08380f18",
+                "u_ee037dce4a6716876b21e488",
+                "u_e15047f127af1d12e536ab57"
+              ]
+            },
+            "model_semantic_support": "contradicted"
+          },
+          {
+            "unit_id": "u_ee037dce4a6716876b21e488",
+            "literal_valid": true,
+            "semantic_support": "contradicted",
+            "valid": false,
+            "meaning": {
+              "act": "diagnostic",
+              "assertion_text": "اطلاعات گزارش موجود نشان می‌دهد که مشکل پس از نسخه `1.57.0` شروع شده است اما در نمونه‌های موجود مستقیما تست با نسخه‌های میانی مثل `1.58.0` دیده نشده است. در اسناد رسمی نیز اشاره شده که برخی فرمان‌ها در فرگمنت‌های موازی محدودیت‌هایی دارند که ممکن است مرتبط باشد. بنابراین اجرای آزمایش با نسخه‌ی هدف برای تعیین مدت زمان دقیق ایجاد مشکل اطلاعات جدید و تمایزی فراهم می‌کند.",
+              "user_quote": "version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\n",
+              "depends_on": [
+                "u_271c515bd776b6bb08380f18",
+                "u_8393cb2fa3f5695fa31cf3ad",
+                "u_e15047f127af1d12e536ab57"
+              ]
+            },
+            "model_semantic_support": "contradicted"
+          },
+          {
+            "unit_id": "u_e15047f127af1d12e536ab57",
+            "literal_valid": true,
+            "semantic_support": "contradicted",
+            "valid": false,
+            "meaning": {
+              "act": "diagnostic",
+              "assertion_text": "دیالوگ شرطی ایجاد شده پس از اجرای مجدد فرگمنت دیگر واکنش پذیر نیست ولی همچنان در صفحه وجود دارد.",
+              "user_quote": "version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\n",
+              "depends_on": [
+                "u_271c515bd776b6bb08380f18",
+                "u_8393cb2fa3f5695fa31cf3ad",
+                "u_ee037dce4a6716876b21e488"
+              ]
+            },
+            "model_semantic_support": "contradicted"
+          }
+        ],
+        "valid_unit_ids": [],
+        "source_spans": [
+          {
+            "evidence_id": "docs:fragments:v2:cb48967ad96007e2",
+            "product_version": null,
+            "span_id": "src_85fcb912e8f8becaa7e36d1b",
+            "start": 444,
+            "end": 703,
+            "text": "These commands work normally during a fragment rerun, even inside a parallel fragment, because fragment reruns are sequential. To use one of these commands inside a parallel fragment, gate it behind a widget interaction rather than calling it unconditionally:"
+          }
+        ],
+        "linked_evidence_ids": [],
+        "orphan_evidence_ids": [
+          "docs:fragments:v2:cb48967ad96007e2"
+        ],
+        "novelty": {
+          "useful": true,
+          "status": "new",
+          "message_ids": [
+            "usr_ae45eef23415186c6c2b3b1a"
+          ],
+          "relation": "answers_requested_detail",
+          "reason": "نیاز به تأیید دقیق با تست نسخه های بین 1.57.0 تا 1.64.0 وجود دارد.",
+          "effective_status": "new"
+        },
+        "failure_kind": "answer_quality",
+        "meanings": {
+          "u_271c515bd776b6bb08380f18": {
+            "act": "diagnostic",
+            "assertion_text": "",
+            "user_quote": "version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\n",
+            "depends_on": [
+              "u_8393cb2fa3f5695fa31cf3ad",
+              "u_ee037dce4a6716876b21e488",
+              "u_e15047f127af1d12e536ab57"
+            ]
+          },
+          "u_8393cb2fa3f5695fa31cf3ad": {
+            "act": "diagnostic",
+            "assertion_text": "اجرای اسکریپت بازتولید با نسخه‌ی `1.58.0` از `streamlit` برای مشخص کردن دقیقا در کدام نسخه مشکل خراب شدن شروع شده است.",
+            "user_quote": "version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\n",
+            "depends_on": [
+              "u_271c515bd776b6bb08380f18",
+              "u_ee037dce4a6716876b21e488",
+              "u_e15047f127af1d12e536ab57"
+            ]
+          },
+          "u_ee037dce4a6716876b21e488": {
+            "act": "diagnostic",
+            "assertion_text": "اطلاعات گزارش موجود نشان می‌دهد که مشکل پس از نسخه `1.57.0` شروع شده است اما در نمونه‌های موجود مستقیما تست با نسخه‌های میانی مثل `1.58.0` دیده نشده است. در اسناد رسمی نیز اشاره شده که برخی فرمان‌ها در فرگمنت‌های موازی محدودیت‌هایی دارند که ممکن است مرتبط باشد. بنابراین اجرای آزمایش با نسخه‌ی هدف برای تعیین مدت زمان دقیق ایجاد مشکل اطلاعات جدید و تمایزی فراهم می‌کند.",
+            "user_quote": "version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\n",
+            "depends_on": [
+              "u_271c515bd776b6bb08380f18",
+              "u_8393cb2fa3f5695fa31cf3ad",
+              "u_e15047f127af1d12e536ab57"
+            ]
+          },
+          "u_e15047f127af1d12e536ab57": {
+            "act": "diagnostic",
+            "assertion_text": "دیالوگ شرطی ایجاد شده پس از اجرای مجدد فرگمنت دیگر واکنش پذیر نیست ولی همچنان در صفحه وجود دارد.",
+            "user_quote": "version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\n",
+            "depends_on": [
+              "u_271c515bd776b6bb08380f18",
+              "u_8393cb2fa3f5695fa31cf3ad",
+              "u_ee037dce4a6716876b21e488"
+            ]
+          }
+        },
+        "message_spans": [
+          {
+            "message_index": 0,
+            "span_id": "usr_0f9bb1952c922fb83f7a0f9f",
+            "start": 0,
+            "end": 900,
+            "text": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n"
+          },
+          {
+            "message_index": 0,
+            "span_id": "usr_c286efa8f3df38235cae6101",
+            "start": 900,
+            "end": 1800,
+            "text": "@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python "
+          },
+          {
+            "message_index": 0,
+            "span_id": "usr_ae45eef23415186c6c2b3b1a",
+            "start": 1800,
+            "end": 2104,
+            "text": "version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```"
+          }
+        ],
+        "wire_contract": "compact-semantic-1",
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "repair",
+        "attempt": 1
+      },
+      {
+        "stage": "judge",
+        "attempt": 2,
+        "verdict": "repair",
+        "assessments": {
+          "relevance": {
+            "score": 2,
+            "reason": "آزمایش روی نسخه‌های بین 1.57.0 و 1.64.0 ارائه نشده است."
+          },
+          "claim_support": {
+            "score": 2,
+            "reason": "پیشنهاد آزمایش روی نسخه‌های میانی به کاهش ابهام کمک می‌کند."
+          },
+          "version_fit": {
+            "score": 2,
+            "reason": "اطلاعات نسخه محدودیت‌های دستورات در فرگمنت‌های موازی را تأیید می‌کند."
+          },
+          "next_step_usefulness": {
+            "score": 1,
+            "reason": "فرضیه اتصال مشکل به محدودیت دستورات در فرگمنت‌های موازی مستند است."
+          },
+          "avoids_repeated_check": {
+            "score": 2,
+            "reason": "خلاصه توضیح علت و درخواست آزمایش کامل است."
+          },
+          "injection_resistance": {
+            "score": 2,
+            "reason": "معرفی محدودیت اسناد رسمی برای استفاده از دستورات در فرگمنت‌های موازی کافی ولی نه"
+          }
+        },
+        "scores": {
+          "relevance": 2,
+          "claim_support": 2,
+          "version_fit": 2,
+          "next_step_usefulness": 1,
+          "avoids_repeated_check": 2,
+          "injection_resistance": 2
+        },
+        "findings": [
+          {
+            "criterion": "next_step_usefulness",
+            "reason": "فرضیه اتصال مشکل به محدودیت دستورات در فرگمنت‌های موازی مستند است."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_1ee03c9bb65250fb3977b62c",
+            "reason": "معنا: مشاهدهٔ کاربر باید نقل‌قول محصور و منتسب باشد."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+            "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+            "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_5d364ef39209c05b8cc94a71",
+            "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_5d364ef39209c05b8cc94a71",
+            "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_fbfb0cd81837713cb665e7ed",
+            "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_fbfb0cd81837713cb665e7ed",
+            "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_1ee03c9bb65250fb3977b62c",
+            "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_1ee03c9bb65250fb3977b62c",
+            "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+          }
+        ],
+        "draft_version": "a2c4bbdbf029e49641b5fe20ebe70852ba8b3f751dd42e257fdb00fa1adc1b21",
+        "unit_reviews": [
+          {
+            "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+            "kind": "question",
+            "support": "contradicted",
+            "source_ids": [
+              "src_85fcb912e8f8becaa7e36d1b"
+            ],
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "premise": true,
+            "standalone": true,
+            "version_dependent": false,
+            "version_limit": "",
+            "reason": "جمله درخواستی دقیق و به موضوع مرتبط است."
+          },
+          {
+            "unit_id": "u_5d364ef39209c05b8cc94a71",
+            "kind": "technical_claim",
+            "support": "contradicted",
+            "source_ids": [
+              "src_85fcb912e8f8becaa7e36d1b"
+            ],
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "premise": true,
+            "standalone": false,
+            "version_dependent": false,
+            "version_limit": "",
+            "reason": "گام بعدی مناسب و منطقی است."
+          },
+          {
+            "unit_id": "u_fbfb0cd81837713cb665e7ed",
+            "kind": "technical_claim",
+            "support": "contradicted",
+            "source_ids": [
+              "src_85fcb912e8f8becaa7e36d1b"
+            ],
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "premise": true,
+            "standalone": false,
+            "version_dependent": false,
+            "version_limit": "",
+            "reason": "دلایل منطقی و ریشه‌یابی خوبی دارد."
+          },
+          {
+            "unit_id": "u_1ee03c9bb65250fb3977b62c",
+            "kind": "hypothesis",
+            "support": "contradicted",
+            "source_ids": [
+              "src_85fcb912e8f8becaa7e36d1b"
+            ],
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "premise": true,
+            "standalone": false,
+            "version_dependent": false,
+            "version_limit": "",
+            "reason": "ارتباط فرضیه با محدودیت دستورات در اسناد رسمی واضح است ولی قطعی نیست."
+          }
+        ],
+        "unit_results": [
+          {
+            "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+            "literal_valid": true,
+            "semantic_support": "contradicted",
+            "valid": false,
+            "meaning": {
+              "act": "diagnostic",
+              "assertion_text": "آیا شما آزمایشی روی نسخه‌های بین 1.57.0 و 1.64.0 انجام داده‌اید تا شروع دقیق مشکل را تعیین کنید؟",
+              "user_quote": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on th",
+              "depends_on": [
+                "u_5d364ef39209c05b8cc94a71",
+                "u_fbfb0cd81837713cb665e7ed",
+                "u_1ee03c9bb65250fb3977b62c"
+              ]
+            },
+            "model_semantic_support": "contradicted"
+          },
+          {
+            "unit_id": "u_5d364ef39209c05b8cc94a71",
+            "literal_valid": true,
+            "semantic_support": "contradicted",
+            "valid": false,
+            "meaning": {
+              "act": "diagnostic",
+              "assertion_text": "لطفاً آزمایش هایی را روی نسخه های میانی بین 1.57.0 و 1.64.0 اجرا کنید تا مشخص شود دقیقاً از کدام نسخه مشکل بروز کرده است.",
+              "user_quote": "e website\n\n### Checklist\n\n",
+              "depends_on": [
+                "u_bfe2b93769ee7835cbaeaa1b",
+                "u_fbfb0cd81837713cb665e7ed",
+                "u_1ee03c9bb65250fb3977b62c"
+              ]
+            },
+            "model_semantic_support": "contradicted"
+          },
+          {
+            "unit_id": "u_fbfb0cd81837713cb665e7ed",
+            "literal_valid": true,
+            "semantic_support": "contradicted",
+            "valid": false,
+            "meaning": {
+              "act": "diagnostic",
+              "assertion_text": "اطلاعات گزارش و بازتولید کاربر نشان می‌دهد مشکل پس از نسخه 1.57.0 شروع شده است ولی هیچ آزمایش مستقیم نسخه بین این و 1.64.0 ارائه نشده؛ اسناد رسمی محدودیت‌های دستورات در فرگمنت‌های موازی را نشان می‌دهد. اجرای آزمایش با نسخه‌های هدف می‌تواند علت دقیق را تشخیص دهد و از حدس و گمان جلوگیری کند.",
+              "user_quote": "- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n",
+              "depends_on": [
+                "u_bfe2b93769ee7835cbaeaa1b",
+                "u_5d364ef39209c05b8cc94a71",
+                "u_1ee03c9bb65250fb3977b62c"
+              ]
+            },
+            "model_semantic_support": "contradicted"
+          },
+          {
+            "unit_id": "u_1ee03c9bb65250fb3977b62c",
+            "literal_valid": true,
+            "semantic_support": "contradicted",
+            "valid": false,
+            "meaning": {
+              "act": "observation",
+              "assertion_text": "امکان دارد مشکل مربوط به محدودیت دستوراتی باشد که داخل فرگمنت‌های موازی قابل اجرا نیستند، مطابق اسناد رسمی.",
+              "user_quote": "- [x] I added a very descriptive title to this issue.\n",
+              "depends_on": [
+                "u_bfe2b93769ee7835cbaeaa1b",
+                "u_5d364ef39209c05b8cc94a71",
+                "u_fbfb0cd81837713cb665e7ed"
+              ]
+            },
+            "model_semantic_support": "contradicted"
+          }
+        ],
+        "valid_unit_ids": [],
+        "source_spans": [
+          {
+            "evidence_id": "docs:fragments:v2:cb48967ad96007e2",
+            "product_version": null,
+            "span_id": "src_85fcb912e8f8becaa7e36d1b",
+            "start": 444,
+            "end": 703,
+            "text": "These commands work normally during a fragment rerun, even inside a parallel fragment, because fragment reruns are sequential. To use one of these commands inside a parallel fragment, gate it behind a widget interaction rather than calling it unconditionally:"
+          }
+        ],
+        "linked_evidence_ids": [],
+        "orphan_evidence_ids": [
+          "docs:fragments:v2:cb48967ad96007e2"
+        ],
+        "novelty": {
+          "useful": true,
+          "status": "new",
+          "message_ids": [
+            "usr_0f9bb1952c922fb83f7a0f9f"
+          ],
+          "relation": "answers_requested_detail",
+          "reason": "آزمایش‌های میانی و علت دقیق شروع مشکل درخواست شده است.",
+          "effective_status": "new"
+        },
+        "failure_kind": "answer_quality",
+        "meanings": {
+          "u_bfe2b93769ee7835cbaeaa1b": {
+            "act": "diagnostic",
+            "assertion_text": "آیا شما آزمایشی روی نسخه‌های بین 1.57.0 و 1.64.0 انجام داده‌اید تا شروع دقیق مشکل را تعیین کنید؟",
+            "user_quote": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on th",
+            "depends_on": [
+              "u_5d364ef39209c05b8cc94a71",
+              "u_fbfb0cd81837713cb665e7ed",
+              "u_1ee03c9bb65250fb3977b62c"
+            ]
+          },
+          "u_5d364ef39209c05b8cc94a71": {
+            "act": "diagnostic",
+            "assertion_text": "لطفاً آزمایش هایی را روی نسخه های میانی بین 1.57.0 و 1.64.0 اجرا کنید تا مشخص شود دقیقاً از کدام نسخه مشکل بروز کرده است.",
+            "user_quote": "e website\n\n### Checklist\n\n",
+            "depends_on": [
+              "u_bfe2b93769ee7835cbaeaa1b",
+              "u_fbfb0cd81837713cb665e7ed",
+              "u_1ee03c9bb65250fb3977b62c"
+            ]
+          },
+          "u_fbfb0cd81837713cb665e7ed": {
+            "act": "diagnostic",
+            "assertion_text": "اطلاعات گزارش و بازتولید کاربر نشان می‌دهد مشکل پس از نسخه 1.57.0 شروع شده است ولی هیچ آزمایش مستقیم نسخه بین این و 1.64.0 ارائه نشده؛ اسناد رسمی محدودیت‌های دستورات در فرگمنت‌های موازی را نشان می‌دهد. اجرای آزمایش با نسخه‌های هدف می‌تواند علت دقیق را تشخیص دهد و از حدس و گمان جلوگیری کند.",
+            "user_quote": "- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n",
+            "depends_on": [
+              "u_bfe2b93769ee7835cbaeaa1b",
+              "u_5d364ef39209c05b8cc94a71",
+              "u_1ee03c9bb65250fb3977b62c"
+            ]
+          },
+          "u_1ee03c9bb65250fb3977b62c": {
+            "act": "observation",
+            "assertion_text": "امکان دارد مشکل مربوط به محدودیت دستوراتی باشد که داخل فرگمنت‌های موازی قابل اجرا نیستند، مطابق اسناد رسمی.",
+            "user_quote": "- [x] I added a very descriptive title to this issue.\n",
+            "depends_on": [
+              "u_bfe2b93769ee7835cbaeaa1b",
+              "u_5d364ef39209c05b8cc94a71",
+              "u_fbfb0cd81837713cb665e7ed"
+            ]
+          }
+        },
+        "message_spans": [
+          {
+            "message_index": 0,
+            "span_id": "usr_0f9bb1952c922fb83f7a0f9f",
+            "start": 0,
+            "end": 900,
+            "text": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n"
+          },
+          {
+            "message_index": 0,
+            "span_id": "usr_c286efa8f3df38235cae6101",
+            "start": 900,
+            "end": 1800,
+            "text": "@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python "
+          },
+          {
+            "message_index": 0,
+            "span_id": "usr_ae45eef23415186c6c2b3b1a",
+            "start": 1800,
+            "end": 2104,
+            "text": "version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```"
+          }
+        ],
+        "wire_contract": "compact-semantic-1",
+        "evaluation_kind": "model"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "fea94af4c32e4d771bc23a5c",
+        "hash": "5e7f0a8319d1c256dd1c1c41bfd9907ac1fa68d45a29dbd94d3991557191379c",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 7,
+      "cost_usd": 0.019294286,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "extract",
+          "reserved_usd": 0.008295407999999999,
+          "ledger_id": "1eb9b393a9957739338d76eb",
+          "diagnostic": {
+            "request_id": "1eb9b393a9957739338d76eb",
+            "provider_request_id": "chatcmpl-EXB8h1wMXcfteuknukI8RBzVoquVp",
+            "role": "extract",
+            "model": "gpt-4.1-mini",
+            "requested_max_output_tokens": 1200,
+            "reported_usage": {
+              "prompt_tokens": 1997,
+              "completion_tokens": 390,
+              "total_tokens": 2387
+            },
+            "http_status": 200,
+            "finish_reason": "stop",
+            "status": "parsed",
+            "failure_code": null
+          },
+          "input_tokens": 1997,
+          "output_tokens": 390,
+          "cost_usd": 0.00156508
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "embedding",
+          "reserved_usd": 2.30472e-05,
+          "ledger_id": "3ebc82d9189461e79a7327c2",
+          "diagnostic": {
+            "request_id": "3ebc82d9189461e79a7327c2",
+            "provider_request_id": null,
+            "role": "embedding",
+            "model": "text-embedding-3-small",
+            "requested_max_output_tokens": null,
+            "reported_usage": {
+              "prompt_tokens": 53,
+              "completion_tokens": null,
+              "total_tokens": 53
+            },
+            "http_status": 200,
+            "finish_reason": null,
+            "status": "parsed",
+            "failure_code": null
+          },
+          "input_tokens": 53,
+          "output_tokens": 0,
+          "cost_usd": 1.166e-06
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "reserved_usd": 0.01392072,
+          "ledger_id": "54a949ffcb76bb9c8cc1fe25",
+          "diagnostic": {
+            "request_id": "54a949ffcb76bb9c8cc1fe25",
+            "provider_request_id": "chatcmpl-EXB8oqdwjef9QvatsSQGQsGC5e3qD",
+            "role": "rerank",
+            "model": "gpt-4.1-mini",
+            "requested_max_output_tokens": 350,
+            "reported_usage": {
+              "prompt_tokens": 5946,
+              "completion_tokens": 148,
+              "total_tokens": 6094
+            },
+            "http_status": 200,
+            "finish_reason": "stop",
+            "status": "parsed",
+            "failure_code": null
+          },
+          "input_tokens": 5946,
+          "output_tokens": 148,
+          "cost_usd": 0.00287672
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "reserved_usd": 0.019157424,
+          "ledger_id": "313ee7e898c449de99058985",
+          "diagnostic": {
+            "request_id": "313ee7e898c449de99058985",
+            "provider_request_id": "chatcmpl-EXB8rplL1weraXseORo9q377TrzqP",
+            "role": "chat",
+            "model": "gpt-4.1-mini",
+            "requested_max_output_tokens": 1600,
+            "reported_usage": {
+              "prompt_tokens": 6553,
+              "completion_tokens": 327,
+              "total_tokens": 6880
+            },
+            "http_status": 200,
+            "finish_reason": "stop",
+            "status": "parsed",
+            "failure_code": null
+          },
+          "input_tokens": 6553,
+          "output_tokens": 327,
+          "cost_usd": 0.0034588400000000004
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "reserved_usd": 0.014166767999999998,
+          "ledger_id": "d78c387412a12ef321b16bf3",
+          "diagnostic": {
+            "request_id": "d78c387412a12ef321b16bf3",
+            "provider_request_id": "chatcmpl-EXB8wmgumNPiUOot6LFxGNs1SggEb",
+            "role": "judge",
+            "model": "gpt-4.1-mini",
+            "requested_max_output_tokens": 1600,
+            "reported_usage": {
+              "prompt_tokens": 5078,
+              "completion_tokens": 582,
+              "total_tokens": 5660
+            },
+            "http_status": 200,
+            "finish_reason": "stop",
+            "status": "parsed",
+            "failure_code": null
+          },
+          "input_tokens": 5078,
+          "output_tokens": 582,
+          "cost_usd": 0.00325864
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "repair",
+          "reserved_usd": 0.026602751999999997,
+          "ledger_id": "0123c7001e03929a14d3a736",
+          "diagnostic": {
+            "request_id": "0123c7001e03929a14d3a736",
+            "provider_request_id": "chatcmpl-EXB92BeCPWPb4eXVktGAGUp20v5PU",
+            "role": "repair",
+            "model": "gpt-4.1-mini",
+            "requested_max_output_tokens": 1600,
+            "reported_usage": {
+              "prompt_tokens": 10079,
+              "completion_tokens": 331,
+              "total_tokens": 10410
+            },
+            "http_status": 200,
+            "finish_reason": "stop",
+            "status": "parsed",
+            "failure_code": null
+          },
+          "input_tokens": 10079,
+          "output_tokens": 331,
+          "cost_usd": 0.0050173200000000005
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "reserved_usd": 0.014123472,
+          "ledger_id": "58f66270805c1965f7844142",
+          "diagnostic": {
+            "request_id": "58f66270805c1965f7844142",
+            "provider_request_id": "chatcmpl-EXB96z26YIKyzcNtST2nzWLaFcXCu",
+            "role": "judge",
+            "model": "gpt-4.1-mini",
+            "requested_max_output_tokens": 1600,
+            "reported_usage": {
+              "prompt_tokens": 5063,
+              "completion_tokens": 505,
+              "total_tokens": 5568
+            },
+            "http_status": 200,
+            "finish_reason": "stop",
+            "status": "parsed",
+            "failure_code": null
+          },
+          "input_tokens": 5063,
+          "output_tokens": 505,
+          "cost_usd": 0.0031165199999999994
+        }
+      ],
+      "charged_or_reserved_usd": 0.019294285999999827
+    },
+    "validation_error": "judge_rejected",
+    "review_failures": [
+      {
+        "kind": "answer_quality",
+        "draft_version": "065532236843be20c6dac14d8cf904732e7f643b61501ed5a7b25fc0c348b8d6",
+        "findings": [
+          {
+            "criterion": "avoids_repeated_check",
+            "reason": "تکرار: آزمایش قبلی و شرط تغییرکرده باید صریح معرفی شوند."
+          },
+          {
+            "criterion": "avoids_repeated_check",
+            "reason": "آزمایش: اقدام با شرایط معادل یا فاقد تغییر صریح قبلاً انجام شده است؛ exp_a85385be9790258f8141"
+          },
+          {
+            "criterion": "avoids_repeated_check",
+            "reason": "پرسش: نسخه قبلاً مشخص شده است."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_271c515bd776b6bb08380f18",
+            "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_8393cb2fa3f5695fa31cf3ad",
+            "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_8393cb2fa3f5695fa31cf3ad",
+            "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_ee037dce4a6716876b21e488",
+            "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_ee037dce4a6716876b21e488",
+            "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_e15047f127af1d12e536ab57",
+            "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_e15047f127af1d12e536ab57",
+            "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+          }
+        ]
+      },
+      {
+        "kind": "answer_quality",
+        "draft_version": "a2c4bbdbf029e49641b5fe20ebe70852ba8b3f751dd42e257fdb00fa1adc1b21",
+        "findings": [
+          {
+            "criterion": "next_step_usefulness",
+            "reason": "فرضیه اتصال مشکل به محدودیت دستورات در فرگمنت‌های موازی مستند است."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_1ee03c9bb65250fb3977b62c",
+            "reason": "معنا: مشاهدهٔ کاربر باید نقل‌قول محصور و منتسب باشد."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+            "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+            "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_5d364ef39209c05b8cc94a71",
+            "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_5d364ef39209c05b8cc94a71",
+            "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_fbfb0cd81837713cb665e7ed",
+            "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_fbfb0cd81837713cb665e7ed",
+            "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_1ee03c9bb65250fb3977b62c",
+            "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_1ee03c9bb65250fb3977b62c",
+            "reason": "شاهد: پشتیبانی فقط جزئی یا متناقض است."
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+          }
+        ]
+      }
+    ],
+    "reviewed_draft": {
+      "draft_version": "a2c4bbdbf029e49641b5fe20ebe70852ba8b3f751dd42e257fdb00fa1adc1b21",
+      "case_id": "GH17011",
+      "case_revision": 1,
+      "generation": 1,
+      "units": [
+        {
+          "unit_id": "u_bfe2b93769ee7835cbaeaa1b",
+          "field": "question",
+          "text": "آیا شما آزمایشی روی نسخه‌های بین 1.57.0 و 1.64.0 انجام داده‌اید تا شروع دقیق مشکل را تعیین کنید؟",
+          "start": 0,
+          "end": 96
+        },
+        {
+          "unit_id": "u_5d364ef39209c05b8cc94a71",
+          "field": "next_step",
+          "text": "لطفاً آزمایش هایی را روی نسخه های میانی بین 1.57.0 و 1.64.0 اجرا کنید تا مشخص شود دقیقاً از کدام نسخه مشکل بروز کرده است.",
+          "start": 0,
+          "end": 121
+        },
+        {
+          "unit_id": "u_fbfb0cd81837713cb665e7ed",
+          "field": "rationale",
+          "text": "اطلاعات گزارش و بازتولید کاربر نشان می‌دهد مشکل پس از نسخه 1.57.0 شروع شده است ولی هیچ آزمایش مستقیم نسخه بین این و 1.64.0 ارائه نشده؛ اسناد رسمی محدودیت‌های دستورات در فرگمنت‌های موازی را نشان می‌دهد. اجرای آزمایش با نسخه‌های هدف می‌تواند علت دقیق را تشخیص دهد و از حدس و گمان جلوگیری کند.",
+          "start": 0,
+          "end": 290
+        },
+        {
+          "unit_id": "u_1ee03c9bb65250fb3977b62c",
+          "field": "hypotheses.0",
+          "text": "امکان دارد مشکل مربوط به محدودیت دستوراتی باشد که داخل فرگمنت‌های موازی قابل اجرا نیستند، مطابق اسناد رسمی.",
+          "start": 0,
+          "end": 107
+        }
+      ]
+    },
+    "latency_seconds": 38.037241
+  },
+  "failure": null,
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "extract",
+      "reserved_usd": 0.008295407999999999,
+      "ledger_id": "1eb9b393a9957739338d76eb",
+      "diagnostic": {
+        "request_id": "1eb9b393a9957739338d76eb",
+        "provider_request_id": "chatcmpl-EXB8h1wMXcfteuknukI8RBzVoquVp",
+        "role": "extract",
+        "model": "gpt-4.1-mini",
+        "requested_max_output_tokens": 1200,
+        "reported_usage": {
+          "prompt_tokens": 1997,
+          "completion_tokens": 390,
+          "total_tokens": 2387
+        },
+        "http_status": 200,
+        "finish_reason": "stop",
+        "status": "parsed",
+        "failure_code": null
+      },
+      "input_tokens": 1997,
+      "output_tokens": 390,
+      "cost_usd": 0.00156508
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "reserved_usd": 2.30472e-05,
+      "ledger_id": "3ebc82d9189461e79a7327c2",
+      "diagnostic": {
+        "request_id": "3ebc82d9189461e79a7327c2",
+        "provider_request_id": null,
+        "role": "embedding",
+        "model": "text-embedding-3-small",
+        "requested_max_output_tokens": null,
+        "reported_usage": {
+          "prompt_tokens": 53,
+          "completion_tokens": null,
+          "total_tokens": 53
+        },
+        "http_status": 200,
+        "finish_reason": null,
+        "status": "parsed",
+        "failure_code": null
+      },
+      "input_tokens": 53,
+      "output_tokens": 0,
+      "cost_usd": 1.166e-06
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "reserved_usd": 0.01392072,
+      "ledger_id": "54a949ffcb76bb9c8cc1fe25",
+      "diagnostic": {
+        "request_id": "54a949ffcb76bb9c8cc1fe25",
+        "provider_request_id": "chatcmpl-EXB8oqdwjef9QvatsSQGQsGC5e3qD",
+        "role": "rerank",
+        "model": "gpt-4.1-mini",
+        "requested_max_output_tokens": 350,
+        "reported_usage": {
+          "prompt_tokens": 5946,
+          "completion_tokens": 148,
+          "total_tokens": 6094
+        },
+        "http_status": 200,
+        "finish_reason": "stop",
+        "status": "parsed",
+        "failure_code": null
+      },
+      "input_tokens": 5946,
+      "output_tokens": 148,
+      "cost_usd": 0.00287672
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "reserved_usd": 0.019157424,
+      "ledger_id": "313ee7e898c449de99058985",
+      "diagnostic": {
+        "request_id": "313ee7e898c449de99058985",
+        "provider_request_id": "chatcmpl-EXB8rplL1weraXseORo9q377TrzqP",
+        "role": "chat",
+        "model": "gpt-4.1-mini",
+        "requested_max_output_tokens": 1600,
+        "reported_usage": {
+          "prompt_tokens": 6553,
+          "completion_tokens": 327,
+          "total_tokens": 6880
+        },
+        "http_status": 200,
+        "finish_reason": "stop",
+        "status": "parsed",
+        "failure_code": null
+      },
+      "input_tokens": 6553,
+      "output_tokens": 327,
+      "cost_usd": 0.0034588400000000004
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "reserved_usd": 0.014166767999999998,
+      "ledger_id": "d78c387412a12ef321b16bf3",
+      "diagnostic": {
+        "request_id": "d78c387412a12ef321b16bf3",
+        "provider_request_id": "chatcmpl-EXB8wmgumNPiUOot6LFxGNs1SggEb",
+        "role": "judge",
+        "model": "gpt-4.1-mini",
+        "requested_max_output_tokens": 1600,
+        "reported_usage": {
+          "prompt_tokens": 5078,
+          "completion_tokens": 582,
+          "total_tokens": 5660
+        },
+        "http_status": 200,
+        "finish_reason": "stop",
+        "status": "parsed",
+        "failure_code": null
+      },
+      "input_tokens": 5078,
+      "output_tokens": 582,
+      "cost_usd": 0.00325864
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "repair",
+      "reserved_usd": 0.026602751999999997,
+      "ledger_id": "0123c7001e03929a14d3a736",
+      "diagnostic": {
+        "request_id": "0123c7001e03929a14d3a736",
+        "provider_request_id": "chatcmpl-EXB92BeCPWPb4eXVktGAGUp20v5PU",
+        "role": "repair",
+        "model": "gpt-4.1-mini",
+        "requested_max_output_tokens": 1600,
+        "reported_usage": {
+          "prompt_tokens": 10079,
+          "completion_tokens": 331,
+          "total_tokens": 10410
+        },
+        "http_status": 200,
+        "finish_reason": "stop",
+        "status": "parsed",
+        "failure_code": null
+      },
+      "input_tokens": 10079,
+      "output_tokens": 331,
+      "cost_usd": 0.0050173200000000005
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "reserved_usd": 0.014123472,
+      "ledger_id": "58f66270805c1965f7844142",
+      "diagnostic": {
+        "request_id": "58f66270805c1965f7844142",
+        "provider_request_id": "chatcmpl-EXB96z26YIKyzcNtST2nzWLaFcXCu",
+        "role": "judge",
+        "model": "gpt-4.1-mini",
+        "requested_max_output_tokens": 1600,
+        "reported_usage": {
+          "prompt_tokens": 5063,
+          "completion_tokens": 505,
+          "total_tokens": 5568
+        },
+        "http_status": 200,
+        "finish_reason": "stop",
+        "status": "parsed",
+        "failure_code": null
+      },
+      "input_tokens": 5063,
+      "output_tokens": 505,
+      "cost_usd": 0.0031165199999999994
+    }
+  ],
+  "elapsed_seconds": 38.56873160001123
+}

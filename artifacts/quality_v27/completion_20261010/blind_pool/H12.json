@@ -1,0 +1,273 @@
+{
+  "id": "H12",
+  "report": "How do I name pytest test files for Streamlit app tests? No installed version recorded.",
+  "product_version": null,
+  "candidates": [
+    {
+      "source_id": "issue:8438",
+      "revision": "2025-06-04T09:08:24Z",
+      "product_version": null,
+      "source_span": [
+        334,
+        3977
+      ],
+      "lines": [
+        9,
+        106
+      ],
+      "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+      "section": "Unable to test for file_upload widget for streanlit apps using AppTest > Summary",
+      "text": "### Summary\n\n```\nfrom streamlit.testing.v1 import AppTest\nfrom goat import main\n# from io import BytesIO\n\ndef test_app_error():\n    at=AppTest.from_file(\"goat.py\").run()\n    assert not at.exception\n\n    at.sidebar.file_uploader(\"Anirudh-Hegde-DevOps-Resume.pdf\").run()\n    assert at.warning[0].value==\"upload the document in pdf/doc/docx format\"\n```\nwhen I run \n```pyest -v```\nIt shows \n(venv) anirudh@anirudh-HP-Pavilion-Gaming-Laptop-15-dk2xxx:~/Resume-Tracer$ pytest -v\n============================================================ test session starts ============================================================\nplatform linux -- Python 3.10.12, pytest-8.1.1, pluggy-1.4.0 -- /home/anirudh/Resume-Tracer/venv/bin/python\ncachedir: .pytest_cache\nrootdir: /home/anirudh/Resume-Tracer\ncollected 1 item                                                                                                                            \n\ntests/test_app.py::test_app_error FAILED                                                                                              [100%]\n\n================================================================= FAILURES ==================================================================\n______________________________________________________________ test_app_error _______________________________________________________________\n\n    def test_app_error():\n        at=AppTest.from_file(\"goat.py\").run()\n        assert not at.exception\n    \n>       at.sidebar.file_uploader(\"Anirudh-Hegde-DevOps-Resume.pdf\")\nE       AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n\ntests/test_app.py:9: AttributeError\n========================================================== short test summary info ==========================================================\nFAILED tests/test_app.py::test_app_error - AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n============================================================= 1 failed in 0.27s =============================================================\n\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n# import PyPDF2\nfrom pypdf import PdfReader\n\n# craete a empty string\npage_content = \"\"\n\n\n# function to extract the page contents of resume\ndef display_context_file(upload_file):\n    global page_content\n    pdfReader = PdfReader(upload_file)\n\n    for i in range(len(pdfReader.pages)):\n        pageObj = pdfReader.pages[i]\n        page_content = str(pageObj.extract_text())\n\n    return page_content\n\n\ndef main():\n    st.title(\"Resume Search App\")\n    upload_files = st.sidebar.file_uploader(\"upload your resume\", type=['docx', 'pdf'])\n\n    # if file is uploaded process will satisfy\n    if upload_files:\n        st.success(\"Resume uploaded successfully\")\n\n        # pass the uplaod_files\n        page_content = display_context_file(upload_files)\n        search_text = st.text_input(\"Enter the text which you want to search: \")\n\n        # for input/s\n        if search_text:\n            st.header(\"Searching results..\")\n\n            for word in search_text.split(\",\"):\n                punctuations = [\".\", \".\", \"-\", \"*\", \"/\"]\n                for p in punctuations:\n                    word = word.lower().replace(p, \"\")\n                    page_content = page_content.lower().replace(p, \"\")\n                if word in page_content:\n                    st.success(f\"{word.capitalize()} present in the resume\")\n                else:\n                    st.error(f\"{word.capitalize()} isn't present in the resume\")\n\n    else:\n        st.warning(\"Please upload the file format only in pdf/docx\")\n\n\nif __name__ == \"__main__\":\n    main()\n```\n",
+      "candidate_key": "0aae5673dc8ad2901d66668af099a8de7ca78eea4d33521487e391ea512b3b20"
+    },
+    {
+      "source_id": "issue:12566",
+      "revision": "2026-07-22T17:38:47Z",
+      "product_version": null,
+      "source_span": [
+        9994,
+        10182
+      ],
+      "lines": [
+        210,
+        216
+      ],
+      "title": "AppTest: Adding an element on rerun leads to KeyError in session_state",
+      "section": "AppTest: Adding an element on rerun leads to KeyError in session_state > Debug info",
+      "text": "### Debug info\n\n- Streamlit version: 1.49.1\n- pytest version: 8.4.2\n- Python version: 3.11.9\n- Operating System: Windows 11 Enterprise, Version 23H2, OS build 22631.5909\n- Browser: _None_\n",
+      "candidate_key": "2ecb408c53ec07bb8fe0b1455364c13edb1d0156f23ca797674bc781124cb27f"
+    },
+    {
+      "source_id": "issue:8438",
+      "revision": "2025-06-04T09:08:24Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        116,
+        118
+      ],
+      "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+      "section": "Expected Behavior",
+      "text": "### Expected Behavior\n\nIt should show tests passed for this streamlit app",
+      "candidate_key": "2f74f93e0d5d3155cc2064ce1b4ad214485ed2705d3d81174f10c2e41b1802ea"
+    },
+    {
+      "source_id": "docs:get-started",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        8,
+        21
+      ],
+      "title": "get-started",
+      "section": "Get started with app testing",
+      "text": "# Get started with app testing\n\nThis guide will cover a simple example of how tests are structured within a project and how to execute them with `pytest`. After seeing the big picture, keep reading to learn about the [Fundamentals of app testing](#fundamentals-of-app-testing):\n\n- Initializing and running a simulated app\n- Retrieving elements\n- Manipulating widgets\n- Inspecting the results\n\nStreamlit's app testing framework is not tied to any particular testing tool, but we'll use `pytest` for our examples since it is one of the most common Python test frameworks. To try out the examples in this guide, be sure to install `pytest` into your Streamlit development environment before you begin:\n\n```bash\npip install pytest\n```",
+      "candidate_key": "48891a544ed981329d8054777cd72783fe455470f238c1d92f8e14566493fcba"
+    },
+    {
+      "source_id": "issue:16906",
+      "revision": "2026-09-09T20:54:29Z",
+      "product_version": null,
+      "source_span": [
+        3051,
+        4286
+      ],
+      "lines": [
+        42,
+        48
+      ],
+      "title": "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest",
+      "section": "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest > How?",
+      "text": "Key capabilities:\n- **App lifecycle fixture:** `app_fixture()` starts one app server per test module on an ephemeral localhost port, gives an isolated browser page per test, and waits until the initial run is idle. Also target direct/external URLs (deployed/embedded apps).\n- **Semantic selection:** strict, retrying finders that understand Streamlit elements and layout containers — `get_element_by_key` / `get_element_by_label` / `get_element_by_text`, plus `get_element(type=...)` / `get_elements(type=...)`; a returned element that is a container (sidebar, form, expander, popover, dialog, tab, column, container) can scope further queries. An optional `type` discriminator maps to a generated public `ElementType` taxonomy for IDE completion.\n- **Rerun/navigation-aware synchronization** so tests don't rely on sleeps.\n- **Actionable failure artifacts** (text/logs/traces/screenshots) and a **semantic snapshot** (`semantic_snapshot()`) as a token-efficient interface for humans and agents.\n- **Escape hatch** to native Playwright `Page`/`Locator` for anything the facade doesn't cover.\n- A shared **testability vocabulary** across both layers (public element types, labels, keys, containers), explicitly optimized for AI agents.\n",
+      "candidate_key": "54a999fafe880068005c042a4e26fd0830e1c90ffc4200a53b7b8a90a988528f"
+    },
+    {
+      "source_id": "docs:overview",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        5622,
+        6703
+      ],
+      "lines": [
+        87,
+        95
+      ],
+      "title": "overview",
+      "section": "overview > Overview of multipage apps > Automatic page labels and URLs > How Streamlit converts filenames into URL pathnames",
+      "text": "### How Streamlit converts filenames into URL pathnames\n\nYour app's homepage is associated to the root URL of app. For all other pages, their `identifier` or `number` becomes their URL pathname as follows:\n\n- If your page has an `identifier` that came from a filename, Streamlit uses the `identifier` with one modification. Streamlit condenses each consecutive grouping of spaces (`\" \"`) and underscores (`\"_\"`) to a single underscore.\n- Otherwise, if your page has an `identifier` that came from the name of a callable, Streamlit uses the `identifier` unmodified.\n- Otherwise, if your page has a `number` but does not have an `identifier`, Streamlit uses the `number`. Leading zeros are included, if present.\n\nFor each filename in the list above, the URL pathname would be \"Awesome_page\" relative to the root URL of the app. For example, if your app was running on `localhost` port `8501`, the full URL would be `localhost:8501/awesome_page`. For the last two callables, however, the pathname would include the leading and trailing underscores to match the callable name exactly.\n",
+      "candidate_key": "6980cedacc7bada83f10ce575bdc2f61f180b0cb02e8247035c1a84ff7c5564f"
+    },
+    {
+      "source_id": "docs:get-started",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        460,
+        1191
+      ],
+      "lines": [
+        8,
+        21
+      ],
+      "title": "get-started",
+      "section": "get-started > Get started with app testing",
+      "text": "# Get started with app testing\n\nThis guide will cover a simple example of how tests are structured within a project and how to execute them with `pytest`. After seeing the big picture, keep reading to learn about the [Fundamentals of app testing](#fundamentals-of-app-testing):\n\n- Initializing and running a simulated app\n- Retrieving elements\n- Manipulating widgets\n- Inspecting the results\n\nStreamlit's app testing framework is not tied to any particular testing tool, but we'll use `pytest` for our examples since it is one of the most common Python test frameworks. To try out the examples in this guide, be sure to install `pytest` into your Streamlit development environment before you begin:\n\n```bash\npip install pytest\n```\n",
+      "candidate_key": "77b43988ebc87c1591170caaffcefb3b693e459859504ac2262e89a12c064d67"
+    },
+    {
+      "source_id": "issue:12566",
+      "revision": "2026-07-22T17:38:47Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        210,
+        216
+      ],
+      "title": "AppTest: Adding an element on rerun leads to KeyError in session_state",
+      "section": "Debug info",
+      "text": "### Debug info\n\n- Streamlit version: 1.49.1\n- pytest version: 8.4.2\n- Python version: 3.11.9\n- Operating System: Windows 11 Enterprise, Version 23H2, OS build 22631.5909\n- Browser: _None_",
+      "candidate_key": "8612723170a606691fa083a32b1a2bd176b4fb5dfbd0f2cbe29cbefe34bbb21e"
+    },
+    {
+      "source_id": "issue:8438",
+      "revision": "2025-06-04T09:08:24Z",
+      "product_version": null,
+      "source_span": [
+        4093,
+        4167
+      ],
+      "lines": [
+        116,
+        118
+      ],
+      "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+      "section": "Unable to test for file_upload widget for streanlit apps using AppTest > Expected Behavior",
+      "text": "### Expected Behavior\n\nIt should show tests passed for this streamlit app\n",
+      "candidate_key": "abd94da33f040002013f79942fe38b5e5fc046cdc594830883a0381aec888605"
+    },
+    {
+      "source_id": "issue:16906",
+      "revision": "2026-09-09T20:54:29Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        42,
+        48
+      ],
+      "title": "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest",
+      "section": "How?",
+      "text": "Key capabilities:\n- **App lifecycle fixture:** `app_fixture()` starts one app server per test module on an ephemeral localhost port, gives an isolated browser page per test, and waits until the initial run is idle. Also target direct/external URLs (deployed/embedded apps).\n- **Semantic selection:** strict, retrying finders that understand Streamlit elements and layout containers — `get_element_by_key` / `get_element_by_label` / `get_element_by_text`, plus `get_element(type=...)` / `get_elements(type=...)`; a returned element that is a container (sidebar, form, expander, popover, dialog, tab, column, container) can scope further queries. An optional `type` discriminator maps to a generated public `ElementType` taxonomy for IDE completion.\n- **Rerun/navigation-aware synchronization** so tests don't rely on sleeps.\n- **Actionable failure artifacts** (text/logs/traces/screenshots) and a **semantic snapshot** (`semantic_snapshot()`) as a token-efficient interface for humans and agents.\n- **Escape hatch** to native Playwright `Page`/`Locator` for anything the facade doesn't cover.\n- A shared **testability vocabulary** across both layers (public element types, labels, keys, containers), explicitly optimized for AI agents.",
+      "candidate_key": "ace7e748d8b03128e83bc8c1d5b34b7307421e85b447ecf70bee83bd07dfef76"
+    },
+    {
+      "source_id": "docs:overview",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        87,
+        95
+      ],
+      "title": "overview",
+      "section": "How Streamlit converts filenames into URL pathnames",
+      "text": "### How Streamlit converts filenames into URL pathnames\n\nYour app's homepage is associated to the root URL of app. For all other pages, their `identifier` or `number` becomes their URL pathname as follows:\n\n- If your page has an `identifier` that came from a filename, Streamlit uses the `identifier` with one modification. Streamlit condenses each consecutive grouping of spaces (`\" \"`) and underscores (`\"_\"`) to a single underscore.\n- Otherwise, if your page has an `identifier` that came from the name of a callable, Streamlit uses the `identifier` unmodified.\n- Otherwise, if your page has a `number` but does not have an `identifier`, Streamlit uses the `number`. Leading zeros are included, if present.\n\nFor each filename in the list above, the URL pathname would be \"Awesome_page\" relative to the root URL of the app. For example, if your app was running on `localhost` port `8501`, the full URL would be `localhost:8501/awesome_page`. For the last two callables, however, the pathname would include the leading and trailing underscores to match the callable name exactly.",
+      "candidate_key": "adc35afb268fd862767273a06abadc528555b970cbda71b6943b8c4254f1b389"
+    },
+    {
+      "source_id": "docs:get-started",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        5644,
+        6710
+      ],
+      "lines": [
+        118,
+        148
+      ],
+      "title": "get-started",
+      "section": "get-started > Get started with app testing > A simple testing example with `pytest` > Handling file paths and imports with `pytest`",
+      "text": "### Handling file paths and imports with `pytest`\n\nImports and paths within a test script should be relative to the directory where `pytest` is called. That is why the test function uses the path `app.py` instead of `../app.py` even though the app file is one directory up from the test script. You'll usually call `pytest` from the directory containing your main app file. This is typically the root of your project directory.\n\nAdditionally, if `.streamlit/` is present in the directory where you call `pytest`, any `config.toml` and `secrets.toml` within it will be accessible to your simulated app. For example, your simulated app will have access to the `config.toml` and `secrets.toml` files in this common setup:\n\nProject structure:\n\n```none\nmyproject/\n├── .streamlit/\n│   ├── config.toml\n│   └── secrets.toml\n├── app.py\n└── tests/\n    └── test_app.py\n```\n\nInitialization within `test_app.py`:\n\n```python\n# Path to app file is relative to myproject/\nat = AppTest.from_file(\"app.py\").run()\n```\n\nCommand to execute tests:\n\n```bash\ncd myproject\npytest tests/\n```\n",
+      "candidate_key": "d34de48b67d4cd9c3a73a8e89835de511e4b4ab6d23abe60f2744d10bcddb63a"
+    },
+    {
+      "source_id": "docs:get-started",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        118,
+        148
+      ],
+      "title": "get-started",
+      "section": "Handling file paths and imports with `pytest`",
+      "text": "### Handling file paths and imports with `pytest`\n\nImports and paths within a test script should be relative to the directory where `pytest` is called. That is why the test function uses the path `app.py` instead of `../app.py` even though the app file is one directory up from the test script. You'll usually call `pytest` from the directory containing your main app file. This is typically the root of your project directory.\n\nAdditionally, if `.streamlit/` is present in the directory where you call `pytest`, any `config.toml` and `secrets.toml` within it will be accessible to your simulated app. For example, your simulated app will have access to the `config.toml` and `secrets.toml` files in this common setup:\n\nProject structure:\n\n```none\nmyproject/\n├── .streamlit/\n│   ├── config.toml\n│   └── secrets.toml\n├── app.py\n└── tests/\n    └── test_app.py\n```\n\nInitialization within `test_app.py`:\n\n```python\n# Path to app file is relative to myproject/\nat = AppTest.from_file(\"app.py\").run()\n```\n\nCommand to execute tests:\n\n```bash\ncd myproject\npytest tests/\n```",
+      "candidate_key": "da7be03415cf66036012b9f2de49c712a92b3cbbac510b8fbae3d9b59e990070"
+    },
+    {
+      "source_id": "issue:8438",
+      "revision": "2025-06-04T09:08:24Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        120,
+        168
+      ],
+      "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+      "section": "Current Behavior",
+      "text": "### Current Behavior\n\nwhen I run \n```pyest -v```\nIt shows \n(venv) anirudh@anirudh-HP-Pavilion-Gaming-Laptop-15-dk2xxx:~/Resume-Tracer$ pytest -v\n============================================================ test session starts ============================================================\nplatform linux -- Python 3.10.12, pytest-8.1.1, pluggy-1.4.0 -- /home/anirudh/Resume-Tracer/venv/bin/python\ncachedir: .pytest_cache\nrootdir: /home/anirudh/Resume-Tracer\ncollected 1 item                                                                                                                            \n\ntests/test_app.py::test_app_error FAILED                                                                                              [100%]\n\n================================================================= FAILURES ==================================================================\n______________________________________________________________ test_app_error _______________________________________________________________\n\n    def test_app_error():\n        at=AppTest.from_file(\"goat.py\").run()\n        assert not at.exception\n    \n>       at.sidebar.file_uploader(\"Anirudh-Hegde-DevOps-Resume.pdf\")\nE       AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n\ntests/test_app.py:9: AttributeError\n========================================================== short test summary info ==========================================================\nFAILED tests/test_app.py::test_app_error - AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n============================================================= 1 failed in 0.27s =============================================================\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: Streamlit, version 1.33.0\n- Python version: Python 3.10.12\n- Operating System: Ubuntu Linux Distributor ID: Linuxmint\n                                Description:    Linux Mint 21.3\n                                Release:        21.3\n                                Codename:       virginia\n\n- Browser: Firefox\n\n\n### Additional Information\n\n_No response_\n",
+      "candidate_key": "df1753d48cfa3a4df4241ba8f104bb3066acfb2c637e2e9989bf3d283d75ffa9"
+    },
+    {
+      "source_id": "issue:9446",
+      "revision": "2026-03-04T21:19:23Z",
+      "product_version": null,
+      "source_span": [
+        333,
+        1213
+      ],
+      "lines": [
+        9,
+        27
+      ],
+      "title": "AppTest does not render content for pages in apps using st.navigation",
+      "section": "AppTest does not render content for pages in apps using st.navigation > Summary",
+      "text": "### Summary\n\nWe recently decided to implement the new st.Page and st.navigation in our existing app https://docs.streamlit.io/develop/concepts/multipage-apps/page-and-navigation\n\nWe use the built in AppTest to test our apps\n\nWe were able to make the changes to the app and we thought everything was looking good. Unfortunately the tests fail.\n\nWhat seems to be happening is that any content included directly in the startup file is rendered correctly, but none of the content from is being rendered\n\n```\npg = st.navigation(pages)\npg.run()\n``` \n\nThere is forum thread on this topic here -- https://discuss.streamlit.io/t/writing-test-with-an-app-that-uses-navigation/74796/2\n\nI pulled down the streamlit project and was ability to reproduce the test failures by creating a new test_data_navigation app:\n[testing.zip](https://github.com/user-attachments/files/16971054/testing.zip)\n",
+      "candidate_key": "e48573fdd913c73e40230d605fbfcf756445a54cc348c45c9646d3860e778d8d"
+    },
+    {
+      "source_id": "issue:8429",
+      "revision": "2026-07-22T17:38:56Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        68,
+        70
+      ],
+      "title": "Unable to test a multipage app which consists a custom sidebar using AppTest",
+      "section": "Current Behavior",
+      "text": "### Current Behavior\n\nstreamlit.errors.StreamlitAPIException: Could not find page: `main.py`. Must be the file path relative to the main script, from the directory: `pages`. Only the main app file and files in the `pages/` directory are supported.",
+      "candidate_key": "f71e7cd6bd248e06ff282428142e47b64d8b3967d351555183844aa93c5b66bd"
+    },
+    {
+      "source_id": "issue:8438",
+      "revision": "2025-06-04T09:08:24Z",
+      "product_version": null,
+      "source_span": [
+        696,
+        2444
+      ],
+      "lines": [
+        24,
+        54
+      ],
+      "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+      "section": "Unable to test for file_upload widget for streanlit apps using AppTest > Summary",
+      "text": "```pyest -v```\nIt shows \n(venv) anirudh@anirudh-HP-Pavilion-Gaming-Laptop-15-dk2xxx:~/Resume-Tracer$ pytest -v\n============================================================ test session starts ============================================================\nplatform linux -- Python 3.10.12, pytest-8.1.1, pluggy-1.4.0 -- /home/anirudh/Resume-Tracer/venv/bin/python\ncachedir: .pytest_cache\nrootdir: /home/anirudh/Resume-Tracer\ncollected 1 item                                                                                                                            \n\ntests/test_app.py::test_app_error FAILED                                                                                              [100%]\n\n================================================================= FAILURES ==================================================================\n______________________________________________________________ test_app_error _______________________________________________________________\n\n    def test_app_error():\n        at=AppTest.from_file(\"goat.py\").run()\n        assert not at.exception\n    \n>       at.sidebar.file_uploader(\"Anirudh-Hegde-DevOps-Resume.pdf\")\nE       AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n\ntests/test_app.py:9: AttributeError\n========================================================== short test summary info ==========================================================\nFAILED tests/test_app.py::test_app_error - AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n============================================================= 1 failed in 0.27s =============================================================\n\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n",
+      "candidate_key": "fd83f71f307afaa775d3947cf3e1749e83df571fa05625b9271695e87de9f262"
+    }
+  ],
+  "instructions": "Judge actual exact text relevance 0=irrelevant,1=topic only,2=useful partial,3=direct needed evidence; null=unjudged. Do not infer relevance from official source status. Record origin."
+}

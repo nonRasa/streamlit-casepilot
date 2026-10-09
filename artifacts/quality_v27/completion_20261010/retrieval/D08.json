@@ -1,0 +1,3217 @@
+{
+  "id": "D08",
+  "split": "dev",
+  "query": "How can st.fragment rerun a portion of the app instead of the full script? Installed Streamlit version is unknown.",
+  "query_hash": "be5a07ef4ecc219fc3c59e431e725ea5148d2d1ddbc0c7f88e98882f47df6708",
+  "version": null,
+  "variants": {
+    "A": {
+      "candidates": [
+        {
+          "kind": "docs",
+          "title": "fragments",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:fragments:v2:798da15847d59e78",
+          "source_id": "docs:fragments",
+          "section": "Working with fragments",
+          "text": "# Working with fragments\n\nReruns are a central part of every Streamlit app. When users interact with widgets, your script reruns from top to bottom, and your app's frontend is updated. Streamlit provides several features to help you develop your app within this execution model. Streamlit version 1.37.0 introduced fragments to allow rerunning a portion of your code instead of your full script. As your app grows larger and more complex, these fragment reruns help your app be efficient and performant. Fragments give you finer, easy-to-understand control over your app's execution flow.\n\nBefore you read about fragments, we recommend having a basic understanding of [caching](/develop/concepts/architecture/caching), [Session State](/concepts/architecture/session-state), and [forms](/develop/concepts/architecture/forms).",
+          "lines": [
+            8,
+            12
+          ],
+          "sha256": "700b75c6daa6c2109d603acc3f564781be39909bec5dcb6354f8cce31ec13973",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 824,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03512427,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "fragments",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:fragments:v2:e3a31e192063d23e",
+          "source_id": "docs:fragments",
+          "section": "Fragment return values and interacting with the rest of your app",
+          "text": "If you need to trigger a full-script rerun from inside a fragment, call [`st.rerun`](/develop/api-reference/execution-flow/st.rerun). For a related tutorial, see [Trigger a full-script rerun from inside a fragment](/develop/tutorials/execution-flow/trigger-a-full-script-rerun-from-a-fragment).",
+          "lines": [
+            93,
+            93
+          ],
+          "sha256": "c9d4086ec63938a6cb872b488c18977b2dd6ea87a314924d183bd40b9bae124b",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 294,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03429435,
+          "rank": 2
+        },
+        {
+          "kind": "issue",
+          "title": "Rerun() inside an st.fragment resets widget values to defaults.",
+          "url": "https://github.com/streamlit/streamlit/issues/11266",
+          "revision": "2025-05-07T14:09:05Z",
+          "product_version": null,
+          "issue_number": 11266,
+          "id": "issue:11266:v2:fda06b89a1d34f40",
+          "source_id": "issue:11266",
+          "section": "Debug info",
+          "text": "### Debug info\n\n- Streamlit version: 1.45.0\n- Python version: 3.13.2\n- Operating System: MasOS 15.1\n- Browser: Safari, Chrome, and Brave",
+          "lines": [
+            54,
+            59
+          ],
+          "sha256": "3f618955d99d62008f22f290d14f8dc34979fbe20c91209bd837b222b07c2bf0",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 136,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02871795,
+          "rank": 3
+        },
+        {
+          "kind": "issue",
+          "title": "Fragment to fragment (co-fragment) communication instead of rerunning entire app",
+          "url": "https://github.com/streamlit/streamlit/issues/10045",
+          "revision": "2026-09-07T11:29:38Z",
+          "product_version": null,
+          "issue_number": 10045,
+          "id": "issue:10045:v2:08cc8fbfae853a87",
+          "source_id": "issue:10045",
+          "section": "How?",
+          "text": "### How?\n\nMy app looks like the below:\n\n[IMAGE OMITTED: not inspected]\n\nThe black outlines are fragments. The purple/pink outlines are nested fragments. I understand co-fragment communication occurs through session_state which is great but for this communication to be recognised, one must re-run the whole app. This makes the app more slow and somewhat buggy in my experience of operating my app. \n\nSeeing as fragments can be re-run periodically, it would be great to add the possibility to communicate between specific fragments via an action. For example, in my app image, After I input details in the \"Contact Details\" expander, I want to update the CV Preview fragment. But to do that, I have to re-run the entire app. Perhaps the possibility to rerun specific fragments based on some unique Id (like a key of a streamlit widget) when I say click on the submit form button in the Contact Details expander would be great. \n\nJust an example\n```\n@st.fragment(key=\"test_frag\", keys_to_update=[\"frag1\", \"frag2\"])\n```\n\nThe issue with the above is for every rerun action, the `keys to update` will rerun. So perhaps, we could create a trigger command parameter.\n\n```\n@st.fragment(key=\"test_frag\", keys_to_update=[\"frag1\", \"frag2\"], trigger_keys=[\"form_submit_btn\"])\n```\n\nWe could also get fancy and connect trigger keys to keys to update:\n\n\n```\n@st.fragment(key=\"test_frag\", keys_to_update=[\"frag1\", \"frag2\"], trigger_keys=[{\"frag1\":\"form_submit_btn\"}])\n```",
+          "lines": [
+            16,
+            42
+          ],
+          "sha256": "7c1ef200b08a0c38d36ac47646d494b39747464c60de6cf88c940c5e28d1b113",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1455,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.026901,
+          "rank": 4
+        },
+        {
+          "kind": "release",
+          "title": "2026",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2026.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:2026:v2:0a1c6ca3db869d2d",
+          "source_id": "docs:2026",
+          "section": "**Version 1.63.0**",
+          "text": "## **Version 1.63.0**\n\n_Release date: September 1, 2026_\n\n**Highlights**\n\n- 🎯 Introducing event-scoped fragment reruns, which let a widget callback rerun just one named fragment:\n    - Name a fragment with `@st.fragment(key=…)` and target it with [`st.rerun`](/develop/api-reference/execution-flow/st.rerun)`(\"filters\")` or `st.rerun([\"alpha\", \"beta\"])` from an `on_change` or `on_click` callback ([#16161](https://github.com/streamlit/streamlit/pull/16161)).\n    - `st.rerun()` and `st.switch_page()` now take effect inside widget callbacks instead of being discarded with a warning; apps that relied on the previous no-op will now rerun ([#16158](https://github.com/streamlit/streamlit/pull/16158)).\n- ✨ Introducing `on_change=\"ignore\"`, a new mode that updates a widget in the browser without rerunning your app. Your script receives the buffered value on the next rerun, such as a button click, and the mode is available on [`st.slider`](/develop/api-reference/widgets/st.slider) and [`st.text_input`](/develop/api-reference/widgets/st.text_input) ([#14828](https://github.com/streamlit/streamlit/pull/14828), [#16605](https://github.com/streamlit/streamlit/pull/16605)).\n- 🍿 Introducing `type=\"step\"` for [`st.expander`](/develop/api-reference/layout/st.expander) and [`st.status`](/develop/api-reference/status/st.status), which renders containers as a connected timeline — well suited to showing an agent's or a pipeline's progress ([#16558](https://github.com/streamlit/streamlit/pull/16558), [#13248](https://github.com/streamlit/streamlit/issues/13248)).\n\n**Notable Changes**",
+          "lines": [
+            62,
+            74
+          ],
+          "sha256": "b2e934de2fb9c989013034e2f58f25da234e77b9f1c8931767c6ae72567cf729",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1597,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02597841,
+          "rank": 5
+        },
+        {
+          "kind": "issue",
+          "title": "Call arguments don't propogate to st.fragment correctly starting with v1.37",
+          "url": "https://github.com/streamlit/streamlit/issues/9267",
+          "revision": "2024-08-15T23:21:41Z",
+          "product_version": null,
+          "issue_number": 9267,
+          "id": "issue:9267:v2:2b470565629ea15c",
+          "source_id": "issue:9267",
+          "section": "Steps To Reproduce",
+          "text": "### Steps To Reproduce\n\n1. Launch the provides Streamlit app with Streamlit v1.36\n2. You will observe that on the 2nd and later pages the UI responds appropriately in each fragment.\n3. Now instead launch it with Streamlit v1.37.1\n4. Now, when toggling and 2nd and later pages, the \"offset\" is incorrectly populated in the fragment, and state from the first page is displayed and affected.",
+          "lines": [
+            49,
+            54
+          ],
+          "sha256": "1d9f8278388f4fc26abf7633582182e176b588eb2bd957be31f003a3112cc6ab",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 388,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02515528,
+          "rank": 6
+        },
+        {
+          "kind": "release",
+          "title": "2024",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2024.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:2024:v2:0364fddb50968fbf",
+          "source_id": "docs:2024",
+          "section": "**Version 1.33.0**",
+          "text": "## **Version 1.33.0**\n\n_Release date: April 4, 2024_\n\n**Highlights**\n\n- 👟 Introducing [`st.experimental_fragment`](/develop/api-reference/execution-flow/st.fragment) to decorate functions and rerun them independently of the whole page. Check out the [docs](/develop/concepts/architecture/fragments) and give your apps a speed boost!\n- 🌐 Introducing `st.html` to insert custom HTML into your app! Check out the [docs](/develop/api-reference/utilities/st.html) for how to use it.\n\n**Notable Changes**",
+          "lines": [
+            365,
+            374
+          ],
+          "sha256": "f209cb2ab37416bc36f8b776b3ae98d87e1fbff8ddd7eb7dc36221bf6765d407",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 506,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02459499,
+          "rank": 7
+        },
+        {
+          "kind": "issue",
+          "title": "Rerun() inside an st.fragment resets widget values to defaults.",
+          "url": "https://github.com/streamlit/streamlit/issues/11266",
+          "revision": "2025-05-07T14:09:05Z",
+          "product_version": null,
+          "issue_number": 11266,
+          "id": "issue:11266:v2:5df5b300853d70e7",
+          "source_id": "issue:11266",
+          "section": "Reproducible Code Example",
+          "text": "### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n@st.fragment()\ndef toggle_and_text():\n    if st.button(\"rerun\"):\n        st.rerun()\n    t = st.text_input(\"Enter t:\",value='foo', key='t')\n    st.info(f't = {t}')\n\ntoggle_and_text()\nst.header('Outside Fragment')\nst.info(f'session_state_t = {st.session_state.t}')\nst.button(\"Update\")\n```",
+          "lines": [
+            17,
+            33
+          ],
+          "sha256": "817c650758b6f1e58e0513bf11aa33f9981c563a0b6da74cd50978883f0ac6c5",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 351,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0249226,
+          "rank": 8
+        }
+      ],
+      "candidate_hash": "75e485c138214e6d308053cf94a198451e12ce976179d40f1cadba563e3c61b4",
+      "context": [
+        {
+          "kind": "docs",
+          "title": "fragments",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:fragments:v2:798da15847d59e78",
+          "source_id": "docs:fragments",
+          "section": "Working with fragments",
+          "text": "# Working with fragments\n\nReruns are a central part of every Streamlit app. When users interact with widgets, your script reruns from top to bottom, and your app's frontend is updated. Streamlit provides several features to help you develop your app within this execution model. Streamlit version 1.37.0 introduced fragments to allow rerunning a portion of your code instead of your full script. As your app grows larger and more complex, these fragment reruns help your app be efficient and performant. Fragments give you finer, easy-to-understand control over your app's execution flow.\n\nBefore you read about fragments, we recommend having a basic understanding of [caching](/develop/concepts/architecture/caching), [Session State](/concepts/architecture/session-state), and [forms](/develop/concepts/architecture/forms).",
+          "lines": [
+            8,
+            12
+          ],
+          "sha256": "700b75c6daa6c2109d603acc3f564781be39909bec5dcb6354f8cce31ec13973",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 824,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03512427,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "fragments",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:fragments:v2:e3a31e192063d23e",
+          "source_id": "docs:fragments",
+          "section": "Fragment return values and interacting with the rest of your app",
+          "text": "If you need to trigger a full-script rerun from inside a fragment, call [`st.rerun`](/develop/api-reference/execution-flow/st.rerun). For a related tutorial, see [Trigger a full-script rerun from inside a fragment](/develop/tutorials/execution-flow/trigger-a-full-script-rerun-from-a-fragment).",
+          "lines": [
+            93,
+            93
+          ],
+          "sha256": "c9d4086ec63938a6cb872b488c18977b2dd6ea87a314924d183bd40b9bae124b",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 294,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03429435,
+          "rank": 2
+        },
+        {
+          "kind": "issue",
+          "title": "Rerun() inside an st.fragment resets widget values to defaults.",
+          "url": "https://github.com/streamlit/streamlit/issues/11266",
+          "revision": "2025-05-07T14:09:05Z",
+          "product_version": null,
+          "issue_number": 11266,
+          "id": "issue:11266:v2:fda06b89a1d34f40",
+          "source_id": "issue:11266",
+          "section": "Debug info",
+          "text": "### Debug info\n\n- Streamlit version: 1.45.0\n- Python version: 3.13.2\n- Operating System: MasOS 15.1\n- Browser: Safari, Chrome, and Brave",
+          "lines": [
+            54,
+            59
+          ],
+          "sha256": "3f618955d99d62008f22f290d14f8dc34979fbe20c91209bd837b222b07c2bf0",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 136,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02871795,
+          "rank": 3
+        },
+        {
+          "kind": "issue",
+          "title": "Fragment to fragment (co-fragment) communication instead of rerunning entire app",
+          "url": "https://github.com/streamlit/streamlit/issues/10045",
+          "revision": "2026-09-07T11:29:38Z",
+          "product_version": null,
+          "issue_number": 10045,
+          "id": "issue:10045:v2:08cc8fbfae853a87",
+          "source_id": "issue:10045",
+          "section": "How?",
+          "text": "### How?\n\nMy app looks like the below:\n\n[IMAGE OMITTED: not inspected]\n\nThe black outlines are fragments. The purple/pink outlines are nested fragments. I understand co-fragment communication occurs through session_state which is great but for this communication to be recognised, one must re-run the whole app. This makes the app more slow and somewhat buggy in my experience of operating my app. \n\nSeeing as fragments can be re-run periodically, it would be great to add the possibility to communicate between specific fragments via an action. For example, in my app image, After I input details in the \"Contact Details\" expander, I want to update the CV Preview fragment. But to do that, I have to re-run the entire app. Perhaps the possibility to rerun specific fragments based on some unique Id (like a key of a streamlit widget) when I say click on the submit form button in the Contact Details expander would be great. \n\nJust an example\n```\n@st.fragment(key=\"test_frag\", keys_to_update=[\"frag1\", \"frag2\"])\n```\n\nThe issue with the above is for every rerun action, the `keys to update` will rerun. So perhaps, we could create a trigger command parameter.\n\n```\n@st.fragment(key=\"test_frag\", keys_to_update=[\"frag1\", \"frag2\"], trigger_keys=[\"form_submit_btn\"])\n```\n\nWe could also get fancy and connect trigger keys to keys to update:\n\n\n```\n@st.fragment(key=\"test_frag\", keys_to_update=[\"frag1\", \"frag2\"], trigger_keys=[{\"frag1\":\"form_submit_btn\"}])\n```",
+          "lines": [
+            16,
+            42
+          ],
+          "sha256": "7c1ef200b08a0c38d36ac47646d494b39747464c60de6cf88c940c5e28d1b113",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1455,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.026901,
+          "rank": 4
+        },
+        {
+          "kind": "release",
+          "title": "2026",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2026.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:2026:v2:0a1c6ca3db869d2d",
+          "source_id": "docs:2026",
+          "section": "**Version 1.63.0**",
+          "text": "## **Version 1.63.0**\n\n_Release date: September 1, 2026_\n\n**Highlights**\n\n- 🎯 Introducing event-scoped fragment reruns, which let a widget callback rerun just one named fragment:\n    - Name a fragment with `@st.fragment(key=…)` and target it with [`st.rerun`](/develop/api-reference/execution-flow/st.rerun)`(\"filters\")` or `st.rerun([\"alpha\", \"beta\"])` from an `on_change` or `on_click` callback ([#16161](https://github.com/streamlit/streamlit/pull/16161)).\n    - `st.rerun()` and `st.switch_page()` now take effect inside widget callbacks instead of being discarded with a warning; apps that relied on the previous no-op will now rerun ([#16158](https://github.com/streamlit/streamlit/pull/16158)).\n- ✨ Introducing `on_change=\"ignore\"`, a new mode that updates a widget in the browser without rerunning your app. Your script receives the buffered value on the next rerun, such as a button click, and the mode is available on [`st.slider`](/develop/api-reference/widgets/st.slider) and [`st.text_input`](/develop/api-reference/widgets/st.text_input) ([#14828](https://github.com/streamlit/streamlit/pull/14828), [#16605](https://github.com/streamlit/streamlit/pull/16605)).\n- 🍿 Introducing `type=\"step\"` for [`st.expander`](/develop/api-reference/layout/st.expander) and [`st.status`](/develop/api-reference/status/st.status), which renders containers as a connected timeline — well suited to showing an agent's or a pipeline's progress ([#16558](https://github.com/streamlit/streamlit/pull/16558), [#13248](https://github.com/streamlit/streamlit/issues/13248)).\n\n**Notable Changes**",
+          "lines": [
+            62,
+            74
+          ],
+          "sha256": "b2e934de2fb9c989013034e2f58f25da234e77b9f1c8931767c6ae72567cf729",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1597,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02597841,
+          "rank": 5
+        }
+      ],
+      "packing": {
+        "encoding": "o200k_base",
+        "budget_tokens": 3000,
+        "used_tokens": 1814,
+        "expand_parent": false,
+        "items": [
+          {
+            "id": "docs:fragments:v2:798da15847d59e78",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:fragments:v2:798da15847d59e78"
+          },
+          {
+            "id": "docs:fragments:v2:e3a31e192063d23e",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:fragments:v2:e3a31e192063d23e"
+          },
+          {
+            "id": "issue:11266:v2:fda06b89a1d34f40",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:11266:v2:fda06b89a1d34f40"
+          },
+          {
+            "id": "issue:10045:v2:08cc8fbfae853a87",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:10045:v2:08cc8fbfae853a87"
+          },
+          {
+            "id": "docs:2026:v2:0a1c6ca3db869d2d",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:2026:v2:0a1c6ca3db869d2d"
+          },
+          {
+            "id": "issue:9267:v2:2b470565629ea15c",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "docs:2024:v2:0364fddb50968fbf",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:11266:v2:5df5b300853d70e7",
+            "status": "omitted",
+            "reason": "item_limit"
+          }
+        ]
+      },
+      "index": "v2",
+      "namespace": null
+    },
+    "B": {
+      "candidates": [
+        {
+          "kind": "docs",
+          "title": "fragments",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:fragments:v3:child:ad96f0888c34e9af9cb2",
+          "source_id": "docs:fragments",
+          "text": "# Working with fragments\n\nReruns are a central part of every Streamlit app. When users interact with widgets, your script reruns from top to bottom, and your app's frontend is updated. Streamlit provides several features to help you develop your app within this execution model. Streamlit version 1.37.0 introduced fragments to allow rerunning a portion of your code instead of your full script. As your app grows larger and more complex, these fragment reruns help your app be efficient and performant. Fragments give you finer, easy-to-understand control over your app's execution flow.\n\nBefore you read about fragments, we recommend having a basic understanding of [caching](/develop/concepts/architecture/caching), [Session State](/concepts/architecture/session-state), and [forms](/develop/concepts/architecture/forms).\n",
+          "source_span": [
+            490,
+            1315
+          ],
+          "source_sha256": "54fdfcb8298a0c32cc059fd9ebe2c6c2e07710ef4627a57ee05622feaaf5b151",
+          "sha256": "83226fb18fece32a241282e8cb91e876363295be6574f627e2cc63c0b853cc52",
+          "lines": [
+            8,
+            12
+          ],
+          "section": "fragments > Working with fragments",
+          "section_path": [
+            "fragments",
+            "Working with fragments"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 172,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:fragments:v3:parent:ad96f0888c34e9af9cb2",
+          "parent": {
+            "kind": "docs",
+            "title": "fragments",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:fragments:v3:parent:ad96f0888c34e9af9cb2",
+            "source_id": "docs:fragments",
+            "text": "# Working with fragments\n\nReruns are a central part of every Streamlit app. When users interact with widgets, your script reruns from top to bottom, and your app's frontend is updated. Streamlit provides several features to help you develop your app within this execution model. Streamlit version 1.37.0 introduced fragments to allow rerunning a portion of your code instead of your full script. As your app grows larger and more complex, these fragment reruns help your app be efficient and performant. Fragments give you finer, easy-to-understand control over your app's execution flow.\n\nBefore you read about fragments, we recommend having a basic understanding of [caching](/develop/concepts/architecture/caching), [Session State](/concepts/architecture/session-state), and [forms](/develop/concepts/architecture/forms).\n",
+            "source_span": [
+              490,
+              1315
+            ],
+            "source_sha256": "54fdfcb8298a0c32cc059fd9ebe2c6c2e07710ef4627a57ee05622feaaf5b151",
+            "sha256": "83226fb18fece32a241282e8cb91e876363295be6574f627e2cc63c0b853cc52",
+            "lines": [
+              8,
+              12
+            ],
+            "section": "fragments > Working with fragments",
+            "section_path": [
+              "fragments",
+              "Working with fragments"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 172,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03540984,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "fragments",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:fragments:v3:child:14e6cbfad00d72cdd32e",
+          "source_id": "docs:fragments",
+          "text": "If you need to trigger a full-script rerun from inside a fragment, call [`st.rerun`](/develop/api-reference/execution-flow/st.rerun). For a related tutorial, see [Trigger a full-script rerun from inside a fragment](/develop/tutorials/execution-flow/trigger-a-full-script-rerun-from-a-fragment).\n",
+          "source_span": [
+            6180,
+            6475
+          ],
+          "source_sha256": "54fdfcb8298a0c32cc059fd9ebe2c6c2e07710ef4627a57ee05622feaaf5b151",
+          "sha256": "d6fea68c857ffbb62427deb6585478490727c826790e7a020915691abea01c95",
+          "lines": [
+            93,
+            93
+          ],
+          "section": "fragments > Working with fragments > Fragment return values and interacting with the rest of your app",
+          "section_path": [
+            "fragments",
+            "Working with fragments",
+            "Fragment return values and interacting with the rest of your app"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 72,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:fragments:v3:parent:3693f7e9cb3e09dea6d1",
+          "parent": {
+            "kind": "docs",
+            "title": "fragments",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:fragments:v3:parent:3693f7e9cb3e09dea6d1",
+            "source_id": "docs:fragments",
+            "text": "## Fragment return values and interacting with the rest of your app\n\nStreamlit ignores fragment return values during fragment reruns, so defining return values for your fragment functions is not recommended. Instead, if your fragment needs to share data with the rest of your app, use Session State. Fragments are just functions in your script, so they can access Session State, imported modules, and other Streamlit elements like containers. If your fragment writes to any container created outside of itself, note the following difference in behavior:\n\n- Elements drawn in the main body of your fragment are cleared and redrawn in place during a fragment rerun. Repeated fragment reruns will not cause additional elements to appear.\n- Elements drawn to containers outside the main body of fragment will not be cleared with each fragment rerun. Instead, Streamlit will draw them additively and these elements will accumulate until the next full-script rerun.\n- A fragment can't draw widgets in containers outside of the main body of the fragment. Widgets can only go in the main body of a fragment.\n\nTo prevent elements from accumulating in outside containers, use [`st.empty`](/develop/api-reference/layout/st.empty) containers. For a related tutorial, see [Create a fragment across multiple containers](/develop/tutorials/execution-flow/create-a-multiple-container-fragment).\n\nIf you need to trigger a full-script rerun from inside a fragment, call [`st.rerun`](/develop/api-reference/execution-flow/st.rerun). For a related tutorial, see [Trigger a full-script rerun from inside a fragment](/develop/tutorials/execution-flow/trigger-a-full-script-rerun-from-a-fragment).\n",
+            "source_span": [
+              4800,
+              6475
+            ],
+            "source_sha256": "54fdfcb8298a0c32cc059fd9ebe2c6c2e07710ef4627a57ee05622feaaf5b151",
+            "sha256": "3eb6c0ed6979ae4d383109aa99782a24e19e04bc6211ac14ee07cf27ab2492f1",
+            "lines": [
+              83,
+              93
+            ],
+            "section": "fragments > Working with fragments > Fragment return values and interacting with the rest of your app",
+            "section_path": [
+              "fragments",
+              "Working with fragments",
+              "Fragment return values and interacting with the rest of your app"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 336,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03401786,
+          "rank": 2
+        },
+        {
+          "kind": "issue",
+          "title": "Rerun() inside an st.fragment resets widget values to defaults.",
+          "url": "https://github.com/streamlit/streamlit/issues/11266",
+          "revision": "2025-05-07T14:09:05Z",
+          "product_version": null,
+          "issue_number": 11266,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:11266:v3:child:adae479782909d3bea3e",
+          "source_id": "issue:11266",
+          "text": "### Debug info\n\n- Streamlit version: 1.45.0\n- Python version: 3.13.2\n- Operating System: MasOS 15.1\n- Browser: Safari, Chrome, and Brave\n",
+          "source_span": [
+            1625,
+            1762
+          ],
+          "source_sha256": "019ba48f328fdbec23f67347e07dee4c758698ff72843c3f15405e5d03ef023a",
+          "sha256": "3de26b7731bd046929ca7cc0295feeb0c775b4a9cbebbd3c1015220515db81cc",
+          "lines": [
+            54,
+            59
+          ],
+          "section": "Rerun() inside an st.fragment resets widget values to defaults. > Debug info",
+          "section_path": [
+            "Rerun() inside an st.fragment resets widget values to defaults.",
+            "Debug info"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 48,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:11266:v3:parent:adae479782909d3bea3e",
+          "parent": {
+            "kind": "issue",
+            "title": "Rerun() inside an st.fragment resets widget values to defaults.",
+            "url": "https://github.com/streamlit/streamlit/issues/11266",
+            "revision": "2025-05-07T14:09:05Z",
+            "product_version": null,
+            "issue_number": 11266,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:11266:v3:parent:adae479782909d3bea3e",
+            "source_id": "issue:11266",
+            "text": "### Debug info\n\n- Streamlit version: 1.45.0\n- Python version: 3.13.2\n- Operating System: MasOS 15.1\n- Browser: Safari, Chrome, and Brave\n",
+            "source_span": [
+              1625,
+              1762
+            ],
+            "source_sha256": "019ba48f328fdbec23f67347e07dee4c758698ff72843c3f15405e5d03ef023a",
+            "sha256": "3de26b7731bd046929ca7cc0295feeb0c775b4a9cbebbd3c1015220515db81cc",
+            "lines": [
+              54,
+              59
+            ],
+            "section": "Rerun() inside an st.fragment resets widget values to defaults. > Debug info",
+            "section_path": [
+              "Rerun() inside an st.fragment resets widget values to defaults.",
+              "Debug info"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 48,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02889813,
+          "rank": 3
+        },
+        {
+          "kind": "release",
+          "title": "2026",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2026.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:2026:v3:child:fc0dc1a2cfcf61013e32",
+          "source_id": "docs:2026",
+          "text": "Streamlit apps directly with `python app.py` or `uv run app.py` using the new `App.run()` entry point — no more `streamlit run` required ([#15563](https://github.com/streamlit/streamlit/pull/15563), [#9450](https://github.com/streamlit/streamlit/issues/9450), [#11420](https://github.com/streamlit/streamlit/issues/11420)).\n- 🧩 [`st.fragment`](/develop/api-reference/execution-flow/st.fragment) can now write to containers defined outside the fragment. Fragments can update any part of your app — including elements created before the fragment — without triggering a full rerun ([#15623](https://github.com/streamlit/streamlit/pull/15623), [#15620](https://github.com/streamlit/streamlit/pull/15620), [#10481](https://github.com/streamlit/streamlit/issues/10481)).\n- 📎 [`st.chat_input`](/develop/api-reference/chat/st.chat_input) now supports pasting files directly into the input field ([#15558](https://github.com/streamlit/streamlit/pull/15558), [#10307](https://github.com/streamlit/streamlit/issues/10307)).\n- 🤖 [`st.write_stream`](/develop/api-reference/write-magic/st.write_stream) now supports ",
+          "source_span": [
+            31548,
+            32650
+          ],
+          "source_sha256": "636dd9a04698d694ff9db6790ba5486a2085d9b91593d878bf99e67784818427",
+          "sha256": "7712a852f499c63bd3b7899ac10e166d88f58e50556cee85400ee37fa51f0cc7",
+          "lines": [
+            278,
+            281
+          ],
+          "section": "2026 > 2026 release notes > **Version 1.59.0**",
+          "section_path": [
+            "2026",
+            "2026 release notes",
+            "**Version 1.59.0**"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 299,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:2026:v3:parent:d993cefaa6b489d3204d",
+          "parent": {
+            "kind": "release",
+            "title": "2026",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2026.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:2026:v3:parent:d993cefaa6b489d3204d",
+            "source_id": "docs:2026",
+            "text": "- 🎛 [`st.chat_input`](/develop/api-reference/chat/st.chat_input) has a new `submit_mode` parameter that controls widget behavior after the user submits a message, e.g. showing a stop button or disabling the chat input ([#14344](https://github.com/streamlit/streamlit/pull/14344), [#8323](https://github.com/streamlit/streamlit/issues/8323), [#11854](https://github.com/streamlit/streamlit/issues/11854)).\n- 📋 [`st.dataframe`](/develop/api-reference/data/st.dataframe) and [`st.data_editor`](/develop/api-reference/data/st.data_editor) support a new [`MarkdownColumn`](/develop/api-reference/data/st.column_config/st.column_config.markdowncolumn) type in `st.column_config` that renders Markdown text inside table cells ([#13931](https://github.com/streamlit/streamlit/pull/13931), [#10211](https://github.com/streamlit/streamlit/issues/10211)).\n- 🔗 [`st.markdown`](/develop/api-reference/text/st.markdown) has a new `anchors` parameter for adding linkable heading anchors to Markdown content ([#15722](https://github.com/streamlit/streamlit/pull/15722), [#13913](https://github.com/streamlit/streamlit/issues/13913)).\n- 💻 You can now launch Streamlit apps directly with `python app.py` or `uv run app.py` using the new `App.run()` entry point — no more `streamlit run` required ([#15563](https://github.com/streamlit/streamlit/pull/15563), [#9450](https://github.com/streamlit/streamlit/issues/9450), [#11420](https://github.com/streamlit/streamlit/issues/11420)).\n- 🧩 [`st.fragment`](/develop/api-reference/execution-flow/st.fragment) can now write to containers defined outside the fragment. Fragments can update any part of your app — including elements created before the fragment — without triggering a full rerun ([#15623](https://github.com/streamlit/streamlit/pull/15623), [#15620](https://github.com/streamlit/streamlit/pull/15620), [#10481](https://github.com/streamlit/streamlit/issues/10481)).\n- 📎 [`st.chat_input`](/develop/api-reference/chat/st.chat_input) now supports pasting files directly into the input field ([#15558](https://github.com/streamlit/streamlit/pull/15558), [#10307](https://github.com/streamlit/streamlit/issues/10307)).\n- 🤖 [`st.write_stream`](/develop/api-reference/write-magic/st.write_stream) now supports OpenAI Responses API streams in addition to the existing Chat Completions streams ([#15559](https://github.com/streamlit/streamlit/pull/15559), [#11061](https://github.com/streamlit/streamlit/issues/11061)).\n- 🔒 [`st.set_page_config`](/develop/api-reference/configuration/st.set_page_config) supports a new `\"locked\"` option for `initial_sidebar_state` that prevents users from toggling the sidebar open or closed ([#15459](https://github.com/streamlit/streamlit/pull/15459), [#15411](https://github.com/streamlit/streamlit/issues/15411)).\n- 💅 Widgets have a new `persist_state` parameter for finer control over how widget state is preserved across reruns ([#15645](https://github.com/streamlit/streamlit/pull/15645)).\n- 📷 ",
+            "source_span": [
+              30407,
+              33373
+            ],
+            "source_sha256": "636dd9a04698d694ff9db6790ba5486a2085d9b91593d878bf99e67784818427",
+            "sha256": "27218ffc35467e35466b2d30771e008bd46e2cd1dc1c401e6bcc95a377ace44a",
+            "lines": [
+              275,
+              284
+            ],
+            "section": "2026 > 2026 release notes > **Version 1.59.0**",
+            "section_path": [
+              "2026",
+              "2026 release notes",
+              "**Version 1.59.0**"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 787,
+            "block_kinds": [
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.025,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "Call arguments don't propogate to st.fragment correctly starting with v1.37",
+          "url": "https://github.com/streamlit/streamlit/issues/9267",
+          "revision": "2024-08-15T23:21:41Z",
+          "product_version": null,
+          "issue_number": 9267,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:9267:v3:child:de66176e5e3b09cc6033",
+          "source_id": "issue:9267",
+          "text": "### Steps To Reproduce\n\n1. Launch the provides Streamlit app with Streamlit v1.36\n2. You will observe that on the 2nd and later pages the UI responds appropriately in each fragment.\n3. Now instead launch it with Streamlit v1.37.1\n4. Now, when toggling and 2nd and later pages, the \"offset\" is incorrectly populated in the fragment, and state from the first page is displayed and affected.\n",
+          "source_span": [
+            1602,
+            1991
+          ],
+          "source_sha256": "2290273c18812cc1fe06f4491d69d9f59ddb23e84aaa34b81ac32bde6d464fa5",
+          "sha256": "c730c3c265d1ee3f876b60aa7c96819eff987022646ab9a79025cc842fcfdb0a",
+          "lines": [
+            49,
+            54
+          ],
+          "section": "Call arguments don't propogate to st.fragment correctly starting with v1.37 > Steps To Reproduce",
+          "section_path": [
+            "Call arguments don't propogate to st.fragment correctly starting with v1.37",
+            "Steps To Reproduce"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 97,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:9267:v3:parent:de66176e5e3b09cc6033",
+          "parent": {
+            "kind": "issue",
+            "title": "Call arguments don't propogate to st.fragment correctly starting with v1.37",
+            "url": "https://github.com/streamlit/streamlit/issues/9267",
+            "revision": "2024-08-15T23:21:41Z",
+            "product_version": null,
+            "issue_number": 9267,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:9267:v3:parent:de66176e5e3b09cc6033",
+            "source_id": "issue:9267",
+            "text": "### Steps To Reproduce\n\n1. Launch the provides Streamlit app with Streamlit v1.36\n2. You will observe that on the 2nd and later pages the UI responds appropriately in each fragment.\n3. Now instead launch it with Streamlit v1.37.1\n4. Now, when toggling and 2nd and later pages, the \"offset\" is incorrectly populated in the fragment, and state from the first page is displayed and affected.\n",
+            "source_span": [
+              1602,
+              1991
+            ],
+            "source_sha256": "2290273c18812cc1fe06f4491d69d9f59ddb23e84aaa34b81ac32bde6d464fa5",
+            "sha256": "c730c3c265d1ee3f876b60aa7c96819eff987022646ab9a79025cc842fcfdb0a",
+            "lines": [
+              49,
+              54
+            ],
+            "section": "Call arguments don't propogate to st.fragment correctly starting with v1.37 > Steps To Reproduce",
+            "section_path": [
+              "Call arguments don't propogate to st.fragment correctly starting with v1.37",
+              "Steps To Reproduce"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 97,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02512484,
+          "rank": 5
+        },
+        {
+          "kind": "issue",
+          "title": "Fragment to fragment (co-fragment) communication instead of rerunning entire app",
+          "url": "https://github.com/streamlit/streamlit/issues/10045",
+          "revision": "2026-09-07T11:29:38Z",
+          "product_version": null,
+          "issue_number": 10045,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:10045:v3:child:8c4ea9dda6dfd898af6d",
+          "source_id": "issue:10045",
+          "text": "```\n@st.fragment(key=\"test_frag\", keys_to_update=[\"frag1\", \"frag2\"], trigger_keys=[{\"frag1\":\"form_submit_btn\"}])\n```\n",
+          "source_span": [
+            2032,
+            2149
+          ],
+          "source_sha256": "bbaf73013491cdcf79be26d27a463b8ccfd3ef337b61006fcd0e9a8d3131131f",
+          "sha256": "77f4d1b7e5571c3b78f44a61475129c1ac0acfa59f0429db0aec4652152156af",
+          "lines": [
+            40,
+            42
+          ],
+          "section": "Fragment to fragment (co-fragment) communication instead of rerunning entire app > How?",
+          "section_path": [
+            "Fragment to fragment (co-fragment) communication instead of rerunning entire app",
+            "How?"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 35,
+          "block_kinds": [
+            "code"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:10045:v3:parent:a2bb15c6f27eae4b3030",
+          "parent": {
+            "kind": "issue",
+            "title": "Fragment to fragment (co-fragment) communication instead of rerunning entire app",
+            "url": "https://github.com/streamlit/streamlit/issues/10045",
+            "revision": "2026-09-07T11:29:38Z",
+            "product_version": null,
+            "issue_number": 10045,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:10045:v3:parent:a2bb15c6f27eae4b3030",
+            "source_id": "issue:10045",
+            "text": "### How?\n\nMy app looks like the below:\n\n[IMAGE OMITTED: not inspected]\n\nThe black outlines are fragments. The purple/pink outlines are nested fragments. I understand co-fragment communication occurs through session_state which is great but for this communication to be recognised, one must re-run the whole app. This makes the app more slow and somewhat buggy in my experience of operating my app. \n\nSeeing as fragments can be re-run periodically, it would be great to add the possibility to communicate between specific fragments via an action. For example, in my app image, After I input details in the \"Contact Details\" expander, I want to update the CV Preview fragment. But to do that, I have to re-run the entire app. Perhaps the possibility to rerun specific fragments based on some unique Id (like a key of a streamlit widget) when I say click on the submit form button in the Contact Details expander would be great. \n\nJust an example\n```\n@st.fragment(key=\"test_frag\", keys_to_update=[\"frag1\", \"frag2\"])\n```\n\nThe issue with the above is for every rerun action, the `keys to update` will rerun. So perhaps, we could create a trigger command parameter.\n\n```\n@st.fragment(key=\"test_frag\", keys_to_update=[\"frag1\", \"frag2\"], trigger_keys=[\"form_submit_btn\"])\n```\n\nWe could also get fancy and connect trigger keys to keys to update:\n\n\n```\n@st.fragment(key=\"test_frag\", keys_to_update=[\"frag1\", \"frag2\"], trigger_keys=[{\"frag1\":\"form_submit_btn\"}])\n```\n",
+            "source_span": [
+              693,
+              2149
+            ],
+            "source_sha256": "bbaf73013491cdcf79be26d27a463b8ccfd3ef337b61006fcd0e9a8d3131131f",
+            "sha256": "ced4dccafeb5ed42966dfacfb9a9fb415bcf35cf587b25128e499cb81ca74084",
+            "lines": [
+              16,
+              42
+            ],
+            "section": "Fragment to fragment (co-fragment) communication instead of rerunning entire app > How?",
+            "section_path": [
+              "Fragment to fragment (co-fragment) communication instead of rerunning entire app",
+              "How?"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 332,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02578981,
+          "rank": 6
+        },
+        {
+          "kind": "release",
+          "title": "2026",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2026.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:2026:v3:child:b8a955f6c96506e842f4",
+          "source_id": "docs:2026",
+          "text": "- 🎯 Introducing event-scoped fragment reruns, which let a widget callback rerun just one named fragment:\n    - Name a fragment with `@st.fragment(key=…)` and target it with [`st.rerun`](/develop/api-reference/execution-flow/st.rerun)`(\"filters\")` or `st.rerun([\"alpha\", \"beta\"])` from an `on_change` or `on_click` callback ([#16161](https://github.com/streamlit/streamlit/pull/16161)).\n    - `st.rerun()` and `st.switch_page()` now take effect inside widget callbacks instead of being discarded with a warning; apps that relied on the previous no-op will now rerun ([#16158](https://github.com/streamlit/streamlit/pull/16158)).\n- ✨ Introducing `on_change=\"ignore\"`, a new mode that updates a widget in the browser without rerunning your app. Your script receives the buffered value on the next rerun, such as a button click, and the mode is available on [`st.slider`](/develop/api-reference/widgets/st.slider) and [`st.text_input`](/develop/api-reference/widgets/st.text_input) ([#14828](https://github.com/streamlit/streamlit/pull/14828), [#16605](https://github.com/streamlit/streamlit/pull/16605)).\n- 🍿 Introducing `type=\"step\"` ",
+          "source_span": [
+            2639,
+            3771
+          ],
+          "source_sha256": "636dd9a04698d694ff9db6790ba5486a2085d9b91593d878bf99e67784818427",
+          "sha256": "e298b98bf8dea695e304f148d1ca896f3cd9e40e7ac649096e7a359cd4d74caf",
+          "lines": [
+            68,
+            72
+          ],
+          "section": "2026 > 2026 release notes > **Version 1.63.0**",
+          "section_path": [
+            "2026",
+            "2026 release notes",
+            "**Version 1.63.0**"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 300,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:2026:v3:parent:da26dc56b20bf6fc96c9",
+          "parent": {
+            "kind": "release",
+            "title": "2026",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2026.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:2026:v3:parent:da26dc56b20bf6fc96c9",
+            "source_id": "docs:2026",
+            "text": "## **Version 1.63.0**\n\n_Release date: September 1, 2026_\n\n**Highlights**\n\n- 🎯 Introducing event-scoped fragment reruns, which let a widget callback rerun just one named fragment:\n    - Name a fragment with `@st.fragment(key=…)` and target it with [`st.rerun`](/develop/api-reference/execution-flow/st.rerun)`(\"filters\")` or `st.rerun([\"alpha\", \"beta\"])` from an `on_change` or `on_click` callback ([#16161](https://github.com/streamlit/streamlit/pull/16161)).\n    - `st.rerun()` and `st.switch_page()` now take effect inside widget callbacks instead of being discarded with a warning; apps that relied on the previous no-op will now rerun ([#16158](https://github.com/streamlit/streamlit/pull/16158)).\n- ✨ Introducing `on_change=\"ignore\"`, a new mode that updates a widget in the browser without rerunning your app. Your script receives the buffered value on the next rerun, such as a button click, and the mode is available on [`st.slider`](/develop/api-reference/widgets/st.slider) and [`st.text_input`](/develop/api-reference/widgets/st.text_input) ([#14828](https://github.com/streamlit/streamlit/pull/14828), [#16605](https://github.com/streamlit/streamlit/pull/16605)).\n- 🍿 Introducing `type=\"step\"` for [`st.expander`](/develop/api-reference/layout/st.expander) and [`st.status`](/develop/api-reference/status/st.status), which renders containers as a connected timeline — well suited to showing an agent's or a pipeline's progress ([#16558](https://github.com/streamlit/streamlit/pull/16558), [#13248](https://github.com/streamlit/streamlit/issues/13248)).\n\n**Notable Changes**\n",
+            "source_span": [
+              2565,
+              4151
+            ],
+            "source_sha256": "636dd9a04698d694ff9db6790ba5486a2085d9b91593d878bf99e67784818427",
+            "sha256": "c87bcab3fc66d9e2eaf6ab64dd47a301e92bd2bed1fe4dce1f8deb4724cae470",
+            "lines": [
+              62,
+              74
+            ],
+            "section": "2026 > 2026 release notes > **Version 1.63.0**",
+            "section_path": [
+              "2026",
+              "2026 release notes",
+              "**Version 1.63.0**"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 419,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02597841,
+          "rank": 7
+        },
+        {
+          "kind": "release",
+          "title": "2024",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2024.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:2024:v3:child:ab93f781d3430327fa04",
+          "source_id": "docs:2024",
+          "text": "## **Version 1.33.0**\n\n_Release date: April 4, 2024_\n\n**Highlights**\n\n- 👟 Introducing [`st.experimental_fragment`](/develop/api-reference/execution-flow/st.fragment) to decorate functions and rerun them independently of the whole page. Check out the [docs](/develop/concepts/architecture/fragments) and give your apps a speed boost!\n- 🌐 Introducing `st.html` to insert custom HTML into your app! Check out the [docs](/develop/api-reference/utilities/st.html) for how to use it.\n\n**Notable Changes**\n",
+          "source_span": [
+            39842,
+            40341
+          ],
+          "source_sha256": "10581e91afe8a4bc680381c723a3315f7a85e5879c89ab400d6bb466e9d4e580",
+          "sha256": "0b48cf945d97dc4077e7cf7929d61e9ae76f8869273b2ad40d1cccdd888c3229",
+          "lines": [
+            365,
+            374
+          ],
+          "section": "2024 > 2024 release notes > **Version 1.33.0**",
+          "section_path": [
+            "2024",
+            "2024 release notes",
+            "**Version 1.33.0**"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 124,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:2024:v3:parent:e52cf02ef37d69bfcef5",
+          "parent": {
+            "kind": "release",
+            "title": "2024",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2024.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:2024:v3:parent:e52cf02ef37d69bfcef5",
+            "source_id": "docs:2024",
+            "text": "## **Version 1.33.0**\n\n_Release date: April 4, 2024_\n\n**Highlights**\n\n- 👟 Introducing [`st.experimental_fragment`](/develop/api-reference/execution-flow/st.fragment) to decorate functions and rerun them independently of the whole page. Check out the [docs](/develop/concepts/architecture/fragments) and give your apps a speed boost!\n- 🌐 Introducing `st.html` to insert custom HTML into your app! Check out the [docs](/develop/api-reference/utilities/st.html) for how to use it.\n\n**Notable Changes**\n\n- 📺 [`st.audio`](/develop/api-reference/media/st.audio) and [`st.video`](/develop/api-reference/media/st.video) allow looping and setting an end time ([#8203](https://github.com/streamlit/streamlit/pull/8203), [#8348](https://github.com/streamlit/streamlit/pull/8348)).\n- 🔁 `AppTest` allows switching pages with [`AppTest.switch_page`](/develop/api-reference/app-testing/st.testing.v1.apptest#apptestswitch_page) ([#8280](https://github.com/streamlit/streamlit/pull/8280)).\n- 🧪 `format_func` is accessible in `AppTest` for widgets that use it ([#8189](https://github.com/streamlit/streamlit/pull/8189), [#8019](https://github.com/streamlit/streamlit/issues/8019), [#7679](https://github.com/streamlit/streamlit/issues/7679)).\n- 📈 Column configuration now includes [`AreaChartColumn`](/develop/api-reference/data/st.column_config/st.column_config.areachartcolumn). [`LineChartColumn`](/develop/api-reference/data/st.column_config/st.column_config.linechartcolumn) no longer shows area ([#8237](https://github.com/streamlit/streamlit/pull/8237)).\n- 🚧 Breaking change: [`st.write`](/develop/api-reference/write-magic/st.write) will no longer set `unsafe_allow_html=True` when passed an object containing a `_repr_html_` method. For more information, see PR [#8238](https://github.com/streamlit/streamlit/pull/8238).\n\n**Other Changes**\n",
+            "source_span": [
+              39842,
+              41674
+            ],
+            "source_sha256": "10581e91afe8a4bc680381c723a3315f7a85e5879c89ab400d6bb466e9d4e580",
+            "sha256": "eccbd234cd44ee6a9543b6301d48097a6f9719bb4c6e2e98e7c0d0cd8bb3068d",
+            "lines": [
+              365,
+              382
+            ],
+            "section": "2024 > 2024 release notes > **Version 1.33.0**",
+            "section_path": [
+              "2024",
+              "2024 release notes",
+              "**Version 1.33.0**"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 487,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02287294,
+          "rank": 8
+        }
+      ],
+      "candidate_hash": "b6c2f5201cb3a9cdcb5c512c510800983c3e1bbfc35cc5811ce079abddf3d1ce",
+      "context": [
+        {
+          "kind": "docs",
+          "title": "fragments",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:fragments:v3:child:ad96f0888c34e9af9cb2",
+          "source_id": "docs:fragments",
+          "text": "# Working with fragments\n\nReruns are a central part of every Streamlit app. When users interact with widgets, your script reruns from top to bottom, and your app's frontend is updated. Streamlit provides several features to help you develop your app within this execution model. Streamlit version 1.37.0 introduced fragments to allow rerunning a portion of your code instead of your full script. As your app grows larger and more complex, these fragment reruns help your app be efficient and performant. Fragments give you finer, easy-to-understand control over your app's execution flow.\n\nBefore you read about fragments, we recommend having a basic understanding of [caching](/develop/concepts/architecture/caching), [Session State](/concepts/architecture/session-state), and [forms](/develop/concepts/architecture/forms).\n",
+          "source_span": [
+            490,
+            1315
+          ],
+          "source_sha256": "54fdfcb8298a0c32cc059fd9ebe2c6c2e07710ef4627a57ee05622feaaf5b151",
+          "sha256": "83226fb18fece32a241282e8cb91e876363295be6574f627e2cc63c0b853cc52",
+          "lines": [
+            8,
+            12
+          ],
+          "section": "fragments > Working with fragments",
+          "section_path": [
+            "fragments",
+            "Working with fragments"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 172,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:fragments:v3:parent:ad96f0888c34e9af9cb2",
+          "parent": {
+            "kind": "docs",
+            "title": "fragments",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:fragments:v3:parent:ad96f0888c34e9af9cb2",
+            "source_id": "docs:fragments",
+            "text": "# Working with fragments\n\nReruns are a central part of every Streamlit app. When users interact with widgets, your script reruns from top to bottom, and your app's frontend is updated. Streamlit provides several features to help you develop your app within this execution model. Streamlit version 1.37.0 introduced fragments to allow rerunning a portion of your code instead of your full script. As your app grows larger and more complex, these fragment reruns help your app be efficient and performant. Fragments give you finer, easy-to-understand control over your app's execution flow.\n\nBefore you read about fragments, we recommend having a basic understanding of [caching](/develop/concepts/architecture/caching), [Session State](/concepts/architecture/session-state), and [forms](/develop/concepts/architecture/forms).\n",
+            "source_span": [
+              490,
+              1315
+            ],
+            "source_sha256": "54fdfcb8298a0c32cc059fd9ebe2c6c2e07710ef4627a57ee05622feaaf5b151",
+            "sha256": "83226fb18fece32a241282e8cb91e876363295be6574f627e2cc63c0b853cc52",
+            "lines": [
+              8,
+              12
+            ],
+            "section": "fragments > Working with fragments",
+            "section_path": [
+              "fragments",
+              "Working with fragments"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 172,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03540984,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "fragments",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:fragments:v3:child:14e6cbfad00d72cdd32e",
+          "source_id": "docs:fragments",
+          "text": "If you need to trigger a full-script rerun from inside a fragment, call [`st.rerun`](/develop/api-reference/execution-flow/st.rerun). For a related tutorial, see [Trigger a full-script rerun from inside a fragment](/develop/tutorials/execution-flow/trigger-a-full-script-rerun-from-a-fragment).\n",
+          "source_span": [
+            6180,
+            6475
+          ],
+          "source_sha256": "54fdfcb8298a0c32cc059fd9ebe2c6c2e07710ef4627a57ee05622feaaf5b151",
+          "sha256": "d6fea68c857ffbb62427deb6585478490727c826790e7a020915691abea01c95",
+          "lines": [
+            93,
+            93
+          ],
+          "section": "fragments > Working with fragments > Fragment return values and interacting with the rest of your app",
+          "section_path": [
+            "fragments",
+            "Working with fragments",
+            "Fragment return values and interacting with the rest of your app"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 72,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:fragments:v3:parent:3693f7e9cb3e09dea6d1",
+          "parent": {
+            "kind": "docs",
+            "title": "fragments",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:fragments:v3:parent:3693f7e9cb3e09dea6d1",
+            "source_id": "docs:fragments",
+            "text": "## Fragment return values and interacting with the rest of your app\n\nStreamlit ignores fragment return values during fragment reruns, so defining return values for your fragment functions is not recommended. Instead, if your fragment needs to share data with the rest of your app, use Session State. Fragments are just functions in your script, so they can access Session State, imported modules, and other Streamlit elements like containers. If your fragment writes to any container created outside of itself, note the following difference in behavior:\n\n- Elements drawn in the main body of your fragment are cleared and redrawn in place during a fragment rerun. Repeated fragment reruns will not cause additional elements to appear.\n- Elements drawn to containers outside the main body of fragment will not be cleared with each fragment rerun. Instead, Streamlit will draw them additively and these elements will accumulate until the next full-script rerun.\n- A fragment can't draw widgets in containers outside of the main body of the fragment. Widgets can only go in the main body of a fragment.\n\nTo prevent elements from accumulating in outside containers, use [`st.empty`](/develop/api-reference/layout/st.empty) containers. For a related tutorial, see [Create a fragment across multiple containers](/develop/tutorials/execution-flow/create-a-multiple-container-fragment).\n\nIf you need to trigger a full-script rerun from inside a fragment, call [`st.rerun`](/develop/api-reference/execution-flow/st.rerun). For a related tutorial, see [Trigger a full-script rerun from inside a fragment](/develop/tutorials/execution-flow/trigger-a-full-script-rerun-from-a-fragment).\n",
+            "source_span": [
+              4800,
+              6475
+            ],
+            "source_sha256": "54fdfcb8298a0c32cc059fd9ebe2c6c2e07710ef4627a57ee05622feaaf5b151",
+            "sha256": "3eb6c0ed6979ae4d383109aa99782a24e19e04bc6211ac14ee07cf27ab2492f1",
+            "lines": [
+              83,
+              93
+            ],
+            "section": "fragments > Working with fragments > Fragment return values and interacting with the rest of your app",
+            "section_path": [
+              "fragments",
+              "Working with fragments",
+              "Fragment return values and interacting with the rest of your app"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 336,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03401786,
+          "rank": 2
+        },
+        {
+          "kind": "issue",
+          "title": "Rerun() inside an st.fragment resets widget values to defaults.",
+          "url": "https://github.com/streamlit/streamlit/issues/11266",
+          "revision": "2025-05-07T14:09:05Z",
+          "product_version": null,
+          "issue_number": 11266,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:11266:v3:child:adae479782909d3bea3e",
+          "source_id": "issue:11266",
+          "text": "### Debug info\n\n- Streamlit version: 1.45.0\n- Python version: 3.13.2\n- Operating System: MasOS 15.1\n- Browser: Safari, Chrome, and Brave\n",
+          "source_span": [
+            1625,
+            1762
+          ],
+          "source_sha256": "019ba48f328fdbec23f67347e07dee4c758698ff72843c3f15405e5d03ef023a",
+          "sha256": "3de26b7731bd046929ca7cc0295feeb0c775b4a9cbebbd3c1015220515db81cc",
+          "lines": [
+            54,
+            59
+          ],
+          "section": "Rerun() inside an st.fragment resets widget values to defaults. > Debug info",
+          "section_path": [
+            "Rerun() inside an st.fragment resets widget values to defaults.",
+            "Debug info"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 48,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:11266:v3:parent:adae479782909d3bea3e",
+          "parent": {
+            "kind": "issue",
+            "title": "Rerun() inside an st.fragment resets widget values to defaults.",
+            "url": "https://github.com/streamlit/streamlit/issues/11266",
+            "revision": "2025-05-07T14:09:05Z",
+            "product_version": null,
+            "issue_number": 11266,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:11266:v3:parent:adae479782909d3bea3e",
+            "source_id": "issue:11266",
+            "text": "### Debug info\n\n- Streamlit version: 1.45.0\n- Python version: 3.13.2\n- Operating System: MasOS 15.1\n- Browser: Safari, Chrome, and Brave\n",
+            "source_span": [
+              1625,
+              1762
+            ],
+            "source_sha256": "019ba48f328fdbec23f67347e07dee4c758698ff72843c3f15405e5d03ef023a",
+            "sha256": "3de26b7731bd046929ca7cc0295feeb0c775b4a9cbebbd3c1015220515db81cc",
+            "lines": [
+              54,
+              59
+            ],
+            "section": "Rerun() inside an st.fragment resets widget values to defaults. > Debug info",
+            "section_path": [
+              "Rerun() inside an st.fragment resets widget values to defaults.",
+              "Debug info"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 48,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02889813,
+          "rank": 3
+        },
+        {
+          "kind": "release",
+          "title": "2026",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2026.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:2026:v3:child:fc0dc1a2cfcf61013e32",
+          "source_id": "docs:2026",
+          "text": "Streamlit apps directly with `python app.py` or `uv run app.py` using the new `App.run()` entry point — no more `streamlit run` required ([#15563](https://github.com/streamlit/streamlit/pull/15563), [#9450](https://github.com/streamlit/streamlit/issues/9450), [#11420](https://github.com/streamlit/streamlit/issues/11420)).\n- 🧩 [`st.fragment`](/develop/api-reference/execution-flow/st.fragment) can now write to containers defined outside the fragment. Fragments can update any part of your app — including elements created before the fragment — without triggering a full rerun ([#15623](https://github.com/streamlit/streamlit/pull/15623), [#15620](https://github.com/streamlit/streamlit/pull/15620), [#10481](https://github.com/streamlit/streamlit/issues/10481)).\n- 📎 [`st.chat_input`](/develop/api-reference/chat/st.chat_input) now supports pasting files directly into the input field ([#15558](https://github.com/streamlit/streamlit/pull/15558), [#10307](https://github.com/streamlit/streamlit/issues/10307)).\n- 🤖 [`st.write_stream`](/develop/api-reference/write-magic/st.write_stream) now supports ",
+          "source_span": [
+            31548,
+            32650
+          ],
+          "source_sha256": "636dd9a04698d694ff9db6790ba5486a2085d9b91593d878bf99e67784818427",
+          "sha256": "7712a852f499c63bd3b7899ac10e166d88f58e50556cee85400ee37fa51f0cc7",
+          "lines": [
+            278,
+            281
+          ],
+          "section": "2026 > 2026 release notes > **Version 1.59.0**",
+          "section_path": [
+            "2026",
+            "2026 release notes",
+            "**Version 1.59.0**"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 299,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:2026:v3:parent:d993cefaa6b489d3204d",
+          "parent": {
+            "kind": "release",
+            "title": "2026",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2026.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:2026:v3:parent:d993cefaa6b489d3204d",
+            "source_id": "docs:2026",
+            "text": "- 🎛 [`st.chat_input`](/develop/api-reference/chat/st.chat_input) has a new `submit_mode` parameter that controls widget behavior after the user submits a message, e.g. showing a stop button or disabling the chat input ([#14344](https://github.com/streamlit/streamlit/pull/14344), [#8323](https://github.com/streamlit/streamlit/issues/8323), [#11854](https://github.com/streamlit/streamlit/issues/11854)).\n- 📋 [`st.dataframe`](/develop/api-reference/data/st.dataframe) and [`st.data_editor`](/develop/api-reference/data/st.data_editor) support a new [`MarkdownColumn`](/develop/api-reference/data/st.column_config/st.column_config.markdowncolumn) type in `st.column_config` that renders Markdown text inside table cells ([#13931](https://github.com/streamlit/streamlit/pull/13931), [#10211](https://github.com/streamlit/streamlit/issues/10211)).\n- 🔗 [`st.markdown`](/develop/api-reference/text/st.markdown) has a new `anchors` parameter for adding linkable heading anchors to Markdown content ([#15722](https://github.com/streamlit/streamlit/pull/15722), [#13913](https://github.com/streamlit/streamlit/issues/13913)).\n- 💻 You can now launch Streamlit apps directly with `python app.py` or `uv run app.py` using the new `App.run()` entry point — no more `streamlit run` required ([#15563](https://github.com/streamlit/streamlit/pull/15563), [#9450](https://github.com/streamlit/streamlit/issues/9450), [#11420](https://github.com/streamlit/streamlit/issues/11420)).\n- 🧩 [`st.fragment`](/develop/api-reference/execution-flow/st.fragment) can now write to containers defined outside the fragment. Fragments can update any part of your app — including elements created before the fragment — without triggering a full rerun ([#15623](https://github.com/streamlit/streamlit/pull/15623), [#15620](https://github.com/streamlit/streamlit/pull/15620), [#10481](https://github.com/streamlit/streamlit/issues/10481)).\n- 📎 [`st.chat_input`](/develop/api-reference/chat/st.chat_input) now supports pasting files directly into the input field ([#15558](https://github.com/streamlit/streamlit/pull/15558), [#10307](https://github.com/streamlit/streamlit/issues/10307)).\n- 🤖 [`st.write_stream`](/develop/api-reference/write-magic/st.write_stream) now supports OpenAI Responses API streams in addition to the existing Chat Completions streams ([#15559](https://github.com/streamlit/streamlit/pull/15559), [#11061](https://github.com/streamlit/streamlit/issues/11061)).\n- 🔒 [`st.set_page_config`](/develop/api-reference/configuration/st.set_page_config) supports a new `\"locked\"` option for `initial_sidebar_state` that prevents users from toggling the sidebar open or closed ([#15459](https://github.com/streamlit/streamlit/pull/15459), [#15411](https://github.com/streamlit/streamlit/issues/15411)).\n- 💅 Widgets have a new `persist_state` parameter for finer control over how widget state is preserved across reruns ([#15645](https://github.com/streamlit/streamlit/pull/15645)).\n- 📷 ",
+            "source_span": [
+              30407,
+              33373
+            ],
+            "source_sha256": "636dd9a04698d694ff9db6790ba5486a2085d9b91593d878bf99e67784818427",
+            "sha256": "27218ffc35467e35466b2d30771e008bd46e2cd1dc1c401e6bcc95a377ace44a",
+            "lines": [
+              275,
+              284
+            ],
+            "section": "2026 > 2026 release notes > **Version 1.59.0**",
+            "section_path": [
+              "2026",
+              "2026 release notes",
+              "**Version 1.59.0**"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 787,
+            "block_kinds": [
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.025,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "Call arguments don't propogate to st.fragment correctly starting with v1.37",
+          "url": "https://github.com/streamlit/streamlit/issues/9267",
+          "revision": "2024-08-15T23:21:41Z",
+          "product_version": null,
+          "issue_number": 9267,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:9267:v3:child:de66176e5e3b09cc6033",
+          "source_id": "issue:9267",
+          "text": "### Steps To Reproduce\n\n1. Launch the provides Streamlit app with Streamlit v1.36\n2. You will observe that on the 2nd and later pages the UI responds appropriately in each fragment.\n3. Now instead launch it with Streamlit v1.37.1\n4. Now, when toggling and 2nd and later pages, the \"offset\" is incorrectly populated in the fragment, and state from the first page is displayed and affected.\n",
+          "source_span": [
+            1602,
+            1991
+          ],
+          "source_sha256": "2290273c18812cc1fe06f4491d69d9f59ddb23e84aaa34b81ac32bde6d464fa5",
+          "sha256": "c730c3c265d1ee3f876b60aa7c96819eff987022646ab9a79025cc842fcfdb0a",
+          "lines": [
+            49,
+            54
+          ],
+          "section": "Call arguments don't propogate to st.fragment correctly starting with v1.37 > Steps To Reproduce",
+          "section_path": [
+            "Call arguments don't propogate to st.fragment correctly starting with v1.37",
+            "Steps To Reproduce"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 97,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:9267:v3:parent:de66176e5e3b09cc6033",
+          "parent": {
+            "kind": "issue",
+            "title": "Call arguments don't propogate to st.fragment correctly starting with v1.37",
+            "url": "https://github.com/streamlit/streamlit/issues/9267",
+            "revision": "2024-08-15T23:21:41Z",
+            "product_version": null,
+            "issue_number": 9267,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:9267:v3:parent:de66176e5e3b09cc6033",
+            "source_id": "issue:9267",
+            "text": "### Steps To Reproduce\n\n1. Launch the provides Streamlit app with Streamlit v1.36\n2. You will observe that on the 2nd and later pages the UI responds appropriately in each fragment.\n3. Now instead launch it with Streamlit v1.37.1\n4. Now, when toggling and 2nd and later pages, the \"offset\" is incorrectly populated in the fragment, and state from the first page is displayed and affected.\n",
+            "source_span": [
+              1602,
+              1991
+            ],
+            "source_sha256": "2290273c18812cc1fe06f4491d69d9f59ddb23e84aaa34b81ac32bde6d464fa5",
+            "sha256": "c730c3c265d1ee3f876b60aa7c96819eff987022646ab9a79025cc842fcfdb0a",
+            "lines": [
+              49,
+              54
+            ],
+            "section": "Call arguments don't propogate to st.fragment correctly starting with v1.37 > Steps To Reproduce",
+            "section_path": [
+              "Call arguments don't propogate to st.fragment correctly starting with v1.37",
+              "Steps To Reproduce"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 97,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02512484,
+          "rank": 5
+        }
+      ],
+      "packing": {
+        "encoding": "o200k_base",
+        "budget_tokens": 3000,
+        "used_tokens": 1885,
+        "expand_parent": false,
+        "items": [
+          {
+            "id": "docs:fragments:v3:child:ad96f0888c34e9af9cb2",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:fragments:v3:child:ad96f0888c34e9af9cb2"
+          },
+          {
+            "id": "docs:fragments:v3:child:14e6cbfad00d72cdd32e",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:fragments:v3:child:14e6cbfad00d72cdd32e"
+          },
+          {
+            "id": "issue:11266:v3:child:adae479782909d3bea3e",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:11266:v3:child:adae479782909d3bea3e"
+          },
+          {
+            "id": "docs:2026:v3:child:fc0dc1a2cfcf61013e32",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:2026:v3:child:fc0dc1a2cfcf61013e32"
+          },
+          {
+            "id": "issue:9267:v3:child:de66176e5e3b09cc6033",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:9267:v3:child:de66176e5e3b09cc6033"
+          },
+          {
+            "id": "issue:10045:v3:child:8c4ea9dda6dfd898af6d",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "docs:2026:v3:child:b8a955f6c96506e842f4",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "docs:2024:v3:child:ab93f781d3430327fa04",
+            "status": "omitted",
+            "reason": "item_limit"
+          }
+        ]
+      },
+      "index": "v3",
+      "namespace": "6fbba079eb1323bf54c9d03ad4b956a7174e0f434f386ed66f0a50b489f55d4e"
+    },
+    "C": {
+      "candidates": [
+        {
+          "kind": "docs",
+          "title": "fragments",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:fragments:v3:child:ad96f0888c34e9af9cb2",
+          "source_id": "docs:fragments",
+          "text": "# Working with fragments\n\nReruns are a central part of every Streamlit app. When users interact with widgets, your script reruns from top to bottom, and your app's frontend is updated. Streamlit provides several features to help you develop your app within this execution model. Streamlit version 1.37.0 introduced fragments to allow rerunning a portion of your code instead of your full script. As your app grows larger and more complex, these fragment reruns help your app be efficient and performant. Fragments give you finer, easy-to-understand control over your app's execution flow.\n\nBefore you read about fragments, we recommend having a basic understanding of [caching](/develop/concepts/architecture/caching), [Session State](/concepts/architecture/session-state), and [forms](/develop/concepts/architecture/forms).\n",
+          "source_span": [
+            490,
+            1315
+          ],
+          "source_sha256": "54fdfcb8298a0c32cc059fd9ebe2c6c2e07710ef4627a57ee05622feaaf5b151",
+          "sha256": "83226fb18fece32a241282e8cb91e876363295be6574f627e2cc63c0b853cc52",
+          "lines": [
+            8,
+            12
+          ],
+          "section": "fragments > Working with fragments",
+          "section_path": [
+            "fragments",
+            "Working with fragments"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 172,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:fragments:v3:parent:ad96f0888c34e9af9cb2",
+          "parent": {
+            "kind": "docs",
+            "title": "fragments",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:fragments:v3:parent:ad96f0888c34e9af9cb2",
+            "source_id": "docs:fragments",
+            "text": "# Working with fragments\n\nReruns are a central part of every Streamlit app. When users interact with widgets, your script reruns from top to bottom, and your app's frontend is updated. Streamlit provides several features to help you develop your app within this execution model. Streamlit version 1.37.0 introduced fragments to allow rerunning a portion of your code instead of your full script. As your app grows larger and more complex, these fragment reruns help your app be efficient and performant. Fragments give you finer, easy-to-understand control over your app's execution flow.\n\nBefore you read about fragments, we recommend having a basic understanding of [caching](/develop/concepts/architecture/caching), [Session State](/concepts/architecture/session-state), and [forms](/develop/concepts/architecture/forms).\n",
+            "source_span": [
+              490,
+              1315
+            ],
+            "source_sha256": "54fdfcb8298a0c32cc059fd9ebe2c6c2e07710ef4627a57ee05622feaaf5b151",
+            "sha256": "83226fb18fece32a241282e8cb91e876363295be6574f627e2cc63c0b853cc52",
+            "lines": [
+              8,
+              12
+            ],
+            "section": "fragments > Working with fragments",
+            "section_path": [
+              "fragments",
+              "Working with fragments"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 172,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03540984,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "fragments",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:fragments:v3:child:14e6cbfad00d72cdd32e",
+          "source_id": "docs:fragments",
+          "text": "If you need to trigger a full-script rerun from inside a fragment, call [`st.rerun`](/develop/api-reference/execution-flow/st.rerun). For a related tutorial, see [Trigger a full-script rerun from inside a fragment](/develop/tutorials/execution-flow/trigger-a-full-script-rerun-from-a-fragment).\n",
+          "source_span": [
+            6180,
+            6475
+          ],
+          "source_sha256": "54fdfcb8298a0c32cc059fd9ebe2c6c2e07710ef4627a57ee05622feaaf5b151",
+          "sha256": "d6fea68c857ffbb62427deb6585478490727c826790e7a020915691abea01c95",
+          "lines": [
+            93,
+            93
+          ],
+          "section": "fragments > Working with fragments > Fragment return values and interacting with the rest of your app",
+          "section_path": [
+            "fragments",
+            "Working with fragments",
+            "Fragment return values and interacting with the rest of your app"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 72,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:fragments:v3:parent:3693f7e9cb3e09dea6d1",
+          "parent": {
+            "kind": "docs",
+            "title": "fragments",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:fragments:v3:parent:3693f7e9cb3e09dea6d1",
+            "source_id": "docs:fragments",
+            "text": "## Fragment return values and interacting with the rest of your app\n\nStreamlit ignores fragment return values during fragment reruns, so defining return values for your fragment functions is not recommended. Instead, if your fragment needs to share data with the rest of your app, use Session State. Fragments are just functions in your script, so they can access Session State, imported modules, and other Streamlit elements like containers. If your fragment writes to any container created outside of itself, note the following difference in behavior:\n\n- Elements drawn in the main body of your fragment are cleared and redrawn in place during a fragment rerun. Repeated fragment reruns will not cause additional elements to appear.\n- Elements drawn to containers outside the main body of fragment will not be cleared with each fragment rerun. Instead, Streamlit will draw them additively and these elements will accumulate until the next full-script rerun.\n- A fragment can't draw widgets in containers outside of the main body of the fragment. Widgets can only go in the main body of a fragment.\n\nTo prevent elements from accumulating in outside containers, use [`st.empty`](/develop/api-reference/layout/st.empty) containers. For a related tutorial, see [Create a fragment across multiple containers](/develop/tutorials/execution-flow/create-a-multiple-container-fragment).\n\nIf you need to trigger a full-script rerun from inside a fragment, call [`st.rerun`](/develop/api-reference/execution-flow/st.rerun). For a related tutorial, see [Trigger a full-script rerun from inside a fragment](/develop/tutorials/execution-flow/trigger-a-full-script-rerun-from-a-fragment).\n",
+            "source_span": [
+              4800,
+              6475
+            ],
+            "source_sha256": "54fdfcb8298a0c32cc059fd9ebe2c6c2e07710ef4627a57ee05622feaaf5b151",
+            "sha256": "3eb6c0ed6979ae4d383109aa99782a24e19e04bc6211ac14ee07cf27ab2492f1",
+            "lines": [
+              83,
+              93
+            ],
+            "section": "fragments > Working with fragments > Fragment return values and interacting with the rest of your app",
+            "section_path": [
+              "fragments",
+              "Working with fragments",
+              "Fragment return values and interacting with the rest of your app"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 336,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03401786,
+          "rank": 2
+        },
+        {
+          "kind": "issue",
+          "title": "Rerun() inside an st.fragment resets widget values to defaults.",
+          "url": "https://github.com/streamlit/streamlit/issues/11266",
+          "revision": "2025-05-07T14:09:05Z",
+          "product_version": null,
+          "issue_number": 11266,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:11266:v3:child:adae479782909d3bea3e",
+          "source_id": "issue:11266",
+          "text": "### Debug info\n\n- Streamlit version: 1.45.0\n- Python version: 3.13.2\n- Operating System: MasOS 15.1\n- Browser: Safari, Chrome, and Brave\n",
+          "source_span": [
+            1625,
+            1762
+          ],
+          "source_sha256": "019ba48f328fdbec23f67347e07dee4c758698ff72843c3f15405e5d03ef023a",
+          "sha256": "3de26b7731bd046929ca7cc0295feeb0c775b4a9cbebbd3c1015220515db81cc",
+          "lines": [
+            54,
+            59
+          ],
+          "section": "Rerun() inside an st.fragment resets widget values to defaults. > Debug info",
+          "section_path": [
+            "Rerun() inside an st.fragment resets widget values to defaults.",
+            "Debug info"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 48,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:11266:v3:parent:adae479782909d3bea3e",
+          "parent": {
+            "kind": "issue",
+            "title": "Rerun() inside an st.fragment resets widget values to defaults.",
+            "url": "https://github.com/streamlit/streamlit/issues/11266",
+            "revision": "2025-05-07T14:09:05Z",
+            "product_version": null,
+            "issue_number": 11266,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:11266:v3:parent:adae479782909d3bea3e",
+            "source_id": "issue:11266",
+            "text": "### Debug info\n\n- Streamlit version: 1.45.0\n- Python version: 3.13.2\n- Operating System: MasOS 15.1\n- Browser: Safari, Chrome, and Brave\n",
+            "source_span": [
+              1625,
+              1762
+            ],
+            "source_sha256": "019ba48f328fdbec23f67347e07dee4c758698ff72843c3f15405e5d03ef023a",
+            "sha256": "3de26b7731bd046929ca7cc0295feeb0c775b4a9cbebbd3c1015220515db81cc",
+            "lines": [
+              54,
+              59
+            ],
+            "section": "Rerun() inside an st.fragment resets widget values to defaults. > Debug info",
+            "section_path": [
+              "Rerun() inside an st.fragment resets widget values to defaults.",
+              "Debug info"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 48,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02889813,
+          "rank": 3
+        },
+        {
+          "kind": "release",
+          "title": "2026",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2026.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:2026:v3:child:fc0dc1a2cfcf61013e32",
+          "source_id": "docs:2026",
+          "text": "Streamlit apps directly with `python app.py` or `uv run app.py` using the new `App.run()` entry point — no more `streamlit run` required ([#15563](https://github.com/streamlit/streamlit/pull/15563), [#9450](https://github.com/streamlit/streamlit/issues/9450), [#11420](https://github.com/streamlit/streamlit/issues/11420)).\n- 🧩 [`st.fragment`](/develop/api-reference/execution-flow/st.fragment) can now write to containers defined outside the fragment. Fragments can update any part of your app — including elements created before the fragment — without triggering a full rerun ([#15623](https://github.com/streamlit/streamlit/pull/15623), [#15620](https://github.com/streamlit/streamlit/pull/15620), [#10481](https://github.com/streamlit/streamlit/issues/10481)).\n- 📎 [`st.chat_input`](/develop/api-reference/chat/st.chat_input) now supports pasting files directly into the input field ([#15558](https://github.com/streamlit/streamlit/pull/15558), [#10307](https://github.com/streamlit/streamlit/issues/10307)).\n- 🤖 [`st.write_stream`](/develop/api-reference/write-magic/st.write_stream) now supports ",
+          "source_span": [
+            31548,
+            32650
+          ],
+          "source_sha256": "636dd9a04698d694ff9db6790ba5486a2085d9b91593d878bf99e67784818427",
+          "sha256": "7712a852f499c63bd3b7899ac10e166d88f58e50556cee85400ee37fa51f0cc7",
+          "lines": [
+            278,
+            281
+          ],
+          "section": "2026 > 2026 release notes > **Version 1.59.0**",
+          "section_path": [
+            "2026",
+            "2026 release notes",
+            "**Version 1.59.0**"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 299,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:2026:v3:parent:d993cefaa6b489d3204d",
+          "parent": {
+            "kind": "release",
+            "title": "2026",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2026.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:2026:v3:parent:d993cefaa6b489d3204d",
+            "source_id": "docs:2026",
+            "text": "- 🎛 [`st.chat_input`](/develop/api-reference/chat/st.chat_input) has a new `submit_mode` parameter that controls widget behavior after the user submits a message, e.g. showing a stop button or disabling the chat input ([#14344](https://github.com/streamlit/streamlit/pull/14344), [#8323](https://github.com/streamlit/streamlit/issues/8323), [#11854](https://github.com/streamlit/streamlit/issues/11854)).\n- 📋 [`st.dataframe`](/develop/api-reference/data/st.dataframe) and [`st.data_editor`](/develop/api-reference/data/st.data_editor) support a new [`MarkdownColumn`](/develop/api-reference/data/st.column_config/st.column_config.markdowncolumn) type in `st.column_config` that renders Markdown text inside table cells ([#13931](https://github.com/streamlit/streamlit/pull/13931), [#10211](https://github.com/streamlit/streamlit/issues/10211)).\n- 🔗 [`st.markdown`](/develop/api-reference/text/st.markdown) has a new `anchors` parameter for adding linkable heading anchors to Markdown content ([#15722](https://github.com/streamlit/streamlit/pull/15722), [#13913](https://github.com/streamlit/streamlit/issues/13913)).\n- 💻 You can now launch Streamlit apps directly with `python app.py` or `uv run app.py` using the new `App.run()` entry point — no more `streamlit run` required ([#15563](https://github.com/streamlit/streamlit/pull/15563), [#9450](https://github.com/streamlit/streamlit/issues/9450), [#11420](https://github.com/streamlit/streamlit/issues/11420)).\n- 🧩 [`st.fragment`](/develop/api-reference/execution-flow/st.fragment) can now write to containers defined outside the fragment. Fragments can update any part of your app — including elements created before the fragment — without triggering a full rerun ([#15623](https://github.com/streamlit/streamlit/pull/15623), [#15620](https://github.com/streamlit/streamlit/pull/15620), [#10481](https://github.com/streamlit/streamlit/issues/10481)).\n- 📎 [`st.chat_input`](/develop/api-reference/chat/st.chat_input) now supports pasting files directly into the input field ([#15558](https://github.com/streamlit/streamlit/pull/15558), [#10307](https://github.com/streamlit/streamlit/issues/10307)).\n- 🤖 [`st.write_stream`](/develop/api-reference/write-magic/st.write_stream) now supports OpenAI Responses API streams in addition to the existing Chat Completions streams ([#15559](https://github.com/streamlit/streamlit/pull/15559), [#11061](https://github.com/streamlit/streamlit/issues/11061)).\n- 🔒 [`st.set_page_config`](/develop/api-reference/configuration/st.set_page_config) supports a new `\"locked\"` option for `initial_sidebar_state` that prevents users from toggling the sidebar open or closed ([#15459](https://github.com/streamlit/streamlit/pull/15459), [#15411](https://github.com/streamlit/streamlit/issues/15411)).\n- 💅 Widgets have a new `persist_state` parameter for finer control over how widget state is preserved across reruns ([#15645](https://github.com/streamlit/streamlit/pull/15645)).\n- 📷 ",
+            "source_span": [
+              30407,
+              33373
+            ],
+            "source_sha256": "636dd9a04698d694ff9db6790ba5486a2085d9b91593d878bf99e67784818427",
+            "sha256": "27218ffc35467e35466b2d30771e008bd46e2cd1dc1c401e6bcc95a377ace44a",
+            "lines": [
+              275,
+              284
+            ],
+            "section": "2026 > 2026 release notes > **Version 1.59.0**",
+            "section_path": [
+              "2026",
+              "2026 release notes",
+              "**Version 1.59.0**"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 787,
+            "block_kinds": [
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.025,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "Call arguments don't propogate to st.fragment correctly starting with v1.37",
+          "url": "https://github.com/streamlit/streamlit/issues/9267",
+          "revision": "2024-08-15T23:21:41Z",
+          "product_version": null,
+          "issue_number": 9267,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:9267:v3:child:de66176e5e3b09cc6033",
+          "source_id": "issue:9267",
+          "text": "### Steps To Reproduce\n\n1. Launch the provides Streamlit app with Streamlit v1.36\n2. You will observe that on the 2nd and later pages the UI responds appropriately in each fragment.\n3. Now instead launch it with Streamlit v1.37.1\n4. Now, when toggling and 2nd and later pages, the \"offset\" is incorrectly populated in the fragment, and state from the first page is displayed and affected.\n",
+          "source_span": [
+            1602,
+            1991
+          ],
+          "source_sha256": "2290273c18812cc1fe06f4491d69d9f59ddb23e84aaa34b81ac32bde6d464fa5",
+          "sha256": "c730c3c265d1ee3f876b60aa7c96819eff987022646ab9a79025cc842fcfdb0a",
+          "lines": [
+            49,
+            54
+          ],
+          "section": "Call arguments don't propogate to st.fragment correctly starting with v1.37 > Steps To Reproduce",
+          "section_path": [
+            "Call arguments don't propogate to st.fragment correctly starting with v1.37",
+            "Steps To Reproduce"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 97,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:9267:v3:parent:de66176e5e3b09cc6033",
+          "parent": {
+            "kind": "issue",
+            "title": "Call arguments don't propogate to st.fragment correctly starting with v1.37",
+            "url": "https://github.com/streamlit/streamlit/issues/9267",
+            "revision": "2024-08-15T23:21:41Z",
+            "product_version": null,
+            "issue_number": 9267,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:9267:v3:parent:de66176e5e3b09cc6033",
+            "source_id": "issue:9267",
+            "text": "### Steps To Reproduce\n\n1. Launch the provides Streamlit app with Streamlit v1.36\n2. You will observe that on the 2nd and later pages the UI responds appropriately in each fragment.\n3. Now instead launch it with Streamlit v1.37.1\n4. Now, when toggling and 2nd and later pages, the \"offset\" is incorrectly populated in the fragment, and state from the first page is displayed and affected.\n",
+            "source_span": [
+              1602,
+              1991
+            ],
+            "source_sha256": "2290273c18812cc1fe06f4491d69d9f59ddb23e84aaa34b81ac32bde6d464fa5",
+            "sha256": "c730c3c265d1ee3f876b60aa7c96819eff987022646ab9a79025cc842fcfdb0a",
+            "lines": [
+              49,
+              54
+            ],
+            "section": "Call arguments don't propogate to st.fragment correctly starting with v1.37 > Steps To Reproduce",
+            "section_path": [
+              "Call arguments don't propogate to st.fragment correctly starting with v1.37",
+              "Steps To Reproduce"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 97,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02512484,
+          "rank": 5
+        },
+        {
+          "kind": "issue",
+          "title": "Fragment to fragment (co-fragment) communication instead of rerunning entire app",
+          "url": "https://github.com/streamlit/streamlit/issues/10045",
+          "revision": "2026-09-07T11:29:38Z",
+          "product_version": null,
+          "issue_number": 10045,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:10045:v3:child:8c4ea9dda6dfd898af6d",
+          "source_id": "issue:10045",
+          "text": "```\n@st.fragment(key=\"test_frag\", keys_to_update=[\"frag1\", \"frag2\"], trigger_keys=[{\"frag1\":\"form_submit_btn\"}])\n```\n",
+          "source_span": [
+            2032,
+            2149
+          ],
+          "source_sha256": "bbaf73013491cdcf79be26d27a463b8ccfd3ef337b61006fcd0e9a8d3131131f",
+          "sha256": "77f4d1b7e5571c3b78f44a61475129c1ac0acfa59f0429db0aec4652152156af",
+          "lines": [
+            40,
+            42
+          ],
+          "section": "Fragment to fragment (co-fragment) communication instead of rerunning entire app > How?",
+          "section_path": [
+            "Fragment to fragment (co-fragment) communication instead of rerunning entire app",
+            "How?"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 35,
+          "block_kinds": [
+            "code"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:10045:v3:parent:a2bb15c6f27eae4b3030",
+          "parent": {
+            "kind": "issue",
+            "title": "Fragment to fragment (co-fragment) communication instead of rerunning entire app",
+            "url": "https://github.com/streamlit/streamlit/issues/10045",
+            "revision": "2026-09-07T11:29:38Z",
+            "product_version": null,
+            "issue_number": 10045,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:10045:v3:parent:a2bb15c6f27eae4b3030",
+            "source_id": "issue:10045",
+            "text": "### How?\n\nMy app looks like the below:\n\n[IMAGE OMITTED: not inspected]\n\nThe black outlines are fragments. The purple/pink outlines are nested fragments. I understand co-fragment communication occurs through session_state which is great but for this communication to be recognised, one must re-run the whole app. This makes the app more slow and somewhat buggy in my experience of operating my app. \n\nSeeing as fragments can be re-run periodically, it would be great to add the possibility to communicate between specific fragments via an action. For example, in my app image, After I input details in the \"Contact Details\" expander, I want to update the CV Preview fragment. But to do that, I have to re-run the entire app. Perhaps the possibility to rerun specific fragments based on some unique Id (like a key of a streamlit widget) when I say click on the submit form button in the Contact Details expander would be great. \n\nJust an example\n```\n@st.fragment(key=\"test_frag\", keys_to_update=[\"frag1\", \"frag2\"])\n```\n\nThe issue with the above is for every rerun action, the `keys to update` will rerun. So perhaps, we could create a trigger command parameter.\n\n```\n@st.fragment(key=\"test_frag\", keys_to_update=[\"frag1\", \"frag2\"], trigger_keys=[\"form_submit_btn\"])\n```\n\nWe could also get fancy and connect trigger keys to keys to update:\n\n\n```\n@st.fragment(key=\"test_frag\", keys_to_update=[\"frag1\", \"frag2\"], trigger_keys=[{\"frag1\":\"form_submit_btn\"}])\n```\n",
+            "source_span": [
+              693,
+              2149
+            ],
+            "source_sha256": "bbaf73013491cdcf79be26d27a463b8ccfd3ef337b61006fcd0e9a8d3131131f",
+            "sha256": "ced4dccafeb5ed42966dfacfb9a9fb415bcf35cf587b25128e499cb81ca74084",
+            "lines": [
+              16,
+              42
+            ],
+            "section": "Fragment to fragment (co-fragment) communication instead of rerunning entire app > How?",
+            "section_path": [
+              "Fragment to fragment (co-fragment) communication instead of rerunning entire app",
+              "How?"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 332,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02578981,
+          "rank": 6
+        },
+        {
+          "kind": "release",
+          "title": "2026",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2026.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:2026:v3:child:b8a955f6c96506e842f4",
+          "source_id": "docs:2026",
+          "text": "- 🎯 Introducing event-scoped fragment reruns, which let a widget callback rerun just one named fragment:\n    - Name a fragment with `@st.fragment(key=…)` and target it with [`st.rerun`](/develop/api-reference/execution-flow/st.rerun)`(\"filters\")` or `st.rerun([\"alpha\", \"beta\"])` from an `on_change` or `on_click` callback ([#16161](https://github.com/streamlit/streamlit/pull/16161)).\n    - `st.rerun()` and `st.switch_page()` now take effect inside widget callbacks instead of being discarded with a warning; apps that relied on the previous no-op will now rerun ([#16158](https://github.com/streamlit/streamlit/pull/16158)).\n- ✨ Introducing `on_change=\"ignore\"`, a new mode that updates a widget in the browser without rerunning your app. Your script receives the buffered value on the next rerun, such as a button click, and the mode is available on [`st.slider`](/develop/api-reference/widgets/st.slider) and [`st.text_input`](/develop/api-reference/widgets/st.text_input) ([#14828](https://github.com/streamlit/streamlit/pull/14828), [#16605](https://github.com/streamlit/streamlit/pull/16605)).\n- 🍿 Introducing `type=\"step\"` ",
+          "source_span": [
+            2639,
+            3771
+          ],
+          "source_sha256": "636dd9a04698d694ff9db6790ba5486a2085d9b91593d878bf99e67784818427",
+          "sha256": "e298b98bf8dea695e304f148d1ca896f3cd9e40e7ac649096e7a359cd4d74caf",
+          "lines": [
+            68,
+            72
+          ],
+          "section": "2026 > 2026 release notes > **Version 1.63.0**",
+          "section_path": [
+            "2026",
+            "2026 release notes",
+            "**Version 1.63.0**"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 300,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:2026:v3:parent:da26dc56b20bf6fc96c9",
+          "parent": {
+            "kind": "release",
+            "title": "2026",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2026.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:2026:v3:parent:da26dc56b20bf6fc96c9",
+            "source_id": "docs:2026",
+            "text": "## **Version 1.63.0**\n\n_Release date: September 1, 2026_\n\n**Highlights**\n\n- 🎯 Introducing event-scoped fragment reruns, which let a widget callback rerun just one named fragment:\n    - Name a fragment with `@st.fragment(key=…)` and target it with [`st.rerun`](/develop/api-reference/execution-flow/st.rerun)`(\"filters\")` or `st.rerun([\"alpha\", \"beta\"])` from an `on_change` or `on_click` callback ([#16161](https://github.com/streamlit/streamlit/pull/16161)).\n    - `st.rerun()` and `st.switch_page()` now take effect inside widget callbacks instead of being discarded with a warning; apps that relied on the previous no-op will now rerun ([#16158](https://github.com/streamlit/streamlit/pull/16158)).\n- ✨ Introducing `on_change=\"ignore\"`, a new mode that updates a widget in the browser without rerunning your app. Your script receives the buffered value on the next rerun, such as a button click, and the mode is available on [`st.slider`](/develop/api-reference/widgets/st.slider) and [`st.text_input`](/develop/api-reference/widgets/st.text_input) ([#14828](https://github.com/streamlit/streamlit/pull/14828), [#16605](https://github.com/streamlit/streamlit/pull/16605)).\n- 🍿 Introducing `type=\"step\"` for [`st.expander`](/develop/api-reference/layout/st.expander) and [`st.status`](/develop/api-reference/status/st.status), which renders containers as a connected timeline — well suited to showing an agent's or a pipeline's progress ([#16558](https://github.com/streamlit/streamlit/pull/16558), [#13248](https://github.com/streamlit/streamlit/issues/13248)).\n\n**Notable Changes**\n",
+            "source_span": [
+              2565,
+              4151
+            ],
+            "source_sha256": "636dd9a04698d694ff9db6790ba5486a2085d9b91593d878bf99e67784818427",
+            "sha256": "c87bcab3fc66d9e2eaf6ab64dd47a301e92bd2bed1fe4dce1f8deb4724cae470",
+            "lines": [
+              62,
+              74
+            ],
+            "section": "2026 > 2026 release notes > **Version 1.63.0**",
+            "section_path": [
+              "2026",
+              "2026 release notes",
+              "**Version 1.63.0**"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 419,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02597841,
+          "rank": 7
+        },
+        {
+          "kind": "release",
+          "title": "2024",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2024.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:2024:v3:child:ab93f781d3430327fa04",
+          "source_id": "docs:2024",
+          "text": "## **Version 1.33.0**\n\n_Release date: April 4, 2024_\n\n**Highlights**\n\n- 👟 Introducing [`st.experimental_fragment`](/develop/api-reference/execution-flow/st.fragment) to decorate functions and rerun them independently of the whole page. Check out the [docs](/develop/concepts/architecture/fragments) and give your apps a speed boost!\n- 🌐 Introducing `st.html` to insert custom HTML into your app! Check out the [docs](/develop/api-reference/utilities/st.html) for how to use it.\n\n**Notable Changes**\n",
+          "source_span": [
+            39842,
+            40341
+          ],
+          "source_sha256": "10581e91afe8a4bc680381c723a3315f7a85e5879c89ab400d6bb466e9d4e580",
+          "sha256": "0b48cf945d97dc4077e7cf7929d61e9ae76f8869273b2ad40d1cccdd888c3229",
+          "lines": [
+            365,
+            374
+          ],
+          "section": "2024 > 2024 release notes > **Version 1.33.0**",
+          "section_path": [
+            "2024",
+            "2024 release notes",
+            "**Version 1.33.0**"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 124,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:2024:v3:parent:e52cf02ef37d69bfcef5",
+          "parent": {
+            "kind": "release",
+            "title": "2024",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2024.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:2024:v3:parent:e52cf02ef37d69bfcef5",
+            "source_id": "docs:2024",
+            "text": "## **Version 1.33.0**\n\n_Release date: April 4, 2024_\n\n**Highlights**\n\n- 👟 Introducing [`st.experimental_fragment`](/develop/api-reference/execution-flow/st.fragment) to decorate functions and rerun them independently of the whole page. Check out the [docs](/develop/concepts/architecture/fragments) and give your apps a speed boost!\n- 🌐 Introducing `st.html` to insert custom HTML into your app! Check out the [docs](/develop/api-reference/utilities/st.html) for how to use it.\n\n**Notable Changes**\n\n- 📺 [`st.audio`](/develop/api-reference/media/st.audio) and [`st.video`](/develop/api-reference/media/st.video) allow looping and setting an end time ([#8203](https://github.com/streamlit/streamlit/pull/8203), [#8348](https://github.com/streamlit/streamlit/pull/8348)).\n- 🔁 `AppTest` allows switching pages with [`AppTest.switch_page`](/develop/api-reference/app-testing/st.testing.v1.apptest#apptestswitch_page) ([#8280](https://github.com/streamlit/streamlit/pull/8280)).\n- 🧪 `format_func` is accessible in `AppTest` for widgets that use it ([#8189](https://github.com/streamlit/streamlit/pull/8189), [#8019](https://github.com/streamlit/streamlit/issues/8019), [#7679](https://github.com/streamlit/streamlit/issues/7679)).\n- 📈 Column configuration now includes [`AreaChartColumn`](/develop/api-reference/data/st.column_config/st.column_config.areachartcolumn). [`LineChartColumn`](/develop/api-reference/data/st.column_config/st.column_config.linechartcolumn) no longer shows area ([#8237](https://github.com/streamlit/streamlit/pull/8237)).\n- 🚧 Breaking change: [`st.write`](/develop/api-reference/write-magic/st.write) will no longer set `unsafe_allow_html=True` when passed an object containing a `_repr_html_` method. For more information, see PR [#8238](https://github.com/streamlit/streamlit/pull/8238).\n\n**Other Changes**\n",
+            "source_span": [
+              39842,
+              41674
+            ],
+            "source_sha256": "10581e91afe8a4bc680381c723a3315f7a85e5879c89ab400d6bb466e9d4e580",
+            "sha256": "eccbd234cd44ee6a9543b6301d48097a6f9719bb4c6e2e98e7c0d0cd8bb3068d",
+            "lines": [
+              365,
+              382
+            ],
+            "section": "2024 > 2024 release notes > **Version 1.33.0**",
+            "section_path": [
+              "2024",
+              "2024 release notes",
+              "**Version 1.33.0**"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 487,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02287294,
+          "rank": 8
+        }
+      ],
+      "candidate_hash": "b6c2f5201cb3a9cdcb5c512c510800983c3e1bbfc35cc5811ce079abddf3d1ce",
+      "context": [
+        {
+          "kind": "docs",
+          "title": "fragments",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:fragments:v3:child:ad96f0888c34e9af9cb2",
+          "source_id": "docs:fragments",
+          "text": "# Working with fragments\n\nReruns are a central part of every Streamlit app. When users interact with widgets, your script reruns from top to bottom, and your app's frontend is updated. Streamlit provides several features to help you develop your app within this execution model. Streamlit version 1.37.0 introduced fragments to allow rerunning a portion of your code instead of your full script. As your app grows larger and more complex, these fragment reruns help your app be efficient and performant. Fragments give you finer, easy-to-understand control over your app's execution flow.\n\nBefore you read about fragments, we recommend having a basic understanding of [caching](/develop/concepts/architecture/caching), [Session State](/concepts/architecture/session-state), and [forms](/develop/concepts/architecture/forms).\n",
+          "source_span": [
+            490,
+            1315
+          ],
+          "source_sha256": "54fdfcb8298a0c32cc059fd9ebe2c6c2e07710ef4627a57ee05622feaaf5b151",
+          "sha256": "83226fb18fece32a241282e8cb91e876363295be6574f627e2cc63c0b853cc52",
+          "lines": [
+            8,
+            12
+          ],
+          "section": "fragments > Working with fragments",
+          "section_path": [
+            "fragments",
+            "Working with fragments"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 172,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:fragments:v3:parent:ad96f0888c34e9af9cb2",
+          "parent": {
+            "kind": "docs",
+            "title": "fragments",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:fragments:v3:parent:ad96f0888c34e9af9cb2",
+            "source_id": "docs:fragments",
+            "text": "# Working with fragments\n\nReruns are a central part of every Streamlit app. When users interact with widgets, your script reruns from top to bottom, and your app's frontend is updated. Streamlit provides several features to help you develop your app within this execution model. Streamlit version 1.37.0 introduced fragments to allow rerunning a portion of your code instead of your full script. As your app grows larger and more complex, these fragment reruns help your app be efficient and performant. Fragments give you finer, easy-to-understand control over your app's execution flow.\n\nBefore you read about fragments, we recommend having a basic understanding of [caching](/develop/concepts/architecture/caching), [Session State](/concepts/architecture/session-state), and [forms](/develop/concepts/architecture/forms).\n",
+            "source_span": [
+              490,
+              1315
+            ],
+            "source_sha256": "54fdfcb8298a0c32cc059fd9ebe2c6c2e07710ef4627a57ee05622feaaf5b151",
+            "sha256": "83226fb18fece32a241282e8cb91e876363295be6574f627e2cc63c0b853cc52",
+            "lines": [
+              8,
+              12
+            ],
+            "section": "fragments > Working with fragments",
+            "section_path": [
+              "fragments",
+              "Working with fragments"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 172,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03540984,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "fragments",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:fragments:v3:child:14e6cbfad00d72cdd32e",
+          "source_id": "docs:fragments",
+          "text": "If you need to trigger a full-script rerun from inside a fragment, call [`st.rerun`](/develop/api-reference/execution-flow/st.rerun). For a related tutorial, see [Trigger a full-script rerun from inside a fragment](/develop/tutorials/execution-flow/trigger-a-full-script-rerun-from-a-fragment).\n",
+          "source_span": [
+            6180,
+            6475
+          ],
+          "source_sha256": "54fdfcb8298a0c32cc059fd9ebe2c6c2e07710ef4627a57ee05622feaaf5b151",
+          "sha256": "d6fea68c857ffbb62427deb6585478490727c826790e7a020915691abea01c95",
+          "lines": [
+            93,
+            93
+          ],
+          "section": "fragments > Working with fragments > Fragment return values and interacting with the rest of your app",
+          "section_path": [
+            "fragments",
+            "Working with fragments",
+            "Fragment return values and interacting with the rest of your app"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 72,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:fragments:v3:parent:3693f7e9cb3e09dea6d1",
+          "parent": {
+            "kind": "docs",
+            "title": "fragments",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:fragments:v3:parent:3693f7e9cb3e09dea6d1",
+            "source_id": "docs:fragments",
+            "text": "## Fragment return values and interacting with the rest of your app\n\nStreamlit ignores fragment return values during fragment reruns, so defining return values for your fragment functions is not recommended. Instead, if your fragment needs to share data with the rest of your app, use Session State. Fragments are just functions in your script, so they can access Session State, imported modules, and other Streamlit elements like containers. If your fragment writes to any container created outside of itself, note the following difference in behavior:\n\n- Elements drawn in the main body of your fragment are cleared and redrawn in place during a fragment rerun. Repeated fragment reruns will not cause additional elements to appear.\n- Elements drawn to containers outside the main body of fragment will not be cleared with each fragment rerun. Instead, Streamlit will draw them additively and these elements will accumulate until the next full-script rerun.\n- A fragment can't draw widgets in containers outside of the main body of the fragment. Widgets can only go in the main body of a fragment.\n\nTo prevent elements from accumulating in outside containers, use [`st.empty`](/develop/api-reference/layout/st.empty) containers. For a related tutorial, see [Create a fragment across multiple containers](/develop/tutorials/execution-flow/create-a-multiple-container-fragment).\n\nIf you need to trigger a full-script rerun from inside a fragment, call [`st.rerun`](/develop/api-reference/execution-flow/st.rerun). For a related tutorial, see [Trigger a full-script rerun from inside a fragment](/develop/tutorials/execution-flow/trigger-a-full-script-rerun-from-a-fragment).\n",
+            "source_span": [
+              4800,
+              6475
+            ],
+            "source_sha256": "54fdfcb8298a0c32cc059fd9ebe2c6c2e07710ef4627a57ee05622feaaf5b151",
+            "sha256": "3eb6c0ed6979ae4d383109aa99782a24e19e04bc6211ac14ee07cf27ab2492f1",
+            "lines": [
+              83,
+              93
+            ],
+            "section": "fragments > Working with fragments > Fragment return values and interacting with the rest of your app",
+            "section_path": [
+              "fragments",
+              "Working with fragments",
+              "Fragment return values and interacting with the rest of your app"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 336,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03401786,
+          "rank": 2
+        },
+        {
+          "kind": "issue",
+          "title": "Rerun() inside an st.fragment resets widget values to defaults.",
+          "url": "https://github.com/streamlit/streamlit/issues/11266",
+          "revision": "2025-05-07T14:09:05Z",
+          "product_version": null,
+          "issue_number": 11266,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:11266:v3:child:adae479782909d3bea3e",
+          "source_id": "issue:11266",
+          "text": "### Debug info\n\n- Streamlit version: 1.45.0\n- Python version: 3.13.2\n- Operating System: MasOS 15.1\n- Browser: Safari, Chrome, and Brave\n",
+          "source_span": [
+            1625,
+            1762
+          ],
+          "source_sha256": "019ba48f328fdbec23f67347e07dee4c758698ff72843c3f15405e5d03ef023a",
+          "sha256": "3de26b7731bd046929ca7cc0295feeb0c775b4a9cbebbd3c1015220515db81cc",
+          "lines": [
+            54,
+            59
+          ],
+          "section": "Rerun() inside an st.fragment resets widget values to defaults. > Debug info",
+          "section_path": [
+            "Rerun() inside an st.fragment resets widget values to defaults.",
+            "Debug info"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 48,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:11266:v3:parent:adae479782909d3bea3e",
+          "parent": {
+            "kind": "issue",
+            "title": "Rerun() inside an st.fragment resets widget values to defaults.",
+            "url": "https://github.com/streamlit/streamlit/issues/11266",
+            "revision": "2025-05-07T14:09:05Z",
+            "product_version": null,
+            "issue_number": 11266,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:11266:v3:parent:adae479782909d3bea3e",
+            "source_id": "issue:11266",
+            "text": "### Debug info\n\n- Streamlit version: 1.45.0\n- Python version: 3.13.2\n- Operating System: MasOS 15.1\n- Browser: Safari, Chrome, and Brave\n",
+            "source_span": [
+              1625,
+              1762
+            ],
+            "source_sha256": "019ba48f328fdbec23f67347e07dee4c758698ff72843c3f15405e5d03ef023a",
+            "sha256": "3de26b7731bd046929ca7cc0295feeb0c775b4a9cbebbd3c1015220515db81cc",
+            "lines": [
+              54,
+              59
+            ],
+            "section": "Rerun() inside an st.fragment resets widget values to defaults. > Debug info",
+            "section_path": [
+              "Rerun() inside an st.fragment resets widget values to defaults.",
+              "Debug info"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 48,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02889813,
+          "rank": 3
+        },
+        {
+          "kind": "release",
+          "title": "2026",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2026.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:2026:v3:parent:d993cefaa6b489d3204d",
+          "source_id": "docs:2026",
+          "text": "- 🎛 [`st.chat_input`](/develop/api-reference/chat/st.chat_input) has a new `submit_mode` parameter that controls widget behavior after the user submits a message, e.g. showing a stop button or disabling the chat input ([#14344](https://github.com/streamlit/streamlit/pull/14344), [#8323](https://github.com/streamlit/streamlit/issues/8323), [#11854](https://github.com/streamlit/streamlit/issues/11854)).\n- 📋 [`st.dataframe`](/develop/api-reference/data/st.dataframe) and [`st.data_editor`](/develop/api-reference/data/st.data_editor) support a new [`MarkdownColumn`](/develop/api-reference/data/st.column_config/st.column_config.markdowncolumn) type in `st.column_config` that renders Markdown text inside table cells ([#13931](https://github.com/streamlit/streamlit/pull/13931), [#10211](https://github.com/streamlit/streamlit/issues/10211)).\n- 🔗 [`st.markdown`](/develop/api-reference/text/st.markdown) has a new `anchors` parameter for adding linkable heading anchors to Markdown content ([#15722](https://github.com/streamlit/streamlit/pull/15722), [#13913](https://github.com/streamlit/streamlit/issues/13913)).\n- 💻 You can now launch Streamlit apps directly with `python app.py` or `uv run app.py` using the new `App.run()` entry point — no more `streamlit run` required ([#15563](https://github.com/streamlit/streamlit/pull/15563), [#9450](https://github.com/streamlit/streamlit/issues/9450), [#11420](https://github.com/streamlit/streamlit/issues/11420)).\n- 🧩 [`st.fragment`](/develop/api-reference/execution-flow/st.fragment) can now write to containers defined outside the fragment. Fragments can update any part of your app — including elements created before the fragment — without triggering a full rerun ([#15623](https://github.com/streamlit/streamlit/pull/15623), [#15620](https://github.com/streamlit/streamlit/pull/15620), [#10481](https://github.com/streamlit/streamlit/issues/10481)).\n- 📎 [`st.chat_input`](/develop/api-reference/chat/st.chat_input) now supports pasting files directly into the input field ([#15558](https://github.com/streamlit/streamlit/pull/15558), [#10307](https://github.com/streamlit/streamlit/issues/10307)).\n- 🤖 [`st.write_stream`](/develop/api-reference/write-magic/st.write_stream) now supports OpenAI Responses API streams in addition to the existing Chat Completions streams ([#15559](https://github.com/streamlit/streamlit/pull/15559), [#11061](https://github.com/streamlit/streamlit/issues/11061)).\n- 🔒 [`st.set_page_config`](/develop/api-reference/configuration/st.set_page_config) supports a new `\"locked\"` option for `initial_sidebar_state` that prevents users from toggling the sidebar open or closed ([#15459](https://github.com/streamlit/streamlit/pull/15459), [#15411](https://github.com/streamlit/streamlit/issues/15411)).\n- 💅 Widgets have a new `persist_state` parameter for finer control over how widget state is preserved across reruns ([#15645](https://github.com/streamlit/streamlit/pull/15645)).\n- 📷 ",
+          "source_span": [
+            30407,
+            33373
+          ],
+          "source_sha256": "636dd9a04698d694ff9db6790ba5486a2085d9b91593d878bf99e67784818427",
+          "sha256": "27218ffc35467e35466b2d30771e008bd46e2cd1dc1c401e6bcc95a377ace44a",
+          "lines": [
+            275,
+            284
+          ],
+          "section": "2026 > 2026 release notes > **Version 1.59.0**",
+          "section_path": [
+            "2026",
+            "2026 release notes",
+            "**Version 1.59.0**"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 787,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "selected_child_ids": [
+            "docs:2026:v3:child:fc0dc1a2cfcf61013e32"
+          ],
+          "parent_id": "docs:2026:v3:parent:d993cefaa6b489d3204d",
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation"
+        },
+        {
+          "kind": "issue",
+          "title": "Call arguments don't propogate to st.fragment correctly starting with v1.37",
+          "url": "https://github.com/streamlit/streamlit/issues/9267",
+          "revision": "2024-08-15T23:21:41Z",
+          "product_version": null,
+          "issue_number": 9267,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:9267:v3:child:de66176e5e3b09cc6033",
+          "source_id": "issue:9267",
+          "text": "### Steps To Reproduce\n\n1. Launch the provides Streamlit app with Streamlit v1.36\n2. You will observe that on the 2nd and later pages the UI responds appropriately in each fragment.\n3. Now instead launch it with Streamlit v1.37.1\n4. Now, when toggling and 2nd and later pages, the \"offset\" is incorrectly populated in the fragment, and state from the first page is displayed and affected.\n",
+          "source_span": [
+            1602,
+            1991
+          ],
+          "source_sha256": "2290273c18812cc1fe06f4491d69d9f59ddb23e84aaa34b81ac32bde6d464fa5",
+          "sha256": "c730c3c265d1ee3f876b60aa7c96819eff987022646ab9a79025cc842fcfdb0a",
+          "lines": [
+            49,
+            54
+          ],
+          "section": "Call arguments don't propogate to st.fragment correctly starting with v1.37 > Steps To Reproduce",
+          "section_path": [
+            "Call arguments don't propogate to st.fragment correctly starting with v1.37",
+            "Steps To Reproduce"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 97,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:9267:v3:parent:de66176e5e3b09cc6033",
+          "parent": {
+            "kind": "issue",
+            "title": "Call arguments don't propogate to st.fragment correctly starting with v1.37",
+            "url": "https://github.com/streamlit/streamlit/issues/9267",
+            "revision": "2024-08-15T23:21:41Z",
+            "product_version": null,
+            "issue_number": 9267,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:9267:v3:parent:de66176e5e3b09cc6033",
+            "source_id": "issue:9267",
+            "text": "### Steps To Reproduce\n\n1. Launch the provides Streamlit app with Streamlit v1.36\n2. You will observe that on the 2nd and later pages the UI responds appropriately in each fragment.\n3. Now instead launch it with Streamlit v1.37.1\n4. Now, when toggling and 2nd and later pages, the \"offset\" is incorrectly populated in the fragment, and state from the first page is displayed and affected.\n",
+            "source_span": [
+              1602,
+              1991
+            ],
+            "source_sha256": "2290273c18812cc1fe06f4491d69d9f59ddb23e84aaa34b81ac32bde6d464fa5",
+            "sha256": "c730c3c265d1ee3f876b60aa7c96819eff987022646ab9a79025cc842fcfdb0a",
+            "lines": [
+              49,
+              54
+            ],
+            "section": "Call arguments don't propogate to st.fragment correctly starting with v1.37 > Steps To Reproduce",
+            "section_path": [
+              "Call arguments don't propogate to st.fragment correctly starting with v1.37",
+              "Steps To Reproduce"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 97,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02512484,
+          "rank": 5
+        }
+      ],
+      "packing": {
+        "encoding": "o200k_base",
+        "budget_tokens": 3000,
+        "used_tokens": 2412,
+        "expand_parent": true,
+        "items": [
+          {
+            "id": "docs:fragments:v3:child:ad96f0888c34e9af9cb2",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:fragments:v3:child:ad96f0888c34e9af9cb2"
+          },
+          {
+            "id": "docs:fragments:v3:child:14e6cbfad00d72cdd32e",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:fragments:v3:child:14e6cbfad00d72cdd32e"
+          },
+          {
+            "id": "issue:11266:v3:child:adae479782909d3bea3e",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:11266:v3:child:adae479782909d3bea3e"
+          },
+          {
+            "id": "docs:2026:v3:child:fc0dc1a2cfcf61013e32",
+            "status": "included",
+            "reason": "bounded_parent",
+            "context_id": "docs:2026:v3:parent:d993cefaa6b489d3204d"
+          },
+          {
+            "id": "issue:9267:v3:child:de66176e5e3b09cc6033",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:9267:v3:child:de66176e5e3b09cc6033"
+          },
+          {
+            "id": "issue:10045:v3:child:8c4ea9dda6dfd898af6d",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "docs:2026:v3:child:b8a955f6c96506e842f4",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "docs:2024:v3:child:ab93f781d3430327fa04",
+            "status": "omitted",
+            "reason": "item_limit"
+          }
+        ]
+      },
+      "index": "v3",
+      "namespace": "6fbba079eb1323bf54c9d03ad4b956a7174e0f434f386ed66f0a50b489f55d4e"
+    }
+  },
+  "code_hash": "c148d8cd099ab2f7dd82c13ef86c8525124fe15649ff8f335418dc5d867b8a6a",
+  "query_vector_hash": "0bd162277ce28c385d099ffeaebd2104f9fecbccbb784ea14ed06424c8b13dec",
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "reserved_usd": 1.81368e-05,
+      "ledger_id": "ba7639c8cea8d2f12f2eb18b",
+      "diagnostic": {
+        "request_id": "ba7639c8cea8d2f12f2eb18b",
+        "provider_request_id": null,
+        "role": "embedding",
+        "model": "text-embedding-3-small",
+        "requested_max_output_tokens": null,
+        "reported_usage": {
+          "prompt_tokens": 24,
+          "completion_tokens": null,
+          "total_tokens": 24
+        },
+        "http_status": 200,
+        "finish_reason": null,
+        "status": "parsed",
+        "failure_code": null
+      },
+      "input_tokens": 24,
+      "output_tokens": 0,
+      "cost_usd": 5.280000000000001e-07
+    }
+  ]
+}

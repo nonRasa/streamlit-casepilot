@@ -1,0 +1,273 @@
+{
+  "id": "H05",
+  "report": "Bug report: the theme text color changed unexpectedly. Feature request: add an independent sidebar contrast control. I need to separate the regression from this proposed option.",
+  "product_version": null,
+  "candidates": [
+    {
+      "source_id": "docs:config-toml",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        1148,
+        1152
+      ],
+      "title": "config-toml",
+      "section": "Sidebar theme",
+      "text": "#### Sidebar theme\n\nTo define switchable light and dark themes, the configuration options in the\n`[theme.sidebar]` table can be used in separate `[theme.dark.sidebar]` and\n`[theme.light.sidebar]`.",
+      "candidate_key": "0e53f6a30a861c9e3eb77d2c37ed558927ecd36920d2d8e6391144db7ec20edd"
+    },
+    {
+      "source_id": "issue:16657",
+      "revision": "2026-08-26T14:06:42Z",
+      "product_version": null,
+      "source_span": [
+        958,
+        1977
+      ],
+      "lines": [
+        16,
+        29
+      ],
+      "title": "Modernize Streamlit's default light and dark themes",
+      "section": "Modernize Streamlit's default light and dark themes > How?",
+      "text": "### How?\n\nRevisit the default theme tokens and component styling for both light and dark modes, for example:\n\n- **Color palette:** refined neutrals/grays, a more modern primary color, and better semantic colors (success/warning/error/info) with good contrast in both modes.\n- **Dark mode:** ensure it's a first-class, well-balanced theme (not just an inversion) — proper surface elevations, borders, and contrast.\n- **Typography:** modern default font, refined sizes/weights/line-heights and hierarchy.\n- **Spacing & shape:** consistent spacing scale and slightly softer, contemporary border radii and borders.\n- **Components:** cohesive styling across widgets, containers, dataframes, charts, etc.\n\nConsiderations:\n- Accessibility: maintain/improve WCAG contrast in both themes.\n- Backwards compatibility: this changes the look of existing apps, so consider how to roll it out (e.g. a new theme version/opt-in, migration notes) to avoid surprising users.\n- Keep it fully overridable via the existing `[theme]` config.\n",
+      "candidate_key": "1cb8126376aa2c8cfca4fd916996ceb26bcb902f7780061668916c7508eb7ef8"
+    },
+    {
+      "source_id": "docs:config-toml",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        39903,
+        40985
+      ],
+      "lines": [
+        1154,
+        1193
+      ],
+      "title": "config-toml",
+      "section": "config-toml > config.toml > Available configuration options > Sidebar theme",
+      "text": "```toml\n[theme.sidebar]\n\n# Primary accent color.\nprimaryColor =\n\n# Background color of the app.\nbackgroundColor =\n\n# Background color used for most interactive widgets.\nsecondaryBackgroundColor =\n\n# Color used for almost all text.\ntextColor =\n\n# Red color used in the basic color palette.\n#\n# By default, this is #ff4b4b for the light theme and #ff2b2b for the\n# dark theme.\n#\n# If `redColor` is provided, and `redBackgroundColor` isn't, then\n# `redBackgroundColor` will be derived from `redColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\nredColor =\n\n# Orange color used in the basic color palette.\n#\n# By default, this is #ffa421 for the light theme and #ff8700 for the\n# dark theme.\n#\n# If `orangeColor` is provided, and `orangeBackgroundColor` isn't, then\n# `orangeBackgroundColor` will be derived from `orangeColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\norangeColor =\n\n# Yellow color used in the basic color palette.\n#\n# By default, this is #faca2b for the light theme and #ffe312 for the\n# dark theme.\n#\n",
+      "candidate_key": "593388d3a5fabebc3301e478c4764a4216927a0a9a2d4a693f267de6b740b072"
+    },
+    {
+      "source_id": "issue:6721",
+      "revision": "2023-10-30T22:50:14Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        1,
+        1
+      ],
+      "title": "Option to expand sidebar navigation is missing in 1.22 (regression)",
+      "section": "Option to expand sidebar navigation is missing in 1.22 (regression)",
+      "text": "Option to expand sidebar navigation is missing in 1.22 (regression)",
+      "candidate_key": "60d53f6263e18c9c1830cf9da449059f3bcb108d7cf717a5177378319dffa2de"
+    },
+    {
+      "source_id": "issue:6291",
+      "revision": "2023-07-24T10:05:49Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        3,
+        34
+      ],
+      "title": "Option to set the chart background to something else than the primary background",
+      "section": "Problem",
+      "text": "### Problem\n\nAs of streamlit 1.16 the chart background color has been changed to match the primary color. This can is some cases make graphs difficult to read. Hence I would like an option to set the chart background separately for all pages in a multipage app. \n\nI have tried to use\n```\nimport plotly.io as pio\npio.templates.default = \"none\" \n```\nI have also tried to add \"plot_bgcolor=\"grey\" to the streamlit theme.\n\nBut to no avail, the background color stays the same as the primary color.\n\nI can of cause set theme=None in each st.plotly_chart(), but as my app is large this is cumbersome, and will make it difficult to go back to the streamlit theme. \n\nMy suggestion is therefore twofold.\nMake a global option for setting the graph theme, either in the config.toml or on the main page.\n\nAdd an option to set the graph background color in config.toml like:\n`chartBackgroundColer=\"#F0F2F6\" `\nor \n`chartBackgroundColer=secondaryBackgroundColor`\n\n[IMAGE OMITTED: not inspected]\n\nBest regards Kristian\n\n-----------------------------\n\nCommunity voting on feature requests enables the Streamlit team to understand which features are most important to our users.\n\nIf you'd like the Streamlit team to prioritize this feature request, please use the 👍 (thumbs up emoji) reaction in response to the initial post.",
+      "candidate_key": "6c793d49efcbe9ebed7f8a0d523c6df0c79936b6c7f7d20783ee122452852c7c"
+    },
+    {
+      "source_id": "issue:5875",
+      "revision": "2023-01-18T21:23:01Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        9,
+        15
+      ],
+      "title": "st.plotly_chart(,theme = \"streamlit\") does not use secondaryBackgroundColor as plot background",
+      "section": "Summary",
+      "text": "### Summary\n\nWhen updating to streamlit 1.16, our plotly charts change visual appearance due to the new plotly theming. But looking in the documentation it is stated that the secondaryBackgroundColor in the overall streamlit theme (same color as the sidebar) will be used as background color. This is not the case as the background is the same as the backgroundColor, and this makes the plots difficult to read.\n\nIt would be nice if the setting was honored or a separate setting was available.\n\nAlso it would be nice to have a global setting for the plotly_chart theme selection, instead of per plot. It can be quite time consuming to update this on all pages in a multipage app.",
+      "candidate_key": "71a063705894383529d124e72a4c5003bd102bcefefb944d795e4c9e174754fb"
+    },
+    {
+      "source_id": "docs:config-toml",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        39903,
+        42864
+      ],
+      "lines": [
+        1154,
+        1243
+      ],
+      "title": "config-toml",
+      "section": "config-toml > config.toml > Available configuration options > Sidebar theme",
+      "text": "```toml\n[theme.sidebar]\n\n# Primary accent color.\nprimaryColor =\n\n# Background color of the app.\nbackgroundColor =\n\n# Background color used for most interactive widgets.\nsecondaryBackgroundColor =\n\n# Color used for almost all text.\ntextColor =\n\n# Red color used in the basic color palette.\n#\n# By default, this is #ff4b4b for the light theme and #ff2b2b for the\n# dark theme.\n#\n# If `redColor` is provided, and `redBackgroundColor` isn't, then\n# `redBackgroundColor` will be derived from `redColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\nredColor =\n\n# Orange color used in the basic color palette.\n#\n# By default, this is #ffa421 for the light theme and #ff8700 for the\n# dark theme.\n#\n# If `orangeColor` is provided, and `orangeBackgroundColor` isn't, then\n# `orangeBackgroundColor` will be derived from `orangeColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\norangeColor =\n\n# Yellow color used in the basic color palette.\n#\n# By default, this is #faca2b for the light theme and #ffe312 for the\n# dark theme.\n#\n# If `yellowColor` is provided, and `yellowBackgroundColor` isn't, then\n# `yellowBackgroundColor` will be derived from `yellowColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\nyellowColor =\n\n# Blue color used in the basic color palette.\n#\n# By default, this is #1c83e1 for the light theme and #0068c9 for the\n# dark theme.\n#\n# If a `blueColor` is provided, and `blueBackgroundColor` isn't, then\n# `blueBackgroundColor` will be derived from `blueColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\nblueColor =\n\n# Green color used in the basic color palette.\n#\n# By default, this is #21c354 for the light theme and #09ab3b for the\n# dark theme.\n#\n# If `greenColor` is provided, and `greenBackgroundColor` isn't, then\n# `greenBackgroundColor` will be derived from `greenColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\ngreenColor =\n\n# Violet color used in the basic color palette.\n#\n# By default, this is #803df5 for both the light and dark themes.\n#\n# If a `violetColor` is provided, and `violetBackgroundColor` isn't, then\n# `violetBackgroundColor` will be derived from `violetColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\nvioletColor =\n\n# Gray color used in the basic color palette.\n#\n# By default, this is #a3a8b8 for the light theme and #555867 for the\n# dark theme.\n#\n# If `grayColor` is provided, and `grayBackgroundColor` isn't, then\n# `grayBackgroundColor` will be derived from `grayColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\ngrayColor =\n\n# Red background color used in the basic color palette.\n#\n# If `redColor` is provided, this defaults to `redColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\n#\n# Otherwise, this is #ff2b2b with 10% opacity for light theme and\n",
+      "candidate_key": "82bc8436627208644b72111e5b6dc549703c67e59f8ef6c968ec9693404054d8"
+    },
+    {
+      "source_id": "docs:theming",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        1612,
+        2753
+      ],
+      "lines": [
+        23,
+        34
+      ],
+      "title": "theming",
+      "section": "theming > Theming overview",
+      "text": "The following options can be configured separately for the main body of your app and the sidebar. They can also be specified separately for\ndark and light themes (`[theme.light]`, `[theme.light.sidebar]`, `[theme.dark]`, `[theme.dark.sidebar]`):\n\n- **Font family**: Set the font family for body text, headings, and code.\n- **Font style**: Set the weight and size of heading and code font, and set visibility of link underlines.\n- **Text color**: Set the color of body, inline code, and link text.\n- **Primary color**: Set the color of interactive elements and highlights.\n- **Background color**: Set the color of app, widget, code block, and dataframe header backgrounds.\n- **Border radius**: Set the roundness of elements and widgets.\n- **Border color**: Set the color and visibility of element, widget, sidebar, and dataframe borders.\n- **Basic color palette**: Set the color palette (red, orange, yellow, green, blue, violet, and gray/grey) for things like colored Markdown text and sparklines.\n- **Chart color**: Set series colors for Plotly, Altair, and Vega-Lite charts. Unset light, dark, and sidebar sections inherit from `[theme]`.\n",
+      "candidate_key": "8ea2d3d1d8f553d964b5e1863fb14d4b3b4882827a2d6e87a729b1d4b3ec8d2f"
+    },
+    {
+      "source_id": "docs:config-toml",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        1148,
+        1573
+      ],
+      "title": "config-toml",
+      "section": "Sidebar theme",
+      "text": "#### Sidebar theme\n\nTo define switchable light and dark themes, the configuration options in the\n`[theme.sidebar]` table can be used in separate `[theme.dark.sidebar]` and\n`[theme.light.sidebar]`.\n\n```toml\n[theme.sidebar]\n\n# Primary accent color.\nprimaryColor =\n\n# Background color of the app.\nbackgroundColor =\n\n# Background color used for most interactive widgets.\nsecondaryBackgroundColor =\n\n# Color used for almost all text.\ntextColor =\n\n# Red color used in the basic color palette.\n#\n# By default, this is #ff4b4b for the light theme and #ff2b2b for the\n# dark theme.\n#\n# If `redColor` is provided, and `redBackgroundColor` isn't, then\n# `redBackgroundColor` will be derived from `redColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\nredColor =\n\n# Orange color used in the basic color palette.\n#\n# By default, this is #ffa421 for the light theme and #ff8700 for the\n# dark theme.\n#\n# If `orangeColor` is provided, and `orangeBackgroundColor` isn't, then\n# `orangeBackgroundColor` will be derived from `orangeColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\norangeColor =\n\n# Yellow color used in the basic color palette.\n#\n# By default, this is #faca2b for the light theme and #ffe312 for the\n# dark theme.\n#\n# If `yellowColor` is provided, and `yellowBackgroundColor` isn't, then\n# `yellowBackgroundColor` will be derived from `yellowColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\nyellowColor =\n\n# Blue color used in the basic color palette.\n#\n# By default, this is #1c83e1 for the light theme and #0068c9 for the\n# dark theme.\n#\n# If a `blueColor` is provided, and `blueBackgroundColor` isn't, then\n# `blueBackgroundColor` will be derived from `blueColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\nblueColor =\n\n# Green color used in the basic color palette.\n#\n# By default, this is #21c354 for the light theme and #09ab3b for the\n# dark theme.\n#\n# If `greenColor` is provided, and `greenBackgroundColor` isn't, then\n# `greenBackgroundColor` will be derived from `greenColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\ngreenColor =\n\n# Violet color used in the basic color palette.\n#\n# By default, this is #803df5 for both the light and dark themes.\n#\n# If a `violetColor` is provided, and `violetBackgroundColor` isn't, then\n# `violetBackgroundColor` will be derived from `violetColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\nvioletColor =\n\n# Gray color used in the basic color palette.\n#\n# By default, this is #a3a8b8 for the light theme and #555867 for the\n# dark theme.\n#\n# If `grayColor` is provided, and `grayBackgroundColor` isn't, then\n# `grayBackgroundColor` will be derived from `grayColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\ngrayColor =\n\n# Red background color used in the basic color palette.\n#\n# If `redColor` is provided, this defaults to `redColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\n#\n# Otherwise, this is #ff2b2b with 10% opacity for light theme and\n# #ff6c6c with 20% opacity for dark theme.\nredBackgroundColor =\n\n# Orange background color used for the basic color palette.\n#\n# If `orangeColor` is provided, this defaults to `orangeColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\n#\n# Otherwise, this is #ffa421 with 10% opacity for the light theme and\n# #ff8700 with 20% opacity for the dark theme.\norangeBackgroundColor =\n\n# Yellow background color used for the basic color palette.\n#\n# If `yellowColor` is provided, this defaults to `yellowColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\n#\n# Otherwise, this is #ffff12 with 10% opacity for the light theme and\n# #ffff12 with 20% opacity for the dark theme.\nyellowBackgroundColor =\n\n# Blue background color used for the basic color palette.\n#\n# If `blueColor` is provided, this defaults to `blueColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\n#\n# Otherwise, this is #1c83ff with 10% opacity for the light theme and\n# #3d9df3 with 20% opacity for the dark theme.\nblueBackgroundColor =\n\n# Green background color used for the basic color palette.\n#\n# If `greenColor` is provided, this defaults to `greenColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\n#\n# Otherwise, this is #21c354 with 10% opacity for the light theme and\n# #3dd56d with 20% opacity for the dark theme.\ngreenBackgroundColor =\n\n# Violet background color used for the basic color palette.\n#\n# If `violetColor` is provided, this defaults to `violetColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\n#\n# Otherwise, this is #9a5dff with 10% opacity for light theme and\n# #9a5dff with 20% opacity for dark theme.\nvioletBackgroundColor =\n\n# Gray background color used for the basic color palette.\n#\n# If `grayColor` is provided, this defaults to `grayColor` using 10%\n# opacity for the light theme and 20% opacity for the dark theme.\n#\n# Otherwise, this is #31333f with 10% opacity for the light theme and\n# #808495 with 20% opacity for the dark theme.\ngrayBackgroundColor =\n\n# Red text color used for the basic color palette.\n#\n# If `redColor` is provided, this defaults to `redColor`, darkened by 15%\n# for the light theme and lightened by 15% for the dark theme.\n#\n# Otherwise, this is #bd4043 for the light theme and #ff6c6c for the dark\n# theme.\nredTextColor =\n\n# Orange text color used for the basic color palette.\n#\n# If `orangeColor` is provided, this defaults to `orangeColor`, darkened\n# by 15% for the light theme and lightened by 15% for the dark theme.\n#\n# Otherwise, this is #e2660c for the light theme and #ffbd45 for the dark\n# theme.\norangeTextColor =\n\n# Yellow text color used for the basic color palette.\n#\n# If `yellowColor` is provided, this defaults to `yellowColor`, darkened\n# by 15% for the light theme and lightened by 15% for the dark theme.\n#\n# Otherwise, this is #926c05 for the light theme and #ffffc2 for the dark\n# theme.\nyellowTextColor =\n\n# Blue text color used for the basic color palette.\n#\n# If `blueColor` is provided, this defaults to `blueColor`, darkened by\n# 15% for the light theme and lightened by 15% for the dark theme.\n#\n# Otherwise, this is #0054a3 for the light theme and #3d9df3 for the dark\n# theme.\nblueTextColor =\n\n# Green text color used for the basic color palette.\n#\n# If `greenColor` is provided, this defaults to `greenColor`, darkened by\n# 15% for the light theme and lightened by 15% for the dark theme.\n#\n# Otherwise, this is #158237 for the light theme and #5ce488 for the dark\n# theme.\ngreenTextColor =\n\n# Violet text color used for the basic color palette.\n#\n# If `violetColor` is provided, this defaults to `violetColor`, darkened\n# by 15% for the light theme and lightened by 15% for the dark theme.\n#\n# Otherwise, this is #583f84 for the light theme and #b27eff for the dark\n# theme.\nvioletTextColor =\n\n# Gray text color used for the basic color palette.\n#\n# If `grayColor` is provided, this defaults to `grayColor`, darkened by\n# 15% for the light theme and lightened by 15% for the dark theme.\n#\n# Otherwise, this is #31333f with 60% opacity for the light theme and\n# #fafafa with 60% opacity for the dark theme.\ngrayTextColor =\n\n# Color used for all links.\n#\n# This defaults to the resolved value of `blueTextColor`.\nlinkColor =\n\n# Whether or not links should be displayed with an underline.\nlinkUnderline =\n\n# Text color used for code blocks.\n#\n# This defaults to the resolved value of `greenTextColor`.\ncodeTextColor =\n\n# Background color used for code blocks.\ncodeBackgroundColor =\n\n# The font family for all text, except code blocks.\n#\n# This can be one of the following:\n# - \"sans-serif\"\n# - \"serif\"\n# - \"monospace\"\n# - The `family` value for a custom font table under [[theme.fontFaces]]\n# - A URL to a CSS file in the format of \"<font name>:<url>\" (like\n#   \"Nunito:https://fonts.googleapis.com/css2?family=Nunito&display=swap\")\n# - A comma-separated list of these (as a single string) to specify\n#   fallbacks\n#\n# For example, you can use the following:\n#\n# font = \"cool-font, fallback-cool-font, sans-serif\"\nfont =\n\n# The font family to use for headings.\n#\n# This can be one of the following:\n# - \"sans-serif\"\n# - \"serif\"\n# - \"monospace\"\n# - The `family` value for a custom font table under [[theme.fontFaces]]\n# - A URL to a CSS file in the format of \"<font name>:<url>\" (like\n#   \"Nunito:https://fonts.googleapis.com/css2?family=Nunito&display=swap\")\n# - A comma-separated list of these (as a single string) to specify\n#   fallbacks\n#\n# If this isn't set, Streamlit uses `theme.font` for headings.\nheadingFont =\n\n# One or more font sizes for h1-h6 headings.\n#\n# If no sizes are set, Streamlit will use the default sizes for h1-h6\n# headings. Heading font sizes set in [theme] are not inherited by\n# [theme.sidebar]. The following sizes are used by default:\n# [\n#     \"2.75rem\", # h1 (1.5rem for sidebar)\n#     \"2.25rem\", # h2 (1.25rem for sidebar)\n#     \"1.75rem\", # h3 (1.125rem for sidebar)\n#     \"1.5rem\", # h4 (1rem for sidebar)\n#     \"1.25rem\", # h5 (0.875rem for sidebar)\n#     \"1rem\", # h6 (0.75rem for sidebar)\n# ]\n#\n# If you specify an array with fewer than six sizes, the unspecified\n# heading sizes will be the default values. For example, you can use the\n# following array to set the font sizes for h1-h3 headings while keeping\n# h4-h6 headings at their default sizes:\n# headingFontSizes = [\"3rem\", \"2.875rem\", \"2.75rem\"]\n#\n# Setting a single value (not in an array) will set the font size for all\n# h1-h6 headings to that value:\n# headingFontSizes = \"2.75rem\"\n#\n# Font sizes can be specified in pixels or rem, but rem is recommended.\nheadingFontSizes =\n\n# One or more font weights for h1-h6 headings.\n#\n# Each weight must be an integer multiple of 50, between 100 and 900\n# inclusive. Invalid values are ignored and the default weight is used.\n#\n# If no weights are set, Streamlit will use the default weights for h1-h6\n# headings. Heading font weights set in [theme] are not inherited by\n# [theme.sidebar]. The following weights are used by default:\n# [\n#     700, # h1 (bold)\n#     600, # h2 (semi-bold)\n#     600, # h3 (semi-bold)\n#     600, # h4 (semi-bold)\n#     600, # h5 (semi-bold)\n#     600, # h6 (semi-bold)\n# ]\n#\n# If you specify an array with fewer than six weights, the unspecified\n# heading weights will be the default values. For example, you can use\n# the following array to set the font weights for h1-h2 headings while\n# keeping h3-h6 headings at their default weights:\n# headingFontWeights = [800, 700]\n#\n# Setting a single value (not in an array) will set the font weight for\n# all h1-h6 headings to that value:\n# headingFontWeights = 550\nheadingFontWeights =\n\n# The font family to use for code (monospace) in the sidebar.\n#\n# This can be one of the following:\n# - \"sans-serif\"\n# - \"serif\"\n# - \"monospace\"\n# - The `family` value for a custom font table under [[theme.fontFaces]]\n# - A URL to a CSS file in the format of \"<font name>:<url>\" (like\n#   \"'Space Mono':https://fonts.googleapis.com/css2?family=Space+Mono&display=swap\")\n# - A comma-separated list of these (as a single string) to specify\n# fallbacks\ncodeFont =\n\n# The font size (in pixels or rem) for code blocks and code text.\n#\n# This applies to font in code blocks, `st.json`, and `st.help`. It\n# doesn't apply to inline code, which is set by default to 0.75em.\n#\n# If this isn't set, the code font size will be 0.875rem.\ncodeFontSize =\n\n# The font weight for code blocks and code text.\n#\n# This applies to font in inline code, code blocks, `st.json`, and\n# `st.help`. This is an integer multiple of 50. Values can be between\n# 100 and 600, inclusive.\n#\n# Streamlit derives heavier code weights from this base (+200 / +300).\n# The maximum is 600 so the heaviest derived weight never exceeds 900.\n#\n# If this isn't set, the code font weight will be 400 (normal weight).\ncodeFontWeight =\n\n# The radius used as basis for the corners of most UI elements.\n#\n# This can be one of the following:\n# - \"none\"\n# - \"small\"\n# - \"medium\"\n# - \"large\"\n# - \"full\"\n# - The number in pixels or rem.\n#\n# For example, you can use \"10px\", \"0.5rem\", or \"2rem\". To follow best\n# practices, use rem instead of pixels when specifying a numeric size.\nbaseRadius =\n\n# The radius used as basis for the corners of buttons.\n#\n# This can be one of the following:\n# - \"none\"\n# - \"small\"\n# - \"medium\"\n# - \"large\"\n# - \"full\"\n# - The number in pixels or rem.\n#\n# For example, you can use \"10px\", \"0.5rem\", or \"2rem\". To follow best\n# practices, use rem instead of pixels when specifying a numeric size.\n#\n# If this isn't set, Streamlit uses `theme.baseRadius` instead.\nbuttonRadius =\n\n# The color of the border around elements.\nborderColor =\n\n# The color of the border around dataframes and tables.\n#\n# If this isn't set, Streamlit uses `theme.borderColor` instead.\ndataframeBorderColor =\n\n# The background color of the dataframe's header.\n#\n# This color applies to all non-interior cells of the dataframe. This\n# includes the header row, the row-selection column (if present), and\n# the bottom row of data editors with a dynamic number of rows. If this\n# isn't set, Streamlit uses a mix of `theme.backgroundColor` and\n# `theme.secondaryBackgroundColor`.\ndataframeHeaderBackgroundColor =\n\n# Whether to show a border around input widgets.\nshowWidgetBorder =\n\n# An array of colors to use for categorical chart data.\n#\n# See `theme.chartCategoricalColors` for the full description. This\n# option can be set in `[theme]`, `[theme.light]`, `[theme.dark]`, and\n# the corresponding sidebar sections. Unset sections inherit from\n# `[theme]`.\nchartCategoricalColors =\n\n# An array of ten colors to use for sequential or continuous chart data.\n#\n# See `theme.chartSequentialColors` for the full description. This\n# option can be set in `[theme]`, `[theme.light]`, `[theme.dark]`, and\n# the corresponding sidebar sections. Unset sections inherit from\n# `[theme]`.\nchartSequentialColors =\n\n# An array of ten colors to use for diverging chart data.\n#\n# See `theme.chartDivergingColors` for the full description. This\n# option can be set in `[theme]`, `[theme.light]`, `[theme.dark]`, and\n# the corresponding sidebar sections. Unset sections inherit from\n# `[theme]`.\nchartDivergingColors =\n```",
+      "candidate_key": "9395aaa65d2ada4c97f75f27abed8892584b40f3b87ee299f568b5f60f9247f0"
+    },
+    {
+      "source_id": "issue:6721",
+      "revision": "2023-10-30T22:50:14Z",
+      "product_version": null,
+      "source_span": [
+        0,
+        68
+      ],
+      "lines": [
+        1,
+        1
+      ],
+      "title": "Option to expand sidebar navigation is missing in 1.22 (regression)",
+      "section": "Option to expand sidebar navigation is missing in 1.22 (regression)",
+      "text": "Option to expand sidebar navigation is missing in 1.22 (regression)\n",
+      "candidate_key": "949b8c501fd11249b47060c54ad081feab8cc963dfa825781a703b83d107873a"
+    },
+    {
+      "source_id": "issue:8334",
+      "revision": "2024-04-01T21:52:39Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        34,
+        38
+      ],
+      "title": "Sidebar button disappears for apps on mobile phones after keyboard use",
+      "section": "Current Behavior",
+      "text": "### Current Behavior\n\nAfter using a keyboard on mobile, the sidebar arrow unexpectedly disappears\n\nhttps://github.com/streamlit/streamlit/assets/61640079/b34a0979-c152-40f3-83b4-167f71f22fa0",
+      "candidate_key": "a1ec7b6248b6faddf80179c78f57ec8cf9b8ee9a6acbf75b29bb962f2c732633"
+    },
+    {
+      "source_id": "issue:16657",
+      "revision": "2026-08-26T14:06:42Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        16,
+        29
+      ],
+      "title": "Modernize Streamlit's default light and dark themes",
+      "section": "How?",
+      "text": "### How?\n\nRevisit the default theme tokens and component styling for both light and dark modes, for example:\n\n- **Color palette:** refined neutrals/grays, a more modern primary color, and better semantic colors (success/warning/error/info) with good contrast in both modes.\n- **Dark mode:** ensure it's a first-class, well-balanced theme (not just an inversion) — proper surface elevations, borders, and contrast.\n- **Typography:** modern default font, refined sizes/weights/line-heights and hierarchy.\n- **Spacing & shape:** consistent spacing scale and slightly softer, contemporary border radii and borders.\n- **Components:** cohesive styling across widgets, containers, dataframes, charts, etc.\n\nConsiderations:\n- Accessibility: maintain/improve WCAG contrast in both themes.\n- Backwards compatibility: this changes the look of existing apps, so consider how to roll it out (e.g. a new theme version/opt-in, migration notes) to avoid surprising users.\n- Keep it fully overridable via the existing `[theme]` config.",
+      "candidate_key": "ad45e9f6c26b34f83fecb9de9e671f299003324cf1fb06095545a9a2a24f12b1"
+    },
+    {
+      "source_id": "issue:6721",
+      "revision": "2023-10-30T22:50:14Z",
+      "product_version": null,
+      "source_span": [
+        1837,
+        1879
+      ],
+      "lines": [
+        59,
+        61
+      ],
+      "title": "Option to expand sidebar navigation is missing in 1.22 (regression)",
+      "section": "Option to expand sidebar navigation is missing in 1.22 (regression) > Additional Information",
+      "text": "### Additional Information\n\n_No response_\n",
+      "candidate_key": "b322a29be47dc04f5259cf4cd4655aa67cd2bee5dd8a8c1df3cfbcfd8fc2abe2"
+    },
+    {
+      "source_id": "docs:theming",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        23,
+        34
+      ],
+      "title": "theming",
+      "section": "Theming overview",
+      "text": "The following options can be configured separately for the main body of your app and the sidebar. They can also be specified separately for\ndark and light themes (`[theme.light]`, `[theme.light.sidebar]`, `[theme.dark]`, `[theme.dark.sidebar]`):\n\n- **Font family**: Set the font family for body text, headings, and code.\n- **Font style**: Set the weight and size of heading and code font, and set visibility of link underlines.\n- **Text color**: Set the color of body, inline code, and link text.\n- **Primary color**: Set the color of interactive elements and highlights.\n- **Background color**: Set the color of app, widget, code block, and dataframe header backgrounds.\n- **Border radius**: Set the roundness of elements and widgets.\n- **Border color**: Set the color and visibility of element, widget, sidebar, and dataframe borders.\n- **Basic color palette**: Set the color palette (red, orange, yellow, green, blue, violet, and gray/grey) for things like colored Markdown text and sparklines.\n- **Chart color**: Set series colors for Plotly, Altair, and Vega-Lite charts. Unset light, dark, and sidebar sections inherit from `[theme]`.",
+      "candidate_key": "b9f0e4b42e15d78137ca476c3cd4c95ee879ad2a58fbacfdd080b4fb6da94edb"
+    },
+    {
+      "source_id": "issue:6291",
+      "revision": "2023-07-24T10:05:49Z",
+      "product_version": null,
+      "source_span": [
+        82,
+        1390
+      ],
+      "lines": [
+        3,
+        34
+      ],
+      "title": "Option to set the chart background to something else than the primary background",
+      "section": "Option to set the chart background to something else than the primary background > Problem",
+      "text": "### Problem\n\nAs of streamlit 1.16 the chart background color has been changed to match the primary color. This can is some cases make graphs difficult to read. Hence I would like an option to set the chart background separately for all pages in a multipage app. \n\nI have tried to use\n```\nimport plotly.io as pio\npio.templates.default = \"none\" \n```\nI have also tried to add \"plot_bgcolor=\"grey\" to the streamlit theme.\n\nBut to no avail, the background color stays the same as the primary color.\n\nI can of cause set theme=None in each st.plotly_chart(), but as my app is large this is cumbersome, and will make it difficult to go back to the streamlit theme. \n\nMy suggestion is therefore twofold.\nMake a global option for setting the graph theme, either in the config.toml or on the main page.\n\nAdd an option to set the graph background color in config.toml like:\n`chartBackgroundColer=\"#F0F2F6\" `\nor \n`chartBackgroundColer=secondaryBackgroundColor`\n\n[IMAGE OMITTED: not inspected]\n\nBest regards Kristian\n\n-----------------------------\n\nCommunity voting on feature requests enables the Streamlit team to understand which features are most important to our users.\n\nIf you'd like the Streamlit team to prioritize this feature request, please use the 👍 (thumbs up emoji) reaction in response to the initial post.\n",
+      "candidate_key": "d495d386c62a2cc95ca0002989222d143f5eceaaf0ae78f3a26943672ace5eb6"
+    },
+    {
+      "source_id": "issue:5875",
+      "revision": "2023-01-18T21:23:01Z",
+      "product_version": null,
+      "source_span": [
+        358,
+        1038
+      ],
+      "lines": [
+        9,
+        15
+      ],
+      "title": "st.plotly_chart(,theme = \"streamlit\") does not use secondaryBackgroundColor as plot background",
+      "section": "st.plotly_chart(,theme = \"streamlit\") does not use secondaryBackgroundColor as plot background > Summary",
+      "text": "### Summary\n\nWhen updating to streamlit 1.16, our plotly charts change visual appearance due to the new plotly theming. But looking in the documentation it is stated that the secondaryBackgroundColor in the overall streamlit theme (same color as the sidebar) will be used as background color. This is not the case as the background is the same as the backgroundColor, and this makes the plots difficult to read.\n\nIt would be nice if the setting was honored or a separate setting was available.\n\nAlso it would be nice to have a global setting for the plotly_chart theme selection, instead of per plot. It can be quite time consuming to update this on all pages in a multipage app.\n",
+      "candidate_key": "d7239bfe39816284ff6f78d393cbbbff0cc1b698211bf594fef59269a7184fb9"
+    },
+    {
+      "source_id": "docs:config-toml",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        45098,
+        45766
+      ],
+      "lines": [
+        1304,
+        1323
+      ],
+      "title": "config-toml",
+      "section": "config-toml > config.toml > Available configuration options > Sidebar theme",
+      "text": "# for the light theme and lightened by 15% for the dark theme.\n#\n# Otherwise, this is #bd4043 for the light theme and #ff6c6c for the dark\n# theme.\nredTextColor =\n\n# Orange text color used for the basic color palette.\n#\n# If `orangeColor` is provided, this defaults to `orangeColor`, darkened\n# by 15% for the light theme and lightened by 15% for the dark theme.\n#\n# Otherwise, this is #e2660c for the light theme and #ffbd45 for the dark\n# theme.\norangeTextColor =\n\n# Yellow text color used for the basic color palette.\n#\n# If `yellowColor` is provided, this defaults to `yellowColor`, darkened\n# by 15% for the light theme and lightened by 15% for the dark theme.\n#\n",
+      "candidate_key": "efe0757439c02d762aca890f4d1d44c8df6ba1f6e7c7b3ac105dbdadd71022aa"
+    }
+  ],
+  "instructions": "Judge actual exact text relevance 0=irrelevant,1=topic only,2=useful partial,3=direct needed evidence; null=unjudged. Do not infer relevance from official source status. Record origin."
+}

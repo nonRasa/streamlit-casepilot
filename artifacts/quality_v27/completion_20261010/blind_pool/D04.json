@@ -1,0 +1,256 @@
+{
+  "id": "D04",
+  "report": "Bug report: state disappears after a browser disconnect. The Streamlit version is unknown. What evidence would distinguish a new session from a rerun?",
+  "product_version": null,
+  "candidates": [
+    {
+      "source_id": "issue:7749",
+      "revision": "2026-10-06T08:01:14Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        68,
+        73
+      ],
+      "title": "Using st.data_editor with session state, input data \"disappears\": Requires double input to register changes.",
+      "section": "Debug info",
+      "text": "### Debug info\n\n- Streamlit version: 1.28.1\n- Python version: 3.12\n- Operating System: Win 10\n- Browser: Edge or Firefox",
+      "candidate_key": "0709fac92f8ef47884f3757f9e4be8f556934dd35fc59e281df8437436e8408e"
+    },
+    {
+      "source_id": "docs:session-state",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        10,
+        22
+      ],
+      "title": "session-state",
+      "section": "What is State?",
+      "text": "## What is State?\n\nWe define access to a Streamlit app in a browser tab as a **session**. For each browser tab that connects to the Streamlit server, a new session is created. Streamlit reruns your script from top to bottom every time you interact with your app. Each reruns takes place in a blank slate: no variables are shared between runs.\n\nSession State is a way to share variables between reruns, for each user session. In addition to the ability to store and persist state, Streamlit also exposes the ability to manipulate state using Callbacks. Session state also persists across pages inside a [multipage app](/develop/concepts/multipage-apps).\n\nIn this guide, we will illustrate the usage of **Session State** and **Callbacks** as we build a stateful Counter app.\n\nFor details on the Session State and Callbacks API, please refer to our [Session State API Reference Guide](/develop/api-reference/caching-and-state/st.session_state).\n\nAlso, check out this Session State basics tutorial video by Streamlit Developer Advocate Dr. Marisa Smith to get started:\n\n<YouTube videoId=\"92jUAXBmZyU\" />",
+      "candidate_key": "09c627a5e9d0ee5e153370048298ee94a7a0253cdeedd5ea6fad112b70b3ea33"
+    },
+    {
+      "source_id": "issue:5813",
+      "revision": "2026-07-22T07:33:36Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        50,
+        56
+      ],
+      "title": "Preserve widget state when a widget disappears from the page (demoed via Multipage Apps)",
+      "section": "Debug info",
+      "text": "### Debug info\n\n- Streamlit version: `1.15.2`\n- Python version: `3.10.6`\n- Operating System: `MacOS 12.6.1 (21G217)`\n- Browser: `Chrome Version 107.0.5304.121 (Official Build) (arm64)`\n- Virtual environment: Python venv",
+      "candidate_key": "179e01805b0d2643cc24c722d21bf44a7bc1b0f49a1f47d5014fdd9c1e916cda"
+    },
+    {
+      "source_id": "issue:7206",
+      "revision": "2023-09-08T17:10:29Z",
+      "product_version": null,
+      "source_span": [
+        5460,
+        6582
+      ],
+      "lines": [
+        134,
+        158
+      ],
+      "title": "Widget ID not found in session_state after server reboot",
+      "section": "Widget ID not found in session_state after server reboot > Current Behavior",
+      "text": "- Notice the message \"Importing Authenticator\" is printed in the second run **after** the error. Thus, `streamlit-authenticator` is not triggering the error.\n- The tab opened in the first run shows the error, while the tab opened in the second attempt runs normally.\n[IMAGE OMITTED: not inspected]\n- I don't know what's going on, but is it possible that streamlit is running into concurrency problems regarding \nsession state?\n\nI went a bit further debbuging this. and added a print in the function `_compact_state` in the file `streamlit/runtime/state/session_state.py`, as follows:\n\n```python\n# is it possible for a value to get through this without being deserialized?\ndef _compact_state(self) -> None:\n  \"\"\"Copy all current session_state and widget_state values into our\n  _old_state dict, and then clear our current session_state and\n  widget_state.\n  \"\"\"\n  print('session_state', self)\n  for key_or_wid in self:\n     self._old_state[key_or_wid] = self[key_or_wid]\n  self._new_session_state.clear()\n  self._new_widget_state.clear()\n```\n\nThen I reproduced the error and got the following stacks:\n\n**First execution:**\n",
+      "candidate_key": "2486a6bbf04ae34a985e7ffcf0e66fa83764420f31aa2e846ba347f39ed31565"
+    },
+    {
+      "source_id": "issue:11266",
+      "revision": "2025-05-07T14:09:05Z",
+      "product_version": null,
+      "source_span": [
+        3008,
+        4219
+      ],
+      "lines": [
+        99,
+        132
+      ],
+      "title": "Rerun() inside an st.fragment resets widget values to defaults.",
+      "section": "Rerun() inside an st.fragment resets widget values to defaults. > Additional Information",
+      "text": "[IMAGE OMITTED: not inspected]\n\nWhat you see is what I get after clicking \"Update\", not \"rerun\". When I click \"rerun\", I get the inconsistency.  It behaves the same whether or not the text input is in focus.\n\nI get both values still. Can you try with the latest nightly? `pip install streamlit-nightly` might need to uninstall Streamlit.\n\nI'm getting the same behaviour with the nightly build. I played around and found that it also happens outside a fragment:\n\n```\nimport streamlit as st\n\nif st.button(\"rerun\"):\n    st.rerun()\nt = st.text_input(\"Enter t:\",value='foo')\nst.info(f't = {t}')\n```\n\n[IMAGE OMITTED: not inspected]\n\nAh, so it's a similar problem. The rerun is abandoning the text input before it's rendered and therefore loses its value.\n\nI do think there's something to be said that the return value of text input should be what the user sees inside. This makes sense from a developer experience.\n\nThat being said, the recommended way to make this work would be to run `st.rerun` after the text input to maintain the top down script paradigm.\n\n```python\nimport streamlit as st\n\nbar =st.empty()\nt = st.text_input(\"Enter t:\",value='foo')\nif bar.button(\"rerun\"):\n    st.rerun()\nst.info(f't = {t}')\n```\n",
+      "candidate_key": "2e85f387b12d9375b7697df668deff01ff5277f4f6841ad8cddd09a2ba69aefd"
+    },
+    {
+      "source_id": "issue:15893",
+      "revision": "2026-07-08T11:48:17Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        56,
+        61
+      ],
+      "title": "st.tabs collapses into a stacked column after certain session-state interactions on 1.59.0 (works on 1.58.x)",
+      "section": "Debug info",
+      "text": "### Debug info\n\n- Streamlit version: 1.59.0 (broken) → downgraded to 1.58.x (fixed)\n- Python version: 3.14 (Streamlit Community Cloud current default)\n- Operating System: macOS 26.5.1 (25F80)\n- Browser: Chrome and Safari — both affected - Repro also observed in an incognito window (rules out client-side state)",
+      "candidate_key": "4abf09d1e7f7a9208dd4c500b9e2bd9f28c0cde8a267227998fdb9995e9d1482"
+    },
+    {
+      "source_id": "issue:7206",
+      "revision": "2023-09-08T17:10:29Z",
+      "product_version": null,
+      "source_span": [
+        13984,
+        14110
+      ],
+      "lines": [
+        257,
+        262
+      ],
+      "title": "Widget ID not found in session_state after server reboot",
+      "section": "Widget ID not found in session_state after server reboot > Debug info",
+      "text": "### Debug info\n\n- Streamlit version: 1.25.0\n- Python version: Python 3.10.11\n- Operating System: Fedora 36\n- Browser: Firefox\n",
+      "candidate_key": "611b2b1465961935082c214970e3307e029f8a704037eae972b9a67a7d0350ba"
+    },
+    {
+      "source_id": "docs:session-state",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        441,
+        1541
+      ],
+      "lines": [
+        10,
+        22
+      ],
+      "title": "session-state",
+      "section": "session-state > Add statefulness to apps > What is State?",
+      "text": "## What is State?\n\nWe define access to a Streamlit app in a browser tab as a **session**. For each browser tab that connects to the Streamlit server, a new session is created. Streamlit reruns your script from top to bottom every time you interact with your app. Each reruns takes place in a blank slate: no variables are shared between runs.\n\nSession State is a way to share variables between reruns, for each user session. In addition to the ability to store and persist state, Streamlit also exposes the ability to manipulate state using Callbacks. Session state also persists across pages inside a [multipage app](/develop/concepts/multipage-apps).\n\nIn this guide, we will illustrate the usage of **Session State** and **Callbacks** as we build a stateful Counter app.\n\nFor details on the Session State and Callbacks API, please refer to our [Session State API Reference Guide](/develop/api-reference/caching-and-state/st.session_state).\n\nAlso, check out this Session State basics tutorial video by Streamlit Developer Advocate Dr. Marisa Smith to get started:\n\n<YouTube videoId=\"92jUAXBmZyU\" />\n",
+      "candidate_key": "6272630094d4bce145a5740836149c1d96a5e51adc0e0256c66fe447f145667a"
+    },
+    {
+      "source_id": "issue:7206",
+      "revision": "2023-09-08T17:10:29Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        134,
+        158
+      ],
+      "title": "Widget ID not found in session_state after server reboot",
+      "section": "Current Behavior",
+      "text": "- Notice the message \"Importing Authenticator\" is printed in the second run **after** the error. Thus, `streamlit-authenticator` is not triggering the error.\n- The tab opened in the first run shows the error, while the tab opened in the second attempt runs normally.\n[IMAGE OMITTED: not inspected]\n- I don't know what's going on, but is it possible that streamlit is running into concurrency problems regarding \nsession state?\n\nI went a bit further debbuging this. and added a print in the function `_compact_state` in the file `streamlit/runtime/state/session_state.py`, as follows:\n\n```python\n# is it possible for a value to get through this without being deserialized?\ndef _compact_state(self) -> None:\n  \"\"\"Copy all current session_state and widget_state values into our\n  _old_state dict, and then clear our current session_state and\n  widget_state.\n  \"\"\"\n  print('session_state', self)\n  for key_or_wid in self:\n     self._old_state[key_or_wid] = self[key_or_wid]\n  self._new_session_state.clear()\n  self._new_widget_state.clear()\n```\n\nThen I reproduced the error and got the following stacks:\n\n**First execution:**",
+      "candidate_key": "7758f95a3811d6f36ae4ffe543b65b9ed640be09ba978604035bdfbbbec2e02a"
+    },
+    {
+      "source_id": "issue:7749",
+      "revision": "2026-10-06T08:01:14Z",
+      "product_version": null,
+      "source_span": [
+        2740,
+        2861
+      ],
+      "lines": [
+        68,
+        73
+      ],
+      "title": "Using st.data_editor with session state, input data \"disappears\": Requires double input to register changes.",
+      "section": "Using st.data_editor with session state, input data \"disappears\": Requires double input to register changes. > Debug info",
+      "text": "### Debug info\n\n- Streamlit version: 1.28.1\n- Python version: 3.12\n- Operating System: Win 10\n- Browser: Edge or Firefox\n",
+      "candidate_key": "8b21a503943f5627364a1e20c91b6474bcbf0fcc4a354d60240344ee98268c04"
+    },
+    {
+      "source_id": "issue:9609",
+      "revision": "2025-05-05T16:15:47Z",
+      "product_version": null,
+      "source_span": [
+        0,
+        1193
+      ],
+      "lines": [
+        1,
+        48
+      ],
+      "title": "Streamlit file_uploader rerun the whole script for adding new image and removes the old outputs",
+      "section": "Streamlit file_uploader rerun the whole script for adding new image and removes the old outputs",
+      "text": "Streamlit file_uploader rerun the whole script for adding new image and removes the old outputs\n\n### Checklist\n\n- [X] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [X] I added a very descriptive title to this issue.\n- [X] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nI am running an app that accepts multi image and visualize predictions using st.image\nWorks will till the point where I try to add another image to uploader the previously uploaded images remain on screen with no change however, the visualizations disappears and reappears when the app runs prediction for old a new images.\n\nNote:\nSession_state doesn't resolve that at all as the reaction just happens when upload triggered before running anything.\n\n### Reproducible Code Example\n\n_No response_\n\n### Steps To Reproduce\n\n_No response_\n\n### Expected Behavior\n\n_No response_\n\n### Current Behavior\n\n_No response_\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version:\n- Python version:\n- Operating System:\n- Browser:\n\n\n### Additional Information\n\n_No response_\n\n",
+      "candidate_key": "8d26af1b5e8a7ad4910fa239f2dfa1458955e2fbdc7810088a4137b3cb2d338a"
+    },
+    {
+      "source_id": "issue:1914",
+      "revision": "2021-05-23T20:11:50Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        29,
+        35
+      ],
+      "title": "Discarding ScriptRequest.RERUN after shutdown",
+      "section": "Debug info",
+      "text": "# Debug info\n\n- Streamlit version: 0.65.2\n- Python version: 3.6.9\n- Using Conda\n- OS version: Windows 10\n- Browser version: Chrome",
+      "candidate_key": "a3c91dae2e996ca5182600446bc55985331bc53b631049df0160abc230100f75"
+    },
+    {
+      "source_id": "issue:5813",
+      "revision": "2026-07-22T07:33:36Z",
+      "product_version": null,
+      "source_span": [
+        1664,
+        1884
+      ],
+      "lines": [
+        50,
+        56
+      ],
+      "title": "Preserve widget state when a widget disappears from the page (demoed via Multipage Apps)",
+      "section": "Preserve widget state when a widget disappears from the page (demoed via Multipage Apps) > Debug info",
+      "text": "### Debug info\n\n- Streamlit version: `1.15.2`\n- Python version: `3.10.6`\n- Operating System: `MacOS 12.6.1 (21G217)`\n- Browser: `Chrome Version 107.0.5304.121 (Official Build) (arm64)`\n- Virtual environment: Python venv\n",
+      "candidate_key": "bdfd3a07c8dfb82555df9ef47c015c16fe5f03d53761dd1372b62b4644d0d58b"
+    },
+    {
+      "source_id": "issue:7206",
+      "revision": "2023-09-08T17:10:29Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        55,
+        61
+      ],
+      "title": "Widget ID not found in session_state after server reboot",
+      "section": "Steps To Reproduce",
+      "text": "### Steps To Reproduce\n\n1. Create a virtualenv with streamlit==1.25.0 and streamlit-authenticator==0.2.2\n2. Save the code above as test.py.\n3. streamlit run test.py. Wait the script run completely in the browser. Wait 30 seconds and kill the app with Ctrl+C in the terminal. **Have the browser tab open.**\n4. streamlit run test.py again.\n5. If the bug doesn't show up in the terminal, reboot the app again until it shows up.   ",
+      "candidate_key": "e5df83f7a98f13c139bc7802add86a846a463aceec94df56cf66ff140d09ca5d"
+    },
+    {
+      "source_id": "issue:16708",
+      "revision": "2026-08-31T15:17:27Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        76,
+        81
+      ],
+      "title": "Nested run_every fragment stays on screen with stale content after being hidden",
+      "section": "Debug info",
+      "text": "### Debug info\n\n- Streamlit version: 1.62.0 (`develop`)\n- Python version: 3.11.6\n- Operating System: macOS 26.6.2\n- Browser: reproduced on WebKit; not browser specific",
+      "candidate_key": "f60f5238f13fe8137f2cd1bd15c5a57b3dd1fd642a7c8a009d2265810338110b"
+    },
+    {
+      "source_id": "issue:15893",
+      "revision": "2026-07-08T11:48:17Z",
+      "product_version": null,
+      "source_span": [
+        2465,
+        2777
+      ],
+      "lines": [
+        56,
+        61
+      ],
+      "title": "st.tabs collapses into a stacked column after certain session-state interactions on 1.59.0 (works on 1.58.x)",
+      "section": "st.tabs collapses into a stacked column after certain session-state interactions on 1.59.0 (works on 1.58.x) > Debug info",
+      "text": "### Debug info\n\n- Streamlit version: 1.59.0 (broken) → downgraded to 1.58.x (fixed)\n- Python version: 3.14 (Streamlit Community Cloud current default)\n- Operating System: macOS 26.5.1 (25F80)\n- Browser: Chrome and Safari — both affected - Repro also observed in an incognito window (rules out client-side state)\n",
+      "candidate_key": "f78da6bc08225c5cac93cfb312c17db5abcb11dee51ac0a07d62076a3c378add"
+    }
+  ],
+  "instructions": "Judge actual exact text relevance 0=irrelevant,1=topic only,2=useful partial,3=direct needed evidence; null=unjudged. Do not infer relevance from official source status. Record origin."
+}

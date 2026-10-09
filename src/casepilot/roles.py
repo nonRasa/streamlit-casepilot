@@ -108,10 +108,9 @@ def checked_extraction(result,message):
 def rerank_ids(result,rows):
     ids=result.get('ordered_ids') if isinstance(result,dict) and set(result)=={'ordered_ids'} else None
     allowed={r['id']:r for r in rows}
-    require(isinstance(ids,list) and 0<len(ids)<=len(rows) and all(isinstance(i,str) and i in allowed for i in ids) and len(set(ids))==len(ids),
-            'invalid_rerank','شناسهٔ بیگانه، تکراری یا خروجی خالی بازرتبه‌بند پذیرفته نیست.')
-    # Preserve candidates omitted by a partial ranking; never manufacture an ID.
-    return [allowed[i] for i in ids]+[r for r in rows if r['id'] not in ids]
+    require(isinstance(ids,list) and len(ids)<=min(8,len(rows)) and all(isinstance(i,str) and i in allowed for i in ids) and len(set(ids))==len(ids),
+            'invalid_rerank','شناسهٔ بیگانه، تکراری یا ساختار نامعتبر بازرتبه‌بند پذیرفته نیست.')
+    return [allowed[i] for i in ids]
 
 def deterministic_findings(answer,evidence,state):
     validate_answer(answer,evidence)

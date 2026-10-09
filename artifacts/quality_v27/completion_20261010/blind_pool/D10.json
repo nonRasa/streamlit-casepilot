@@ -1,0 +1,273 @@
+{
+  "id": "D10",
+  "report": "How do I make Session State reject objects that cannot be pickled? Version is not recorded.",
+  "product_version": null,
+  "candidates": [
+    {
+      "source_id": "docs:session-state",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        309,
+        315
+      ],
+      "title": "session-state",
+      "section": "Caveats and limitations",
+      "text": "### Caveats and limitations\n\nHere are some limitations to keep in mind when using Session State:\n\n- Session State exists for as long as the tab is open and connected to the Streamlit server. As soon as you close the tab, everything stored in Session State is lost.\n- Session State is not persisted. If the Streamlit server crashes, then everything stored in Session State gets wiped\n- For caveats and limitations with the Session State API, please see the [API limitations](/develop/api-reference/caching-and-state/st.session_state#caveats-and-limitations).",
+      "candidate_key": "058fcd60dece128294a7069e7d43a4ee6eecaa425237ea8e9c361fd6e21da3f6"
+    },
+    {
+      "source_id": "docs:session_state",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        150,
+        162
+      ],
+      "title": "session_state",
+      "section": "Serializable Session State",
+      "text": "### Serializable Session State\n\nSerialization refers to the process of converting an object or data structure into a format that can be persisted and shared, and allowing you to recover the data’s original structure. Python’s built-in [pickle](https://docs.python.org/3/develop/pickle.html) module serializes Python objects to a byte stream (\"pickling\") and deserializes the stream into an object (\"unpickling\").\n\nBy default, Streamlit’s [Session State](/develop/concepts/architecture/session-state) allows you to persist any Python object for the duration of the session, irrespective of the object’s pickle-serializability. This property lets you store Python primitives such as integers, floating-point numbers, complex numbers and booleans, dataframes, and even [lambdas](https://docs.python.org/3/reference/expressions.html#lambda) returned by functions. However, some execution environments may require serializing all data in Session State, so it may be useful to detect incompatibility during development, or when the execution environment will stop supporting it in the future.\n\nTo that end, Streamlit provides a `runner.enforceSerializableSessionState` [configuration option](/develop/concepts/configuration) that, when set to `true`, only allows pickle-serializable objects in Session State. To enable the option, either create a global or project config file with the following or use it as a command-line flag:\n\n```toml\n# .streamlit/config.toml\n[runner]\nenforceSerializableSessionState = true\n```",
+      "candidate_key": "0dc7a05f04014ed8c973bc99e2369b713d49bbe411a31bccf43403a303ff7a63"
+    },
+    {
+      "source_id": "issue:11012",
+      "revision": "2026-03-12T13:28:39Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        1,
+        1
+      ],
+      "title": "Preserve session state (e.g. in file, database, or localstorage)",
+      "section": "Preserve session state (e.g. in file, database, or localstorage)",
+      "text": "Preserve session state (e.g. in file, database, or localstorage)",
+      "candidate_key": "134686e45e99b347db54cc690e72b87d2247001c71dcc4abc5b495449432426b"
+    },
+    {
+      "source_id": "docs:session-state",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        12008,
+        12566
+      ],
+      "lines": [
+        309,
+        315
+      ],
+      "title": "session-state",
+      "section": "session-state > Add statefulness to apps > Advanced concepts > Caveats and limitations",
+      "text": "### Caveats and limitations\n\nHere are some limitations to keep in mind when using Session State:\n\n- Session State exists for as long as the tab is open and connected to the Streamlit server. As soon as you close the tab, everything stored in Session State is lost.\n- Session State is not persisted. If the Streamlit server crashes, then everything stored in Session State gets wiped\n- For caveats and limitations with the Session State API, please see the [API limitations](/develop/api-reference/caching-and-state/st.session_state#caveats-and-limitations).\n",
+      "candidate_key": "20c003301ad75e6e412667c5581d3493e8a41aee8cca8d829cfae1207f638ede"
+    },
+    {
+      "source_id": "docs:session-state",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        275,
+        287
+      ],
+      "title": "session-state",
+      "section": "Serializable Session State",
+      "text": "### Serializable Session State\n\nSerialization refers to the process of converting an object or data structure into a format that can be persisted and shared, and allowing you to recover the data’s original structure. Python’s built-in [pickle](https://docs.python.org/3/library/pickle.html) module serializes Python objects to a byte stream (\"pickling\") and deserializes the stream into an object (\"unpickling\").\n\nBy default, Streamlit’s [Session State](/develop/concepts/architecture/session-state) allows you to persist any Python object for the duration of the session, irrespective of the object’s pickle-serializability. This property lets you store Python primitives such as integers, floating-point numbers, complex numbers and booleans, dataframes, and even [lambdas](https://docs.python.org/3/reference/expressions.html#lambda) returned by functions. However, some execution environments may require serializing all data in Session State, so it may be useful to detect incompatibility during development, or when the execution environment will stop supporting it in the future.\n\nTo that end, Streamlit provides a `runner.enforceSerializableSessionState` [configuration option](/develop/concepts/configuration) that, when set to `true`, only allows pickle-serializable objects in Session State. To enable the option, either create a global or project config file with the following or use it as a command-line flag:\n\n```toml\n# .streamlit/config.toml\n[runner]\nenforceSerializableSessionState = true\n```",
+      "candidate_key": "38cb55bfd871248b5c5d9043e4fce5c1ca4b44ad4fe0adf841ebbea2d877b26e"
+    },
+    {
+      "source_id": "issue:7749",
+      "revision": "2026-10-06T08:01:14Z",
+      "product_version": null,
+      "source_span": [
+        2660,
+        2739
+      ],
+      "lines": [
+        64,
+        66
+      ],
+      "title": "Using st.data_editor with session state, input data \"disappears\": Requires double input to register changes.",
+      "section": "Using st.data_editor with session state, input data \"disappears\": Requires double input to register changes. > Is this a regression?",
+      "text": "### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n",
+      "candidate_key": "4030977340de0fb6370fb1a89b0fd1f417de13f4c5b31a306b6c927c7f642b90"
+    },
+    {
+      "source_id": "docs:session_state",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        310,
+        787
+      ],
+      "lines": [
+        8,
+        14
+      ],
+      "title": "session_state",
+      "section": "session_state > Session State",
+      "text": "# Session State\n\nSession State is a way to share variables between reruns, for each user session. In addition to the ability to store and persist state, Streamlit also exposes the ability to manipulate state using Callbacks. Session state also persists across apps inside a [multipage app](/develop/concepts/multipage-apps).\n\nCheck out this Session State basics tutorial video by Streamlit Developer Advocate Dr. Marisa Smith to get started:\n\n<YouTube videoId=\"92jUAXBmZyU\" />\n",
+      "candidate_key": "44ad791f9266287d1693b08c1a8da9eddf143c26c5d8efec101c9929808d8d08"
+    },
+    {
+      "source_id": "issue:11012",
+      "revision": "2026-03-12T13:28:39Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        16,
+        20
+      ],
+      "title": "Preserve session state (e.g. in file, database, or localstorage)",
+      "section": "How?",
+      "text": "### How?\n\nI think we should look at whether we can find a solution that relates to syncing widget state to query params (see #302) since they basically do the same thing, just storing the values in different places. Maybe something like a parameter on every widget `sync=\"query_params\"|\"database\"|\"localstorage\"|...`.\n\nIt would also be great to make this extensible, so that experienced devs can configure their own places where the session state should be stored (e.g. an external database). ",
+      "candidate_key": "4b6395615144b7905b4a63b08c2ff8076dd6908b126714b1209488abc46a0c0b"
+    },
+    {
+      "source_id": "docs:serializable-session-state",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        156,
+        1579
+      ],
+      "lines": [
+        8,
+        14
+      ],
+      "title": "serializable-session-state",
+      "section": "serializable-session-state > What is serializable session state? > Serializable Session State",
+      "text": "## Serializable Session State\n\nSerialization refers to the process of converting an object or data structure into a format that can be persisted and shared, and allowing you to recover the data’s original structure. Python’s built-in [pickle](https://docs.python.org/3/library/pickle.html) module serializes Python objects to a byte stream (\"pickling\") and deserializes the stream into an object (\"unpickling\").\n\nBy default, Streamlit’s [Session State](/develop/concepts/architecture/session-state) allows you to persist any Python object for the duration of the session, irrespective of the object’s pickle-serializability. This property lets you store Python primitives such as integers, floating-point numbers, complex numbers and booleans, dataframes, and even [lambdas](https://docs.python.org/3/reference/expressions.html#lambda) returned by functions. However, some execution environments may require serializing all data in Session State, so it may be useful to detect incompatibility during development, or when the execution environment will stop supporting it in the future.\n\nTo that end, Streamlit provides a `runner.enforceSerializableSessionState` [configuration option](/develop/concepts/configuration) that, when set to `true`, only allows pickle-serializable objects in Session State. To enable the option, either create a global or project config file with the following or use it as a command-line flag:\n",
+      "candidate_key": "6ebe9c676bf23a61615eed0769b2f352d592910ce8e57f9df5010cb7d1d7b8ec"
+    },
+    {
+      "source_id": "api:cache_resource",
+      "revision": "1.49.0",
+      "product_version": "1.49.0",
+      "source_span": [
+        905,
+        2147
+      ],
+      "lines": [
+        20,
+        42
+      ],
+      "title": "cache_resource API docstrings 1.49.0",
+      "section": "cache_resource API docstrings 1.49.0 > _decorator (line 259)",
+      "text": "Cached values are available to all users of your app. If you need to\nsave results that should only be accessible within a session, use\n`Session State\n<https://docs.streamlit.io/develop/concepts/architecture/session-state>`_\ninstead. Within each user session, an ``@st.cache_resource``-decorated\nfunction returns the cached instance of the return value (if the value\nis already cached). Therefore, objects cached by ``st.cache_resource``\nact like singletons and can mutate. To cache data and return copies,\nuse ``st.cache_data`` instead. To learn more about caching, see\n`Caching overview\n<https://docs.streamlit.io/develop/concepts/architecture/caching>`_.\n\n.. warning::\n    Async objects are not officially supported in Streamlit. Caching\n    async objects or objects that reference async objects may have\n    unintended consequences. For example, Streamlit may close event\n    loops in its normal operation and make the cached object raise an\n    ``Event loop closed`` error.\n\n    To upvote official ``asyncio`` support, see GitHub issue `#8488\n    <https://github.com/streamlit/streamlit/issues/8488>`_. To upvote\n    support for caching async functions, see GitHub issue `#8308\n    <https://github.com/streamlit/streamlit/issues/8308>`_.\n",
+      "candidate_key": "6fa10d2d458bb4d69d58bf7e39f0fd0eac8afab96e1e1e2b33a13640264cc3f9"
+    },
+    {
+      "source_id": "docs:serializable-session-state",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        1580,
+        2284
+      ],
+      "lines": [
+        16,
+        34
+      ],
+      "title": "serializable-session-state",
+      "section": "serializable-session-state > What is serializable session state? > Serializable Session State",
+      "text": "```toml\n# .streamlit/config.toml\n[runner]\nenforceSerializableSessionState = true\n```\n\nBy \"_pickle-serializable_\", we mean calling `pickle.dumps(obj)` should not raise a [`PicklingError`](https://docs.python.org/3/library/pickle.html#pickle.PicklingError) exception. When the config option is enabled, adding unserializable data to session state should result in an exception. E.g.,\n\n```python\nimport streamlit as st\n\ndef unserializable_data():\n\t\treturn lambda x: x\n\n#👇 results in an exception when enforceSerializableSessionState is on\nst.session_state.unserializable = unserializable_data()\n```\n\n<Image alt=\"UnserializableSessionStateError\" src=\"/images/unserializable-session-state-error.png\" clean />\n",
+      "candidate_key": "8f89a4ae0d2a1c097fd989e2635537d167f4a9cc66aa5fa06ff0cabbe5af2b82"
+    },
+    {
+      "source_id": "docs:session_state",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        4383,
+        5807
+      ],
+      "lines": [
+        150,
+        156
+      ],
+      "title": "session_state",
+      "section": "session_state > Session State > Serializable Session State",
+      "text": "### Serializable Session State\n\nSerialization refers to the process of converting an object or data structure into a format that can be persisted and shared, and allowing you to recover the data’s original structure. Python’s built-in [pickle](https://docs.python.org/3/develop/pickle.html) module serializes Python objects to a byte stream (\"pickling\") and deserializes the stream into an object (\"unpickling\").\n\nBy default, Streamlit’s [Session State](/develop/concepts/architecture/session-state) allows you to persist any Python object for the duration of the session, irrespective of the object’s pickle-serializability. This property lets you store Python primitives such as integers, floating-point numbers, complex numbers and booleans, dataframes, and even [lambdas](https://docs.python.org/3/reference/expressions.html#lambda) returned by functions. However, some execution environments may require serializing all data in Session State, so it may be useful to detect incompatibility during development, or when the execution environment will stop supporting it in the future.\n\nTo that end, Streamlit provides a `runner.enforceSerializableSessionState` [configuration option](/develop/concepts/configuration) that, when set to `true`, only allows pickle-serializable objects in Session State. To enable the option, either create a global or project config file with the following or use it as a command-line flag:\n",
+      "candidate_key": "a77ad910df780cdcbd617f6236bd176ae617b5022972f99eb355278395ae8be8"
+    },
+    {
+      "source_id": "docs:session-state",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        9383,
+        10807
+      ],
+      "lines": [
+        275,
+        281
+      ],
+      "title": "session-state",
+      "section": "session-state > Add statefulness to apps > Advanced concepts > Serializable Session State",
+      "text": "### Serializable Session State\n\nSerialization refers to the process of converting an object or data structure into a format that can be persisted and shared, and allowing you to recover the data’s original structure. Python’s built-in [pickle](https://docs.python.org/3/library/pickle.html) module serializes Python objects to a byte stream (\"pickling\") and deserializes the stream into an object (\"unpickling\").\n\nBy default, Streamlit’s [Session State](/develop/concepts/architecture/session-state) allows you to persist any Python object for the duration of the session, irrespective of the object’s pickle-serializability. This property lets you store Python primitives such as integers, floating-point numbers, complex numbers and booleans, dataframes, and even [lambdas](https://docs.python.org/3/reference/expressions.html#lambda) returned by functions. However, some execution environments may require serializing all data in Session State, so it may be useful to detect incompatibility during development, or when the execution environment will stop supporting it in the future.\n\nTo that end, Streamlit provides a `runner.enforceSerializableSessionState` [configuration option](/develop/concepts/configuration) that, when set to `true`, only allows pickle-serializable objects in Session State. To enable the option, either create a global or project config file with the following or use it as a command-line flag:\n",
+      "candidate_key": "b1ad30c3ce34c1990936e55798fc9f824f10cb73192eb6a3ba8c0b5110cff298"
+    },
+    {
+      "source_id": "docs:serializable-session-state",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        8,
+        20
+      ],
+      "title": "serializable-session-state",
+      "section": "Serializable Session State",
+      "text": "## Serializable Session State\n\nSerialization refers to the process of converting an object or data structure into a format that can be persisted and shared, and allowing you to recover the data’s original structure. Python’s built-in [pickle](https://docs.python.org/3/library/pickle.html) module serializes Python objects to a byte stream (\"pickling\") and deserializes the stream into an object (\"unpickling\").\n\nBy default, Streamlit’s [Session State](/develop/concepts/architecture/session-state) allows you to persist any Python object for the duration of the session, irrespective of the object’s pickle-serializability. This property lets you store Python primitives such as integers, floating-point numbers, complex numbers and booleans, dataframes, and even [lambdas](https://docs.python.org/3/reference/expressions.html#lambda) returned by functions. However, some execution environments may require serializing all data in Session State, so it may be useful to detect incompatibility during development, or when the execution environment will stop supporting it in the future.\n\nTo that end, Streamlit provides a `runner.enforceSerializableSessionState` [configuration option](/develop/concepts/configuration) that, when set to `true`, only allows pickle-serializable objects in Session State. To enable the option, either create a global or project config file with the following or use it as a command-line flag:\n\n```toml\n# .streamlit/config.toml\n[runner]\nenforceSerializableSessionState = true\n```",
+      "candidate_key": "c5a3ccefa9e6e6287b35d883985729d83cbb89038d3142c5e8a5b7bba7a7f2fa"
+    },
+    {
+      "source_id": "issue:7749",
+      "revision": "2026-10-06T08:01:14Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        64,
+        66
+      ],
+      "title": "Using st.data_editor with session state, input data \"disappears\": Requires double input to register changes.",
+      "section": "Is this a regression?",
+      "text": "### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.",
+      "candidate_key": "c92d5fc260c7570f5b0753a9f0209ec8c1cbb2117846df374c8d6a6b656a1d0a"
+    },
+    {
+      "source_id": "docs:serializable-session-state",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        156,
+        2284
+      ],
+      "lines": [
+        8,
+        34
+      ],
+      "title": "serializable-session-state",
+      "section": "serializable-session-state > What is serializable session state? > Serializable Session State",
+      "text": "## Serializable Session State\n\nSerialization refers to the process of converting an object or data structure into a format that can be persisted and shared, and allowing you to recover the data’s original structure. Python’s built-in [pickle](https://docs.python.org/3/library/pickle.html) module serializes Python objects to a byte stream (\"pickling\") and deserializes the stream into an object (\"unpickling\").\n\nBy default, Streamlit’s [Session State](/develop/concepts/architecture/session-state) allows you to persist any Python object for the duration of the session, irrespective of the object’s pickle-serializability. This property lets you store Python primitives such as integers, floating-point numbers, complex numbers and booleans, dataframes, and even [lambdas](https://docs.python.org/3/reference/expressions.html#lambda) returned by functions. However, some execution environments may require serializing all data in Session State, so it may be useful to detect incompatibility during development, or when the execution environment will stop supporting it in the future.\n\nTo that end, Streamlit provides a `runner.enforceSerializableSessionState` [configuration option](/develop/concepts/configuration) that, when set to `true`, only allows pickle-serializable objects in Session State. To enable the option, either create a global or project config file with the following or use it as a command-line flag:\n\n```toml\n# .streamlit/config.toml\n[runner]\nenforceSerializableSessionState = true\n```\n\nBy \"_pickle-serializable_\", we mean calling `pickle.dumps(obj)` should not raise a [`PicklingError`](https://docs.python.org/3/library/pickle.html#pickle.PicklingError) exception. When the config option is enabled, adding unserializable data to session state should result in an exception. E.g.,\n\n```python\nimport streamlit as st\n\ndef unserializable_data():\n\t\treturn lambda x: x\n\n#👇 results in an exception when enforceSerializableSessionState is on\nst.session_state.unserializable = unserializable_data()\n```\n\n<Image alt=\"UnserializableSessionStateError\" src=\"/images/unserializable-session-state-error.png\" clean />\n",
+      "candidate_key": "d721d97f02c722d9c24a5060a31ed86f4b6847bd0991413315669343c33f357d"
+    },
+    {
+      "source_id": "docs:session_state",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        8,
+        14
+      ],
+      "title": "session_state",
+      "section": "Session State",
+      "text": "# Session State\n\nSession State is a way to share variables between reruns, for each user session. In addition to the ability to store and persist state, Streamlit also exposes the ability to manipulate state using Callbacks. Session state also persists across apps inside a [multipage app](/develop/concepts/multipage-apps).\n\nCheck out this Session State basics tutorial video by Streamlit Developer Advocate Dr. Marisa Smith to get started:\n\n<YouTube videoId=\"92jUAXBmZyU\" />",
+      "candidate_key": "efd830c92d3b22eaedb00f1b15032e52dff887f735fd46c6840407f89fb37c4e"
+    }
+  ],
+  "instructions": "Judge actual exact text relevance 0=irrelevant,1=topic only,2=useful partial,3=direct needed evidence; null=unjudged. Do not infer relevance from official source status. Record origin."
+}

@@ -1,0 +1,702 @@
+[
+  {
+    "id": 1,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ambiguities": [
+        "ابهام: نسخهٔ ناقص یا غیرقابل بررسی کنار گذاشته شد.",
+        "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+      ],
+      "checks": [],
+      "facts_with_quotes": [
+        {
+          "key": "streamlit_version",
+          "quote": "- Streamlit version: 1.64.0",
+          "value": "1.64.0"
+        },
+        {
+          "key": "python_version",
+          "quote": "- Python version: Python 3.13.13",
+          "value": "Python 3.13.13"
+        },
+        {
+          "key": "os",
+          "quote": "- Operating System: Linux 7.1.4-arch1-1",
+          "value": "Linux 7.1.4-arch1-1"
+        },
+        {
+          "key": "browser",
+          "quote": "- Browser: Firefox",
+          "value": "Firefox"
+        },
+        {
+          "key": "symptom_scope",
+          "quote": "dialog stops being responsive",
+          "value": "dialog stops being responsive"
+        },
+        {
+          "key": "reproducible",
+          "quote": "- [x] I have provided sufficient information below to help reproduce this issue.",
+          "value": "true"
+        }
+      ],
+      "keys": [
+        "browser",
+        "os",
+        "streamlit_version",
+        "symptom_scope"
+      ],
+      "stage": "extract",
+      "status": "ok"
+    },
+    "at": "2026-10-09T20:06:38.175211+00:00"
+  },
+  {
+    "id": 2,
+    "case_id": "GH17011",
+    "kind": "user_update",
+    "payload": {
+      "checks": [],
+      "facts": {
+        "browser": "Firefox",
+        "os": "Linux 7.1.4-arch1-1",
+        "python_version": "3.13.13",
+        "streamlit_version": "1.64.0",
+        "symptom_scope": "dialog stops being responsive"
+      },
+      "message": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+      "revision": 1
+    },
+    "at": "2026-10-09T20:06:38.188231+00:00"
+  },
+  {
+    "id": 3,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "revision": 1,
+      "stage": "read_case"
+    },
+    "at": "2026-10-09T20:06:38.208133+00:00"
+  },
+  {
+    "id": 4,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "as_of": null,
+      "candidates": [
+        "docs:fragments:v2:cb48967ad96007e2",
+        "docs:button-behavior-and-examples:v2:23fc4ba7cf4cae18",
+        "docs:session_state:v2:58dde40a15de068f",
+        "docs:fragments:v2:f8d97e183dd7d878",
+        "issue:11266:v2:5df5b300853d70e7",
+        "issue:16005:v2:e620d4c5f982acfd",
+        "issue:16708:v2:7b2f3e555aef7fe6",
+        "issue:11266:v2:b0b00ad71c9d0511"
+      ],
+      "components": {
+        "dense": true,
+        "judge": true,
+        "mmr": true,
+        "quality": true,
+        "rerank": true,
+        "rewrite": true
+      },
+      "embedding": {
+        "batches": 1,
+        "cache_hits": 0,
+        "identity": {
+          "encoding_format": "float",
+          "model": "text-embedding-3-small",
+          "normalization": "whitespace-v1",
+          "provider": "https://api.metisai.ir/openai/v1"
+        },
+        "texts": 1,
+        "unique_missing": 1,
+        "usage": [
+          {
+            "cost_usd": 1.364e-06,
+            "diagnostic": {
+              "failure_code": null,
+              "finish_reason": null,
+              "http_status": 200,
+              "model": "text-embedding-3-small",
+              "provider_request_id": null,
+              "reported_usage": {
+                "completion_tokens": null,
+                "prompt_tokens": 62,
+                "total_tokens": 62
+              },
+              "request_id": "660c4fa38dbfc4c16354c99b",
+              "requested_max_output_tokens": null,
+              "role": "embedding",
+              "status": "parsed"
+            },
+            "input_tokens": 62,
+            "kind": "embedding",
+            "ledger_id": "660c4fa38dbfc4c16354c99b",
+            "mode": "live",
+            "output_tokens": 0,
+            "provider_requests": 1,
+            "reserved_usd": 2.3258399999999997e-05
+          }
+        ]
+      },
+      "excluded_chunks": 2088,
+      "method": "bm25+dense+rrf+mmr",
+      "mmr_lambda": 0.7,
+      "quality_filter": true,
+      "rrf_k": 60,
+      "stage": "retrieve",
+      "temporal_policy": "current_snapshot",
+      "version_warnings": [
+        "docs:fragments:v2:cb48967ad96007e2",
+        "docs:button-behavior-and-examples:v2:23fc4ba7cf4cae18",
+        "docs:session_state:v2:58dde40a15de068f",
+        "docs:fragments:v2:f8d97e183dd7d878",
+        "issue:11266:v2:5df5b300853d70e7",
+        "issue:16005:v2:e620d4c5f982acfd",
+        "issue:16708:v2:7b2f3e555aef7fe6",
+        "issue:11266:v2:b0b00ad71c9d0511"
+      ]
+    },
+    "at": "2026-10-09T20:06:39.173395+00:00"
+  },
+  {
+    "id": 5,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ids": [
+        "docs:fragments:v2:cb48967ad96007e2",
+        "docs:fragments:v2:f8d97e183dd7d878",
+        "issue:11266:v2:5df5b300853d70e7",
+        "issue:11266:v2:b0b00ad71c9d0511",
+        "issue:16708:v2:7b2f3e555aef7fe6",
+        "issue:16005:v2:e620d4c5f982acfd",
+        "docs:session_state:v2:58dde40a15de068f",
+        "docs:button-behavior-and-examples:v2:23fc4ba7cf4cae18"
+      ],
+      "stage": "rerank",
+      "status": "ok"
+    },
+    "at": "2026-10-09T20:06:43.286564+00:00"
+  },
+  {
+    "id": 6,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ids": [
+        "docs:fragments:v2:cb48967ad96007e2",
+        "docs:fragments:v2:f8d97e183dd7d878",
+        "issue:11266:v2:5df5b300853d70e7",
+        "issue:11266:v2:b0b00ad71c9d0511",
+        "issue:16708:v2:7b2f3e555aef7fe6"
+      ],
+      "stage": "context_pack",
+      "utf8_bytes": 4680
+    },
+    "at": "2026-10-09T20:06:43.296080+00:00"
+  },
+  {
+    "id": 7,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "stage": "draft",
+      "status": "produced"
+    },
+    "at": "2026-10-09T20:06:47.384484+00:00"
+  },
+  {
+    "id": 8,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "error": "provider_http_error",
+      "stage": "safe_escalation"
+    },
+    "at": "2026-10-09T20:06:48.219817+00:00"
+  },
+  {
+    "id": 9,
+    "case_id": "GH17011",
+    "kind": "proposal_created",
+    "payload": {
+      "hash": "1a8c4f6891dfd4387e2b518fb5a394a6e3e1cd86f4dc8b2fef41949143ca0646",
+      "payload": {
+        "actions": [
+          {
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `provider_http_error`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nConditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops be\n```\n\nمحیط گزارش‌شده:\n\n```text\nstreamlit_version=1.64.0؛ os=Linux 7.1.4-arch1-1؛ browser=Firefox؛ symptom_scope=dialog stops being responsive؛ python_version=3.13.13\n```\n\nبررسی‌های گزارش‌شده:\n\n```json\n[\n  {\n    \"action\": \"run repro.py\",\n    \"conditions\": \"[{'dimension': 'streamlit_version', 'value': '1.57.0', 'quote': 'uv run --no-project --with streamlit==1.57.0 streamlit run repro.py'}, {'dimension': 'app_variant', 'value': 'repro.py', 'quote': 'uv r\",\n    \"status\": \"succeeded\",\n    \"result\": \"worked when ran with\",\n    \"provenance\": {\n      \"kind\": \"user_report\",\n      \"message_index\": 0,\n      \"at\": \"2026-10-09T20:06:38.188231+00:00\"\n    }\n  },\n  {\n    \"action\": \"run repro.py\",\n    \"conditions\": \"[{'dimension': 'streamlit_version', 'value': '1.58.0', 'quote': 'uv run --no-project --with streamlit==1.58.0 streamlit run repro.py'}, {'dimension': 'app_variant', 'value': 'repro.py', 'quote': 'uv r\",\n    \"status\": \"failed\",\n    \"result\": \"stopped working at\",\n    \"provenance\": {\n      \"kind\": \"user_report\",\n      \"message_index\": 0,\n      \"at\": \"2026-10-09T20:06:38.188231+00:00\"\n    }\n  }\n]\n```\n\nمجهولات:\n\n```text\ndeployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `provider_http_error`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند.",
+            "type": "comment"
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "ambiguities": [
+            "ابهام: نسخهٔ ناقص یا غیرقابل بررسی کنار گذاشته شد.",
+            "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+          ],
+          "completed_checks": [],
+          "decision": "escalate",
+          "experiments": [
+            {
+              "action": "run repro.py",
+              "action_key": "run_repro.py",
+              "case_revision": 1,
+              "conditions": [
+                {
+                  "dimension": "streamlit_version",
+                  "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py",
+                  "value": "1.57.0"
+                },
+                {
+                  "dimension": "app_variant",
+                  "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py",
+                  "value": "repro.py"
+                }
+              ],
+              "equivalence_known": true,
+              "id": "exp_f2e9cbd55af92c1a2593",
+              "provenance": {
+                "at": "2026-10-09T20:06:38.188231+00:00",
+                "kind": "user_report",
+                "message_index": 0
+              },
+              "quote": "worked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```",
+              "result": "worked when ran with",
+              "sequence": 1,
+              "status": "succeeded",
+              "supersedes": ""
+            },
+            {
+              "action": "run repro.py",
+              "action_key": "run_repro.py",
+              "case_revision": 1,
+              "conditions": [
+                {
+                  "dimension": "streamlit_version",
+                  "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py",
+                  "value": "1.58.0"
+                },
+                {
+                  "dimension": "app_variant",
+                  "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py",
+                  "value": "repro.py"
+                }
+              ],
+              "equivalence_known": true,
+              "id": "exp_a85385be9790258f8141",
+              "provenance": {
+                "at": "2026-10-09T20:06:38.188231+00:00",
+                "kind": "user_report",
+                "message_index": 0
+              },
+              "quote": "stopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+              "result": "stopped working at",
+              "sequence": 2,
+              "status": "failed",
+              "supersedes": ""
+            }
+          ],
+          "facts": {
+            "browser": "Firefox",
+            "os": "Linux 7.1.4-arch1-1",
+            "python_version": "3.13.13",
+            "streamlit_version": "1.64.0",
+            "symptom_scope": "dialog stops being responsive"
+          },
+          "handoff": {
+            "environment": {
+              "browser": "Firefox",
+              "os": "Linux 7.1.4-arch1-1",
+              "python_version": "3.13.13",
+              "streamlit_version": "1.64.0",
+              "symptom_scope": "dialog stops being responsive"
+            },
+            "escalation_basis": "internal_review_failure",
+            "evidence": [],
+            "experiments": [
+              {
+                "action": "run repro.py",
+                "action_key": "run_repro.py",
+                "case_revision": 1,
+                "conditions": [
+                  {
+                    "dimension": "streamlit_version",
+                    "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py",
+                    "value": "1.57.0"
+                  },
+                  {
+                    "dimension": "app_variant",
+                    "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py",
+                    "value": "repro.py"
+                  }
+                ],
+                "equivalence_known": true,
+                "id": "exp_f2e9cbd55af92c1a2593",
+                "provenance": {
+                  "at": "2026-10-09T20:06:38.188231+00:00",
+                  "kind": "user_report",
+                  "message_index": 0
+                },
+                "quote": "worked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```",
+                "result": "worked when ran with",
+                "sequence": 1,
+                "status": "succeeded",
+                "supersedes": ""
+              },
+              {
+                "action": "run repro.py",
+                "action_key": "run_repro.py",
+                "case_revision": 1,
+                "conditions": [
+                  {
+                    "dimension": "streamlit_version",
+                    "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py",
+                    "value": "1.58.0"
+                  },
+                  {
+                    "dimension": "app_variant",
+                    "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py",
+                    "value": "repro.py"
+                  }
+                ],
+                "equivalence_known": true,
+                "id": "exp_a85385be9790258f8141",
+                "provenance": {
+                  "at": "2026-10-09T20:06:38.188231+00:00",
+                  "kind": "user_report",
+                  "message_index": 0
+                },
+                "quote": "stopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+                "result": "stopped working at",
+                "sequence": 2,
+                "status": "failed",
+                "supersedes": ""
+              }
+            ],
+            "feature": {},
+            "feature_origins": [],
+            "limitations": [
+              "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+              "محدودیت: کد توقف `provider_http_error`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند."
+            ],
+            "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+            "reported_problem": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops be",
+            "request_type": "bug",
+            "unknowns": [
+              "deployment",
+              "reproducible"
+            ],
+            "valid_findings": []
+          },
+          "hypotheses": [],
+          "investigation_plan": {
+            "acceptance_condition": "دیالوگ پس از اجرای مجدد فرگمنت همچنان پاسخگو باشد.",
+            "intent": "bug",
+            "known_report_spans": [
+              "### Expected Behavior",
+              "- [x] Yes, this used to work in a previous version.",
+              "- Streamlit version: 1.64.0",
+              "- Python version: Python 3.13.13"
+            ],
+            "missing_detail": "log کامل خطایی که در استریم‌لیت دیده می‌شود، برای تحلیل دقیق‌تر.",
+            "new_condition": "آیا این مشکل در مرورگرهای دیگر نیز مشاهده می‌شود؟",
+            "problem_summary": "st.dialog in a fragment becomes unresponsive after fragment rerun in Streamlit 1.64.0",
+            "suggested_question": "آیا لطفاً امکان دارد لاگ کامل خطای استریم‌لیت را ارسال کنید؟"
+          },
+          "judge": null,
+          "memory_version": 3,
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "problem": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `provider_http_error`.",
+          "review_failures": [],
+          "sources": [],
+          "unknowns": [
+            "deployment",
+            "reproducible"
+          ]
+        }
+      },
+      "proposal_id": "a27585c804c29dbd48a62a5d",
+      "revision": 1
+    },
+    "at": "2026-10-09T20:06:48.232210+00:00"
+  },
+  {
+    "id": 10,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "auto_execute": false,
+      "hash": "1a8c4f6891dfd4387e2b518fb5a394a6e3e1cd86f4dc8b2fef41949143ca0646",
+      "id": "a27585c804c29dbd48a62a5d",
+      "stage": "prepare_proposal"
+    },
+    "at": "2026-10-09T20:06:48.244503+00:00"
+  },
+  {
+    "id": 11,
+    "case_id": "GH17011",
+    "kind": "turn_completed",
+    "payload": {
+      "architecture": "v2",
+      "case_id": "GH17011",
+      "components": {
+        "dense": true,
+        "judge": true,
+        "mmr": true,
+        "quality": true,
+        "rerank": true,
+        "rewrite": true
+      },
+      "decision": "escalate",
+      "judge": null,
+      "latency_seconds": 15.613233,
+      "max_calls": 8,
+      "method": "final",
+      "mode": "live",
+      "model_calls": 5,
+      "quality_revision": "v2.6-compact-review",
+      "repair_count": 0,
+      "request_id": "v27-contract-S1",
+      "retrieved": [
+        {
+          "id": "docs:fragments:v2:cb48967ad96007e2",
+          "kind": "docs",
+          "product_version": null,
+          "retrieval_score": 0.03868852,
+          "section": "Restricted commands during parallel execution",
+          "source_authority": "official_documentation",
+          "source_id": "docs:fragments",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "docs:fragments:v2:f8d97e183dd7d878",
+          "kind": "docs",
+          "product_version": null,
+          "retrieval_score": 0.03435693,
+          "section": "Defining and calling a fragment",
+          "source_authority": "official_documentation",
+          "source_id": "docs:fragments",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "issue:11266:v2:5df5b300853d70e7",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 0.03125,
+          "section": "Reproducible Code Example",
+          "source_authority": "reported_observation",
+          "source_id": "issue:11266",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/streamlit/issues/11266",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "issue:11266:v2:b0b00ad71c9d0511",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 0.0290404,
+          "section": "Additional Information",
+          "source_authority": "reported_observation",
+          "source_id": "issue:11266",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/streamlit/issues/11266",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "issue:16708:v2:7b2f3e555aef7fe6",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 0.02571241,
+          "section": "Reproducible Code Example",
+          "source_authority": "reported_observation",
+          "source_id": "issue:16708",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/streamlit/issues/16708",
+          "version_relation": "unknown"
+        }
+      ],
+      "review_failures": [],
+      "reviewed_draft": {
+        "case_id": "GH17011",
+        "case_revision": 1,
+        "draft_version": "05ed097fc2beb67965735088404a7b0c6712fffb7318a43b834074f644d67e7c",
+        "generation": 0,
+        "units": [
+          {
+            "end": 104,
+            "field": "question",
+            "start": 0,
+            "text": "آیا امکان دارد لاگ کامل خطای استریم‌لیت هنگام عدم پاسخگویی دیالوگ پس از اجرای مجدد فرگمنت را ارسال کنید؟",
+            "unit_id": "u_63621e257dcbc36dde84e55d"
+          },
+          {
+            "end": 111,
+            "field": "next_step",
+            "start": 0,
+            "text": "لطفاً لاگ کامل خطای استریم‌لیت را ارسال کنید تا بررسی کنیم که خطا هنگام راندن مجدد فرگمنت به چه صورت رخ می‌دهد.",
+            "unit_id": "u_742ce34d1c23343c046e4377"
+          },
+          {
+            "end": 220,
+            "field": "rationale",
+            "start": 0,
+            "text": "شناخته شده است که برخی دستورات مانند `st.dialog` در داخل فرگمنت‌های موازی ممکن است به درستی کار نکنند و باعث خطا شوند (docs:fragments:v2:cb48967ad96007e2, q1). برای تشخیص دقیق تر علت مشکل نیاز به مشاهده کامل لاگ خطا است.",
+            "unit_id": "u_2b5f02e29555294db08cecf4"
+          }
+        ]
+      },
+      "steps": 8,
+      "usage": {
+        "charged_or_reserved_usd": 0.021224148000000165,
+        "cost_usd": 0.008365764,
+        "mode": "live",
+        "provider_requests": 5,
+        "reserved_usd": 0.012858384,
+        "stages": [
+          {
+            "cost_usd": 0.00158268,
+            "diagnostic": {
+              "failure_code": null,
+              "finish_reason": "stop",
+              "http_status": 200,
+              "model": "gpt-4.1-mini",
+              "provider_request_id": "chatcmpl-EXB9NYj6v9A4l4EtzAit093MVcJ6Y",
+              "reported_usage": {
+                "completion_tokens": 400,
+                "prompt_tokens": 1997,
+                "total_tokens": 2397
+              },
+              "request_id": "79285a0e68382fd16c4a35ad",
+              "requested_max_output_tokens": 1200,
+              "role": "extract",
+              "status": "parsed"
+            },
+            "input_tokens": 1997,
+            "kind": "extract",
+            "ledger_id": "79285a0e68382fd16c4a35ad",
+            "mode": "live",
+            "output_tokens": 400,
+            "provider_requests": 1,
+            "reserved_usd": 0.008295407999999999
+          },
+          {
+            "cost_usd": 1.364e-06,
+            "diagnostic": {
+              "failure_code": null,
+              "finish_reason": null,
+              "http_status": 200,
+              "model": "text-embedding-3-small",
+              "provider_request_id": null,
+              "reported_usage": {
+                "completion_tokens": null,
+                "prompt_tokens": 62,
+                "total_tokens": 62
+              },
+              "request_id": "660c4fa38dbfc4c16354c99b",
+              "requested_max_output_tokens": null,
+              "role": "embedding",
+              "status": "parsed"
+            },
+            "input_tokens": 62,
+            "kind": "embedding",
+            "ledger_id": "660c4fa38dbfc4c16354c99b",
+            "mode": "live",
+            "output_tokens": 0,
+            "provider_requests": 1,
+            "reserved_usd": 2.3258399999999997e-05
+          },
+          {
+            "cost_usd": 0.0032384000000000002,
+            "diagnostic": {
+              "failure_code": null,
+              "finish_reason": "stop",
+              "http_status": 200,
+              "model": "gpt-4.1-mini",
+              "provider_request_id": "chatcmpl-EXB9ViOcZIwg7IhvHJxTjily51tL1",
+              "reported_usage": {
+                "completion_tokens": 150,
+                "prompt_tokens": 6760,
+                "total_tokens": 6910
+              },
+              "request_id": "d1caea81961c7a0dccd28cd7",
+              "requested_max_output_tokens": 350,
+              "role": "rerank",
+              "status": "parsed"
+            },
+            "input_tokens": 6760,
+            "kind": "rerank",
+            "ledger_id": "d1caea81961c7a0dccd28cd7",
+            "mode": "live",
+            "output_tokens": 150,
+            "provider_requests": 1,
+            "reserved_usd": 0.01562352
+          },
+          {
+            "cost_usd": 0.00354332,
+            "diagnostic": {
+              "failure_code": null,
+              "finish_reason": "stop",
+              "http_status": 200,
+              "model": "gpt-4.1-mini",
+              "provider_request_id": "chatcmpl-EXB9Yp6pHNTQCnkmTCkMnga5K6rMe",
+              "reported_usage": {
+                "completion_tokens": 259,
+                "prompt_tokens": 7017,
+                "total_tokens": 7276
+              },
+              "request_id": "97561280e92dfa386dca1f80",
+              "requested_max_output_tokens": 1600,
+              "role": "chat",
+              "status": "parsed"
+            },
+            "input_tokens": 7017,
+            "kind": "chat",
+            "ledger_id": "97561280e92dfa386dca1f80",
+            "mode": "live",
+            "output_tokens": 259,
+            "provider_requests": 1,
+            "reserved_usd": 0.020228735999999997
+          },
+          {
+            "diagnostic": {
+              "diagnostic_file": "F:\\Quera AI\\Project\\streamlit-casepilot\\runtime\\quality_v27\\contract_live_01\\S1\\diagnostics\\d44df0956dd753c79b98d655.json",
+              "failure_code": "provider_http_error",
+              "finish_reason": null,
+              "http_status": 400,
+              "model": "gpt-4.1-mini",
+              "provider_request_id": null,
+              "reported_usage": null,
+              "request_id": "d44df0956dd753c79b98d655",
+              "requested_max_output_tokens": 1600,
+              "role": "judge",
+              "status": "failed"
+            },
+            "kind": "judge",
+            "ledger_id": "d44df0956dd753c79b98d655",
+            "mode": "live",
+            "provider_requests": 1,
+            "reserved_usd": 0.012858384,
+            "usage_unknown": true
+          }
+        ]
+      },
+      "validation_error": "provider_http_error"
+    },
+    "at": "2026-10-09T20:06:48.274876+00:00"
+  }
+]

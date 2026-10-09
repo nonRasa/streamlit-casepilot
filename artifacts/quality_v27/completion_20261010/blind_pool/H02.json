@@ -1,0 +1,273 @@
+{
+  "id": "H02",
+  "report": "How can I change page_title twice in one script run? Our deployed Streamlit version is 1.18.0.",
+  "product_version": "1.18.0",
+  "candidates": [
+    {
+      "source_id": "issue:8301",
+      "revision": "2025-05-05T16:16:36Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        9,
+        71
+      ],
+      "title": "Set config for a multipage app",
+      "section": "Summary",
+      "text": "### Summary\n\nI'm confused by the error: `StreamlitAPIException: set_page_config() can only be called once per app page, and must be called as the first Streamlit command in your script.`\n\nI have this folder structure: \n```\napp/\n├── Home.py\n└── pages/\n    ├── 1_KPIs.py\n    ├── 2_Segmental_Analysis.py\n    └── 3_New_Clients.py\n```\nIn each file I have added the method `st.set_page_config`, upon checking the [doc](https://docs.streamlit.io/get-started/tutorials/create-a-multipage-app), this should be working fine. \n\n[IMAGE OMITTED: not inspected]\n\nThis is my code in each file: \n\n`Home.py`\n```py\nimport streamlit as st\n\ndef page_config() -> None:\n    st.set_page_config(\n        page_title=\"Home\",\n        page_icon=\"📊\",\n        layout=\"wide\",\n        initial_sidebar_state=\"expanded\",\n    )\n\ndef main() -> None: \n    page_config()\n    st.title(\"Home\")\n    st.write(\"Main page\")\n\nif __name__ == \"__main__\":\n    main()\n```\n`pages/1_KPIs.py`\n```py\nimport streamlit as st\n\nst.set_page_config(\n    page_title=\"KPIs\", page_icon=\"📊\", layout=\"wide\", initial_sidebar_state=\"expanded\"\n)\n```\n`pages/2_Segmental_Analysis.py`\n```py\nimport streamlit as st\n\nst.set_page_config(\n    page_title=\"Segmental_Analysis\", page_icon=\"📈\", layout=\"wide\", initial_sidebar_state=\"expanded\"\n)\n```\n`pages/3_New_Clients.py`\n```py\nimport streamlit as st\n\nst.set_page_config(\n    page_title=\"New Clients\", page_icon=\"🧑\", layout=\"wide\", initial_sidebar_state=\"expanded\"\n)\n```",
+      "candidate_key": "0cc1fc15cc52a96dca9aace297d6ea767bf8f6ea4a04996d60aec7f5a740670c"
+    },
+    {
+      "source_id": "issue:12146",
+      "revision": "2025-08-12T15:43:02Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        39,
+        53
+      ],
+      "title": "file_uploader allows to remove files despite disabled = True",
+      "section": "Steps To Reproduce",
+      "text": "### Steps To Reproduce\n\n1) Run the app\n2) Upload any file\n3) Click on the \"Disable\" button\n\nAt this point, notice how you can't click the `file_uplaoder` to change the file.\nAlso note what the number of reruns is.\nFinally, notice how the script can indeed see a file was uploaded (as shown in `st.info`)\n\n4) Click on the X at the right of the uploaded filename\n\nAt this point, notice how you still can't click the `file_uplaoder` to change the file (which if good).\nAlso note that the number of reruns has increased (this is not good).\nFinally, notice how the script can detect `file_uploader` no longer storing a file.",
+      "candidate_key": "13cbceccf5ef8315233535168b227ed3047cc16685172f79c3a37b41fa4ade99"
+    },
+    {
+      "source_id": "docs:2024",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        447,
+        464
+      ],
+      "title": "2024",
+      "section": "**Version 1.31.0**",
+      "text": "## **Version 1.31.0**\n\n_Release date: February 1, 2024_\n\n**Release videos**\n\n- [What's new?](https://www.youtube.com/watch?v=0TSXM-BGqHU)\n\n**Highlights**\n\n- 🔗 Introducing `st.page_link`! Now, you can build custom navigation menus for your multipage apps. Check out [our docs](/develop/api-reference/widgets/st.page_link) to see how.\n- 💦 Announcing `st.write_stream` to conveniently handle generators and streamed responses. Check out [our docs](/develop/api-reference/write-magic/st.write_stream) to see how making chat apps just got easier.\n\n**Notable Changes**\n\n- 📝 `st.chat_input` can be used inline and placed anywhere in the app. You can also have multiple `st.chat_input` widgets on a page ([#7896](https://github.com/streamlit/streamlit/pull/7896)).\n\n**Other Changes**",
+      "candidate_key": "36f475f599d514bae72c2c1ec7a261c811ae62405ef1caa92328adc3149c5a23"
+    },
+    {
+      "source_id": "docs:button-behavior-and-examples",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        8326,
+        9171
+      ],
+      "lines": [
+        210,
+        232
+      ],
+      "title": "button-behavior-and-examples",
+      "section": "button-behavior-and-examples > Button behavior and examples > Common logic with buttons > Buttons to modify `st.session_state` > Logic nested in a button with a rerun",
+      "text": "#### Logic nested in a button with a rerun\n\nAlthough callbacks are often preferred to avoid extra reruns, our first 'John Doe'/'Jane Doe' example can be modified by adding [`st.rerun`](/develop/api-reference/execution-flow/st.rerun) instead. If you need to acces data in `st.session_state` before the button that modifies it, you can include `st.rerun` to rerun the script after the change has been committed. This means the script will rerun twice when a button is clicked.\n\n```python\nimport streamlit as st\nimport pandas as pd\n\nif 'name' not in st.session_state:\n    st.session_state['name'] = 'John Doe'\n\nst.header(st.session_state['name'])\n\nif st.button('Jane'):\n    st.session_state['name'] = 'Jane Doe'\n    st.rerun()\n\nif st.button('John'):\n    st.session_state['name'] = 'John Doe'\n    st.rerun()\n\nst.header(st.session_state['name'])\n```\n",
+      "candidate_key": "3ba57db41b20e7bfb3b0d4b2d9a66bf8803057748b717b28a595691312cd1162"
+    },
+    {
+      "source_id": "issue:8301",
+      "revision": "2025-05-05T16:16:36Z",
+      "product_version": null,
+      "source_span": [
+        1235,
+        1739
+      ],
+      "lines": [
+        49,
+        71
+      ],
+      "title": "Set config for a multipage app",
+      "section": "Set config for a multipage app > Summary",
+      "text": "```py\nimport streamlit as st\n\nst.set_page_config(\n    page_title=\"KPIs\", page_icon=\"📊\", layout=\"wide\", initial_sidebar_state=\"expanded\"\n)\n```\n`pages/2_Segmental_Analysis.py`\n```py\nimport streamlit as st\n\nst.set_page_config(\n    page_title=\"Segmental_Analysis\", page_icon=\"📈\", layout=\"wide\", initial_sidebar_state=\"expanded\"\n)\n```\n`pages/3_New_Clients.py`\n```py\nimport streamlit as st\n\nst.set_page_config(\n    page_title=\"New Clients\", page_icon=\"🧑\", layout=\"wide\", initial_sidebar_state=\"expanded\"\n)\n```\n",
+      "candidate_key": "57fc42882de174710491038b6802bfeb3ec8bc19b3bb158087fae6e79f01296c"
+    },
+    {
+      "source_id": "docs:2023",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        44158,
+        44536
+      ],
+      "lines": [
+        370,
+        378
+      ],
+      "title": "2023",
+      "section": "2023 > 2023 release notes > **Version 1.18.0**",
+      "text": "## **Version 1.18.0**\n\n_Release date: February 09, 2023_\n\n**Highlights**\n\n- 🎊 Introducing `@st.cache_data` and `@st.cache_resource` — two new caching commands to replace `st.cache`! Check out our [blog post](https://blog.streamlit.io/p/c0a90231-9848-47ec-a40c-ad4a344e4de1/) and [documentation](/develop/concepts/architecture/caching) for more information.\n\n**Notable Changes**\n",
+      "candidate_key": "5af8b7a4a0a2c201d0451492587f7bc6cf85bcf91f9dd06285378ceff64c836a"
+    },
+    {
+      "source_id": "issue:8301",
+      "revision": "2025-05-05T16:16:36Z",
+      "product_version": null,
+      "source_span": [
+        294,
+        1235
+      ],
+      "lines": [
+        9,
+        48
+      ],
+      "title": "Set config for a multipage app",
+      "section": "Set config for a multipage app > Summary",
+      "text": "### Summary\n\nI'm confused by the error: `StreamlitAPIException: set_page_config() can only be called once per app page, and must be called as the first Streamlit command in your script.`\n\nI have this folder structure: \n```\napp/\n├── Home.py\n└── pages/\n    ├── 1_KPIs.py\n    ├── 2_Segmental_Analysis.py\n    └── 3_New_Clients.py\n```\nIn each file I have added the method `st.set_page_config`, upon checking the [doc](https://docs.streamlit.io/get-started/tutorials/create-a-multipage-app), this should be working fine. \n\n[IMAGE OMITTED: not inspected]\n\nThis is my code in each file: \n\n`Home.py`\n```py\nimport streamlit as st\n\ndef page_config() -> None:\n    st.set_page_config(\n        page_title=\"Home\",\n        page_icon=\"📊\",\n        layout=\"wide\",\n        initial_sidebar_state=\"expanded\",\n    )\n\ndef main() -> None: \n    page_config()\n    st.title(\"Home\")\n    st.write(\"Main page\")\n\nif __name__ == \"__main__\":\n    main()\n```\n`pages/1_KPIs.py`\n",
+      "candidate_key": "6019d3aee1403c86118c2792d46393e4080b5f1d087a4b9d9c9415bb9ac7244d"
+    },
+    {
+      "source_id": "issue:7426",
+      "revision": "2026-07-31T13:03:11Z",
+      "product_version": null,
+      "source_span": [
+        318,
+        498
+      ],
+      "lines": [
+        9,
+        12
+      ],
+      "title": "--server.port does not change, always defaults to 8501",
+      "section": "--server.port does not change, always defaults to 8501 > Summary",
+      "text": "### Summary\n\nI installed streamlit and streamlit_authenticator in a new server, and I am not able to run multiple apps in different ports. \nEach time I run it just uses 8501 port.\n",
+      "candidate_key": "62e830e39ea7fb246025dde65a55025b61dff5cfd7573273ece888485fcbd0d4"
+    },
+    {
+      "source_id": "issue:16878",
+      "revision": "2026-09-08T13:49:06Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        50,
+        69
+      ],
+      "title": "Add page and app descriptions (`page_description`, `st.Page`, `st.App`)",
+      "section": "How?",
+      "text": "```python\napp = st.App(\n    \"main.py\",\n    title=\"Finance apps\",\n    description=(\n        \"Internal finance dashboards. Net revenue excludes refunds and is in EUR.\"\n    ),\n)\n```\n\nSuggested behavior:\n\n- `st.Page.description` is the default for that page; `st.set_page_config(page_description=...)` overrides it for the current run (same additive pattern as today's page title).\n- Single-page apps that never call `st.Page` still get a description via `set_page_config`.\n- `st.App` title/description are app-level and static. They do not replace per-page title/description. For `streamlit run` apps without `st.App`, the default page's title/description (or a future config option) can stand in.\n- Consumers of the same strings: HTML `<meta name=\"description\">` / Open Graph, assistive tech, navigation (if we choose to surface it), and structured snapshots / a static app descriptor.\n\n**Naming.** `page_description` on `set_page_config` matches `page_title`. On `st.Page` and `st.App`, `description` / `title` match the existing `title` parameter (the [agent-app interface spec](https://github.com/streamlit/streamlit/blob/docs/agent-app-interface/specs/2026-08-28-agent-app-interface/product-spec.md) also floated `app_title` / `app_description` on `st.App` if we want the prefix explicit).\n\n**Not in this request:** element-level alternative text for images, charts, and tables (#8563) and `help` on media (#3133). Arbitrary extra `<meta>` tags (GSC verification, etc.) stay with #16634.",
+      "candidate_key": "6f39c693c2f18368ed2ba0af925f1c86af659602e15400af32ce0ed497d02ec7"
+    },
+    {
+      "source_id": "issue:12146",
+      "revision": "2025-08-12T15:43:02Z",
+      "product_version": null,
+      "source_span": [
+        1290,
+        1910
+      ],
+      "lines": [
+        39,
+        53
+      ],
+      "title": "file_uploader allows to remove files despite disabled = True",
+      "section": "file_uploader allows to remove files despite disabled = True > Steps To Reproduce",
+      "text": "### Steps To Reproduce\n\n1) Run the app\n2) Upload any file\n3) Click on the \"Disable\" button\n\nAt this point, notice how you can't click the `file_uplaoder` to change the file.\nAlso note what the number of reruns is.\nFinally, notice how the script can indeed see a file was uploaded (as shown in `st.info`)\n\n4) Click on the X at the right of the uploaded filename\n\nAt this point, notice how you still can't click the `file_uplaoder` to change the file (which if good).\nAlso note that the number of reruns has increased (this is not good).\nFinally, notice how the script can detect `file_uploader` no longer storing a file.\n",
+      "candidate_key": "751282ab00a155b5c4f9540c0977c13d58beb7b6560932c3577c5f4d038e03dd"
+    },
+    {
+      "source_id": "issue:16878",
+      "revision": "2026-09-08T13:49:06Z",
+      "product_version": null,
+      "source_span": [
+        2708,
+        3799
+      ],
+      "lines": [
+        62,
+        67
+      ],
+      "title": "Add page and app descriptions (`page_description`, `st.Page`, `st.App`)",
+      "section": "Add page and app descriptions (`page_description`, `st.Page`, `st.App`) > How?",
+      "text": "- `st.Page.description` is the default for that page; `st.set_page_config(page_description=...)` overrides it for the current run (same additive pattern as today's page title).\n- Single-page apps that never call `st.Page` still get a description via `set_page_config`.\n- `st.App` title/description are app-level and static. They do not replace per-page title/description. For `streamlit run` apps without `st.App`, the default page's title/description (or a future config option) can stand in.\n- Consumers of the same strings: HTML `<meta name=\"description\">` / Open Graph, assistive tech, navigation (if we choose to surface it), and structured snapshots / a static app descriptor.\n\n**Naming.** `page_description` on `set_page_config` matches `page_title`. On `st.Page` and `st.App`, `description` / `title` match the existing `title` parameter (the [agent-app interface spec](https://github.com/streamlit/streamlit/blob/docs/agent-app-interface/specs/2026-08-28-agent-app-interface/product-spec.md) also floated `app_title` / `app_description` on `st.App` if we want the prefix explicit).\n",
+      "candidate_key": "9294f6705f9243d6b81b48a442d4ce92db1ee4cde4efdde1c95d6bd530fffc25"
+    },
+    {
+      "source_id": "issue:17030",
+      "revision": "2026-09-30T04:35:14Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        41,
+        43
+      ],
+      "title": "`heartbeat_ack` is discarded when a script run starts before the queue flushes",
+      "section": "Expected Behavior",
+      "text": "### Expected Behavior\n\nA heartbeat ack is a one-shot reply to a client request, like a toast is a one-shot notification. It should survive the interrupted-run queue clear, or be sent directly rather than queued, so that one heartbeat always produces one ack.",
+      "candidate_key": "bc1f5dcb686e632d671a7d67f1ea75b983a0b857572420b9bee31213b14d9d9b"
+    },
+    {
+      "source_id": "docs:button-behavior-and-examples",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        210,
+        232
+      ],
+      "title": "button-behavior-and-examples",
+      "section": "Logic nested in a button with a rerun",
+      "text": "#### Logic nested in a button with a rerun\n\nAlthough callbacks are often preferred to avoid extra reruns, our first 'John Doe'/'Jane Doe' example can be modified by adding [`st.rerun`](/develop/api-reference/execution-flow/st.rerun) instead. If you need to acces data in `st.session_state` before the button that modifies it, you can include `st.rerun` to rerun the script after the change has been committed. This means the script will rerun twice when a button is clicked.\n\n```python\nimport streamlit as st\nimport pandas as pd\n\nif 'name' not in st.session_state:\n    st.session_state['name'] = 'John Doe'\n\nst.header(st.session_state['name'])\n\nif st.button('Jane'):\n    st.session_state['name'] = 'Jane Doe'\n    st.rerun()\n\nif st.button('John'):\n    st.session_state['name'] = 'John Doe'\n    st.rerun()\n\nst.header(st.session_state['name'])\n```",
+      "candidate_key": "be89b355670cd7cf4a4d3941e7afaaaf6657de4910354501385e909c70f7c051"
+    },
+    {
+      "source_id": "issue:7426",
+      "revision": "2026-07-31T13:03:11Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        22,
+        26
+      ],
+      "title": "--server.port does not change, always defaults to 8501",
+      "section": "Steps To Reproduce",
+      "text": "### Steps To Reproduce\n\n1. Create 2 files `a.py` and `b.py`\n2. streamlit run a.py\n3. streamlit run b.py --server.port 8503",
+      "candidate_key": "c8705bf656ce0a7e2861ed5baa132d3ce9cafed333f6a0eee675071aab59a785"
+    },
+    {
+      "source_id": "issue:8301",
+      "revision": "2025-05-05T16:16:36Z",
+      "product_version": null,
+      "source_span": [
+        294,
+        1739
+      ],
+      "lines": [
+        9,
+        71
+      ],
+      "title": "Set config for a multipage app",
+      "section": "Set config for a multipage app > Summary",
+      "text": "### Summary\n\nI'm confused by the error: `StreamlitAPIException: set_page_config() can only be called once per app page, and must be called as the first Streamlit command in your script.`\n\nI have this folder structure: \n```\napp/\n├── Home.py\n└── pages/\n    ├── 1_KPIs.py\n    ├── 2_Segmental_Analysis.py\n    └── 3_New_Clients.py\n```\nIn each file I have added the method `st.set_page_config`, upon checking the [doc](https://docs.streamlit.io/get-started/tutorials/create-a-multipage-app), this should be working fine. \n\n[IMAGE OMITTED: not inspected]\n\nThis is my code in each file: \n\n`Home.py`\n```py\nimport streamlit as st\n\ndef page_config() -> None:\n    st.set_page_config(\n        page_title=\"Home\",\n        page_icon=\"📊\",\n        layout=\"wide\",\n        initial_sidebar_state=\"expanded\",\n    )\n\ndef main() -> None: \n    page_config()\n    st.title(\"Home\")\n    st.write(\"Main page\")\n\nif __name__ == \"__main__\":\n    main()\n```\n`pages/1_KPIs.py`\n```py\nimport streamlit as st\n\nst.set_page_config(\n    page_title=\"KPIs\", page_icon=\"📊\", layout=\"wide\", initial_sidebar_state=\"expanded\"\n)\n```\n`pages/2_Segmental_Analysis.py`\n```py\nimport streamlit as st\n\nst.set_page_config(\n    page_title=\"Segmental_Analysis\", page_icon=\"📈\", layout=\"wide\", initial_sidebar_state=\"expanded\"\n)\n```\n`pages/3_New_Clients.py`\n```py\nimport streamlit as st\n\nst.set_page_config(\n    page_title=\"New Clients\", page_icon=\"🧑\", layout=\"wide\", initial_sidebar_state=\"expanded\"\n)\n```\n",
+      "candidate_key": "e78688eec5ce07db307b73f9cc3d423b06898adea9f4ef2c097307913e10dd1b"
+    },
+    {
+      "source_id": "issue:10220",
+      "revision": "2025-01-21T21:57:21Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        18,
+        20
+      ],
+      "title": "Change the page title after loading",
+      "section": "How?",
+      "text": "### How?\n\nIntroduce `st.set_page_title` or a similar method of changing the page title. This should work as, in my understanding, the reason why `st.set_page_config` is blocked from running later in the app lifecycle is due to layout, not the title.",
+      "candidate_key": "e8bcfdca79797d3fac877217475cbfc3a371e6e41d8685c2bb6ffcadf11ba371"
+    },
+    {
+      "source_id": "issue:17030",
+      "revision": "2026-09-30T04:35:14Z",
+      "product_version": null,
+      "source_span": [
+        2099,
+        2358
+      ],
+      "lines": [
+        41,
+        43
+      ],
+      "title": "`heartbeat_ack` is discarded when a script run starts before the queue flushes",
+      "section": "`heartbeat_ack` is discarded when a script run starts before the queue flushes > Expected Behavior",
+      "text": "### Expected Behavior\n\nA heartbeat ack is a one-shot reply to a client request, like a toast is a one-shot notification. It should survive the interrupted-run queue clear, or be sent directly rather than queued, so that one heartbeat always produces one ack.\n",
+      "candidate_key": "ff63356391dbf89c9c5469a48690e066de24097a929ec5a52d31cc4728bf9fc7"
+    }
+  ],
+  "instructions": "Judge actual exact text relevance 0=irrelevant,1=topic only,2=useful partial,3=direct needed evidence; null=unjudged. Do not infer relevance from official source status. Record origin."
+}

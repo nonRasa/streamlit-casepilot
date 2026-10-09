@@ -1,0 +1,273 @@
+{
+  "id": "H01",
+  "report": "How do I read repeated URL query parameters through st.query_params? The installed version has not been recorded.",
+  "product_version": null,
+  "candidates": [
+    {
+      "source_id": "issue:9325",
+      "revision": "2025-11-08T00:57:16Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        58,
+        83
+      ],
+      "title": "st.bind() to attach query_params to session state",
+      "section": "Why?",
+      "text": "What does this feature offer over just using `st.query_params`? It avoids a lot of boilerplate and conversion code, for one. To do this without `st.bind` would require a lot of legwork:\n\n```python\nimport streamlit as st\nfrom my_app import music_popularity_map, genre_options\n\nyear_string_from_url = st.query_params.get(\"year\", \"2000\")\ntry:\n     st.session_state.year = int(year_string_from_url)\nexcept ValueError:\n     pass\n\ndef update_year_callback():\n    if \"year\" in st.session_state:\n        st.query_params.year = str(st.session_state.year)\n\nyear = st.number_input(\"Pick a year\", key=\"year\", min_value=2000, max_value=2023, on_change=update_year_callback)\ngenres = st.multiselect(\"Pick some genres\", key=\"genre\" options=genre_options)\n\nmusic_popularity_map(year, genres)\n````\nAnd all that for just ONE widget!\n\nMy own extension's demo, https://query-string.streamlit.app/, has some other examples of the kinds of things you can do with this kind of feature. Due to not having access to all of the streamlit session state internals, it is limited to a smaller selection of widgets and tends to be a bit finicky with some of the more complex widgets like `datetime` or `slider`.\n\nI think an officially supported version of this would benefit a lot of people who are building apps with streamlit.",
+      "candidate_key": "018f9bec6a3ffec2fc43df0fc35ad9b3a4319f5fea7c096ae35a76bb4696320a"
+    },
+    {
+      "source_id": "issue:7982",
+      "revision": "2024-08-15T20:51:27Z",
+      "product_version": null,
+      "source_span": [
+        1184,
+        1296
+      ],
+      "lines": [
+        43,
+        45
+      ],
+      "title": "Query parameters reset when navigating between pages",
+      "section": "Query parameters reset when navigating between pages > Current Behavior",
+      "text": "### Current Behavior\n\nQuery parameters are reset.  This is also the case when using the new `query_params` api.\n",
+      "candidate_key": "04115433ef2d1b6bfc4c809cb243fe99de43a33c3fb9bf7871da07dd263ef2ed"
+    },
+    {
+      "source_id": "issue:7665",
+      "revision": "2024-01-03T22:27:55Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        58,
+        64
+      ],
+      "title": "Coming soon: API update for Streamlit query params",
+      "section": "What do you think?",
+      "text": "### What do you think?\n\nLet us know your feedback about the changes. Our current plan is to release this minimal version, which simplifies the API for typical use cases and leaves room to extend to new features in the future such as better handling for type conversion, or binding query params to certain session_state keys or widget values.\n\nYour input can help impact whether we release this immediately as `st.query_params` or do an `st.experimental_query_params` to see more usage of the new API before finalizing it.\n\nThank you!",
+      "candidate_key": "0c30d9933f3583589c440d2bdd3fdcfb9e47c942297fbbafb1d9318c77fcbe5f"
+    },
+    {
+      "source_id": "docs:2024",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        477,
+        490
+      ],
+      "title": "2024",
+      "section": "**Version 1.30.0**",
+      "text": "## **Version 1.30.0**\n\n_Release date: January 11, 2024_\n\n**Release videos**\n\n- [What's new?](https://www.youtube.com/watch?v=OIQskkX_DK0)\n\n**Highlights**\n\n- 🔄 Announcing `st.switch_page` to programmatically switch pages in multipage apps! Check out our [docs](/develop/api-reference/navigation/st.switch_page) to learn about this highly anticipated feature!\n- ❓Introducing `st.query_params` to handle variables passed through your app's URL. Check out our [docs](/develop/api-reference/caching-and-state/st.query_params) to understand this feature and how it's been upgraded and improved from our experimental version!\n\n**Notable Changes**",
+      "candidate_key": "23d355f15dcd80db19f4dc28fbc4ed30f14a97e706732f034499fb9b4449fa4c"
+    },
+    {
+      "source_id": "docs:query_params",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        305,
+        1813
+      ],
+      "lines": [
+        8,
+        43
+      ],
+      "title": "query_params",
+      "section": "query_params > st.query_params",
+      "text": "## st.query_params\n\n`st.query_params` provides a dictionary-like interface to access query parameters in your app's URL and is available as of Streamlit 1.30.0. It behaves similarly to `st.session_state` with the notable exception that keys may be repeated in an app's URL. Handling of repeated keys requires special consideration as explained below.\n\n`st.query_params` can be used with both key and attribute notation. For example, `st.query_params.my_key` and `st.query_params[\"my_key\"]`. All keys and values will be set and returned as strings. When you write to `st.query_params`, key-value pair prefixed with `?` is added to the end of your app's URL. Each additional pair is prefixed with `&` instead of `?`. Query parameters are cleared when navigating between pages in a multipage app.\n\nFor example, consider the following URL:\n\n```javascript\nhttps://your_app.streamlit.app/?first_key=1&second_key=two&third_key=true\n```\n\nThe parameters in the URL above will be accessible in `st.query_params` as:\n\n```python\n{\n    \"first_key\" : \"1\",\n    \"second_key\" : \"two\",\n    \"third_key\" : \"true\"\n}\n```\n\nThis means you can use those parameters in your app like this:\n\n```python\n# You can read query params using key notation\nif st.query_params[\"first_key\"] == \"1\":\n    do_something()\n\n# ...or using attribute notation\nif st.query_params.second_key == \"two\":\n    do_something_else()\n\n# And you can change a param by just writing to it\nst.query_params.first_key = 2  # This gets converted to str automatically\n```\n",
+      "candidate_key": "25c401853564af3fb1d8f6265bde098c9c6eacd556c8dc3794c8190bce031bf4"
+    },
+    {
+      "source_id": "docs:query_params",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        1814,
+        2332
+      ],
+      "lines": [
+        45,
+        47
+      ],
+      "title": "query_params",
+      "section": "query_params > st.query_params > Repeated keys",
+      "text": "### Repeated keys\n\nWhen a key is repeated in your app's URL (`?a=1&a=2&a=3`), dict-like methods will return only the last value. In this example, `st.query_params[\"a\"]` returns `\"3\"`. To get all keys as a list, use the [`.get_all()`](/develop/api-reference/caching-and-state/st.query_params#stquery_paramsget_all) method shown below. To set the value of a repeated key, assign the values as a list. For example, `st.query_params.a = [\"1\", \"2\", \"3\"]` produces the repeated key given at the beginning of this paragraph.\n",
+      "candidate_key": "310c0488fddceac94eda51f87e9160c5a3b44522e35db689303025b27bb1c89b"
+    },
+    {
+      "source_id": "docs:query_params",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        8,
+        43
+      ],
+      "title": "query_params",
+      "section": "st.query_params",
+      "text": "## st.query_params\n\n`st.query_params` provides a dictionary-like interface to access query parameters in your app's URL and is available as of Streamlit 1.30.0. It behaves similarly to `st.session_state` with the notable exception that keys may be repeated in an app's URL. Handling of repeated keys requires special consideration as explained below.\n\n`st.query_params` can be used with both key and attribute notation. For example, `st.query_params.my_key` and `st.query_params[\"my_key\"]`. All keys and values will be set and returned as strings. When you write to `st.query_params`, key-value pair prefixed with `?` is added to the end of your app's URL. Each additional pair is prefixed with `&` instead of `?`. Query parameters are cleared when navigating between pages in a multipage app.\n\nFor example, consider the following URL:\n\n```javascript\nhttps://your_app.streamlit.app/?first_key=1&second_key=two&third_key=true\n```\n\nThe parameters in the URL above will be accessible in `st.query_params` as:\n\n```python\n{\n    \"first_key\" : \"1\",\n    \"second_key\" : \"two\",\n    \"third_key\" : \"true\"\n}\n```\n\nThis means you can use those parameters in your app like this:\n\n```python\n# You can read query params using key notation\nif st.query_params[\"first_key\"] == \"1\":\n    do_something()\n\n# ...or using attribute notation\nif st.query_params.second_key == \"two\":\n    do_something_else()\n\n# And you can change a param by just writing to it\nst.query_params.first_key = 2  # This gets converted to str automatically\n```",
+      "candidate_key": "362a1f55f6ef1ff86dbd28de99b02edd499a847b0f4da07797dc1b3b169fceae"
+    },
+    {
+      "source_id": "issue:7665",
+      "revision": "2024-01-03T22:27:55Z",
+      "product_version": null,
+      "source_span": [
+        2070,
+        2956
+      ],
+      "lines": [
+        37,
+        52
+      ],
+      "title": "Coming soon: API update for Streamlit query params",
+      "section": "Coming soon: API update for Streamlit query params > Handling lists and multiple values",
+      "text": "### Handling lists and multiple values\n\nA key concern for query parameters is handling multiple values. For normal get / retrieval calls on `query_params`, Streamlit will return **only the last value set for the given key**, whether in the URL directly via Streamlit API. To retrieve a list of all set values, developers can call `st.query_params.get_all(key)`. This approach is typical of several other python web API frameworks such as [tornado](https://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.get_query_argument) and [flask](https://github.com/pallets/werkzeug/blob/2.3.6/src/werkzeug/datastructures/structures.py#L118-L128). \n\n```python\n# URL: localhost:8501/?show_map=True&selected=asia&selected=america\n\nst.query_params[\"selected\"]\n# \"america\"\n\nst.query_params.get_all(\"selected\")\n# [\"asia\", \"america\"]\n\nst.query_params.get_all(\"show_map\")\n# [\"True\"]\n```\n",
+      "candidate_key": "3a611859614d4bfc3c4025de54f7af10828ab95d9592ad2ddb362b3c85d7a24e"
+    },
+    {
+      "source_id": "docs:2024",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        52216,
+        52466
+      ],
+      "lines": [
+        444,
+        445
+      ],
+      "title": "2024",
+      "section": "2024 > 2024 release notes > **Version 1.32.0**",
+      "text": "([#8034](https://github.com/streamlit/streamlit/pull/8034)).\n- 🐛 Bug fix: Casting `st.query_params` to `str` will print the content of the query parameters instead of the class description ([#8030](https://github.com/streamlit/streamlit/pull/8030)).\n",
+      "candidate_key": "4b0e49cd0c0dec14a55c18bbe1841d46915ce1671f97d367a4fd795ec7b785fb"
+    },
+    {
+      "source_id": "issue:7665",
+      "revision": "2024-01-03T22:27:55Z",
+      "product_version": null,
+      "source_span": [
+        3146,
+        3680
+      ],
+      "lines": [
+        58,
+        64
+      ],
+      "title": "Coming soon: API update for Streamlit query params",
+      "section": "Coming soon: API update for Streamlit query params > What do you think?",
+      "text": "### What do you think?\n\nLet us know your feedback about the changes. Our current plan is to release this minimal version, which simplifies the API for typical use cases and leaves room to extend to new features in the future such as better handling for type conversion, or binding query params to certain session_state keys or widget values.\n\nYour input can help impact whether we release this immediately as `st.query_params` or do an `st.experimental_query_params` to see more usage of the new API before finalizing it.\n\nThank you!\n",
+      "candidate_key": "71f08e726050d685a925516ea6f099d233e5072b039609b5c121fe681c702b75"
+    },
+    {
+      "source_id": "docs:widget-behavior",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        278,
+        285
+      ],
+      "title": "widget-behavior",
+      "section": "Behavior details",
+      "text": "### Behavior details\n\n- **Default values keep URLs clean**: When a widget's value matches its default, the query parameter is removed from the URL.\n- **Invalid values are ignored**: If the URL contains an invalid value for the widget, the value is ignored and removed from the URL.\n- **Programmatic updates**: A bound query parameter can't be set or deleted through `st.query_params`. To programmatically change a bound widget's value, use `st.session_state`.\n- **Range values**: Widgets that return a range, like range sliders, use repeated query parameters. For example, a slider with a range of 10 to 90 will produce a URL ending with `?price=10&price=90`.\n\nTrigger-like widgets (`st.button`, `st.download_button`, `st.chat_input`, `st.file_uploader`, `st.camera_input`, and `st.audio_input`) don't support binding because their values are transient.",
+      "candidate_key": "7d894d023fcbb34e4b3230b1943606fc8015912bae7b0c4609ae1cc559230203"
+    },
+    {
+      "source_id": "docs:query_params",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        305,
+        1468
+      ],
+      "lines": [
+        8,
+        30
+      ],
+      "title": "query_params",
+      "section": "query_params > st.query_params",
+      "text": "## st.query_params\n\n`st.query_params` provides a dictionary-like interface to access query parameters in your app's URL and is available as of Streamlit 1.30.0. It behaves similarly to `st.session_state` with the notable exception that keys may be repeated in an app's URL. Handling of repeated keys requires special consideration as explained below.\n\n`st.query_params` can be used with both key and attribute notation. For example, `st.query_params.my_key` and `st.query_params[\"my_key\"]`. All keys and values will be set and returned as strings. When you write to `st.query_params`, key-value pair prefixed with `?` is added to the end of your app's URL. Each additional pair is prefixed with `&` instead of `?`. Query parameters are cleared when navigating between pages in a multipage app.\n\nFor example, consider the following URL:\n\n```javascript\nhttps://your_app.streamlit.app/?first_key=1&second_key=two&third_key=true\n```\n\nThe parameters in the URL above will be accessible in `st.query_params` as:\n\n```python\n{\n    \"first_key\" : \"1\",\n    \"second_key\" : \"two\",\n    \"third_key\" : \"true\"\n}\n```\n\nThis means you can use those parameters in your app like this:\n",
+      "candidate_key": "7f135a5a08cddd6dfa8912a898002a2961eaaa72826d3f0903e67d71e9183d65"
+    },
+    {
+      "source_id": "docs:query_params",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        45,
+        47
+      ],
+      "title": "query_params",
+      "section": "Repeated keys",
+      "text": "### Repeated keys\n\nWhen a key is repeated in your app's URL (`?a=1&a=2&a=3`), dict-like methods will return only the last value. In this example, `st.query_params[\"a\"]` returns `\"3\"`. To get all keys as a list, use the [`.get_all()`](/develop/api-reference/caching-and-state/st.query_params#stquery_paramsget_all) method shown below. To set the value of a repeated key, assign the values as a list. For example, `st.query_params.a = [\"1\", \"2\", \"3\"]` produces the repeated key given at the beginning of this paragraph.",
+      "candidate_key": "7f341a5b8f70522cfa370969146679bd6e3d3d43adf42fc1f42c4f97eeff8ade"
+    },
+    {
+      "source_id": "issue:7665",
+      "revision": "2024-01-03T22:27:55Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        37,
+        52
+      ],
+      "title": "Coming soon: API update for Streamlit query params",
+      "section": "Handling lists and multiple values",
+      "text": "### Handling lists and multiple values\n\nA key concern for query parameters is handling multiple values. For normal get / retrieval calls on `query_params`, Streamlit will return **only the last value set for the given key**, whether in the URL directly via Streamlit API. To retrieve a list of all set values, developers can call `st.query_params.get_all(key)`. This approach is typical of several other python web API frameworks such as [tornado](https://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.get_query_argument) and [flask](https://github.com/pallets/werkzeug/blob/2.3.6/src/werkzeug/datastructures/structures.py#L118-L128). \n\n```python\n# URL: localhost:8501/?show_map=True&selected=asia&selected=america\n\nst.query_params[\"selected\"]\n# \"america\"\n\nst.query_params.get_all(\"selected\")\n# [\"asia\", \"america\"]\n\nst.query_params.get_all(\"show_map\")\n# [\"True\"]\n```",
+      "candidate_key": "a15bcd5f676ccd43448058c770a8b9d9fa8e21a91a8effa9b328bac3e275c3df"
+    },
+    {
+      "source_id": "docs:widget-behavior",
+      "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+      "product_version": null,
+      "source_span": [
+        18485,
+        19339
+      ],
+      "lines": [
+        278,
+        285
+      ],
+      "title": "widget-behavior",
+      "section": "widget-behavior > Understanding widget behavior > Binding widgets to query parameters > Behavior details",
+      "text": "### Behavior details\n\n- **Default values keep URLs clean**: When a widget's value matches its default, the query parameter is removed from the URL.\n- **Invalid values are ignored**: If the URL contains an invalid value for the widget, the value is ignored and removed from the URL.\n- **Programmatic updates**: A bound query parameter can't be set or deleted through `st.query_params`. To programmatically change a bound widget's value, use `st.session_state`.\n- **Range values**: Widgets that return a range, like range sliders, use repeated query parameters. For example, a slider with a range of 10 to 90 will produce a URL ending with `?price=10&price=90`.\n\nTrigger-like widgets (`st.button`, `st.download_button`, `st.chat_input`, `st.file_uploader`, `st.camera_input`, and `st.audio_input`) don't support binding because their values are transient.\n",
+      "candidate_key": "b4ff97749b080c788b84929c01c60199395776ad6927c483b23c47482a677a91"
+    },
+    {
+      "source_id": "issue:7982",
+      "revision": "2024-08-15T20:51:27Z",
+      "product_version": null,
+      "source_span": [
+        1377,
+        1495
+      ],
+      "lines": [
+        51,
+        56
+      ],
+      "title": "Query parameters reset when navigating between pages",
+      "section": "Query parameters reset when navigating between pages > Debug info",
+      "text": "### Debug info\n\n- Streamlit version: 1.30.0\n- Python version: 3.9.12\n- Operating System: macOS 14.2\n- Browser: Chrome\n",
+      "candidate_key": "cc3a98829df80978acfdb605731abc12d2c4c3c9d949f580ffa6fe761133073b"
+    },
+    {
+      "source_id": "issue:7982",
+      "revision": "2024-08-15T20:51:27Z",
+      "product_version": null,
+      "source_span": null,
+      "lines": [
+        43,
+        45
+      ],
+      "title": "Query parameters reset when navigating between pages",
+      "section": "Current Behavior",
+      "text": "### Current Behavior\n\nQuery parameters are reset.  This is also the case when using the new `query_params` api.",
+      "candidate_key": "ef7fcf82f243ebc87d90dcab461a495314e4e152a7dbc7565edb58a26afe833a"
+    }
+  ],
+  "instructions": "Judge actual exact text relevance 0=irrelevant,1=topic only,2=useful partial,3=direct needed evidence; null=unjudged. Do not infer relevance from official source status. Record origin."
+}

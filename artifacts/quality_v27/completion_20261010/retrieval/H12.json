@@ -1,0 +1,3252 @@
+{
+  "id": "H12",
+  "split": "holdout",
+  "query": "How do I name pytest test files for Streamlit app tests? No installed version recorded.",
+  "query_hash": "da5f328a40b6fffd3969f6381324029134f4158f856295bd731fc9fe8e6a765d",
+  "version": null,
+  "variants": {
+    "A": {
+      "candidates": [
+        {
+          "kind": "docs",
+          "title": "get-started",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-testing/get-started.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:get-started:v2:10d18b7c69722ade",
+          "source_id": "docs:get-started",
+          "section": "Get started with app testing",
+          "text": "# Get started with app testing\n\nThis guide will cover a simple example of how tests are structured within a project and how to execute them with `pytest`. After seeing the big picture, keep reading to learn about the [Fundamentals of app testing](#fundamentals-of-app-testing):\n\n- Initializing and running a simulated app\n- Retrieving elements\n- Manipulating widgets\n- Inspecting the results\n\nStreamlit's app testing framework is not tied to any particular testing tool, but we'll use `pytest` for our examples since it is one of the most common Python test frameworks. To try out the examples in this guide, be sure to install `pytest` into your Streamlit development environment before you begin:\n\n```bash\npip install pytest\n```",
+          "lines": [
+            8,
+            21
+          ],
+          "sha256": "3e65b496f0429e156a862f0e5ea9431d842004c30fa42b9624774648e8b9228a",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 730,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03429435,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "get-started",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-testing/get-started.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:get-started:v2:c8c591fa0a27ab1a",
+          "source_id": "docs:get-started",
+          "section": "Handling file paths and imports with `pytest`",
+          "text": "### Handling file paths and imports with `pytest`\n\nImports and paths within a test script should be relative to the directory where `pytest` is called. That is why the test function uses the path `app.py` instead of `../app.py` even though the app file is one directory up from the test script. You'll usually call `pytest` from the directory containing your main app file. This is typically the root of your project directory.\n\nAdditionally, if `.streamlit/` is present in the directory where you call `pytest`, any `config.toml` and `secrets.toml` within it will be accessible to your simulated app. For example, your simulated app will have access to the `config.toml` and `secrets.toml` files in this common setup:\n\nProject structure:\n\n```none\nmyproject/\n├── .streamlit/\n│   ├── config.toml\n│   └── secrets.toml\n├── app.py\n└── tests/\n    └── test_app.py\n```\n\nInitialization within `test_app.py`:\n\n```python\n# Path to app file is relative to myproject/\nat = AppTest.from_file(\"app.py\").run()\n```\n\nCommand to execute tests:\n\n```bash\ncd myproject\npytest tests/\n```",
+          "lines": [
+            118,
+            148
+          ],
+          "sha256": "4ad5874a667cd920601f125f217e2214648e6d98ed78ec7caee03cfc4be08ac0",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1105,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03428571,
+          "rank": 2
+        },
+        {
+          "kind": "issue",
+          "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+          "url": "https://github.com/streamlit/streamlit/issues/8438",
+          "revision": "2025-06-04T09:08:24Z",
+          "product_version": null,
+          "issue_number": 8438,
+          "id": "issue:8438:v2:b003c41c9cbfa351",
+          "source_id": "issue:8438",
+          "section": "Current Behavior",
+          "text": "### Current Behavior\n\nwhen I run \n```pyest -v```\nIt shows \n(venv) anirudh@anirudh-HP-Pavilion-Gaming-Laptop-15-dk2xxx:~/Resume-Tracer$ pytest -v\n============================================================ test session starts ============================================================\nplatform linux -- Python 3.10.12, pytest-8.1.1, pluggy-1.4.0 -- /home/anirudh/Resume-Tracer/venv/bin/python\ncachedir: .pytest_cache\nrootdir: /home/anirudh/Resume-Tracer\ncollected 1 item                                                                                                                            \n\ntests/test_app.py::test_app_error FAILED                                                                                              [100%]\n\n================================================================= FAILURES ==================================================================\n______________________________________________________________ test_app_error _______________________________________________________________\n\n    def test_app_error():\n        at=AppTest.from_file(\"goat.py\").run()\n        assert not at.exception\n    \n>       at.sidebar.file_uploader(\"Anirudh-Hegde-DevOps-Resume.pdf\")\nE       AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n\ntests/test_app.py:9: AttributeError\n========================================================== short test summary info ==========================================================\nFAILED tests/test_app.py::test_app_error - AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n============================================================= 1 failed in 0.27s =============================================================\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: Streamlit, version 1.33.0\n- Python version: Python 3.10.12\n- Operating System: Ubuntu Linux Distributor ID: Linuxmint\n                                Description:    Linux Mint 21.3\n                                Release:        21.3\n                                Codename:       virginia\n\n- Browser: Firefox\n\n\n### Additional Information\n\n_No response_\n",
+          "lines": [
+            120,
+            168
+          ],
+          "sha256": "3c5a1409bba244a6758470fceb0389894ac063cfc8e96f2046a096dbc9e0f670",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 2190,
+          "oversized_block": true,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03076923,
+          "rank": 3
+        },
+        {
+          "kind": "issue",
+          "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+          "url": "https://github.com/streamlit/streamlit/issues/8438",
+          "revision": "2025-06-04T09:08:24Z",
+          "product_version": null,
+          "issue_number": 8438,
+          "id": "issue:8438:v2:c0bf59c8a848679c",
+          "source_id": "issue:8438",
+          "section": "Expected Behavior",
+          "text": "### Expected Behavior\n\nIt should show tests passed for this streamlit app",
+          "lines": [
+            116,
+            118
+          ],
+          "sha256": "a12094df06210d05a19a8c71341546e024bdcd9e626ee97e4f9d6207a835f96a",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 73,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03055037,
+          "rank": 4
+        },
+        {
+          "kind": "docs",
+          "title": "overview",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/multipage-apps/overview.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:overview:v2:cda892dcf0fbd424",
+          "source_id": "docs:overview",
+          "section": "How Streamlit converts filenames into URL pathnames",
+          "text": "### How Streamlit converts filenames into URL pathnames\n\nYour app's homepage is associated to the root URL of app. For all other pages, their `identifier` or `number` becomes their URL pathname as follows:\n\n- If your page has an `identifier` that came from a filename, Streamlit uses the `identifier` with one modification. Streamlit condenses each consecutive grouping of spaces (`\" \"`) and underscores (`\"_\"`) to a single underscore.\n- Otherwise, if your page has an `identifier` that came from the name of a callable, Streamlit uses the `identifier` unmodified.\n- Otherwise, if your page has a `number` but does not have an `identifier`, Streamlit uses the `number`. Leading zeros are included, if present.\n\nFor each filename in the list above, the URL pathname would be \"Awesome_page\" relative to the root URL of the app. For example, if your app was running on `localhost` port `8501`, the full URL would be `localhost:8501/awesome_page`. For the last two callables, however, the pathname would include the leading and trailing underscores to match the callable name exactly.",
+          "lines": [
+            87,
+            95
+          ],
+          "sha256": "d75448b2331619dc5a9f9c5531508f11b35e8c264dbb3bbcbcedb0e9bc952ec1",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1080,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02523093,
+          "rank": 5
+        },
+        {
+          "kind": "issue",
+          "title": "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest",
+          "url": "https://github.com/streamlit/streamlit/issues/16906",
+          "revision": "2026-09-09T20:54:29Z",
+          "product_version": null,
+          "issue_number": 16906,
+          "id": "issue:16906:v2:865f11fac87ff826",
+          "source_id": "issue:16906",
+          "section": "How?",
+          "text": "Key capabilities:\n- **App lifecycle fixture:** `app_fixture()` starts one app server per test module on an ephemeral localhost port, gives an isolated browser page per test, and waits until the initial run is idle. Also target direct/external URLs (deployed/embedded apps).\n- **Semantic selection:** strict, retrying finders that understand Streamlit elements and layout containers — `get_element_by_key` / `get_element_by_label` / `get_element_by_text`, plus `get_element(type=...)` / `get_elements(type=...)`; a returned element that is a container (sidebar, form, expander, popover, dialog, tab, column, container) can scope further queries. An optional `type` discriminator maps to a generated public `ElementType` taxonomy for IDE completion.\n- **Rerun/navigation-aware synchronization** so tests don't rely on sleeps.\n- **Actionable failure artifacts** (text/logs/traces/screenshots) and a **semantic snapshot** (`semantic_snapshot()`) as a token-efficient interface for humans and agents.\n- **Escape hatch** to native Playwright `Page`/`Locator` for anything the facade doesn't cover.\n- A shared **testability vocabulary** across both layers (public element types, labels, keys, containers), explicitly optimized for AI agents.",
+          "lines": [
+            42,
+            48
+          ],
+          "sha256": "8b515ea81a371a671aa28f8a37b6ffe21cda2910cef62a8ab468d04ccb03316d",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1236,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02658451,
+          "rank": 6
+        },
+        {
+          "kind": "issue",
+          "title": "AppTest: Adding an element on rerun leads to KeyError in session_state",
+          "url": "https://github.com/streamlit/streamlit/issues/12566",
+          "revision": "2026-07-22T17:38:47Z",
+          "product_version": null,
+          "issue_number": 12566,
+          "id": "issue:12566:v2:65b7da1249714a1e",
+          "source_id": "issue:12566",
+          "section": "Debug info",
+          "text": "### Debug info\n\n- Streamlit version: 1.49.1\n- pytest version: 8.4.2\n- Python version: 3.11.9\n- Operating System: Windows 11 Enterprise, Version 23H2, OS build 22631.5909\n- Browser: _None_",
+          "lines": [
+            210,
+            216
+          ],
+          "sha256": "e3ebf0f980cbe6422c7c7c3e96a94d4e841723d8462f42b141f4f34dd9b8fcd7",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 187,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02638747,
+          "rank": 7
+        },
+        {
+          "kind": "issue",
+          "title": "Unable to test a multipage app which consists a custom sidebar using AppTest",
+          "url": "https://github.com/streamlit/streamlit/issues/8429",
+          "revision": "2026-07-22T17:38:56Z",
+          "product_version": null,
+          "issue_number": 8429,
+          "id": "issue:8429:v2:c87bdd0261cc72f4",
+          "source_id": "issue:8429",
+          "section": "Current Behavior",
+          "text": "### Current Behavior\n\nstreamlit.errors.StreamlitAPIException: Could not find page: `main.py`. Must be the file path relative to the main script, from the directory: `pages`. Only the main app file and files in the `pages/` directory are supported.",
+          "lines": [
+            68,
+            70
+          ],
+          "sha256": "13fa5af27dba16e012d5e7ed173c92ff7889954abc4dd4f735735475a88e4476",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 247,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02515823,
+          "rank": 8
+        }
+      ],
+      "candidate_hash": "c856c2af789fb83f372d4ac569dd22c5c7d93b3f0f9803d79c35b6e3f5c2e1eb",
+      "context": [
+        {
+          "kind": "docs",
+          "title": "get-started",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-testing/get-started.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:get-started:v2:10d18b7c69722ade",
+          "source_id": "docs:get-started",
+          "section": "Get started with app testing",
+          "text": "# Get started with app testing\n\nThis guide will cover a simple example of how tests are structured within a project and how to execute them with `pytest`. After seeing the big picture, keep reading to learn about the [Fundamentals of app testing](#fundamentals-of-app-testing):\n\n- Initializing and running a simulated app\n- Retrieving elements\n- Manipulating widgets\n- Inspecting the results\n\nStreamlit's app testing framework is not tied to any particular testing tool, but we'll use `pytest` for our examples since it is one of the most common Python test frameworks. To try out the examples in this guide, be sure to install `pytest` into your Streamlit development environment before you begin:\n\n```bash\npip install pytest\n```",
+          "lines": [
+            8,
+            21
+          ],
+          "sha256": "3e65b496f0429e156a862f0e5ea9431d842004c30fa42b9624774648e8b9228a",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 730,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03429435,
+          "rank": 1
+        },
+        {
+          "kind": "docs",
+          "title": "get-started",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-testing/get-started.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:get-started:v2:c8c591fa0a27ab1a",
+          "source_id": "docs:get-started",
+          "section": "Handling file paths and imports with `pytest`",
+          "text": "### Handling file paths and imports with `pytest`\n\nImports and paths within a test script should be relative to the directory where `pytest` is called. That is why the test function uses the path `app.py` instead of `../app.py` even though the app file is one directory up from the test script. You'll usually call `pytest` from the directory containing your main app file. This is typically the root of your project directory.\n\nAdditionally, if `.streamlit/` is present in the directory where you call `pytest`, any `config.toml` and `secrets.toml` within it will be accessible to your simulated app. For example, your simulated app will have access to the `config.toml` and `secrets.toml` files in this common setup:\n\nProject structure:\n\n```none\nmyproject/\n├── .streamlit/\n│   ├── config.toml\n│   └── secrets.toml\n├── app.py\n└── tests/\n    └── test_app.py\n```\n\nInitialization within `test_app.py`:\n\n```python\n# Path to app file is relative to myproject/\nat = AppTest.from_file(\"app.py\").run()\n```\n\nCommand to execute tests:\n\n```bash\ncd myproject\npytest tests/\n```",
+          "lines": [
+            118,
+            148
+          ],
+          "sha256": "4ad5874a667cd920601f125f217e2214648e6d98ed78ec7caee03cfc4be08ac0",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1105,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03428571,
+          "rank": 2
+        },
+        {
+          "kind": "issue",
+          "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+          "url": "https://github.com/streamlit/streamlit/issues/8438",
+          "revision": "2025-06-04T09:08:24Z",
+          "product_version": null,
+          "issue_number": 8438,
+          "id": "issue:8438:v2:b003c41c9cbfa351",
+          "source_id": "issue:8438",
+          "section": "Current Behavior",
+          "text": "### Current Behavior\n\nwhen I run \n```pyest -v```\nIt shows \n(venv) anirudh@anirudh-HP-Pavilion-Gaming-Laptop-15-dk2xxx:~/Resume-Tracer$ pytest -v\n============================================================ test session starts ============================================================\nplatform linux -- Python 3.10.12, pytest-8.1.1, pluggy-1.4.0 -- /home/anirudh/Resume-Tracer/venv/bin/python\ncachedir: .pytest_cache\nrootdir: /home/anirudh/Resume-Tracer\ncollected 1 item                                                                                                                            \n\ntests/test_app.py::test_app_error FAILED                                                                                              [100%]\n\n================================================================= FAILURES ==================================================================\n______________________________________________________________ test_app_error _______________________________________________________________\n\n    def test_app_error():\n        at=AppTest.from_file(\"goat.py\").run()\n        assert not at.exception\n    \n>       at.sidebar.file_uploader(\"Anirudh-Hegde-DevOps-Resume.pdf\")\nE       AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n\ntests/test_app.py:9: AttributeError\n========================================================== short test summary info ==========================================================\nFAILED tests/test_app.py::test_app_error - AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n============================================================= 1 failed in 0.27s =============================================================\n\n### Is this a regression?\n\n- [ ] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: Streamlit, version 1.33.0\n- Python version: Python 3.10.12\n- Operating System: Ubuntu Linux Distributor ID: Linuxmint\n                                Description:    Linux Mint 21.3\n                                Release:        21.3\n                                Codename:       virginia\n\n- Browser: Firefox\n\n\n### Additional Information\n\n_No response_\n",
+          "lines": [
+            120,
+            168
+          ],
+          "sha256": "3c5a1409bba244a6758470fceb0389894ac063cfc8e96f2046a096dbc9e0f670",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 2190,
+          "oversized_block": true,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03076923,
+          "rank": 3
+        },
+        {
+          "kind": "issue",
+          "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+          "url": "https://github.com/streamlit/streamlit/issues/8438",
+          "revision": "2025-06-04T09:08:24Z",
+          "product_version": null,
+          "issue_number": 8438,
+          "id": "issue:8438:v2:c0bf59c8a848679c",
+          "source_id": "issue:8438",
+          "section": "Expected Behavior",
+          "text": "### Expected Behavior\n\nIt should show tests passed for this streamlit app",
+          "lines": [
+            116,
+            118
+          ],
+          "sha256": "a12094df06210d05a19a8c71341546e024bdcd9e626ee97e4f9d6207a835f96a",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 73,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03055037,
+          "rank": 4
+        },
+        {
+          "kind": "docs",
+          "title": "overview",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/multipage-apps/overview.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:overview:v2:cda892dcf0fbd424",
+          "source_id": "docs:overview",
+          "section": "How Streamlit converts filenames into URL pathnames",
+          "text": "### How Streamlit converts filenames into URL pathnames\n\nYour app's homepage is associated to the root URL of app. For all other pages, their `identifier` or `number` becomes their URL pathname as follows:\n\n- If your page has an `identifier` that came from a filename, Streamlit uses the `identifier` with one modification. Streamlit condenses each consecutive grouping of spaces (`\" \"`) and underscores (`\"_\"`) to a single underscore.\n- Otherwise, if your page has an `identifier` that came from the name of a callable, Streamlit uses the `identifier` unmodified.\n- Otherwise, if your page has a `number` but does not have an `identifier`, Streamlit uses the `number`. Leading zeros are included, if present.\n\nFor each filename in the list above, the URL pathname would be \"Awesome_page\" relative to the root URL of the app. For example, if your app was running on `localhost` port `8501`, the full URL would be `localhost:8501/awesome_page`. For the last two callables, however, the pathname would include the leading and trailing underscores to match the callable name exactly.",
+          "lines": [
+            87,
+            95
+          ],
+          "sha256": "d75448b2331619dc5a9f9c5531508f11b35e8c264dbb3bbcbcedb0e9bc952ec1",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1080,
+          "oversized_block": false,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02523093,
+          "rank": 5
+        }
+      ],
+      "packing": {
+        "encoding": "o200k_base",
+        "budget_tokens": 3000,
+        "used_tokens": 1850,
+        "expand_parent": false,
+        "items": [
+          {
+            "id": "docs:get-started:v2:10d18b7c69722ade",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:get-started:v2:10d18b7c69722ade"
+          },
+          {
+            "id": "docs:get-started:v2:c8c591fa0a27ab1a",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:get-started:v2:c8c591fa0a27ab1a"
+          },
+          {
+            "id": "issue:8438:v2:b003c41c9cbfa351",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:8438:v2:b003c41c9cbfa351"
+          },
+          {
+            "id": "issue:8438:v2:c0bf59c8a848679c",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:8438:v2:c0bf59c8a848679c"
+          },
+          {
+            "id": "docs:overview:v2:cda892dcf0fbd424",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:overview:v2:cda892dcf0fbd424"
+          },
+          {
+            "id": "issue:16906:v2:865f11fac87ff826",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:12566:v2:65b7da1249714a1e",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:8429:v2:c87bdd0261cc72f4",
+            "status": "omitted",
+            "reason": "item_limit"
+          }
+        ]
+      },
+      "index": "v2",
+      "namespace": null
+    },
+    "B": {
+      "candidates": [
+        {
+          "kind": "docs",
+          "title": "get-started",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-testing/get-started.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:get-started:v3:child:df3751e93437ab764f14",
+          "source_id": "docs:get-started",
+          "text": "### Handling file paths and imports with `pytest`\n\nImports and paths within a test script should be relative to the directory where `pytest` is called. That is why the test function uses the path `app.py` instead of `../app.py` even though the app file is one directory up from the test script. You'll usually call `pytest` from the directory containing your main app file. This is typically the root of your project directory.\n\nAdditionally, if `.streamlit/` is present in the directory where you call `pytest`, any `config.toml` and `secrets.toml` within it will be accessible to your simulated app. For example, your simulated app will have access to the `config.toml` and `secrets.toml` files in this common setup:\n\nProject structure:\n\n```none\nmyproject/\n├── .streamlit/\n│   ├── config.toml\n│   └── secrets.toml\n├── app.py\n└── tests/\n    └── test_app.py\n```\n\nInitialization within `test_app.py`:\n\n```python\n# Path to app file is relative to myproject/\nat = AppTest.from_file(\"app.py\").run()\n```\n\nCommand to execute tests:\n\n```bash\ncd myproject\npytest tests/\n```\n",
+          "source_span": [
+            5644,
+            6710
+          ],
+          "source_sha256": "ad56435c5a52d3c79df1278d19fadbb15335e1bdbfb438916066ec650469b955",
+          "sha256": "e99178d7e28cbcd8f1216981b3d63ec6bfddc81cd7408d97c31a055bf978ad90",
+          "lines": [
+            118,
+            148
+          ],
+          "section": "get-started > Get started with app testing > A simple testing example with `pytest` > Handling file paths and imports with `pytest`",
+          "section_path": [
+            "get-started",
+            "Get started with app testing",
+            "A simple testing example with `pytest`",
+            "Handling file paths and imports with `pytest`"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 266,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:get-started:v3:parent:df3751e93437ab764f14",
+          "parent": {
+            "kind": "docs",
+            "title": "get-started",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-testing/get-started.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:get-started:v3:parent:df3751e93437ab764f14",
+            "source_id": "docs:get-started",
+            "text": "### Handling file paths and imports with `pytest`\n\nImports and paths within a test script should be relative to the directory where `pytest` is called. That is why the test function uses the path `app.py` instead of `../app.py` even though the app file is one directory up from the test script. You'll usually call `pytest` from the directory containing your main app file. This is typically the root of your project directory.\n\nAdditionally, if `.streamlit/` is present in the directory where you call `pytest`, any `config.toml` and `secrets.toml` within it will be accessible to your simulated app. For example, your simulated app will have access to the `config.toml` and `secrets.toml` files in this common setup:\n\nProject structure:\n\n```none\nmyproject/\n├── .streamlit/\n│   ├── config.toml\n│   └── secrets.toml\n├── app.py\n└── tests/\n    └── test_app.py\n```\n\nInitialization within `test_app.py`:\n\n```python\n# Path to app file is relative to myproject/\nat = AppTest.from_file(\"app.py\").run()\n```\n\nCommand to execute tests:\n\n```bash\ncd myproject\npytest tests/\n```\n",
+            "source_span": [
+              5644,
+              6710
+            ],
+            "source_sha256": "ad56435c5a52d3c79df1278d19fadbb15335e1bdbfb438916066ec650469b955",
+            "sha256": "e99178d7e28cbcd8f1216981b3d63ec6bfddc81cd7408d97c31a055bf978ad90",
+            "lines": [
+              118,
+              148
+            ],
+            "section": "get-started > Get started with app testing > A simple testing example with `pytest` > Handling file paths and imports with `pytest`",
+            "section_path": [
+              "get-started",
+              "Get started with app testing",
+              "A simple testing example with `pytest`",
+              "Handling file paths and imports with `pytest`"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 266,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03456221,
+          "rank": 1
+        },
+        {
+          "kind": "issue",
+          "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+          "url": "https://github.com/streamlit/streamlit/issues/8438",
+          "revision": "2025-06-04T09:08:24Z",
+          "product_version": null,
+          "issue_number": 8438,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:8438:v3:child:b0c5f4e379817a4ddb09",
+          "source_id": "issue:8438",
+          "text": "### Expected Behavior\n\nIt should show tests passed for this streamlit app\n",
+          "source_span": [
+            4093,
+            4167
+          ],
+          "source_sha256": "727fb2ed4b7a725da2878979ce766fd2aa3c6b9084e8c8f957b747ae36778d92",
+          "sha256": "1365e9e5a3f6d75e65813c51bf421375cab37c5dcd0b4293cb5be254273dc3e0",
+          "lines": [
+            116,
+            118
+          ],
+          "section": "Unable to test for file_upload widget for streanlit apps using AppTest > Expected Behavior",
+          "section_path": [
+            "Unable to test for file_upload widget for streanlit apps using AppTest",
+            "Expected Behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 15,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:8438:v3:parent:b0c5f4e379817a4ddb09",
+          "parent": {
+            "kind": "issue",
+            "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+            "url": "https://github.com/streamlit/streamlit/issues/8438",
+            "revision": "2025-06-04T09:08:24Z",
+            "product_version": null,
+            "issue_number": 8438,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:8438:v3:parent:b0c5f4e379817a4ddb09",
+            "source_id": "issue:8438",
+            "text": "### Expected Behavior\n\nIt should show tests passed for this streamlit app\n",
+            "source_span": [
+              4093,
+              4167
+            ],
+            "source_sha256": "727fb2ed4b7a725da2878979ce766fd2aa3c6b9084e8c8f957b747ae36778d92",
+            "sha256": "1365e9e5a3f6d75e65813c51bf421375cab37c5dcd0b4293cb5be254273dc3e0",
+            "lines": [
+              116,
+              118
+            ],
+            "section": "Unable to test for file_upload widget for streanlit apps using AppTest > Expected Behavior",
+            "section_path": [
+              "Unable to test for file_upload widget for streanlit apps using AppTest",
+              "Expected Behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 15,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02987737,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "get-started",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-testing/get-started.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:get-started:v3:child:00b1e6348cc335e47877",
+          "source_id": "docs:get-started",
+          "text": "# Get started with app testing\n\nThis guide will cover a simple example of how tests are structured within a project and how to execute them with `pytest`. After seeing the big picture, keep reading to learn about the [Fundamentals of app testing](#fundamentals-of-app-testing):\n\n- Initializing and running a simulated app\n- Retrieving elements\n- Manipulating widgets\n- Inspecting the results\n\nStreamlit's app testing framework is not tied to any particular testing tool, but we'll use `pytest` for our examples since it is one of the most common Python test frameworks. To try out the examples in this guide, be sure to install `pytest` into your Streamlit development environment before you begin:\n\n```bash\npip install pytest\n```\n",
+          "source_span": [
+            460,
+            1191
+          ],
+          "source_sha256": "ad56435c5a52d3c79df1278d19fadbb15335e1bdbfb438916066ec650469b955",
+          "sha256": "e971556cf3bac82c25b6b83104d07d593d19af9bec48dd84b4e37a01b9473b13",
+          "lines": [
+            8,
+            21
+          ],
+          "section": "get-started > Get started with app testing",
+          "section_path": [
+            "get-started",
+            "Get started with app testing"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 155,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:get-started:v3:parent:00b1e6348cc335e47877",
+          "parent": {
+            "kind": "docs",
+            "title": "get-started",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-testing/get-started.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:get-started:v3:parent:00b1e6348cc335e47877",
+            "source_id": "docs:get-started",
+            "text": "# Get started with app testing\n\nThis guide will cover a simple example of how tests are structured within a project and how to execute them with `pytest`. After seeing the big picture, keep reading to learn about the [Fundamentals of app testing](#fundamentals-of-app-testing):\n\n- Initializing and running a simulated app\n- Retrieving elements\n- Manipulating widgets\n- Inspecting the results\n\nStreamlit's app testing framework is not tied to any particular testing tool, but we'll use `pytest` for our examples since it is one of the most common Python test frameworks. To try out the examples in this guide, be sure to install `pytest` into your Streamlit development environment before you begin:\n\n```bash\npip install pytest\n```\n",
+            "source_span": [
+              460,
+              1191
+            ],
+            "source_sha256": "ad56435c5a52d3c79df1278d19fadbb15335e1bdbfb438916066ec650469b955",
+            "sha256": "e971556cf3bac82c25b6b83104d07d593d19af9bec48dd84b4e37a01b9473b13",
+            "lines": [
+              8,
+              21
+            ],
+            "section": "get-started > Get started with app testing",
+            "section_path": [
+              "get-started",
+              "Get started with app testing"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 155,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03375824,
+          "rank": 3
+        },
+        {
+          "kind": "issue",
+          "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+          "url": "https://github.com/streamlit/streamlit/issues/8438",
+          "revision": "2025-06-04T09:08:24Z",
+          "product_version": null,
+          "issue_number": 8438,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:8438:v3:child:1c3f361317f7b5486f6e",
+          "source_id": "issue:8438",
+          "text": "```pyest -v```\nIt shows \n(venv) anirudh@anirudh-HP-Pavilion-Gaming-Laptop-15-dk2xxx:~/Resume-Tracer$ pytest -v\n============================================================ test session starts ============================================================\nplatform linux -- Python 3.10.12, pytest-8.1.1, pluggy-1.4.0 -- /home/anirudh/Resume-Tracer/venv/bin/python\ncachedir: .pytest_cache\nrootdir: /home/anirudh/Resume-Tracer\ncollected 1 item                                                                                                                            \n\ntests/test_app.py::test_app_error FAILED                                                                                              [100%]\n\n================================================================= FAILURES ==================================================================\n______________________________________________________________ test_app_error _______________________________________________________________\n\n    def test_app_error():\n        at=AppTest.from_file(\"goat.py\").run()\n        assert not at.exception\n    \n>       at.sidebar.file_uploader(\"Anirudh-Hegde-DevOps-Resume.pdf\")\nE       AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n\ntests/test_app.py:9: AttributeError\n========================================================== short test summary info ==========================================================\nFAILED tests/test_app.py::test_app_error - AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n============================================================= 1 failed in 0.27s =============================================================\n\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n",
+          "source_span": [
+            696,
+            2444
+          ],
+          "source_sha256": "727fb2ed4b7a725da2878979ce766fd2aa3c6b9084e8c8f957b747ae36778d92",
+          "sha256": "f2511ed7e223016299a2aa46ba4829d5744e40f13f4a092d570ba956f8f9cc6f",
+          "lines": [
+            24,
+            54
+          ],
+          "section": "Unable to test for file_upload widget for streanlit apps using AppTest > Summary",
+          "section_path": [
+            "Unable to test for file_upload widget for streanlit apps using AppTest",
+            "Summary"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 295,
+          "block_kinds": [
+            "code"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:8438:v3:parent:4f56fb6b74a89064efe8",
+          "parent": {
+            "kind": "issue",
+            "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+            "url": "https://github.com/streamlit/streamlit/issues/8438",
+            "revision": "2025-06-04T09:08:24Z",
+            "product_version": null,
+            "issue_number": 8438,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:8438:v3:parent:4f56fb6b74a89064efe8",
+            "source_id": "issue:8438",
+            "text": "### Summary\n\n```\nfrom streamlit.testing.v1 import AppTest\nfrom goat import main\n# from io import BytesIO\n\ndef test_app_error():\n    at=AppTest.from_file(\"goat.py\").run()\n    assert not at.exception\n\n    at.sidebar.file_uploader(\"Anirudh-Hegde-DevOps-Resume.pdf\").run()\n    assert at.warning[0].value==\"upload the document in pdf/doc/docx format\"\n```\nwhen I run \n```pyest -v```\nIt shows \n(venv) anirudh@anirudh-HP-Pavilion-Gaming-Laptop-15-dk2xxx:~/Resume-Tracer$ pytest -v\n============================================================ test session starts ============================================================\nplatform linux -- Python 3.10.12, pytest-8.1.1, pluggy-1.4.0 -- /home/anirudh/Resume-Tracer/venv/bin/python\ncachedir: .pytest_cache\nrootdir: /home/anirudh/Resume-Tracer\ncollected 1 item                                                                                                                            \n\ntests/test_app.py::test_app_error FAILED                                                                                              [100%]\n\n================================================================= FAILURES ==================================================================\n______________________________________________________________ test_app_error _______________________________________________________________\n\n    def test_app_error():\n        at=AppTest.from_file(\"goat.py\").run()\n        assert not at.exception\n    \n>       at.sidebar.file_uploader(\"Anirudh-Hegde-DevOps-Resume.pdf\")\nE       AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n\ntests/test_app.py:9: AttributeError\n========================================================== short test summary info ==========================================================\nFAILED tests/test_app.py::test_app_error - AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n============================================================= 1 failed in 0.27s =============================================================\n\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n# import PyPDF2\nfrom pypdf import PdfReader\n\n# craete a empty string\npage_content = \"\"\n\n\n# function to extract the page contents of resume\ndef display_context_file(upload_file):\n    global page_content\n    pdfReader = PdfReader(upload_file)\n\n    for i in range(len(pdfReader.pages)):\n        pageObj = pdfReader.pages[i]\n        page_content = str(pageObj.extract_text())\n\n    return page_content\n\n\ndef main():\n    st.title(\"Resume Search App\")\n    upload_files = st.sidebar.file_uploader(\"upload your resume\", type=['docx', 'pdf'])\n\n    # if file is uploaded process will satisfy\n    if upload_files:\n        st.success(\"Resume uploaded successfully\")\n\n        # pass the uplaod_files\n        page_content = display_context_file(upload_files)\n        search_text = st.text_input(\"Enter the text which you want to search: \")\n\n        # for input/s\n        if search_text:\n            st.header(\"Searching results..\")\n\n            for word in search_text.split(\",\"):\n                punctuations = [\".\", \".\", \"-\", \"*\", \"/\"]\n                for p in punctuations:\n                    word = word.lower().replace(p, \"\")\n                    page_content = page_content.lower().replace(p, \"\")\n                if word in page_content:\n                    st.success(f\"{word.capitalize()} present in the resume\")\n                else:\n                    st.error(f\"{word.capitalize()} isn't present in the resume\")\n\n    else:\n        st.warning(\"Please upload the file format only in pdf/docx\")\n\n\nif __name__ == \"__main__\":\n    main()\n```\n",
+            "source_span": [
+              334,
+              3977
+            ],
+            "source_sha256": "727fb2ed4b7a725da2878979ce766fd2aa3c6b9084e8c8f957b747ae36778d92",
+            "sha256": "26ee1832baea7c2ad3538553bcd840efd7d57cb964a225fb5e5ef172c4528b75",
+            "lines": [
+              9,
+              106
+            ],
+            "section": "Unable to test for file_upload widget for streanlit apps using AppTest > Summary",
+            "section_path": [
+              "Unable to test for file_upload widget for streanlit apps using AppTest",
+              "Summary"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 717,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02963126,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest",
+          "url": "https://github.com/streamlit/streamlit/issues/16906",
+          "revision": "2026-09-09T20:54:29Z",
+          "product_version": null,
+          "issue_number": 16906,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:16906:v3:child:985a27822101819d31d1",
+          "source_id": "issue:16906",
+          "text": "Key capabilities:\n- **App lifecycle fixture:** `app_fixture()` starts one app server per test module on an ephemeral localhost port, gives an isolated browser page per test, and waits until the initial run is idle. Also target direct/external URLs (deployed/embedded apps).\n- **Semantic selection:** strict, retrying finders that understand Streamlit elements and layout containers — `get_element_by_key` / `get_element_by_label` / `get_element_by_text`, plus `get_element(type=...)` / `get_elements(type=...)`; a returned element that is a container (sidebar, form, expander, popover, dialog, tab, column, container) can scope further queries. An optional `type` discriminator maps to a generated public `ElementType` taxonomy for IDE completion.\n- **Rerun/navigation-aware synchronization** so tests don't rely on sleeps.\n- **Actionable failure artifacts** (text/logs/traces/screenshots) and a **semantic snapshot** (`semantic_snapshot()`) as a token-efficient interface for humans and agents.\n- **Escape hatch** to native Playwright `Page`/`Locator` for anything the facade doesn't cover.\n- A shared **testability vocabulary** across both layers (public element types, labels, keys, containers), explicitly optimized for AI agents.\n",
+          "source_span": [
+            3051,
+            4286
+          ],
+          "source_sha256": "218d0282358d85d67842e5625323a770f29cef38c0688f680204cf673d4591f4",
+          "sha256": "05bf426c49d2619576e159fbafd85042670b02e108df0eb77ec30d8a338f001c",
+          "lines": [
+            42,
+            48
+          ],
+          "section": "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest > How?",
+          "section_path": [
+            "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest",
+            "How?"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 267,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:16906:v3:parent:571a58185683f32222de",
+          "parent": {
+            "kind": "issue",
+            "title": "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest",
+            "url": "https://github.com/streamlit/streamlit/issues/16906",
+            "revision": "2026-09-09T20:54:29Z",
+            "product_version": null,
+            "issue_number": 16906,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:16906:v3:parent:571a58185683f32222de",
+            "source_id": "issue:16906",
+            "text": "### How?\n\nShip a two-layer testing story with clear boundaries (don't build a third UI-testing engine, and don't turn AppTest into a browser emulator):\n\n- **AppTest (browserless)** stays the fast option for logic/state/basic widget workflows — with improved runtime fidelity and typed + universal semantic queries (`get_by_key`/`get_by_label`/`get_by_text`) and a compact `snapshot()`.\n- **`streamlit.testing.e2e` (browser)** — the new Playwright-based API, installed via `pip install \"streamlit[testing]\"`.\n\nProposed shape (from the spec):\n\n```python\nfrom playwright.sync_api import expect\nfrom streamlit.testing.e2e import StreamlitPage, app_fixture\n\napp = app_fixture(\"app.py\")\n\ndef test_sign_in(app: StreamlitPage):\n    app.get_element_by_label(\"Username\", type=\"text_input\").set_value(\"ada\")\n    app.get_element_by_label(\"Password\", type=\"text_input\").set_value(\"correct horse battery staple\")\n    app.get_element_by_label(\"Sign in\", type=\"button\").click()\n\n    welcome = app.get_element_by_text(\"Welcome, ada\", type=\"heading\")\n    expect(welcome.locator).to_be_visible()\n```\n\nKey capabilities:\n- **App lifecycle fixture:** `app_fixture()` starts one app server per test module on an ephemeral localhost port, gives an isolated browser page per test, and waits until the initial run is idle. Also target direct/external URLs (deployed/embedded apps).\n- **Semantic selection:** strict, retrying finders that understand Streamlit elements and layout containers — `get_element_by_key` / `get_element_by_label` / `get_element_by_text`, plus `get_element(type=...)` / `get_elements(type=...)`; a returned element that is a container (sidebar, form, expander, popover, dialog, tab, column, container) can scope further queries. An optional `type` discriminator maps to a generated public `ElementType` taxonomy for IDE completion.\n- **Rerun/navigation-aware synchronization** so tests don't rely on sleeps.\n- **Actionable failure artifacts** (text/logs/traces/screenshots) and a **semantic snapshot** (`semantic_snapshot()`) as a token-efficient interface for humans and agents.\n- **Escape hatch** to native Playwright `Page`/`Locator` for anything the facade doesn't cover.\n- A shared **testability vocabulary** across both layers (public element types, labels, keys, containers), explicitly optimized for AI agents.\n",
+            "source_span": [
+              1969,
+              4286
+            ],
+            "source_sha256": "218d0282358d85d67842e5625323a770f29cef38c0688f680204cf673d4591f4",
+            "sha256": "ff10c5babab7cc64e3d573de7d34985dad66f906d57f9f436a6f97e6f6130d71",
+            "lines": [
+              18,
+              48
+            ],
+            "section": "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest > How?",
+            "section_path": [
+              "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest",
+              "How?"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 522,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02538314,
+          "rank": 5
+        },
+        {
+          "kind": "docs",
+          "title": "overview",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/multipage-apps/overview.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:overview:v3:child:53889b39fff83b33401f",
+          "source_id": "docs:overview",
+          "text": "### How Streamlit converts filenames into URL pathnames\n\nYour app's homepage is associated to the root URL of app. For all other pages, their `identifier` or `number` becomes their URL pathname as follows:\n\n- If your page has an `identifier` that came from a filename, Streamlit uses the `identifier` with one modification. Streamlit condenses each consecutive grouping of spaces (`\" \"`) and underscores (`\"_\"`) to a single underscore.\n- Otherwise, if your page has an `identifier` that came from the name of a callable, Streamlit uses the `identifier` unmodified.\n- Otherwise, if your page has a `number` but does not have an `identifier`, Streamlit uses the `number`. Leading zeros are included, if present.\n\nFor each filename in the list above, the URL pathname would be \"Awesome_page\" relative to the root URL of the app. For example, if your app was running on `localhost` port `8501`, the full URL would be `localhost:8501/awesome_page`. For the last two callables, however, the pathname would include the leading and trailing underscores to match the callable name exactly.\n",
+          "source_span": [
+            5622,
+            6703
+          ],
+          "source_sha256": "55cdfa77ddc5a76dd9a525cccb79c4b5dbb73443f879fb6a534aa18f48e62a8b",
+          "sha256": "7b39efc6c4428af9fc0396011e43c7935879d89431918946c666a15c86b8f4e5",
+          "lines": [
+            87,
+            95
+          ],
+          "section": "overview > Overview of multipage apps > Automatic page labels and URLs > How Streamlit converts filenames into URL pathnames",
+          "section_path": [
+            "overview",
+            "Overview of multipage apps",
+            "Automatic page labels and URLs",
+            "How Streamlit converts filenames into URL pathnames"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 240,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:overview:v3:parent:53889b39fff83b33401f",
+          "parent": {
+            "kind": "docs",
+            "title": "overview",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/multipage-apps/overview.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:overview:v3:parent:53889b39fff83b33401f",
+            "source_id": "docs:overview",
+            "text": "### How Streamlit converts filenames into URL pathnames\n\nYour app's homepage is associated to the root URL of app. For all other pages, their `identifier` or `number` becomes their URL pathname as follows:\n\n- If your page has an `identifier` that came from a filename, Streamlit uses the `identifier` with one modification. Streamlit condenses each consecutive grouping of spaces (`\" \"`) and underscores (`\"_\"`) to a single underscore.\n- Otherwise, if your page has an `identifier` that came from the name of a callable, Streamlit uses the `identifier` unmodified.\n- Otherwise, if your page has a `number` but does not have an `identifier`, Streamlit uses the `number`. Leading zeros are included, if present.\n\nFor each filename in the list above, the URL pathname would be \"Awesome_page\" relative to the root URL of the app. For example, if your app was running on `localhost` port `8501`, the full URL would be `localhost:8501/awesome_page`. For the last two callables, however, the pathname would include the leading and trailing underscores to match the callable name exactly.\n",
+            "source_span": [
+              5622,
+              6703
+            ],
+            "source_sha256": "55cdfa77ddc5a76dd9a525cccb79c4b5dbb73443f879fb6a534aa18f48e62a8b",
+            "sha256": "7b39efc6c4428af9fc0396011e43c7935879d89431918946c666a15c86b8f4e5",
+            "lines": [
+              87,
+              95
+            ],
+            "section": "overview > Overview of multipage apps > Automatic page labels and URLs > How Streamlit converts filenames into URL pathnames",
+            "section_path": [
+              "overview",
+              "Overview of multipage apps",
+              "Automatic page labels and URLs",
+              "How Streamlit converts filenames into URL pathnames"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 240,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0229916,
+          "rank": 6
+        },
+        {
+          "kind": "issue",
+          "title": "AppTest: Adding an element on rerun leads to KeyError in session_state",
+          "url": "https://github.com/streamlit/streamlit/issues/12566",
+          "revision": "2026-07-22T17:38:47Z",
+          "product_version": null,
+          "issue_number": 12566,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:12566:v3:child:e469b7d8fca36665f0c0",
+          "source_id": "issue:12566",
+          "text": "### Debug info\n\n- Streamlit version: 1.49.1\n- pytest version: 8.4.2\n- Python version: 3.11.9\n- Operating System: Windows 11 Enterprise, Version 23H2, OS build 22631.5909\n- Browser: _None_\n",
+          "source_span": [
+            9994,
+            10182
+          ],
+          "source_sha256": "16d0ed2a8219d40c512b130eab96c0fd0fb966d0ab0f52a5a34c857a5377bd7e",
+          "sha256": "f5f8475a647bf60d32fa53628172f818d847db55704ad89724150fc5fc21e057",
+          "lines": [
+            210,
+            216
+          ],
+          "section": "AppTest: Adding an element on rerun leads to KeyError in session_state > Debug info",
+          "section_path": [
+            "AppTest: Adding an element on rerun leads to KeyError in session_state",
+            "Debug info"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 68,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:12566:v3:parent:e469b7d8fca36665f0c0",
+          "parent": {
+            "kind": "issue",
+            "title": "AppTest: Adding an element on rerun leads to KeyError in session_state",
+            "url": "https://github.com/streamlit/streamlit/issues/12566",
+            "revision": "2026-07-22T17:38:47Z",
+            "product_version": null,
+            "issue_number": 12566,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:12566:v3:parent:e469b7d8fca36665f0c0",
+            "source_id": "issue:12566",
+            "text": "### Debug info\n\n- Streamlit version: 1.49.1\n- pytest version: 8.4.2\n- Python version: 3.11.9\n- Operating System: Windows 11 Enterprise, Version 23H2, OS build 22631.5909\n- Browser: _None_\n",
+            "source_span": [
+              9994,
+              10182
+            ],
+            "source_sha256": "16d0ed2a8219d40c512b130eab96c0fd0fb966d0ab0f52a5a34c857a5377bd7e",
+            "sha256": "f5f8475a647bf60d32fa53628172f818d847db55704ad89724150fc5fc21e057",
+            "lines": [
+              210,
+              216
+            ],
+            "section": "AppTest: Adding an element on rerun leads to KeyError in session_state > Debug info",
+            "section_path": [
+              "AppTest: Adding an element on rerun leads to KeyError in session_state",
+              "Debug info"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 68,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02396514,
+          "rank": 7
+        },
+        {
+          "kind": "issue",
+          "title": "AppTest does not render content for pages in apps using st.navigation",
+          "url": "https://github.com/streamlit/streamlit/issues/9446",
+          "revision": "2026-03-04T21:19:23Z",
+          "product_version": null,
+          "issue_number": 9446,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:9446:v3:child:56e30008efbd09cd7445",
+          "source_id": "issue:9446",
+          "text": "### Summary\n\nWe recently decided to implement the new st.Page and st.navigation in our existing app https://docs.streamlit.io/develop/concepts/multipage-apps/page-and-navigation\n\nWe use the built in AppTest to test our apps\n\nWe were able to make the changes to the app and we thought everything was looking good. Unfortunately the tests fail.\n\nWhat seems to be happening is that any content included directly in the startup file is rendered correctly, but none of the content from is being rendered\n\n```\npg = st.navigation(pages)\npg.run()\n``` \n\nThere is forum thread on this topic here -- https://discuss.streamlit.io/t/writing-test-with-an-app-that-uses-navigation/74796/2\n\nI pulled down the streamlit project and was ability to reproduce the test failures by creating a new test_data_navigation app:\n[testing.zip](https://github.com/user-attachments/files/16971054/testing.zip)\n",
+          "source_span": [
+            333,
+            1213
+          ],
+          "source_sha256": "f8dbab9c73f9044727886761d2ba4148fc1f99d5a1de4c761700a8983cfdaaaa",
+          "sha256": "51b1e85ef3c4e9d7a4154d794786795529c92aeb5da23f89c6d2c9605fbfd5e6",
+          "lines": [
+            9,
+            27
+          ],
+          "section": "AppTest does not render content for pages in apps using st.navigation > Summary",
+          "section_path": [
+            "AppTest does not render content for pages in apps using st.navigation",
+            "Summary"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 192,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:9446:v3:parent:56e30008efbd09cd7445",
+          "parent": {
+            "kind": "issue",
+            "title": "AppTest does not render content for pages in apps using st.navigation",
+            "url": "https://github.com/streamlit/streamlit/issues/9446",
+            "revision": "2026-03-04T21:19:23Z",
+            "product_version": null,
+            "issue_number": 9446,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:9446:v3:parent:56e30008efbd09cd7445",
+            "source_id": "issue:9446",
+            "text": "### Summary\n\nWe recently decided to implement the new st.Page and st.navigation in our existing app https://docs.streamlit.io/develop/concepts/multipage-apps/page-and-navigation\n\nWe use the built in AppTest to test our apps\n\nWe were able to make the changes to the app and we thought everything was looking good. Unfortunately the tests fail.\n\nWhat seems to be happening is that any content included directly in the startup file is rendered correctly, but none of the content from is being rendered\n\n```\npg = st.navigation(pages)\npg.run()\n``` \n\nThere is forum thread on this topic here -- https://discuss.streamlit.io/t/writing-test-with-an-app-that-uses-navigation/74796/2\n\nI pulled down the streamlit project and was ability to reproduce the test failures by creating a new test_data_navigation app:\n[testing.zip](https://github.com/user-attachments/files/16971054/testing.zip)\n",
+            "source_span": [
+              333,
+              1213
+            ],
+            "source_sha256": "f8dbab9c73f9044727886761d2ba4148fc1f99d5a1de4c761700a8983cfdaaaa",
+            "sha256": "51b1e85ef3c4e9d7a4154d794786795529c92aeb5da23f89c6d2c9605fbfd5e6",
+            "lines": [
+              9,
+              27
+            ],
+            "section": "AppTest does not render content for pages in apps using st.navigation > Summary",
+            "section_path": [
+              "AppTest does not render content for pages in apps using st.navigation",
+              "Summary"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 192,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02309352,
+          "rank": 8
+        }
+      ],
+      "candidate_hash": "57cd8464fd91566d0d5724c6e2352c7001e5114c7e8299ee625fd1d9f334888a",
+      "context": [
+        {
+          "kind": "docs",
+          "title": "get-started",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-testing/get-started.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:get-started:v3:child:df3751e93437ab764f14",
+          "source_id": "docs:get-started",
+          "text": "### Handling file paths and imports with `pytest`\n\nImports and paths within a test script should be relative to the directory where `pytest` is called. That is why the test function uses the path `app.py` instead of `../app.py` even though the app file is one directory up from the test script. You'll usually call `pytest` from the directory containing your main app file. This is typically the root of your project directory.\n\nAdditionally, if `.streamlit/` is present in the directory where you call `pytest`, any `config.toml` and `secrets.toml` within it will be accessible to your simulated app. For example, your simulated app will have access to the `config.toml` and `secrets.toml` files in this common setup:\n\nProject structure:\n\n```none\nmyproject/\n├── .streamlit/\n│   ├── config.toml\n│   └── secrets.toml\n├── app.py\n└── tests/\n    └── test_app.py\n```\n\nInitialization within `test_app.py`:\n\n```python\n# Path to app file is relative to myproject/\nat = AppTest.from_file(\"app.py\").run()\n```\n\nCommand to execute tests:\n\n```bash\ncd myproject\npytest tests/\n```\n",
+          "source_span": [
+            5644,
+            6710
+          ],
+          "source_sha256": "ad56435c5a52d3c79df1278d19fadbb15335e1bdbfb438916066ec650469b955",
+          "sha256": "e99178d7e28cbcd8f1216981b3d63ec6bfddc81cd7408d97c31a055bf978ad90",
+          "lines": [
+            118,
+            148
+          ],
+          "section": "get-started > Get started with app testing > A simple testing example with `pytest` > Handling file paths and imports with `pytest`",
+          "section_path": [
+            "get-started",
+            "Get started with app testing",
+            "A simple testing example with `pytest`",
+            "Handling file paths and imports with `pytest`"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 266,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:get-started:v3:parent:df3751e93437ab764f14",
+          "parent": {
+            "kind": "docs",
+            "title": "get-started",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-testing/get-started.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:get-started:v3:parent:df3751e93437ab764f14",
+            "source_id": "docs:get-started",
+            "text": "### Handling file paths and imports with `pytest`\n\nImports and paths within a test script should be relative to the directory where `pytest` is called. That is why the test function uses the path `app.py` instead of `../app.py` even though the app file is one directory up from the test script. You'll usually call `pytest` from the directory containing your main app file. This is typically the root of your project directory.\n\nAdditionally, if `.streamlit/` is present in the directory where you call `pytest`, any `config.toml` and `secrets.toml` within it will be accessible to your simulated app. For example, your simulated app will have access to the `config.toml` and `secrets.toml` files in this common setup:\n\nProject structure:\n\n```none\nmyproject/\n├── .streamlit/\n│   ├── config.toml\n│   └── secrets.toml\n├── app.py\n└── tests/\n    └── test_app.py\n```\n\nInitialization within `test_app.py`:\n\n```python\n# Path to app file is relative to myproject/\nat = AppTest.from_file(\"app.py\").run()\n```\n\nCommand to execute tests:\n\n```bash\ncd myproject\npytest tests/\n```\n",
+            "source_span": [
+              5644,
+              6710
+            ],
+            "source_sha256": "ad56435c5a52d3c79df1278d19fadbb15335e1bdbfb438916066ec650469b955",
+            "sha256": "e99178d7e28cbcd8f1216981b3d63ec6bfddc81cd7408d97c31a055bf978ad90",
+            "lines": [
+              118,
+              148
+            ],
+            "section": "get-started > Get started with app testing > A simple testing example with `pytest` > Handling file paths and imports with `pytest`",
+            "section_path": [
+              "get-started",
+              "Get started with app testing",
+              "A simple testing example with `pytest`",
+              "Handling file paths and imports with `pytest`"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 266,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03456221,
+          "rank": 1
+        },
+        {
+          "kind": "issue",
+          "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+          "url": "https://github.com/streamlit/streamlit/issues/8438",
+          "revision": "2025-06-04T09:08:24Z",
+          "product_version": null,
+          "issue_number": 8438,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:8438:v3:child:b0c5f4e379817a4ddb09",
+          "source_id": "issue:8438",
+          "text": "### Expected Behavior\n\nIt should show tests passed for this streamlit app\n",
+          "source_span": [
+            4093,
+            4167
+          ],
+          "source_sha256": "727fb2ed4b7a725da2878979ce766fd2aa3c6b9084e8c8f957b747ae36778d92",
+          "sha256": "1365e9e5a3f6d75e65813c51bf421375cab37c5dcd0b4293cb5be254273dc3e0",
+          "lines": [
+            116,
+            118
+          ],
+          "section": "Unable to test for file_upload widget for streanlit apps using AppTest > Expected Behavior",
+          "section_path": [
+            "Unable to test for file_upload widget for streanlit apps using AppTest",
+            "Expected Behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 15,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:8438:v3:parent:b0c5f4e379817a4ddb09",
+          "parent": {
+            "kind": "issue",
+            "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+            "url": "https://github.com/streamlit/streamlit/issues/8438",
+            "revision": "2025-06-04T09:08:24Z",
+            "product_version": null,
+            "issue_number": 8438,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:8438:v3:parent:b0c5f4e379817a4ddb09",
+            "source_id": "issue:8438",
+            "text": "### Expected Behavior\n\nIt should show tests passed for this streamlit app\n",
+            "source_span": [
+              4093,
+              4167
+            ],
+            "source_sha256": "727fb2ed4b7a725da2878979ce766fd2aa3c6b9084e8c8f957b747ae36778d92",
+            "sha256": "1365e9e5a3f6d75e65813c51bf421375cab37c5dcd0b4293cb5be254273dc3e0",
+            "lines": [
+              116,
+              118
+            ],
+            "section": "Unable to test for file_upload widget for streanlit apps using AppTest > Expected Behavior",
+            "section_path": [
+              "Unable to test for file_upload widget for streanlit apps using AppTest",
+              "Expected Behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 15,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02987737,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "get-started",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-testing/get-started.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:get-started:v3:child:00b1e6348cc335e47877",
+          "source_id": "docs:get-started",
+          "text": "# Get started with app testing\n\nThis guide will cover a simple example of how tests are structured within a project and how to execute them with `pytest`. After seeing the big picture, keep reading to learn about the [Fundamentals of app testing](#fundamentals-of-app-testing):\n\n- Initializing and running a simulated app\n- Retrieving elements\n- Manipulating widgets\n- Inspecting the results\n\nStreamlit's app testing framework is not tied to any particular testing tool, but we'll use `pytest` for our examples since it is one of the most common Python test frameworks. To try out the examples in this guide, be sure to install `pytest` into your Streamlit development environment before you begin:\n\n```bash\npip install pytest\n```\n",
+          "source_span": [
+            460,
+            1191
+          ],
+          "source_sha256": "ad56435c5a52d3c79df1278d19fadbb15335e1bdbfb438916066ec650469b955",
+          "sha256": "e971556cf3bac82c25b6b83104d07d593d19af9bec48dd84b4e37a01b9473b13",
+          "lines": [
+            8,
+            21
+          ],
+          "section": "get-started > Get started with app testing",
+          "section_path": [
+            "get-started",
+            "Get started with app testing"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 155,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:get-started:v3:parent:00b1e6348cc335e47877",
+          "parent": {
+            "kind": "docs",
+            "title": "get-started",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-testing/get-started.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:get-started:v3:parent:00b1e6348cc335e47877",
+            "source_id": "docs:get-started",
+            "text": "# Get started with app testing\n\nThis guide will cover a simple example of how tests are structured within a project and how to execute them with `pytest`. After seeing the big picture, keep reading to learn about the [Fundamentals of app testing](#fundamentals-of-app-testing):\n\n- Initializing and running a simulated app\n- Retrieving elements\n- Manipulating widgets\n- Inspecting the results\n\nStreamlit's app testing framework is not tied to any particular testing tool, but we'll use `pytest` for our examples since it is one of the most common Python test frameworks. To try out the examples in this guide, be sure to install `pytest` into your Streamlit development environment before you begin:\n\n```bash\npip install pytest\n```\n",
+            "source_span": [
+              460,
+              1191
+            ],
+            "source_sha256": "ad56435c5a52d3c79df1278d19fadbb15335e1bdbfb438916066ec650469b955",
+            "sha256": "e971556cf3bac82c25b6b83104d07d593d19af9bec48dd84b4e37a01b9473b13",
+            "lines": [
+              8,
+              21
+            ],
+            "section": "get-started > Get started with app testing",
+            "section_path": [
+              "get-started",
+              "Get started with app testing"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 155,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03375824,
+          "rank": 3
+        },
+        {
+          "kind": "issue",
+          "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+          "url": "https://github.com/streamlit/streamlit/issues/8438",
+          "revision": "2025-06-04T09:08:24Z",
+          "product_version": null,
+          "issue_number": 8438,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:8438:v3:child:1c3f361317f7b5486f6e",
+          "source_id": "issue:8438",
+          "text": "```pyest -v```\nIt shows \n(venv) anirudh@anirudh-HP-Pavilion-Gaming-Laptop-15-dk2xxx:~/Resume-Tracer$ pytest -v\n============================================================ test session starts ============================================================\nplatform linux -- Python 3.10.12, pytest-8.1.1, pluggy-1.4.0 -- /home/anirudh/Resume-Tracer/venv/bin/python\ncachedir: .pytest_cache\nrootdir: /home/anirudh/Resume-Tracer\ncollected 1 item                                                                                                                            \n\ntests/test_app.py::test_app_error FAILED                                                                                              [100%]\n\n================================================================= FAILURES ==================================================================\n______________________________________________________________ test_app_error _______________________________________________________________\n\n    def test_app_error():\n        at=AppTest.from_file(\"goat.py\").run()\n        assert not at.exception\n    \n>       at.sidebar.file_uploader(\"Anirudh-Hegde-DevOps-Resume.pdf\")\nE       AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n\ntests/test_app.py:9: AttributeError\n========================================================== short test summary info ==========================================================\nFAILED tests/test_app.py::test_app_error - AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n============================================================= 1 failed in 0.27s =============================================================\n\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n",
+          "source_span": [
+            696,
+            2444
+          ],
+          "source_sha256": "727fb2ed4b7a725da2878979ce766fd2aa3c6b9084e8c8f957b747ae36778d92",
+          "sha256": "f2511ed7e223016299a2aa46ba4829d5744e40f13f4a092d570ba956f8f9cc6f",
+          "lines": [
+            24,
+            54
+          ],
+          "section": "Unable to test for file_upload widget for streanlit apps using AppTest > Summary",
+          "section_path": [
+            "Unable to test for file_upload widget for streanlit apps using AppTest",
+            "Summary"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 295,
+          "block_kinds": [
+            "code"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:8438:v3:parent:4f56fb6b74a89064efe8",
+          "parent": {
+            "kind": "issue",
+            "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+            "url": "https://github.com/streamlit/streamlit/issues/8438",
+            "revision": "2025-06-04T09:08:24Z",
+            "product_version": null,
+            "issue_number": 8438,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:8438:v3:parent:4f56fb6b74a89064efe8",
+            "source_id": "issue:8438",
+            "text": "### Summary\n\n```\nfrom streamlit.testing.v1 import AppTest\nfrom goat import main\n# from io import BytesIO\n\ndef test_app_error():\n    at=AppTest.from_file(\"goat.py\").run()\n    assert not at.exception\n\n    at.sidebar.file_uploader(\"Anirudh-Hegde-DevOps-Resume.pdf\").run()\n    assert at.warning[0].value==\"upload the document in pdf/doc/docx format\"\n```\nwhen I run \n```pyest -v```\nIt shows \n(venv) anirudh@anirudh-HP-Pavilion-Gaming-Laptop-15-dk2xxx:~/Resume-Tracer$ pytest -v\n============================================================ test session starts ============================================================\nplatform linux -- Python 3.10.12, pytest-8.1.1, pluggy-1.4.0 -- /home/anirudh/Resume-Tracer/venv/bin/python\ncachedir: .pytest_cache\nrootdir: /home/anirudh/Resume-Tracer\ncollected 1 item                                                                                                                            \n\ntests/test_app.py::test_app_error FAILED                                                                                              [100%]\n\n================================================================= FAILURES ==================================================================\n______________________________________________________________ test_app_error _______________________________________________________________\n\n    def test_app_error():\n        at=AppTest.from_file(\"goat.py\").run()\n        assert not at.exception\n    \n>       at.sidebar.file_uploader(\"Anirudh-Hegde-DevOps-Resume.pdf\")\nE       AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n\ntests/test_app.py:9: AttributeError\n========================================================== short test summary info ==========================================================\nFAILED tests/test_app.py::test_app_error - AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n============================================================= 1 failed in 0.27s =============================================================\n\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n# import PyPDF2\nfrom pypdf import PdfReader\n\n# craete a empty string\npage_content = \"\"\n\n\n# function to extract the page contents of resume\ndef display_context_file(upload_file):\n    global page_content\n    pdfReader = PdfReader(upload_file)\n\n    for i in range(len(pdfReader.pages)):\n        pageObj = pdfReader.pages[i]\n        page_content = str(pageObj.extract_text())\n\n    return page_content\n\n\ndef main():\n    st.title(\"Resume Search App\")\n    upload_files = st.sidebar.file_uploader(\"upload your resume\", type=['docx', 'pdf'])\n\n    # if file is uploaded process will satisfy\n    if upload_files:\n        st.success(\"Resume uploaded successfully\")\n\n        # pass the uplaod_files\n        page_content = display_context_file(upload_files)\n        search_text = st.text_input(\"Enter the text which you want to search: \")\n\n        # for input/s\n        if search_text:\n            st.header(\"Searching results..\")\n\n            for word in search_text.split(\",\"):\n                punctuations = [\".\", \".\", \"-\", \"*\", \"/\"]\n                for p in punctuations:\n                    word = word.lower().replace(p, \"\")\n                    page_content = page_content.lower().replace(p, \"\")\n                if word in page_content:\n                    st.success(f\"{word.capitalize()} present in the resume\")\n                else:\n                    st.error(f\"{word.capitalize()} isn't present in the resume\")\n\n    else:\n        st.warning(\"Please upload the file format only in pdf/docx\")\n\n\nif __name__ == \"__main__\":\n    main()\n```\n",
+            "source_span": [
+              334,
+              3977
+            ],
+            "source_sha256": "727fb2ed4b7a725da2878979ce766fd2aa3c6b9084e8c8f957b747ae36778d92",
+            "sha256": "26ee1832baea7c2ad3538553bcd840efd7d57cb964a225fb5e5ef172c4528b75",
+            "lines": [
+              9,
+              106
+            ],
+            "section": "Unable to test for file_upload widget for streanlit apps using AppTest > Summary",
+            "section_path": [
+              "Unable to test for file_upload widget for streanlit apps using AppTest",
+              "Summary"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 717,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02963126,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest",
+          "url": "https://github.com/streamlit/streamlit/issues/16906",
+          "revision": "2026-09-09T20:54:29Z",
+          "product_version": null,
+          "issue_number": 16906,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:16906:v3:child:985a27822101819d31d1",
+          "source_id": "issue:16906",
+          "text": "Key capabilities:\n- **App lifecycle fixture:** `app_fixture()` starts one app server per test module on an ephemeral localhost port, gives an isolated browser page per test, and waits until the initial run is idle. Also target direct/external URLs (deployed/embedded apps).\n- **Semantic selection:** strict, retrying finders that understand Streamlit elements and layout containers — `get_element_by_key` / `get_element_by_label` / `get_element_by_text`, plus `get_element(type=...)` / `get_elements(type=...)`; a returned element that is a container (sidebar, form, expander, popover, dialog, tab, column, container) can scope further queries. An optional `type` discriminator maps to a generated public `ElementType` taxonomy for IDE completion.\n- **Rerun/navigation-aware synchronization** so tests don't rely on sleeps.\n- **Actionable failure artifacts** (text/logs/traces/screenshots) and a **semantic snapshot** (`semantic_snapshot()`) as a token-efficient interface for humans and agents.\n- **Escape hatch** to native Playwright `Page`/`Locator` for anything the facade doesn't cover.\n- A shared **testability vocabulary** across both layers (public element types, labels, keys, containers), explicitly optimized for AI agents.\n",
+          "source_span": [
+            3051,
+            4286
+          ],
+          "source_sha256": "218d0282358d85d67842e5625323a770f29cef38c0688f680204cf673d4591f4",
+          "sha256": "05bf426c49d2619576e159fbafd85042670b02e108df0eb77ec30d8a338f001c",
+          "lines": [
+            42,
+            48
+          ],
+          "section": "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest > How?",
+          "section_path": [
+            "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest",
+            "How?"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 267,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:16906:v3:parent:571a58185683f32222de",
+          "parent": {
+            "kind": "issue",
+            "title": "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest",
+            "url": "https://github.com/streamlit/streamlit/issues/16906",
+            "revision": "2026-09-09T20:54:29Z",
+            "product_version": null,
+            "issue_number": 16906,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:16906:v3:parent:571a58185683f32222de",
+            "source_id": "issue:16906",
+            "text": "### How?\n\nShip a two-layer testing story with clear boundaries (don't build a third UI-testing engine, and don't turn AppTest into a browser emulator):\n\n- **AppTest (browserless)** stays the fast option for logic/state/basic widget workflows — with improved runtime fidelity and typed + universal semantic queries (`get_by_key`/`get_by_label`/`get_by_text`) and a compact `snapshot()`.\n- **`streamlit.testing.e2e` (browser)** — the new Playwright-based API, installed via `pip install \"streamlit[testing]\"`.\n\nProposed shape (from the spec):\n\n```python\nfrom playwright.sync_api import expect\nfrom streamlit.testing.e2e import StreamlitPage, app_fixture\n\napp = app_fixture(\"app.py\")\n\ndef test_sign_in(app: StreamlitPage):\n    app.get_element_by_label(\"Username\", type=\"text_input\").set_value(\"ada\")\n    app.get_element_by_label(\"Password\", type=\"text_input\").set_value(\"correct horse battery staple\")\n    app.get_element_by_label(\"Sign in\", type=\"button\").click()\n\n    welcome = app.get_element_by_text(\"Welcome, ada\", type=\"heading\")\n    expect(welcome.locator).to_be_visible()\n```\n\nKey capabilities:\n- **App lifecycle fixture:** `app_fixture()` starts one app server per test module on an ephemeral localhost port, gives an isolated browser page per test, and waits until the initial run is idle. Also target direct/external URLs (deployed/embedded apps).\n- **Semantic selection:** strict, retrying finders that understand Streamlit elements and layout containers — `get_element_by_key` / `get_element_by_label` / `get_element_by_text`, plus `get_element(type=...)` / `get_elements(type=...)`; a returned element that is a container (sidebar, form, expander, popover, dialog, tab, column, container) can scope further queries. An optional `type` discriminator maps to a generated public `ElementType` taxonomy for IDE completion.\n- **Rerun/navigation-aware synchronization** so tests don't rely on sleeps.\n- **Actionable failure artifacts** (text/logs/traces/screenshots) and a **semantic snapshot** (`semantic_snapshot()`) as a token-efficient interface for humans and agents.\n- **Escape hatch** to native Playwright `Page`/`Locator` for anything the facade doesn't cover.\n- A shared **testability vocabulary** across both layers (public element types, labels, keys, containers), explicitly optimized for AI agents.\n",
+            "source_span": [
+              1969,
+              4286
+            ],
+            "source_sha256": "218d0282358d85d67842e5625323a770f29cef38c0688f680204cf673d4591f4",
+            "sha256": "ff10c5babab7cc64e3d573de7d34985dad66f906d57f9f436a6f97e6f6130d71",
+            "lines": [
+              18,
+              48
+            ],
+            "section": "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest > How?",
+            "section_path": [
+              "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest",
+              "How?"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 522,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02538314,
+          "rank": 5
+        }
+      ],
+      "packing": {
+        "encoding": "o200k_base",
+        "budget_tokens": 3000,
+        "used_tokens": 2238,
+        "expand_parent": false,
+        "items": [
+          {
+            "id": "docs:get-started:v3:child:df3751e93437ab764f14",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:get-started:v3:child:df3751e93437ab764f14"
+          },
+          {
+            "id": "issue:8438:v3:child:b0c5f4e379817a4ddb09",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:8438:v3:child:b0c5f4e379817a4ddb09"
+          },
+          {
+            "id": "docs:get-started:v3:child:00b1e6348cc335e47877",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:get-started:v3:child:00b1e6348cc335e47877"
+          },
+          {
+            "id": "issue:8438:v3:child:1c3f361317f7b5486f6e",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:8438:v3:child:1c3f361317f7b5486f6e"
+          },
+          {
+            "id": "issue:16906:v3:child:985a27822101819d31d1",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:16906:v3:child:985a27822101819d31d1"
+          },
+          {
+            "id": "docs:overview:v3:child:53889b39fff83b33401f",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:12566:v3:child:e469b7d8fca36665f0c0",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:9446:v3:child:56e30008efbd09cd7445",
+            "status": "omitted",
+            "reason": "item_limit"
+          }
+        ]
+      },
+      "index": "v3",
+      "namespace": "6fbba079eb1323bf54c9d03ad4b956a7174e0f434f386ed66f0a50b489f55d4e"
+    },
+    "C": {
+      "candidates": [
+        {
+          "kind": "docs",
+          "title": "get-started",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-testing/get-started.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:get-started:v3:child:df3751e93437ab764f14",
+          "source_id": "docs:get-started",
+          "text": "### Handling file paths and imports with `pytest`\n\nImports and paths within a test script should be relative to the directory where `pytest` is called. That is why the test function uses the path `app.py` instead of `../app.py` even though the app file is one directory up from the test script. You'll usually call `pytest` from the directory containing your main app file. This is typically the root of your project directory.\n\nAdditionally, if `.streamlit/` is present in the directory where you call `pytest`, any `config.toml` and `secrets.toml` within it will be accessible to your simulated app. For example, your simulated app will have access to the `config.toml` and `secrets.toml` files in this common setup:\n\nProject structure:\n\n```none\nmyproject/\n├── .streamlit/\n│   ├── config.toml\n│   └── secrets.toml\n├── app.py\n└── tests/\n    └── test_app.py\n```\n\nInitialization within `test_app.py`:\n\n```python\n# Path to app file is relative to myproject/\nat = AppTest.from_file(\"app.py\").run()\n```\n\nCommand to execute tests:\n\n```bash\ncd myproject\npytest tests/\n```\n",
+          "source_span": [
+            5644,
+            6710
+          ],
+          "source_sha256": "ad56435c5a52d3c79df1278d19fadbb15335e1bdbfb438916066ec650469b955",
+          "sha256": "e99178d7e28cbcd8f1216981b3d63ec6bfddc81cd7408d97c31a055bf978ad90",
+          "lines": [
+            118,
+            148
+          ],
+          "section": "get-started > Get started with app testing > A simple testing example with `pytest` > Handling file paths and imports with `pytest`",
+          "section_path": [
+            "get-started",
+            "Get started with app testing",
+            "A simple testing example with `pytest`",
+            "Handling file paths and imports with `pytest`"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 266,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:get-started:v3:parent:df3751e93437ab764f14",
+          "parent": {
+            "kind": "docs",
+            "title": "get-started",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-testing/get-started.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:get-started:v3:parent:df3751e93437ab764f14",
+            "source_id": "docs:get-started",
+            "text": "### Handling file paths and imports with `pytest`\n\nImports and paths within a test script should be relative to the directory where `pytest` is called. That is why the test function uses the path `app.py` instead of `../app.py` even though the app file is one directory up from the test script. You'll usually call `pytest` from the directory containing your main app file. This is typically the root of your project directory.\n\nAdditionally, if `.streamlit/` is present in the directory where you call `pytest`, any `config.toml` and `secrets.toml` within it will be accessible to your simulated app. For example, your simulated app will have access to the `config.toml` and `secrets.toml` files in this common setup:\n\nProject structure:\n\n```none\nmyproject/\n├── .streamlit/\n│   ├── config.toml\n│   └── secrets.toml\n├── app.py\n└── tests/\n    └── test_app.py\n```\n\nInitialization within `test_app.py`:\n\n```python\n# Path to app file is relative to myproject/\nat = AppTest.from_file(\"app.py\").run()\n```\n\nCommand to execute tests:\n\n```bash\ncd myproject\npytest tests/\n```\n",
+            "source_span": [
+              5644,
+              6710
+            ],
+            "source_sha256": "ad56435c5a52d3c79df1278d19fadbb15335e1bdbfb438916066ec650469b955",
+            "sha256": "e99178d7e28cbcd8f1216981b3d63ec6bfddc81cd7408d97c31a055bf978ad90",
+            "lines": [
+              118,
+              148
+            ],
+            "section": "get-started > Get started with app testing > A simple testing example with `pytest` > Handling file paths and imports with `pytest`",
+            "section_path": [
+              "get-started",
+              "Get started with app testing",
+              "A simple testing example with `pytest`",
+              "Handling file paths and imports with `pytest`"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 266,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03456221,
+          "rank": 1
+        },
+        {
+          "kind": "issue",
+          "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+          "url": "https://github.com/streamlit/streamlit/issues/8438",
+          "revision": "2025-06-04T09:08:24Z",
+          "product_version": null,
+          "issue_number": 8438,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:8438:v3:child:b0c5f4e379817a4ddb09",
+          "source_id": "issue:8438",
+          "text": "### Expected Behavior\n\nIt should show tests passed for this streamlit app\n",
+          "source_span": [
+            4093,
+            4167
+          ],
+          "source_sha256": "727fb2ed4b7a725da2878979ce766fd2aa3c6b9084e8c8f957b747ae36778d92",
+          "sha256": "1365e9e5a3f6d75e65813c51bf421375cab37c5dcd0b4293cb5be254273dc3e0",
+          "lines": [
+            116,
+            118
+          ],
+          "section": "Unable to test for file_upload widget for streanlit apps using AppTest > Expected Behavior",
+          "section_path": [
+            "Unable to test for file_upload widget for streanlit apps using AppTest",
+            "Expected Behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 15,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:8438:v3:parent:b0c5f4e379817a4ddb09",
+          "parent": {
+            "kind": "issue",
+            "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+            "url": "https://github.com/streamlit/streamlit/issues/8438",
+            "revision": "2025-06-04T09:08:24Z",
+            "product_version": null,
+            "issue_number": 8438,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:8438:v3:parent:b0c5f4e379817a4ddb09",
+            "source_id": "issue:8438",
+            "text": "### Expected Behavior\n\nIt should show tests passed for this streamlit app\n",
+            "source_span": [
+              4093,
+              4167
+            ],
+            "source_sha256": "727fb2ed4b7a725da2878979ce766fd2aa3c6b9084e8c8f957b747ae36778d92",
+            "sha256": "1365e9e5a3f6d75e65813c51bf421375cab37c5dcd0b4293cb5be254273dc3e0",
+            "lines": [
+              116,
+              118
+            ],
+            "section": "Unable to test for file_upload widget for streanlit apps using AppTest > Expected Behavior",
+            "section_path": [
+              "Unable to test for file_upload widget for streanlit apps using AppTest",
+              "Expected Behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 15,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02987737,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "get-started",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-testing/get-started.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:get-started:v3:child:00b1e6348cc335e47877",
+          "source_id": "docs:get-started",
+          "text": "# Get started with app testing\n\nThis guide will cover a simple example of how tests are structured within a project and how to execute them with `pytest`. After seeing the big picture, keep reading to learn about the [Fundamentals of app testing](#fundamentals-of-app-testing):\n\n- Initializing and running a simulated app\n- Retrieving elements\n- Manipulating widgets\n- Inspecting the results\n\nStreamlit's app testing framework is not tied to any particular testing tool, but we'll use `pytest` for our examples since it is one of the most common Python test frameworks. To try out the examples in this guide, be sure to install `pytest` into your Streamlit development environment before you begin:\n\n```bash\npip install pytest\n```\n",
+          "source_span": [
+            460,
+            1191
+          ],
+          "source_sha256": "ad56435c5a52d3c79df1278d19fadbb15335e1bdbfb438916066ec650469b955",
+          "sha256": "e971556cf3bac82c25b6b83104d07d593d19af9bec48dd84b4e37a01b9473b13",
+          "lines": [
+            8,
+            21
+          ],
+          "section": "get-started > Get started with app testing",
+          "section_path": [
+            "get-started",
+            "Get started with app testing"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 155,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:get-started:v3:parent:00b1e6348cc335e47877",
+          "parent": {
+            "kind": "docs",
+            "title": "get-started",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-testing/get-started.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:get-started:v3:parent:00b1e6348cc335e47877",
+            "source_id": "docs:get-started",
+            "text": "# Get started with app testing\n\nThis guide will cover a simple example of how tests are structured within a project and how to execute them with `pytest`. After seeing the big picture, keep reading to learn about the [Fundamentals of app testing](#fundamentals-of-app-testing):\n\n- Initializing and running a simulated app\n- Retrieving elements\n- Manipulating widgets\n- Inspecting the results\n\nStreamlit's app testing framework is not tied to any particular testing tool, but we'll use `pytest` for our examples since it is one of the most common Python test frameworks. To try out the examples in this guide, be sure to install `pytest` into your Streamlit development environment before you begin:\n\n```bash\npip install pytest\n```\n",
+            "source_span": [
+              460,
+              1191
+            ],
+            "source_sha256": "ad56435c5a52d3c79df1278d19fadbb15335e1bdbfb438916066ec650469b955",
+            "sha256": "e971556cf3bac82c25b6b83104d07d593d19af9bec48dd84b4e37a01b9473b13",
+            "lines": [
+              8,
+              21
+            ],
+            "section": "get-started > Get started with app testing",
+            "section_path": [
+              "get-started",
+              "Get started with app testing"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 155,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03375824,
+          "rank": 3
+        },
+        {
+          "kind": "issue",
+          "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+          "url": "https://github.com/streamlit/streamlit/issues/8438",
+          "revision": "2025-06-04T09:08:24Z",
+          "product_version": null,
+          "issue_number": 8438,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:8438:v3:child:1c3f361317f7b5486f6e",
+          "source_id": "issue:8438",
+          "text": "```pyest -v```\nIt shows \n(venv) anirudh@anirudh-HP-Pavilion-Gaming-Laptop-15-dk2xxx:~/Resume-Tracer$ pytest -v\n============================================================ test session starts ============================================================\nplatform linux -- Python 3.10.12, pytest-8.1.1, pluggy-1.4.0 -- /home/anirudh/Resume-Tracer/venv/bin/python\ncachedir: .pytest_cache\nrootdir: /home/anirudh/Resume-Tracer\ncollected 1 item                                                                                                                            \n\ntests/test_app.py::test_app_error FAILED                                                                                              [100%]\n\n================================================================= FAILURES ==================================================================\n______________________________________________________________ test_app_error _______________________________________________________________\n\n    def test_app_error():\n        at=AppTest.from_file(\"goat.py\").run()\n        assert not at.exception\n    \n>       at.sidebar.file_uploader(\"Anirudh-Hegde-DevOps-Resume.pdf\")\nE       AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n\ntests/test_app.py:9: AttributeError\n========================================================== short test summary info ==========================================================\nFAILED tests/test_app.py::test_app_error - AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n============================================================= 1 failed in 0.27s =============================================================\n\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n",
+          "source_span": [
+            696,
+            2444
+          ],
+          "source_sha256": "727fb2ed4b7a725da2878979ce766fd2aa3c6b9084e8c8f957b747ae36778d92",
+          "sha256": "f2511ed7e223016299a2aa46ba4829d5744e40f13f4a092d570ba956f8f9cc6f",
+          "lines": [
+            24,
+            54
+          ],
+          "section": "Unable to test for file_upload widget for streanlit apps using AppTest > Summary",
+          "section_path": [
+            "Unable to test for file_upload widget for streanlit apps using AppTest",
+            "Summary"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 295,
+          "block_kinds": [
+            "code"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:8438:v3:parent:4f56fb6b74a89064efe8",
+          "parent": {
+            "kind": "issue",
+            "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+            "url": "https://github.com/streamlit/streamlit/issues/8438",
+            "revision": "2025-06-04T09:08:24Z",
+            "product_version": null,
+            "issue_number": 8438,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:8438:v3:parent:4f56fb6b74a89064efe8",
+            "source_id": "issue:8438",
+            "text": "### Summary\n\n```\nfrom streamlit.testing.v1 import AppTest\nfrom goat import main\n# from io import BytesIO\n\ndef test_app_error():\n    at=AppTest.from_file(\"goat.py\").run()\n    assert not at.exception\n\n    at.sidebar.file_uploader(\"Anirudh-Hegde-DevOps-Resume.pdf\").run()\n    assert at.warning[0].value==\"upload the document in pdf/doc/docx format\"\n```\nwhen I run \n```pyest -v```\nIt shows \n(venv) anirudh@anirudh-HP-Pavilion-Gaming-Laptop-15-dk2xxx:~/Resume-Tracer$ pytest -v\n============================================================ test session starts ============================================================\nplatform linux -- Python 3.10.12, pytest-8.1.1, pluggy-1.4.0 -- /home/anirudh/Resume-Tracer/venv/bin/python\ncachedir: .pytest_cache\nrootdir: /home/anirudh/Resume-Tracer\ncollected 1 item                                                                                                                            \n\ntests/test_app.py::test_app_error FAILED                                                                                              [100%]\n\n================================================================= FAILURES ==================================================================\n______________________________________________________________ test_app_error _______________________________________________________________\n\n    def test_app_error():\n        at=AppTest.from_file(\"goat.py\").run()\n        assert not at.exception\n    \n>       at.sidebar.file_uploader(\"Anirudh-Hegde-DevOps-Resume.pdf\")\nE       AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n\ntests/test_app.py:9: AttributeError\n========================================================== short test summary info ==========================================================\nFAILED tests/test_app.py::test_app_error - AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n============================================================= 1 failed in 0.27s =============================================================\n\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n# import PyPDF2\nfrom pypdf import PdfReader\n\n# craete a empty string\npage_content = \"\"\n\n\n# function to extract the page contents of resume\ndef display_context_file(upload_file):\n    global page_content\n    pdfReader = PdfReader(upload_file)\n\n    for i in range(len(pdfReader.pages)):\n        pageObj = pdfReader.pages[i]\n        page_content = str(pageObj.extract_text())\n\n    return page_content\n\n\ndef main():\n    st.title(\"Resume Search App\")\n    upload_files = st.sidebar.file_uploader(\"upload your resume\", type=['docx', 'pdf'])\n\n    # if file is uploaded process will satisfy\n    if upload_files:\n        st.success(\"Resume uploaded successfully\")\n\n        # pass the uplaod_files\n        page_content = display_context_file(upload_files)\n        search_text = st.text_input(\"Enter the text which you want to search: \")\n\n        # for input/s\n        if search_text:\n            st.header(\"Searching results..\")\n\n            for word in search_text.split(\",\"):\n                punctuations = [\".\", \".\", \"-\", \"*\", \"/\"]\n                for p in punctuations:\n                    word = word.lower().replace(p, \"\")\n                    page_content = page_content.lower().replace(p, \"\")\n                if word in page_content:\n                    st.success(f\"{word.capitalize()} present in the resume\")\n                else:\n                    st.error(f\"{word.capitalize()} isn't present in the resume\")\n\n    else:\n        st.warning(\"Please upload the file format only in pdf/docx\")\n\n\nif __name__ == \"__main__\":\n    main()\n```\n",
+            "source_span": [
+              334,
+              3977
+            ],
+            "source_sha256": "727fb2ed4b7a725da2878979ce766fd2aa3c6b9084e8c8f957b747ae36778d92",
+            "sha256": "26ee1832baea7c2ad3538553bcd840efd7d57cb964a225fb5e5ef172c4528b75",
+            "lines": [
+              9,
+              106
+            ],
+            "section": "Unable to test for file_upload widget for streanlit apps using AppTest > Summary",
+            "section_path": [
+              "Unable to test for file_upload widget for streanlit apps using AppTest",
+              "Summary"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 717,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02963126,
+          "rank": 4
+        },
+        {
+          "kind": "issue",
+          "title": "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest",
+          "url": "https://github.com/streamlit/streamlit/issues/16906",
+          "revision": "2026-09-09T20:54:29Z",
+          "product_version": null,
+          "issue_number": 16906,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:16906:v3:child:985a27822101819d31d1",
+          "source_id": "issue:16906",
+          "text": "Key capabilities:\n- **App lifecycle fixture:** `app_fixture()` starts one app server per test module on an ephemeral localhost port, gives an isolated browser page per test, and waits until the initial run is idle. Also target direct/external URLs (deployed/embedded apps).\n- **Semantic selection:** strict, retrying finders that understand Streamlit elements and layout containers — `get_element_by_key` / `get_element_by_label` / `get_element_by_text`, plus `get_element(type=...)` / `get_elements(type=...)`; a returned element that is a container (sidebar, form, expander, popover, dialog, tab, column, container) can scope further queries. An optional `type` discriminator maps to a generated public `ElementType` taxonomy for IDE completion.\n- **Rerun/navigation-aware synchronization** so tests don't rely on sleeps.\n- **Actionable failure artifacts** (text/logs/traces/screenshots) and a **semantic snapshot** (`semantic_snapshot()`) as a token-efficient interface for humans and agents.\n- **Escape hatch** to native Playwright `Page`/`Locator` for anything the facade doesn't cover.\n- A shared **testability vocabulary** across both layers (public element types, labels, keys, containers), explicitly optimized for AI agents.\n",
+          "source_span": [
+            3051,
+            4286
+          ],
+          "source_sha256": "218d0282358d85d67842e5625323a770f29cef38c0688f680204cf673d4591f4",
+          "sha256": "05bf426c49d2619576e159fbafd85042670b02e108df0eb77ec30d8a338f001c",
+          "lines": [
+            42,
+            48
+          ],
+          "section": "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest > How?",
+          "section_path": [
+            "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest",
+            "How?"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 267,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:16906:v3:parent:571a58185683f32222de",
+          "parent": {
+            "kind": "issue",
+            "title": "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest",
+            "url": "https://github.com/streamlit/streamlit/issues/16906",
+            "revision": "2026-09-09T20:54:29Z",
+            "product_version": null,
+            "issue_number": 16906,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:16906:v3:parent:571a58185683f32222de",
+            "source_id": "issue:16906",
+            "text": "### How?\n\nShip a two-layer testing story with clear boundaries (don't build a third UI-testing engine, and don't turn AppTest into a browser emulator):\n\n- **AppTest (browserless)** stays the fast option for logic/state/basic widget workflows — with improved runtime fidelity and typed + universal semantic queries (`get_by_key`/`get_by_label`/`get_by_text`) and a compact `snapshot()`.\n- **`streamlit.testing.e2e` (browser)** — the new Playwright-based API, installed via `pip install \"streamlit[testing]\"`.\n\nProposed shape (from the spec):\n\n```python\nfrom playwright.sync_api import expect\nfrom streamlit.testing.e2e import StreamlitPage, app_fixture\n\napp = app_fixture(\"app.py\")\n\ndef test_sign_in(app: StreamlitPage):\n    app.get_element_by_label(\"Username\", type=\"text_input\").set_value(\"ada\")\n    app.get_element_by_label(\"Password\", type=\"text_input\").set_value(\"correct horse battery staple\")\n    app.get_element_by_label(\"Sign in\", type=\"button\").click()\n\n    welcome = app.get_element_by_text(\"Welcome, ada\", type=\"heading\")\n    expect(welcome.locator).to_be_visible()\n```\n\nKey capabilities:\n- **App lifecycle fixture:** `app_fixture()` starts one app server per test module on an ephemeral localhost port, gives an isolated browser page per test, and waits until the initial run is idle. Also target direct/external URLs (deployed/embedded apps).\n- **Semantic selection:** strict, retrying finders that understand Streamlit elements and layout containers — `get_element_by_key` / `get_element_by_label` / `get_element_by_text`, plus `get_element(type=...)` / `get_elements(type=...)`; a returned element that is a container (sidebar, form, expander, popover, dialog, tab, column, container) can scope further queries. An optional `type` discriminator maps to a generated public `ElementType` taxonomy for IDE completion.\n- **Rerun/navigation-aware synchronization** so tests don't rely on sleeps.\n- **Actionable failure artifacts** (text/logs/traces/screenshots) and a **semantic snapshot** (`semantic_snapshot()`) as a token-efficient interface for humans and agents.\n- **Escape hatch** to native Playwright `Page`/`Locator` for anything the facade doesn't cover.\n- A shared **testability vocabulary** across both layers (public element types, labels, keys, containers), explicitly optimized for AI agents.\n",
+            "source_span": [
+              1969,
+              4286
+            ],
+            "source_sha256": "218d0282358d85d67842e5625323a770f29cef38c0688f680204cf673d4591f4",
+            "sha256": "ff10c5babab7cc64e3d573de7d34985dad66f906d57f9f436a6f97e6f6130d71",
+            "lines": [
+              18,
+              48
+            ],
+            "section": "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest > How?",
+            "section_path": [
+              "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest",
+              "How?"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 522,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02538314,
+          "rank": 5
+        },
+        {
+          "kind": "docs",
+          "title": "overview",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/multipage-apps/overview.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:overview:v3:child:53889b39fff83b33401f",
+          "source_id": "docs:overview",
+          "text": "### How Streamlit converts filenames into URL pathnames\n\nYour app's homepage is associated to the root URL of app. For all other pages, their `identifier` or `number` becomes their URL pathname as follows:\n\n- If your page has an `identifier` that came from a filename, Streamlit uses the `identifier` with one modification. Streamlit condenses each consecutive grouping of spaces (`\" \"`) and underscores (`\"_\"`) to a single underscore.\n- Otherwise, if your page has an `identifier` that came from the name of a callable, Streamlit uses the `identifier` unmodified.\n- Otherwise, if your page has a `number` but does not have an `identifier`, Streamlit uses the `number`. Leading zeros are included, if present.\n\nFor each filename in the list above, the URL pathname would be \"Awesome_page\" relative to the root URL of the app. For example, if your app was running on `localhost` port `8501`, the full URL would be `localhost:8501/awesome_page`. For the last two callables, however, the pathname would include the leading and trailing underscores to match the callable name exactly.\n",
+          "source_span": [
+            5622,
+            6703
+          ],
+          "source_sha256": "55cdfa77ddc5a76dd9a525cccb79c4b5dbb73443f879fb6a534aa18f48e62a8b",
+          "sha256": "7b39efc6c4428af9fc0396011e43c7935879d89431918946c666a15c86b8f4e5",
+          "lines": [
+            87,
+            95
+          ],
+          "section": "overview > Overview of multipage apps > Automatic page labels and URLs > How Streamlit converts filenames into URL pathnames",
+          "section_path": [
+            "overview",
+            "Overview of multipage apps",
+            "Automatic page labels and URLs",
+            "How Streamlit converts filenames into URL pathnames"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 240,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:overview:v3:parent:53889b39fff83b33401f",
+          "parent": {
+            "kind": "docs",
+            "title": "overview",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/multipage-apps/overview.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:overview:v3:parent:53889b39fff83b33401f",
+            "source_id": "docs:overview",
+            "text": "### How Streamlit converts filenames into URL pathnames\n\nYour app's homepage is associated to the root URL of app. For all other pages, their `identifier` or `number` becomes their URL pathname as follows:\n\n- If your page has an `identifier` that came from a filename, Streamlit uses the `identifier` with one modification. Streamlit condenses each consecutive grouping of spaces (`\" \"`) and underscores (`\"_\"`) to a single underscore.\n- Otherwise, if your page has an `identifier` that came from the name of a callable, Streamlit uses the `identifier` unmodified.\n- Otherwise, if your page has a `number` but does not have an `identifier`, Streamlit uses the `number`. Leading zeros are included, if present.\n\nFor each filename in the list above, the URL pathname would be \"Awesome_page\" relative to the root URL of the app. For example, if your app was running on `localhost` port `8501`, the full URL would be `localhost:8501/awesome_page`. For the last two callables, however, the pathname would include the leading and trailing underscores to match the callable name exactly.\n",
+            "source_span": [
+              5622,
+              6703
+            ],
+            "source_sha256": "55cdfa77ddc5a76dd9a525cccb79c4b5dbb73443f879fb6a534aa18f48e62a8b",
+            "sha256": "7b39efc6c4428af9fc0396011e43c7935879d89431918946c666a15c86b8f4e5",
+            "lines": [
+              87,
+              95
+            ],
+            "section": "overview > Overview of multipage apps > Automatic page labels and URLs > How Streamlit converts filenames into URL pathnames",
+            "section_path": [
+              "overview",
+              "Overview of multipage apps",
+              "Automatic page labels and URLs",
+              "How Streamlit converts filenames into URL pathnames"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 240,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.0229916,
+          "rank": 6
+        },
+        {
+          "kind": "issue",
+          "title": "AppTest: Adding an element on rerun leads to KeyError in session_state",
+          "url": "https://github.com/streamlit/streamlit/issues/12566",
+          "revision": "2026-07-22T17:38:47Z",
+          "product_version": null,
+          "issue_number": 12566,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:12566:v3:child:e469b7d8fca36665f0c0",
+          "source_id": "issue:12566",
+          "text": "### Debug info\n\n- Streamlit version: 1.49.1\n- pytest version: 8.4.2\n- Python version: 3.11.9\n- Operating System: Windows 11 Enterprise, Version 23H2, OS build 22631.5909\n- Browser: _None_\n",
+          "source_span": [
+            9994,
+            10182
+          ],
+          "source_sha256": "16d0ed2a8219d40c512b130eab96c0fd0fb966d0ab0f52a5a34c857a5377bd7e",
+          "sha256": "f5f8475a647bf60d32fa53628172f818d847db55704ad89724150fc5fc21e057",
+          "lines": [
+            210,
+            216
+          ],
+          "section": "AppTest: Adding an element on rerun leads to KeyError in session_state > Debug info",
+          "section_path": [
+            "AppTest: Adding an element on rerun leads to KeyError in session_state",
+            "Debug info"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 68,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:12566:v3:parent:e469b7d8fca36665f0c0",
+          "parent": {
+            "kind": "issue",
+            "title": "AppTest: Adding an element on rerun leads to KeyError in session_state",
+            "url": "https://github.com/streamlit/streamlit/issues/12566",
+            "revision": "2026-07-22T17:38:47Z",
+            "product_version": null,
+            "issue_number": 12566,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:12566:v3:parent:e469b7d8fca36665f0c0",
+            "source_id": "issue:12566",
+            "text": "### Debug info\n\n- Streamlit version: 1.49.1\n- pytest version: 8.4.2\n- Python version: 3.11.9\n- Operating System: Windows 11 Enterprise, Version 23H2, OS build 22631.5909\n- Browser: _None_\n",
+            "source_span": [
+              9994,
+              10182
+            ],
+            "source_sha256": "16d0ed2a8219d40c512b130eab96c0fd0fb966d0ab0f52a5a34c857a5377bd7e",
+            "sha256": "f5f8475a647bf60d32fa53628172f818d847db55704ad89724150fc5fc21e057",
+            "lines": [
+              210,
+              216
+            ],
+            "section": "AppTest: Adding an element on rerun leads to KeyError in session_state > Debug info",
+            "section_path": [
+              "AppTest: Adding an element on rerun leads to KeyError in session_state",
+              "Debug info"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 68,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02396514,
+          "rank": 7
+        },
+        {
+          "kind": "issue",
+          "title": "AppTest does not render content for pages in apps using st.navigation",
+          "url": "https://github.com/streamlit/streamlit/issues/9446",
+          "revision": "2026-03-04T21:19:23Z",
+          "product_version": null,
+          "issue_number": 9446,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:9446:v3:child:56e30008efbd09cd7445",
+          "source_id": "issue:9446",
+          "text": "### Summary\n\nWe recently decided to implement the new st.Page and st.navigation in our existing app https://docs.streamlit.io/develop/concepts/multipage-apps/page-and-navigation\n\nWe use the built in AppTest to test our apps\n\nWe were able to make the changes to the app and we thought everything was looking good. Unfortunately the tests fail.\n\nWhat seems to be happening is that any content included directly in the startup file is rendered correctly, but none of the content from is being rendered\n\n```\npg = st.navigation(pages)\npg.run()\n``` \n\nThere is forum thread on this topic here -- https://discuss.streamlit.io/t/writing-test-with-an-app-that-uses-navigation/74796/2\n\nI pulled down the streamlit project and was ability to reproduce the test failures by creating a new test_data_navigation app:\n[testing.zip](https://github.com/user-attachments/files/16971054/testing.zip)\n",
+          "source_span": [
+            333,
+            1213
+          ],
+          "source_sha256": "f8dbab9c73f9044727886761d2ba4148fc1f99d5a1de4c761700a8983cfdaaaa",
+          "sha256": "51b1e85ef3c4e9d7a4154d794786795529c92aeb5da23f89c6d2c9605fbfd5e6",
+          "lines": [
+            9,
+            27
+          ],
+          "section": "AppTest does not render content for pages in apps using st.navigation > Summary",
+          "section_path": [
+            "AppTest does not render content for pages in apps using st.navigation",
+            "Summary"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 192,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:9446:v3:parent:56e30008efbd09cd7445",
+          "parent": {
+            "kind": "issue",
+            "title": "AppTest does not render content for pages in apps using st.navigation",
+            "url": "https://github.com/streamlit/streamlit/issues/9446",
+            "revision": "2026-03-04T21:19:23Z",
+            "product_version": null,
+            "issue_number": 9446,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:9446:v3:parent:56e30008efbd09cd7445",
+            "source_id": "issue:9446",
+            "text": "### Summary\n\nWe recently decided to implement the new st.Page and st.navigation in our existing app https://docs.streamlit.io/develop/concepts/multipage-apps/page-and-navigation\n\nWe use the built in AppTest to test our apps\n\nWe were able to make the changes to the app and we thought everything was looking good. Unfortunately the tests fail.\n\nWhat seems to be happening is that any content included directly in the startup file is rendered correctly, but none of the content from is being rendered\n\n```\npg = st.navigation(pages)\npg.run()\n``` \n\nThere is forum thread on this topic here -- https://discuss.streamlit.io/t/writing-test-with-an-app-that-uses-navigation/74796/2\n\nI pulled down the streamlit project and was ability to reproduce the test failures by creating a new test_data_navigation app:\n[testing.zip](https://github.com/user-attachments/files/16971054/testing.zip)\n",
+            "source_span": [
+              333,
+              1213
+            ],
+            "source_sha256": "f8dbab9c73f9044727886761d2ba4148fc1f99d5a1de4c761700a8983cfdaaaa",
+            "sha256": "51b1e85ef3c4e9d7a4154d794786795529c92aeb5da23f89c6d2c9605fbfd5e6",
+            "lines": [
+              9,
+              27
+            ],
+            "section": "AppTest does not render content for pages in apps using st.navigation > Summary",
+            "section_path": [
+              "AppTest does not render content for pages in apps using st.navigation",
+              "Summary"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 192,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02309352,
+          "rank": 8
+        }
+      ],
+      "candidate_hash": "57cd8464fd91566d0d5724c6e2352c7001e5114c7e8299ee625fd1d9f334888a",
+      "context": [
+        {
+          "kind": "docs",
+          "title": "get-started",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-testing/get-started.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:get-started:v3:child:df3751e93437ab764f14",
+          "source_id": "docs:get-started",
+          "text": "### Handling file paths and imports with `pytest`\n\nImports and paths within a test script should be relative to the directory where `pytest` is called. That is why the test function uses the path `app.py` instead of `../app.py` even though the app file is one directory up from the test script. You'll usually call `pytest` from the directory containing your main app file. This is typically the root of your project directory.\n\nAdditionally, if `.streamlit/` is present in the directory where you call `pytest`, any `config.toml` and `secrets.toml` within it will be accessible to your simulated app. For example, your simulated app will have access to the `config.toml` and `secrets.toml` files in this common setup:\n\nProject structure:\n\n```none\nmyproject/\n├── .streamlit/\n│   ├── config.toml\n│   └── secrets.toml\n├── app.py\n└── tests/\n    └── test_app.py\n```\n\nInitialization within `test_app.py`:\n\n```python\n# Path to app file is relative to myproject/\nat = AppTest.from_file(\"app.py\").run()\n```\n\nCommand to execute tests:\n\n```bash\ncd myproject\npytest tests/\n```\n",
+          "source_span": [
+            5644,
+            6710
+          ],
+          "source_sha256": "ad56435c5a52d3c79df1278d19fadbb15335e1bdbfb438916066ec650469b955",
+          "sha256": "e99178d7e28cbcd8f1216981b3d63ec6bfddc81cd7408d97c31a055bf978ad90",
+          "lines": [
+            118,
+            148
+          ],
+          "section": "get-started > Get started with app testing > A simple testing example with `pytest` > Handling file paths and imports with `pytest`",
+          "section_path": [
+            "get-started",
+            "Get started with app testing",
+            "A simple testing example with `pytest`",
+            "Handling file paths and imports with `pytest`"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 266,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:get-started:v3:parent:df3751e93437ab764f14",
+          "parent": {
+            "kind": "docs",
+            "title": "get-started",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-testing/get-started.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:get-started:v3:parent:df3751e93437ab764f14",
+            "source_id": "docs:get-started",
+            "text": "### Handling file paths and imports with `pytest`\n\nImports and paths within a test script should be relative to the directory where `pytest` is called. That is why the test function uses the path `app.py` instead of `../app.py` even though the app file is one directory up from the test script. You'll usually call `pytest` from the directory containing your main app file. This is typically the root of your project directory.\n\nAdditionally, if `.streamlit/` is present in the directory where you call `pytest`, any `config.toml` and `secrets.toml` within it will be accessible to your simulated app. For example, your simulated app will have access to the `config.toml` and `secrets.toml` files in this common setup:\n\nProject structure:\n\n```none\nmyproject/\n├── .streamlit/\n│   ├── config.toml\n│   └── secrets.toml\n├── app.py\n└── tests/\n    └── test_app.py\n```\n\nInitialization within `test_app.py`:\n\n```python\n# Path to app file is relative to myproject/\nat = AppTest.from_file(\"app.py\").run()\n```\n\nCommand to execute tests:\n\n```bash\ncd myproject\npytest tests/\n```\n",
+            "source_span": [
+              5644,
+              6710
+            ],
+            "source_sha256": "ad56435c5a52d3c79df1278d19fadbb15335e1bdbfb438916066ec650469b955",
+            "sha256": "e99178d7e28cbcd8f1216981b3d63ec6bfddc81cd7408d97c31a055bf978ad90",
+            "lines": [
+              118,
+              148
+            ],
+            "section": "get-started > Get started with app testing > A simple testing example with `pytest` > Handling file paths and imports with `pytest`",
+            "section_path": [
+              "get-started",
+              "Get started with app testing",
+              "A simple testing example with `pytest`",
+              "Handling file paths and imports with `pytest`"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 266,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03456221,
+          "rank": 1
+        },
+        {
+          "kind": "issue",
+          "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+          "url": "https://github.com/streamlit/streamlit/issues/8438",
+          "revision": "2025-06-04T09:08:24Z",
+          "product_version": null,
+          "issue_number": 8438,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:8438:v3:child:b0c5f4e379817a4ddb09",
+          "source_id": "issue:8438",
+          "text": "### Expected Behavior\n\nIt should show tests passed for this streamlit app\n",
+          "source_span": [
+            4093,
+            4167
+          ],
+          "source_sha256": "727fb2ed4b7a725da2878979ce766fd2aa3c6b9084e8c8f957b747ae36778d92",
+          "sha256": "1365e9e5a3f6d75e65813c51bf421375cab37c5dcd0b4293cb5be254273dc3e0",
+          "lines": [
+            116,
+            118
+          ],
+          "section": "Unable to test for file_upload widget for streanlit apps using AppTest > Expected Behavior",
+          "section_path": [
+            "Unable to test for file_upload widget for streanlit apps using AppTest",
+            "Expected Behavior"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 15,
+          "block_kinds": [
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:8438:v3:parent:b0c5f4e379817a4ddb09",
+          "parent": {
+            "kind": "issue",
+            "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+            "url": "https://github.com/streamlit/streamlit/issues/8438",
+            "revision": "2025-06-04T09:08:24Z",
+            "product_version": null,
+            "issue_number": 8438,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:8438:v3:parent:b0c5f4e379817a4ddb09",
+            "source_id": "issue:8438",
+            "text": "### Expected Behavior\n\nIt should show tests passed for this streamlit app\n",
+            "source_span": [
+              4093,
+              4167
+            ],
+            "source_sha256": "727fb2ed4b7a725da2878979ce766fd2aa3c6b9084e8c8f957b747ae36778d92",
+            "sha256": "1365e9e5a3f6d75e65813c51bf421375cab37c5dcd0b4293cb5be254273dc3e0",
+            "lines": [
+              116,
+              118
+            ],
+            "section": "Unable to test for file_upload widget for streanlit apps using AppTest > Expected Behavior",
+            "section_path": [
+              "Unable to test for file_upload widget for streanlit apps using AppTest",
+              "Expected Behavior"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 15,
+            "block_kinds": [
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": false,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02987737,
+          "rank": 2
+        },
+        {
+          "kind": "docs",
+          "title": "get-started",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-testing/get-started.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "docs:get-started:v3:child:00b1e6348cc335e47877",
+          "source_id": "docs:get-started",
+          "text": "# Get started with app testing\n\nThis guide will cover a simple example of how tests are structured within a project and how to execute them with `pytest`. After seeing the big picture, keep reading to learn about the [Fundamentals of app testing](#fundamentals-of-app-testing):\n\n- Initializing and running a simulated app\n- Retrieving elements\n- Manipulating widgets\n- Inspecting the results\n\nStreamlit's app testing framework is not tied to any particular testing tool, but we'll use `pytest` for our examples since it is one of the most common Python test frameworks. To try out the examples in this guide, be sure to install `pytest` into your Streamlit development environment before you begin:\n\n```bash\npip install pytest\n```\n",
+          "source_span": [
+            460,
+            1191
+          ],
+          "source_sha256": "ad56435c5a52d3c79df1278d19fadbb15335e1bdbfb438916066ec650469b955",
+          "sha256": "e971556cf3bac82c25b6b83104d07d593d19af9bec48dd84b4e37a01b9473b13",
+          "lines": [
+            8,
+            21
+          ],
+          "section": "get-started > Get started with app testing",
+          "section_path": [
+            "get-started",
+            "Get started with app testing"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 155,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "docs:get-started:v3:parent:00b1e6348cc335e47877",
+          "parent": {
+            "kind": "docs",
+            "title": "get-started",
+            "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-testing/get-started.md",
+            "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+            "product_version": null,
+            "issue_number": null,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "docs:get-started:v3:parent:00b1e6348cc335e47877",
+            "source_id": "docs:get-started",
+            "text": "# Get started with app testing\n\nThis guide will cover a simple example of how tests are structured within a project and how to execute them with `pytest`. After seeing the big picture, keep reading to learn about the [Fundamentals of app testing](#fundamentals-of-app-testing):\n\n- Initializing and running a simulated app\n- Retrieving elements\n- Manipulating widgets\n- Inspecting the results\n\nStreamlit's app testing framework is not tied to any particular testing tool, but we'll use `pytest` for our examples since it is one of the most common Python test frameworks. To try out the examples in this guide, be sure to install `pytest` into your Streamlit development environment before you begin:\n\n```bash\npip install pytest\n```\n",
+            "source_span": [
+              460,
+              1191
+            ],
+            "source_sha256": "ad56435c5a52d3c79df1278d19fadbb15335e1bdbfb438916066ec650469b955",
+            "sha256": "e971556cf3bac82c25b6b83104d07d593d19af9bec48dd84b4e37a01b9473b13",
+            "lines": [
+              8,
+              21
+            ],
+            "section": "get-started > Get started with app testing",
+            "section_path": [
+              "get-started",
+              "Get started with app testing"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 155,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "compatibility_known": false,
+          "retrieval_score": 0.03375824,
+          "rank": 3
+        },
+        {
+          "kind": "issue",
+          "title": "Unable to test for file_upload widget for streanlit apps using AppTest",
+          "url": "https://github.com/streamlit/streamlit/issues/8438",
+          "revision": "2025-06-04T09:08:24Z",
+          "product_version": null,
+          "issue_number": 8438,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:8438:v3:parent:4f56fb6b74a89064efe8",
+          "source_id": "issue:8438",
+          "text": "### Summary\n\n```\nfrom streamlit.testing.v1 import AppTest\nfrom goat import main\n# from io import BytesIO\n\ndef test_app_error():\n    at=AppTest.from_file(\"goat.py\").run()\n    assert not at.exception\n\n    at.sidebar.file_uploader(\"Anirudh-Hegde-DevOps-Resume.pdf\").run()\n    assert at.warning[0].value==\"upload the document in pdf/doc/docx format\"\n```\nwhen I run \n```pyest -v```\nIt shows \n(venv) anirudh@anirudh-HP-Pavilion-Gaming-Laptop-15-dk2xxx:~/Resume-Tracer$ pytest -v\n============================================================ test session starts ============================================================\nplatform linux -- Python 3.10.12, pytest-8.1.1, pluggy-1.4.0 -- /home/anirudh/Resume-Tracer/venv/bin/python\ncachedir: .pytest_cache\nrootdir: /home/anirudh/Resume-Tracer\ncollected 1 item                                                                                                                            \n\ntests/test_app.py::test_app_error FAILED                                                                                              [100%]\n\n================================================================= FAILURES ==================================================================\n______________________________________________________________ test_app_error _______________________________________________________________\n\n    def test_app_error():\n        at=AppTest.from_file(\"goat.py\").run()\n        assert not at.exception\n    \n>       at.sidebar.file_uploader(\"Anirudh-Hegde-DevOps-Resume.pdf\")\nE       AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n\ntests/test_app.py:9: AttributeError\n========================================================== short test summary info ==========================================================\nFAILED tests/test_app.py::test_app_error - AttributeError: 'SpecialBlock' object has no attribute 'file_uploader'\n============================================================= 1 failed in 0.27s =============================================================\n\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n# import PyPDF2\nfrom pypdf import PdfReader\n\n# craete a empty string\npage_content = \"\"\n\n\n# function to extract the page contents of resume\ndef display_context_file(upload_file):\n    global page_content\n    pdfReader = PdfReader(upload_file)\n\n    for i in range(len(pdfReader.pages)):\n        pageObj = pdfReader.pages[i]\n        page_content = str(pageObj.extract_text())\n\n    return page_content\n\n\ndef main():\n    st.title(\"Resume Search App\")\n    upload_files = st.sidebar.file_uploader(\"upload your resume\", type=['docx', 'pdf'])\n\n    # if file is uploaded process will satisfy\n    if upload_files:\n        st.success(\"Resume uploaded successfully\")\n\n        # pass the uplaod_files\n        page_content = display_context_file(upload_files)\n        search_text = st.text_input(\"Enter the text which you want to search: \")\n\n        # for input/s\n        if search_text:\n            st.header(\"Searching results..\")\n\n            for word in search_text.split(\",\"):\n                punctuations = [\".\", \".\", \"-\", \"*\", \"/\"]\n                for p in punctuations:\n                    word = word.lower().replace(p, \"\")\n                    page_content = page_content.lower().replace(p, \"\")\n                if word in page_content:\n                    st.success(f\"{word.capitalize()} present in the resume\")\n                else:\n                    st.error(f\"{word.capitalize()} isn't present in the resume\")\n\n    else:\n        st.warning(\"Please upload the file format only in pdf/docx\")\n\n\nif __name__ == \"__main__\":\n    main()\n```\n",
+          "source_span": [
+            334,
+            3977
+          ],
+          "source_sha256": "727fb2ed4b7a725da2878979ce766fd2aa3c6b9084e8c8f957b747ae36778d92",
+          "sha256": "26ee1832baea7c2ad3538553bcd840efd7d57cb964a225fb5e5ef172c4528b75",
+          "lines": [
+            9,
+            106
+          ],
+          "section": "Unable to test for file_upload widget for streanlit apps using AppTest > Summary",
+          "section_path": [
+            "Unable to test for file_upload widget for streanlit apps using AppTest",
+            "Summary"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 717,
+          "block_kinds": [
+            "code",
+            "heading",
+            "paragraph"
+          ],
+          "context_needed": true,
+          "header_spans": [],
+          "oversized_block": false,
+          "selected_child_ids": [
+            "issue:8438:v3:child:1c3f361317f7b5486f6e"
+          ],
+          "parent_id": "issue:8438:v3:parent:4f56fb6b74a89064efe8",
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation"
+        },
+        {
+          "kind": "issue",
+          "title": "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest",
+          "url": "https://github.com/streamlit/streamlit/issues/16906",
+          "revision": "2026-09-09T20:54:29Z",
+          "product_version": null,
+          "issue_number": 16906,
+          "available_at": null,
+          "published_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "fetched_at": null,
+          "id": "issue:16906:v3:child:985a27822101819d31d1",
+          "source_id": "issue:16906",
+          "text": "Key capabilities:\n- **App lifecycle fixture:** `app_fixture()` starts one app server per test module on an ephemeral localhost port, gives an isolated browser page per test, and waits until the initial run is idle. Also target direct/external URLs (deployed/embedded apps).\n- **Semantic selection:** strict, retrying finders that understand Streamlit elements and layout containers — `get_element_by_key` / `get_element_by_label` / `get_element_by_text`, plus `get_element(type=...)` / `get_elements(type=...)`; a returned element that is a container (sidebar, form, expander, popover, dialog, tab, column, container) can scope further queries. An optional `type` discriminator maps to a generated public `ElementType` taxonomy for IDE completion.\n- **Rerun/navigation-aware synchronization** so tests don't rely on sleeps.\n- **Actionable failure artifacts** (text/logs/traces/screenshots) and a **semantic snapshot** (`semantic_snapshot()`) as a token-efficient interface for humans and agents.\n- **Escape hatch** to native Playwright `Page`/`Locator` for anything the facade doesn't cover.\n- A shared **testability vocabulary** across both layers (public element types, labels, keys, containers), explicitly optimized for AI agents.\n",
+          "source_span": [
+            3051,
+            4286
+          ],
+          "source_sha256": "218d0282358d85d67842e5625323a770f29cef38c0688f680204cf673d4591f4",
+          "sha256": "05bf426c49d2619576e159fbafd85042670b02e108df0eb77ec30d8a338f001c",
+          "lines": [
+            42,
+            48
+          ],
+          "section": "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest > How?",
+          "section_path": [
+            "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest",
+            "How?"
+          ],
+          "chunk_config": {
+            "name": "structural_parent_child_v3",
+            "child_target_tokens": 300,
+            "parent_target_tokens": 800,
+            "encoding": "o200k_base",
+            "offset_unit": "unicode_character",
+            "embedding_namespace": "casepilot-structural-v3"
+          },
+          "token_count": 267,
+          "block_kinds": [
+            "paragraph"
+          ],
+          "context_needed": false,
+          "header_spans": [],
+          "oversized_block": false,
+          "parent_id": "issue:16906:v3:parent:571a58185683f32222de",
+          "parent": {
+            "kind": "issue",
+            "title": "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest",
+            "url": "https://github.com/streamlit/streamlit/issues/16906",
+            "revision": "2026-09-09T20:54:29Z",
+            "product_version": null,
+            "issue_number": 16906,
+            "available_at": null,
+            "published_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "fetched_at": null,
+            "id": "issue:16906:v3:parent:571a58185683f32222de",
+            "source_id": "issue:16906",
+            "text": "### How?\n\nShip a two-layer testing story with clear boundaries (don't build a third UI-testing engine, and don't turn AppTest into a browser emulator):\n\n- **AppTest (browserless)** stays the fast option for logic/state/basic widget workflows — with improved runtime fidelity and typed + universal semantic queries (`get_by_key`/`get_by_label`/`get_by_text`) and a compact `snapshot()`.\n- **`streamlit.testing.e2e` (browser)** — the new Playwright-based API, installed via `pip install \"streamlit[testing]\"`.\n\nProposed shape (from the spec):\n\n```python\nfrom playwright.sync_api import expect\nfrom streamlit.testing.e2e import StreamlitPage, app_fixture\n\napp = app_fixture(\"app.py\")\n\ndef test_sign_in(app: StreamlitPage):\n    app.get_element_by_label(\"Username\", type=\"text_input\").set_value(\"ada\")\n    app.get_element_by_label(\"Password\", type=\"text_input\").set_value(\"correct horse battery staple\")\n    app.get_element_by_label(\"Sign in\", type=\"button\").click()\n\n    welcome = app.get_element_by_text(\"Welcome, ada\", type=\"heading\")\n    expect(welcome.locator).to_be_visible()\n```\n\nKey capabilities:\n- **App lifecycle fixture:** `app_fixture()` starts one app server per test module on an ephemeral localhost port, gives an isolated browser page per test, and waits until the initial run is idle. Also target direct/external URLs (deployed/embedded apps).\n- **Semantic selection:** strict, retrying finders that understand Streamlit elements and layout containers — `get_element_by_key` / `get_element_by_label` / `get_element_by_text`, plus `get_element(type=...)` / `get_elements(type=...)`; a returned element that is a container (sidebar, form, expander, popover, dialog, tab, column, container) can scope further queries. An optional `type` discriminator maps to a generated public `ElementType` taxonomy for IDE completion.\n- **Rerun/navigation-aware synchronization** so tests don't rely on sleeps.\n- **Actionable failure artifacts** (text/logs/traces/screenshots) and a **semantic snapshot** (`semantic_snapshot()`) as a token-efficient interface for humans and agents.\n- **Escape hatch** to native Playwright `Page`/`Locator` for anything the facade doesn't cover.\n- A shared **testability vocabulary** across both layers (public element types, labels, keys, containers), explicitly optimized for AI agents.\n",
+            "source_span": [
+              1969,
+              4286
+            ],
+            "source_sha256": "218d0282358d85d67842e5625323a770f29cef38c0688f680204cf673d4591f4",
+            "sha256": "ff10c5babab7cc64e3d573de7d34985dad66f906d57f9f436a6f97e6f6130d71",
+            "lines": [
+              18,
+              48
+            ],
+            "section": "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest > How?",
+            "section_path": [
+              "Add a first-party Playwright-based e2e testing API (`streamlit.testing.e2e`) alongside AppTest",
+              "How?"
+            ],
+            "chunk_config": {
+              "name": "structural_parent_child_v3",
+              "child_target_tokens": 300,
+              "parent_target_tokens": 800,
+              "encoding": "o200k_base",
+              "offset_unit": "unicode_character",
+              "embedding_namespace": "casepilot-structural-v3"
+            },
+            "token_count": 522,
+            "block_kinds": [
+              "code",
+              "heading",
+              "paragraph"
+            ],
+            "context_needed": true,
+            "header_spans": [],
+            "oversized_block": false
+          },
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "compatibility_known": false,
+          "retrieval_score": 0.02538314,
+          "rank": 5
+        }
+      ],
+      "packing": {
+        "encoding": "o200k_base",
+        "budget_tokens": 3000,
+        "used_tokens": 2776,
+        "expand_parent": true,
+        "items": [
+          {
+            "id": "docs:get-started:v3:child:df3751e93437ab764f14",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:get-started:v3:child:df3751e93437ab764f14"
+          },
+          {
+            "id": "issue:8438:v3:child:b0c5f4e379817a4ddb09",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:8438:v3:child:b0c5f4e379817a4ddb09"
+          },
+          {
+            "id": "docs:get-started:v3:child:00b1e6348cc335e47877",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "docs:get-started:v3:child:00b1e6348cc335e47877"
+          },
+          {
+            "id": "issue:8438:v3:child:1c3f361317f7b5486f6e",
+            "status": "included",
+            "reason": "bounded_parent",
+            "context_id": "issue:8438:v3:parent:4f56fb6b74a89064efe8"
+          },
+          {
+            "id": "issue:16906:v3:child:985a27822101819d31d1",
+            "status": "included",
+            "reason": "child_only",
+            "context_id": "issue:16906:v3:child:985a27822101819d31d1"
+          },
+          {
+            "id": "docs:overview:v3:child:53889b39fff83b33401f",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:12566:v3:child:e469b7d8fca36665f0c0",
+            "status": "omitted",
+            "reason": "item_limit"
+          },
+          {
+            "id": "issue:9446:v3:child:56e30008efbd09cd7445",
+            "status": "omitted",
+            "reason": "item_limit"
+          }
+        ]
+      },
+      "index": "v3",
+      "namespace": "6fbba079eb1323bf54c9d03ad4b956a7174e0f434f386ed66f0a50b489f55d4e"
+    }
+  },
+  "code_hash": "c148d8cd099ab2f7dd82c13ef86c8525124fe15649ff8f335418dc5d867b8a6a",
+  "query_vector_hash": "8da38b4d24dc0147682710423a14dd33c0eae174a8e3445cb8c82a8d850e1dd0",
+  "usage": [
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "embedding",
+      "reserved_usd": 1.7423999999999998e-05,
+      "ledger_id": "38eb01f3947a6e23464b3f57",
+      "diagnostic": {
+        "request_id": "38eb01f3947a6e23464b3f57",
+        "provider_request_id": null,
+        "role": "embedding",
+        "model": "text-embedding-3-small",
+        "requested_max_output_tokens": null,
+        "reported_usage": {
+          "prompt_tokens": 18,
+          "completion_tokens": null,
+          "total_tokens": 18
+        },
+        "http_status": 200,
+        "finish_reason": null,
+        "status": "parsed",
+        "failure_code": null
+      },
+      "input_tokens": 18,
+      "output_tokens": 0,
+      "cost_usd": 3.9599999999999995e-07
+    }
+  ]
+}

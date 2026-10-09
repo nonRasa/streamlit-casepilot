@@ -1,0 +1,104 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "facts": {
+      "type": "array",
+      "maxItems": 7,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "type": "string",
+            "enum": [
+              "browser",
+              "deployment",
+              "os",
+              "python_version",
+              "reproducible",
+              "streamlit_version",
+              "symptom_scope"
+            ]
+          },
+          "value": {
+            "type": "string"
+          },
+          "quote": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "key",
+          "value",
+          "quote"
+        ]
+      }
+    },
+    "completed_checks": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "string"
+      }
+    },
+    "ambiguities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 8
+    },
+    "investigation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "intent": {
+          "type": "string",
+          "enum": [
+            "bug",
+            "feature_request",
+            "usage_question"
+          ]
+        },
+        "problem_summary": {
+          "type": "string"
+        },
+        "known_report_spans": {
+          "type": "array",
+          "maxItems": 4,
+          "items": {
+            "type": "string"
+          }
+        },
+        "missing_detail": {
+          "type": "string"
+        },
+        "new_condition": {
+          "type": "string"
+        },
+        "suggested_question": {
+          "type": "string"
+        },
+        "acceptance_condition": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "intent",
+        "problem_summary",
+        "known_report_spans",
+        "missing_detail",
+        "new_condition",
+        "suggested_question",
+        "acceptance_condition"
+      ]
+    }
+  },
+  "required": [
+    "facts",
+    "completed_checks",
+    "ambiguities",
+    "investigation"
+  ]
+}
