@@ -1,4 +1,5 @@
 """Structural generator constraints; ambiguity preserves candidate information."""
+import re
 from copy import deepcopy
 from .common import require
 from .semantics import FEATURE_KEYS
@@ -27,3 +28,15 @@ def check_selection(answer,state):
         all(feature[k]=='' for k in FEATURE_KEYS) and feature['report_quotes']==[],
         'case_type_contract_error','قرارداد خطای صرف، مشخصات پیشنهاد قابلیت را خالی الزام می‌کند؛ اطلاعات گزارش محفوظ است.')
     return answer
+
+def discard_unrequested_feature(answer,state):
+    """Recover a bug fallback with no typed plan; typed bug contracts stay strict."""
+    from .routing import intent
+    if case_kind(state)!='unknown' or intent(state)!='bug' or not isinstance(answer,dict) or not isinstance(answer.get('feature_proposal'),dict):
+        return answer
+    report='\n'.join(m.get('text','') for m in state.get('messages',[]))
+    if not re.search(r'(?i)\b(?:error|exception|traceback|regression|bug)\b|خطا|ارور',report):
+        return answer
+    feature={**{k:'' for k in FEATURE_KEYS},'report_quotes':[]}
+    return dict(answer,feature_proposal=feature)
+

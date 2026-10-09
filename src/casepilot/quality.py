@@ -6,7 +6,7 @@ snapshots and the private embedding cache remain reproducible.
 import re
 from .common import digest,canonical
 
-REVISION = 'v2.6-compact-review'
+REVISION = 'v2.15b-version-comparison-contract'
 NONTECH = re.compile(r'(?i)^(checklist|related issues|additional context|community|voting|references|related pr|other issues)\b')
 BOILERPLATE = re.compile(r'(?i)searched.*(?:existing|similar).*issues|descriptive title|provided sufficient information|vote.*(?:issue|feature)|thumbs.up|community voting|please add.*reaction')
 FUTURE = re.compile(r'(?i)\b(?:proposal|proposed architecture|future architecture|design proposal|execution model proposal)\b')
@@ -33,6 +33,7 @@ def report_inventory(state):
     code=re.findall(r'```[^\n]*\n(.*?)```',initial,re.S)
     apis=list(dict.fromkeys(re.findall(r'\bst\.[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)?',initial)))[:45]
     constraints=known_constraints(state)
+    error_spans=[s.strip()[:700] for s in initial.splitlines() if re.search(r'\b[A-Za-z_]\w*(?:Error|Exception)\s*:',s)][:3]
     # Exact spans only, explicitly not established diagnoses or permissions.
     spans=[]
     for line in initial.splitlines():
@@ -40,7 +41,8 @@ def report_inventory(state):
         if not s or BOILERPLATE.search(s): continue
         if re.search(r'(?i)\b(?:tried|tested|attempted|already|works?|fails?|doesn.t|didn.t|instead|workaround|expected|actual|memory|\d+\s*(?:GB|MB)|version)\b|امتحان|آزمایش|نسخه|حافظه|اصلاح',s):
             spans.append(s[:300])
-    return {'reported_spans':spans[:10], 'code_blocks_present':len(code), 'mentioned_apis':apis,'known_constraints':constraints,
+    return {'reported_spans':spans[:10], 'reported_error_spans':error_spans,
+            'code_blocks_present':len(code), 'mentioned_apis':apis,'known_constraints':constraints,
             'authoritative_current_facts':state.get('facts',{}),
             'correction_rule':'Latest structured facts supersede historical report values. The original report remains a reported observation, not independently verified truth.'}
 
@@ -55,15 +57,36 @@ def known_constraints(state):
 
 def novelty_findings(answer,state):
     """High precision checks for explicit supplied constraints, not diagnoses."""
-    if answer['decision']!='ask': return []
+    if answer['decision'] not in ('ask','escalate'): return []
     q=answer['question']+' '+answer['next_step']; c=known_constraints(state); findings=[]
+    report='\n'.join(x['text'] for x in state.get('messages',[]))
     def add(reason): findings.append({'criterion':'avoids_repeated_check','reason':reason})
+    full_error=bool(re.search(r'(?im)^\s*(?:full error|complete error|خطای کامل)\s*:',report) and
+                    re.search(r'\b[A-Za-z_]\w*(?:Error|Exception)\s*:',report))
+    asks_error=bool(re.search(r'(?i)(?:send|provide|share|paste|show|ارسال|بفرست|ارائه|بگذار|در اختیار).{0,70}(?:full|complete|کامل).{0,30}(?:error|exception|خطا|ارور)|(?:full|complete|کامل).{0,30}(?:error|exception|خطا|ارور).{0,70}(?:send|provide|share|paste|show|ارسال|بفرست|ارائه)',q))
+    if full_error and asks_error:
+        add('خطا: متن کامل خطا با نام استثنا در گزارش آمده است؛ تنها بخش واقعاً غایب را بخواهید.')
+    asks_class=bool(re.search(r'(?i)(?:send|provide|share|paste|show|ارسال|بفرست|ارائه).{0,100}(?:class|کلاس)|(?:class|کلاس).{0,100}(?:send|provide|share|paste|show|ارسال|بفرست|ارائه)',q))
+    if c['defined_classes'] and asks_class and re.search(r'(?i)(?:full|complete|entire|definition|source|کامل|تعریف)',q):
+        add('کد: تعریف کلاس در گزارش موجود است: '+', '.join(c['defined_classes']))
+    # A complete fenced reproducer can answer whether its shown class defines
+    # named special methods. It does not establish what a different real class does.
+    methods=set(re.findall(r'__\w+__',q))
+    asks_presence=bool(re.search(r'(?i)\b(?:does|has|contains|include|whether)\b|آیا|شامل|دارد',q))
+    asks_actual_difference=bool(re.search(r'(?i)\b(?:actual|real|different|differs|production)\b|واقعی|اصلی|تفاوت|متفاوت',q))
+    if methods and asks_presence and not asks_actual_difference and re.search(r'(?i)reproducible code example|نمونه.{0,25}بازتولید',report):
+        for block in re.findall(r'```[^\n]*\n(.*?)```',report,re.S):
+            for name in c['defined_classes']:
+                if not re.search(r'(?i)\b'+re.escape(name)+r'\b',q): continue
+                match=re.search(r'(?ms)^class\s+'+re.escape(name)+r'\b[^\n]*\n(?P<body>.*?)(?=^\S|\Z)',block)
+                if match and re.search(r'(?m)^\s+def\s+',match['body']) and not re.search(r'\.\.\.|TODO|omitted',match['body'],re.I):
+                    if all(not re.search(r'(?m)^\s+def\s+'+re.escape(method)+r'\s*\(',match['body']) for method in methods):
+                        add('کد: نمونهٔ بازتولید، تعریف کلاس '+name+' را نشان می‌دهد و متدهای نام‌برده در آن نیستند؛ فقط تفاوتِ مشخص با کلاس واقعی را می‌توان پرسید.')
+                    break
     if c['upload_limit_spans'] and re.search(r'(?i)maxUploadSize',q) and not re.search(r'(?i)maxUploadSize\s*[=:]\s*\d+',q):
         add('تنظیم: حد آپلود قبلاً صریح آمده است: '+'؛ '.join(c['upload_limit_spans'])+'؛ تغییر آزمایش باید مقدار یا شرط تازهٔ مشخص داشته باشد.')
     if c['outside_pickle_result_spans'] and re.search(r'(?i)pickle|پیکل|پیکله',q) and re.search(r'(?i)outside|خارج|بیرون',q):
         add('آزمایش: نتیجهٔ پیکله بیرون برنامه قبلاً گزارش شده است: '+c['outside_pickle_result_spans'][0])
-    if c['defined_classes'] and re.search(r'نمونه(?:ٔ|\s)*کامل.*کلاس|تعریف.*کلاس|ساختار.*کلاس|کد.*کلاس',q) and re.search(r'ارائه|بفرست|ارسال|نمونه.*کامل',q):
-        add('کد: تعریف کلاس در گزارش موجود است؛ فقط بخشِ واقعاً ارائه‌نشده خواسته شود: '+', '.join(c['defined_classes']))
     if c['closed_tab_result_spans'] and re.search(r'بست|بستن|close',q,re.I) and re.search(r'تب|tab',q,re.I):
         add('آزمایش: نتیجهٔ بستن تب قبلاً آمده است: '+c['closed_tab_result_spans'][0])
     targets=sum(bool(re.search(p,q,re.I)) for p in [r'نسخه.*(?:streamlit|استریم)',r'نسخه.*(?:python|پایتون)',r'سیستم.?عامل',r'مرورگر',r'maxUploadSize'])
@@ -104,7 +127,10 @@ def retrieval_query(state,message):
     error identifiers and title retain priority. No issue number/source routing.
     """
     original=clean_report(state['messages'][0]['text']); title=original.splitlines()[0]
-    body=re.split(r'(?im)^#{1,6}\s*(?:debug info|additional information|checklist|community voting)',original)[0]
+    # A checklist commonly precedes Summary. Skip that section rather than
+    # truncating the entire technical report at its first heading.
+    body=re.sub(r'(?ims)^#{1,6}\s*checklist\b.*?(?=^#{1,6}\s|\Z)',' ',original)
+    body=re.split(r'(?im)^#{1,6}\s*(?:debug info|additional information|community voting)',body)[0]
     body=re.sub(r'```.*?```',' ',body,flags=re.S)
     body=re.sub(r'https?://\S+',' ',body)
     body=re.sub(r'(?m)^\s*[-*]?\s*\[[xX ]\].*$',' ',body)
@@ -112,7 +138,7 @@ def retrieval_query(state,message):
     errors=list(dict.fromkeys(re.findall(r'\b[A-Z]\w*(?:Error|Exception)\b',original)))[:8]
     latest=clean_report(message) if len(state['messages'])>1 else ''
     pieces=[title[:350],'APIs: '+' '.join(apis[:16]),'Errors: '+' '.join(errors),
-            'Latest: '+latest[:400] if latest else '',body[len(title):][:1100]]
+            'Latest: '+latest[:400] if latest else '',body[len(title):][:850]]
     return '\n'.join(x for x in pieces if x.strip())[:2200]
 
 def revision_hash(): return digest({'revision':REVISION})

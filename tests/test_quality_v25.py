@@ -47,6 +47,19 @@ class SemanticControls(unittest.TestCase):
         a=answer();a['question']='پرسش: برای مشاهدهٔ خطای گزارش‌شده، کدام بخش لاگ هنوز ارائه نشده است؟'
         out=self.checked(a,state());self.assertEqual(out['verdict'],'accept');self.assertFalse(out['linked_evidence_ids'])
 
+    def test_certain_fix_cannot_hide_as_procedure(self):
+        for field,text in [('rationale','این آزمایش حتماً مشکل را رفع می‌کند.'),
+                           ('next_step','اقدام: این تغییر definitely fixes the error.')]:
+            with self.subTest(field=field):
+                a=answer();a[field]=text
+                out=self.checked(a,state())
+                self.assertNotEqual(out['verdict'],'accept')
+                self.assertTrue(any('رفع قطعی' in f['reason'] for f in out['findings']))
+
+    def test_uncertain_check_is_still_accepted(self):
+        a=answer();a['next_step']='اقدام: بررسی کنید آیا تغییر مشکل را رفع می‌کند.'
+        self.assertEqual(self.checked(a,state())['verdict'],'accept')
+
     def test_unsupported_cause_in_question_rejected(self):
         a=answer();a['question']='پرسش: آیا بازاجرا که علت قطعی خرابی است انجام شد؟';s=state();env,r=judge(a,s)
         r['unit_reviews'][0].update(premise=True)

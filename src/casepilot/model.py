@@ -44,6 +44,8 @@ SYSTEM+='''\nQUALITY 2.2: For an experimental ask, populate diagnostic.action wi
 SYSTEM+='''\nQUALITY 2.3: Keep procedural reasoning concise without technical premises. A user-observation rationale that uses ONLY user evidence must be exactly formatted as گزارش کاربر: followed by a text fenced block containing one short VERBATIM report excerpt. Free paraphrases of causes, guarantees, measurements or product limits require retrieved technical support; attribution does not exempt them. Faithful feature_proposal summaries remain in Persian and describe a REQUEST, not an existing API. Pure missing-field diagnostics use conditions=[]; never emit blank condition objects.'''
 SYSTEM+='''\nQUALITY 2.4: A clear feature request is ready for a maintainer DESIGN decision even without an implementation, prototype, product version or documentation for the proposed API. Use decision=escalate with the requested behavior and observable acceptance condition; do not ask the reporter to implement or locate the hypothetical API. Label current_behavior as the reporter's description, not independently verified product behavior. For bugs, leave all feature_proposal strings empty and report_quotes=[]; do not turn expected bug behavior into a feature proposal. No speculative causes from merely similar documentation.'''
 SYSTEM+='''\nQUALITY 2.5: For features, current_behavior starts exactly with گزارش کاربر: and describes ONLY their reported current behavior; desired_behavior, user_need, constraints and acceptance_condition describe the requested change. Preserve explicit constraints (including unchanged behavior); do not replace stated requirements with unknown. Empty details stay unknown, never invent an API, benchmark or default. The supplied report sections are exact USER data, not technical sources. The next step names a concrete maintainer decision about the requested behavior and the acceptance condition; use no question unless its answer changes a design choice or acceptance. For bug diagnostics, prefer a source-free procedural question about a precise missing detail of the reported observation; avoid introducing an unverified cause in rationale.'''
+SYSTEM+='''\nQUALITY 2.15: When the report includes complete reproducible code and explicitly says behavior changed from version X to Y, do not ask whether shown code contains methods it visibly lacks. Propose a controlled maintainer comparison: run that exact reported code under X and Y, record whether the same error occurs, and keep package/environment differences as unknown until measured. State this as a proposed check, never as already performed. The reported exception establishes only the observation; do not turn its explanatory text or a newer-version API reference into a proven cause or fix. If this comparison was already performed, select one genuinely new missing detail instead.'''
+SYSTEM+='''\nQUALITY 2.15b: For a reported regression with complete code and a prior-version result already asserted by the reporter, do not ask the reporter to reconfirm that result. Use decision=escalate and give the maintainer the exact controlled two-version comparison as a proposed next step. The question is empty, hypotheses=[], and claims=[] unless a directly applicable source is essential. If diagnostic.action=compare_versions, represent the two values in ONE condition: dimension=version_pair, value="X -> Y"; do not repeat the same dimension twice. For a bug, every feature_proposal string is empty and report_quotes=[]. Do not state that a changed version caused the error before the controlled result is obtained.'''
 
 def quote_candidates(text):
     """Partition source spans, preserving Markdown links and all original characters.
@@ -260,7 +262,7 @@ class MetisClient:
                 'evidence':sources, 'method':method}
         from .semantics import feature_context
         from .routing import intent
-        from .case_type import case_kind, selection_schema, check_selection
+        from .case_type import case_kind, selection_schema, check_selection, discard_unrequested_feature
         packet['case_type']=case_kind(state)
         if intent(state)=='feature_request':
             packet['feature_report_sections']=feature_context(state)
@@ -269,7 +271,12 @@ class MetisClient:
         payload={'model':self.model,'messages':[{'role':'system','content':SYSTEM},{'role':'user','content':canonical(packet)}], 'max_tokens':self.max_output,
                  'response_format':{'type':'json_schema','json_schema':{'name':'casepilot_selection','strict':True,'schema':selection_schema(state) if getattr(self,'turn_scope',None) else SCHEMA}}}
         answer=self._request(payload)
-        if getattr(self,'turn_scope',None): answer=check_selection(answer,state)
+        if getattr(self,'turn_scope',None):
+            from .memory import normalize_version_comparison
+            if isinstance(answer,dict):
+                answer=discard_unrequested_feature(answer,state)
+                answer['diagnostic']=normalize_version_comparison(answer.get('diagnostic'),state)
+            answer=check_selection(answer,state)
         return resolve_claims(answer,candidates)
 
 class MetisEmbedder:
@@ -292,3 +299,4 @@ class MetisEmbedder:
 def make_client(mode='replay'):
     require(mode in ('replay','live'),'invalid_mode','حالت اجرا معتبر نیست.')
     return MetisClient() if mode=='live' else ReplayClient()
+

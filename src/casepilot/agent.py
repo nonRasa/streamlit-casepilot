@@ -85,8 +85,8 @@ class Agent:
                      'unknowns':[k for k in ('streamlit_version','python_version','deployment','reproducible') if state['facts'].get(k) is None],
                      'completed_checks':state['checks'],'sources':citations,'decision':answer['decision'],
                      'next_step':answer['next_step'],'rationale':answer['rationale'],'hypotheses':answer['hypotheses']}
-            status={'ask':'waiting_user','answer':'open','escalate':'escalated'}[answer['decision']]
-            payload={'actions':[{'type':'comment','body':response},{'type':'status','value':status}],
+            from .routing import proposal_actions
+            payload={'actions':proposal_actions(response,answer['decision'],validation_error),
                      'source_ids':[x['source_id'] for x in citations],'summary':summary}
             proposal=self.store.propose(case_id,state['revision'],payload)
             result={'case_id':case_id,'request_id':request_id,'mode':self.client.mode,'method':method,

@@ -14,7 +14,17 @@ from casepilot.hybrid import HybridRetriever
 
 VARIANTS={'full':{},'no_dense':{'dense':False},'no_mmr':{'mmr':False},'no_rerank':{'rerank':False},'no_judge':{'judge':False}}
 
-def run(mode='replay',limit=2,variant='full',label='development',additional_cap=.10):
+def select_development_cases(all_cases,limit,case_ids=None):
+    dev={c['id']:c for c in all_cases if c['split']=='dev'}
+    if case_ids is None:
+        return list(dev.values())[:limit]
+    require(isinstance(case_ids,list) and 1<=len(case_ids)<=limit and
+            all(isinstance(cid,str) for cid in case_ids) and
+            len(set(case_ids))==len(case_ids) and all(cid in dev for cid in case_ids),
+            'invalid_cases','فقط شناسه‌های یکتای پرونده‌های توسعه مجازند.')
+    return [dev[cid] for cid in case_ids]
+
+def run(mode='replay',limit=2,variant='full',label='development',additional_cap=.10,case_ids=None):
     identifier(label); require(variant in VARIANTS,'invalid_method','روش آزمایش معتبر نیست.')
     require(1<=limit<=15 and 0<additional_cap<=.25,'invalid_budget','حد نمونه یا هزینهٔ آزمایش معتبر نیست.')
     folder=ROOT/'artifacts/architecture_v2'/('live' if mode=='live' else 'offline')/(label+'_'+variant)
@@ -25,10 +35,12 @@ def run(mode='replay',limit=2,variant='full',label='development',additional_cap=
     files['data/corpus_v2.json']=hashlib.sha256((ROOT/'data/corpus_v2.json').read_bytes()).hexdigest()
     for name in ('scripts/evaluate_v2.py','eval/cases.json','data/index_v2_manifest.json','policies/judge_rubric.json'):
         files[name]=hashlib.sha256((ROOT/name).read_bytes()).hexdigest()
+    cases=select_development_cases(read_json(ROOT/'eval/cases.json'),limit,case_ids)
     config={'files':files,'variant':variant,'components':VARIANTS[variant],'model':getattr(client,'model','test-fixture'),
             'embedding':hybrid.cache.embedder.identity,'judge_model':os.getenv('METIS_JUDGE_MODEL',getattr(client,'model','test-fixture')),
-            'max_calls':8,'max_turn_usd':.04,'retrieval_k':8,'context_k':5}
-    cases=[c for c in read_json(ROOT/'eval/cases.json') if c['split']=='dev'][:limit]; answers=[]; stopped=None
+            'max_calls':8,'max_turn_usd':.04,'retrieval_k':8,'context_k':5,
+            'selected_case_ids':[c['id'] for c in cases]}
+    answers=[]; stopped=None
     folder.mkdir(parents=True,exist_ok=True)
     if mode=='live':
         for name,h in files.items():
@@ -53,6 +65,7 @@ def run(mode='replay',limit=2,variant='full',label='development',additional_cap=
     after=client.budget.report() if mode=='live' else before
     manifest={'at':utcnow(),'architecture':'v2','mode':mode,'split':'dev','variant':variant,'complete':len(answers)==len(cases) and stopped is None,
               'stopped_reason':stopped,'configuration':config,'configuration_hash':digest(config),'cases':len(answers),
+              'selected_case_ids':[c['id'] for c in cases],
               'new_requests':after['requests']-before['requests'],'new_confirmed_usd':after['confirmed_usd']-before['confirmed_usd'],
               'new_charged_or_reserved_usd':after['charged_or_reserved_usd']-before['charged_or_reserved_usd'],
               'cost_cumulative':after,'independent_human_review':False,'fresh_final_holdout_evaluation':False,
@@ -62,6 +75,6 @@ def run(mode='replay',limit=2,variant='full',label='development',additional_cap=
     checkpoint(); write_json(folder/'manifest.json',manifest); return manifest
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser(); p.add_argument('--mode',choices=['replay','live'],default='replay'); p.add_argument('--limit',type=int,default=2)
+    p=argparse.ArgumentParser(); p.add_argument('--mode',choices=['replay','live'],default='replay'); p.add_argument('--limit',type=int,default=2); p.add_argument('--case-id',action='append',dest='case_ids')
     p.add_argument('--variant',choices=VARIANTS,default='full'); p.add_argument('--label',default='development'); p.add_argument('--additional-cap-usd',type=float,default=.10)
-    a=p.parse_args(); r=run(a.mode,a.limit,a.variant,a.label,a.additional_cap_usd); print(canonical({k:v for k,v in r.items() if k not in ('configuration','cost_cumulative')})); sys.exit(0 if r['complete'] else 1)
+    a=p.parse_args(); r=run(a.mode,a.limit,a.variant,a.label,a.additional_cap_usd,a.case_ids); print(canonical({k:v for k,v in r.items() if k not in ('configuration','cost_cumulative')})); sys.exit(0 if r['complete'] else 1)

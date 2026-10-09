@@ -7,6 +7,7 @@ from .review_contract import bound_review_schema, checked_review_v23, review_spa
 FEATURE_KEYS=('current_behavior','desired_behavior','user_need','constraints','acceptance_condition')
 UNKNOWN='نامعلوم: این مشخصه هنوز در پیشنهاد اعتبارسنجی نشده؛ نگه‌دارنده آن را تعیین کند.'
 ASSERTION=re.compile(r'تضمین|علت قطعی|حتماً رفع|پشتیبانی می‌کند|پشتیبانی نمی‌کند|باعث.{0,40}(?:می‌شود|است)|guarantee|definitely fixes|(?:does not|currently) support',re.I)
+CERTAIN_FIX=re.compile(r'حتماً.{0,40}رفع می‌کند|قطعاً.{0,40}رفع می‌کند|definitely fixes|(?:guarantees?|will certainly).{0,60}(?:fix|resolv)',re.I)
 BEHAVIOR=re.compile(r'علت|باعث|بازاجرا|rerun|non.responsive|واکنش|اندازه|دسترس|\bpx\b|accessib|WCAG|رفع|fix|cause|reset',re.I)
 
 def semantic_schema(envelope,spans):
@@ -53,6 +54,8 @@ def checked_semantic_review(result,answer,evidence,state,envelope,forced=()):
         if m['act']=='technical' and not m['assertion_text']: defect('ادعای فنی باید عبارت دقیق داشته باشد.')
         if m['act'] in ('request','observation') and not m['user_quote'] and u['text']!=UNKNOWN: defect('درخواست یا مشاهده به عبارت مشخص کاربر متصل نیست.')
         if m['act']=='request' and ASSERTION.search(u['text']) and not m['assertion_text']: defect('برچسب درخواست، ادعای محصول یا علت را پنهان کرده است.')
+        if u['field'] in ('next_step','rationale') and CERTAIN_FIX.search(u['text']) and not m['assertion_text']:
+            defect('وعدهٔ رفع قطعی در متن اقدام یا دلیل، ادعای فنی است و باید جداگانه با شاهد بررسی شود.')
         if m['act']=='observation' and entry.get('kind')!='reported_fact': defect('مشاهدهٔ کاربر باید نقل‌قول محصور و منتسب باشد.')
         if m['act']=='unknown' and u['text']!=UNKNOWN: defect('معنای این واحد نامعلوم است و قابل پذیرش قطعی نیست.')
         if u['field']=='feature_proposal.current_behavior' and u['text']!=UNKNOWN and not u['text'].startswith('گزارش کاربر:'): defect('رفتار فعلی باید صریحاً وصف کاربر باشد.')

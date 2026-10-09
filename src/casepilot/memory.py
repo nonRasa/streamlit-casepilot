@@ -23,6 +23,23 @@ def action_key(value):
 def condition_map(conditions):
     return {normalize(c['dimension']).replace(' ','_'):normalize(c['value']) for c in conditions}
 
+def normalize_version_comparison(d,state):
+    """Represent an explicitly reported two-version check as one condition.
+
+    Leave every other duplicate dimension for strict validation to reject.
+    This changes representation only; it does not assert an observed outcome.
+    """
+    if not isinstance(d,dict) or action_key(d.get('action',''))!='compare_versions' or d.get('repeat_of'):
+        return d
+    conditions=d.get('conditions')
+    if not isinstance(conditions,list) or len(conditions)!=2 or not all(isinstance(c,dict) and set(c)=={'dimension','value'} and normalize(c['dimension'])=='streamlit_version' for c in conditions):
+        return d
+    values=[c['value'] for c in conditions]
+    report='\n'.join(m['text'] for m in state.get('messages',[]))
+    if values[0]==values[1] or not all(re.fullmatch(r'\d+(?:\.\d+){1,3}',v) and re.search(r'(?<![\w.])'+re.escape(v)+r'(?![\w.])',report) for v in values):
+        return d
+    return dict(d,conditions=[{'dimension':'version_pair','value':values[0]+' -> '+values[1]}],changed_condition='')
+
 def checked_events(events,message,existing):
     require(isinstance(events,list) and len(events)<=8,'invalid_experiment','فهرست آزمایش معتبر نیست.')
     by_id={e['id']:e for e in existing}; checked=[]
@@ -168,3 +185,4 @@ def validate_diagnostic(d):
     require(all(isinstance(d[k],str) and len(d[k])<=700 for k in d if k!='conditions'),'invalid_diagnostic','متن قدم تشخیصی معتبر نیست.')
     require(isinstance(d['conditions'],list) and len(d['conditions'])<=10 and all(isinstance(c,dict) and set(c)=={'dimension','value'} and all(isinstance(v,str) and 0<len(v)<=500 for v in c.values()) for c in d['conditions']),'invalid_diagnostic','شرایط قدم تشخیصی معتبر نیست.')
     require(len(condition_map(d['conditions']))==len(d['conditions']),'invalid_diagnostic','شرط تکراری معتبر نیست.')
+
