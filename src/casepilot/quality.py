@@ -6,7 +6,7 @@ snapshots and the private embedding cache remain reproducible.
 import re
 from .common import digest,canonical
 
-REVISION = 'v2.14-report-aware-retrieval-and-novelty'
+REVISION = 'v2.15b-version-comparison-contract'
 NONTECH = re.compile(r'(?i)^(checklist|related issues|additional context|community|voting|references|related pr|other issues)\b')
 BOILERPLATE = re.compile(r'(?i)searched.*(?:existing|similar).*issues|descriptive title|provided sufficient information|vote.*(?:issue|feature)|thumbs.up|community voting|please add.*reaction')
 FUTURE = re.compile(r'(?i)\b(?:proposal|proposed architecture|future architecture|design proposal|execution model proposal)\b')
@@ -69,6 +69,20 @@ def novelty_findings(answer,state):
     asks_class=bool(re.search(r'(?i)(?:send|provide|share|paste|show|ارسال|بفرست|ارائه).{0,100}(?:class|کلاس)|(?:class|کلاس).{0,100}(?:send|provide|share|paste|show|ارسال|بفرست|ارائه)',q))
     if c['defined_classes'] and asks_class and re.search(r'(?i)(?:full|complete|entire|definition|source|کامل|تعریف)',q):
         add('کد: تعریف کلاس در گزارش موجود است: '+', '.join(c['defined_classes']))
+    # A complete fenced reproducer can answer whether its shown class defines
+    # named special methods. It does not establish what a different real class does.
+    methods=set(re.findall(r'__\w+__',q))
+    asks_presence=bool(re.search(r'(?i)\b(?:does|has|contains|include|whether)\b|آیا|شامل|دارد',q))
+    asks_actual_difference=bool(re.search(r'(?i)\b(?:actual|real|different|differs|production)\b|واقعی|اصلی|تفاوت|متفاوت',q))
+    if methods and asks_presence and not asks_actual_difference and re.search(r'(?i)reproducible code example|نمونه.{0,25}بازتولید',report):
+        for block in re.findall(r'```[^\n]*\n(.*?)```',report,re.S):
+            for name in c['defined_classes']:
+                if not re.search(r'(?i)\b'+re.escape(name)+r'\b',q): continue
+                match=re.search(r'(?ms)^class\s+'+re.escape(name)+r'\b[^\n]*\n(?P<body>.*?)(?=^\S|\Z)',block)
+                if match and re.search(r'(?m)^\s+def\s+',match['body']) and not re.search(r'\.\.\.|TODO|omitted',match['body'],re.I):
+                    if all(not re.search(r'(?m)^\s+def\s+'+re.escape(method)+r'\s*\(',match['body']) for method in methods):
+                        add('کد: نمونهٔ بازتولید، تعریف کلاس '+name+' را نشان می‌دهد و متدهای نام‌برده در آن نیستند؛ فقط تفاوتِ مشخص با کلاس واقعی را می‌توان پرسید.')
+                    break
     if c['upload_limit_spans'] and re.search(r'(?i)maxUploadSize',q) and not re.search(r'(?i)maxUploadSize\s*[=:]\s*\d+',q):
         add('تنظیم: حد آپلود قبلاً صریح آمده است: '+'؛ '.join(c['upload_limit_spans'])+'؛ تغییر آزمایش باید مقدار یا شرط تازهٔ مشخص داشته باشد.')
     if c['outside_pickle_result_spans'] and re.search(r'(?i)pickle|پیکل|پیکله',q) and re.search(r'(?i)outside|خارج|بیرون',q):
