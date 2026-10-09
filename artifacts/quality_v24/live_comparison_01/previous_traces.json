@@ -1,0 +1,1832 @@
+[
+  {
+    "id": 1,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ambiguities": [
+        "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+      ],
+      "checks": [
+        "- [x] Yes, this used to work in a previous version."
+      ],
+      "facts_with_quotes": [
+        {
+          "key": "streamlit_version",
+          "quote": "- Streamlit version: 1.64.0",
+          "value": "1.64.0"
+        },
+        {
+          "key": "python_version",
+          "quote": "- Python version: Python 3.13.13",
+          "value": "3.13.13"
+        },
+        {
+          "key": "os",
+          "quote": "- Operating System: Linux 7.1.4-arch1-1",
+          "value": "Linux 7.1.4-arch1-1"
+        },
+        {
+          "key": "browser",
+          "quote": "- Browser: Firefox",
+          "value": "Firefox"
+        },
+        {
+          "key": "symptom_scope",
+          "quote": "dialog stops being responsive",
+          "value": "dialog stops being responsive"
+        },
+        {
+          "key": "reproducible",
+          "quote": "I have provided sufficient information below to help reproduce this issue.",
+          "value": "true"
+        }
+      ],
+      "keys": [
+        "browser",
+        "os",
+        "python_version",
+        "streamlit_version",
+        "symptom_scope"
+      ],
+      "stage": "extract",
+      "status": "ok"
+    },
+    "at": "2026-10-09T00:59:07.496998+00:00"
+  },
+  {
+    "id": 2,
+    "case_id": "GH17011",
+    "kind": "user_update",
+    "payload": {
+      "checks": [
+        "- [x] Yes, this used to work in a previous version."
+      ],
+      "facts": {
+        "browser": "Firefox",
+        "os": "Linux 7.1.4-arch1-1",
+        "python_version": "3.13.13",
+        "streamlit_version": "1.64.0",
+        "symptom_scope": "dialog stops being responsive"
+      },
+      "message": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+      "revision": 1
+    },
+    "at": "2026-10-09T00:59:07.511228+00:00"
+  },
+  {
+    "id": 3,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "revision": 1,
+      "stage": "read_case"
+    },
+    "at": "2026-10-09T00:59:07.530424+00:00"
+  },
+  {
+    "id": 4,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "as_of": null,
+      "candidates": [
+        "docs:fragments:v2:cb48967ad96007e2",
+        "docs:session_state:v2:58dde40a15de068f",
+        "docs:button-behavior-and-examples:v2:3a3ee4c8ee068999",
+        "docs:fragments:v2:f8d97e183dd7d878",
+        "issue:16005:v2:e620d4c5f982acfd",
+        "issue:11266:v2:5df5b300853d70e7",
+        "issue:16708:v2:7b2f3e555aef7fe6",
+        "issue:11266:v2:b0b00ad71c9d0511"
+      ],
+      "components": {
+        "dense": true,
+        "judge": true,
+        "mmr": true,
+        "quality": true,
+        "rerank": true,
+        "rewrite": true
+      },
+      "embedding": {
+        "batches": 0,
+        "cache_hits": 1,
+        "identity": {
+          "encoding_format": "float",
+          "model": "text-embedding-3-small",
+          "normalization": "whitespace-v1",
+          "provider": "https://api.metisai.ir/openai/v1"
+        },
+        "texts": 1,
+        "unique_missing": 0,
+        "usage": []
+      },
+      "excluded_chunks": 2089,
+      "method": "bm25+dense+rrf+mmr",
+      "mmr_lambda": 0.7,
+      "quality_filter": true,
+      "rrf_k": 60,
+      "stage": "retrieve",
+      "temporal_policy": "current_snapshot",
+      "version_warnings": [
+        "docs:fragments:v2:cb48967ad96007e2",
+        "docs:session_state:v2:58dde40a15de068f",
+        "docs:button-behavior-and-examples:v2:3a3ee4c8ee068999",
+        "docs:fragments:v2:f8d97e183dd7d878",
+        "issue:16005:v2:e620d4c5f982acfd",
+        "issue:11266:v2:5df5b300853d70e7",
+        "issue:16708:v2:7b2f3e555aef7fe6",
+        "issue:11266:v2:b0b00ad71c9d0511"
+      ]
+    },
+    "at": "2026-10-09T00:59:10.114290+00:00"
+  },
+  {
+    "id": 5,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ids": [
+        "issue:16005:v2:e620d4c5f982acfd",
+        "docs:fragments:v2:cb48967ad96007e2",
+        "docs:fragments:v2:f8d97e183dd7d878",
+        "issue:11266:v2:5df5b300853d70e7",
+        "issue:11266:v2:b0b00ad71c9d0511",
+        "issue:16708:v2:7b2f3e555aef7fe6",
+        "docs:session_state:v2:58dde40a15de068f",
+        "docs:button-behavior-and-examples:v2:3a3ee4c8ee068999"
+      ],
+      "stage": "rerank",
+      "status": "ok"
+    },
+    "at": "2026-10-09T00:59:12.479468+00:00"
+  },
+  {
+    "id": 6,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ids": [
+        "issue:16005:v2:e620d4c5f982acfd",
+        "docs:fragments:v2:cb48967ad96007e2",
+        "docs:fragments:v2:f8d97e183dd7d878",
+        "issue:11266:v2:5df5b300853d70e7",
+        "issue:11266:v2:b0b00ad71c9d0511"
+      ],
+      "stage": "context_pack",
+      "utf8_bytes": 4339
+    },
+    "at": "2026-10-09T00:59:12.488969+00:00"
+  },
+  {
+    "id": 7,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "stage": "draft",
+      "status": "produced"
+    },
+    "at": "2026-10-09T00:59:16.958556+00:00"
+  },
+  {
+    "id": 8,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "هیچ بررسی تکراری مشاهده نشد.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "تمام ادعاهای تکنیکی با نقل قول‌ها و مثال‌های کد مستند شده‌اند.",
+          "score": 2
+        },
+        "injection_resistance": {
+          "reason": "متن درخواست ارزشمند و واضح است و به صورت ساختاری مناسب ارائه شده است که مقاومت در برابر دستکاری‌ها را افزایش می‌دهد.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "درخواست ارائه لاگ‌های کامل خطا به منظور تشخیص دقیق‌تر مشکل، گام منطقی و مفیدی است.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "درخواست کاملاً مرتبط با مشکل بیان شده و نمونه کدی ارائه شده است.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "نسخه‌های مطرح شده با نسخه‌های یادداشت شده در گزارش مشکل همخوانی دارد.",
+          "score": 2
+        }
+      },
+      "attempt": 1,
+      "draft_version": "507d7e166b69aeb793e6d00c9df31edd356199a995746a7e37c3888a94f3bf0b",
+      "evaluation_kind": "model",
+      "failure_kind": "answer_quality",
+      "findings": [
+        {
+          "criterion": "claim_support",
+          "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد.",
+          "unit_id": "u_434bf0c78e46001bdce067f2"
+        },
+        {
+          "criterion": "claim_support",
+          "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد.",
+          "unit_id": "u_a1ee36ac3bcaeccf0634216f"
+        },
+        {
+          "criterion": "claim_support",
+          "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود.",
+          "unit_id": "u_a9b96214ac258132f045e66c"
+        },
+        {
+          "criterion": "avoids_repeated_check",
+          "reason": "تکرار: درخواست لاگ خطای کامل و بررسی رفتار غیرواکنش‌گرای دیالوگ پس از اجرای مجدد fragment مشابه گزارش‌های قبلی است و مجدداً مطرح شده است."
+        },
+        {
+          "criterion": "claim_support",
+          "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+        }
+      ],
+      "linked_evidence_ids": [],
+      "novelty": {
+        "effective_status": "repeated",
+        "message_ids": [
+          "usr_0f9bb1952c922fb83f7a0f9f",
+          "usr_c286efa8f3df38235cae6101",
+          "usr_ae45eef23415186c6c2b3b1a"
+        ],
+        "reason": "درخواست لاگ خطای کامل و بررسی رفتار غیرواکنش‌گرای دیالوگ پس از اجرای مجدد fragment مشابه گزارش‌های قبلی است و مجدداً مطرح شده است.",
+        "relation": "equivalent_experiment",
+        "status": "repeated",
+        "useful": true
+      },
+      "orphan_evidence_ids": [
+        "issue:16005:v2:e620d4c5f982acfd"
+      ],
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 2,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "source_spans": [
+        {
+          "end": 282,
+          "evidence_id": "issue:16005:v2:e620d4c5f982acfd",
+          "product_version": null,
+          "span_id": "src_908a6f6cc59ebbba8c40fa50",
+          "start": 66,
+          "text": "@st.dialog(\"My dialog\")\ndef show_dialog():\n    st.write(\"dialog content\")\n    with st.popover(\"Open popover\"):\n        fruit = st.selectbox(\"Fruit\", [\"Apple\", \"Banana\", \"Cherry\"])\n        st.write(f\"picked: {fruit}\")"
+        }
+      ],
+      "stage": "judge",
+      "unit_results": [
+        {
+          "literal_valid": true,
+          "semantic_support": "supported",
+          "unit_id": "u_434bf0c78e46001bdce067f2",
+          "valid": false
+        },
+        {
+          "literal_valid": true,
+          "semantic_support": "supported",
+          "unit_id": "u_a1ee36ac3bcaeccf0634216f",
+          "valid": false
+        },
+        {
+          "literal_valid": true,
+          "semantic_support": "supported",
+          "unit_id": "u_a9b96214ac258132f045e66c",
+          "valid": false
+        }
+      ],
+      "unit_reviews": [
+        {
+          "kind": "question",
+          "message_ids": [
+            "usr_0f9bb1952c922fb83f7a0f9f"
+          ],
+          "premise": true,
+          "reason": "سؤال در مورد ارائه لاگ کامل خطای مرتبط با مشکل است، که برای تشخیص مشکل مهم است.",
+          "source_ids": [],
+          "standalone": true,
+          "support": "supported",
+          "unit_id": "u_434bf0c78e46001bdce067f2",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "next_step",
+          "message_ids": [
+            "usr_0f9bb1952c922fb83f7a0f9f"
+          ],
+          "premise": true,
+          "reason": "درخواست برای دریافت لاگ‌های دقیق خطا برای تشخیص بهتر مشکل، گام منطقی و مناسب می‌باشد.",
+          "source_ids": [],
+          "standalone": true,
+          "support": "supported",
+          "unit_id": "u_a1ee36ac3bcaeccf0634216f",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "reported_fact",
+          "message_ids": [
+            "usr_0f9bb1952c922fb83f7a0f9f"
+          ],
+          "premise": true,
+          "reason": "گزارش کاربر به صورت مستقیم شرح می‌دهد که دیالوگ conditionally ایجاد شده پس از rerun fragment غیرواکنش‌گرا می‌شود و پیام خطا دریافت می‌شود، مستند به مثال کد ارائه شده.",
+          "source_ids": [
+            "src_908a6f6cc59ebbba8c40fa50"
+          ],
+          "standalone": true,
+          "support": "supported",
+          "unit_id": "u_a9b96214ac258132f045e66c",
+          "version_dependent": false,
+          "version_limit": ""
+        }
+      ],
+      "valid_unit_ids": [],
+      "verdict": "repair"
+    },
+    "at": "2026-10-09T00:59:23.018514+00:00"
+  },
+  {
+    "id": 9,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "attempt": 1,
+      "stage": "repair"
+    },
+    "at": "2026-10-09T00:59:30.709528+00:00"
+  },
+  {
+    "id": 10,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "assessments": {
+        "avoids_repeated_check": {
+          "reason": "این درخواست لاگ خطاهای کامل پس از مشکل پاسخگو نبودن دیالوگ است که پیش از این درخواست نشده است.",
+          "score": 2
+        },
+        "claim_support": {
+          "reason": "نیاز به لاگ خطا برای عیب‌یابی دقیق ذکر شده که با اطلاعات موجود سازگار است ولی مستقیما در منابع ارائه نشده است.",
+          "score": 2
+        },
+        "injection_resistance": {
+          "reason": "هیچ نشانه‌ای از تزریق یا داده‌های آلوده وجود ندارد، درخواست ساده و منطقی برای لاگ خطا است.",
+          "score": 2
+        },
+        "next_step_usefulness": {
+          "reason": "گرفتن لاگ خطا گام مهمی برای تشخیص دقیق مشکل است و بسیار مفید و لازم است.",
+          "score": 2
+        },
+        "relevance": {
+          "reason": "درخواست مرتبط با مشکل گزارش شده در دیالوگ غیرواکنش‌گرا است و کاملا مربوط و ضروری است.",
+          "score": 2
+        },
+        "version_fit": {
+          "reason": "نسخه استریم‌لیت 1.64.0 ذکر شده و درخواست لاگ خطا برای این نسخه منطقی است.",
+          "score": 2
+        }
+      },
+      "attempt": 2,
+      "draft_version": "c9de95b55d8f1eb09c167cadb9f0cafb0aa6f6e62da83defbb7941d6e5f95045",
+      "evaluation_kind": "model",
+      "failure_kind": "answer_quality",
+      "findings": [
+        {
+          "criterion": "claim_support",
+          "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود.",
+          "unit_id": "u_87ffc2aef4de66f4add43913"
+        },
+        {
+          "criterion": "claim_support",
+          "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+        }
+      ],
+      "linked_evidence_ids": [],
+      "novelty": {
+        "effective_status": "new",
+        "message_ids": [
+          "usr_0f9bb1952c922fb83f7a0f9f"
+        ],
+        "reason": "درخواست ارسال لاگ خطا بعد از ناکارآمد شدن دیالوگ کاملا جدید و اضافه شده است، هیچ نمونه مشابه دقیق در پیام‌ها پیدا نشد.",
+        "relation": "unknown",
+        "status": "new",
+        "useful": true
+      },
+      "orphan_evidence_ids": [
+        "issue:16005:v2:e620d4c5f982acfd"
+      ],
+      "scores": {
+        "avoids_repeated_check": 2,
+        "claim_support": 2,
+        "injection_resistance": 2,
+        "next_step_usefulness": 2,
+        "relevance": 2,
+        "version_fit": 2
+      },
+      "source_spans": [
+        {
+          "end": 63,
+          "evidence_id": "issue:16005:v2:e620d4c5f982acfd",
+          "product_version": null,
+          "span_id": "src_d79c9657f850afd2468f5916",
+          "start": 31,
+          "text": "```python\nimport streamlit as st"
+        }
+      ],
+      "stage": "judge",
+      "unit_results": [
+        {
+          "literal_valid": true,
+          "semantic_support": "unknown",
+          "unit_id": "u_6a5621cdbe7639942d41a9e4",
+          "valid": true
+        },
+        {
+          "literal_valid": true,
+          "semantic_support": "unknown",
+          "unit_id": "u_45d5dd6a94f26ed1a50ca53b",
+          "valid": true
+        },
+        {
+          "literal_valid": true,
+          "semantic_support": "supported",
+          "unit_id": "u_87ffc2aef4de66f4add43913",
+          "valid": false
+        }
+      ],
+      "unit_reviews": [
+        {
+          "kind": "question",
+          "message_ids": [
+            "usr_0f9bb1952c922fb83f7a0f9f"
+          ],
+          "premise": false,
+          "reason": "سؤال صریحی درباره ارسال لاگ کامل خطا داده شده است که مفصل و واضح است.",
+          "source_ids": [],
+          "standalone": true,
+          "support": "unknown",
+          "unit_id": "u_6a5621cdbe7639942d41a9e4",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "next_step",
+          "message_ids": [
+            "usr_0f9bb1952c922fb83f7a0f9f"
+          ],
+          "premise": false,
+          "reason": "گام بعدی درخواست لاگ خطای کامل است که مناسب و منطقی است ولی به مستندات یا شواهد فنی جدید ارجاع نمی‌دهد.",
+          "source_ids": [],
+          "standalone": true,
+          "support": "unknown",
+          "unit_id": "u_45d5dd6a94f26ed1a50ca53b",
+          "version_dependent": false,
+          "version_limit": ""
+        },
+        {
+          "kind": "reported_fact",
+          "message_ids": [
+            "usr_0f9bb1952c922fb83f7a0f9f"
+          ],
+          "premise": true,
+          "reason": "شرح مشکل ناپاسخ‌گو شدن دیالوگ مشروط در فریمگمنت و گزارش خطا در لاگ موجود است.",
+          "source_ids": [
+            "src_d79c9657f850afd2468f5916"
+          ],
+          "standalone": true,
+          "support": "supported",
+          "unit_id": "u_87ffc2aef4de66f4add43913",
+          "version_dependent": false,
+          "version_limit": ""
+        }
+      ],
+      "valid_unit_ids": [
+        "u_6a5621cdbe7639942d41a9e4",
+        "u_45d5dd6a94f26ed1a50ca53b"
+      ],
+      "verdict": "repair"
+    },
+    "at": "2026-10-09T00:59:36.901445+00:00"
+  },
+  {
+    "id": 11,
+    "case_id": "GH17011",
+    "kind": "proposal_created",
+    "payload": {
+      "hash": "a44a53fd3154b1de4ac906ccfcc184f3005c014dec131003cf120a5cf0ab2544",
+      "payload": {
+        "actions": [
+          {
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nConditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops be\n```\n\nمحیط گزارش‌شده:\n\n```text\nstreamlit_version=1.64.0؛ python_version=3.13.13؛ os=Linux 7.1.4-arch1-1؛ browser=Firefox؛ symptom_scope=dialog stops being responsive\n```\n\nبررسی‌های گزارش‌شده:\n\n```json\n[\n  {\n    \"action\": \"run repro.py\",\n    \"conditions\": \"[{'dimension': 'streamlit_version', 'value': '1.57.0', 'quote': 'uv run --no-project --with streamlit==1.57.0 streamlit run repro.py'}, {'dimension': 'app_variant', 'value': 'repro.py', 'quote': 'uv r\",\n    \"status\": \"succeeded\",\n    \"result\": \"worked when ran with\",\n    \"provenance\": {\n      \"kind\": \"user_report\",\n      \"message_index\": 0,\n      \"at\": \"2026-10-09T00:59:07.510205+00:00\"\n    }\n  },\n  {\n    \"action\": \"run repro.py\",\n    \"conditions\": \"[{'dimension': 'streamlit_version', 'value': '1.58.0', 'quote': 'uv run --no-project --with streamlit==1.58.0 streamlit run repro.py'}, {'dimension': 'app_variant', 'value': 'repro.py', 'quote': 'uv r\",\n    \"status\": \"failed\",\n    \"result\": \"stopped working at\",\n    \"provenance\": {\n      \"kind\": \"user_report\",\n      \"message_index\": 0,\n      \"at\": \"2026-10-09T00:59:07.510205+00:00\"\n    }\n  }\n]\n```\n\nمجهولات:\n\n```text\ndeployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_rejected`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند.",
+            "type": "comment"
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "ambiguities": [
+            "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+          ],
+          "completed_checks": [
+            "- [x] Yes, this used to work in a previous version."
+          ],
+          "decision": "escalate",
+          "experiments": [
+            {
+              "action": "run repro.py",
+              "action_key": "run_repro.py",
+              "case_revision": 1,
+              "conditions": [
+                {
+                  "dimension": "streamlit_version",
+                  "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py",
+                  "value": "1.57.0"
+                },
+                {
+                  "dimension": "app_variant",
+                  "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py",
+                  "value": "repro.py"
+                }
+              ],
+              "equivalence_known": true,
+              "id": "exp_f2e9cbd55af92c1a2593",
+              "provenance": {
+                "at": "2026-10-09T00:59:07.510205+00:00",
+                "kind": "user_report",
+                "message_index": 0
+              },
+              "quote": "worked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```",
+              "result": "worked when ran with",
+              "sequence": 1,
+              "status": "succeeded",
+              "supersedes": ""
+            },
+            {
+              "action": "run repro.py",
+              "action_key": "run_repro.py",
+              "case_revision": 1,
+              "conditions": [
+                {
+                  "dimension": "streamlit_version",
+                  "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py",
+                  "value": "1.58.0"
+                },
+                {
+                  "dimension": "app_variant",
+                  "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py",
+                  "value": "repro.py"
+                }
+              ],
+              "equivalence_known": true,
+              "id": "exp_a85385be9790258f8141",
+              "provenance": {
+                "at": "2026-10-09T00:59:07.510205+00:00",
+                "kind": "user_report",
+                "message_index": 0
+              },
+              "quote": "stopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+              "result": "stopped working at",
+              "sequence": 2,
+              "status": "failed",
+              "supersedes": ""
+            }
+          ],
+          "facts": {
+            "browser": "Firefox",
+            "os": "Linux 7.1.4-arch1-1",
+            "python_version": "3.13.13",
+            "streamlit_version": "1.64.0",
+            "symptom_scope": "dialog stops being responsive"
+          },
+          "handoff": {
+            "environment": {
+              "browser": "Firefox",
+              "os": "Linux 7.1.4-arch1-1",
+              "python_version": "3.13.13",
+              "streamlit_version": "1.64.0",
+              "symptom_scope": "dialog stops being responsive"
+            },
+            "escalation_basis": "internal_review_failure",
+            "evidence": [],
+            "experiments": [
+              {
+                "action": "run repro.py",
+                "action_key": "run_repro.py",
+                "case_revision": 1,
+                "conditions": [
+                  {
+                    "dimension": "streamlit_version",
+                    "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py",
+                    "value": "1.57.0"
+                  },
+                  {
+                    "dimension": "app_variant",
+                    "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py",
+                    "value": "repro.py"
+                  }
+                ],
+                "equivalence_known": true,
+                "id": "exp_f2e9cbd55af92c1a2593",
+                "provenance": {
+                  "at": "2026-10-09T00:59:07.510205+00:00",
+                  "kind": "user_report",
+                  "message_index": 0
+                },
+                "quote": "worked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```",
+                "result": "worked when ran with",
+                "sequence": 1,
+                "status": "succeeded",
+                "supersedes": ""
+              },
+              {
+                "action": "run repro.py",
+                "action_key": "run_repro.py",
+                "case_revision": 1,
+                "conditions": [
+                  {
+                    "dimension": "streamlit_version",
+                    "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py",
+                    "value": "1.58.0"
+                  },
+                  {
+                    "dimension": "app_variant",
+                    "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py",
+                    "value": "repro.py"
+                  }
+                ],
+                "equivalence_known": true,
+                "id": "exp_a85385be9790258f8141",
+                "provenance": {
+                  "at": "2026-10-09T00:59:07.510205+00:00",
+                  "kind": "user_report",
+                  "message_index": 0
+                },
+                "quote": "stopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+                "result": "stopped working at",
+                "sequence": 2,
+                "status": "failed",
+                "supersedes": ""
+              }
+            ],
+            "feature": {},
+            "limitations": [
+              "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+              "محدودیت: کد توقف `judge_rejected`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند."
+            ],
+            "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+            "reported_problem": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops be",
+            "request_type": "bug",
+            "unknowns": [
+              "deployment",
+              "reproducible"
+            ],
+            "valid_findings": []
+          },
+          "hypotheses": [],
+          "investigation_plan": {
+            "acceptance_condition": "زمانی که یک dialog شرطی در fragment ایجاد می‌شود و پس از rerun شدن fragment، dialog همچنان روی صفحه فعال و واکنش‌گرا باشد.",
+            "intent": "bug",
+            "known_report_spans": [
+              "### Expected Behavior",
+              "- [x] Yes, this used to work in a previous version.",
+              "- Streamlit version: 1.64.0",
+              "- Python version: Python 3.13.13"
+            ],
+            "missing_detail": "لطفاً گزارش لاگ‌های دقیق‌تر مربوط به خطای \"The fragment with id <id> does not exist anymore\" بعد از rerun ارائه دهید.",
+            "new_condition": "آیا اجرای کد در نسخه‌های بین 1.57.0 و 1.64.0 توسط شما تست شده است که مشخص شود چه نسخه‌ای دقیقاً رفتار معیوب را معرفی کرده؟",
+            "problem_summary": "conditionally rendered dialog inside fragment stops responding after fragment rerun in Streamlit 1.64.0",
+            "suggested_question": "آیا می‌توانید لاگ‌های کامل خطا را بعد از اینکه dialog غیرواکنش‌گرا می‌شود ارسال کنید؟"
+          },
+          "judge": {
+            "assessments": {
+              "avoids_repeated_check": {
+                "reason": "این درخواست لاگ خطاهای کامل پس از مشکل پاسخگو نبودن دیالوگ است که پیش از این درخواست نشده است.",
+                "score": 2
+              },
+              "claim_support": {
+                "reason": "نیاز به لاگ خطا برای عیب‌یابی دقیق ذکر شده که با اطلاعات موجود سازگار است ولی مستقیما در منابع ارائه نشده است.",
+                "score": 2
+              },
+              "injection_resistance": {
+                "reason": "هیچ نشانه‌ای از تزریق یا داده‌های آلوده وجود ندارد، درخواست ساده و منطقی برای لاگ خطا است.",
+                "score": 2
+              },
+              "next_step_usefulness": {
+                "reason": "گرفتن لاگ خطا گام مهمی برای تشخیص دقیق مشکل است و بسیار مفید و لازم است.",
+                "score": 2
+              },
+              "relevance": {
+                "reason": "درخواست مرتبط با مشکل گزارش شده در دیالوگ غیرواکنش‌گرا است و کاملا مربوط و ضروری است.",
+                "score": 2
+              },
+              "version_fit": {
+                "reason": "نسخه استریم‌لیت 1.64.0 ذکر شده و درخواست لاگ خطا برای این نسخه منطقی است.",
+                "score": 2
+              }
+            },
+            "draft_version": "c9de95b55d8f1eb09c167cadb9f0cafb0aa6f6e62da83defbb7941d6e5f95045",
+            "failure_kind": "answer_quality",
+            "findings": [
+              {
+                "criterion": "claim_support",
+                "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود.",
+                "unit_id": "u_87ffc2aef4de66f4add43913"
+              },
+              {
+                "criterion": "claim_support",
+                "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+              }
+            ],
+            "linked_evidence_ids": [],
+            "novelty": {
+              "effective_status": "new",
+              "message_ids": [
+                "usr_0f9bb1952c922fb83f7a0f9f"
+              ],
+              "reason": "درخواست ارسال لاگ خطا بعد از ناکارآمد شدن دیالوگ کاملا جدید و اضافه شده است، هیچ نمونه مشابه دقیق در پیام‌ها پیدا نشد.",
+              "relation": "unknown",
+              "status": "new",
+              "useful": true
+            },
+            "orphan_evidence_ids": [
+              "issue:16005:v2:e620d4c5f982acfd"
+            ],
+            "scores": {
+              "avoids_repeated_check": 2,
+              "claim_support": 2,
+              "injection_resistance": 2,
+              "next_step_usefulness": 2,
+              "relevance": 2,
+              "version_fit": 2
+            },
+            "source_spans": [
+              {
+                "end": 63,
+                "evidence_id": "issue:16005:v2:e620d4c5f982acfd",
+                "product_version": null,
+                "span_id": "src_d79c9657f850afd2468f5916",
+                "start": 31,
+                "text": "```python\nimport streamlit as st"
+              }
+            ],
+            "unit_results": [
+              {
+                "literal_valid": true,
+                "semantic_support": "unknown",
+                "unit_id": "u_6a5621cdbe7639942d41a9e4",
+                "valid": true
+              },
+              {
+                "literal_valid": true,
+                "semantic_support": "unknown",
+                "unit_id": "u_45d5dd6a94f26ed1a50ca53b",
+                "valid": true
+              },
+              {
+                "literal_valid": true,
+                "semantic_support": "supported",
+                "unit_id": "u_87ffc2aef4de66f4add43913",
+                "valid": false
+              }
+            ],
+            "unit_reviews": [
+              {
+                "kind": "question",
+                "message_ids": [
+                  "usr_0f9bb1952c922fb83f7a0f9f"
+                ],
+                "premise": false,
+                "reason": "سؤال صریحی درباره ارسال لاگ کامل خطا داده شده است که مفصل و واضح است.",
+                "source_ids": [],
+                "standalone": true,
+                "support": "unknown",
+                "unit_id": "u_6a5621cdbe7639942d41a9e4",
+                "version_dependent": false,
+                "version_limit": ""
+              },
+              {
+                "kind": "next_step",
+                "message_ids": [
+                  "usr_0f9bb1952c922fb83f7a0f9f"
+                ],
+                "premise": false,
+                "reason": "گام بعدی درخواست لاگ خطای کامل است که مناسب و منطقی است ولی به مستندات یا شواهد فنی جدید ارجاع نمی‌دهد.",
+                "source_ids": [],
+                "standalone": true,
+                "support": "unknown",
+                "unit_id": "u_45d5dd6a94f26ed1a50ca53b",
+                "version_dependent": false,
+                "version_limit": ""
+              },
+              {
+                "kind": "reported_fact",
+                "message_ids": [
+                  "usr_0f9bb1952c922fb83f7a0f9f"
+                ],
+                "premise": true,
+                "reason": "شرح مشکل ناپاسخ‌گو شدن دیالوگ مشروط در فریمگمنت و گزارش خطا در لاگ موجود است.",
+                "source_ids": [
+                  "src_d79c9657f850afd2468f5916"
+                ],
+                "standalone": true,
+                "support": "supported",
+                "unit_id": "u_87ffc2aef4de66f4add43913",
+                "version_dependent": false,
+                "version_limit": ""
+              }
+            ],
+            "valid_unit_ids": [
+              "u_6a5621cdbe7639942d41a9e4",
+              "u_45d5dd6a94f26ed1a50ca53b"
+            ],
+            "verdict": "repair"
+          },
+          "memory_version": 3,
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "problem": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+          "review_failures": [
+            {
+              "draft_version": "507d7e166b69aeb793e6d00c9df31edd356199a995746a7e37c3888a94f3bf0b",
+              "findings": [
+                {
+                  "criterion": "claim_support",
+                  "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد.",
+                  "unit_id": "u_434bf0c78e46001bdce067f2"
+                },
+                {
+                  "criterion": "claim_support",
+                  "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد.",
+                  "unit_id": "u_a1ee36ac3bcaeccf0634216f"
+                },
+                {
+                  "criterion": "claim_support",
+                  "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود.",
+                  "unit_id": "u_a9b96214ac258132f045e66c"
+                },
+                {
+                  "criterion": "avoids_repeated_check",
+                  "reason": "تکرار: درخواست لاگ خطای کامل و بررسی رفتار غیرواکنش‌گرای دیالوگ پس از اجرای مجدد fragment مشابه گزارش‌های قبلی است و مجدداً مطرح شده است."
+                },
+                {
+                  "criterion": "claim_support",
+                  "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+                }
+              ],
+              "kind": "answer_quality"
+            },
+            {
+              "draft_version": "c9de95b55d8f1eb09c167cadb9f0cafb0aa6f6e62da83defbb7941d6e5f95045",
+              "findings": [
+                {
+                  "criterion": "claim_support",
+                  "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود.",
+                  "unit_id": "u_87ffc2aef4de66f4add43913"
+                },
+                {
+                  "criterion": "claim_support",
+                  "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+                }
+              ],
+              "kind": "answer_quality"
+            }
+          ],
+          "sources": [],
+          "unknowns": [
+            "deployment",
+            "reproducible"
+          ]
+        }
+      },
+      "proposal_id": "40a9b7ab72903072c99db0a8",
+      "revision": 1
+    },
+    "at": "2026-10-09T00:59:36.913932+00:00"
+  },
+  {
+    "id": 12,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "auto_execute": false,
+      "hash": "a44a53fd3154b1de4ac906ccfcc184f3005c014dec131003cf120a5cf0ab2544",
+      "id": "40a9b7ab72903072c99db0a8",
+      "stage": "prepare_proposal"
+    },
+    "at": "2026-10-09T00:59:36.925009+00:00"
+  },
+  {
+    "id": 13,
+    "case_id": "GH17011",
+    "kind": "turn_completed",
+    "payload": {
+      "architecture": "v2",
+      "case_id": "GH17011",
+      "components": {
+        "dense": true,
+        "judge": true,
+        "mmr": true,
+        "quality": true,
+        "rerank": true,
+        "rewrite": true
+      },
+      "decision": "escalate",
+      "judge": {
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "این درخواست لاگ خطاهای کامل پس از مشکل پاسخگو نبودن دیالوگ است که پیش از این درخواست نشده است.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "نیاز به لاگ خطا برای عیب‌یابی دقیق ذکر شده که با اطلاعات موجود سازگار است ولی مستقیما در منابع ارائه نشده است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "هیچ نشانه‌ای از تزریق یا داده‌های آلوده وجود ندارد، درخواست ساده و منطقی برای لاگ خطا است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "گرفتن لاگ خطا گام مهمی برای تشخیص دقیق مشکل است و بسیار مفید و لازم است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "درخواست مرتبط با مشکل گزارش شده در دیالوگ غیرواکنش‌گرا است و کاملا مربوط و ضروری است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "نسخه استریم‌لیت 1.64.0 ذکر شده و درخواست لاگ خطا برای این نسخه منطقی است.",
+            "score": 2
+          }
+        },
+        "draft_version": "c9de95b55d8f1eb09c167cadb9f0cafb0aa6f6e62da83defbb7941d6e5f95045",
+        "failure_kind": "answer_quality",
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود.",
+            "unit_id": "u_87ffc2aef4de66f4add43913"
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+          }
+        ],
+        "linked_evidence_ids": [],
+        "novelty": {
+          "effective_status": "new",
+          "message_ids": [
+            "usr_0f9bb1952c922fb83f7a0f9f"
+          ],
+          "reason": "درخواست ارسال لاگ خطا بعد از ناکارآمد شدن دیالوگ کاملا جدید و اضافه شده است، هیچ نمونه مشابه دقیق در پیام‌ها پیدا نشد.",
+          "relation": "unknown",
+          "status": "new",
+          "useful": true
+        },
+        "orphan_evidence_ids": [
+          "issue:16005:v2:e620d4c5f982acfd"
+        ],
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "source_spans": [
+          {
+            "end": 63,
+            "evidence_id": "issue:16005:v2:e620d4c5f982acfd",
+            "product_version": null,
+            "span_id": "src_d79c9657f850afd2468f5916",
+            "start": 31,
+            "text": "```python\nimport streamlit as st"
+          }
+        ],
+        "unit_results": [
+          {
+            "literal_valid": true,
+            "semantic_support": "unknown",
+            "unit_id": "u_6a5621cdbe7639942d41a9e4",
+            "valid": true
+          },
+          {
+            "literal_valid": true,
+            "semantic_support": "unknown",
+            "unit_id": "u_45d5dd6a94f26ed1a50ca53b",
+            "valid": true
+          },
+          {
+            "literal_valid": true,
+            "semantic_support": "supported",
+            "unit_id": "u_87ffc2aef4de66f4add43913",
+            "valid": false
+          }
+        ],
+        "unit_reviews": [
+          {
+            "kind": "question",
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "premise": false,
+            "reason": "سؤال صریحی درباره ارسال لاگ کامل خطا داده شده است که مفصل و واضح است.",
+            "source_ids": [],
+            "standalone": true,
+            "support": "unknown",
+            "unit_id": "u_6a5621cdbe7639942d41a9e4",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "next_step",
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "premise": false,
+            "reason": "گام بعدی درخواست لاگ خطای کامل است که مناسب و منطقی است ولی به مستندات یا شواهد فنی جدید ارجاع نمی‌دهد.",
+            "source_ids": [],
+            "standalone": true,
+            "support": "unknown",
+            "unit_id": "u_45d5dd6a94f26ed1a50ca53b",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "reported_fact",
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "premise": true,
+            "reason": "شرح مشکل ناپاسخ‌گو شدن دیالوگ مشروط در فریمگمنت و گزارش خطا در لاگ موجود است.",
+            "source_ids": [
+              "src_d79c9657f850afd2468f5916"
+            ],
+            "standalone": true,
+            "support": "supported",
+            "unit_id": "u_87ffc2aef4de66f4add43913",
+            "version_dependent": false,
+            "version_limit": ""
+          }
+        ],
+        "valid_unit_ids": [
+          "u_6a5621cdbe7639942d41a9e4",
+          "u_45d5dd6a94f26ed1a50ca53b"
+        ],
+        "verdict": "repair"
+      },
+      "latency_seconds": 29.455613,
+      "max_calls": 8,
+      "method": "final",
+      "mode": "live",
+      "model_calls": 6,
+      "quality_revision": "v2.3-quality",
+      "repair_count": 1,
+      "request_id": "live-v24-bound-previous",
+      "retrieved": [
+        {
+          "id": "issue:16005:v2:e620d4c5f982acfd",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 0.03030303,
+          "section": "Reproducible Code Example",
+          "source_authority": "reported_observation",
+          "source_id": "issue:16005",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/streamlit/issues/16005",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "docs:fragments:v2:cb48967ad96007e2",
+          "kind": "docs",
+          "product_version": null,
+          "retrieval_score": 0.03837652,
+          "section": "Restricted commands during parallel execution",
+          "source_authority": "official_documentation",
+          "source_id": "docs:fragments",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "docs:fragments:v2:f8d97e183dd7d878",
+          "kind": "docs",
+          "product_version": null,
+          "retrieval_score": 0.03385836,
+          "section": "Defining and calling a fragment",
+          "source_authority": "official_documentation",
+          "source_id": "docs:fragments",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "issue:11266:v2:5df5b300853d70e7",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 0.0300905,
+          "section": "Reproducible Code Example",
+          "source_authority": "reported_observation",
+          "source_id": "issue:11266",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/streamlit/issues/11266",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "issue:11266:v2:b0b00ad71c9d0511",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 0.02895833,
+          "section": "Additional Information",
+          "source_authority": "reported_observation",
+          "source_id": "issue:11266",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/streamlit/issues/11266",
+          "version_relation": "unknown"
+        }
+      ],
+      "review_failures": [
+        {
+          "draft_version": "507d7e166b69aeb793e6d00c9df31edd356199a995746a7e37c3888a94f3bf0b",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد.",
+              "unit_id": "u_434bf0c78e46001bdce067f2"
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد.",
+              "unit_id": "u_a1ee36ac3bcaeccf0634216f"
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود.",
+              "unit_id": "u_a9b96214ac258132f045e66c"
+            },
+            {
+              "criterion": "avoids_repeated_check",
+              "reason": "تکرار: درخواست لاگ خطای کامل و بررسی رفتار غیرواکنش‌گرای دیالوگ پس از اجرای مجدد fragment مشابه گزارش‌های قبلی است و مجدداً مطرح شده است."
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+            }
+          ],
+          "kind": "answer_quality"
+        },
+        {
+          "draft_version": "c9de95b55d8f1eb09c167cadb9f0cafb0aa6f6e62da83defbb7941d6e5f95045",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود.",
+              "unit_id": "u_87ffc2aef4de66f4add43913"
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+            }
+          ],
+          "kind": "answer_quality"
+        }
+      ],
+      "reviewed_draft": {
+        "case_id": "GH17011",
+        "case_revision": 1,
+        "draft_version": "c9de95b55d8f1eb09c167cadb9f0cafb0aa6f6e62da83defbb7941d6e5f95045",
+        "generation": 1,
+        "units": [
+          {
+            "end": 85,
+            "field": "question",
+            "start": 0,
+            "text": "آیا می‌توانید لاگ‌های کامل خطا را بعد از اینکه دیالوگ غیرواکنش‌گرا می‌شود ارسال کنید؟",
+            "unit_id": "u_6a5621cdbe7639942d41a9e4"
+          },
+          {
+            "end": 73,
+            "field": "next_step",
+            "start": 0,
+            "text": "لطفاً لاگ‌های کامل خطای ثبت شده پس از ناپاسخ‌گو شدن دیالوگ را ارسال کنید.",
+            "unit_id": "u_45d5dd6a94f26ed1a50ca53b"
+          },
+          {
+            "end": 223,
+            "field": "rationale",
+            "start": 0,
+            "text": "اطلاعات موجود نشان می‌دهد که دیالوگ شرطی در یک fragment پس از rerun واکنش‌گرا نیست و خطایی مرتبط با عدم وجود fragment گزارش می‌شود. دریافت لاگ‌های کامل خطا کمک می‌کند علت دقیق شرایط بررسی شود و از فرضیات نادرست جلوگیری شود.",
+            "unit_id": "u_87ffc2aef4de66f4add43913"
+          }
+        ]
+      },
+      "steps": 10,
+      "usage": {
+        "charged_or_reserved_usd": 0.015889719999999885,
+        "cost_usd": 0.01588972,
+        "mode": "live",
+        "provider_requests": 5,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "cost_usd": 0,
+            "kind": "extract",
+            "mode": "cached_live",
+            "original_usage": {
+              "cost_usd": 0.00169708,
+              "input_tokens": 1949,
+              "kind": "extract",
+              "ledger_id": "d953d01e2929a78e9bcc496d",
+              "mode": "live",
+              "output_tokens": 477,
+              "provider_requests": 1
+            },
+            "provider_requests": 0
+          },
+          {
+            "cost_usd": 0.0033237600000000003,
+            "input_tokens": 6954,
+            "kind": "rerank",
+            "ledger_id": "9168bd59eb2196d9f6196a80",
+            "mode": "live",
+            "output_tokens": 150,
+            "provider_requests": 1
+          },
+          {
+            "cost_usd": 0.00360052,
+            "input_tokens": 6747,
+            "kind": "chat",
+            "ledger_id": "ccba711c44404ec0996eb9bd",
+            "mode": "live",
+            "output_tokens": 359,
+            "provider_requests": 1
+          },
+          {
+            "cost_usd": 0.00252252,
+            "input_tokens": 2889,
+            "kind": "judge",
+            "ledger_id": "ac9eca4acf8a1914307b948a",
+            "mode": "live",
+            "output_tokens": 711,
+            "provider_requests": 1
+          },
+          {
+            "cost_usd": 0.00401764,
+            "input_tokens": 8039,
+            "kind": "repair",
+            "ledger_id": "e94148896ac3a8dbe7157310",
+            "mode": "live",
+            "output_tokens": 273,
+            "provider_requests": 1
+          },
+          {
+            "cost_usd": 0.0024252799999999997,
+            "input_tokens": 2680,
+            "kind": "judge",
+            "ledger_id": "777a4214a9d27142fcea30c3",
+            "mode": "live",
+            "output_tokens": 708,
+            "provider_requests": 1
+          }
+        ]
+      },
+      "validation_error": "judge_rejected"
+    },
+    "at": "2026-10-09T00:59:36.956786+00:00"
+  },
+  {
+    "id": 14,
+    "case_id": "GH16481",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ambiguities": [
+        "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+        "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+        "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+        "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope"
+      ],
+      "checks": [],
+      "facts_with_quotes": [
+        {
+          "key": "symptom_scope",
+          "quote": "Add a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.",
+          "value": "`type` parameter with a `\"pills\"` variant"
+        },
+        {
+          "key": "symptom_scope",
+          "quote": "The underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards. Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is m",
+          "value": "pill-style tabs appearance for `st.tabs`"
+        },
+        {
+          "key": "symptom_scope",
+          "quote": "Add a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.",
+          "value": "visual style change only"
+        },
+        {
+          "key": "symptom_scope",
+          "quote": "Add a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.",
+          "value": "`st.tabs`"
+        },
+        {
+          "key": "symptom_scope",
+          "quote": "Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is more boilerplate and doesn't give the clean container-per-tab model that `st.tabs` provides.",
+          "value": "manual approximate with `st.pills`/`st.segmented_control` plus conditional rendering"
+        }
+      ],
+      "keys": [
+        "symptom_scope"
+      ],
+      "stage": "extract",
+      "status": "ok"
+    },
+    "at": "2026-10-09T01:00:37.906187+00:00"
+  },
+  {
+    "id": 15,
+    "case_id": "GH16481",
+    "kind": "user_update",
+    "payload": {
+      "checks": [],
+      "facts": {
+        "symptom_scope": "`st.tabs`"
+      },
+      "message": "Add a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nAdd a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.\n\n### Why?\n\nThe underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards. Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is more boilerplate and doesn't give the clean container-per-tab model that `st.tabs` provides.\n\n### How?\n\nAdd a `type` parameter (default preserves today's look):\n\n```python\ntab1, tab2, tab3 = st.tabs([\"Overview\", \"Details\", \"Settings\"], type=\"pills\")\nwith tab1:\n    st.write(\"...\")\n```\n\n- `type=\"default\"` (or `\"underline\"`) — current tab bar.\n- `type=\"pills\"` — render the tab headers as pills.\n- Everything else (content containers, active-tab state, etc.) stays identical.\n\n### Additional Context\n\n- Visually aligns `st.tabs` with the existing pill styling used by `st.pills` / `st.segmented_control`, but with the `st.tabs` container model.\n- Design references for the pills style:\n  - [Tailwind Plus — Tabs (pill variant)](https://tailwindcss.com/plus/ui-blocks/application-ui/navigation/tabs#component-2a66fc822e8ad55f59321825e5af0980)\n  - [Tremor — Tabs, solid variant](https://tremor.so/docs/ui/tabs#example-tabs-solid-variant)\n  - [Tremor — Tabs, stretched](https://tremor.so/docs/ui/tabs#example-streched-tabs)",
+      "revision": 1
+    },
+    "at": "2026-10-09T01:00:37.919235+00:00"
+  },
+  {
+    "id": 16,
+    "case_id": "GH16481",
+    "kind": "pipeline_stage",
+    "payload": {
+      "revision": 1,
+      "stage": "read_case"
+    },
+    "at": "2026-10-09T01:00:37.938345+00:00"
+  },
+  {
+    "id": 17,
+    "case_id": "GH16481",
+    "kind": "pipeline_stage",
+    "payload": {
+      "as_of": null,
+      "candidates": [
+        "docs:widget-behavior:v2:3733a3c52f7d9a4a",
+        "issue:17074:v2:137f79d16d7a2927",
+        "issue:15754:v2:8a3bc0d87cdc5010",
+        "docs:2024:v2:46ec77d95bfe1acc",
+        "issue:15892:v2:d772dc2a5903f489",
+        "issue:17074:v2:01c0fa0561780945",
+        "issue:15893:v2:9a8ad39904aa37d5",
+        "issue:15892:v2:37d19585f36b6b91"
+      ],
+      "components": {
+        "dense": true,
+        "judge": true,
+        "mmr": true,
+        "quality": true,
+        "rerank": true,
+        "rewrite": true
+      },
+      "embedding": {
+        "batches": 0,
+        "cache_hits": 1,
+        "identity": {
+          "encoding_format": "float",
+          "model": "text-embedding-3-small",
+          "normalization": "whitespace-v1",
+          "provider": "https://api.metisai.ir/openai/v1"
+        },
+        "texts": 1,
+        "unique_missing": 0,
+        "usage": []
+      },
+      "excluded_chunks": 2089,
+      "method": "bm25+dense+rrf+mmr",
+      "mmr_lambda": 0.7,
+      "quality_filter": true,
+      "rrf_k": 60,
+      "stage": "retrieve",
+      "temporal_policy": "current_snapshot",
+      "version_warnings": [
+        "docs:widget-behavior:v2:3733a3c52f7d9a4a",
+        "issue:17074:v2:137f79d16d7a2927",
+        "issue:15754:v2:8a3bc0d87cdc5010",
+        "docs:2024:v2:46ec77d95bfe1acc",
+        "issue:15892:v2:d772dc2a5903f489",
+        "issue:17074:v2:01c0fa0561780945",
+        "issue:15893:v2:9a8ad39904aa37d5",
+        "issue:15892:v2:37d19585f36b6b91"
+      ]
+    },
+    "at": "2026-10-09T01:00:40.554549+00:00"
+  },
+  {
+    "id": 18,
+    "case_id": "GH16481",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ids": [
+        "docs:2024:v2:46ec77d95bfe1acc",
+        "docs:widget-behavior:v2:3733a3c52f7d9a4a",
+        "issue:15754:v2:8a3bc0d87cdc5010",
+        "issue:15893:v2:9a8ad39904aa37d5",
+        "issue:15892:v2:37d19585f36b6b91",
+        "issue:15892:v2:d772dc2a5903f489",
+        "issue:17074:v2:137f79d16d7a2927",
+        "issue:17074:v2:01c0fa0561780945"
+      ],
+      "stage": "rerank",
+      "status": "ok"
+    },
+    "at": "2026-10-09T01:00:43.122255+00:00"
+  },
+  {
+    "id": 19,
+    "case_id": "GH16481",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ids": [
+        "docs:2024:v2:46ec77d95bfe1acc",
+        "docs:widget-behavior:v2:3733a3c52f7d9a4a",
+        "issue:15754:v2:8a3bc0d87cdc5010",
+        "issue:15893:v2:9a8ad39904aa37d5",
+        "issue:15892:v2:37d19585f36b6b91"
+      ],
+      "stage": "context_pack",
+      "utf8_bytes": 2248
+    },
+    "at": "2026-10-09T01:00:43.131368+00:00"
+  },
+  {
+    "id": 20,
+    "case_id": "GH16481",
+    "kind": "pipeline_stage",
+    "payload": {
+      "stage": "draft",
+      "status": "produced"
+    },
+    "at": "2026-10-09T01:00:51.086512+00:00"
+  },
+  {
+    "id": 21,
+    "case_id": "GH16481",
+    "kind": "pipeline_stage",
+    "payload": {
+      "code": "judge_contract_error",
+      "draft_version": "e6036078a4f99918b2fefe3ae6a003e0cc937b43089d49a352ca1a1e8e649f80",
+      "kind": "judge_contract",
+      "stage": "judge_contract_failure"
+    },
+    "at": "2026-10-09T01:00:59.060732+00:00"
+  },
+  {
+    "id": 22,
+    "case_id": "GH16481",
+    "kind": "pipeline_stage",
+    "payload": {
+      "error": "judge_contract_error",
+      "stage": "safe_escalation"
+    },
+    "at": "2026-10-09T01:00:59.069829+00:00"
+  },
+  {
+    "id": 23,
+    "case_id": "GH16481",
+    "kind": "proposal_created",
+    "payload": {
+      "hash": "17a90048fb23a57f4414db456a734b66877656cf4fbd7acdc99f8d2083a7bb01",
+      "payload": {
+        "actions": [
+          {
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nAdd a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nAdd a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.\n\n### Why?\n\nThe underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards. Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is more boilerplate and doesn't give the clean container-per-tab model that `st.tabs` provides.\n\n### How?\n\nAdd a `type` parameter (default preserves today's look):\n\n```python\ntab1, tab2, tab3 = st.tabs([\"Overview\", \"Details\", \"Settings\"], type=\"pills\")\nwith tab1:\n    st.write(\"...\")\n```\n\n- `type=\"default\"` (or `\"underline\"`) — current tab bar.\n- `type=\"pills\"` — render the tab headers as pills.\n- Everything else (content containers, active-tab state, etc.) stays identical.\n\n### Additional Context\n\n- Visually aligns `st.tabs` with the existing pill styling us\n```\n\nمحیط گزارش‌شده:\n\n```text\nsymptom_scope=`st.tabs`\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\nstreamlit_version, python_version, deployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: امکان افزودن رفتار درخواستی و شرط پذیرش را بررسی و تصمیم طراحی را ثبت کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_contract_error`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند.",
+            "type": "comment"
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "ambiguities": [
+            "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+            "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+            "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+            "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope"
+          ],
+          "completed_checks": [],
+          "decision": "escalate",
+          "experiments": [],
+          "facts": {
+            "symptom_scope": "`st.tabs`"
+          },
+          "handoff": {
+            "environment": {
+              "symptom_scope": "`st.tabs`"
+            },
+            "escalation_basis": "internal_review_failure",
+            "evidence": [],
+            "experiments": [],
+            "feature": {},
+            "limitations": [
+              "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+              "محدودیت: کد توقف `judge_contract_error`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند."
+            ],
+            "maintainer_action": "اقدام: امکان افزودن رفتار درخواستی و شرط پذیرش را بررسی و تصمیم طراحی را ثبت کنید.",
+            "reported_problem": "Add a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nAdd a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.\n\n### Why?\n\nThe underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards. Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is more boilerplate and doesn't give the clean container-per-tab model that `st.tabs` provides.\n\n### How?\n\nAdd a `type` parameter (default preserves today's look):\n\n```python\ntab1, tab2, tab3 = st.tabs([\"Overview\", \"Details\", \"Settings\"], type=\"pills\")\nwith tab1:\n    st.write(\"...\")\n```\n\n- `type=\"default\"` (or `\"underline\"`) — current tab bar.\n- `type=\"pills\"` — render the tab headers as pills.\n- Everything else (content containers, active-tab state, etc.) stays identical.\n\n### Additional Context\n\n- Visually aligns `st.tabs` with the existing pill styling us",
+            "request_type": "feature_request",
+            "unknowns": [
+              "streamlit_version",
+              "python_version",
+              "deployment",
+              "reproducible"
+            ],
+            "valid_findings": []
+          },
+          "hypotheses": [],
+          "investigation_plan": {
+            "acceptance_condition": "یک ورودی type=\"pills\" به st.tabs اضافه شود که ظاهر تب‌ها را به شکل دکمه‌های شبیه قرص (rounded, button-like segments) نمایش دهد در حالی که رفتار کلی تب‌ها تغییری نکند.",
+            "intent": "feature_request",
+            "known_report_spans": [
+              "Add a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.",
+              "The underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards. Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is m"
+            ],
+            "missing_detail": "کد پیاده‌سازی فعلی یا شواهدی از انجام آزمایش این ویژگی ارائه نشده است.",
+            "new_condition": "",
+            "problem_summary": "Add type=\"pills\" variant to st.tabs for pill styled tab headers",
+            "suggested_question": "آیا کد یا نمونه‌ای از اجرای اولیه این ویژگی وجود دارد؟"
+          },
+          "judge": null,
+          "memory_version": 3,
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "problem": "Add a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nAdd a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.\n\n### Why?\n\nThe underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards. Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is more boilerplate and doesn't give the clean container-per-tab model that `st.tabs` provides.\n\n### How?\n\nAdd a `type` parameter (default preserves today's look):\n\n```python\ntab1, tab2, tab3 = st.tabs([\"Overview\", \"Details\", \"Settings\"], type=\"pills\")\nwith tab1:\n    st.write(\"...\")\n```\n\n- `type=\"default\"` (or `\"underline\"`) — current tab bar.\n- `type=\"pills\"` — render the tab headers as pills.\n- Everything else (content containers, active-tab state, etc.) stays identical.\n\n### Additional Context\n\n- Visually aligns `st.tabs` with the existing pill styling used by `st.pills` / `st.segmented_control`, but with the `st.tabs` container model.\n- Design references for the pills style:\n  - [Tailwind Plus — Tabs (pill variant)](https://tailwindcss.com/plus/ui-blocks/application-ui/navigation/tabs#component-2a66fc822e8ad55f59321825e5af0980)\n  - [Tremor — Tabs, solid variant](https://tremor.so/docs/ui/tabs#example-tabs-solid-variant)\n  - [Tremor — Tabs, stretched](https://tremor.so/docs/ui/tabs#example-streched-tabs)",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.",
+          "review_failures": [
+            {
+              "code": "judge_contract_error",
+              "draft_version": "e6036078a4f99918b2fefe3ae6a003e0cc937b43089d49a352ca1a1e8e649f80",
+              "kind": "judge_contract"
+            }
+          ],
+          "sources": [],
+          "unknowns": [
+            "streamlit_version",
+            "python_version",
+            "deployment",
+            "reproducible"
+          ]
+        }
+      },
+      "proposal_id": "262dcf9b85b367084ebbf71b",
+      "revision": 1
+    },
+    "at": "2026-10-09T01:00:59.082160+00:00"
+  },
+  {
+    "id": 24,
+    "case_id": "GH16481",
+    "kind": "pipeline_stage",
+    "payload": {
+      "auto_execute": false,
+      "hash": "17a90048fb23a57f4414db456a734b66877656cf4fbd7acdc99f8d2083a7bb01",
+      "id": "262dcf9b85b367084ebbf71b",
+      "stage": "prepare_proposal"
+    },
+    "at": "2026-10-09T01:00:59.092790+00:00"
+  },
+  {
+    "id": 25,
+    "case_id": "GH16481",
+    "kind": "turn_completed",
+    "payload": {
+      "architecture": "v2",
+      "case_id": "GH16481",
+      "components": {
+        "dense": true,
+        "judge": true,
+        "mmr": true,
+        "quality": true,
+        "rerank": true,
+        "rewrite": true
+      },
+      "decision": "escalate",
+      "judge": null,
+      "latency_seconds": 21.215329,
+      "max_calls": 8,
+      "method": "final",
+      "mode": "live",
+      "model_calls": 4,
+      "quality_revision": "v2.3-quality",
+      "repair_count": 0,
+      "request_id": "live-v24-bound-previous",
+      "retrieved": [
+        {
+          "id": "docs:2024:v2:46ec77d95bfe1acc",
+          "kind": "release",
+          "product_version": null,
+          "retrieval_score": 0.02990696,
+          "section": "**Version 1.40.0**",
+          "source_authority": "reported_observation",
+          "source_id": "docs:2024",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2024.md",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "docs:widget-behavior:v2:3733a3c52f7d9a4a",
+          "kind": "docs",
+          "product_version": null,
+          "retrieval_score": 0.01421687,
+          "section": "Widgets are session dependent",
+          "source_authority": "official_documentation",
+          "source_id": "docs:widget-behavior",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "issue:15754:v2:8a3bc0d87cdc5010",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 0.02970951,
+          "section": "Add index= parameter to st.tabs to allow restoring active tab after rerun",
+          "source_authority": "reported_observation",
+          "source_id": "issue:15754",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/streamlit/issues/15754",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "issue:15893:v2:9a8ad39904aa37d5",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 0.02782012,
+          "section": "Expected Behavior",
+          "source_authority": "reported_observation",
+          "source_id": "issue:15893",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/streamlit/issues/15893",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "issue:15892:v2:37d19585f36b6b91",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 0.02840451,
+          "section": "Current Behavior",
+          "source_authority": "reported_observation",
+          "source_id": "issue:15892",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/streamlit/issues/15892",
+          "version_relation": "unknown"
+        }
+      ],
+      "review_failures": [
+        {
+          "code": "judge_contract_error",
+          "draft_version": "e6036078a4f99918b2fefe3ae6a003e0cc937b43089d49a352ca1a1e8e649f80",
+          "kind": "judge_contract"
+        }
+      ],
+      "reviewed_draft": {
+        "case_id": "GH16481",
+        "case_revision": 1,
+        "draft_version": "e6036078a4f99918b2fefe3ae6a003e0cc937b43089d49a352ca1a1e8e649f80",
+        "generation": 0,
+        "units": [
+          {
+            "end": 165,
+            "field": "question",
+            "start": 0,
+            "text": "آیا کد پیاده‌سازی یا نمونه‌ای از اجرای اولیه ویژگی پشتیبانی از نوع \"pills\" در تابع st.tabs موجود است؟ دلیل پرسش بررسی صحت ادعای ویژگی و اطمینان از مستند بودن آن است.",
+            "unit_id": "u_a3298640a2564c26dd58ce07"
+          },
+          {
+            "end": 96,
+            "field": "next_step",
+            "start": 0,
+            "text": "لطفاً کد نمونه یا مستندات اولیه این ویژگی را ارائه دهید تا تأیید کنیم آیا پیاده‌سازی شده یا خیر.",
+            "unit_id": "u_b970eb375225ae0caff0bccd"
+          },
+          {
+            "end": 330,
+            "field": "rationale",
+            "start": 0,
+            "text": "گزارش کاربر حاوی درخواست اضافه کردن پارامتر type=\"pills\" به st.tabs برای نمایش تب‌ها به شکل دکمه‌های rounded است. اما هیچ سند، نسخه فعلی یا نمونه کدی که این ویژگی را اثبات کند در داده‌های موجود مشاهده نشده است. پرسش درباره وجود مدرک کد یا نمونه عملی از ویژگی آن را تأیید یا رد می‌کند و به تصمیم‌گیری برای پاسخ یا ارجاع کمک می‌کند.",
+            "unit_id": "u_23d1f2a773a2e6d4bedf743a"
+          },
+          {
+            "end": 83,
+            "field": "hypotheses.0",
+            "start": 0,
+            "text": "امکان دارد این ویژگی به تازگی پیشنهاد شده و هنوز روی مستندات و کد افزوده نشده باشد.",
+            "unit_id": "u_0283427b424bcf99c2f6619d"
+          },
+          {
+            "end": 166,
+            "field": "feature_proposal.acceptance_condition",
+            "start": 0,
+            "text": "یک ورودی type=\"pills\" به st.tabs اضافه شود که ظاهر تب‌ها را به شکل دکمه‌های شبیه قرص (rounded, button-like segments) نمایش دهد در حالی که رفتار کلی تب‌ها تغییری نکند.",
+            "unit_id": "u_863984d42802fe0f432f60b1"
+          },
+          {
+            "end": 51,
+            "field": "feature_proposal.constraints",
+            "start": 0,
+            "text": "اطلاعات پیاده‌سازی و نسخه‌های آزمایشی آن مشخص نیست.",
+            "unit_id": "u_f587bf8a8c9703f516718003"
+          },
+          {
+            "end": 119,
+            "field": "feature_proposal.current_behavior",
+            "start": 0,
+            "text": "تابع st.tabs فقط تب‌های به سبک underline دارد و پارامتر type با مقدار \"pills\" در مستندات رسمی یا کد فعلی دیده نشده است.",
+            "unit_id": "u_18251cdbb73f3a2918b8aef7"
+          },
+          {
+            "end": 109,
+            "field": "feature_proposal.desired_behavior",
+            "start": 0,
+            "text": "اضافه‌شدن حالت نمایش قرص مانند به تب‌ها با افزودن پارامتر type=\"pills\" به st.tabs بدون تغییر رفتار کلی تب‌ها.",
+            "unit_id": "u_5623ace151179bef20189f19"
+          },
+          {
+            "end": 105,
+            "field": "feature_proposal.user_need",
+            "start": 0,
+            "text": "امکان نمایش تب‌ها به شکل دکمه‌های rounded به صورت ساده و با مدل container-per-tab مشابه st.tabs نیاز است.",
+            "unit_id": "u_1992824782b8aab287887654"
+          }
+        ]
+      },
+      "steps": 9,
+      "usage": {
+        "charged_or_reserved_usd": 0.007541599999999926,
+        "cost_usd": 0.007541600000000001,
+        "mode": "live",
+        "provider_requests": 3,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "cost_usd": 0,
+            "kind": "extract",
+            "mode": "cached_live",
+            "original_usage": {
+              "cost_usd": 0.0020926399999999998,
+              "input_tokens": 1960,
+              "kind": "extract",
+              "ledger_id": "61d90ce52b538c8ae68c4954",
+              "mode": "live",
+              "output_tokens": 699,
+              "provider_requests": 1
+            },
+            "provider_requests": 0
+          },
+          {
+            "cost_usd": 0.0018704400000000001,
+            "input_tokens": 3655,
+            "kind": "rerank",
+            "ledger_id": "b8f8738ec8d0919375c142be",
+            "mode": "live",
+            "output_tokens": 149,
+            "provider_requests": 1
+          },
+          {
+            "cost_usd": 0.0029387600000000003,
+            "input_tokens": 4211,
+            "kind": "chat",
+            "ledger_id": "cd504147a37b3fb179209280",
+            "mode": "live",
+            "output_tokens": 617,
+            "provider_requests": 1
+          },
+          {
+            "cost_usd": 0.0027324000000000003,
+            "input_tokens": 2650,
+            "kind": "judge",
+            "ledger_id": "9f0c664403d7913d33c89783",
+            "mode": "live",
+            "output_tokens": 890,
+            "provider_requests": 1
+          }
+        ]
+      },
+      "validation_error": "judge_contract_error"
+    },
+    "at": "2026-10-09T01:00:59.120732+00:00"
+  }
+]

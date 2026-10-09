@@ -6,7 +6,7 @@ snapshots and the private embedding cache remain reproducible.
 import re
 from .common import digest,canonical
 
-REVISION = 'v2.3-quality'
+REVISION = 'v2.4-bound-review'
 NONTECH = re.compile(r'(?i)^(checklist|related issues|additional context|community|voting|references|related pr|other issues)\b')
 BOILERPLATE = re.compile(r'(?i)searched.*(?:existing|similar).*issues|descriptive title|provided sufficient information|vote.*(?:issue|feature)|thumbs.up|community voting|please add.*reaction')
 FUTURE = re.compile(r'(?i)\b(?:proposal|proposed architecture|future architecture|design proposal|execution model proposal)\b')

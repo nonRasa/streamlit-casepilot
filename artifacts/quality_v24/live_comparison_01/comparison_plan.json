@@ -1,0 +1,147 @@
+{
+  "mode": "live",
+  "at": 1791507546.32987,
+  "cases": [
+    {
+      "id": "GH17011",
+      "initial_message": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+      "initial_facts": {},
+      "initial_checks": []
+    },
+    {
+      "id": "GH16481",
+      "initial_message": "Add a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nAdd a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.\n\n### Why?\n\nThe underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards. Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is more boilerplate and doesn't give the clean container-per-tab model that `st.tabs` provides.\n\n### How?\n\nAdd a `type` parameter (default preserves today's look):\n\n```python\ntab1, tab2, tab3 = st.tabs([\"Overview\", \"Details\", \"Settings\"], type=\"pills\")\nwith tab1:\n    st.write(\"...\")\n```\n\n- `type=\"default\"` (or `\"underline\"`) — current tab bar.\n- `type=\"pills\"` — render the tab headers as pills.\n- Everything else (content containers, active-tab state, etc.) stays identical.\n\n### Additional Context\n\n- Visually aligns `st.tabs` with the existing pill styling used by `st.pills` / `st.segmented_control`, but with the `st.tabs` container model.\n- Design references for the pills style:\n  - [Tailwind Plus — Tabs (pill variant)](https://tailwindcss.com/plus/ui-blocks/application-ui/navigation/tabs#component-2a66fc822e8ad55f59321825e5af0980)\n  - [Tremor — Tabs, solid variant](https://tremor.so/docs/ui/tabs#example-tabs-solid-variant)\n  - [Tremor — Tabs, stretched](https://tremor.so/docs/ui/tabs#example-streched-tabs)",
+      "initial_facts": {},
+      "initial_checks": []
+    }
+  ],
+  "files": {
+    "artifacts/quality_v24/baseline/src/casepilot/__init__.py": "14297a2fe955613daf489c47801aa269af0d134b433e082ed99f93e1febe18ef",
+    "artifacts/quality_v24/baseline/src/casepilot/accounting.py": "da505c1c29416df79d34f4055ffcf3573467a6a933b22d4773dcbab3f695fdb5",
+    "artifacts/quality_v24/baseline/src/casepilot/agent.py": "6e549b1864141c795cd46cbfe588d6ed8770110b1c58cc3c7b86daa294f95105",
+    "artifacts/quality_v24/baseline/src/casepilot/chunking.py": "febc3dfa63bd619ee3dcb24693e970ccdecd9d6d695e155d84179641c16e5960",
+    "artifacts/quality_v24/baseline/src/casepilot/cli.py": "b9b2253c47a826fe57476c77c52a34d23460fb5985dae6a65ed8df8f21775dc9",
+    "artifacts/quality_v24/baseline/src/casepilot/common.py": "6f941d47fad1bcdf881aa99799de5faaa6a7ccff4275f0de9b36894404f1a194",
+    "artifacts/quality_v24/baseline/src/casepilot/embeddings.py": "284cd5033902b49692a3d01b9b74a6ad0a46c5e9affdef8b8eff457537f12e61",
+    "artifacts/quality_v24/baseline/src/casepilot/evidence.py": "785d323a639ac684311bc08074042b26d71f638a1b9eedc6ed0e141c323b577d",
+    "artifacts/quality_v24/baseline/src/casepilot/grounding.py": "0ff0fb28acbca1ca246199d3586f9f1e5ebb50ebb42e5f02dea660178995c532",
+    "artifacts/quality_v24/baseline/src/casepilot/hybrid.py": "fcb2c2d0250e168c6f9b85a735d091231c8c418ac24b83627c9d43ea1e48142a",
+    "artifacts/quality_v24/baseline/src/casepilot/memory.py": "37c9533628c48599cb3c5cfd8b00249c5c19703349c2e6c631111d80a0167280",
+    "artifacts/quality_v24/baseline/src/casepilot/model.py": "0ce6b5fd8ed5f09f55aed4332fcfab05278ad1ceb11931f78eab6b3589b4ce33",
+    "artifacts/quality_v24/baseline/src/casepilot/pipeline.py": "7281ce93f7d353845d935247a881268911b1894063f3d4fe069dabab5ac40486",
+    "artifacts/quality_v24/baseline/src/casepilot/quality.py": "8ff0376246123556f0e58f25abcd9ff62e000ed69c2aef978918a090202b3596",
+    "artifacts/quality_v24/baseline/src/casepilot/retrieval.py": "767d56e39f6780806447ae9e8956d15291e2a864fea606e093c2ba9a9a6f3984",
+    "artifacts/quality_v24/baseline/src/casepilot/review_contract.py": "229fa992e950c75fb051e8863e957ae5158bdc919b5876fe192f9f60f949a79c",
+    "artifacts/quality_v24/baseline/src/casepilot/roles.py": "efddccfcf02d9780748a9e773bb3a3888f4573688b91705f764baa8784dc433d",
+    "artifacts/quality_v24/baseline/src/casepilot/routing.py": "b7ea95c9845c67f2514dd67fcb073b7a30fc3312d78a2bb734a6028140883e5c",
+    "artifacts/quality_v24/baseline/src/casepilot/server.py": "b2c9fc974670d2b32c18736e31985eea7e7e74d1eeee1bf75ffc982ef578137d",
+    "artifacts/quality_v24/baseline/src/casepilot/store.py": "1950a295dde2a922b1ecb0fb3f164b93aa5ef5f3ea105c216e39a2d671cd0dc7",
+    "artifacts/quality_v24/baseline_manifest.json": "473f95c44814262daa317b088762d17e8e72aec2e000911dae81f62f514b5a6b",
+    "artifacts/quality_v24/live_comparison_01/authorization_plan.json": "f5f16734ea659a717a469eeb6472a02e6a0bd1ae4b9bd9aeafe29272c4c16e98",
+    "artifacts/quality_v24/live_comparison_01/review_rubric.json": "9de47ae4dc4748d64998437c03b3ed7ef47ce360075c8105418ccf52f2d52990",
+    "artifacts/quality_v24/offline_audit.json": "23ea0b90e51b9ff80119e44453a47a6b454c148e9b8f85945a80dd4e96d956a4",
+    "data/corpus_v2.json": "cae28a1a596a410e19d1130b1f60e9055a944f7657b51c911e51a7ad353725c6",
+    "data/index_v2_manifest.json": "1e32a5604bfa1a1ad3cbdc595f74fdb28740820c4d70aa7b9317d027ee8d8375",
+    "docs/QUALITY_V24_PROTOCOL_FA.md": "ba6d753dbe10e7285d79ecb938ff606ed7948164dc628bf3692859cfdc9e8d37",
+    "schemas/extraction_quality_v23.schema.json": "a8b7addc874aa7fe5a2bd33a518086168aeb5a823539365723db3ba5538af62e",
+    "schemas/judge_quality_v23.schema.json": "12c344db74459a740c0ba212de7a88d161bb3de11123ec18dc3bd6c23c64a936",
+    "schemas/selection_quality_v23.schema.json": "e5a03c9edd2b64237385bc612518ab9a44d02663de0f780332dbc38fe0145bcb",
+    "scripts/evaluate_quality_v24_live.py": "79a64516261964f2ac8ef3e7a6fb059ee2b419863f7c299bcc99d3f6d1509f94",
+    "src/casepilot/__init__.py": "14297a2fe955613daf489c47801aa269af0d134b433e082ed99f93e1febe18ef",
+    "src/casepilot/accounting.py": "da505c1c29416df79d34f4055ffcf3573467a6a933b22d4773dcbab3f695fdb5",
+    "src/casepilot/agent.py": "6e549b1864141c795cd46cbfe588d6ed8770110b1c58cc3c7b86daa294f95105",
+    "src/casepilot/chunking.py": "febc3dfa63bd619ee3dcb24693e970ccdecd9d6d695e155d84179641c16e5960",
+    "src/casepilot/cli.py": "b9b2253c47a826fe57476c77c52a34d23460fb5985dae6a65ed8df8f21775dc9",
+    "src/casepilot/common.py": "6f941d47fad1bcdf881aa99799de5faaa6a7ccff4275f0de9b36894404f1a194",
+    "src/casepilot/embeddings.py": "284cd5033902b49692a3d01b9b74a6ad0a46c5e9affdef8b8eff457537f12e61",
+    "src/casepilot/evidence.py": "785d323a639ac684311bc08074042b26d71f638a1b9eedc6ed0e141c323b577d",
+    "src/casepilot/grounding.py": "0ff0fb28acbca1ca246199d3586f9f1e5ebb50ebb42e5f02dea660178995c532",
+    "src/casepilot/hybrid.py": "fcb2c2d0250e168c6f9b85a735d091231c8c418ac24b83627c9d43ea1e48142a",
+    "src/casepilot/memory.py": "37c9533628c48599cb3c5cfd8b00249c5c19703349c2e6c631111d80a0167280",
+    "src/casepilot/model.py": "8cccbb860b76b19a516ae94cb6dd4a1826e6a0fc8f2aaa086a49d7fdbdee1ae4",
+    "src/casepilot/pipeline.py": "64db05cd7d60cb29920c56966c01cf69df8097283bbad2c27952b4e072d1710e",
+    "src/casepilot/quality.py": "4258853c88b9f154d69329a149fe0c587793d4937fe15ad2ebca4c67f55a3034",
+    "src/casepilot/retrieval.py": "767d56e39f6780806447ae9e8956d15291e2a864fea606e093c2ba9a9a6f3984",
+    "src/casepilot/review_contract.py": "cd450db871ccb539c35ef7e3c9472b131d3eeefdd3a53a153a304d2b0f0ab2b3",
+    "src/casepilot/roles.py": "6e2eccb511ba4efdaa35268dd925dd4a753a70493bd22c99253f5e8243d64ea2",
+    "src/casepilot/routing.py": "b7ea95c9845c67f2514dd67fcb073b7a30fc3312d78a2bb734a6028140883e5c",
+    "src/casepilot/server.py": "b2c9fc974670d2b32c18736e31985eea7e7e74d1eeee1bf75ffc982ef578137d",
+    "src/casepilot/store.py": "1950a295dde2a922b1ecb0fb3f164b93aa5ef5f3ea105c216e39a2d671cd0dc7"
+  },
+  "cost_before": {
+    "requests": 1025,
+    "confirmed_usd": 1.57523333,
+    "uncertain_reserved_usd": 0.211278144,
+    "charged_or_reserved_usd": 1.786511474
+  },
+  "cumulative_cap_usd": 2.00471719,
+  "additional_cap_usd": 0.3,
+  "authorization": "ادامهٔ چهار کار در باقی‌ماندهٔ همان بودجهٔ سی سنتی؛ بدون افزایش سقف",
+  "authorization_date": "2026-10-09",
+  "order": [
+    {
+      "id": "GH17011",
+      "variants": [
+        "previous",
+        "revised"
+      ]
+    },
+    {
+      "id": "GH16481",
+      "variants": [
+        "revised",
+        "previous"
+      ]
+    }
+  ],
+  "pricing": {
+    "source": "https://api.metisai.ir/api/v1/meta/providers/pricing",
+    "chat": {
+      "name": "openai_chat_completion",
+      "model": "gpt-4.1-mini",
+      "type": "llm",
+      "currency": "USD",
+      "fixedCallIncome": 0.0,
+      "inputTokenUnitIncome": 4.4e-07,
+      "outputTokenUnitIncome": 1.76e-06,
+      "perSecondIncome": 0.0,
+      "pricingRules": {
+        "params": {
+          "input_token": 4.4e-07,
+          "output_token": 1.76e-06,
+          "web_search_call": 0.0115,
+          "cached_input_token": 1.1e-07
+        }
+      }
+    },
+    "embedding": {
+      "name": "openai",
+      "model": "text-embedding-3-small",
+      "type": "embedding",
+      "currency": "USD",
+      "fixedCallIncome": 0.0,
+      "inputTokenUnitIncome": 2.2e-08,
+      "outputTokenUnitIncome": 0.0,
+      "perSecondIncome": 0.0,
+      "pricingRules": {
+        "params": {
+          "input_token": 2.2e-08
+        }
+      }
+    }
+  },
+  "limits": {
+    "max_calls": 8,
+    "max_turn_usd": 0.04,
+    "deadline_seconds": 180,
+    "repairs": 1
+  },
+  "no_retry": true,
+  "no_post_test_tuning": true,
+  "semantic_labels_before_inference": false,
+  "rubric_before_inference": true,
+  "split": "development_seen",
+  "max_planned_comparison_usd": 0.16,
+  "diagnostic_cap_usd": 0,
+  "unallocated_reserve_usd": 0.058205715999999935
+}

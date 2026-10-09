@@ -1,0 +1,492 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "accept",
+        "repair",
+        "escalate"
+      ]
+    },
+    "assessments": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "relevance": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "score",
+            "reason"
+          ]
+        },
+        "claim_support": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "score",
+            "reason"
+          ]
+        },
+        "version_fit": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "score",
+            "reason"
+          ]
+        },
+        "next_step_usefulness": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "score",
+            "reason"
+          ]
+        },
+        "avoids_repeated_check": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "score",
+            "reason"
+          ]
+        },
+        "injection_resistance": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "score",
+            "reason"
+          ]
+        }
+      },
+      "required": [
+        "relevance",
+        "claim_support",
+        "version_fit",
+        "next_step_usefulness",
+        "avoids_repeated_check",
+        "injection_resistance"
+      ]
+    },
+    "draft_version": {
+      "type": "string",
+      "enum": [
+        "a7e5b088a5820b7e5eadc1fa9def0418a5238d0cd97f5e544b89236c7bb59d20"
+      ]
+    },
+    "unit_reviews": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "u_1c4d35a635c2b0c658803967": {
+          "$ref": "#/$defs/question"
+        },
+        "u_40bb899ed8d33d8044cb8f58": {
+          "$ref": "#/$defs/general"
+        },
+        "u_fe6a5f8a310ead1f4f296c94": {
+          "$ref": "#/$defs/general"
+        },
+        "u_471313d1af1da2ca7b4fba9f": {
+          "$ref": "#/$defs/hypothesis"
+        },
+        "u_40a3b3db1df84980a8c79d99": {
+          "$ref": "#/$defs/feature"
+        },
+        "u_db03de9f6208641645e3191f": {
+          "$ref": "#/$defs/feature"
+        },
+        "u_eadee3452fadd90e59cd2f36": {
+          "$ref": "#/$defs/feature"
+        },
+        "u_2d1fb707023ca8bbacba22e0": {
+          "$ref": "#/$defs/feature"
+        },
+        "u_7fe5d30ca93163f1ecdd35dc": {
+          "$ref": "#/$defs/feature"
+        }
+      },
+      "required": [
+        "u_1c4d35a635c2b0c658803967",
+        "u_40bb899ed8d33d8044cb8f58",
+        "u_fe6a5f8a310ead1f4f296c94",
+        "u_471313d1af1da2ca7b4fba9f",
+        "u_40a3b3db1df84980a8c79d99",
+        "u_db03de9f6208641645e3191f",
+        "u_eadee3452fadd90e59cd2f36",
+        "u_2d1fb707023ca8bbacba22e0",
+        "u_7fe5d30ca93163f1ecdd35dc"
+      ]
+    },
+    "novelty": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "useful": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "new",
+            "repeated",
+            "unknown"
+          ]
+        },
+        "message_ids": {
+          "$ref": "#/$defs/messages"
+        },
+        "relation": {
+          "type": "string",
+          "enum": [
+            "answers_requested_detail",
+            "equivalent_experiment",
+            "context_only",
+            "unknown"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "useful",
+        "status",
+        "message_ids",
+        "relation",
+        "reason"
+      ]
+    }
+  },
+  "required": [
+    "verdict",
+    "assessments",
+    "draft_version",
+    "unit_reviews",
+    "novelty"
+  ],
+  "$defs": {
+    "sources": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "string",
+        "enum": [
+          "src_498246063fc5f50a83691e96"
+        ]
+      }
+    },
+    "messages": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "string",
+        "enum": [
+          "usr_0f9bb1952c922fb83f7a0f9f",
+          "usr_c286efa8f3df38235cae6101",
+          "usr_ae45eef23415186c6c2b3b1a"
+        ]
+      }
+    },
+    "general": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "technical_claim",
+            "hypothesis",
+            "question",
+            "next_step",
+            "reported_fact",
+            "request_summary"
+          ]
+        },
+        "support": {
+          "type": "string",
+          "enum": [
+            "supported",
+            "partial",
+            "contradicted",
+            "unknown"
+          ]
+        },
+        "source_ids": {
+          "$ref": "#/$defs/sources"
+        },
+        "message_ids": {
+          "$ref": "#/$defs/messages"
+        },
+        "premise": {
+          "type": "boolean"
+        },
+        "standalone": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "version_dependent": {
+          "type": "boolean"
+        },
+        "version_limit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "support",
+        "source_ids",
+        "message_ids",
+        "premise",
+        "standalone",
+        "reason",
+        "version_dependent",
+        "version_limit"
+      ]
+    },
+    "question": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "question",
+            "technical_claim"
+          ]
+        },
+        "support": {
+          "type": "string",
+          "enum": [
+            "supported",
+            "partial",
+            "contradicted",
+            "unknown"
+          ]
+        },
+        "source_ids": {
+          "$ref": "#/$defs/sources"
+        },
+        "message_ids": {
+          "$ref": "#/$defs/messages"
+        },
+        "premise": {
+          "type": "boolean"
+        },
+        "standalone": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "version_dependent": {
+          "type": "boolean"
+        },
+        "version_limit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "support",
+        "source_ids",
+        "message_ids",
+        "premise",
+        "standalone",
+        "reason",
+        "version_dependent",
+        "version_limit"
+      ]
+    },
+    "hypothesis": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "hypothesis"
+          ]
+        },
+        "support": {
+          "type": "string",
+          "enum": [
+            "supported",
+            "partial",
+            "contradicted",
+            "unknown"
+          ]
+        },
+        "source_ids": {
+          "$ref": "#/$defs/sources"
+        },
+        "message_ids": {
+          "$ref": "#/$defs/messages"
+        },
+        "premise": {
+          "type": "boolean"
+        },
+        "standalone": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "version_dependent": {
+          "type": "boolean"
+        },
+        "version_limit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "support",
+        "source_ids",
+        "message_ids",
+        "premise",
+        "standalone",
+        "reason",
+        "version_dependent",
+        "version_limit"
+      ]
+    },
+    "feature": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "request_summary"
+          ]
+        },
+        "support": {
+          "type": "string",
+          "enum": [
+            "supported",
+            "partial",
+            "contradicted",
+            "unknown"
+          ]
+        },
+        "source_ids": {
+          "$ref": "#/$defs/sources"
+        },
+        "message_ids": {
+          "$ref": "#/$defs/messages"
+        },
+        "premise": {
+          "type": "boolean"
+        },
+        "standalone": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "version_dependent": {
+          "type": "boolean"
+        },
+        "version_limit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "support",
+        "source_ids",
+        "message_ids",
+        "premise",
+        "standalone",
+        "reason",
+        "version_dependent",
+        "version_limit"
+      ]
+    }
+  }
+}

@@ -233,11 +233,11 @@ class IntegratedContractTests(unittest.TestCase):
                     'investigation':{'intent':'bug','problem_summary':'widget identity','known_report_spans':[], 'missing_detail':'','new_condition':'','suggested_question':'','acceptance_condition':''}}
                 if role=='rerank': return {'ordered_ids':[r['id'] for r in packet['candidates']]}
                 if role=='judge':
-                    from review_helpers import current_review
+                    from review_helpers import current_review,wire_review
                     out=current_review(packet)
                     if judge_mode=='stale': out['draft_version']='old'
                     if judge_mode=='unsupported': out['unit_reviews'][-1]['support']='unknown'
-                    return out
+                    return wire_review(out)
                 if role=='repair': raise CasePilotError('provider_error','خرابی آزمایشی ابزار')
                 raise AssertionError(role)
         store=Store(path/'tracker.sqlite3'); agent=Agent(store,client=Client(),hybrid=TinyHybrid())

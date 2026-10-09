@@ -1,0 +1,452 @@
+{
+  "id": "GH17127",
+  "variant": "previous",
+  "split": "development_seen",
+  "output": {
+    "case_id": "GH17127",
+    "request_id": "live-v23-additional-previous",
+    "architecture": "v2",
+    "quality_revision": "v2.2-quality",
+    "mode": "live",
+    "method": "final",
+    "components": {
+      "dense": true,
+      "mmr": true,
+      "rerank": true,
+      "judge": true,
+      "rewrite": true,
+      "quality": true
+    },
+    "decision": "escalate",
+    "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\n`st.dataframe` toolbar buttons are 22.4px, below the WCAG 2.2 24px minimum target size (axe `target-size`)\n\n### Checklist\n- [x] I have searched the existing issues for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\nThe hover toolbar that `st.dataframe` draws (Show/hide columns, Download as CSV, Search, Fullscreen)\nrenders each button at 22.4 x 22.4 CSS px, and the buttons sit next to each other, so axe-core's\n`target-size` rule (impact: serious, WCAG 2.2 AA, SC 2.5.8 Target Size (Minimum)) fails. Cause:\n`StyledElementToolbarButton` in `frontend/lib/src/components/shared/BaseButton/styled-components.ts`\n(1.64.0, line ~524) sets `padding: theme.spacing.twoXS` and `minHeight: \"unset\"` around a small icon.\n\n### Reproducible Code Example\nSame app as above (the `st.dataframe` line is enough).\n\n### Steps To Reproduce\n1. `streamlit run app.py`\n2. Hover the dataframe so the toolbar appears.\n3. Run axe-core 4.13 with the `wcag22aa` tag.\n\n### Expected Behavior\nEach toolbar button is at least 24 x 24 CSS px (or spaced so a 24px circle around each does not overlap\nanother target).\n\n### Current Behavior\n```\ntarget-size (serious, wcag22aa, wcag258) — 4 nodes\n<button kind=\"elementToolbar\" data-testid=\"stBaseButton-elementToolbar\" aria-label=\"Show/hide columns\" class=\"st-emotion-\n```\n\nمحیط گزارش‌شده:\n\n```text\nstreamlit_version=1.64.0؛ python_version=3.12\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\ndeployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_contract_error`.",
+    "summary": {
+      "problem": "`st.dataframe` toolbar buttons are 22.4px, below the WCAG 2.2 24px minimum target size (axe `target-size`)\n\n### Checklist\n- [x] I have searched the existing issues for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\nThe hover toolbar that `st.dataframe` draws (Show/hide columns, Download as CSV, Search, Fullscreen)\nrenders each button at 22.4 x 22.4 CSS px, and the buttons sit next to each other, so axe-core's\n`target-size` rule (impact: serious, WCAG 2.2 AA, SC 2.5.8 Target Size (Minimum)) fails. Cause:\n`StyledElementToolbarButton` in `frontend/lib/src/components/shared/BaseButton/styled-components.ts`\n(1.64.0, line ~524) sets `padding: theme.spacing.twoXS` and `minHeight: \"unset\"` around a small icon.\n\n### Reproducible Code Example\nSame app as above (the `st.dataframe` line is enough).\n\n### Steps To Reproduce\n1. `streamlit run app.py`\n2. Hover the dataframe so the toolbar appears.\n3. Run axe-core 4.13 with the `wcag22aa` tag.\n\n### Expected Behavior\nEach toolbar button is at least 24 x 24 CSS px (or spaced so a 24px circle around each does not overlap\nanother target).\n\n### Current Behavior\n```\ntarget-size (serious, wcag22aa, wcag258) — 4 nodes\n<button kind=\"elementToolbar\" data-testid=\"stBaseButton-elementToolbar\" aria-label=\"Show/hide columns\" class=\"st-emotion-cache-18ac3gt eqzt73c20\">\n  Target has insufficient size (22.4px by 22.4px, should be at least 24px by 24px)\n<button ... aria-label=\"Download as CSV\" ...>   (same)\n<button ... aria-label=\"Search\" ...>            (same)\n<button ... aria-label=\"Fullscreen\" ...>        (same)\n```\n\n### Suggested fix\nGive `StyledElementToolbarButton` `minWidth: \"1.5rem\"` and `minHeight: \"1.5rem\"` (24px) instead of\n`minHeight: \"unset\"`, or raise the padding one step. The toolbar is already an overlay above the element,\nso the extra 1.6px per button does not move page layout. The same styled button is used by other element\ntoolbars (charts, `st.data_editor`), which would all pass with the one change.\n\nIn the same minimal app, axe also reports `target-size` on the `st.date_input` month/day spinbutton\nsegments (17.9 x 19.6px); that may deserve its own look but is secondary.\n\n### Is this a regression?\n- [ ] Yes, this used to work in a previous version.\n- [x] No.\n\n### Debug info\n- Streamlit version: 1.64.0 (latest)\n- Python version: 3.12\n- OS: Linux (CI) and Windows 11\n- Browser: Chromium (Playwright bundled)\n-",
+      "facts": {
+        "streamlit_version": "1.64.0",
+        "python_version": "3.12"
+      },
+      "unknowns": [
+        "deployment",
+        "reproducible"
+      ],
+      "completed_checks": [],
+      "sources": [],
+      "decision": "escalate",
+      "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+      "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.",
+      "hypotheses": [],
+      "ambiguities": [],
+      "judge": null,
+      "investigation_plan": {},
+      "experiments": [],
+      "memory_version": 2,
+      "handoff": {
+        "request_type": "bug",
+        "reported_problem": "`st.dataframe` toolbar buttons are 22.4px, below the WCAG 2.2 24px minimum target size (axe `target-size`)\n\n### Checklist\n- [x] I have searched the existing issues for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\nThe hover toolbar that `st.dataframe` draws (Show/hide columns, Download as CSV, Search, Fullscreen)\nrenders each button at 22.4 x 22.4 CSS px, and the buttons sit next to each other, so axe-core's\n`target-size` rule (impact: serious, WCAG 2.2 AA, SC 2.5.8 Target Size (Minimum)) fails. Cause:\n`StyledElementToolbarButton` in `frontend/lib/src/components/shared/BaseButton/styled-components.ts`\n(1.64.0, line ~524) sets `padding: theme.spacing.twoXS` and `minHeight: \"unset\"` around a small icon.\n\n### Reproducible Code Example\nSame app as above (the `st.dataframe` line is enough).\n\n### Steps To Reproduce\n1. `streamlit run app.py`\n2. Hover the dataframe so the toolbar appears.\n3. Run axe-core 4.13 with the `wcag22aa` tag.\n\n### Expected Behavior\nEach toolbar button is at least 24 x 24 CSS px (or spaced so a 24px circle around each does not overlap\nanother target).\n\n### Current Behavior\n```\ntarget-size (serious, wcag22aa, wcag258) — 4 nodes\n<button kind=\"elementToolbar\" data-testid=\"stBaseButton-elementToolbar\" aria-label=\"Show/hide columns\" class=\"st-emotion-",
+        "environment": {
+          "streamlit_version": "1.64.0",
+          "python_version": "3.12"
+        },
+        "experiments": [],
+        "evidence": [],
+        "unknowns": [
+          "deployment",
+          "reproducible"
+        ],
+        "limitations": [
+          "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+          "محدودیت: کد توقف `judge_contract_error`."
+        ],
+        "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+        "feature": {}
+      },
+      "review_failures": [
+        {
+          "kind": "judge_contract",
+          "code": "judge_contract_error",
+          "draft_version": "92740a421d9398fc7a1759d6eebff4cb391f040a1af8197f25fcd19c93b86027"
+        }
+      ]
+    },
+    "proposal": {
+      "id": "b6f27b77da04c80b7d7e1233",
+      "case_id": "GH17127",
+      "revision": 1,
+      "hash": "9183d98a2c101f60c486408a735983e9ef8f3e06d745d11297c5f96900690f38",
+      "payload": {
+        "actions": [
+          {
+            "type": "comment",
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\n`st.dataframe` toolbar buttons are 22.4px, below the WCAG 2.2 24px minimum target size (axe `target-size`)\n\n### Checklist\n- [x] I have searched the existing issues for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\nThe hover toolbar that `st.dataframe` draws (Show/hide columns, Download as CSV, Search, Fullscreen)\nrenders each button at 22.4 x 22.4 CSS px, and the buttons sit next to each other, so axe-core's\n`target-size` rule (impact: serious, WCAG 2.2 AA, SC 2.5.8 Target Size (Minimum)) fails. Cause:\n`StyledElementToolbarButton` in `frontend/lib/src/components/shared/BaseButton/styled-components.ts`\n(1.64.0, line ~524) sets `padding: theme.spacing.twoXS` and `minHeight: \"unset\"` around a small icon.\n\n### Reproducible Code Example\nSame app as above (the `st.dataframe` line is enough).\n\n### Steps To Reproduce\n1. `streamlit run app.py`\n2. Hover the dataframe so the toolbar appears.\n3. Run axe-core 4.13 with the `wcag22aa` tag.\n\n### Expected Behavior\nEach toolbar button is at least 24 x 24 CSS px (or spaced so a 24px circle around each does not overlap\nanother target).\n\n### Current Behavior\n```\ntarget-size (serious, wcag22aa, wcag258) — 4 nodes\n<button kind=\"elementToolbar\" data-testid=\"stBaseButton-elementToolbar\" aria-label=\"Show/hide columns\" class=\"st-emotion-\n```\n\nمحیط گزارش‌شده:\n\n```text\nstreamlit_version=1.64.0؛ python_version=3.12\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\ndeployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_contract_error`."
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "problem": "`st.dataframe` toolbar buttons are 22.4px, below the WCAG 2.2 24px minimum target size (axe `target-size`)\n\n### Checklist\n- [x] I have searched the existing issues for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\nThe hover toolbar that `st.dataframe` draws (Show/hide columns, Download as CSV, Search, Fullscreen)\nrenders each button at 22.4 x 22.4 CSS px, and the buttons sit next to each other, so axe-core's\n`target-size` rule (impact: serious, WCAG 2.2 AA, SC 2.5.8 Target Size (Minimum)) fails. Cause:\n`StyledElementToolbarButton` in `frontend/lib/src/components/shared/BaseButton/styled-components.ts`\n(1.64.0, line ~524) sets `padding: theme.spacing.twoXS` and `minHeight: \"unset\"` around a small icon.\n\n### Reproducible Code Example\nSame app as above (the `st.dataframe` line is enough).\n\n### Steps To Reproduce\n1. `streamlit run app.py`\n2. Hover the dataframe so the toolbar appears.\n3. Run axe-core 4.13 with the `wcag22aa` tag.\n\n### Expected Behavior\nEach toolbar button is at least 24 x 24 CSS px (or spaced so a 24px circle around each does not overlap\nanother target).\n\n### Current Behavior\n```\ntarget-size (serious, wcag22aa, wcag258) — 4 nodes\n<button kind=\"elementToolbar\" data-testid=\"stBaseButton-elementToolbar\" aria-label=\"Show/hide columns\" class=\"st-emotion-cache-18ac3gt eqzt73c20\">\n  Target has insufficient size (22.4px by 22.4px, should be at least 24px by 24px)\n<button ... aria-label=\"Download as CSV\" ...>   (same)\n<button ... aria-label=\"Search\" ...>            (same)\n<button ... aria-label=\"Fullscreen\" ...>        (same)\n```\n\n### Suggested fix\nGive `StyledElementToolbarButton` `minWidth: \"1.5rem\"` and `minHeight: \"1.5rem\"` (24px) instead of\n`minHeight: \"unset\"`, or raise the padding one step. The toolbar is already an overlay above the element,\nso the extra 1.6px per button does not move page layout. The same styled button is used by other element\ntoolbars (charts, `st.data_editor`), which would all pass with the one change.\n\nIn the same minimal app, axe also reports `target-size` on the `st.date_input` month/day spinbutton\nsegments (17.9 x 19.6px); that may deserve its own look but is secondary.\n\n### Is this a regression?\n- [ ] Yes, this used to work in a previous version.\n- [x] No.\n\n### Debug info\n- Streamlit version: 1.64.0 (latest)\n- Python version: 3.12\n- OS: Linux (CI) and Windows 11\n- Browser: Chromium (Playwright bundled)\n-",
+          "facts": {
+            "streamlit_version": "1.64.0",
+            "python_version": "3.12"
+          },
+          "unknowns": [
+            "deployment",
+            "reproducible"
+          ],
+          "completed_checks": [],
+          "sources": [],
+          "decision": "escalate",
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.",
+          "hypotheses": [],
+          "ambiguities": [],
+          "judge": null,
+          "investigation_plan": {},
+          "experiments": [],
+          "memory_version": 2,
+          "handoff": {
+            "request_type": "bug",
+            "reported_problem": "`st.dataframe` toolbar buttons are 22.4px, below the WCAG 2.2 24px minimum target size (axe `target-size`)\n\n### Checklist\n- [x] I have searched the existing issues for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\nThe hover toolbar that `st.dataframe` draws (Show/hide columns, Download as CSV, Search, Fullscreen)\nrenders each button at 22.4 x 22.4 CSS px, and the buttons sit next to each other, so axe-core's\n`target-size` rule (impact: serious, WCAG 2.2 AA, SC 2.5.8 Target Size (Minimum)) fails. Cause:\n`StyledElementToolbarButton` in `frontend/lib/src/components/shared/BaseButton/styled-components.ts`\n(1.64.0, line ~524) sets `padding: theme.spacing.twoXS` and `minHeight: \"unset\"` around a small icon.\n\n### Reproducible Code Example\nSame app as above (the `st.dataframe` line is enough).\n\n### Steps To Reproduce\n1. `streamlit run app.py`\n2. Hover the dataframe so the toolbar appears.\n3. Run axe-core 4.13 with the `wcag22aa` tag.\n\n### Expected Behavior\nEach toolbar button is at least 24 x 24 CSS px (or spaced so a 24px circle around each does not overlap\nanother target).\n\n### Current Behavior\n```\ntarget-size (serious, wcag22aa, wcag258) — 4 nodes\n<button kind=\"elementToolbar\" data-testid=\"stBaseButton-elementToolbar\" aria-label=\"Show/hide columns\" class=\"st-emotion-",
+            "environment": {
+              "streamlit_version": "1.64.0",
+              "python_version": "3.12"
+            },
+            "experiments": [],
+            "evidence": [],
+            "unknowns": [
+              "deployment",
+              "reproducible"
+            ],
+            "limitations": [
+              "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+              "محدودیت: کد توقف `judge_contract_error`."
+            ],
+            "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+            "feature": {}
+          },
+          "review_failures": [
+            {
+              "kind": "judge_contract",
+              "code": "judge_contract_error",
+              "draft_version": "92740a421d9398fc7a1759d6eebff4cb391f040a1af8197f25fcd19c93b86027"
+            }
+          ]
+        }
+      },
+      "status": "pending"
+    },
+    "retrieved": [
+      {
+        "id": "docs:dataframes:v2:9e1cf50e36fae6d0",
+        "source_id": "docs:dataframes",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+        "section": "`st.dataframe` UI features",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.03324913
+      },
+      {
+        "id": "docs:dataframes:v2:2bc5764b033f45b5",
+        "source_id": "docs:dataframes",
+        "kind": "docs",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+        "section": "Edit data with st.data_editor",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "official_documentation",
+        "retrieval_score": 0.03069595
+      },
+      {
+        "id": "issue:17026:v2:bc8310223233b291",
+        "source_id": "issue:17026",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/17026",
+        "section": "Keyed `st.dataframe` / `st.data_editor` keep positional selection and edit state across a data change, so actions land on the wrong row",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "retrieval_score": 0.02654712
+      },
+      {
+        "id": "issue:17026:v2:64349a8f42245102",
+        "source_id": "issue:17026",
+        "kind": "issue",
+        "url": "https://github.com/streamlit/streamlit/issues/17026",
+        "section": "Debug info",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "retrieval_score": 0.02545169
+      },
+      {
+        "id": "docs:2026:v2:c7bb1ead9db9a42f",
+        "source_id": "docs:2026",
+        "kind": "release",
+        "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2026.md",
+        "section": "**Version 1.60.0**",
+        "product_version": null,
+        "version_relation": "unknown",
+        "temporal_status": "not_historical",
+        "source_authority": "reported_observation",
+        "retrieval_score": 0.02472527
+      }
+    ],
+    "steps": 9,
+    "model_calls": 4,
+    "max_calls": 8,
+    "repair_count": 0,
+    "judge": null,
+    "pipeline": [
+      {
+        "stage": "extract",
+        "status": "fallback",
+        "error": "invalid_extraction"
+      },
+      {
+        "stage": "read_case",
+        "revision": 1
+      },
+      {
+        "stage": "retrieve",
+        "method": "bm25+dense+rrf+mmr",
+        "rrf_k": 60,
+        "mmr_lambda": 0.7,
+        "components": {
+          "dense": true,
+          "mmr": true,
+          "quality": true,
+          "rerank": true,
+          "judge": true,
+          "rewrite": true
+        },
+        "embedding": {
+          "texts": 1,
+          "unique_missing": 0,
+          "cache_hits": 1,
+          "batches": 0,
+          "usage": [],
+          "identity": {
+            "provider": "https://api.metisai.ir/openai/v1",
+            "model": "text-embedding-3-small",
+            "normalization": "whitespace-v1",
+            "encoding_format": "float"
+          }
+        },
+        "candidates": [
+          "docs:dataframes:v2:9e1cf50e36fae6d0",
+          "issue:17126:v2:79fc1c33f4867901",
+          "issue:16389:v2:0e874337a74c6e41",
+          "docs:dataframes:v2:2bc5764b033f45b5",
+          "issue:17026:v2:bc8310223233b291",
+          "docs:2026:v2:c7bb1ead9db9a42f",
+          "issue:17026:v2:64349a8f42245102",
+          "docs:2026:v2:3feb357dbd78e2fb"
+        ],
+        "quality_filter": true,
+        "excluded_chunks": 2097,
+        "as_of": null,
+        "temporal_policy": "current_snapshot",
+        "version_warnings": [
+          "docs:dataframes:v2:9e1cf50e36fae6d0",
+          "issue:17126:v2:79fc1c33f4867901",
+          "issue:16389:v2:0e874337a74c6e41",
+          "docs:dataframes:v2:2bc5764b033f45b5",
+          "issue:17026:v2:bc8310223233b291",
+          "docs:2026:v2:c7bb1ead9db9a42f",
+          "issue:17026:v2:64349a8f42245102",
+          "docs:2026:v2:3feb357dbd78e2fb"
+        ]
+      },
+      {
+        "stage": "rerank",
+        "status": "ok",
+        "ids": [
+          "docs:dataframes:v2:9e1cf50e36fae6d0",
+          "docs:dataframes:v2:2bc5764b033f45b5",
+          "issue:17026:v2:bc8310223233b291",
+          "issue:17026:v2:64349a8f42245102",
+          "docs:2026:v2:c7bb1ead9db9a42f",
+          "docs:2026:v2:3feb357dbd78e2fb",
+          "issue:17126:v2:79fc1c33f4867901",
+          "issue:16389:v2:0e874337a74c6e41"
+        ]
+      },
+      {
+        "stage": "context_pack",
+        "ids": [
+          "docs:dataframes:v2:9e1cf50e36fae6d0",
+          "docs:dataframes:v2:2bc5764b033f45b5",
+          "issue:17026:v2:bc8310223233b291",
+          "issue:17026:v2:64349a8f42245102",
+          "docs:2026:v2:c7bb1ead9db9a42f"
+        ],
+        "utf8_bytes": 5655
+      },
+      {
+        "stage": "draft",
+        "status": "produced"
+      },
+      {
+        "stage": "judge_contract_failure",
+        "kind": "judge_contract",
+        "code": "judge_contract_error",
+        "draft_version": "92740a421d9398fc7a1759d6eebff4cb391f040a1af8197f25fcd19c93b86027"
+      },
+      {
+        "stage": "safe_escalation",
+        "error": "judge_contract_error"
+      },
+      {
+        "stage": "prepare_proposal",
+        "id": "b6f27b77da04c80b7d7e1233",
+        "hash": "9183d98a2c101f60c486408a735983e9ef8f3e06d745d11297c5f96900690f38",
+        "auto_execute": false
+      }
+    ],
+    "usage": {
+      "mode": "live",
+      "provider_requests": 3,
+      "cost_usd": 0.00856196,
+      "reserved_usd": 0,
+      "stages": [
+        {
+          "mode": "cached_live",
+          "cost_usd": 0,
+          "provider_requests": 0,
+          "kind": "extract",
+          "original_usage": {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "extract",
+            "input_tokens": 2059,
+            "output_tokens": 674,
+            "cost_usd": 0.0020922,
+            "ledger_id": "e2aa809d79be1a694bfe96a3"
+          }
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "rerank",
+          "input_tokens": 4535,
+          "output_tokens": 142,
+          "cost_usd": 0.0022453200000000003,
+          "ledger_id": "f8e2fdbb57f9fac2de2c7f53"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "chat",
+          "input_tokens": 4723,
+          "output_tokens": 372,
+          "cost_usd": 0.0027328400000000003,
+          "ledger_id": "ba2092267046172d178cf0d7"
+        },
+        {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "judge",
+          "input_tokens": 5737,
+          "output_tokens": 602,
+          "cost_usd": 0.0035838000000000003,
+          "ledger_id": "4e0c8b0fdcbe844583b00633"
+        }
+      ],
+      "charged_or_reserved_usd": 0.00856195999999998
+    },
+    "validation_error": "judge_contract_error",
+    "review_failures": [
+      {
+        "kind": "judge_contract",
+        "code": "judge_contract_error",
+        "draft_version": "92740a421d9398fc7a1759d6eebff4cb391f040a1af8197f25fcd19c93b86027"
+      }
+    ],
+    "reviewed_draft": {
+      "draft_version": "92740a421d9398fc7a1759d6eebff4cb391f040a1af8197f25fcd19c93b86027",
+      "case_id": "GH17127",
+      "case_revision": 1,
+      "generation": 0,
+      "units": [
+        {
+          "unit_id": "u_345725c4e646f168dfac4a19",
+          "field": "question",
+          "text": "آیا می‌خواهید راهنمایی کنیم چگونه می‌توان اندازه دکمه‌های نوار ابزار `st.dataframe` را بزرگ‌تر کرد تا با استانداردهای WCAG 2.2 حداقل ۲۴ پیکسل مطابقت داشته باشد؟",
+          "start": 0,
+          "end": 160
+        },
+        {
+          "unit_id": "u_6df825906a0a76722e7d7bc8",
+          "field": "next_step",
+          "text": "با توجه به مستندات موجود، نوار ابزار `st.dataframe` دکمه‌هایی برای مرتب‌سازی ستون، تغییر اندازه، پنهان کردن ستون‌ها، تغییر قالب اعداد و... ارائه می‌دهد. اگر مشکلی در اندازه دکمه‌های این نوار وجود دارد که باعث عدم انطباق با استانداردهای WCAG 2.2 می‌شود، پیشنهاد می‌شود برای رفع آن بهبود کد استایل نوار ابزار داده شود.",
+          "start": 0,
+          "end": 316
+        },
+        {
+          "unit_id": "u_7db7db7c9c970bc559342d8b",
+          "field": "rationale",
+          "text": "مستندات `st.dataframe` نشان می‌دهد این کامپوننت دارای نوار ابزار با دکمه‌هایی برای انجام عملیاتی مانند مرتب‌سازی، تغییر اندازه و جستجو است. این دکمه‌ها اندازه‌ای کمتر از حد مجاز WCAG 2.2 دارند که گزارش شده است. بنابراین، برای رسیدگی به این موضوع نیاز به تغییر استایل دکمه‌ها است، اما این به عنوان یک خطا یا اشکال رسمی ثبت نشده و صرفا یک پیشنهاد است.",
+          "start": 0,
+          "end": 349
+        }
+      ]
+    },
+    "latency_seconds": 16.164387
+  },
+  "failure": null,
+  "elapsed_seconds": 16.197654100018553,
+  "usage": [
+    {
+      "mode": "cached_live",
+      "cost_usd": 0,
+      "provider_requests": 0,
+      "kind": "extract",
+      "original_usage": {
+        "mode": "live",
+        "provider_requests": 1,
+        "kind": "extract",
+        "input_tokens": 2059,
+        "output_tokens": 674,
+        "cost_usd": 0.0020922,
+        "ledger_id": "e2aa809d79be1a694bfe96a3"
+      }
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "rerank",
+      "input_tokens": 4535,
+      "output_tokens": 142,
+      "cost_usd": 0.0022453200000000003,
+      "ledger_id": "f8e2fdbb57f9fac2de2c7f53"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "chat",
+      "input_tokens": 4723,
+      "output_tokens": 372,
+      "cost_usd": 0.0027328400000000003,
+      "ledger_id": "ba2092267046172d178cf0d7"
+    },
+    {
+      "mode": "live",
+      "provider_requests": 1,
+      "kind": "judge",
+      "input_tokens": 5737,
+      "output_tokens": 602,
+      "cost_usd": 0.0035838000000000003,
+      "ledger_id": "4e0c8b0fdcbe844583b00633"
+    }
+  ],
+  "pipeline_sha256": "74e3565717fbc2869493f2ac06869bc720af340896ac68302df71981ef2a97a8",
+  "pipeline_path": "F:\\Quera AI\\Project\\streamlit-casepilot\\artifacts\\quality_v23\\baseline\\src\\casepilot\\pipeline.py"
+}

@@ -154,7 +154,8 @@ class FeatureRegressions(unittest.TestCase):
                             _,r=review(a,s,[]);r['draft_version']=env['draft_version']
                             for e,u in zip(r['unit_reviews'],env['units']):e['unit_id']=u['unit_id']
                             if env['generation']==1 and reject_second:r['unit_reviews'][-1]['support']='partial'
-                            return r
+                            from review_helpers import wire_review
+                            return wire_review(r)
                         raise AssertionError(role)
                 client=Client();store=Store(Path(temp)/'store.sqlite3');out=Agent(store,client=client,hybrid=TinyHybrid()).turn('A',p['initial_report'],'one')
                 self.assertEqual(client.generations,[0,1]);self.assertEqual(out['repair_count'],1);self.assertLessEqual(out['model_calls'],8)

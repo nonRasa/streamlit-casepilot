@@ -1,0 +1,1626 @@
+[
+  {
+    "id": 1,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ambiguities": [
+        "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+      ],
+      "checks": [
+        "- [x] Yes, this used to work in a previous version."
+      ],
+      "facts_with_quotes": [
+        {
+          "key": "streamlit_version",
+          "quote": "- Streamlit version: 1.64.0",
+          "value": "1.64.0"
+        },
+        {
+          "key": "python_version",
+          "quote": "- Python version: Python 3.13.13",
+          "value": "3.13.13"
+        },
+        {
+          "key": "os",
+          "quote": "- Operating System: Linux 7.1.4-arch1-1",
+          "value": "Linux 7.1.4-arch1-1"
+        },
+        {
+          "key": "browser",
+          "quote": "- Browser: Firefox",
+          "value": "Firefox"
+        },
+        {
+          "key": "symptom_scope",
+          "quote": "dialog stops being responsive",
+          "value": "dialog stops being responsive"
+        },
+        {
+          "key": "reproducible",
+          "quote": "I have provided sufficient information below to help reproduce this issue.",
+          "value": "true"
+        }
+      ],
+      "keys": [
+        "browser",
+        "os",
+        "python_version",
+        "streamlit_version",
+        "symptom_scope"
+      ],
+      "stage": "extract",
+      "status": "ok"
+    },
+    "at": "2026-10-09T00:41:49.495479+00:00"
+  },
+  {
+    "id": 2,
+    "case_id": "GH17011",
+    "kind": "user_update",
+    "payload": {
+      "checks": [
+        "- [x] Yes, this used to work in a previous version."
+      ],
+      "facts": {
+        "browser": "Firefox",
+        "os": "Linux 7.1.4-arch1-1",
+        "python_version": "3.13.13",
+        "streamlit_version": "1.64.0",
+        "symptom_scope": "dialog stops being responsive"
+      },
+      "message": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+      "revision": 1
+    },
+    "at": "2026-10-09T00:41:49.508633+00:00"
+  },
+  {
+    "id": 3,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "revision": 1,
+      "stage": "read_case"
+    },
+    "at": "2026-10-09T00:41:49.529298+00:00"
+  },
+  {
+    "id": 4,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "as_of": null,
+      "candidates": [
+        "docs:fragments:v2:cb48967ad96007e2",
+        "docs:session_state:v2:58dde40a15de068f",
+        "docs:button-behavior-and-examples:v2:3a3ee4c8ee068999",
+        "docs:fragments:v2:f8d97e183dd7d878",
+        "issue:16005:v2:e620d4c5f982acfd",
+        "issue:11266:v2:5df5b300853d70e7",
+        "issue:16708:v2:7b2f3e555aef7fe6",
+        "issue:11266:v2:b0b00ad71c9d0511"
+      ],
+      "components": {
+        "dense": true,
+        "judge": true,
+        "mmr": true,
+        "quality": true,
+        "rerank": true,
+        "rewrite": true
+      },
+      "embedding": {
+        "batches": 1,
+        "cache_hits": 0,
+        "identity": {
+          "encoding_format": "float",
+          "model": "text-embedding-3-small",
+          "normalization": "whitespace-v1",
+          "provider": "https://api.metisai.ir/openai/v1"
+        },
+        "texts": 1,
+        "unique_missing": 1,
+        "usage": [
+          {
+            "cost_usd": 1.3419999999999998e-06,
+            "input_tokens": 61,
+            "kind": "embedding",
+            "ledger_id": "0f5f23d18b16679a6036aae6",
+            "mode": "live",
+            "output_tokens": 0,
+            "provider_requests": 1
+          }
+        ]
+      },
+      "excluded_chunks": 2089,
+      "method": "bm25+dense+rrf+mmr",
+      "mmr_lambda": 0.7,
+      "quality_filter": true,
+      "rrf_k": 60,
+      "stage": "retrieve",
+      "temporal_policy": "current_snapshot",
+      "version_warnings": [
+        "docs:fragments:v2:cb48967ad96007e2",
+        "docs:session_state:v2:58dde40a15de068f",
+        "docs:button-behavior-and-examples:v2:3a3ee4c8ee068999",
+        "docs:fragments:v2:f8d97e183dd7d878",
+        "issue:16005:v2:e620d4c5f982acfd",
+        "issue:11266:v2:5df5b300853d70e7",
+        "issue:16708:v2:7b2f3e555aef7fe6",
+        "issue:11266:v2:b0b00ad71c9d0511"
+      ]
+    },
+    "at": "2026-10-09T00:41:52.928629+00:00"
+  },
+  {
+    "id": 5,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ids": [
+        "docs:fragments:v2:cb48967ad96007e2",
+        "docs:fragments:v2:f8d97e183dd7d878",
+        "issue:11266:v2:5df5b300853d70e7",
+        "issue:11266:v2:b0b00ad71c9d0511",
+        "docs:session_state:v2:58dde40a15de068f",
+        "docs:button-behavior-and-examples:v2:3a3ee4c8ee068999",
+        "issue:16005:v2:e620d4c5f982acfd",
+        "issue:16708:v2:7b2f3e555aef7fe6"
+      ],
+      "stage": "rerank",
+      "status": "ok"
+    },
+    "at": "2026-10-09T00:41:54.770497+00:00"
+  },
+  {
+    "id": 6,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ids": [
+        "docs:fragments:v2:cb48967ad96007e2",
+        "docs:fragments:v2:f8d97e183dd7d878",
+        "issue:11266:v2:5df5b300853d70e7",
+        "issue:11266:v2:b0b00ad71c9d0511",
+        "docs:session_state:v2:58dde40a15de068f"
+      ],
+      "stage": "context_pack",
+      "utf8_bytes": 5572
+    },
+    "at": "2026-10-09T00:41:54.781834+00:00"
+  },
+  {
+    "id": 7,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "stage": "draft",
+      "status": "produced"
+    },
+    "at": "2026-10-09T00:42:00.052573+00:00"
+  },
+  {
+    "id": 8,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "code": "judge_contract_error",
+      "draft_version": "a7e5b088a5820b7e5eadc1fa9def0418a5238d0cd97f5e544b89236c7bb59d20",
+      "kind": "judge_contract",
+      "stage": "judge_contract_failure"
+    },
+    "at": "2026-10-09T00:42:06.835179+00:00"
+  },
+  {
+    "id": 9,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "error": "judge_contract_error",
+      "stage": "safe_escalation"
+    },
+    "at": "2026-10-09T00:42:06.844860+00:00"
+  },
+  {
+    "id": 10,
+    "case_id": "GH17011",
+    "kind": "proposal_created",
+    "payload": {
+      "hash": "e6d79894b27ad066a45c5d899a91e353b078095fbc8b8d437e4bc960a306c617",
+      "payload": {
+        "actions": [
+          {
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nConditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops be\n```\n\nمحیط گزارش‌شده:\n\n```text\nstreamlit_version=1.64.0؛ python_version=3.13.13؛ os=Linux 7.1.4-arch1-1؛ browser=Firefox؛ symptom_scope=dialog stops being responsive\n```\n\nبررسی‌های گزارش‌شده:\n\n```json\n[\n  {\n    \"action\": \"run repro.py\",\n    \"conditions\": \"[{'dimension': 'streamlit_version', 'value': '1.57.0', 'quote': 'uv run --no-project --with streamlit==1.57.0 streamlit run repro.py'}, {'dimension': 'app_variant', 'value': 'repro.py', 'quote': 'uv r\",\n    \"status\": \"succeeded\",\n    \"result\": \"worked when ran with\",\n    \"provenance\": {\n      \"kind\": \"user_report\",\n      \"message_index\": 0,\n      \"at\": \"2026-10-09T00:41:49.507617+00:00\"\n    }\n  },\n  {\n    \"action\": \"run repro.py\",\n    \"conditions\": \"[{'dimension': 'streamlit_version', 'value': '1.58.0', 'quote': 'uv run --no-project --with streamlit==1.58.0 streamlit run repro.py'}, {'dimension': 'app_variant', 'value': 'repro.py', 'quote': 'uv r\",\n    \"status\": \"failed\",\n    \"result\": \"stopped working at\",\n    \"provenance\": {\n      \"kind\": \"user_report\",\n      \"message_index\": 0,\n      \"at\": \"2026-10-09T00:41:49.507617+00:00\"\n    }\n  }\n]\n```\n\nمجهولات:\n\n```text\ndeployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_contract_error`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند.",
+            "type": "comment"
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "ambiguities": [
+            "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+          ],
+          "completed_checks": [
+            "- [x] Yes, this used to work in a previous version."
+          ],
+          "decision": "escalate",
+          "experiments": [
+            {
+              "action": "run repro.py",
+              "action_key": "run_repro.py",
+              "case_revision": 1,
+              "conditions": [
+                {
+                  "dimension": "streamlit_version",
+                  "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py",
+                  "value": "1.57.0"
+                },
+                {
+                  "dimension": "app_variant",
+                  "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py",
+                  "value": "repro.py"
+                }
+              ],
+              "equivalence_known": true,
+              "id": "exp_f2e9cbd55af92c1a2593",
+              "provenance": {
+                "at": "2026-10-09T00:41:49.507617+00:00",
+                "kind": "user_report",
+                "message_index": 0
+              },
+              "quote": "worked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```",
+              "result": "worked when ran with",
+              "sequence": 1,
+              "status": "succeeded",
+              "supersedes": ""
+            },
+            {
+              "action": "run repro.py",
+              "action_key": "run_repro.py",
+              "case_revision": 1,
+              "conditions": [
+                {
+                  "dimension": "streamlit_version",
+                  "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py",
+                  "value": "1.58.0"
+                },
+                {
+                  "dimension": "app_variant",
+                  "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py",
+                  "value": "repro.py"
+                }
+              ],
+              "equivalence_known": true,
+              "id": "exp_a85385be9790258f8141",
+              "provenance": {
+                "at": "2026-10-09T00:41:49.507617+00:00",
+                "kind": "user_report",
+                "message_index": 0
+              },
+              "quote": "stopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+              "result": "stopped working at",
+              "sequence": 2,
+              "status": "failed",
+              "supersedes": ""
+            }
+          ],
+          "facts": {
+            "browser": "Firefox",
+            "os": "Linux 7.1.4-arch1-1",
+            "python_version": "3.13.13",
+            "streamlit_version": "1.64.0",
+            "symptom_scope": "dialog stops being responsive"
+          },
+          "handoff": {
+            "environment": {
+              "browser": "Firefox",
+              "os": "Linux 7.1.4-arch1-1",
+              "python_version": "3.13.13",
+              "streamlit_version": "1.64.0",
+              "symptom_scope": "dialog stops being responsive"
+            },
+            "escalation_basis": "internal_review_failure",
+            "evidence": [],
+            "experiments": [
+              {
+                "action": "run repro.py",
+                "action_key": "run_repro.py",
+                "case_revision": 1,
+                "conditions": [
+                  {
+                    "dimension": "streamlit_version",
+                    "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py",
+                    "value": "1.57.0"
+                  },
+                  {
+                    "dimension": "app_variant",
+                    "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py",
+                    "value": "repro.py"
+                  }
+                ],
+                "equivalence_known": true,
+                "id": "exp_f2e9cbd55af92c1a2593",
+                "provenance": {
+                  "at": "2026-10-09T00:41:49.507617+00:00",
+                  "kind": "user_report",
+                  "message_index": 0
+                },
+                "quote": "worked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```",
+                "result": "worked when ran with",
+                "sequence": 1,
+                "status": "succeeded",
+                "supersedes": ""
+              },
+              {
+                "action": "run repro.py",
+                "action_key": "run_repro.py",
+                "case_revision": 1,
+                "conditions": [
+                  {
+                    "dimension": "streamlit_version",
+                    "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py",
+                    "value": "1.58.0"
+                  },
+                  {
+                    "dimension": "app_variant",
+                    "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py",
+                    "value": "repro.py"
+                  }
+                ],
+                "equivalence_known": true,
+                "id": "exp_a85385be9790258f8141",
+                "provenance": {
+                  "at": "2026-10-09T00:41:49.507617+00:00",
+                  "kind": "user_report",
+                  "message_index": 0
+                },
+                "quote": "stopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+                "result": "stopped working at",
+                "sequence": 2,
+                "status": "failed",
+                "supersedes": ""
+              }
+            ],
+            "feature": {},
+            "limitations": [
+              "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+              "محدودیت: کد توقف `judge_contract_error`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند."
+            ],
+            "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+            "reported_problem": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops be",
+            "request_type": "bug",
+            "unknowns": [
+              "deployment",
+              "reproducible"
+            ],
+            "valid_findings": []
+          },
+          "hypotheses": [],
+          "investigation_plan": {
+            "acceptance_condition": "زمانی که یک dialog شرطی در fragment ایجاد می‌شود و پس از rerun شدن fragment، dialog همچنان روی صفحه فعال و واکنش‌گرا باشد.",
+            "intent": "bug",
+            "known_report_spans": [
+              "### Expected Behavior",
+              "- [x] Yes, this used to work in a previous version.",
+              "- Streamlit version: 1.64.0",
+              "- Python version: Python 3.13.13"
+            ],
+            "missing_detail": "لطفاً گزارش لاگ‌های دقیق‌تر مربوط به خطای \"The fragment with id <id> does not exist anymore\" بعد از rerun ارائه دهید.",
+            "new_condition": "آیا اجرای کد در نسخه‌های بین 1.57.0 و 1.64.0 توسط شما تست شده است که مشخص شود چه نسخه‌ای دقیقاً رفتار معیوب را معرفی کرده؟",
+            "problem_summary": "conditionally rendered dialog inside fragment stops responding after fragment rerun in Streamlit 1.64.0",
+            "suggested_question": "آیا می‌توانید لاگ‌های کامل خطا را بعد از اینکه dialog غیرواکنش‌گرا می‌شود ارسال کنید؟"
+          },
+          "judge": null,
+          "memory_version": 3,
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "problem": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.",
+          "review_failures": [
+            {
+              "code": "judge_contract_error",
+              "draft_version": "a7e5b088a5820b7e5eadc1fa9def0418a5238d0cd97f5e544b89236c7bb59d20",
+              "kind": "judge_contract"
+            }
+          ],
+          "sources": [],
+          "unknowns": [
+            "deployment",
+            "reproducible"
+          ]
+        }
+      },
+      "proposal_id": "c58ce94f7e4ae9462a7fd91d",
+      "revision": 1
+    },
+    "at": "2026-10-09T00:42:06.856849+00:00"
+  },
+  {
+    "id": 11,
+    "case_id": "GH17011",
+    "kind": "pipeline_stage",
+    "payload": {
+      "auto_execute": false,
+      "hash": "e6d79894b27ad066a45c5d899a91e353b078095fbc8b8d437e4bc960a306c617",
+      "id": "c58ce94f7e4ae9462a7fd91d",
+      "stage": "prepare_proposal"
+    },
+    "at": "2026-10-09T00:42:06.866942+00:00"
+  },
+  {
+    "id": 12,
+    "case_id": "GH17011",
+    "kind": "turn_completed",
+    "payload": {
+      "architecture": "v2",
+      "case_id": "GH17011",
+      "components": {
+        "dense": true,
+        "judge": true,
+        "mmr": true,
+        "quality": true,
+        "rerank": true,
+        "rewrite": true
+      },
+      "decision": "escalate",
+      "judge": null,
+      "latency_seconds": 21.868031,
+      "max_calls": 8,
+      "method": "final",
+      "mode": "live",
+      "model_calls": 5,
+      "quality_revision": "v2.3-quality",
+      "repair_count": 0,
+      "request_id": "live-v23-additional-revised",
+      "retrieved": [
+        {
+          "id": "docs:fragments:v2:cb48967ad96007e2",
+          "kind": "docs",
+          "product_version": null,
+          "retrieval_score": 0.03837652,
+          "section": "Restricted commands during parallel execution",
+          "source_authority": "official_documentation",
+          "source_id": "docs:fragments",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "docs:fragments:v2:f8d97e183dd7d878",
+          "kind": "docs",
+          "product_version": null,
+          "retrieval_score": 0.03385836,
+          "section": "Defining and calling a fragment",
+          "source_authority": "official_documentation",
+          "source_id": "docs:fragments",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "issue:11266:v2:5df5b300853d70e7",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 0.0300905,
+          "section": "Reproducible Code Example",
+          "source_authority": "reported_observation",
+          "source_id": "issue:11266",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/streamlit/issues/11266",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "issue:11266:v2:b0b00ad71c9d0511",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 0.02895833,
+          "section": "Additional Information",
+          "source_authority": "reported_observation",
+          "source_id": "issue:11266",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/streamlit/issues/11266",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "docs:session_state:v2:58dde40a15de068f",
+          "kind": "docs",
+          "product_version": null,
+          "retrieval_score": 0.01773387,
+          "section": "Caveats and limitations",
+          "source_authority": "official_documentation",
+          "source_id": "docs:session_state",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/session_state.md",
+          "version_relation": "unknown"
+        }
+      ],
+      "review_failures": [
+        {
+          "code": "judge_contract_error",
+          "draft_version": "a7e5b088a5820b7e5eadc1fa9def0418a5238d0cd97f5e544b89236c7bb59d20",
+          "kind": "judge_contract"
+        }
+      ],
+      "reviewed_draft": {
+        "case_id": "GH17011",
+        "case_revision": 1,
+        "draft_version": "a7e5b088a5820b7e5eadc1fa9def0418a5238d0cd97f5e544b89236c7bb59d20",
+        "generation": 0,
+        "units": [
+          {
+            "end": 252,
+            "field": "question",
+            "start": 0,
+            "text": "آیا می‌توانید لاگ‌های کامل و دقیق خطای مربوط به 'The fragment with id <id> does not exist anymore' را پس از rerun شدن fragment ارسال کنید؟ این لاگ‌ها باید شامل تمام جزییات و traceback باشند تا بررسی کنیم چرا dialog منطقاً حذف شده و دیگر واکنش‌گرا نیست.",
+            "unit_id": "u_1c4d35a635c2b0c658803967"
+          },
+          {
+            "end": 154,
+            "field": "next_step",
+            "start": 0,
+            "text": "لطفاً لاگ‌های کامل خطا مربوط به پیام 'The fragment with id <id> does not exist anymore' پس از rerun شدن fragment ارسال شود تا بتوان علت دقیق را بررسی کرد.",
+            "unit_id": "u_40bb899ed8d33d8044cb8f58"
+          },
+          {
+            "end": 324,
+            "field": "rationale",
+            "start": 0,
+            "text": "بر اساس مستندات رسمی، برخی دستورات مانند st.dialog داخل فرگمنت‌های موازی محدودیت دارند و ممکن است پس از rerun مشکل‌ساز شوند. گزارش کاربر نشان می‌دهد که مشکل از نسخه 1.58.0 شروع شده است و dialog دیگر پاسخگو نیست ولی هنوز روی صفحه نمایش داده می‌شود. بدون لاگ دقیق خطا نمی‌توان دلیل اینکه fragment دیگر وجود ندارد را بررسی کرد.",
+            "unit_id": "u_fe6a5f8a310ead1f4f296c94"
+          },
+          {
+            "end": 150,
+            "field": "hypotheses.0",
+            "start": 0,
+            "text": "شاید مشکلی در تغییر نحوه مدیریت منابع یا وضعیت internal fragmentها بعد از نسخه 1.57 در فرگمنت‌ها ایجاد شده باشد که موجب عدم واکنش‌گرایی dialog می‌شود.",
+            "unit_id": "u_471313d1af1da2ca7b4fba9f"
+          },
+          {
+            "end": 122,
+            "field": "feature_proposal.acceptance_condition",
+            "start": 0,
+            "text": "زمانی که یک dialog شرطی در fragment ایجاد می‌شود و پس از rerun شدن fragment، dialog همچنان روی صفحه فعال و واکنش‌گرا باشد.",
+            "unit_id": "u_40a3b3db1df84980a8c79d99"
+          },
+          {
+            "end": 92,
+            "field": "feature_proposal.constraints",
+            "start": 0,
+            "text": "محدودیت های فعلی استفاده از دستورات خاص مانند st.dialog داخل فرگمنت های موازی باید رعایت شود",
+            "unit_id": "u_db03de9f6208641645e3191f"
+          },
+          {
+            "end": 118,
+            "field": "feature_proposal.current_behavior",
+            "start": 0,
+            "text": "بعد از rerun شدن fragment، dialog شرطی روی صفحه باقی می‌ماند ولی واکنش‌گرا نیست و خطای عدم وجود fragment گزارش می‌شود.",
+            "unit_id": "u_eadee3452fadd90e59cd2f36"
+          },
+          {
+            "end": 83,
+            "field": "feature_proposal.desired_behavior",
+            "start": 0,
+            "text": "dialog شرطی داخل fragment پس از rerun نیز واکنش‌گرا باقی بماند و قابل استفاده باشد.",
+            "unit_id": "u_2d1fb707023ca8bbacba22e0"
+          },
+          {
+            "end": 77,
+            "field": "feature_proposal.user_need",
+            "start": 0,
+            "text": "برطرف شدن مشکل واکنش‌گرایی dialogهای شرطی داخل فرگمنت پس از اجرای مجدد فرگمنت",
+            "unit_id": "u_7fe5d30ca93163f1ecdd35dc"
+          }
+        ]
+      },
+      "steps": 9,
+      "usage": {
+        "charged_or_reserved_usd": 0.01208902200000006,
+        "cost_usd": 0.012089022,
+        "mode": "live",
+        "provider_requests": 5,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "cost_usd": 0.00169708,
+            "input_tokens": 1949,
+            "kind": "extract",
+            "ledger_id": "d953d01e2929a78e9bcc496d",
+            "mode": "live",
+            "output_tokens": 477,
+            "provider_requests": 1
+          },
+          {
+            "cost_usd": 1.3419999999999998e-06,
+            "input_tokens": 61,
+            "kind": "embedding",
+            "ledger_id": "0f5f23d18b16679a6036aae6",
+            "mode": "live",
+            "output_tokens": 0,
+            "provider_requests": 1
+          },
+          {
+            "cost_usd": 0.00319,
+            "input_tokens": 6954,
+            "kind": "rerank",
+            "ledger_id": "a4b6aaeb6b8fb152aadb469e",
+            "mode": "live",
+            "output_tokens": 74,
+            "provider_requests": 1
+          },
+          {
+            "cost_usd": 0.00411004,
+            "input_tokens": 7105,
+            "kind": "chat",
+            "ledger_id": "bfe960918ea50babc114afa8",
+            "mode": "live",
+            "output_tokens": 559,
+            "provider_requests": 1
+          },
+          {
+            "cost_usd": 0.00309056,
+            "input_tokens": 3232,
+            "kind": "judge",
+            "ledger_id": "32e04b5f1acb6e03d784f84e",
+            "mode": "live",
+            "output_tokens": 948,
+            "provider_requests": 1
+          }
+        ]
+      },
+      "validation_error": "judge_contract_error"
+    },
+    "at": "2026-10-09T00:42:06.895759+00:00"
+  },
+  {
+    "id": 13,
+    "case_id": "GH17127",
+    "kind": "pipeline_stage",
+    "payload": {
+      "error": "invalid_extraction",
+      "stage": "extract",
+      "status": "fallback"
+    },
+    "at": "2026-10-09T00:42:12.632233+00:00"
+  },
+  {
+    "id": 14,
+    "case_id": "GH17127",
+    "kind": "user_update",
+    "payload": {
+      "checks": [],
+      "facts": {
+        "python_version": "3.12",
+        "streamlit_version": "1.64.0"
+      },
+      "message": "`st.dataframe` toolbar buttons are 22.4px, below the WCAG 2.2 24px minimum target size (axe `target-size`)\n\n### Checklist\n- [x] I have searched the existing issues for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\nThe hover toolbar that `st.dataframe` draws (Show/hide columns, Download as CSV, Search, Fullscreen)\nrenders each button at 22.4 x 22.4 CSS px, and the buttons sit next to each other, so axe-core's\n`target-size` rule (impact: serious, WCAG 2.2 AA, SC 2.5.8 Target Size (Minimum)) fails. Cause:\n`StyledElementToolbarButton` in `frontend/lib/src/components/shared/BaseButton/styled-components.ts`\n(1.64.0, line ~524) sets `padding: theme.spacing.twoXS` and `minHeight: \"unset\"` around a small icon.\n\n### Reproducible Code Example\nSame app as above (the `st.dataframe` line is enough).\n\n### Steps To Reproduce\n1. `streamlit run app.py`\n2. Hover the dataframe so the toolbar appears.\n3. Run axe-core 4.13 with the `wcag22aa` tag.\n\n### Expected Behavior\nEach toolbar button is at least 24 x 24 CSS px (or spaced so a 24px circle around each does not overlap\nanother target).\n\n### Current Behavior\n```\ntarget-size (serious, wcag22aa, wcag258) — 4 nodes\n<button kind=\"elementToolbar\" data-testid=\"stBaseButton-elementToolbar\" aria-label=\"Show/hide columns\" class=\"st-emotion-cache-18ac3gt eqzt73c20\">\n  Target has insufficient size (22.4px by 22.4px, should be at least 24px by 24px)\n<button ... aria-label=\"Download as CSV\" ...>   (same)\n<button ... aria-label=\"Search\" ...>            (same)\n<button ... aria-label=\"Fullscreen\" ...>        (same)\n```\n\n### Suggested fix\nGive `StyledElementToolbarButton` `minWidth: \"1.5rem\"` and `minHeight: \"1.5rem\"` (24px) instead of\n`minHeight: \"unset\"`, or raise the padding one step. The toolbar is already an overlay above the element,\nso the extra 1.6px per button does not move page layout. The same styled button is used by other element\ntoolbars (charts, `st.data_editor`), which would all pass with the one change.\n\nIn the same minimal app, axe also reports `target-size` on the `st.date_input` month/day spinbutton\nsegments (17.9 x 19.6px); that may deserve its own look but is secondary.\n\n### Is this a regression?\n- [ ] Yes, this used to work in a previous version.\n- [x] No.\n\n### Debug info\n- Streamlit version: 1.64.0 (latest)\n- Python version: 3.12\n- OS: Linux (CI) and Windows 11\n- Browser: Chromium (Playwright bundled)\n- axe-core: 4.13.0",
+      "revision": 1
+    },
+    "at": "2026-10-09T00:42:12.647746+00:00"
+  },
+  {
+    "id": 15,
+    "case_id": "GH17127",
+    "kind": "pipeline_stage",
+    "payload": {
+      "revision": 1,
+      "stage": "read_case"
+    },
+    "at": "2026-10-09T00:42:12.668668+00:00"
+  },
+  {
+    "id": 16,
+    "case_id": "GH17127",
+    "kind": "pipeline_stage",
+    "payload": {
+      "as_of": null,
+      "candidates": [
+        "docs:dataframes:v2:9e1cf50e36fae6d0",
+        "issue:17126:v2:79fc1c33f4867901",
+        "issue:16389:v2:0e874337a74c6e41",
+        "docs:dataframes:v2:2bc5764b033f45b5",
+        "issue:17026:v2:bc8310223233b291",
+        "docs:2026:v2:c7bb1ead9db9a42f",
+        "issue:17026:v2:64349a8f42245102",
+        "docs:2026:v2:3feb357dbd78e2fb"
+      ],
+      "components": {
+        "dense": true,
+        "judge": true,
+        "mmr": true,
+        "quality": true,
+        "rerank": true,
+        "rewrite": true
+      },
+      "embedding": {
+        "batches": 0,
+        "cache_hits": 1,
+        "identity": {
+          "encoding_format": "float",
+          "model": "text-embedding-3-small",
+          "normalization": "whitespace-v1",
+          "provider": "https://api.metisai.ir/openai/v1"
+        },
+        "texts": 1,
+        "unique_missing": 0,
+        "usage": []
+      },
+      "excluded_chunks": 2097,
+      "method": "bm25+dense+rrf+mmr",
+      "mmr_lambda": 0.7,
+      "quality_filter": true,
+      "rrf_k": 60,
+      "stage": "retrieve",
+      "temporal_policy": "current_snapshot",
+      "version_warnings": [
+        "docs:dataframes:v2:9e1cf50e36fae6d0",
+        "issue:17126:v2:79fc1c33f4867901",
+        "issue:16389:v2:0e874337a74c6e41",
+        "docs:dataframes:v2:2bc5764b033f45b5",
+        "issue:17026:v2:bc8310223233b291",
+        "docs:2026:v2:c7bb1ead9db9a42f",
+        "issue:17026:v2:64349a8f42245102",
+        "docs:2026:v2:3feb357dbd78e2fb"
+      ]
+    },
+    "at": "2026-10-09T00:42:15.301248+00:00"
+  },
+  {
+    "id": 17,
+    "case_id": "GH17127",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ids": [
+        "docs:dataframes:v2:9e1cf50e36fae6d0",
+        "docs:dataframes:v2:2bc5764b033f45b5",
+        "docs:2026:v2:3feb357dbd78e2fb",
+        "docs:2026:v2:c7bb1ead9db9a42f",
+        "issue:17126:v2:79fc1c33f4867901",
+        "issue:16389:v2:0e874337a74c6e41",
+        "issue:17026:v2:bc8310223233b291",
+        "issue:17026:v2:64349a8f42245102"
+      ],
+      "stage": "rerank",
+      "status": "ok"
+    },
+    "at": "2026-10-09T00:42:17.034980+00:00"
+  },
+  {
+    "id": 18,
+    "case_id": "GH17127",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ids": [
+        "docs:dataframes:v2:9e1cf50e36fae6d0",
+        "docs:dataframes:v2:2bc5764b033f45b5",
+        "docs:2026:v2:3feb357dbd78e2fb",
+        "docs:2026:v2:c7bb1ead9db9a42f",
+        "issue:17126:v2:79fc1c33f4867901"
+      ],
+      "stage": "context_pack",
+      "utf8_bytes": 7166
+    },
+    "at": "2026-10-09T00:42:17.044115+00:00"
+  },
+  {
+    "id": 19,
+    "case_id": "GH17127",
+    "kind": "pipeline_stage",
+    "payload": {
+      "stage": "draft",
+      "status": "produced"
+    },
+    "at": "2026-10-09T00:42:20.740257+00:00"
+  },
+  {
+    "id": 20,
+    "case_id": "GH17127",
+    "kind": "pipeline_stage",
+    "payload": {
+      "code": "judge_contract_error",
+      "draft_version": "74143dfa7e4ad196ffaed9529e2019588c499759415fc444f270d4f8e1a3c8d8",
+      "kind": "judge_contract",
+      "stage": "judge_contract_failure"
+    },
+    "at": "2026-10-09T00:42:26.946953+00:00"
+  },
+  {
+    "id": 21,
+    "case_id": "GH17127",
+    "kind": "pipeline_stage",
+    "payload": {
+      "error": "judge_contract_error",
+      "stage": "safe_escalation"
+    },
+    "at": "2026-10-09T00:42:26.957007+00:00"
+  },
+  {
+    "id": 22,
+    "case_id": "GH17127",
+    "kind": "proposal_created",
+    "payload": {
+      "hash": "4d39a1d08a292fc7efb8676a30754090042a4a410067f824b5e8ddff18a21357",
+      "payload": {
+        "actions": [
+          {
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\n`st.dataframe` toolbar buttons are 22.4px, below the WCAG 2.2 24px minimum target size (axe `target-size`)\n\n### Checklist\n- [x] I have searched the existing issues for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\nThe hover toolbar that `st.dataframe` draws (Show/hide columns, Download as CSV, Search, Fullscreen)\nrenders each button at 22.4 x 22.4 CSS px, and the buttons sit next to each other, so axe-core's\n`target-size` rule (impact: serious, WCAG 2.2 AA, SC 2.5.8 Target Size (Minimum)) fails. Cause:\n`StyledElementToolbarButton` in `frontend/lib/src/components/shared/BaseButton/styled-components.ts`\n(1.64.0, line ~524) sets `padding: theme.spacing.twoXS` and `minHeight: \"unset\"` around a small icon.\n\n### Reproducible Code Example\nSame app as above (the `st.dataframe` line is enough).\n\n### Steps To Reproduce\n1. `streamlit run app.py`\n2. Hover the dataframe so the toolbar appears.\n3. Run axe-core 4.13 with the `wcag22aa` tag.\n\n### Expected Behavior\nEach toolbar button is at least 24 x 24 CSS px (or spaced so a 24px circle around each does not overlap\nanother target).\n\n### Current Behavior\n```\ntarget-size (serious, wcag22aa, wcag258) — 4 nodes\n<button kind=\"elementToolbar\" data-testid=\"stBaseButton-elementToolbar\" aria-label=\"Show/hide columns\" class=\"st-emotion-\n```\n\nمحیط گزارش‌شده:\n\n```text\nstreamlit_version=1.64.0؛ python_version=3.12\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\ndeployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_contract_error`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند.",
+            "type": "comment"
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "ambiguities": [],
+          "completed_checks": [],
+          "decision": "escalate",
+          "experiments": [],
+          "facts": {
+            "python_version": "3.12",
+            "streamlit_version": "1.64.0"
+          },
+          "handoff": {
+            "environment": {
+              "python_version": "3.12",
+              "streamlit_version": "1.64.0"
+            },
+            "escalation_basis": "internal_review_failure",
+            "evidence": [],
+            "experiments": [],
+            "feature": {},
+            "limitations": [
+              "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+              "محدودیت: کد توقف `judge_contract_error`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند."
+            ],
+            "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+            "reported_problem": "`st.dataframe` toolbar buttons are 22.4px, below the WCAG 2.2 24px minimum target size (axe `target-size`)\n\n### Checklist\n- [x] I have searched the existing issues for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\nThe hover toolbar that `st.dataframe` draws (Show/hide columns, Download as CSV, Search, Fullscreen)\nrenders each button at 22.4 x 22.4 CSS px, and the buttons sit next to each other, so axe-core's\n`target-size` rule (impact: serious, WCAG 2.2 AA, SC 2.5.8 Target Size (Minimum)) fails. Cause:\n`StyledElementToolbarButton` in `frontend/lib/src/components/shared/BaseButton/styled-components.ts`\n(1.64.0, line ~524) sets `padding: theme.spacing.twoXS` and `minHeight: \"unset\"` around a small icon.\n\n### Reproducible Code Example\nSame app as above (the `st.dataframe` line is enough).\n\n### Steps To Reproduce\n1. `streamlit run app.py`\n2. Hover the dataframe so the toolbar appears.\n3. Run axe-core 4.13 with the `wcag22aa` tag.\n\n### Expected Behavior\nEach toolbar button is at least 24 x 24 CSS px (or spaced so a 24px circle around each does not overlap\nanother target).\n\n### Current Behavior\n```\ntarget-size (serious, wcag22aa, wcag258) — 4 nodes\n<button kind=\"elementToolbar\" data-testid=\"stBaseButton-elementToolbar\" aria-label=\"Show/hide columns\" class=\"st-emotion-",
+            "request_type": "bug",
+            "unknowns": [
+              "deployment",
+              "reproducible"
+            ],
+            "valid_findings": []
+          },
+          "hypotheses": [],
+          "investigation_plan": {},
+          "judge": null,
+          "memory_version": 3,
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "problem": "`st.dataframe` toolbar buttons are 22.4px, below the WCAG 2.2 24px minimum target size (axe `target-size`)\n\n### Checklist\n- [x] I have searched the existing issues for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\nThe hover toolbar that `st.dataframe` draws (Show/hide columns, Download as CSV, Search, Fullscreen)\nrenders each button at 22.4 x 22.4 CSS px, and the buttons sit next to each other, so axe-core's\n`target-size` rule (impact: serious, WCAG 2.2 AA, SC 2.5.8 Target Size (Minimum)) fails. Cause:\n`StyledElementToolbarButton` in `frontend/lib/src/components/shared/BaseButton/styled-components.ts`\n(1.64.0, line ~524) sets `padding: theme.spacing.twoXS` and `minHeight: \"unset\"` around a small icon.\n\n### Reproducible Code Example\nSame app as above (the `st.dataframe` line is enough).\n\n### Steps To Reproduce\n1. `streamlit run app.py`\n2. Hover the dataframe so the toolbar appears.\n3. Run axe-core 4.13 with the `wcag22aa` tag.\n\n### Expected Behavior\nEach toolbar button is at least 24 x 24 CSS px (or spaced so a 24px circle around each does not overlap\nanother target).\n\n### Current Behavior\n```\ntarget-size (serious, wcag22aa, wcag258) — 4 nodes\n<button kind=\"elementToolbar\" data-testid=\"stBaseButton-elementToolbar\" aria-label=\"Show/hide columns\" class=\"st-emotion-cache-18ac3gt eqzt73c20\">\n  Target has insufficient size (22.4px by 22.4px, should be at least 24px by 24px)\n<button ... aria-label=\"Download as CSV\" ...>   (same)\n<button ... aria-label=\"Search\" ...>            (same)\n<button ... aria-label=\"Fullscreen\" ...>        (same)\n```\n\n### Suggested fix\nGive `StyledElementToolbarButton` `minWidth: \"1.5rem\"` and `minHeight: \"1.5rem\"` (24px) instead of\n`minHeight: \"unset\"`, or raise the padding one step. The toolbar is already an overlay above the element,\nso the extra 1.6px per button does not move page layout. The same styled button is used by other element\ntoolbars (charts, `st.data_editor`), which would all pass with the one change.\n\nIn the same minimal app, axe also reports `target-size` on the `st.date_input` month/day spinbutton\nsegments (17.9 x 19.6px); that may deserve its own look but is secondary.\n\n### Is this a regression?\n- [ ] Yes, this used to work in a previous version.\n- [x] No.\n\n### Debug info\n- Streamlit version: 1.64.0 (latest)\n- Python version: 3.12\n- OS: Linux (CI) and Windows 11\n- Browser: Chromium (Playwright bundled)\n-",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.",
+          "review_failures": [
+            {
+              "code": "judge_contract_error",
+              "draft_version": "74143dfa7e4ad196ffaed9529e2019588c499759415fc444f270d4f8e1a3c8d8",
+              "kind": "judge_contract"
+            }
+          ],
+          "sources": [],
+          "unknowns": [
+            "deployment",
+            "reproducible"
+          ]
+        }
+      },
+      "proposal_id": "90fd62d34bb722e428e956a6",
+      "revision": 1
+    },
+    "at": "2026-10-09T00:42:26.967979+00:00"
+  },
+  {
+    "id": 23,
+    "case_id": "GH17127",
+    "kind": "pipeline_stage",
+    "payload": {
+      "auto_execute": false,
+      "hash": "4d39a1d08a292fc7efb8676a30754090042a4a410067f824b5e8ddff18a21357",
+      "id": "90fd62d34bb722e428e956a6",
+      "stage": "prepare_proposal"
+    },
+    "at": "2026-10-09T00:42:26.977275+00:00"
+  },
+  {
+    "id": 24,
+    "case_id": "GH17127",
+    "kind": "turn_completed",
+    "payload": {
+      "architecture": "v2",
+      "case_id": "GH17127",
+      "components": {
+        "dense": true,
+        "judge": true,
+        "mmr": true,
+        "quality": true,
+        "rerank": true,
+        "rewrite": true
+      },
+      "decision": "escalate",
+      "judge": null,
+      "latency_seconds": 18.95753,
+      "max_calls": 8,
+      "method": "final",
+      "mode": "live",
+      "model_calls": 4,
+      "quality_revision": "v2.3-quality",
+      "repair_count": 0,
+      "request_id": "live-v23-additional-revised",
+      "retrieved": [
+        {
+          "id": "docs:dataframes:v2:9e1cf50e36fae6d0",
+          "kind": "docs",
+          "product_version": null,
+          "retrieval_score": 0.03324913,
+          "section": "`st.dataframe` UI features",
+          "source_authority": "official_documentation",
+          "source_id": "docs:dataframes",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "docs:dataframes:v2:2bc5764b033f45b5",
+          "kind": "docs",
+          "product_version": null,
+          "retrieval_score": 0.03069595,
+          "section": "Edit data with st.data_editor",
+          "source_authority": "official_documentation",
+          "source_id": "docs:dataframes",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "docs:2026:v2:3feb357dbd78e2fb",
+          "kind": "release",
+          "product_version": null,
+          "retrieval_score": 0.02444444,
+          "section": "**Version 1.59.0**",
+          "source_authority": "reported_observation",
+          "source_id": "docs:2026",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2026.md",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "docs:2026:v2:c7bb1ead9db9a42f",
+          "kind": "release",
+          "product_version": null,
+          "retrieval_score": 0.02472527,
+          "section": "**Version 1.60.0**",
+          "source_authority": "reported_observation",
+          "source_id": "docs:2026",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2026.md",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "issue:17126:v2:79fc1c33f4867901",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 0.02920635,
+          "section": "Reproducible Code Example",
+          "source_authority": "reported_observation",
+          "source_id": "issue:17126",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/streamlit/issues/17126",
+          "version_relation": "unknown"
+        }
+      ],
+      "review_failures": [
+        {
+          "code": "judge_contract_error",
+          "draft_version": "74143dfa7e4ad196ffaed9529e2019588c499759415fc444f270d4f8e1a3c8d8",
+          "kind": "judge_contract"
+        }
+      ],
+      "reviewed_draft": {
+        "case_id": "GH17127",
+        "case_revision": 1,
+        "draft_version": "74143dfa7e4ad196ffaed9529e2019588c499759415fc444f270d4f8e1a3c8d8",
+        "generation": 0,
+        "units": [
+          {
+            "end": 121,
+            "field": "question",
+            "start": 0,
+            "text": "آیا در نسخه فعلی استریم‌لیت یا نسخه‌های بعدی، اندازه دکمه‌های تولبار در `st.dataframe` حداقل به 24 در 24 پیکسل رسیده است؟",
+            "unit_id": "u_be5588335f6723566646743f"
+          },
+          {
+            "end": 116,
+            "field": "next_step",
+            "start": 0,
+            "text": "بررسی کنید آیا در نسخه‌های جدیدتر استریم‌لیت این مشکل اندازه دکمه های تولبار در `st.dataframe` برطرف شده است یا خیر.",
+            "unit_id": "u_c6d99305b697eac5d5693def"
+          },
+          {
+            "end": 222,
+            "field": "rationale",
+            "start": 0,
+            "text": "مشکل گزارش شده مربوط به اندازه دکمه‌های تولبار `st.dataframe` در نسخه 1.64.0 است که زیر حداقل اندازه 24 پیکسل طبق استاندارد WCAG 2.2 می‌باشد. برای فهمیدن اینکه آیا این مشکل حل شده یا خیر، باید نسخه‌های جدیدتر را بررسی کرد.",
+            "unit_id": "u_38e516600c7a7428977949a8"
+          }
+        ]
+      },
+      "steps": 9,
+      "usage": {
+        "charged_or_reserved_usd": 0.009403679999999914,
+        "cost_usd": 0.009403680000000001,
+        "mode": "live",
+        "provider_requests": 4,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "cost_usd": 0.0018748400000000002,
+            "input_tokens": 2213,
+            "kind": "extract",
+            "ledger_id": "006d447224f8087012df960a",
+            "mode": "live",
+            "output_tokens": 512,
+            "provider_requests": 1
+          },
+          {
+            "cost_usd": 0.0021801999999999998,
+            "input_tokens": 4651,
+            "kind": "rerank",
+            "ledger_id": "8c35d675f7f34954db3a7e17",
+            "mode": "live",
+            "output_tokens": 76,
+            "provider_requests": 1
+          },
+          {
+            "cost_usd": 0.0028336000000000004,
+            "input_tokens": 5260,
+            "kind": "chat",
+            "ledger_id": "b93c16cdc1b9f9f3c842768f",
+            "mode": "live",
+            "output_tokens": 295,
+            "provider_requests": 1
+          },
+          {
+            "cost_usd": 0.00251504,
+            "input_tokens": 2548,
+            "kind": "judge",
+            "ledger_id": "843c1a411f59e74ca8b3bc5f",
+            "mode": "live",
+            "output_tokens": 792,
+            "provider_requests": 1
+          }
+        ]
+      },
+      "validation_error": "judge_contract_error"
+    },
+    "at": "2026-10-09T00:42:27.006301+00:00"
+  },
+  {
+    "id": 25,
+    "case_id": "GH16481",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ambiguities": [
+        "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+        "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+        "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+        "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope"
+      ],
+      "checks": [],
+      "facts_with_quotes": [
+        {
+          "key": "symptom_scope",
+          "quote": "Add a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.",
+          "value": "`type` parameter with a `\"pills\"` variant"
+        },
+        {
+          "key": "symptom_scope",
+          "quote": "The underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards. Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is m",
+          "value": "pill-style tabs appearance for `st.tabs`"
+        },
+        {
+          "key": "symptom_scope",
+          "quote": "Add a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.",
+          "value": "visual style change only"
+        },
+        {
+          "key": "symptom_scope",
+          "quote": "Add a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.",
+          "value": "`st.tabs`"
+        },
+        {
+          "key": "symptom_scope",
+          "quote": "Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is more boilerplate and doesn't give the clean container-per-tab model that `st.tabs` provides.",
+          "value": "manual approximate with `st.pills`/`st.segmented_control` plus conditional rendering"
+        }
+      ],
+      "keys": [
+        "symptom_scope"
+      ],
+      "stage": "extract",
+      "status": "ok"
+    },
+    "at": "2026-10-09T00:42:56.157101+00:00"
+  },
+  {
+    "id": 26,
+    "case_id": "GH16481",
+    "kind": "user_update",
+    "payload": {
+      "checks": [],
+      "facts": {
+        "symptom_scope": "`st.tabs`"
+      },
+      "message": "Add a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nAdd a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.\n\n### Why?\n\nThe underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards. Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is more boilerplate and doesn't give the clean container-per-tab model that `st.tabs` provides.\n\n### How?\n\nAdd a `type` parameter (default preserves today's look):\n\n```python\ntab1, tab2, tab3 = st.tabs([\"Overview\", \"Details\", \"Settings\"], type=\"pills\")\nwith tab1:\n    st.write(\"...\")\n```\n\n- `type=\"default\"` (or `\"underline\"`) — current tab bar.\n- `type=\"pills\"` — render the tab headers as pills.\n- Everything else (content containers, active-tab state, etc.) stays identical.\n\n### Additional Context\n\n- Visually aligns `st.tabs` with the existing pill styling used by `st.pills` / `st.segmented_control`, but with the `st.tabs` container model.\n- Design references for the pills style:\n  - [Tailwind Plus — Tabs (pill variant)](https://tailwindcss.com/plus/ui-blocks/application-ui/navigation/tabs#component-2a66fc822e8ad55f59321825e5af0980)\n  - [Tremor — Tabs, solid variant](https://tremor.so/docs/ui/tabs#example-tabs-solid-variant)\n  - [Tremor — Tabs, stretched](https://tremor.so/docs/ui/tabs#example-streched-tabs)",
+      "revision": 1
+    },
+    "at": "2026-10-09T00:42:56.171337+00:00"
+  },
+  {
+    "id": 27,
+    "case_id": "GH16481",
+    "kind": "pipeline_stage",
+    "payload": {
+      "revision": 1,
+      "stage": "read_case"
+    },
+    "at": "2026-10-09T00:42:56.190516+00:00"
+  },
+  {
+    "id": 28,
+    "case_id": "GH16481",
+    "kind": "pipeline_stage",
+    "payload": {
+      "as_of": null,
+      "candidates": [
+        "docs:widget-behavior:v2:3733a3c52f7d9a4a",
+        "issue:17074:v2:137f79d16d7a2927",
+        "issue:15754:v2:8a3bc0d87cdc5010",
+        "docs:2024:v2:46ec77d95bfe1acc",
+        "issue:15892:v2:d772dc2a5903f489",
+        "issue:17074:v2:01c0fa0561780945",
+        "issue:15893:v2:9a8ad39904aa37d5",
+        "issue:15892:v2:37d19585f36b6b91"
+      ],
+      "components": {
+        "dense": true,
+        "judge": true,
+        "mmr": true,
+        "quality": true,
+        "rerank": true,
+        "rewrite": true
+      },
+      "embedding": {
+        "batches": 1,
+        "cache_hits": 0,
+        "identity": {
+          "encoding_format": "float",
+          "model": "text-embedding-3-small",
+          "normalization": "whitespace-v1",
+          "provider": "https://api.metisai.ir/openai/v1"
+        },
+        "texts": 1,
+        "unique_missing": 1,
+        "usage": [
+          {
+            "cost_usd": 1.0779999999999999e-06,
+            "input_tokens": 49,
+            "kind": "embedding",
+            "ledger_id": "e1c42f9cf746da331af766af",
+            "mode": "live",
+            "output_tokens": 0,
+            "provider_requests": 1
+          }
+        ]
+      },
+      "excluded_chunks": 2089,
+      "method": "bm25+dense+rrf+mmr",
+      "mmr_lambda": 0.7,
+      "quality_filter": true,
+      "rrf_k": 60,
+      "stage": "retrieve",
+      "temporal_policy": "current_snapshot",
+      "version_warnings": [
+        "docs:widget-behavior:v2:3733a3c52f7d9a4a",
+        "issue:17074:v2:137f79d16d7a2927",
+        "issue:15754:v2:8a3bc0d87cdc5010",
+        "docs:2024:v2:46ec77d95bfe1acc",
+        "issue:15892:v2:d772dc2a5903f489",
+        "issue:17074:v2:01c0fa0561780945",
+        "issue:15893:v2:9a8ad39904aa37d5",
+        "issue:15892:v2:37d19585f36b6b91"
+      ]
+    },
+    "at": "2026-10-09T00:42:59.437310+00:00"
+  },
+  {
+    "id": 29,
+    "case_id": "GH16481",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ids": [
+        "docs:2024:v2:46ec77d95bfe1acc",
+        "issue:17074:v2:137f79d16d7a2927",
+        "issue:17074:v2:01c0fa0561780945",
+        "docs:widget-behavior:v2:3733a3c52f7d9a4a",
+        "issue:15754:v2:8a3bc0d87cdc5010",
+        "issue:15892:v2:37d19585f36b6b91",
+        "issue:15892:v2:d772dc2a5903f489",
+        "issue:15893:v2:9a8ad39904aa37d5"
+      ],
+      "stage": "rerank",
+      "status": "ok"
+    },
+    "at": "2026-10-09T00:43:01.959557+00:00"
+  },
+  {
+    "id": 30,
+    "case_id": "GH16481",
+    "kind": "pipeline_stage",
+    "payload": {
+      "ids": [
+        "docs:2024:v2:46ec77d95bfe1acc",
+        "issue:17074:v2:137f79d16d7a2927",
+        "issue:17074:v2:01c0fa0561780945",
+        "docs:widget-behavior:v2:3733a3c52f7d9a4a",
+        "issue:15754:v2:8a3bc0d87cdc5010"
+      ],
+      "stage": "context_pack",
+      "utf8_bytes": 2455
+    },
+    "at": "2026-10-09T00:43:01.968796+00:00"
+  },
+  {
+    "id": 31,
+    "case_id": "GH16481",
+    "kind": "pipeline_stage",
+    "payload": {
+      "stage": "draft",
+      "status": "produced"
+    },
+    "at": "2026-10-09T00:43:07.133779+00:00"
+  },
+  {
+    "id": 32,
+    "case_id": "GH16481",
+    "kind": "pipeline_stage",
+    "payload": {
+      "code": "judge_contract_error",
+      "draft_version": "de03f2c995f2b0d8232597d5471579b701e7f977e7f22ea60f92deb7da02e0bd",
+      "kind": "judge_contract",
+      "stage": "judge_contract_failure"
+    },
+    "at": "2026-10-09T00:43:16.246432+00:00"
+  },
+  {
+    "id": 33,
+    "case_id": "GH16481",
+    "kind": "pipeline_stage",
+    "payload": {
+      "error": "judge_contract_error",
+      "stage": "safe_escalation"
+    },
+    "at": "2026-10-09T00:43:16.256181+00:00"
+  },
+  {
+    "id": 34,
+    "case_id": "GH16481",
+    "kind": "proposal_created",
+    "payload": {
+      "hash": "9b50ac58ac805b7589f1b71211db936f3a465ce2e84478acf423e12118be5a1f",
+      "payload": {
+        "actions": [
+          {
+            "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nAdd a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nAdd a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.\n\n### Why?\n\nThe underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards. Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is more boilerplate and doesn't give the clean container-per-tab model that `st.tabs` provides.\n\n### How?\n\nAdd a `type` parameter (default preserves today's look):\n\n```python\ntab1, tab2, tab3 = st.tabs([\"Overview\", \"Details\", \"Settings\"], type=\"pills\")\nwith tab1:\n    st.write(\"...\")\n```\n\n- `type=\"default\"` (or `\"underline\"`) — current tab bar.\n- `type=\"pills\"` — render the tab headers as pills.\n- Everything else (content containers, active-tab state, etc.) stays identical.\n\n### Additional Context\n\n- Visually aligns `st.tabs` with the existing pill styling us\n```\n\nمحیط گزارش‌شده:\n\n```text\nsymptom_scope=`st.tabs`\n```\n\nبررسی‌ها: آزمایش ساخت‌یافتهٔ انجام‌شده ثبت نشده است.\n\nمجهولات:\n\n```text\nstreamlit_version, python_version, deployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: امکان افزودن رفتار درخواستی و شرط پذیرش را بررسی و تصمیم طراحی را ثبت کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_contract_error`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند.",
+            "type": "comment"
+          },
+          {
+            "type": "status",
+            "value": "escalated"
+          }
+        ],
+        "source_ids": [],
+        "summary": {
+          "ambiguities": [
+            "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+            "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+            "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope",
+            "ابهام: مقدار بازنویسی‌شدهٔ واقعیت کنار گذاشته شد: symptom_scope"
+          ],
+          "completed_checks": [],
+          "decision": "escalate",
+          "experiments": [],
+          "facts": {
+            "symptom_scope": "`st.tabs`"
+          },
+          "handoff": {
+            "environment": {
+              "symptom_scope": "`st.tabs`"
+            },
+            "escalation_basis": "internal_review_failure",
+            "evidence": [],
+            "experiments": [],
+            "feature": {},
+            "limitations": [
+              "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+              "محدودیت: کد توقف `judge_contract_error`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند."
+            ],
+            "maintainer_action": "اقدام: امکان افزودن رفتار درخواستی و شرط پذیرش را بررسی و تصمیم طراحی را ثبت کنید.",
+            "reported_problem": "Add a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nAdd a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.\n\n### Why?\n\nThe underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards. Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is more boilerplate and doesn't give the clean container-per-tab model that `st.tabs` provides.\n\n### How?\n\nAdd a `type` parameter (default preserves today's look):\n\n```python\ntab1, tab2, tab3 = st.tabs([\"Overview\", \"Details\", \"Settings\"], type=\"pills\")\nwith tab1:\n    st.write(\"...\")\n```\n\n- `type=\"default\"` (or `\"underline\"`) — current tab bar.\n- `type=\"pills\"` — render the tab headers as pills.\n- Everything else (content containers, active-tab state, etc.) stays identical.\n\n### Additional Context\n\n- Visually aligns `st.tabs` with the existing pill styling us",
+            "request_type": "feature_request",
+            "unknowns": [
+              "streamlit_version",
+              "python_version",
+              "deployment",
+              "reproducible"
+            ],
+            "valid_findings": []
+          },
+          "hypotheses": [],
+          "investigation_plan": {
+            "acceptance_condition": "یک ورودی type=\"pills\" به st.tabs اضافه شود که ظاهر تب‌ها را به شکل دکمه‌های شبیه قرص (rounded, button-like segments) نمایش دهد در حالی که رفتار کلی تب‌ها تغییری نکند.",
+            "intent": "feature_request",
+            "known_report_spans": [
+              "Add a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.",
+              "The underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards. Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is m"
+            ],
+            "missing_detail": "کد پیاده‌سازی فعلی یا شواهدی از انجام آزمایش این ویژگی ارائه نشده است.",
+            "new_condition": "",
+            "problem_summary": "Add type=\"pills\" variant to st.tabs for pill styled tab headers",
+            "suggested_question": "آیا کد یا نمونه‌ای از اجرای اولیه این ویژگی وجود دارد؟"
+          },
+          "judge": null,
+          "memory_version": 3,
+          "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+          "problem": "Add a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nAdd a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.\n\n### Why?\n\nThe underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards. Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is more boilerplate and doesn't give the clean container-per-tab model that `st.tabs` provides.\n\n### How?\n\nAdd a `type` parameter (default preserves today's look):\n\n```python\ntab1, tab2, tab3 = st.tabs([\"Overview\", \"Details\", \"Settings\"], type=\"pills\")\nwith tab1:\n    st.write(\"...\")\n```\n\n- `type=\"default\"` (or `\"underline\"`) — current tab bar.\n- `type=\"pills\"` — render the tab headers as pills.\n- Everything else (content containers, active-tab state, etc.) stays identical.\n\n### Additional Context\n\n- Visually aligns `st.tabs` with the existing pill styling used by `st.pills` / `st.segmented_control`, but with the `st.tabs` container model.\n- Design references for the pills style:\n  - [Tailwind Plus — Tabs (pill variant)](https://tailwindcss.com/plus/ui-blocks/application-ui/navigation/tabs#component-2a66fc822e8ad55f59321825e5af0980)\n  - [Tremor — Tabs, solid variant](https://tremor.so/docs/ui/tabs#example-tabs-solid-variant)\n  - [Tremor — Tabs, stretched](https://tremor.so/docs/ui/tabs#example-streched-tabs)",
+          "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_contract_error`.",
+          "review_failures": [
+            {
+              "code": "judge_contract_error",
+              "draft_version": "de03f2c995f2b0d8232597d5471579b701e7f977e7f22ea60f92deb7da02e0bd",
+              "kind": "judge_contract"
+            }
+          ],
+          "sources": [],
+          "unknowns": [
+            "streamlit_version",
+            "python_version",
+            "deployment",
+            "reproducible"
+          ]
+        }
+      },
+      "proposal_id": "b29c0488017e8158d158e56e",
+      "revision": 1
+    },
+    "at": "2026-10-09T00:43:16.266932+00:00"
+  },
+  {
+    "id": 35,
+    "case_id": "GH16481",
+    "kind": "pipeline_stage",
+    "payload": {
+      "auto_execute": false,
+      "hash": "9b50ac58ac805b7589f1b71211db936f3a465ce2e84478acf423e12118be5a1f",
+      "id": "b29c0488017e8158d158e56e",
+      "stage": "prepare_proposal"
+    },
+    "at": "2026-10-09T00:43:16.278069+00:00"
+  },
+  {
+    "id": 36,
+    "case_id": "GH16481",
+    "kind": "turn_completed",
+    "payload": {
+      "architecture": "v2",
+      "case_id": "GH16481",
+      "components": {
+        "dense": true,
+        "judge": true,
+        "mmr": true,
+        "quality": true,
+        "rerank": true,
+        "rewrite": true
+      },
+      "decision": "escalate",
+      "judge": null,
+      "latency_seconds": 26.983781,
+      "max_calls": 8,
+      "method": "final",
+      "mode": "live",
+      "model_calls": 5,
+      "quality_revision": "v2.3-quality",
+      "repair_count": 0,
+      "request_id": "live-v23-additional-revised",
+      "retrieved": [
+        {
+          "id": "docs:2024:v2:46ec77d95bfe1acc",
+          "kind": "release",
+          "product_version": null,
+          "retrieval_score": 0.02990696,
+          "section": "**Version 1.40.0**",
+          "source_authority": "reported_observation",
+          "source_id": "docs:2024",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2024.md",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "issue:17074:v2:137f79d16d7a2927",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 0.03062179,
+          "section": "Reproducible Code Example",
+          "source_authority": "reported_observation",
+          "source_id": "issue:17074",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/streamlit/issues/17074",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "issue:17074:v2:01c0fa0561780945",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 0.02967033,
+          "section": "Steps To Reproduce",
+          "source_authority": "reported_observation",
+          "source_id": "issue:17074",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/streamlit/issues/17074",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "docs:widget-behavior:v2:3733a3c52f7d9a4a",
+          "kind": "docs",
+          "product_version": null,
+          "retrieval_score": 0.01421687,
+          "section": "Widgets are session dependent",
+          "source_authority": "official_documentation",
+          "source_id": "docs:widget-behavior",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "version_relation": "unknown"
+        },
+        {
+          "id": "issue:15754:v2:8a3bc0d87cdc5010",
+          "kind": "issue",
+          "product_version": null,
+          "retrieval_score": 0.02970951,
+          "section": "Add index= parameter to st.tabs to allow restoring active tab after rerun",
+          "source_authority": "reported_observation",
+          "source_id": "issue:15754",
+          "temporal_status": "not_historical",
+          "url": "https://github.com/streamlit/streamlit/issues/15754",
+          "version_relation": "unknown"
+        }
+      ],
+      "review_failures": [
+        {
+          "code": "judge_contract_error",
+          "draft_version": "de03f2c995f2b0d8232597d5471579b701e7f977e7f22ea60f92deb7da02e0bd",
+          "kind": "judge_contract"
+        }
+      ],
+      "reviewed_draft": {
+        "case_id": "GH16481",
+        "case_revision": 1,
+        "draft_version": "de03f2c995f2b0d8232597d5471579b701e7f977e7f22ea60f92deb7da02e0bd",
+        "generation": 0,
+        "units": [
+          {
+            "end": 79,
+            "field": "question",
+            "start": 0,
+            "text": "آیا کدی یا اسنادی برای نمونه پیاده‌سازی type=\"pills\" در تابع st.tabs وجود دارد؟",
+            "unit_id": "u_274bb1d26de4eaa2af07799b"
+          },
+          {
+            "end": 110,
+            "field": "next_step",
+            "start": 0,
+            "text": "آیا کد یا نمونه‌ای از اجرای اولیه این ویژگی با پارامتر type=\"pills\" برای st.tabs وجود دارد که بتوان بررسی کرد؟",
+            "unit_id": "u_15b5c061526590315f4a7546"
+          },
+          {
+            "end": 204,
+            "field": "rationale",
+            "start": 0,
+            "text": "در گزارش ویژگی type=\"pills\" به st.tabs پیشنهاد شده است تا ظاهر تب‌ها تغییر کند اما هیچ مستندات یا نمونه کدی برای بررسی پیاده‌سازی یا نتایج آن موجود نیست، بنابراین باید وجود منبع اجرا یا نمونه کد را پرسید.",
+            "unit_id": "u_72a06291ace9d192b910a071"
+          },
+          {
+            "end": 153,
+            "field": "feature_proposal.acceptance_condition",
+            "start": 0,
+            "text": "یک ورودی type=\"pills\" به st.tabs اضافه شود که ظاهر تب‌ها را به شکل دکمه‌های شبیه قرص با گوشه‌های گرد نمایش دهد و رفتار داخلی تب‌ها بدون تغییر باقی بماند.",
+            "unit_id": "u_91d80e61c2082966beb55a59"
+          },
+          {
+            "end": 82,
+            "field": "feature_proposal.constraints",
+            "start": 0,
+            "text": "نباید رفتار یا مدل داده‌ای تب‌ها تغییر کند، تنها ظاهر دیداری تب‌ها باید تغییر کند.",
+            "unit_id": "u_57841d59e4dc2032215a8296"
+          },
+          {
+            "end": 79,
+            "field": "feature_proposal.current_behavior",
+            "start": 0,
+            "text": "st.tabs تب‌ها را به شکل یک نوار زیرخط‌دار نمایش می‌دهد بدون گزینه type=\"pills\".",
+            "unit_id": "u_4eb91bf45658505c5b0fb909"
+          },
+          {
+            "end": 98,
+            "field": "feature_proposal.desired_behavior",
+            "start": 0,
+            "text": "st.tabs با پارامتر type=\"pills\"، تب‌ها را به شکل دکمه‌های rounded, button-like segments نمایش دهد.",
+            "unit_id": "u_6a4f77e47f15a18971674c0b"
+          },
+          {
+            "end": 93,
+            "field": "feature_proposal.user_need",
+            "start": 0,
+            "text": "خروجی tab headers به شکل دکمه‌های rounded و شبیه کپسول باشد برای زیباتر و فشرده تر کردن رابط.",
+            "unit_id": "u_85c9474f3524e922486c815b"
+          }
+        ]
+      },
+      "steps": 9,
+      "usage": {
+        "charged_or_reserved_usd": 0.009883038000000122,
+        "cost_usd": 0.009883038,
+        "mode": "live",
+        "provider_requests": 5,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "cost_usd": 0.0020926399999999998,
+            "input_tokens": 1960,
+            "kind": "extract",
+            "ledger_id": "61d90ce52b538c8ae68c4954",
+            "mode": "live",
+            "output_tokens": 699,
+            "provider_requests": 1
+          },
+          {
+            "cost_usd": 1.0779999999999999e-06,
+            "input_tokens": 49,
+            "kind": "embedding",
+            "ledger_id": "e1c42f9cf746da331af766af",
+            "mode": "live",
+            "output_tokens": 0,
+            "provider_requests": 1
+          },
+          {
+            "cost_usd": 0.0018704400000000001,
+            "input_tokens": 3655,
+            "kind": "rerank",
+            "ledger_id": "2ac5f96083a9076d7cda5ac8",
+            "mode": "live",
+            "output_tokens": 149,
+            "provider_requests": 1
+          },
+          {
+            "cost_usd": 0.0027544,
+            "input_tokens": 4288,
+            "kind": "chat",
+            "ledger_id": "5504295cc174b3d042f88d64",
+            "mode": "live",
+            "output_tokens": 493,
+            "provider_requests": 1
+          },
+          {
+            "cost_usd": 0.0031644799999999995,
+            "input_tokens": 2404,
+            "kind": "judge",
+            "ledger_id": "ecbd5243d2ce15b340b744d4",
+            "mode": "live",
+            "output_tokens": 1197,
+            "provider_requests": 1
+          }
+        ]
+      },
+      "validation_error": "judge_contract_error"
+    },
+    "at": "2026-10-09T00:43:16.305137+00:00"
+  }
+]

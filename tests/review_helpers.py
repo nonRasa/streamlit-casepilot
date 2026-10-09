@@ -1,6 +1,10 @@
 """Explicit synthetic reviewer fixture; never a semantic quality oracle."""
 from casepilot.roles import CRITERIA
 
+def wire_review(result):
+    """Encode an explicit test judgement in the current keyed transport."""
+    return dict(result,unit_reviews={e['unit_id']:{k:v for k,v in e.items() if k!='unit_id'} for e in result['unit_reviews']})
+
 def current_review(packet):
     source_ids=[s['span_id'] for s in packet['spans']['sources']][:1]
     return {'verdict':'accept','assessments':{k:{'score':2,'reason':'توضیح: بدل کنترل جریان است.'} for k in CRITERIA},

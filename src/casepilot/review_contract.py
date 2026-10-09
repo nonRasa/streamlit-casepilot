@@ -6,6 +6,47 @@ from .evidence import relation
 KINDS=('technical_claim','hypothesis','question','next_step','reported_fact','request_summary')
 SUPPORT=('supported','partial','contradicted','unknown')
 
+
+def bound_review_schema(envelope,spans):
+    """Constrain generation to this draft's complete units and witness catalogs."""
+    from copy import deepcopy
+    from .roles import QUALITY_JUDGE, obj
+    schema=deepcopy(QUALITY_JUDGE)
+    props=schema['properties']
+    props['draft_version']={'type':'string','enum':[envelope['draft_version']]}
+    defs={}
+    for name,rows in [('sources',spans['sources']),('messages',spans['messages'])]:
+        ids=list(dict.fromkeys(r['span_id'] for r in rows))
+        defs[name]={'type':'array','maxItems':3 if ids else 0,
+                    'items':{'type':'string',**({'enum':ids} if ids else {})}}
+    entry=props['unit_reviews']['items']['properties']
+    entry.pop('unit_id')
+    entry['source_ids']={'$ref':'#/$defs/sources'}
+    entry['message_ids']={'$ref':'#/$defs/messages'}
+    kinds={'general':KINDS,'question':('question','technical_claim'),
+           'hypothesis':('hypothesis',),'feature':('request_summary',)}
+    for name,allowed in kinds.items():
+        fields=deepcopy(entry);fields['kind']={'type':'string','enum':list(allowed)}
+        defs[name]=obj(fields)
+    reviews={}
+    for u in envelope['units']:
+        field=u['field']
+        kind='feature' if field.startswith('feature_proposal.') else ('hypothesis' if field.startswith('hypotheses.') else ('question' if field=='question' else 'general'))
+        reviews[u['unit_id']]={'$ref':'#/$defs/'+kind}
+    props['unit_reviews']=obj(reviews)
+    props['novelty']['properties']['message_ids']={'$ref':'#/$defs/messages'}
+    schema['$defs']=defs
+    return schema
+
+
+def unpack_bound_review(result,envelope):
+    """Unpack exact server-bound keys; never correct, infer or salvage bad IDs."""
+    require(isinstance(result,dict),'judge_contract_error','ساختار داور معتبر نیست.')
+    entries=result.get('unit_reviews'); expected={u['unit_id'] for u in envelope['units']}
+    require(isinstance(entries,dict) and set(entries)==expected,'judge_contract_error','کلیدهای واحدهای داور ناقص، تکراری یا منقضی‌اند.')
+    require(all(isinstance(e,dict) and 'unit_id' not in e for e in entries.values()),'judge_contract_error','شناسهٔ واحد باید فقط کلید همان واحد باشد.')
+    return dict(result,unit_reviews=[dict(entries[u['unit_id']],unit_id=u['unit_id']) for u in envelope['units']])
+
 def draft_units(answer,case_id,case_revision,generation):
     version=digest({'case':case_id,'revision':case_revision,'generation':generation,'answer':answer})
     units=[]
@@ -172,13 +213,24 @@ def checked_review_v23(result,answer,evidence,state,envelope,forced=()):
                 novelty=dict(n,effective_status=effective),failure_kind=None if reviewed['verdict']=='accept' else ('insufficient_evidence' if uncertain else 'answer_quality'))
 
 
-def recompose(answer,review,envelope):
+def recompose(answer,review,envelope,state=None):
     """Keep only individually valid, explicitly standalone units; rejudge required."""
     from copy import deepcopy
     keep=set(review['valid_unit_ids']) & {e['unit_id'] for e in review['unit_reviews'] if e['standalone']}
     fields={u['field'] for u in envelope['units'] if u['unit_id'] in keep}
     out=deepcopy(answer)
-    if 'next_step' not in fields or (out['decision']=='ask' and 'question' not in fields): return None
+    feature=out.get('feature_proposal') or {}
+    feature_fields={'feature_proposal.'+k for k in feature if k!='report_quotes'}
+    from .routing import intent
+    feature_handoff=bool(state and intent(state)=='feature_request' and len(feature_fields)==5 and feature_fields<=fields
+        and ('next_step' not in fields or (out['decision']=='ask' and 'question' not in fields)
+             or any(f['criterion']=='next_step_usefulness' for f in review['findings'])))
+    if feature_handoff:
+        # This new procedural step is only a draft. The pipeline MUST rejudge it.
+        out.update(decision='escalate',question='',
+            next_step='اقدام: نگه‌دارنده دربارهٔ افزودن رفتار درخواستی تصمیم طراحی بگیرد و امکان پذیرش را با این شرط بررسی کند: '+feature['acceptance_condition'],
+            diagnostic={'action':'','conditions':[],'repeat_of':'','changed_condition':'','repeat_reason':'','missing_fact':''})
+    elif 'next_step' not in fields or (out['decision']=='ask' and 'question' not in fields): return None
     out['rationale']=out['rationale'] if 'rationale' in fields else 'محدودیت: بخش فاقد پشتوانه حذف شده است؛ علت و رفع مشکل تأیید نشده‌اند.'
     out['hypotheses']=[h for i,h in enumerate(out['hypotheses']) if 'hypotheses.'+str(i) in fields]
     source_map={s['span_id']:s['evidence_id'] for s in review.get('source_spans',[])}

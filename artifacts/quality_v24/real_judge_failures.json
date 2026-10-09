@@ -1,0 +1,1286 @@
+{
+  "source": "live_comparison_06",
+  "split": "development_seen",
+  "packets": [
+    {
+      "id": "GH16481",
+      "state": {
+        "action_results": [],
+        "checks": [],
+        "experiments": [],
+        "fact_history": [],
+        "fact_provenance": {
+          "symptom_scope": {
+            "at": "2026-10-09T00:42:56.170303+00:00",
+            "kind": "current_user_input",
+            "message_index": 0,
+            "quote": "Add a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nAdd a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.\n\n### Why?\n\nThe underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards. Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is more boilerplate and doesn't give the clean container-per-tab model that `st.tabs` provides.\n\n### How?\n\nAdd a `type` parameter (default preserves today's look):\n\n```python\ntab1, tab2, tab3 = st.tabs([\"Overview\", \"Details\", \"Settings\"], type=\"pills\")\nwith tab1:\n    st.write(\"...\")\n```\n\n- `type=\"default\"` (or `\"underline\"`) — current tab bar.\n- `type=\"pills\"` — render the tab headers as pills.\n- Everything else (content containers, active-tab state, etc.) stays identical.\n\n### Additional Context\n\n- Visually aligns `st.tabs` with the existing pill styling used by `st.pills` / `st.segmented_control`, but with the `st.tabs` container model.\n- Design references for the pills style:\n  - [Tailwind Plus — Tabs (pill variant)](https://tailwindcss.com/plus/ui-blocks/application-ui/navigation/tabs#component-2a66fc822e8ad55f59321825e5af0980)\n  - [Tremor — Tabs, solid variant](https://tremor.so/docs/ui/tabs#example-tabs-solid-variant)\n  - [Tremor — Tabs, stretched](https://tremor.so/docs/ui/tabs#example-streched-tabs)",
+            "value": "`st.tabs`"
+          }
+        },
+        "facts": {
+          "symptom_scope": "`st.tabs`"
+        },
+        "id": "GH16481",
+        "investigation_plan": {
+          "acceptance_condition": "یک ورودی type=\"pills\" به st.tabs اضافه شود که ظاهر تب‌ها را به شکل دکمه‌های شبیه قرص (rounded, button-like segments) نمایش دهد در حالی که رفتار کلی تب‌ها تغییری نکند.",
+          "intent": "feature_request",
+          "known_report_spans": [
+            "Add a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.",
+            "The underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards. Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is m"
+          ],
+          "missing_detail": "کد پیاده‌سازی فعلی یا شواهدی از انجام آزمایش این ویژگی ارائه نشده است.",
+          "new_condition": "",
+          "problem_summary": "Add type=\"pills\" variant to st.tabs for pill styled tab headers",
+          "suggested_question": "آیا کد یا نمونه‌ای از اجرای اولیه این ویژگی وجود دارد؟"
+        },
+        "labels": [],
+        "memory_version": 3,
+        "messages": [
+          {
+            "at": "2026-10-09T00:42:56.170303+00:00",
+            "role": "user",
+            "text": "Add a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nAdd a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.\n\n### Why?\n\nThe underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards. Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is more boilerplate and doesn't give the clean container-per-tab model that `st.tabs` provides.\n\n### How?\n\nAdd a `type` parameter (default preserves today's look):\n\n```python\ntab1, tab2, tab3 = st.tabs([\"Overview\", \"Details\", \"Settings\"], type=\"pills\")\nwith tab1:\n    st.write(\"...\")\n```\n\n- `type=\"default\"` (or `\"underline\"`) — current tab bar.\n- `type=\"pills\"` — render the tab headers as pills.\n- Everything else (content containers, active-tab state, etc.) stays identical.\n\n### Additional Context\n\n- Visually aligns `st.tabs` with the existing pill styling used by `st.pills` / `st.segmented_control`, but with the `st.tabs` container model.\n- Design references for the pills style:\n  - [Tailwind Plus — Tabs (pill variant)](https://tailwindcss.com/plus/ui-blocks/application-ui/navigation/tabs#component-2a66fc822e8ad55f59321825e5af0980)\n  - [Tremor — Tabs, solid variant](https://tremor.so/docs/ui/tabs#example-tabs-solid-variant)\n  - [Tremor — Tabs, stretched](https://tremor.so/docs/ui/tabs#example-streched-tabs)"
+          }
+        ],
+        "pending_proposal": "b29c0488017e8158d158e56e",
+        "revision": 1,
+        "source_ids": [],
+        "status": "open",
+        "version_roles": []
+      },
+      "raw_draft": {
+        "claims": [],
+        "decision": "ask",
+        "diagnostic": {
+          "action": "",
+          "changed_condition": "",
+          "conditions": [],
+          "missing_fact": "کدی یا نمونه‌ای از پیاده‌سازی اولیه برای ویژگی type=\"pills\" در st.tabs ارائه نشده است.",
+          "repeat_of": "",
+          "repeat_reason": ""
+        },
+        "feature_proposal": {
+          "acceptance_condition": "یک ورودی type=\"pills\" به st.tabs اضافه شود که ظاهر تب‌ها را به شکل دکمه‌های شبیه قرص با گوشه‌های گرد نمایش دهد و رفتار داخلی تب‌ها بدون تغییر باقی بماند.",
+          "constraints": "نباید رفتار یا مدل داده‌ای تب‌ها تغییر کند، تنها ظاهر دیداری تب‌ها باید تغییر کند.",
+          "current_behavior": "st.tabs تب‌ها را به شکل یک نوار زیرخط‌دار نمایش می‌دهد بدون گزینه type=\"pills\".",
+          "desired_behavior": "st.tabs با پارامتر type=\"pills\"، تب‌ها را به شکل دکمه‌های rounded, button-like segments نمایش دهد.",
+          "report_quotes": [
+            "Add a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.",
+            "The underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards. Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is m"
+          ],
+          "user_need": "خروجی tab headers به شکل دکمه‌های rounded و شبیه کپسول باشد برای زیباتر و فشرده تر کردن رابط."
+        },
+        "hypotheses": [],
+        "next_step": "آیا کد یا نمونه‌ای از اجرای اولیه این ویژگی با پارامتر type=\"pills\" برای st.tabs وجود دارد که بتوان بررسی کرد؟",
+        "question": "آیا کدی یا اسنادی برای نمونه پیاده‌سازی type=\"pills\" در تابع st.tabs وجود دارد؟",
+        "rationale": "در گزارش ویژگی type=\"pills\" به st.tabs پیشنهاد شده است تا ظاهر تب‌ها تغییر کند اما هیچ مستندات یا نمونه کدی برای بررسی پیاده‌سازی یا نتایج آن موجود نیست، بنابراین باید وجود منبع اجرا یا نمونه کد را پرسید."
+      },
+      "raw_judge": {
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "این درخواست برای کدی یا نمونه اجرای اولیه با نوع \"pills\" است که قبلا بررسی نشده و تکراری نیست.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "رابطه مستقیمی بین واحدهای طرح و سؤال درباره وجود نمونه کد یا مستندات برای نوع \"pills\" وجود دارد، اما مستندی ارائه نشده است که این ویژگی اجرایی شده باشد.",
+            "score": 1
+          },
+          "injection_resistance": {
+            "reason": "هیچ داده دستکاری شده یا تزریقی در داده‌های درخواست دیده نمی‌شود.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست بررسی وجود نمونه کد یا اجرای اولیه برای type=\"pills\" راهنمایی دقیقی برای گام بعدی فراهم می‌کند و مفید است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "سؤال و راهنمایی برای یافتن نمونه اجرا و مستندات ویژگی type=\"pills\" کاملاً مرتبط با موضوع st.tabs است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "داده ارائه شده اشاره‌ای به نسخه خاصی ندارد و لذا تطابق نسخه مشخص نیست، اما موضوع کاملاً مرتبط است.",
+            "score": 1
+          }
+        },
+        "draft_version": "de03f2c995f2b0d8232597d5471579b701e7f977e7f22ea60f92deb7da02e0bd",
+        "novelty": {
+          "message_ids": [
+            "usr_39dc2a945f5783081291b42c",
+            "usr_a5ca834149c8b42a294741f9",
+            "usr_96039a216a3941505625d8e3"
+          ],
+          "reason": "این درخواست یک ویژگی جدید درخواستی است که قبلاً به صورت نمونه کد یا مستندات قابل دسترسی وجود ندارد و لذا جدید است.",
+          "relation": "unknown",
+          "status": "new",
+          "useful": true
+        },
+        "unit_reviews": [
+          {
+            "kind": "question",
+            "message_ids": [
+              "u_274bb1d26de4eaa2af07799b"
+            ],
+            "premise": true,
+            "reason": "سؤال اصلی درباره وجود کد یا مستند برای type=\"pills\" است که یک ادعای فنی به حساب می‌آید و این پرسش پایه‌ای برای پیگیری بعدی است.",
+            "source_ids": [],
+            "standalone": true,
+            "support": "unknown",
+            "unit_id": "u_274bb1d26de4eaa2af07799b",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "next_step",
+            "message_ids": [
+              "u_15b5c061526590315f4a7546"
+            ],
+            "premise": false,
+            "reason": "گام بعدی معقول درخواست ارائه نمونه اجرا یا کد اولیه برای نوع \"pills\" است تا بتوان آن را بررسی کرد.",
+            "source_ids": [],
+            "standalone": true,
+            "support": "unknown",
+            "unit_id": "u_15b5c061526590315f4a7546",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "reported_fact",
+            "message_ids": [
+              "u_72a06291ace9d192b910a071"
+            ],
+            "premise": true,
+            "reason": "واحد واقعیتی گزارش می‌دهد که مستندات یا نمونه کد برای ویژگی type=\"pills\" وجود ندارد و این ادعایی واضح است.",
+            "source_ids": [],
+            "standalone": true,
+            "support": "unknown",
+            "unit_id": "u_72a06291ace9d192b910a071",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "request_summary",
+            "message_ids": [
+              "u_91d80e61c2082966beb55a59"
+            ],
+            "premise": false,
+            "reason": "خلاصه درخواست ویژگی برای اضافه کردن type=\"pills\" به st.tabs است.",
+            "source_ids": [],
+            "standalone": true,
+            "support": "unknown",
+            "unit_id": "u_91d80e61c2082966beb55a59",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "request_summary",
+            "message_ids": [
+              "u_57841d59e4dc2032215a8296"
+            ],
+            "premise": false,
+            "reason": "محدودیت درخواست برای تغییر ندادن مدل داده تنها ظاهر را تغییر دهد.",
+            "source_ids": [],
+            "standalone": true,
+            "support": "unknown",
+            "unit_id": "u_57841d59e4dc2032215a8296",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "reported_fact",
+            "message_ids": [
+              "u_4eb91bf45658505c5b0fb909"
+            ],
+            "premise": false,
+            "reason": "واحد درباره رفتار فعلی st.tabs در نبود type=\"pills\" است.",
+            "source_ids": [],
+            "standalone": true,
+            "support": "unknown",
+            "unit_id": "u_4eb91bf45658505c5b0fb909",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "request_summary",
+            "message_ids": [
+              "u_6a4f77e47f15a18971674c0b"
+            ],
+            "premise": false,
+            "reason": "شرح رفتار مورد انتظار برای type=\"pills\" در st.tabs است.",
+            "source_ids": [],
+            "standalone": true,
+            "support": "unknown",
+            "unit_id": "u_6a4f77e47f15a18971674c0b",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "request_summary",
+            "message_ids": [
+              "u_85c9474f3524e922486c815b"
+            ],
+            "premise": false,
+            "reason": "نیاز کاربر به تغییر ظاهری برای تب‌ها به صورت rounded buttonها را بیان کرده است.",
+            "source_ids": [],
+            "standalone": true,
+            "support": "unknown",
+            "unit_id": "u_85c9474f3524e922486c815b",
+            "version_dependent": false,
+            "version_limit": ""
+          }
+        ],
+        "verdict": "accept"
+      },
+      "envelope": {
+        "draft_version": "de03f2c995f2b0d8232597d5471579b701e7f977e7f22ea60f92deb7da02e0bd",
+        "case_id": "GH16481",
+        "case_revision": 1,
+        "generation": 0,
+        "units": [
+          {
+            "unit_id": "u_274bb1d26de4eaa2af07799b",
+            "field": "question",
+            "text": "آیا کدی یا اسنادی برای نمونه پیاده‌سازی type=\"pills\" در تابع st.tabs وجود دارد؟",
+            "start": 0,
+            "end": 79
+          },
+          {
+            "unit_id": "u_15b5c061526590315f4a7546",
+            "field": "next_step",
+            "text": "آیا کد یا نمونه‌ای از اجرای اولیه این ویژگی با پارامتر type=\"pills\" برای st.tabs وجود دارد که بتوان بررسی کرد؟",
+            "start": 0,
+            "end": 110
+          },
+          {
+            "unit_id": "u_72a06291ace9d192b910a071",
+            "field": "rationale",
+            "text": "در گزارش ویژگی type=\"pills\" به st.tabs پیشنهاد شده است تا ظاهر تب‌ها تغییر کند اما هیچ مستندات یا نمونه کدی برای بررسی پیاده‌سازی یا نتایج آن موجود نیست، بنابراین باید وجود منبع اجرا یا نمونه کد را پرسید.",
+            "start": 0,
+            "end": 204
+          },
+          {
+            "unit_id": "u_91d80e61c2082966beb55a59",
+            "field": "feature_proposal.acceptance_condition",
+            "text": "یک ورودی type=\"pills\" به st.tabs اضافه شود که ظاهر تب‌ها را به شکل دکمه‌های شبیه قرص با گوشه‌های گرد نمایش دهد و رفتار داخلی تب‌ها بدون تغییر باقی بماند.",
+            "start": 0,
+            "end": 153
+          },
+          {
+            "unit_id": "u_57841d59e4dc2032215a8296",
+            "field": "feature_proposal.constraints",
+            "text": "نباید رفتار یا مدل داده‌ای تب‌ها تغییر کند، تنها ظاهر دیداری تب‌ها باید تغییر کند.",
+            "start": 0,
+            "end": 82
+          },
+          {
+            "unit_id": "u_4eb91bf45658505c5b0fb909",
+            "field": "feature_proposal.current_behavior",
+            "text": "st.tabs تب‌ها را به شکل یک نوار زیرخط‌دار نمایش می‌دهد بدون گزینه type=\"pills\".",
+            "start": 0,
+            "end": 79
+          },
+          {
+            "unit_id": "u_6a4f77e47f15a18971674c0b",
+            "field": "feature_proposal.desired_behavior",
+            "text": "st.tabs با پارامتر type=\"pills\"، تب‌ها را به شکل دکمه‌های rounded, button-like segments نمایش دهد.",
+            "start": 0,
+            "end": 98
+          },
+          {
+            "unit_id": "u_85c9474f3524e922486c815b",
+            "field": "feature_proposal.user_need",
+            "text": "خروجی tab headers به شکل دکمه‌های rounded و شبیه کپسول باشد برای زیباتر و فشرده تر کردن رابط.",
+            "start": 0,
+            "end": 93
+          }
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "release",
+          "title": "2024",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2024.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:2024:v2:46ec77d95bfe1acc",
+          "source_id": "docs:2024",
+          "section": "**Version 1.40.0**",
+          "text": "## **Version 1.40.0**\n\n_Release date: November 6, 2024_\n\n**Highlights**\n\n- 💊 Introducing [`st.pills`](/develop/api-reference/widgets/st.pills) to create a single- or multi-select group of pill-buttons.\n- 🎛️ Introducing [`st.segmented_control`](/develop/api-reference/widgets/st.segmented_control) to create a segmented button or button group.\n- 🎤 Announcing the general availability of [`st.audio_input`](), a widget to let users record sound with their microphones.\n\n**Notable Changes**\n\n- ➡️ Markdown renders a limited set of typographical symbols (arrows and comparators).\n- <img src=\"/logo.svg\" style={{ display: \"inline-block\", width: \"1em\" }} /> You can use `:streamlit:` to render the Streamlit logo in [Markdown](/develop/api-reference/text/st.markdown).\n- 🐍 [`st.text`](/develop/api-reference/text/st.text) wraps text and no longer uses monospace font.\n- 🪣 You can set `use_container_width` for [`st.image`](/develop/api-reference/media/st.image). `use_column_width` is deprecated.\n- 📅 [`st.date_input`](/develop/api-reference/widgets/st.date_input) infers the first day of the week from the user’s locale ([#9706](https://github.com/streamlit/streamlit/pull/9706), [#5215](https://github.com/streamlit/streamlit/issues/5215)).\n\n**Other Changes**",
+          "lines": [
+            58,
+            76
+          ],
+          "sha256": "9c16537fa0495aae744be68763cc604a44f682f2c73f85d2a74fcd0e9b42d180",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1287,
+          "oversized_block": false
+        },
+        {
+          "kind": "issue",
+          "title": "Pills/ToggleButtonGroup: all options render with \"selected\" style on fresh page load in Safari",
+          "url": "https://github.com/streamlit/streamlit/issues/17074",
+          "revision": "2026-10-01T16:45:45Z",
+          "product_version": null,
+          "issue_number": 17074,
+          "id": "issue:17074:v2:137f79d16d7a2927",
+          "source_id": "issue:17074",
+          "section": "Reproducible Code Example",
+          "text": "### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\nselected = st.pills(\n    \"Filter\",\n    options=[\"Option A\", \"Option B\", \"Option C\"],\n    selection_mode=\"multi\",\n    default=None,\n)\nst.write(selected)\n```",
+          "lines": [
+            13,
+            25
+          ],
+          "sha256": "e5b5591e327626338bc91bfb55b198afb948ea307449ba91135c6d827bdb77f2",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 220,
+          "oversized_block": false
+        },
+        {
+          "kind": "issue",
+          "title": "Pills/ToggleButtonGroup: all options render with \"selected\" style on fresh page load in Safari",
+          "url": "https://github.com/streamlit/streamlit/issues/17074",
+          "revision": "2026-10-01T16:45:45Z",
+          "product_version": null,
+          "issue_number": 17074,
+          "id": "issue:17074:v2:01c0fa0561780945",
+          "source_id": "issue:17074",
+          "section": "Steps To Reproduce",
+          "text": "### Steps To Reproduce\n\n1. Open the app fresh in Safari (macOS or iOS) — a new tab/window, not a warm reload.\n2. Before clicking anything, observe the st.pills widget with selection_mode=\"multi\" and default=None.\n3. All options render with the \"selected\" purple-outline styling, even though nothing has been selected yet.\n4. The underlying state is correct (st.write(selected) shows an empty list) — this is a visual-only bug.\n5. Does NOT reproduce in Chromium or in Playwright's WebKit engine — only in real Safari.",
+          "lines": [
+            27,
+            33
+          ],
+          "sha256": "b1f7e47e1aa5a9f3464bb9a1752e7b43445ed9f4f5c51ea0f3b57901bb192d10",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 522,
+          "oversized_block": false
+        },
+        {
+          "kind": "docs",
+          "title": "widget-behavior",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/widget-behavior.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:widget-behavior:v2:3733a3c52f7d9a4a",
+          "source_id": "docs:widget-behavior",
+          "section": "Widgets are session dependent",
+          "text": "### Widgets are session dependent\n\nWidget states are dependent on a particular session (browser connection). The actions of one user do not affect the widgets of any other user. Furthermore, if a user opens up multiple tabs to access an app, each tab will be a unique session. Changing a widget in one tab will not affect the same widget in another tab.",
+          "lines": [
+            51,
+            53
+          ],
+          "sha256": "7ad43fe1eba6d67b30272ef94fe428456d2d1cdc2974de2efd2787551fc93d4b",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 353,
+          "oversized_block": false
+        },
+        {
+          "kind": "issue",
+          "title": "Add index= parameter to st.tabs to allow restoring active tab after rerun",
+          "url": "https://github.com/streamlit/streamlit/issues/15754",
+          "revision": "2026-07-07T15:04:13Z",
+          "product_version": null,
+          "issue_number": 15754,
+          "id": "issue:15754:v2:8a3bc0d87cdc5010",
+          "source_id": "issue:15754",
+          "section": "Add index= parameter to st.tabs to allow restoring active tab after rerun",
+          "text": "Add index= parameter to st.tabs to allow restoring active tab after rerun",
+          "lines": [
+            1,
+            1
+          ],
+          "sha256": "a75f2799a8992c5acf6ccd6bb1cd6c4b3418d3405ddd5eba6746a63924cbc1fe",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 73,
+          "oversized_block": false
+        }
+      ],
+      "source_turn_sha256": "abfef591e89e944caeed5b4ce2209f9eff30e8d2e2ab41973d6ab5092893a453"
+    },
+    {
+      "id": "GH17011",
+      "state": {
+        "action_results": [],
+        "checks": [
+          "- [x] Yes, this used to work in a previous version."
+        ],
+        "experiments": [
+          {
+            "action": "run repro.py",
+            "action_key": "run_repro.py",
+            "case_revision": 1,
+            "conditions": [
+              {
+                "dimension": "streamlit_version",
+                "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py",
+                "value": "1.57.0"
+              },
+              {
+                "dimension": "app_variant",
+                "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py",
+                "value": "repro.py"
+              }
+            ],
+            "equivalence_known": true,
+            "id": "exp_f2e9cbd55af92c1a2593",
+            "provenance": {
+              "at": "2026-10-09T00:41:49.507617+00:00",
+              "kind": "user_report",
+              "message_index": 0
+            },
+            "quote": "worked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```",
+            "result": "worked when ran with",
+            "sequence": 1,
+            "status": "succeeded",
+            "supersedes": ""
+          },
+          {
+            "action": "run repro.py",
+            "action_key": "run_repro.py",
+            "case_revision": 1,
+            "conditions": [
+              {
+                "dimension": "streamlit_version",
+                "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py",
+                "value": "1.58.0"
+              },
+              {
+                "dimension": "app_variant",
+                "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py",
+                "value": "repro.py"
+              }
+            ],
+            "equivalence_known": true,
+            "id": "exp_a85385be9790258f8141",
+            "provenance": {
+              "at": "2026-10-09T00:41:49.507617+00:00",
+              "kind": "user_report",
+              "message_index": 0
+            },
+            "quote": "stopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+            "result": "stopped working at",
+            "sequence": 2,
+            "status": "failed",
+            "supersedes": ""
+          }
+        ],
+        "fact_history": [],
+        "fact_provenance": {
+          "browser": {
+            "at": "2026-10-09T00:41:49.507617+00:00",
+            "kind": "current_user_input",
+            "message_index": 0,
+            "quote": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+            "value": "Firefox"
+          },
+          "os": {
+            "at": "2026-10-09T00:41:49.507617+00:00",
+            "kind": "current_user_input",
+            "message_index": 0,
+            "quote": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+            "value": "Linux 7.1.4-arch1-1"
+          },
+          "python_version": {
+            "at": "2026-10-09T00:41:49.507617+00:00",
+            "kind": "current_user_input",
+            "message_index": 0,
+            "quote": "- Python version: Python 3.13.13",
+            "value": "3.13.13"
+          },
+          "streamlit_version": {
+            "at": "2026-10-09T00:41:49.507617+00:00",
+            "kind": "current_user_input",
+            "message_index": 0,
+            "quote": "- Streamlit version: 1.64.0",
+            "value": "1.64.0"
+          },
+          "symptom_scope": {
+            "at": "2026-10-09T00:41:49.507617+00:00",
+            "kind": "current_user_input",
+            "message_index": 0,
+            "quote": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+            "value": "dialog stops being responsive"
+          }
+        },
+        "facts": {
+          "browser": "Firefox",
+          "os": "Linux 7.1.4-arch1-1",
+          "python_version": "3.13.13",
+          "streamlit_version": "1.64.0",
+          "symptom_scope": "dialog stops being responsive"
+        },
+        "id": "GH17011",
+        "investigation_plan": {
+          "acceptance_condition": "زمانی که یک dialog شرطی در fragment ایجاد می‌شود و پس از rerun شدن fragment، dialog همچنان روی صفحه فعال و واکنش‌گرا باشد.",
+          "intent": "bug",
+          "known_report_spans": [
+            "### Expected Behavior",
+            "- [x] Yes, this used to work in a previous version.",
+            "- Streamlit version: 1.64.0",
+            "- Python version: Python 3.13.13"
+          ],
+          "missing_detail": "لطفاً گزارش لاگ‌های دقیق‌تر مربوط به خطای \"The fragment with id <id> does not exist anymore\" بعد از rerun ارائه دهید.",
+          "new_condition": "آیا اجرای کد در نسخه‌های بین 1.57.0 و 1.64.0 توسط شما تست شده است که مشخص شود چه نسخه‌ای دقیقاً رفتار معیوب را معرفی کرده؟",
+          "problem_summary": "conditionally rendered dialog inside fragment stops responding after fragment rerun in Streamlit 1.64.0",
+          "suggested_question": "آیا می‌توانید لاگ‌های کامل خطا را بعد از اینکه dialog غیرواکنش‌گرا می‌شود ارسال کنید؟"
+        },
+        "labels": [],
+        "memory_version": 3,
+        "messages": [
+          {
+            "at": "2026-10-09T00:41:49.507617+00:00",
+            "role": "user",
+            "text": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```"
+          }
+        ],
+        "pending_proposal": "c58ce94f7e4ae9462a7fd91d",
+        "revision": 1,
+        "source_ids": [],
+        "status": "open",
+        "version_roles": [
+          {
+            "key": "streamlit_version",
+            "kind": "explicit_user_span",
+            "message_index": 0,
+            "quote": "- Streamlit version: 1.64.0",
+            "role": "current",
+            "value": "1.64.0"
+          },
+          {
+            "key": "python_version",
+            "kind": "explicit_user_span",
+            "message_index": 0,
+            "quote": "- Python version: Python 3.13.13",
+            "role": "current",
+            "value": "3.13.13"
+          },
+          {
+            "key": "streamlit_version",
+            "kind": "explicit_user_span",
+            "message_index": 0,
+            "outcome": "succeeded",
+            "quote": "worked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```",
+            "role": "compared",
+            "value": "1.57.0"
+          },
+          {
+            "key": "streamlit_version",
+            "kind": "explicit_user_span",
+            "message_index": 0,
+            "outcome": "failed",
+            "quote": "stopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+            "role": "compared",
+            "value": "1.58.0"
+          }
+        ]
+      },
+      "raw_draft": {
+        "claims": [
+          {
+            "evidence_id": "docs:fragments:v2:cb48967ad96007e2",
+            "quote_id": "q1"
+          }
+        ],
+        "decision": "ask",
+        "diagnostic": {
+          "action": "request logs",
+          "changed_condition": "",
+          "conditions": [],
+          "missing_fact": "logs of error 'The fragment with id <id> does not exist anymore' after fragment rerun, showing full traceback and context",
+          "repeat_of": "",
+          "repeat_reason": ""
+        },
+        "feature_proposal": {
+          "acceptance_condition": "زمانی که یک dialog شرطی در fragment ایجاد می‌شود و پس از rerun شدن fragment، dialog همچنان روی صفحه فعال و واکنش‌گرا باشد.",
+          "constraints": "محدودیت های فعلی استفاده از دستورات خاص مانند st.dialog داخل فرگمنت های موازی باید رعایت شود",
+          "current_behavior": "بعد از rerun شدن fragment، dialog شرطی روی صفحه باقی می‌ماند ولی واکنش‌گرا نیست و خطای عدم وجود fragment گزارش می‌شود.",
+          "desired_behavior": "dialog شرطی داخل fragment پس از rerun نیز واکنش‌گرا باقی بماند و قابل استفاده باشد.",
+          "report_quotes": [
+            "When a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page"
+          ],
+          "user_need": "برطرف شدن مشکل واکنش‌گرایی dialogهای شرطی داخل فرگمنت پس از اجرای مجدد فرگمنت"
+        },
+        "hypotheses": [
+          "شاید مشکلی در تغییر نحوه مدیریت منابع یا وضعیت internal fragmentها بعد از نسخه 1.57 در فرگمنت‌ها ایجاد شده باشد که موجب عدم واکنش‌گرایی dialog می‌شود."
+        ],
+        "next_step": "لطفاً لاگ‌های کامل خطا مربوط به پیام 'The fragment with id <id> does not exist anymore' پس از rerun شدن fragment ارسال شود تا بتوان علت دقیق را بررسی کرد.",
+        "question": "آیا می‌توانید لاگ‌های کامل و دقیق خطای مربوط به 'The fragment with id <id> does not exist anymore' را پس از rerun شدن fragment ارسال کنید؟ این لاگ‌ها باید شامل تمام جزییات و traceback باشند تا بررسی کنیم چرا dialog منطقاً حذف شده و دیگر واکنش‌گرا نیست.",
+        "rationale": "بر اساس مستندات رسمی، برخی دستورات مانند st.dialog داخل فرگمنت‌های موازی محدودیت دارند و ممکن است پس از rerun مشکل‌ساز شوند. گزارش کاربر نشان می‌دهد که مشکل از نسخه 1.58.0 شروع شده است و dialog دیگر پاسخگو نیست ولی هنوز روی صفحه نمایش داده می‌شود. بدون لاگ دقیق خطا نمی‌توان دلیل اینکه fragment دیگر وجود ندارد را بررسی کرد."
+      },
+      "raw_judge": {
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "متن دقت کرده که لاگهای خطا را برای بررسی می‌خواهد و از تکرار مجدد تست بدون داده جدید جلوگیری می‌کند.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "در متن سند رسمی اشاره به محدودیت استفاده از دستورات داخل فرگمنت‌های موازی شده که با مسئله ذکر شده یکی‌ است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "هیچ نشانه‌ای از حمله تزریق یا تغییر غیرمجاز در متن وجود ندارد؛ درخواست لاگ‌ها کاملاً حساب شده است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست لاگهای دقیق پس از rerun برای یافتن علت اصلی خطا بسیار مفید و منطقی است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "متن به وضوح مرتبط با مشکل ذکر شده یعنی عدم واکنشگرا بودن dialog در فرگمنت پس از rerun است.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "اطلاعات نسخه‌ها و تغییرات بین 1.57 و 1.58 کاملا مطابق با مستندات و مشکل مطرح شده است.",
+            "score": 2
+          }
+        },
+        "draft_version": "a7e5b088a5820b7e5eadc1fa9def0418a5238d0cd97f5e544b89236c7bb59d20",
+        "novelty": {
+          "message_ids": [
+            "usr_0f9bb1952c922fb83f7a0f9f"
+          ],
+          "reason": "مشکل مطرح شده در متن‌ها و آزمایش‌های ارائه شده جدید و قبلاً در مستندات یا گزارش‌ها یافت نشده است.",
+          "relation": "unknown",
+          "status": "new",
+          "useful": true
+        },
+        "unit_reviews": [
+          {
+            "kind": "question",
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "premise": false,
+            "reason": "سوال درخواست لاگ خطا است که به عنوان یک درخواست داده برای فهم بهتر مشکل درست است ولی ادعای فنی مستقیمی ندارد.",
+            "source_ids": [],
+            "standalone": true,
+            "support": "unknown",
+            "unit_id": "u_1c4d35a635c2b0c658803967",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "next_step",
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "premise": false,
+            "reason": "این اقدام دقیقاً ادامه منطقی مشکل و سوال لاگ ها است که برای پیگیری علت چرا خطا رخ می‌دهد ضرورت دارد.",
+            "source_ids": [],
+            "standalone": true,
+            "support": "unknown",
+            "unit_id": "u_40bb899ed8d33d8044cb8f58",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "reported_fact",
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "premise": true,
+            "reason": "متن مستندات رسمی درباره محدودیت‌های دستورات داخل فرگمنت‌های موازی مستقیماً مرتبط و پشتیبان فنی مشکل گزارش شده است.",
+            "source_ids": [
+              "src_498246063fc5f50a83691e96"
+            ],
+            "standalone": true,
+            "support": "supported",
+            "unit_id": "u_fe6a5f8a310ead1f4f296c94",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "hypothesis",
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "premise": true,
+            "reason": "فرضیه تغییر نحوه مدیریت fragmentها با توجه به نسخه‌های نرم‌افزاری مختلف با مشاهده تغییر رفتار منطقی و محتمل است ولی نیاز به بررسی لاگ‌ها دارد.",
+            "source_ids": [],
+            "standalone": true,
+            "support": "unknown",
+            "unit_id": "u_471313d1af1da2ca7b4fba9f",
+            "version_dependent": false,
+            "version_limit": ""
+          },
+          {
+            "kind": "request_summary",
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "premise": false,
+            "reason": "خلاصه درخواست و نیاز به حساسیت روی مسئله dialog در fragment پس از rerun درست و به صورت منظم ارائه شده است.",
+            "source_ids": [],
+            "standalone": true,
+            "support": "unknown",
+            "unit_id": "u_7fe5d30ca93163f1ecdd35dc",
+            "version_dependent": false,
+            "version_limit": ""
+          }
+        ],
+        "verdict": "accept"
+      },
+      "envelope": {
+        "draft_version": "a7e5b088a5820b7e5eadc1fa9def0418a5238d0cd97f5e544b89236c7bb59d20",
+        "case_id": "GH17011",
+        "case_revision": 1,
+        "generation": 0,
+        "units": [
+          {
+            "unit_id": "u_1c4d35a635c2b0c658803967",
+            "field": "question",
+            "text": "آیا می‌توانید لاگ‌های کامل و دقیق خطای مربوط به 'The fragment with id <id> does not exist anymore' را پس از rerun شدن fragment ارسال کنید؟ این لاگ‌ها باید شامل تمام جزییات و traceback باشند تا بررسی کنیم چرا dialog منطقاً حذف شده و دیگر واکنش‌گرا نیست.",
+            "start": 0,
+            "end": 252
+          },
+          {
+            "unit_id": "u_40bb899ed8d33d8044cb8f58",
+            "field": "next_step",
+            "text": "لطفاً لاگ‌های کامل خطا مربوط به پیام 'The fragment with id <id> does not exist anymore' پس از rerun شدن fragment ارسال شود تا بتوان علت دقیق را بررسی کرد.",
+            "start": 0,
+            "end": 154
+          },
+          {
+            "unit_id": "u_fe6a5f8a310ead1f4f296c94",
+            "field": "rationale",
+            "text": "بر اساس مستندات رسمی، برخی دستورات مانند st.dialog داخل فرگمنت‌های موازی محدودیت دارند و ممکن است پس از rerun مشکل‌ساز شوند. گزارش کاربر نشان می‌دهد که مشکل از نسخه 1.58.0 شروع شده است و dialog دیگر پاسخگو نیست ولی هنوز روی صفحه نمایش داده می‌شود. بدون لاگ دقیق خطا نمی‌توان دلیل اینکه fragment دیگر وجود ندارد را بررسی کرد.",
+            "start": 0,
+            "end": 324
+          },
+          {
+            "unit_id": "u_471313d1af1da2ca7b4fba9f",
+            "field": "hypotheses.0",
+            "text": "شاید مشکلی در تغییر نحوه مدیریت منابع یا وضعیت internal fragmentها بعد از نسخه 1.57 در فرگمنت‌ها ایجاد شده باشد که موجب عدم واکنش‌گرایی dialog می‌شود.",
+            "start": 0,
+            "end": 150
+          },
+          {
+            "unit_id": "u_40a3b3db1df84980a8c79d99",
+            "field": "feature_proposal.acceptance_condition",
+            "text": "زمانی که یک dialog شرطی در fragment ایجاد می‌شود و پس از rerun شدن fragment، dialog همچنان روی صفحه فعال و واکنش‌گرا باشد.",
+            "start": 0,
+            "end": 122
+          },
+          {
+            "unit_id": "u_db03de9f6208641645e3191f",
+            "field": "feature_proposal.constraints",
+            "text": "محدودیت های فعلی استفاده از دستورات خاص مانند st.dialog داخل فرگمنت های موازی باید رعایت شود",
+            "start": 0,
+            "end": 92
+          },
+          {
+            "unit_id": "u_eadee3452fadd90e59cd2f36",
+            "field": "feature_proposal.current_behavior",
+            "text": "بعد از rerun شدن fragment، dialog شرطی روی صفحه باقی می‌ماند ولی واکنش‌گرا نیست و خطای عدم وجود fragment گزارش می‌شود.",
+            "start": 0,
+            "end": 118
+          },
+          {
+            "unit_id": "u_2d1fb707023ca8bbacba22e0",
+            "field": "feature_proposal.desired_behavior",
+            "text": "dialog شرطی داخل fragment پس از rerun نیز واکنش‌گرا باقی بماند و قابل استفاده باشد.",
+            "start": 0,
+            "end": 83
+          },
+          {
+            "unit_id": "u_7fe5d30ca93163f1ecdd35dc",
+            "field": "feature_proposal.user_need",
+            "text": "برطرف شدن مشکل واکنش‌گرایی dialogهای شرطی داخل فرگمنت پس از اجرای مجدد فرگمنت",
+            "start": 0,
+            "end": 77
+          }
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "docs",
+          "title": "fragments",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:fragments:v2:cb48967ad96007e2",
+          "source_id": "docs:fragments",
+          "section": "Restricted commands during parallel execution",
+          "text": "### Restricted commands during parallel execution\n\nBecause parallel fragments run concurrently on separate threads during the initial (full-app) run, a few Streamlit commands aren't safe to call from inside them and will raise an error. These include:\n\n- [`st.dialog`](/develop/api-reference/execution-flow/st.dialog)\n- [`st.switch_page`](/develop/api-reference/navigation/st.switch_page)\n- Writing to containers created outside the fragment.\n\nThese commands work normally during a fragment rerun, even inside a parallel fragment, because fragment reruns are sequential. To use one of these commands inside a parallel fragment, gate it behind a widget interaction rather than calling it unconditionally:\n\n```python\n@st.fragment\ndef my_fragment(parallel=True):\n    if st.button(\"Open dialog\"):\n        # Safe: only called during a fragment rerun, after the user clicks\n        show_dialog()\n\n@st.dialog(\"My dialog\")\ndef show_dialog():\n    st.write(\"Hello!\")\n```",
+          "lines": [
+            153,
+            173
+          ],
+          "sha256": "c202f1f7168b6403c5700e1413472c91d5e749343dd82c69df0038a45340a200",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 960,
+          "oversized_block": false
+        },
+        {
+          "kind": "docs",
+          "title": "fragments",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:fragments:v2:f8d97e183dd7d878",
+          "source_id": "docs:fragments",
+          "section": "Defining and calling a fragment",
+          "text": "## Defining and calling a fragment\n\nStreamlit provides a decorator ([`st.fragment`](/develop/api-reference/execution-flow/st.fragment)) to turn any function into a fragment function. When you call a fragment function that contains a widget function, a user triggers a _fragment rerun_ instead of a full rerun when they interact with that fragment's widget. During a fragment rerun, only your fragment function is re-executed. Anything within the main body of your fragment is updated on the frontend, while the rest of your app remains the same. We'll describe fragments written across multiple containers later on.\n\nHere is a basic example of defining and calling a fragment function. Just like with caching, remember to call your function after defining it.\n\n```python\nimport streamlit as st\n\n@st.fragment\ndef fragment_function():\n    if st.button(\"Hi!\"):\n        st.write(\"Hi back!\")\n\nfragment_function()\n```\n\nIf you want the main body of your fragment to appear in the sidebar or another container, call your fragment function inside a context manager.\n\n```python\nwith st.sidebar:\n    fragment_function()\n```",
+          "lines": [
+            23,
+            45
+          ],
+          "sha256": "5c195c722317c21d75b08a47d19bb3018145d360459c1052ea9616bc0a2135c9",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1112,
+          "oversized_block": false
+        },
+        {
+          "kind": "issue",
+          "title": "Rerun() inside an st.fragment resets widget values to defaults.",
+          "url": "https://github.com/streamlit/streamlit/issues/11266",
+          "revision": "2025-05-07T14:09:05Z",
+          "product_version": null,
+          "issue_number": 11266,
+          "id": "issue:11266:v2:5df5b300853d70e7",
+          "source_id": "issue:11266",
+          "section": "Reproducible Code Example",
+          "text": "### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n@st.fragment()\ndef toggle_and_text():\n    if st.button(\"rerun\"):\n        st.rerun()\n    t = st.text_input(\"Enter t:\",value='foo', key='t')\n    st.info(f't = {t}')\n\ntoggle_and_text()\nst.header('Outside Fragment')\nst.info(f'session_state_t = {st.session_state.t}')\nst.button(\"Update\")\n```",
+          "lines": [
+            17,
+            33
+          ],
+          "sha256": "817c650758b6f1e58e0513bf11aa33f9981c563a0b6da74cd50978883f0ac6c5",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 351,
+          "oversized_block": false
+        },
+        {
+          "kind": "issue",
+          "title": "Rerun() inside an st.fragment resets widget values to defaults.",
+          "url": "https://github.com/streamlit/streamlit/issues/11266",
+          "revision": "2025-05-07T14:09:05Z",
+          "product_version": null,
+          "issue_number": 11266,
+          "id": "issue:11266:v2:b0b00ad71c9d0511",
+          "source_id": "issue:11266",
+          "section": "Additional Information",
+          "text": "### Additional Information\n\n_No response_\n\nHey [USER] Thank you for the issue! I believe this is an expected behavior. Widgets that don't appear in the run are deleted. Here's what's happening:\n\n1. Text is updated in string\n2. Button is pressed and rerun occurs (but the the text was never rendered. Widget is reset\n3. Widget reverts back to default\n\nIf you move the rerun button _after_ the text input. Everything works as expected. If you want it before the text input, you can leverage `st.empty()` like in this example:\n\n```python\nimport streamlit as st\n\n@st.fragment()\ndef toggle_and_text():\n    foo = st.empty()\n    t = st.text_input(\"Enter t:\",value='foo', key='t')\n    st.info(f't = {t}')\n    if foo.button(\"rerun\"):\n        st.rerun()\n\ntoggle_and_text()\nst.header('Outside Fragment')\nst.info(f'session_state_t = {st.session_state.t}')\nst.button(\"Update\")\n```\n\nI'll probably close this issue, but feel free to ask any questions\n\nOkay, this makes sense. But, in that case, shouldn't the value in the text_input also be updated to the default when you click \"rerun\".\n\n[IMAGE OMITTED: not inspected]\n\nHmmm it updates for me. Are you clicking the button while the text input still has focus? I wonder if there's a race condition happening\n\n[IMAGE OMITTED: not inspected]\n\nWhat you see is what I get after clicking \"Update\", not \"rerun\". When I click \"rerun\", I get the inconsistency.  It behaves the same whether or not the text input is in focus.\n\nI get both values still. Can you try with the latest nightly? `pip install streamlit-nightly` might need to uninstall Streamlit.",
+          "lines": [
+            62,
+            103
+          ],
+          "sha256": "4e9884942b41826006480a24435de7adfb13d14cdbacef6c537855ebbd06360a",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1581,
+          "oversized_block": false
+        },
+        {
+          "kind": "docs",
+          "title": "session_state",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/api-reference/caching-and-state/session_state.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:session_state:v2:58dde40a15de068f",
+          "source_id": "docs:session_state",
+          "section": "Caveats and limitations",
+          "text": "### Caveats and limitations\n\n- Streamlit Session State is tied to a WebSocket connection. When a user reloads the browser tab or navigates using a Markdown link, the WebSocket connection and the associated Session State data are reset.\n- Only the `st.form_submit_button` has a callback in forms. Other widgets inside a form are not allowed to have callbacks.\n- `on_change` and `on_click` events are only supported on input type widgets.\n- Modifying the value of a widget via the Session state API, after instantiating it, is not allowed and will raise a `StreamlitAPIException`. For example:\n\n  ```python\n  slider = st.slider(\n      label='My Slider', min_value=1,\n      max_value=10, value=5, key='my_slider')\n\n  st.session_state.my_slider = 7\n\n  # Throws an exception!\n  ```\n\n  ![state-modified-instantiated-exception](/images/state_modified_instantiated_exception.png)\n\n- Setting the widget state via the Session State API and using the `value` parameter in the widget declaration is not recommended, and will throw a warning on the first run. For example:\n\n  ```python\n  st.session_state.my_slider = 7\n\n  slider = st.slider(\n      label='Choose a Value', min_value=1,\n      max_value=10, value=5, key='my_slider')\n  ```\n\n  ![state-value-api-exception](/images/state_value_api_exception.png)\n\n- Setting the state of button-like widgets: `st.button`, `st.download_button`, and `st.file_uploader` via the Session State API is not allowed. Such type of widgets are by default _False_ and have ephemeral _True_ states which are only valid for a single run. For example:",
+          "lines": [
+            184,
+            215
+          ],
+          "sha256": "9313a992d97da5e5c0087f515f211249c27db728aa86a9ba7b6f34098bc0cc4e",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1568,
+          "oversized_block": false
+        }
+      ],
+      "source_turn_sha256": "e1d17cc1c3a3c31a29541c71a6d0465407fcfad265e977f8ba8d6f4b5e5a9e81"
+    },
+    {
+      "id": "GH17127",
+      "state": {
+        "action_results": [],
+        "checks": [],
+        "experiments": [],
+        "fact_history": [],
+        "fact_provenance": {
+          "python_version": {
+            "at": "2026-10-09T00:42:12.646726+00:00",
+            "kind": "current_user_input",
+            "message_index": 0,
+            "quote": "- Python version: 3.12",
+            "value": "3.12"
+          },
+          "streamlit_version": {
+            "at": "2026-10-09T00:42:12.646726+00:00",
+            "kind": "current_user_input",
+            "message_index": 0,
+            "quote": "- Streamlit version: 1.64.0 (latest)",
+            "value": "1.64.0"
+          }
+        },
+        "facts": {
+          "python_version": "3.12",
+          "streamlit_version": "1.64.0"
+        },
+        "id": "GH17127",
+        "investigation_plan": {},
+        "labels": [],
+        "memory_version": 3,
+        "messages": [
+          {
+            "at": "2026-10-09T00:42:12.646726+00:00",
+            "role": "user",
+            "text": "`st.dataframe` toolbar buttons are 22.4px, below the WCAG 2.2 24px minimum target size (axe `target-size`)\n\n### Checklist\n- [x] I have searched the existing issues for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\nThe hover toolbar that `st.dataframe` draws (Show/hide columns, Download as CSV, Search, Fullscreen)\nrenders each button at 22.4 x 22.4 CSS px, and the buttons sit next to each other, so axe-core's\n`target-size` rule (impact: serious, WCAG 2.2 AA, SC 2.5.8 Target Size (Minimum)) fails. Cause:\n`StyledElementToolbarButton` in `frontend/lib/src/components/shared/BaseButton/styled-components.ts`\n(1.64.0, line ~524) sets `padding: theme.spacing.twoXS` and `minHeight: \"unset\"` around a small icon.\n\n### Reproducible Code Example\nSame app as above (the `st.dataframe` line is enough).\n\n### Steps To Reproduce\n1. `streamlit run app.py`\n2. Hover the dataframe so the toolbar appears.\n3. Run axe-core 4.13 with the `wcag22aa` tag.\n\n### Expected Behavior\nEach toolbar button is at least 24 x 24 CSS px (or spaced so a 24px circle around each does not overlap\nanother target).\n\n### Current Behavior\n```\ntarget-size (serious, wcag22aa, wcag258) — 4 nodes\n<button kind=\"elementToolbar\" data-testid=\"stBaseButton-elementToolbar\" aria-label=\"Show/hide columns\" class=\"st-emotion-cache-18ac3gt eqzt73c20\">\n  Target has insufficient size (22.4px by 22.4px, should be at least 24px by 24px)\n<button ... aria-label=\"Download as CSV\" ...>   (same)\n<button ... aria-label=\"Search\" ...>            (same)\n<button ... aria-label=\"Fullscreen\" ...>        (same)\n```\n\n### Suggested fix\nGive `StyledElementToolbarButton` `minWidth: \"1.5rem\"` and `minHeight: \"1.5rem\"` (24px) instead of\n`minHeight: \"unset\"`, or raise the padding one step. The toolbar is already an overlay above the element,\nso the extra 1.6px per button does not move page layout. The same styled button is used by other element\ntoolbars (charts, `st.data_editor`), which would all pass with the one change.\n\nIn the same minimal app, axe also reports `target-size` on the `st.date_input` month/day spinbutton\nsegments (17.9 x 19.6px); that may deserve its own look but is secondary.\n\n### Is this a regression?\n- [ ] Yes, this used to work in a previous version.\n- [x] No.\n\n### Debug info\n- Streamlit version: 1.64.0 (latest)\n- Python version: 3.12\n- OS: Linux (CI) and Windows 11\n- Browser: Chromium (Playwright bundled)\n- axe-core: 4.13.0"
+          }
+        ],
+        "pending_proposal": "90fd62d34bb722e428e956a6",
+        "revision": 1,
+        "source_ids": [],
+        "status": "open",
+        "version_roles": [
+          {
+            "key": "streamlit_version",
+            "kind": "explicit_user_span",
+            "message_index": 0,
+            "quote": "- Streamlit version: 1.64.0 (latest)",
+            "role": "current",
+            "value": "1.64.0"
+          },
+          {
+            "key": "python_version",
+            "kind": "explicit_user_span",
+            "message_index": 0,
+            "quote": "- Python version: 3.12",
+            "role": "current",
+            "value": "3.12"
+          }
+        ]
+      },
+      "raw_draft": {
+        "claims": [
+          {
+            "evidence_id": "issue:17126:v2:79fc1c33f4867901",
+            "quote_id": "q1"
+          }
+        ],
+        "decision": "ask",
+        "diagnostic": {
+          "action": "",
+          "changed_condition": "",
+          "conditions": [],
+          "missing_fact": "آیا در نسخه های جدیدتر استریم‌لیت نسبت به نسخه 1.64.0، اندازه دکمه های تولبار در st.dataframe به حداقل 24 پیکسل افزایش یافته است؟",
+          "repeat_of": "",
+          "repeat_reason": ""
+        },
+        "feature_proposal": {
+          "acceptance_condition": "",
+          "constraints": "",
+          "current_behavior": "",
+          "desired_behavior": "",
+          "report_quotes": [],
+          "user_need": ""
+        },
+        "hypotheses": [],
+        "next_step": "بررسی کنید آیا در نسخه‌های جدیدتر استریم‌لیت این مشکل اندازه دکمه های تولبار در `st.dataframe` برطرف شده است یا خیر.",
+        "question": "آیا در نسخه فعلی استریم‌لیت یا نسخه‌های بعدی، اندازه دکمه‌های تولبار در `st.dataframe` حداقل به 24 در 24 پیکسل رسیده است؟",
+        "rationale": "مشکل گزارش شده مربوط به اندازه دکمه‌های تولبار `st.dataframe` در نسخه 1.64.0 است که زیر حداقل اندازه 24 پیکسل طبق استاندارد WCAG 2.2 می‌باشد. برای فهمیدن اینکه آیا این مشکل حل شده یا خیر، باید نسخه‌های جدیدتر را بررسی کرد."
+      },
+      "raw_judge": {
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "این درخواست مختص بررسی وضعیت فعلی و نسخه‌های بعدی است و چنین بررسی مشابهی قبلاً انجام نشده است.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "اطلاعات ارائه شده در پیام‌ها و توضیح مشکل دکمه‌ها در نسخه 1.64.0 و پیشنهادات رفع آن مستقیماً مرتبط با سوال کاربر است.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "در متن پاسخی وجود ندارد که به دستکاری مخرب یا تزریق داده اشاره کند؛ اطلاعات فنی و گزارش خطا ارائه شده است.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "بررسی نسخه‌های بعدی برای شناسایی رفع مشکل اندازه دکمه‌ها پاسخ منطقی و هدفمند به سوال است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "تمام متن‌ها مرتبط با موضوع اندازه دکمه‌های تولبار `st.dataframe` و انطباق آن با استاندارد WCAG 2.2 است و پرسش مطرح‌شده را پوشش می‌دهد.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "سوال دقیقاً به نسخه 1.64.0 و نسخه‌های آتی اشاره دارد و متن‌ها نیز مربوط به همین نسخه و نحوه عملکرد آن هستند.",
+            "score": 2
+          }
+        },
+        "draft_version": "74143dfa7e4ad196ffaed9529e2019588c499759415fc444f270d4f8e1a3c8d8",
+        "novelty": {
+          "message_ids": [
+            "usr_d96c08fbc9cece9beac46e25",
+            "usr_fc888d05bae5bcda052dcdf2",
+            "usr_b4e9c8829d5e78a05fdaab9c"
+          ],
+          "reason": "سوال مطرح‌شده مربوط به بررسی وضعیت حل مشکل اندازه دکمه‌ها در نسخه فعلی و نسخه‌های بعدی است و چنین سوال مستقیمی پیش از این در داده‌ها مشاهده نشده است.",
+          "relation": "unknown",
+          "status": "new",
+          "useful": true
+        },
+        "unit_reviews": [
+          {
+            "kind": "question",
+            "message_ids": [
+              "usr_d96c08fbc9cece9beac46e25"
+            ],
+            "premise": true,
+            "reason": "سوال اصلی درباره اندازه دکمه‌های تولبار `st.dataframe` و اندازه مورد قبول است که یک ادعای فنی را مطرح می‌کند و نیاز به بررسی مستندات و نسخه‌های جدید دارد.",
+            "source_ids": [],
+            "standalone": true,
+            "support": "unknown",
+            "unit_id": "u_be5588335f6723566646743f3",
+            "version_dependent": true,
+            "version_limit": "1.64.0"
+          },
+          {
+            "kind": "next_step",
+            "message_ids": [
+              "usr_fc888d05bae5bcda052dcdf2"
+            ],
+            "premise": false,
+            "reason": "اقدام پیشنهادی بررسی رفع مشکل در نسخه‌های آینده مشخص و ردگیری وضعیت ایشو مرتبط به موضوع است.",
+            "source_ids": [],
+            "standalone": true,
+            "support": "supported",
+            "unit_id": "u_c6d99305b697eac5d5693def",
+            "version_dependent": true,
+            "version_limit": "بعد از 1.64.0"
+          },
+          {
+            "kind": "hypothesis",
+            "message_ids": [
+              "usr_b4e9c8829d5e78a05fdaab9c"
+            ],
+            "premise": true,
+            "reason": "بیان علت و شرح مشکل اندازه دکمه‌ها و پیشنهاد رفع به صورت تغییر استایل دکمه‌ها یک فرضیه فنی برای علت مشکل است.",
+            "source_ids": [
+              "issue:17126:v2:79fc1c33f4867901"
+            ],
+            "standalone": true,
+            "support": "supported",
+            "unit_id": "u_38e516600c7a7428977949a8",
+            "version_dependent": true,
+            "version_limit": "1.64.0"
+          }
+        ],
+        "verdict": "accept"
+      },
+      "envelope": {
+        "draft_version": "74143dfa7e4ad196ffaed9529e2019588c499759415fc444f270d4f8e1a3c8d8",
+        "case_id": "GH17127",
+        "case_revision": 1,
+        "generation": 0,
+        "units": [
+          {
+            "unit_id": "u_be5588335f6723566646743f",
+            "field": "question",
+            "text": "آیا در نسخه فعلی استریم‌لیت یا نسخه‌های بعدی، اندازه دکمه‌های تولبار در `st.dataframe` حداقل به 24 در 24 پیکسل رسیده است؟",
+            "start": 0,
+            "end": 121
+          },
+          {
+            "unit_id": "u_c6d99305b697eac5d5693def",
+            "field": "next_step",
+            "text": "بررسی کنید آیا در نسخه‌های جدیدتر استریم‌لیت این مشکل اندازه دکمه های تولبار در `st.dataframe` برطرف شده است یا خیر.",
+            "start": 0,
+            "end": 116
+          },
+          {
+            "unit_id": "u_38e516600c7a7428977949a8",
+            "field": "rationale",
+            "text": "مشکل گزارش شده مربوط به اندازه دکمه‌های تولبار `st.dataframe` در نسخه 1.64.0 است که زیر حداقل اندازه 24 پیکسل طبق استاندارد WCAG 2.2 می‌باشد. برای فهمیدن اینکه آیا این مشکل حل شده یا خیر، باید نسخه‌های جدیدتر را بررسی کرد.",
+            "start": 0,
+            "end": 222
+          }
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "docs",
+          "title": "dataframes",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:dataframes:v2:9e1cf50e36fae6d0",
+          "source_id": "docs:dataframes",
+          "section": "`st.dataframe` UI features",
+          "text": "## `st.dataframe` UI features\n\n`st.dataframe` provides additional functionality by using [glide-data-grid](https://github.com/glideapps/glide-data-grid) under the hood:\n\n- **Column sorting**: To sort columns, select their headers, or select \"**Sort ascending**\" or \"**Sort descending**\" from the header menu (<i style={{ verticalAlign: \"-.25em\" }} className={{ class: \"material-icons-sharp\" }}>more_vert</i>).\n- **Column resizing**: To resize columns, drag and drop column header borders, or select \"**Autosize**\" from the header menu.\n- **Column hiding**: To hide columns, select \"**Hide column**\" from the header menu.\n- **Reorder and pin columns**: To reorder columns or pin them on the left, drag and drop column headers or select \"**Pin column**\" from the header menu, respectively.\n- **Format numbers, dates, and times**: To change the format of numeric columns, select an option under \"**Format**\" in the header menu.\n- **Dataframe resizing**: To resize dataframes, drag and drop the bottom right corner.\n- **Fullscreen view**: To enlarge dataframes to fullscreen, select the fullscreen icon (<i style={{ verticalAlign: \"-.25em\" }} className={{ class: \"material-icons-sharp\" }}>fullscreen</i>) in the toolbar.\n- **Search**: To search through the data, select the search icon (<i style={{ verticalAlign: \"-.25em\" }} className={{ class: \"material-icons-sharp\" }}>search</i>) in the toolbar or use hotkeys (`⌘+F` or `Ctrl+F`).\n- **Download**: To download the data as a CSV file, select the download icon (<i style={{ verticalAlign: \"-.25em\" }} className={{ class: \"material-icons-sharp\" }}>download</i>) in the toolbar.\n- **Copy to clipboard**: To copy the data to the clipboard, select one or multiple cells, use the hotkeys (`⌘+C` or `Ctrl+C`), and paste them into your favorite spreadsheet software.",
+          "lines": [
+            33,
+            46
+          ],
+          "sha256": "58aa9d7810a118e9e4831a5357dd1eb446d9266764c950842ac936aa36d2a8ce",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1814,
+          "oversized_block": true
+        },
+        {
+          "kind": "docs",
+          "title": "dataframes",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/app-design/dataframes.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:dataframes:v2:2bc5764b033f45b5",
+          "source_id": "docs:dataframes",
+          "section": "Edit data with st.data_editor",
+          "text": "## Edit data with st.data_editor\n\nStreamlit supports editable dataframes via the `st.data_editor` command. Check out its API in [st.data_editor](/develop/api-reference/data/st.data_editor). It shows the dataframe in a table, similar to `st.dataframe`. But in contrast to `st.dataframe`, this table isn't static! The user can click on cells and edit them. The edited data is then returned on the Python side. Here's an example:\n\n```python\ndf = pd.DataFrame(\n    [\n        {\"command\": \"st.selectbox\", \"rating\": 4, \"is_widget\": True},\n        {\"command\": \"st.balloons\", \"rating\": 5, \"is_widget\": False},\n        {\"command\": \"st.time_input\", \"rating\": 3, \"is_widget\": True},\n    ]\n)\n\nedited_df = st.data_editor(df) # 👈 An editable dataframe\n\nfavorite_command = edited_df.loc[edited_df[\"rating\"].idxmax()][\"command\"]\nst.markdown(f\"Your favorite command is **{favorite_command}** 🎈\")\n```\n\n<Cloud name=\"doc-data-editor\" height=\"300px\"/>\n\nTry it out by double-clicking on any cell. You'll notice you can edit all cell values. Try editing the values in the rating column and observe how the text output at the bottom changes:",
+          "lines": [
+            54,
+            75
+          ],
+          "sha256": "406510ba9523eda53aa866c383871f77b78dc222524f0ca1af19d0b5bd2e05f1",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1122,
+          "oversized_block": false
+        },
+        {
+          "kind": "release",
+          "title": "2026",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2026.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:2026:v2:3feb357dbd78e2fb",
+          "source_id": "docs:2026",
+          "section": "**Version 1.59.0**",
+          "text": "## **Version 1.59.0**\n\n_Release date: July 6, 2026_\n\n**Highlights**\n\n- ✨ Introducing [`ButtonColumn`](/develop/api-reference/data/st.column_config/st.column_config.buttoncolumn) — a new column type for [`st.dataframe`](/develop/api-reference/data/st.dataframe) and [`st.data_editor`](/develop/api-reference/data/st.data_editor) that renders clickable buttons inside table cells, letting users trigger actions directly from a row ([#14544](https://github.com/streamlit/streamlit/pull/14544), [#7015](https://github.com/streamlit/streamlit/issues/7015)).\n- 📊 [`st.dataframe`](/develop/api-reference/data/st.dataframe) has a new column statistics submenu — click the dropdown icon in any column header to see per-column summary stats ([#14307](https://github.com/streamlit/streamlit/pull/14307), [#13148](https://github.com/streamlit/streamlit/issues/13148)).\n- 🍿 Introducing [`st.skeleton`](/develop/api-reference/status/st.skeleton) — a new element that renders animated loading placeholders, making it easy to give users visual feedback while content is loading ([#15169](https://github.com/streamlit/streamlit/pull/15169), [#8032](https://github.com/streamlit/streamlit/issues/8032)).\n- 🎨 Introducing [`st.mermaid_chart`](/develop/api-reference/charts/st.mermaid_chart) — render Mermaid diagrams directly in your app, letting you embed flowcharts, sequence diagrams, and more. Mermaid also works from [`st.markdown`](/develop/api-reference/text/st.markdown) ([#14022](https://github.com/streamlit/streamlit/pull/14022), [#10721](https://github.com/streamlit/streamlit/issues/10721)).",
+          "lines": [
+            262,
+            271
+          ],
+          "sha256": "63d1c8e4cb21bb6f5a94be48ea7edad815050828c144a82056307b4b67a08cdd",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 1603,
+          "oversized_block": true
+        },
+        {
+          "kind": "release",
+          "title": "2026",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/quick-references/release-notes/2026.md",
+          "revision": "695e6ce2fb1b23afc6df66b40420ab0013ad72fd",
+          "product_version": null,
+          "issue_number": null,
+          "id": "docs:2026:v2:c7bb1ead9db9a42f",
+          "source_id": "docs:2026",
+          "section": "**Version 1.60.0**",
+          "text": "**Notable Changes**\n\n- 🔒 Security hardening (**breaking changes**):\n  - Streamlit now rejects host messages that appear to originate from child iframes or injected scripts, preventing origin spoofing (CWE-346) ([#15800](https://github.com/streamlit/streamlit/pull/15800)).\n  - Client-supplied query strings are now capped at 512 KiB and 1,000 fields, guarding against unbounded resource allocation (CWE-770) ([#15803](https://github.com/streamlit/streamlit/pull/15803)).\n  - New `server.maxWidgetStateSize` config option (default 25 MB) limits the widget state payload a client can send per script rerun, hardening against oversized widget and custom-component payloads ([#15804](https://github.com/streamlit/streamlit/pull/15804)).\n- 📊 [`st.dataframe`](/develop/api-reference/data/st.dataframe) now preserves row selections when the user sorts the table ([#16020](https://github.com/streamlit/streamlit/pull/16020), [#8851](https://github.com/streamlit/streamlit/issues/8851)).\n- 🎛 [`st.tabs`](/develop/api-reference/layout/st.tabs) has a new `height` parameter to set a fixed pixel height for the tab panel area ([#15847](https://github.com/streamlit/streamlit/pull/15847), [#12217](https://github.com/streamlit/streamlit/issues/12217)).\n- 📐 The `gap` parameter in [`st.columns`](/develop/api-reference/layout/st.columns) now accepts integer pixel values in addition to the existing string presets ([#15850](https://github.com/streamlit/streamlit/pull/15850), [#13005](https://github.com/streamlit/streamlit/issues/13005)).\n- 🎨 [`st.data_editor`](/develop/api-reference/data/st.data_editor) now uses `key` as the primary row identity when `num_rows=\"fixed\"`, improving stability when the underlying data changes ([#15884](https://github.com/streamlit/streamlit/pull/15884)).\n- 📈 Zero delta values in [`st.metric`](/develop/api-reference/data/st.metric) are now displayed in neutral grey instead of green or red, so a zero change no longer implies a positive or negative direction ([#15790](https://github.com/streamlit/streamlit/pull/15790), [#15005](https://github.com/streamlit/streamlit/issues/15005)).\n- 🖌 Vega-Lite chart action buttons (download, copy spec to clipboard) are now integrated into the native Streamlit toolbar; the Vega-Lite action menu overlay has been removed ([#15806](https://github.com/streamlit/streamlit/pull/15806)).",
+          "lines": [
+            217,
+            228
+          ],
+          "sha256": "3107a434ca859b9f5d1ad4defc94c1d32b3eb8b98d3d9f694d4497f2476364d9",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 2366,
+          "oversized_block": true
+        },
+        {
+          "kind": "issue",
+          "title": "`aria-expanded` on elements with no role: sidebar `<section>` and `st.date_input` field fail axe `aria-allowed-attr` (WCAG 4.1.2)",
+          "url": "https://github.com/streamlit/streamlit/issues/17126",
+          "revision": "2026-09-30T21:33:29Z",
+          "product_version": null,
+          "issue_number": 17126,
+          "id": "issue:17126:v2:79fc1c33f4867901",
+          "source_id": "issue:17126",
+          "section": "Reproducible Code Example",
+          "text": "### Reproducible Code Example\n```python\nimport datetime\nimport pandas as pd\nimport streamlit as st\n\nst.sidebar.write(\"Sidebar content\")\nst.date_input(\"Start date\", datetime.date(2026, 1, 1))\nst.dataframe(pd.DataFrame({\"a\": [1, 2, 3], \"b\": [\"x\", \"y\", \"z\"]}))\n```",
+          "lines": [
+            24,
+            33
+          ],
+          "sha256": "6f8742f979248d4dee7865a3d379fd23b2b1aab14a9466b6cfcc39812f6fac5b",
+          "chunk_config": {
+            "name": "section_blocks_v2",
+            "target_tokens": 1600,
+            "overlap_tokens": 256,
+            "token_estimator": "utf8_bytes_upper_bound"
+          },
+          "estimated_tokens": 261,
+          "oversized_block": false
+        }
+      ],
+      "source_turn_sha256": "99c80f371086e6657c42dba36e2e2a1a4f13996ec20acdb4e63cacf007f88321"
+    }
+  ]
+}

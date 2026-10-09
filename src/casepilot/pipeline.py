@@ -10,7 +10,7 @@ from .grounding import validate_answer, fallback, render_response
 from .hybrid import HybridRetriever
 from .roles import *
 from .quality import compact_context, retrieval_query, report_inventory, REVISION
-from .review_contract import draft_units, checked_review_v23, review_spans, recompose
+from .review_contract import draft_units, checked_review_v23, review_spans, recompose, bound_review_schema, unpack_bound_review
 from .routing import handoff, render_handoff
 
 MAX_CALLS=8
@@ -157,10 +157,11 @@ def run(agent,case_id,message,request_id,facts,checks,input_hash,components=None
                         'spans':review_spans(state,packet,answer['claims']),'draft':envelope}
                     if client.mode=='live':
                         try:
-                            judge=checked_review_v23(role('judge',QUALITY_JUDGE_PROMPT,jp,QUALITY_JUDGE,2200),answer,packet,state,envelope,forced)
+                            raw_review=role('judge',QUALITY_JUDGE_PROMPT,jp,bound_review_schema(envelope,jp['spans']),2200)
+                            judge=checked_review_v23(unpack_bound_review(raw_review,envelope),answer,packet,state,envelope,forced)
                         except CasePilotError as exc:
                             if exc.code in ('invalid_judge','judge_contract_error'):
-                                review_failures.append({'kind':'judge_contract','code':exc.code,'draft_version':envelope['draft_version']})
+                                review_failures.append({'kind':'judge_contract','code':exc.code,'reason':redact(str(exc))[:600],'draft_version':envelope['draft_version']})
                                 event('judge_contract_failure',review_failures[-1])
                             raise
                     else: judge=checked_judge(role('judge',JUDGE_PROMPT,jp,JUDGE),forced)
@@ -170,7 +171,7 @@ def run(agent,case_id,message,request_id,facts,checks,input_hash,components=None
                     if attempt==1:
                         validation_error='judge_rejected'; answer=fallback(validation_error); break
                     repair_count+=1
-                    preserved=recompose(answer,judge,envelope) if client.mode=='live' else None
+                    preserved=recompose(answer,judge,envelope,state) if client.mode=='live' else None
                     if preserved:
                         answer=preserved; event('recompose',{'attempt':repair_count,'requires_recheck':True,'retained_fields':[u['field'] for u in envelope['units'] if u['unit_id'] in judge['valid_unit_ids']]})
                     elif judge['verdict']=='escalate':
