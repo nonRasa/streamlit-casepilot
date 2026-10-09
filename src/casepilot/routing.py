@@ -25,6 +25,17 @@ def intent(state):
 
 def recovery_action(state,feature):
     """One source-free question for a first-turn review failure, never a diagnosis."""
+    if not feature and len(state.get('messages',[]))==1:
+        import re
+        report=state['messages'][0]['text']
+        versions=re.search(r'(?i)\bfrom\s+(\d+(?:\.\d+){1,3})\s+to\s+(\d+(?:\.\d+){1,3})\b',report)
+        has_code=bool(re.search(r'(?is)```[^\n]*\n.*?\bdef\s+\w+\s*\(',report))
+        if versions and has_code:
+            before,after=versions.groups()
+            return ('اقدام: نگه‌دارنده کد بازتولید درج‌شده در گزارش را با '
+                    '`Streamlit '+before+'` و `Streamlit '+after+'` در محیط همسان '
+                    'اجرا و نتیجهٔ هر اجرا و تفاوت مشاهده‌شده را ثبت کند؛ '
+                    'این بازتولید هنوز مستقلاً انجام نشده و علت یا رفع تأیید نشده است.')
     if not feature and len(state.get('messages',[]))==1 and not state.get('facts',{}).get('streamlit_version'):
         from .agent import version_observations
         report=state['messages'][0]['text']
@@ -52,7 +63,7 @@ def handoff(state,citations,error=None,answer=None,review=None):
     if intent(state) in ('unknown','mixed') and any(v for k,v in proposal.items() if k!='report_quotes'):
         feature=True
     # Never introduce an unreviewed extractor paraphrase into the final handoff.
-    summary=state['messages'][0]['text'][:1400]
+    summary=state['messages'][0]['text'][:5000]
     from .semantics import UNKNOWN
     unknown=([k for k,v in proposal.items() if k!='report_quotes' and v==UNKNOWN] if feature else
              [k for k in ('streamlit_version','python_version','deployment','reproducible') if state.get('facts',{}).get(k) in (None,'')])
@@ -93,12 +104,15 @@ def route_findings(answer,state):
     return findings
 
 def render_handoff(packet,max_chars=8000):
-    import json
+    import json, re
+    def fenced(value,language):
+        marker='`'*max(3,max((len(m.group()) for m in re.finditer(r'`+',value)),default=0)+1)
+        return marker+language+'\n'+value+'\n'+marker
     env='؛ '.join(k+'='+str(v) for k,v in packet['environment'].items()) or 'نامعلوم'
     events=packet['experiments']
     lines=['ارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.',
-           'مسئلهٔ گزارش‌شده:\n\n```text\n'+packet['reported_problem']+'\n```',
-           'محیط گزارش‌شده:\n\n```text\n'+env+'\n```']
+           'مسئلهٔ گزارش‌شده:\n\n'+fenced(packet['reported_problem'],'text'),
+           'محیط گزارش‌شده:\n\n'+fenced(env,'text')]
     if events:
         lines.append('بررسی‌های گزارش‌شده:\n\n```json\n'+json.dumps([{'action':e['action'][:120],'conditions':str(e['conditions'])[:200],'status':e['status'],'result':e['result'][:250],'provenance':e['provenance']} for e in events[-5:]],ensure_ascii=False,indent=2)+'\n```')
         if len(events)>5: lines.append('ادامه: پنج بررسی آخر نمایش داده شده‌اند؛ سابقهٔ کامل در خلاصهٔ ساخت‌یافتهٔ پیشنهاد محفوظ است.')
