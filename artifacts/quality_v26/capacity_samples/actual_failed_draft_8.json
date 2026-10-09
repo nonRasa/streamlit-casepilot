@@ -1,0 +1,620 @@
+{
+  "draft": {
+    "draft_version": "1f9463a4bdbbac483b412546f4fb780ed659b72f4ff7a307a15f64ec2c117c1f",
+    "case_id": "GH17011",
+    "case_revision": 1,
+    "generation": 0,
+    "units": [
+      {
+        "unit_id": "u_254e690d08439cea31cf772a",
+        "field": "question",
+        "text": "آیا می‌توانید گزارش لاگ‌های کامل خطای \"The fragment with id <id> does not exist anymore\" که بلافاصله پس از غیرواکنش‌گرا شدن dialog نشان داده می‌شود را ارسال کنید؟",
+        "start": 0,
+        "end": 162
+      },
+      {
+        "unit_id": "u_19713e0c62838c571c49493f",
+        "field": "next_step",
+        "text": "لطفاً گزارش لاگ‌های دقیق و کامل پیغام خطایی که پس از rerun fragment و هنگام از کار افتادن dialog دیده می‌شود را ارسال کنید تا بتوان علت اصلی را دقیق‌تر تشخیص داد.",
+        "start": 0,
+        "end": 162
+      },
+      {
+        "unit_id": "u_c5c95fb41ffb9f40578821b9",
+        "field": "rationale",
+        "text": "کاربر گزارش کرده است که در نسخه Streamlit 1.64.0، پس از rerun fragment که دارای dialog شرطی است، dialog غیرواکنش‌گرا می‌شود و پیغام خطایی مرتبط با عدم وجود fragment نمایش داده می‌شود. این اطلاعات نشان می‌دهد که احتمال وجود یک مشکل در مدیریت چرخه حیات fragment در نسخه‌های جدید Streamlit وجود دارد. دریافت لاگ‌های کامل خطا به تشخیص دقیق‌تر و رد یا تایید فرضیات کمک خواهد کرد.",
+        "start": 0,
+        "end": 374
+      },
+      {
+        "unit_id": "u_60d4816bd77f452fcb00d9da",
+        "field": "hypotheses.0",
+        "text": "احتمالاً نشانه‌هایی از یک اشکال مدیریت وضعیت fragmentها پس از rerun در نسخه‌های Streamlit بالاتر وجود دارد.",
+        "start": 0,
+        "end": 107
+      },
+      {
+        "unit_id": "u_62fdc4f86c403bc2a5391dfb",
+        "field": "feature_proposal.acceptance_condition",
+        "text": "زمانی که یک dialog شرطی در fragment ایجاد می‌شود و پس از rerun شدن fragment، dialog همچنان روی صفحه فعال و واکنش‌گرا باشد.",
+        "start": 0,
+        "end": 122
+      },
+      {
+        "unit_id": "u_d7cdf2aa3d38034415fa060e",
+        "field": "feature_proposal.current_behavior",
+        "text": "گزارش کاربر:dialog غیرواکنش‌گرا می‌شود پس از اینکه fragment دوباره اجرا شود و خطای \"The fragment with id <id> does not exist anymore\" در لاگ ظاهر می‌شود.",
+        "start": 0,
+        "end": 153
+      },
+      {
+        "unit_id": "u_9968cdd8ed0e2a270974d824",
+        "field": "feature_proposal.desired_behavior",
+        "text": "وقتی که یک dialog شرطی در fragment ایجاد می‌شود و پس از rerun شدن fragment، dialog همچنان روی صفحه فعال و واکنش‌گرا باشد.",
+        "start": 0,
+        "end": 121
+      },
+      {
+        "unit_id": "u_07156c947bc643a06b162666",
+        "field": "feature_proposal.user_need",
+        "text": "تضمین شود که dialog شرطی در یک fragment پس از rerun همچنان کار کند و غیرفعال نشود.",
+        "start": 0,
+        "end": 82
+      }
+    ]
+  },
+  "spans": {
+    "sources": [
+      {
+        "evidence_id": "issue:16005:v2:e620d4c5f982acfd",
+        "product_version": null,
+        "span_id": "src_908a6f6cc59ebbba8c40fa50",
+        "start": 66,
+        "end": 282,
+        "text": "@st.dialog(\"My dialog\")\ndef show_dialog():\n    st.write(\"dialog content\")\n    with st.popover(\"Open popover\"):\n        fruit = st.selectbox(\"Fruit\", [\"Apple\", \"Banana\", \"Cherry\"])\n        st.write(f\"picked: {fruit}\")"
+      }
+    ],
+    "messages": [
+      {
+        "message_index": 0,
+        "span_id": "usr_0f9bb1952c922fb83f7a0f9f",
+        "start": 0,
+        "end": 900,
+        "text": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n"
+      },
+      {
+        "message_index": 0,
+        "span_id": "usr_c286efa8f3df38235cae6101",
+        "start": 900,
+        "end": 1800,
+        "text": "@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python "
+      },
+      {
+        "message_index": 0,
+        "span_id": "usr_ae45eef23415186c6c2b3b1a",
+        "start": 1800,
+        "end": 2104,
+        "text": "version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```"
+      }
+    ]
+  },
+  "old_synthetic_review": {
+    "verdict": "accept",
+    "assessments": {
+      "relevance": {
+        "score": 2,
+        "reason": "توضیح: برچسب ساختهٔ دستیار است."
+      },
+      "claim_support": {
+        "score": 2,
+        "reason": "توضیح: برچسب ساختهٔ دستیار است."
+      },
+      "version_fit": {
+        "score": 2,
+        "reason": "توضیح: برچسب ساختهٔ دستیار است."
+      },
+      "next_step_usefulness": {
+        "score": 2,
+        "reason": "توضیح: برچسب ساختهٔ دستیار است."
+      },
+      "avoids_repeated_check": {
+        "score": 2,
+        "reason": "توضیح: برچسب ساختهٔ دستیار است."
+      },
+      "injection_resistance": {
+        "score": 2,
+        "reason": "توضیح: برچسب ساختهٔ دستیار است."
+      }
+    },
+    "draft_version": "1f9463a4bdbbac483b412546f4fb780ed659b72f4ff7a307a15f64ec2c117c1f",
+    "unit_reviews": {
+      "u_254e690d08439cea31cf772a": {
+        "kind": "question",
+        "support": "unknown",
+        "source_ids": [],
+        "message_ids": [],
+        "premise": false,
+        "standalone": true,
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "version_dependent": false,
+        "version_limit": "",
+        "meaning": {
+          "act": "diagnostic",
+          "assertion_text": "",
+          "user_quote": "",
+          "depends_on": []
+        }
+      },
+      "u_19713e0c62838c571c49493f": {
+        "kind": "next_step",
+        "support": "unknown",
+        "source_ids": [],
+        "message_ids": [],
+        "premise": false,
+        "standalone": true,
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "version_dependent": false,
+        "version_limit": "",
+        "meaning": {
+          "act": "procedure",
+          "assertion_text": "",
+          "user_quote": "",
+          "depends_on": []
+        }
+      },
+      "u_c5c95fb41ffb9f40578821b9": {
+        "kind": "next_step",
+        "support": "unknown",
+        "source_ids": [],
+        "message_ids": [],
+        "premise": false,
+        "standalone": true,
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "version_dependent": false,
+        "version_limit": "",
+        "meaning": {
+          "act": "procedure",
+          "assertion_text": "",
+          "user_quote": "",
+          "depends_on": []
+        }
+      },
+      "u_60d4816bd77f452fcb00d9da": {
+        "kind": "next_step",
+        "support": "unknown",
+        "source_ids": [],
+        "message_ids": [],
+        "premise": false,
+        "standalone": true,
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "version_dependent": false,
+        "version_limit": "",
+        "meaning": {
+          "act": "procedure",
+          "assertion_text": "",
+          "user_quote": "",
+          "depends_on": []
+        }
+      },
+      "u_62fdc4f86c403bc2a5391dfb": {
+        "kind": "request_summary",
+        "support": "supported",
+        "source_ids": [],
+        "message_ids": [
+          "usr_0f9bb1952c922fb83f7a0f9f"
+        ],
+        "premise": false,
+        "standalone": true,
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "version_dependent": false,
+        "version_limit": "",
+        "meaning": {
+          "act": "request",
+          "assertion_text": "",
+          "user_quote": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://gi",
+          "depends_on": []
+        }
+      },
+      "u_d7cdf2aa3d38034415fa060e": {
+        "kind": "request_summary",
+        "support": "supported",
+        "source_ids": [],
+        "message_ids": [
+          "usr_0f9bb1952c922fb83f7a0f9f"
+        ],
+        "premise": false,
+        "standalone": true,
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "version_dependent": false,
+        "version_limit": "",
+        "meaning": {
+          "act": "request",
+          "assertion_text": "",
+          "user_quote": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://gi",
+          "depends_on": []
+        }
+      },
+      "u_9968cdd8ed0e2a270974d824": {
+        "kind": "request_summary",
+        "support": "supported",
+        "source_ids": [],
+        "message_ids": [
+          "usr_0f9bb1952c922fb83f7a0f9f"
+        ],
+        "premise": false,
+        "standalone": true,
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "version_dependent": false,
+        "version_limit": "",
+        "meaning": {
+          "act": "request",
+          "assertion_text": "",
+          "user_quote": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://gi",
+          "depends_on": []
+        }
+      },
+      "u_07156c947bc643a06b162666": {
+        "kind": "request_summary",
+        "support": "supported",
+        "source_ids": [],
+        "message_ids": [
+          "usr_0f9bb1952c922fb83f7a0f9f"
+        ],
+        "premise": false,
+        "standalone": true,
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "version_dependent": false,
+        "version_limit": "",
+        "meaning": {
+          "act": "request",
+          "assertion_text": "",
+          "user_quote": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://gi",
+          "depends_on": []
+        }
+      }
+    },
+    "novelty": {
+      "useful": true,
+      "status": "new",
+      "message_ids": [],
+      "relation": "unknown",
+      "reason": "توضیح: جزئیات تصمیم‌ساز هنوز ارائه نشده‌اند."
+    }
+  },
+  "compact_synthetic_review": {
+    "b": "47561ce0067af42702d728ab4a849f211a3a5f2521b8dd4fb4da386081e10d5a",
+    "v": "accept",
+    "a": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "r": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "u": {
+      "u0": {
+        "k": 2,
+        "a": 2,
+        "s": 3,
+        "e": [],
+        "m": [],
+        "p": [],
+        "d": [],
+        "i": true,
+        "v": false,
+        "l": [],
+        "r": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است."
+      },
+      "u1": {
+        "k": 3,
+        "a": 3,
+        "s": 3,
+        "e": [],
+        "m": [],
+        "p": [],
+        "d": [],
+        "i": true,
+        "v": false,
+        "l": [],
+        "r": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است."
+      },
+      "u2": {
+        "k": 3,
+        "a": 3,
+        "s": 3,
+        "e": [],
+        "m": [],
+        "p": [],
+        "d": [],
+        "i": true,
+        "v": false,
+        "l": [],
+        "r": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است."
+      },
+      "u3": {
+        "k": 3,
+        "a": 3,
+        "s": 3,
+        "e": [],
+        "m": [],
+        "p": [],
+        "d": [],
+        "i": true,
+        "v": false,
+        "l": [],
+        "r": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است."
+      },
+      "u4": {
+        "k": 5,
+        "a": 0,
+        "s": 0,
+        "e": [],
+        "m": [
+          "m0",
+          "m1"
+        ],
+        "p": [],
+        "d": [],
+        "i": true,
+        "v": false,
+        "l": [],
+        "r": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است."
+      },
+      "u5": {
+        "k": 5,
+        "a": 0,
+        "s": 0,
+        "e": [],
+        "m": [
+          "m0",
+          "m1"
+        ],
+        "p": [],
+        "d": [],
+        "i": true,
+        "v": false,
+        "l": [],
+        "r": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است."
+      },
+      "u6": {
+        "k": 5,
+        "a": 0,
+        "s": 0,
+        "e": [],
+        "m": [
+          "m0",
+          "m1"
+        ],
+        "p": [],
+        "d": [],
+        "i": true,
+        "v": false,
+        "l": [],
+        "r": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است."
+      },
+      "u7": {
+        "k": 5,
+        "a": 0,
+        "s": 0,
+        "e": [],
+        "m": [
+          "m0",
+          "m1"
+        ],
+        "p": [],
+        "d": [],
+        "i": true,
+        "v": false,
+        "l": [],
+        "r": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است."
+      }
+    },
+    "n": {
+      "u": true,
+      "s": "new",
+      "m": [],
+      "l": "unknown",
+      "r": "توضیح: جزئیات تصمیم‌ساز هنوز ارائه نشده‌اند."
+    }
+  },
+  "decoded": {
+    "verdict": "accept",
+    "assessments": {
+      "relevance": {
+        "score": 2,
+        "reason": "بررسی: ایرادی گزارش نشده است."
+      },
+      "claim_support": {
+        "score": 2,
+        "reason": "بررسی: ایرادی گزارش نشده است."
+      },
+      "version_fit": {
+        "score": 2,
+        "reason": "بررسی: ایرادی گزارش نشده است."
+      },
+      "next_step_usefulness": {
+        "score": 2,
+        "reason": "بررسی: ایرادی گزارش نشده است."
+      },
+      "avoids_repeated_check": {
+        "score": 2,
+        "reason": "بررسی: ایرادی گزارش نشده است."
+      },
+      "injection_resistance": {
+        "score": 2,
+        "reason": "بررسی: ایرادی گزارش نشده است."
+      }
+    },
+    "draft_version": "1f9463a4bdbbac483b412546f4fb780ed659b72f4ff7a307a15f64ec2c117c1f",
+    "unit_reviews": [
+      {
+        "unit_id": "u_254e690d08439cea31cf772a",
+        "kind": "question",
+        "support": "unknown",
+        "source_ids": [],
+        "message_ids": [],
+        "premise": false,
+        "standalone": true,
+        "version_dependent": false,
+        "version_limit": "",
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "meaning": {
+          "act": "diagnostic",
+          "assertion_text": "",
+          "user_quote": "",
+          "depends_on": []
+        }
+      },
+      {
+        "unit_id": "u_19713e0c62838c571c49493f",
+        "kind": "next_step",
+        "support": "unknown",
+        "source_ids": [],
+        "message_ids": [],
+        "premise": false,
+        "standalone": true,
+        "version_dependent": false,
+        "version_limit": "",
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "meaning": {
+          "act": "procedure",
+          "assertion_text": "",
+          "user_quote": "",
+          "depends_on": []
+        }
+      },
+      {
+        "unit_id": "u_c5c95fb41ffb9f40578821b9",
+        "kind": "next_step",
+        "support": "unknown",
+        "source_ids": [],
+        "message_ids": [],
+        "premise": false,
+        "standalone": true,
+        "version_dependent": false,
+        "version_limit": "",
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "meaning": {
+          "act": "procedure",
+          "assertion_text": "",
+          "user_quote": "",
+          "depends_on": []
+        }
+      },
+      {
+        "unit_id": "u_60d4816bd77f452fcb00d9da",
+        "kind": "next_step",
+        "support": "unknown",
+        "source_ids": [],
+        "message_ids": [],
+        "premise": false,
+        "standalone": true,
+        "version_dependent": false,
+        "version_limit": "",
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "meaning": {
+          "act": "procedure",
+          "assertion_text": "",
+          "user_quote": "",
+          "depends_on": []
+        }
+      },
+      {
+        "unit_id": "u_62fdc4f86c403bc2a5391dfb",
+        "kind": "request_summary",
+        "support": "supported",
+        "source_ids": [],
+        "message_ids": [
+          "usr_0f9bb1952c922fb83f7a0f9f"
+        ],
+        "premise": false,
+        "standalone": true,
+        "version_dependent": false,
+        "version_limit": "",
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "meaning": {
+          "act": "request",
+          "assertion_text": "",
+          "user_quote": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on th",
+          "depends_on": []
+        }
+      },
+      {
+        "unit_id": "u_d7cdf2aa3d38034415fa060e",
+        "kind": "request_summary",
+        "support": "supported",
+        "source_ids": [],
+        "message_ids": [
+          "usr_0f9bb1952c922fb83f7a0f9f"
+        ],
+        "premise": false,
+        "standalone": true,
+        "version_dependent": false,
+        "version_limit": "",
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "meaning": {
+          "act": "request",
+          "assertion_text": "",
+          "user_quote": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on th",
+          "depends_on": []
+        }
+      },
+      {
+        "unit_id": "u_9968cdd8ed0e2a270974d824",
+        "kind": "request_summary",
+        "support": "supported",
+        "source_ids": [],
+        "message_ids": [
+          "usr_0f9bb1952c922fb83f7a0f9f"
+        ],
+        "premise": false,
+        "standalone": true,
+        "version_dependent": false,
+        "version_limit": "",
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "meaning": {
+          "act": "request",
+          "assertion_text": "",
+          "user_quote": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on th",
+          "depends_on": []
+        }
+      },
+      {
+        "unit_id": "u_07156c947bc643a06b162666",
+        "kind": "request_summary",
+        "support": "supported",
+        "source_ids": [],
+        "message_ids": [
+          "usr_0f9bb1952c922fb83f7a0f9f"
+        ],
+        "premise": false,
+        "standalone": true,
+        "version_dependent": false,
+        "version_limit": "",
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "meaning": {
+          "act": "request",
+          "assertion_text": "",
+          "user_quote": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on th",
+          "depends_on": []
+        }
+      }
+    ],
+    "novelty": {
+      "useful": true,
+      "status": "new",
+      "message_ids": [],
+      "relation": "unknown",
+      "reason": "توضیح: جزئیات تصمیم‌ساز هنوز ارائه نشده‌اند."
+    }
+  }
+}

@@ -1,0 +1,446 @@
+{
+  "evaluation": "بازبینی دستیار مشارکت‌کننده، غیرمستقل؛ دادهٔ توسعه",
+  "findings": [
+    {
+      "weakness": 1,
+      "case": "GH16481",
+      "field": "feature_proposal.desired_behavior / user_need / acceptance_condition",
+      "observed": "داور هر سه درخواست پشتیبانی‌شده را premise=true بدون منبع فنی ثبت کرد.",
+      "cause": "شرط technical=kind technical or premise در checked_review_v23 درخواست را هم ادعای محصول محسوب کرد.",
+      "expected": "پیش‌فرض باید عبارت دقیقِ ادعای محصول یا علت باشد؛ درخواست با پیام مشخص کاربر بررسی شود."
+    },
+    {
+      "weakness": 2,
+      "case": "GH16481",
+      "field": "constraints / next_step",
+      "observed": "محدودیت خالی و مطالبهٔ نمونهٔ پیاده‌سازی رابط پیشنهادی.",
+      "cause": "تولید به برنامهٔ استخراج با missing_detail نامربوط وابسته ماند؛ فقط پرامپت وجود داشت.",
+      "expected": "ناگفته صریحاً نامعلوم و قدم بعدی تصمیم طراحی نگه‌دارنده باشد."
+    },
+    {
+      "weakness": 3,
+      "case": "GH17011 / GH17127",
+      "field": "rationale source link",
+      "observed": "کد نمونهٔ دیالوگ و import یا ذکر کتابخانه پشتیبانی مستقیم رفتار بازاجرا یا اندازه و دسترس‌پذیری دانسته شدند.",
+      "cause": "کنترل عضویت شناسه و متن به داور معنایی متکی بود؛ نوع شاهد و نوع ادعا تقاطع نداشتند.",
+      "expected": "نوع شاهد با گزاره تطبیق داده و پیوند نامرتبط حذف و ترکیب دوباره داوری شود."
+    },
+    {
+      "weakness": 4,
+      "case": "GH16481 / GH17011",
+      "field": "recompose",
+      "observed": "سه مشخصهٔ درخواست و سؤال مشاهده‌محور تحویل نشدند.",
+      "cause": "شرط پنج مشخصهٔ معتبر و نیاز به next_step/question مستقل؛ هیچ ترکیب با مجهول صریح ممکن نبود.",
+      "expected": "واحد مستقل حفظ و وابسته حذف؛ مجهول با ادعای فقدان در گزارش جایگزین نشود؛ داوری تازه الزامی."
+    }
+  ],
+  "real_packets": [
+    {
+      "case": "GH16481",
+      "report": "Add a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nAdd a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.\n\n### Why?\n\nThe underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards. Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is more boilerplate and doesn't give the clean container-per-tab model that `st.tabs` provides.\n\n### How?\n\nAdd a `type` parameter (default preserves today's look):\n\n```python\ntab1, tab2, tab3 = st.tabs([\"Overview\", \"Details\", \"Settings\"], type=\"pills\")\nwith tab1:\n    st.write(\"...\")\n```\n\n- `type=\"default\"` (or `\"underline\"`) — current tab bar.\n- `type=\"pills\"` — render the tab headers as pills.\n- Everything else (content containers, active-tab state, etc.) stays identical.\n\n### Additional Context\n\n- Visually aligns `st.tabs` with the existing pill styling used by `st.pills` / `st.segmented_control`, but with the `st.tabs` container model.\n- Design references for the pills style:\n  - [Tailwind Plus — Tabs (pill variant)](https://tailwindcss.com/plus/ui-blocks/application-ui/navigation/tabs#component-2a66fc822e8ad55f59321825e5af0980)\n  - [Tremor — Tabs, solid variant](https://tremor.so/docs/ui/tabs#example-tabs-solid-variant)\n  - [Tremor — Tabs, stretched](https://tremor.so/docs/ui/tabs#example-streched-tabs)",
+      "draft_units": [
+        {
+          "unit_id": "u_9e8a58ca32c151b6adf65f4f",
+          "field": "question",
+          "text": "آیا نمونه کد یا پیاده‌سازی اولیه‌ای برای پارامتر type=\"pills\" در st.tabs وجود دارد؟",
+          "start": 0,
+          "end": 83
+        },
+        {
+          "unit_id": "u_f0dd114b5e1b358879f7de2c",
+          "field": "next_step",
+          "text": "برای بررسی امکان‌پذیری دقیق‌تر، لازم است کد پیاده‌سازی یا نمونه‌ای از اجرای اولیه ویژگی type=\"pills\" در تابع st.tabs ارائه شود.",
+          "start": 0,
+          "end": 127
+        },
+        {
+          "unit_id": "u_7899068429b115799f86dca5",
+          "field": "rationale",
+          "text": "در گزارش فعلی توصیف شده که این ویژگی درخواست شده ولی شواهدی از کد یا نمونه اجرایی ارائه نشده است. برای اطمینان از امکان‌پذیری و برنامه‌ریزی بهتر توسعه، نیاز به نمونه کد یا پیاده‌سازی اولیه است.",
+          "start": 0,
+          "end": 193
+        },
+        {
+          "unit_id": "u_773365491cf64fbfdf3eb55c",
+          "field": "feature_proposal.acceptance_condition",
+          "text": "یک پارامتر type=\"pills\" به تابع st.tabs اضافه شود که سربرگ‌های تب را به صورت دکمه‌های گرد و شبیه به قرص نمایش دهد و رفتار کنونی تب‌ها بدون تغییر باقی بماند.",
+          "start": 0,
+          "end": 156
+        },
+        {
+          "unit_id": "u_b693e346b4a236d1faa6d116",
+          "field": "feature_proposal.current_behavior",
+          "text": "تابع st.tabs تنها سبک سربرگ‌های تب به شکل خط زیرین (underline) ارائه می‌دهد.",
+          "start": 0,
+          "end": 76
+        },
+        {
+          "unit_id": "u_2c57902f50235a06e7184da8",
+          "field": "feature_proposal.desired_behavior",
+          "text": "اضافه شدن نوعی جدید با نام \"pills\" برای استایل سربرگ‌های تب که به صورت دکمه‌های گرد نمایش داده شوند در حالی که ساختار و رفتار تب‌ها مانند قبل باشد.",
+          "start": 0,
+          "end": 147
+        },
+        {
+          "unit_id": "u_66aa6c58443c1bc4fde4cf8a",
+          "field": "feature_proposal.user_need",
+          "text": "کاربر نیاز دارد که در نمایش تب‌ها در استریم‌لیت گزینه استایل دکمه‌های قرصی شکل (pills) وجود داشته باشد تا ظاهری جمع و جورتر و برجسته‌تر برای فیلترها، سوییچ‌های نمایشی و داشبوردها فراهم شود.",
+          "start": 0,
+          "end": 189
+        }
+      ],
+      "raw_judges": [
+        {
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "در این بحث تنها یک بار درخواست پیاده‌سازی ویژگی type=\"pills\" در st.tabs مطرح شده و هیچ درخواست تکراری وجود ندارد.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "در پیام‌های کاربر نمونه کدی برای type=\"pills\" ارائه شده اما اشاره شده که این ویژگی در پیاده سازی فعلی وجود ندارد و نیازمند بررسی بیشتر است، لذا پشتیبانی کامل ندارد.",
+              "score": 1
+            },
+            "injection_resistance": {
+              "reason": "هیچ بخشی از پیام‌ها حاوی محتوای تزریق یا ناخواسته نیست و ساختار درخواست استاندارد است.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "درخواست کد نمونه یا نمونه اجرایی برای بررسی امکان‌پذیری فنی درخواست مفید و ضروری است.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "تمام اطلاعات و پرسش‌ها مربوط به افزودن نوع 'pills' به تابع st.tabs است که مرتبط و متمرکز بر موضوع است.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "درخواست مستقل از نسخه خاصی از پایتون یا استریم‌لیت است و می‌تواند در هر نسخه مربوط اعمال شود.",
+              "score": 2
+            }
+          },
+          "draft_version": "ba3a15d4a2744f1180b5b4740a5646c3f3a2a05eb19af4d05e3690d04f6d0b83",
+          "novelty": {
+            "message_ids": [
+              "usr_39dc2a945f5783081291b42c"
+            ],
+            "reason": "در پیام کاربر نمونه کد یا توصیفی از پیاده‌سازی وجود ندارد بلکه درخواست شده است، بنابراین این موضوع جدید است.",
+            "relation": "unknown",
+            "status": "new",
+            "useful": true
+          },
+          "unit_reviews": {
+            "u_2c57902f50235a06e7184da8": {
+              "kind": "request_summary",
+              "message_ids": [
+                "usr_39dc2a945f5783081291b42c"
+              ],
+              "premise": true,
+              "reason": "شرح نیاز کاربر به ویژگی استایل قرصی جدید برای سربرگ‌های تب است.",
+              "source_ids": [],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": false,
+              "version_limit": ""
+            },
+            "u_66aa6c58443c1bc4fde4cf8a": {
+              "kind": "request_summary",
+              "message_ids": [
+                "usr_39dc2a945f5783081291b42c"
+              ],
+              "premise": true,
+              "reason": "توضیحی در مورد نیاز کاربر برای نمایش تب‌ها به صورت دکمه‌های قرصی شکل ارائه شده است.",
+              "source_ids": [],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": false,
+              "version_limit": ""
+            },
+            "u_773365491cf64fbfdf3eb55c": {
+              "kind": "request_summary",
+              "message_ids": [
+                "usr_39dc2a945f5783081291b42c"
+              ],
+              "premise": true,
+              "reason": "شرح شرایط پذیرش و خواسته افزوده شدن پارامتر type=\"pills\" به تابع st.tabs است.",
+              "source_ids": [],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": false,
+              "version_limit": ""
+            },
+            "u_7899068429b115799f86dca5": {
+              "kind": "request_summary",
+              "message_ids": [
+                "usr_96039a216a3941505625d8e3",
+                "usr_39dc2a945f5783081291b42c"
+              ],
+              "premise": true,
+              "reason": "دلایل درخواست افزودن نوع 'pills' به st.tabs و ضرورت وجود کد پیاده‌سازی یا نمونه برای بررسی امکان‌پذیری بیان شده است.",
+              "source_ids": [],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": false,
+              "version_limit": ""
+            },
+            "u_9e8a58ca32c151b6adf65f4f": {
+              "kind": "question",
+              "message_ids": [
+                "usr_39dc2a945f5783081291b42c"
+              ],
+              "premise": true,
+              "reason": "سوال دقیقا در مورد وجود نمونه کد یا پیاده‌سازی ویژگی type=\"pills\" در st.tabs است که پایه و اساس بررسی قابلیت است.",
+              "source_ids": [],
+              "standalone": true,
+              "support": "unknown",
+              "version_dependent": false,
+              "version_limit": ""
+            },
+            "u_b693e346b4a236d1faa6d116": {
+              "kind": "request_summary",
+              "message_ids": [
+                "usr_39dc2a945f5783081291b42c"
+              ],
+              "premise": true,
+              "reason": "شرح رفتار فعلی تابع st.tabs در حالت پیش‌فرض بدون نوع 'pills' ارائه شده است.",
+              "source_ids": [],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": false,
+              "version_limit": ""
+            },
+            "u_f0dd114b5e1b358879f7de2c": {
+              "kind": "next_step",
+              "message_ids": [
+                "usr_39dc2a945f5783081291b42c"
+              ],
+              "premise": true,
+              "reason": "درخواست ارائه کد نمونه یا پیاده‌سازی اولیه برای تحلیل دقیق و برنامه‌ریزی توسعه آینده انجام شده است.",
+              "source_ids": [],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": false,
+              "version_limit": ""
+            }
+          },
+          "verdict": "escalate"
+        }
+      ]
+    },
+    {
+      "case": "GH17011",
+      "report": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+      "draft_units": [
+        {
+          "unit_id": "u_b8865d02701727da95589551",
+          "field": "question",
+          "text": "آیا می‌توانید لاگ‌های کامل و دقیق خطای نا موجود بودن fragment پس از rerun که منجر به از کار افتادن دیالوگ می‌شود را ارسال کنید؟",
+          "start": 0,
+          "end": 127
+        },
+        {
+          "unit_id": "u_683b65aed509347fb52daeee",
+          "field": "next_step",
+          "text": "لطفاً لاگ‌های خطا را بعد از اینکه دیالوگ کهنه شده (non-responsive) می‌شود، ارسال کنید تا بتوان بررسی دقیق‌تر و علت مشکل را تشخیص داد.",
+          "start": 0,
+          "end": 133
+        },
+        {
+          "unit_id": "u_de3fc2b3e9cf466930528e4b",
+          "field": "rationale",
+          "text": "شناخته شده است که دیالوگ شرطی در fragment پس از rerun دیگر واکنش‌گرا نیست ولی هنوز در صفحه نمایش داده می‌شود. برای تشخیص علت این ناسازگاری نیاز به لاگ خطای کامل داریم تا تفاوت رفتار پیش از و پس از نسخه 1.58.0 را بهتر بررسی کنیم.",
+          "start": 0,
+          "end": 228
+        },
+        {
+          "unit_id": "u_44bd6731c11d0631b763ce5b",
+          "field": "hypotheses.0",
+          "text": "امکان دارد پس از rerun شرطی در fragment، دیالوگ هنوز در صفحه نمایش داده شود ولی به صورت منطقی به fragment مربوط متصل نباشد.",
+          "start": 0,
+          "end": 123
+        }
+      ],
+      "raw_judges": [
+        {
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "واحدها به وضوح متفاوت هستند و هر کدام بخش متفاوتی از موارد را پوشش می‌دهند.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "اظهارات با اطلاعات ارائه‌شده در کد نمونه و شرح مسئله مطابقت دارند ولی گزارش لاگ‌های خطا کامل ارائه نشده است.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "مسئله امکان تزریق کد مشاهده نمی‌شود و به‌نظر موضوع به مدیریت داخلی توده‌ها و دیالوگ‌ها مرتبط است.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "درخواست لاگ‌های دقیق برای تشخیص بهتر مشکل بسیار مفید است.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "تمام واحدها مربوط به مشکل اصلی تشخیص و رفع اشکال در دیالوگ غیرواکنش‌گرا است و مرتبط‌اند.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "مشکل و کد نمونه به نسخه‌های متفاوت Streamlit اشاره دارد و علت توقف کارکرد بین نسخه‌ها مطرح شده است.",
+              "score": 2
+            }
+          },
+          "draft_version": "9c9cb47bf10b78f69b84dccdfe1f0ce2f47d5e4eed6a4840489aaf2383862412",
+          "novelty": {
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f",
+              "usr_c286efa8f3df38235cae6101",
+              "usr_ae45eef23415186c6c2b3b1a"
+            ],
+            "reason": "درخواست ارائه لاگ‌های خطا برای بررسی دقیق یکی از مشکلات افزایش یافته در نسخه‌های جدید Streamlit، مسئله‌ای تکراری نیست و از قبل گزارش کامل نشده است.",
+            "relation": "unknown",
+            "status": "new",
+            "useful": true
+          },
+          "unit_reviews": {
+            "u_1763d5dccaffe9ebcb4fb1fc": {
+              "kind": "technical_claim",
+              "message_ids": [
+                "usr_0f9bb1952c922fb83f7a0f9f"
+              ],
+              "premise": true,
+              "reason": "متن به درستی تشخیص داده و روند مشکل را به صورت فنی شرح داده است.",
+              "source_ids": [
+                "src_908a6f6cc59ebbba8c40fa50"
+              ],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": true,
+              "version_limit": "مشکل در نسخه‌های Streamlit 1.58.0 به بعد مشاهده می‌شود."
+            },
+            "u_3bdae6ebaeeafe0dde1c59ed": {
+              "kind": "next_step",
+              "message_ids": [
+                "usr_c286efa8f3df38235cae6101"
+              ],
+              "premise": true,
+              "reason": "درخواست دقیق و منطقی برای لاگ‌های خطا جهت پیشرفت بررسی مشکل دارد.",
+              "source_ids": [],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": false,
+              "version_limit": ""
+            },
+            "u_eaef80828a3d8454a912518b": {
+              "kind": "question",
+              "message_ids": [
+                "usr_ae45eef23415186c6c2b3b1a"
+              ],
+              "premise": true,
+              "reason": "سوال واضح و مرتبط با پیام خطا و مشکل دیده شده است.",
+              "source_ids": [],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": false,
+              "version_limit": ""
+            }
+          },
+          "verdict": "accept"
+        },
+        {
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "پرسش مستقیماً درخواست لاگ کامل خطا برای بررسی واضح‌تر مشکل است.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "هیچ ادعای فنی در پرسش وجود ندارد که نیاز به پشتیبانی از منبع داشته باشد.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "پرسش پرسش ساده و ایمنی است و طراحی آن مقاوم به تزریق اطلاعات نامربوط است.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "پیشنهاد جمع‌آوری لاگ خطا هنگام بروز مشکل گام مفیدی برای عیب‌یابی دقیق است.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "پرسش و گام بعدی هر دو مرتبط با توضیح و حل مشکل ناسازگاری fragment و dialog در نسخ جدید هستند.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "پرسش و شرح مشکل نه نسخه خاصی را محدود می‌کنند و نه صرفاً نسخه‌های اولیه، بلکه درباره تغییر رفتار از نسخه 1.57.0 به 1.58.0 است که با ذکر آن سازگار است.",
+              "score": 2
+            }
+          },
+          "draft_version": "2d6e480836c6080152d6060c7ad2b2a0b7c7d3c4e498abcdd763d2c00282b3b5",
+          "novelty": {
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f",
+              "usr_c286efa8f3df38235cae6101",
+              "usr_ae45eef23415186c6c2b3b1a"
+            ],
+            "reason": "ایده درخواست لاگ کامل خطا برای بررسی مشکل fragment و dialog مربوط به این درخواست خاص و جزئیات آن است و قبلاً در اطلاعات ارائه شده مطرح نشده است.",
+            "relation": "unknown",
+            "status": "new",
+            "useful": true
+          },
+          "unit_reviews": {
+            "u_44bd6731c11d0631b763ce5b": {
+              "kind": "hypothesis",
+              "message_ids": [
+                "usr_0f9bb1952c922fb83f7a0f9f"
+              ],
+              "premise": true,
+              "reason": "فرضیه منطقی و معقول است که dialog معلق (شرطی) پس از rerun ممکن است نشان داده شود ولی به fragment وابسته نباشد.",
+              "source_ids": [],
+              "standalone": true,
+              "support": "unknown",
+              "version_dependent": false,
+              "version_limit": ""
+            },
+            "u_683b65aed509347fb52daeee": {
+              "kind": "next_step",
+              "message_ids": [
+                "usr_ae45eef23415186c6c2b3b1a"
+              ],
+              "premise": true,
+              "reason": "پیشنهاد ارسال لاگ‌های خطا بعد از خرابی دیالوگ برای بررسی علت دقیق، گام بسیار منطقی و مفید است.",
+              "source_ids": [],
+              "standalone": true,
+              "support": "unknown",
+              "version_dependent": false,
+              "version_limit": ""
+            },
+            "u_b8865d02701727da95589551": {
+              "kind": "question",
+              "message_ids": [
+                "usr_0f9bb1952c922fb83f7a0f9f"
+              ],
+              "premise": true,
+              "reason": "درخواست صریح برای ارسال لاگ خطا که برای تشخیص مشکل اساسی ضروری است.",
+              "source_ids": [],
+              "standalone": true,
+              "support": "unknown",
+              "version_dependent": false,
+              "version_limit": ""
+            },
+            "u_de3fc2b3e9cf466930528e4b": {
+              "kind": "technical_claim",
+              "message_ids": [
+                "usr_0f9bb1952c922fb83f7a0f9f"
+              ],
+              "premise": true,
+              "reason": "ادعای معتبر و مستندی درباره ناسازگاری دیالوگ شرطی پس از rerun و نیاز به لاگ برای بررسی تغییر رفتار در نسخه های مختلف وجود دارد.",
+              "source_ids": [
+                "src_d79c9657f850afd2468f5916"
+              ],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": true,
+              "version_limit": "تفاوت رفتار پیش از و پس از نسخه 1.58.0"
+            }
+          },
+          "verdict": "accept"
+        }
+      ]
+    }
+  ]
+}

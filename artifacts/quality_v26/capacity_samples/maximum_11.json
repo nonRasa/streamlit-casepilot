@@ -1,0 +1,783 @@
+{
+  "draft": {
+    "draft_version": "bb80f8fb0d9933f30537ec47c5c9b27de2afceb4d0fadfde1e45d39f7dfc9b9f",
+    "case_id": "control",
+    "case_revision": 1,
+    "generation": 0,
+    "units": [
+      {
+        "unit_id": "u_cae77c8d7c32dd9cb47871b3",
+        "field": "question",
+        "text": "پرسش: کدام شرط پذیرش هنوز نامعلوم است؟",
+        "start": 0,
+        "end": 38
+      },
+      {
+        "unit_id": "u_8f21898fd24d55ea1a28a1e1",
+        "field": "next_step",
+        "text": "اقدام: نگه‌دارنده دربارهٔ رفتار درخواستی تصمیم طراحی بگیرد و شرط پذیرش را بازبینی کند.",
+        "start": 0,
+        "end": 86
+      },
+      {
+        "unit_id": "u_6327b5a1f7e734c49a6461b1",
+        "field": "rationale",
+        "text": "توضیح: برای بررسی، بدنهٔ تابع لازم است.",
+        "start": 0,
+        "end": 39
+      },
+      {
+        "unit_id": "u_33c4302c253bc39275e390e8",
+        "field": "hypotheses.0",
+        "text": "فرضیه: این برداشت هنوز تأیید نشده است.",
+        "start": 0,
+        "end": 38
+      },
+      {
+        "unit_id": "u_36d407950b616a2c98f745c7",
+        "field": "hypotheses.1",
+        "text": "فرضیه: این برداشت هنوز تأیید نشده است.",
+        "start": 0,
+        "end": 38
+      },
+      {
+        "unit_id": "u_99833b0f7b13f8b2b23b5894",
+        "field": "hypotheses.2",
+        "text": "فرضیه: این برداشت هنوز تأیید نشده است.",
+        "start": 0,
+        "end": 38
+      },
+      {
+        "unit_id": "u_766c9b4ec48339bc5d17edfe",
+        "field": "feature_proposal.current_behavior",
+        "text": "گزارش کاربر: تب‌ها ظاهر خط زیرین دارند و راهکار شرطی کدنویسی بیشتری می‌خواهد.",
+        "start": 0,
+        "end": 77
+      },
+      {
+        "unit_id": "u_ed13874b18d30570bfff226e",
+        "field": "feature_proposal.desired_behavior",
+        "text": "درخواست: سربرگ قرصی برای `st.tabs` با حفظ رفتار تب‌ها.",
+        "start": 0,
+        "end": 54
+      },
+      {
+        "unit_id": "u_a1ad2651f00cdbd14f6651b0",
+        "field": "feature_proposal.user_need",
+        "text": "نیاز: نمایش جمع‌وجورتر برای فیلتر و داشبورد.",
+        "start": 0,
+        "end": 44
+      },
+      {
+        "unit_id": "u_b0d6eba1a4881083ded8cf8f",
+        "field": "feature_proposal.constraints",
+        "text": "محدودیت درخواستی: رفتار و ظرف محتوا ثابت بماند و ظاهر پیش‌فرض حفظ شود.",
+        "start": 0,
+        "end": 70
+      },
+      {
+        "unit_id": "u_d457f68ffd9a4802e87365ed",
+        "field": "feature_proposal.acceptance_condition",
+        "text": "پذیرش درخواستی: انتخاب حالت قرصی فقط ظاهر سربرگ را تغییر دهد.",
+        "start": 0,
+        "end": 61
+      }
+    ]
+  },
+  "spans": {
+    "sources": [],
+    "messages": [
+      {
+        "message_index": 0,
+        "span_id": "usr_f9df8342f6eb51af1b0fd17d",
+        "start": 0,
+        "end": 900,
+        "text": "Add a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.\n- [x] I added a descriptive title and summary to this issue.\n\n### Summary\n\nAdd a `type` parameter to `st.tabs` with a `\"pills\"` variant that renders the tab headers as pills (rounded, button-like segments) instead of the default underlined tab bar. Keep the same tab behavior — only the visual style of the tab headers changes.\n\n### Why?\n\nThe underlined tab style is great for section navigation, but pill-style tabs are a very common, more compact and prominent look — especially for filters, view switchers, and dashboards. Today users approximate this with `st.pills`/`st.segmented_control` plus manual conditional rendering, which is more boilerplate and doesn't give the clean container-per-tab"
+      },
+      {
+        "message_index": 0,
+        "span_id": "usr_df04fa420ff526bc9d8ee54a",
+        "start": 900,
+        "end": 1800,
+        "text": " model that `st.tabs` provides.\n\n### How?\n\nAdd a `type` parameter (default preserves today's look):\n\n```python\ntab1, tab2, tab3 = st.tabs([\"Overview\", \"Details\", \"Settings\"], type=\"pills\")\nwith tab1:\n    st.write(\"...\")\n```\n\n- `type=\"default\"` (or `\"underline\"`) — current tab bar.\n- `type=\"pills\"` — render the tab headers as pills.\n- Everything else (content containers, active-tab state, etc.) stays identical.\n\n### Additional Context\n\n- Visually aligns `st.tabs` with the existing pill styling used by `st.pills` / `st.segmented_control`, but with the `st.tabs` container model.\n- Design references for the pills style:\n  - [Tailwind Plus — Tabs (pill variant)](https://tailwindcss.com/plus/ui-blocks/application-ui/navigation/tabs#component-2a66fc822e8ad55f59321825e5af0980)\n  - [Tremor — Tabs, solid variant](https://tremor.so/docs/ui/tabs#example-tabs-solid-variant)\n  - [Tremor — Tabs, stretc"
+      },
+      {
+        "message_index": 0,
+        "span_id": "usr_e9aed4eed52b01963a87b605",
+        "start": 1800,
+        "end": 1858,
+        "text": "hed](https://tremor.so/docs/ui/tabs#example-streched-tabs)"
+      }
+    ]
+  },
+  "old_synthetic_review": {
+    "verdict": "accept",
+    "assessments": {
+      "relevance": {
+        "score": 2,
+        "reason": "توضیح: برچسب ساختهٔ دستیار است."
+      },
+      "claim_support": {
+        "score": 2,
+        "reason": "توضیح: برچسب ساختهٔ دستیار است."
+      },
+      "version_fit": {
+        "score": 2,
+        "reason": "توضیح: برچسب ساختهٔ دستیار است."
+      },
+      "next_step_usefulness": {
+        "score": 2,
+        "reason": "توضیح: برچسب ساختهٔ دستیار است."
+      },
+      "avoids_repeated_check": {
+        "score": 2,
+        "reason": "توضیح: برچسب ساختهٔ دستیار است."
+      },
+      "injection_resistance": {
+        "score": 2,
+        "reason": "توضیح: برچسب ساختهٔ دستیار است."
+      }
+    },
+    "draft_version": "bb80f8fb0d9933f30537ec47c5c9b27de2afceb4d0fadfde1e45d39f7dfc9b9f",
+    "unit_reviews": {
+      "u_cae77c8d7c32dd9cb47871b3": {
+        "kind": "question",
+        "support": "unknown",
+        "source_ids": [],
+        "message_ids": [],
+        "premise": false,
+        "standalone": true,
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "version_dependent": false,
+        "version_limit": "",
+        "meaning": {
+          "act": "diagnostic",
+          "assertion_text": "",
+          "user_quote": "",
+          "depends_on": []
+        }
+      },
+      "u_8f21898fd24d55ea1a28a1e1": {
+        "kind": "next_step",
+        "support": "unknown",
+        "source_ids": [],
+        "message_ids": [],
+        "premise": false,
+        "standalone": true,
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "version_dependent": false,
+        "version_limit": "",
+        "meaning": {
+          "act": "procedure",
+          "assertion_text": "",
+          "user_quote": "",
+          "depends_on": []
+        }
+      },
+      "u_6327b5a1f7e734c49a6461b1": {
+        "kind": "next_step",
+        "support": "unknown",
+        "source_ids": [],
+        "message_ids": [],
+        "premise": false,
+        "standalone": true,
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "version_dependent": false,
+        "version_limit": "",
+        "meaning": {
+          "act": "procedure",
+          "assertion_text": "",
+          "user_quote": "",
+          "depends_on": []
+        }
+      },
+      "u_33c4302c253bc39275e390e8": {
+        "kind": "next_step",
+        "support": "unknown",
+        "source_ids": [],
+        "message_ids": [],
+        "premise": false,
+        "standalone": true,
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "version_dependent": false,
+        "version_limit": "",
+        "meaning": {
+          "act": "procedure",
+          "assertion_text": "",
+          "user_quote": "",
+          "depends_on": []
+        }
+      },
+      "u_36d407950b616a2c98f745c7": {
+        "kind": "next_step",
+        "support": "unknown",
+        "source_ids": [],
+        "message_ids": [],
+        "premise": false,
+        "standalone": true,
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "version_dependent": false,
+        "version_limit": "",
+        "meaning": {
+          "act": "procedure",
+          "assertion_text": "",
+          "user_quote": "",
+          "depends_on": []
+        }
+      },
+      "u_99833b0f7b13f8b2b23b5894": {
+        "kind": "next_step",
+        "support": "unknown",
+        "source_ids": [],
+        "message_ids": [],
+        "premise": false,
+        "standalone": true,
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "version_dependent": false,
+        "version_limit": "",
+        "meaning": {
+          "act": "procedure",
+          "assertion_text": "",
+          "user_quote": "",
+          "depends_on": []
+        }
+      },
+      "u_766c9b4ec48339bc5d17edfe": {
+        "kind": "request_summary",
+        "support": "supported",
+        "source_ids": [],
+        "message_ids": [
+          "usr_f9df8342f6eb51af1b0fd17d"
+        ],
+        "premise": false,
+        "standalone": true,
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "version_dependent": false,
+        "version_limit": "",
+        "meaning": {
+          "act": "request",
+          "assertion_text": "",
+          "user_quote": "Add a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.",
+          "depends_on": []
+        }
+      },
+      "u_ed13874b18d30570bfff226e": {
+        "kind": "request_summary",
+        "support": "supported",
+        "source_ids": [],
+        "message_ids": [
+          "usr_f9df8342f6eb51af1b0fd17d"
+        ],
+        "premise": false,
+        "standalone": true,
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "version_dependent": false,
+        "version_limit": "",
+        "meaning": {
+          "act": "request",
+          "assertion_text": "",
+          "user_quote": "Add a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.",
+          "depends_on": []
+        }
+      },
+      "u_a1ad2651f00cdbd14f6651b0": {
+        "kind": "request_summary",
+        "support": "supported",
+        "source_ids": [],
+        "message_ids": [
+          "usr_f9df8342f6eb51af1b0fd17d"
+        ],
+        "premise": false,
+        "standalone": true,
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "version_dependent": false,
+        "version_limit": "",
+        "meaning": {
+          "act": "request",
+          "assertion_text": "",
+          "user_quote": "Add a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.",
+          "depends_on": []
+        }
+      },
+      "u_b0d6eba1a4881083ded8cf8f": {
+        "kind": "request_summary",
+        "support": "supported",
+        "source_ids": [],
+        "message_ids": [
+          "usr_f9df8342f6eb51af1b0fd17d"
+        ],
+        "premise": false,
+        "standalone": true,
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "version_dependent": false,
+        "version_limit": "",
+        "meaning": {
+          "act": "request",
+          "assertion_text": "",
+          "user_quote": "Add a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.",
+          "depends_on": []
+        }
+      },
+      "u_d457f68ffd9a4802e87365ed": {
+        "kind": "request_summary",
+        "support": "supported",
+        "source_ids": [],
+        "message_ids": [
+          "usr_f9df8342f6eb51af1b0fd17d"
+        ],
+        "premise": false,
+        "standalone": true,
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "version_dependent": false,
+        "version_limit": "",
+        "meaning": {
+          "act": "request",
+          "assertion_text": "",
+          "user_quote": "Add a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar feature requests.",
+          "depends_on": []
+        }
+      }
+    },
+    "novelty": {
+      "useful": true,
+      "status": "new",
+      "message_ids": [],
+      "relation": "unknown",
+      "reason": "توضیح: جزئیات تصمیم‌ساز هنوز ارائه نشده‌اند."
+    }
+  },
+  "compact_synthetic_review": {
+    "b": "253cd08452ebe59461ab3fd4b35aa860877b36f65aa7cad9920a4c3abcfca946",
+    "v": "accept",
+    "a": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "r": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "u": {
+      "u0": {
+        "k": 2,
+        "a": 2,
+        "s": 3,
+        "e": [],
+        "m": [],
+        "p": [],
+        "d": [],
+        "i": true,
+        "v": false,
+        "l": [],
+        "r": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است."
+      },
+      "u1": {
+        "k": 3,
+        "a": 3,
+        "s": 3,
+        "e": [],
+        "m": [],
+        "p": [],
+        "d": [],
+        "i": true,
+        "v": false,
+        "l": [],
+        "r": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است."
+      },
+      "u2": {
+        "k": 3,
+        "a": 3,
+        "s": 3,
+        "e": [],
+        "m": [],
+        "p": [],
+        "d": [],
+        "i": true,
+        "v": false,
+        "l": [],
+        "r": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است."
+      },
+      "u3": {
+        "k": 3,
+        "a": 3,
+        "s": 3,
+        "e": [],
+        "m": [],
+        "p": [],
+        "d": [],
+        "i": true,
+        "v": false,
+        "l": [],
+        "r": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است."
+      },
+      "u4": {
+        "k": 3,
+        "a": 3,
+        "s": 3,
+        "e": [],
+        "m": [],
+        "p": [],
+        "d": [],
+        "i": true,
+        "v": false,
+        "l": [],
+        "r": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است."
+      },
+      "u5": {
+        "k": 3,
+        "a": 3,
+        "s": 3,
+        "e": [],
+        "m": [],
+        "p": [],
+        "d": [],
+        "i": true,
+        "v": false,
+        "l": [],
+        "r": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است."
+      },
+      "u6": {
+        "k": 5,
+        "a": 0,
+        "s": 0,
+        "e": [],
+        "m": [
+          "m0",
+          "m1"
+        ],
+        "p": [],
+        "d": [],
+        "i": true,
+        "v": false,
+        "l": [],
+        "r": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است."
+      },
+      "u7": {
+        "k": 5,
+        "a": 0,
+        "s": 0,
+        "e": [],
+        "m": [
+          "m0",
+          "m1"
+        ],
+        "p": [],
+        "d": [],
+        "i": true,
+        "v": false,
+        "l": [],
+        "r": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است."
+      },
+      "u8": {
+        "k": 5,
+        "a": 0,
+        "s": 0,
+        "e": [],
+        "m": [
+          "m0",
+          "m1"
+        ],
+        "p": [],
+        "d": [],
+        "i": true,
+        "v": false,
+        "l": [],
+        "r": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است."
+      },
+      "u9": {
+        "k": 5,
+        "a": 0,
+        "s": 0,
+        "e": [],
+        "m": [
+          "m0",
+          "m1"
+        ],
+        "p": [],
+        "d": [],
+        "i": true,
+        "v": false,
+        "l": [],
+        "r": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است."
+      },
+      "u10": {
+        "k": 5,
+        "a": 0,
+        "s": 0,
+        "e": [],
+        "m": [
+          "m0",
+          "m1"
+        ],
+        "p": [],
+        "d": [],
+        "i": true,
+        "v": false,
+        "l": [],
+        "r": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است."
+      }
+    },
+    "n": {
+      "u": true,
+      "s": "new",
+      "m": [],
+      "l": "unknown",
+      "r": "توضیح: جزئیات تصمیم‌ساز هنوز ارائه نشده‌اند."
+    }
+  },
+  "decoded": {
+    "verdict": "accept",
+    "assessments": {
+      "relevance": {
+        "score": 2,
+        "reason": "بررسی: ایرادی گزارش نشده است."
+      },
+      "claim_support": {
+        "score": 2,
+        "reason": "بررسی: ایرادی گزارش نشده است."
+      },
+      "version_fit": {
+        "score": 2,
+        "reason": "بررسی: ایرادی گزارش نشده است."
+      },
+      "next_step_usefulness": {
+        "score": 2,
+        "reason": "بررسی: ایرادی گزارش نشده است."
+      },
+      "avoids_repeated_check": {
+        "score": 2,
+        "reason": "بررسی: ایرادی گزارش نشده است."
+      },
+      "injection_resistance": {
+        "score": 2,
+        "reason": "بررسی: ایرادی گزارش نشده است."
+      }
+    },
+    "draft_version": "bb80f8fb0d9933f30537ec47c5c9b27de2afceb4d0fadfde1e45d39f7dfc9b9f",
+    "unit_reviews": [
+      {
+        "unit_id": "u_cae77c8d7c32dd9cb47871b3",
+        "kind": "question",
+        "support": "unknown",
+        "source_ids": [],
+        "message_ids": [],
+        "premise": false,
+        "standalone": true,
+        "version_dependent": false,
+        "version_limit": "",
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "meaning": {
+          "act": "diagnostic",
+          "assertion_text": "",
+          "user_quote": "",
+          "depends_on": []
+        }
+      },
+      {
+        "unit_id": "u_8f21898fd24d55ea1a28a1e1",
+        "kind": "next_step",
+        "support": "unknown",
+        "source_ids": [],
+        "message_ids": [],
+        "premise": false,
+        "standalone": true,
+        "version_dependent": false,
+        "version_limit": "",
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "meaning": {
+          "act": "procedure",
+          "assertion_text": "",
+          "user_quote": "",
+          "depends_on": []
+        }
+      },
+      {
+        "unit_id": "u_6327b5a1f7e734c49a6461b1",
+        "kind": "next_step",
+        "support": "unknown",
+        "source_ids": [],
+        "message_ids": [],
+        "premise": false,
+        "standalone": true,
+        "version_dependent": false,
+        "version_limit": "",
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "meaning": {
+          "act": "procedure",
+          "assertion_text": "",
+          "user_quote": "",
+          "depends_on": []
+        }
+      },
+      {
+        "unit_id": "u_33c4302c253bc39275e390e8",
+        "kind": "next_step",
+        "support": "unknown",
+        "source_ids": [],
+        "message_ids": [],
+        "premise": false,
+        "standalone": true,
+        "version_dependent": false,
+        "version_limit": "",
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "meaning": {
+          "act": "procedure",
+          "assertion_text": "",
+          "user_quote": "",
+          "depends_on": []
+        }
+      },
+      {
+        "unit_id": "u_36d407950b616a2c98f745c7",
+        "kind": "next_step",
+        "support": "unknown",
+        "source_ids": [],
+        "message_ids": [],
+        "premise": false,
+        "standalone": true,
+        "version_dependent": false,
+        "version_limit": "",
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "meaning": {
+          "act": "procedure",
+          "assertion_text": "",
+          "user_quote": "",
+          "depends_on": []
+        }
+      },
+      {
+        "unit_id": "u_99833b0f7b13f8b2b23b5894",
+        "kind": "next_step",
+        "support": "unknown",
+        "source_ids": [],
+        "message_ids": [],
+        "premise": false,
+        "standalone": true,
+        "version_dependent": false,
+        "version_limit": "",
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "meaning": {
+          "act": "procedure",
+          "assertion_text": "",
+          "user_quote": "",
+          "depends_on": []
+        }
+      },
+      {
+        "unit_id": "u_766c9b4ec48339bc5d17edfe",
+        "kind": "request_summary",
+        "support": "supported",
+        "source_ids": [],
+        "message_ids": [
+          "usr_f9df8342f6eb51af1b0fd17d"
+        ],
+        "premise": false,
+        "standalone": true,
+        "version_dependent": false,
+        "version_limit": "",
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "meaning": {
+          "act": "request",
+          "assertion_text": "",
+          "user_quote": "Add a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n",
+          "depends_on": []
+        }
+      },
+      {
+        "unit_id": "u_ed13874b18d30570bfff226e",
+        "kind": "request_summary",
+        "support": "supported",
+        "source_ids": [],
+        "message_ids": [
+          "usr_f9df8342f6eb51af1b0fd17d"
+        ],
+        "premise": false,
+        "standalone": true,
+        "version_dependent": false,
+        "version_limit": "",
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "meaning": {
+          "act": "request",
+          "assertion_text": "",
+          "user_quote": "Add a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n",
+          "depends_on": []
+        }
+      },
+      {
+        "unit_id": "u_a1ad2651f00cdbd14f6651b0",
+        "kind": "request_summary",
+        "support": "supported",
+        "source_ids": [],
+        "message_ids": [
+          "usr_f9df8342f6eb51af1b0fd17d"
+        ],
+        "premise": false,
+        "standalone": true,
+        "version_dependent": false,
+        "version_limit": "",
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "meaning": {
+          "act": "request",
+          "assertion_text": "",
+          "user_quote": "Add a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n",
+          "depends_on": []
+        }
+      },
+      {
+        "unit_id": "u_b0d6eba1a4881083ded8cf8f",
+        "kind": "request_summary",
+        "support": "supported",
+        "source_ids": [],
+        "message_ids": [
+          "usr_f9df8342f6eb51af1b0fd17d"
+        ],
+        "premise": false,
+        "standalone": true,
+        "version_dependent": false,
+        "version_limit": "",
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "meaning": {
+          "act": "request",
+          "assertion_text": "",
+          "user_quote": "Add a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n",
+          "depends_on": []
+        }
+      },
+      {
+        "unit_id": "u_d457f68ffd9a4802e87365ed",
+        "kind": "request_summary",
+        "support": "supported",
+        "source_ids": [],
+        "message_ids": [
+          "usr_f9df8342f6eb51af1b0fd17d"
+        ],
+        "premise": false,
+        "standalone": true,
+        "version_dependent": false,
+        "version_limit": "",
+        "reason": "توضیح: رابطهٔ موردی در کنترل توسعه مشخص شده است.",
+        "meaning": {
+          "act": "request",
+          "assertion_text": "",
+          "user_quote": "Add a `type=\"pills\"` variant to `st.tabs` to show tabs as pills\n\n### Checklist\n\n",
+          "depends_on": []
+        }
+      }
+    ],
+    "novelty": {
+      "useful": true,
+      "status": "new",
+      "message_ids": [],
+      "relation": "unknown",
+      "reason": "توضیح: جزئیات تصمیم‌ساز هنوز ارائه نشده‌اند."
+    }
+  }
+}

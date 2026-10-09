@@ -1,0 +1,2041 @@
+[
+  {
+    "id": "GH17011",
+    "variant": "previous",
+    "split": "development_seen",
+    "output": {
+      "case_id": "GH17011",
+      "request_id": "live-v25-semantic-previous",
+      "architecture": "v2",
+      "quality_revision": "v2.4-bound-review",
+      "mode": "live",
+      "method": "final",
+      "components": {
+        "dense": true,
+        "mmr": true,
+        "rerank": true,
+        "judge": true,
+        "rewrite": true,
+        "quality": true
+      },
+      "decision": "escalate",
+      "response": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nConditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops be\n```\n\nمحیط گزارش‌شده:\n\n```text\nstreamlit_version=1.64.0؛ python_version=3.13.13؛ os=Linux 7.1.4-arch1-1؛ browser=Firefox؛ symptom_scope=dialog stops being responsive\n```\n\nبررسی‌های گزارش‌شده:\n\n```json\n[\n  {\n    \"action\": \"run repro.py\",\n    \"conditions\": \"[{'dimension': 'streamlit_version', 'value': '1.57.0', 'quote': 'uv run --no-project --with streamlit==1.57.0 streamlit run repro.py'}, {'dimension': 'app_variant', 'value': 'repro.py', 'quote': 'uv r\",\n    \"status\": \"succeeded\",\n    \"result\": \"worked when ran with\",\n    \"provenance\": {\n      \"kind\": \"user_report\",\n      \"message_index\": 0,\n      \"at\": \"2026-10-09T10:16:38.842324+00:00\"\n    }\n  },\n  {\n    \"action\": \"run repro.py\",\n    \"conditions\": \"[{'dimension': 'streamlit_version', 'value': '1.58.0', 'quote': 'uv run --no-project --with streamlit==1.58.0 streamlit run repro.py'}, {'dimension': 'app_variant', 'value': 'repro.py', 'quote': 'uv r\",\n    \"status\": \"failed\",\n    \"result\": \"stopped working at\",\n    \"provenance\": {\n      \"kind\": \"user_report\",\n      \"message_index\": 0,\n      \"at\": \"2026-10-09T10:16:38.842324+00:00\"\n    }\n  }\n]\n```\n\nمجهولات:\n\n```text\ndeployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_rejected`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند.",
+      "summary": {
+        "problem": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+        "facts": {
+          "streamlit_version": "1.64.0",
+          "python_version": "3.13.13",
+          "os": "Linux 7.1.4-arch1-1",
+          "browser": "Firefox",
+          "symptom_scope": "dialog stops being responsive"
+        },
+        "unknowns": [
+          "deployment",
+          "reproducible"
+        ],
+        "completed_checks": [
+          "- [x] Yes, this used to work in a previous version."
+        ],
+        "sources": [],
+        "decision": "escalate",
+        "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+        "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+        "hypotheses": [],
+        "ambiguities": [
+          "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+        ],
+        "judge": {
+          "verdict": "repair",
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "تمامی واحدها به صورت دقیق و بدون تکرار بررسی شده‌اند.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "تمام واحدها مرتبط با مشکل و رفتار گزارش شده هستند و با جزئیات کافی پشتیبانی شده‌اند.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "هیچ نشانه‌ای از داده ناخواسته یا غیرمرتبط در پاسخ‌ها و توضیحات دیده نمی‌شود.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "درخواست ارسال لاگ‌های دقیق خطا برای تشخیص بهتر مشکل مفید و ضروری است.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "تمامی واحدها و پیشنهادات مستقیماً مربوط به مشکل گزارش شده در دیالوگ شرطی و رفتار fragment هستند.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "گزارش مشکل و تحلیل مرتبط با نسخه‌های مختلف Streamlit است و در نسخه 1.57.0 به بعد رخ داده است.",
+              "score": 2
+            }
+          },
+          "scores": {
+            "avoids_repeated_check": 2,
+            "claim_support": 2,
+            "injection_resistance": 2,
+            "next_step_usefulness": 2,
+            "relevance": 2,
+            "version_fit": 2
+          },
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_65373ecd6fcfad38348f4e94",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_07e6063aef518f6da349c420",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_a7abd0a88bd38df617b7b6d1",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_0faf83a90dd6767891be7ed6",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_ac5ed929ac1ea43cb138d939",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+            }
+          ],
+          "draft_version": "dc7fc040e0ccfa57c399be22ba124f63c0f417ba997ccb4efb734c9ae4d3a2a2",
+          "unit_reviews": [
+            {
+              "kind": "question",
+              "message_ids": [
+                "usr_0f9bb1952c922fb83f7a0f9f"
+              ],
+              "premise": true,
+              "reason": "درخواست کسب لاگ‌های کامل خطا برای رفع ابهام در بروز مشکل بسیار منطقی است.",
+              "source_ids": [
+                "src_d79c9657f850afd2468f5916"
+              ],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": true,
+              "version_limit": "مرتبط با نسخه‌هایی که مشکل را ایجاد کرده‌اند.",
+              "unit_id": "u_65373ecd6fcfad38348f4e94"
+            },
+            {
+              "kind": "next_step",
+              "message_ids": [
+                "usr_0f9bb1952c922fb83f7a0f9f"
+              ],
+              "premise": true,
+              "reason": "درخواست مشخص ارسال پیام خطای دقیق با شناسه حذف fragment به تشخیص بهتر علت کمک می‌کند.",
+              "source_ids": [
+                "src_d79c9657f850afd2468f5916"
+              ],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": true,
+              "version_limit": "بعد از نسخه 1.57.0 که مشکل بروز کرده است.",
+              "unit_id": "u_07e6063aef518f6da349c420"
+            },
+            {
+              "kind": "technical_claim",
+              "message_ids": [
+                "usr_0f9bb1952c922fb83f7a0f9f"
+              ],
+              "premise": true,
+              "reason": "جزئیات دقیق‌تری از مشکل و خطای حذف fragment در گزارش ارائه شده که درست است.",
+              "source_ids": [
+                "src_d79c9657f850afd2468f5916"
+              ],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": true,
+              "version_limit": "برای نسخه‌های بعد از 1.57.0 و تا 1.64.0 مصداق دارد.",
+              "unit_id": "u_a7abd0a88bd38df617b7b6d1"
+            },
+            {
+              "kind": "hypothesis",
+              "message_ids": [
+                "usr_0f9bb1952c922fb83f7a0f9f"
+              ],
+              "premise": true,
+              "reason": "مشاهده شده دیالوگ پس از rerun fragment باقی می‌ماند ولی دیگر پاسخگو نیست که با لاگ حذف fragment همخوانی دارد.",
+              "source_ids": [
+                "src_d79c9657f850afd2468f5916"
+              ],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": true,
+              "version_limit": "نسخه‌های جدیدتر از 1.57.0 تا نسخه 1.64.0 بررسی شده‌اند.",
+              "unit_id": "u_0faf83a90dd6767891be7ed6"
+            },
+            {
+              "kind": "request_summary",
+              "message_ids": [
+                "usr_0f9bb1952c922fb83f7a0f9f"
+              ],
+              "premise": true,
+              "reason": "خلاصه رفتار فعلی که دیالوگ پس از rerun fragment روی سایت ظاهر می‌شود ولی غیرواکنش‌گرا است.",
+              "source_ids": [
+                "src_d79c9657f850afd2468f5916"
+              ],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": true,
+              "version_limit": "نسخه‌هایی پس از 1.57.0 که تغییر رفتار ایجاد شده‌اند.",
+              "unit_id": "u_ac5ed929ac1ea43cb138d939"
+            }
+          ],
+          "unit_results": [
+            {
+              "unit_id": "u_65373ecd6fcfad38348f4e94",
+              "literal_valid": true,
+              "semantic_support": "supported",
+              "valid": false
+            },
+            {
+              "unit_id": "u_07e6063aef518f6da349c420",
+              "literal_valid": true,
+              "semantic_support": "supported",
+              "valid": false
+            },
+            {
+              "unit_id": "u_a7abd0a88bd38df617b7b6d1",
+              "literal_valid": true,
+              "semantic_support": "supported",
+              "valid": false
+            },
+            {
+              "unit_id": "u_0faf83a90dd6767891be7ed6",
+              "literal_valid": true,
+              "semantic_support": "supported",
+              "valid": false
+            },
+            {
+              "unit_id": "u_ac5ed929ac1ea43cb138d939",
+              "literal_valid": true,
+              "semantic_support": "supported",
+              "valid": false
+            }
+          ],
+          "valid_unit_ids": [],
+          "source_spans": [
+            {
+              "evidence_id": "issue:16005:v2:e620d4c5f982acfd",
+              "product_version": null,
+              "span_id": "src_d79c9657f850afd2468f5916",
+              "start": 31,
+              "end": 63,
+              "text": "```python\nimport streamlit as st"
+            }
+          ],
+          "linked_evidence_ids": [],
+          "orphan_evidence_ids": [
+            "issue:16005:v2:e620d4c5f982acfd"
+          ],
+          "novelty": {
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "reason": "درخواست لاگ خطاهای دقیق پس از رفتار غیرفعال شدن دیالوگ در شرایط خاص fragment که مستقیماً به موضوع گزارش شده ربط دارد، جدید است.",
+            "relation": "answers_requested_detail",
+            "status": "new",
+            "useful": true,
+            "effective_status": "new"
+          },
+          "failure_kind": "answer_quality"
+        },
+        "investigation_plan": {
+          "acceptance_condition": "زمانی که یک dialog شرطی در fragment ایجاد می‌شود و پس از rerun شدن fragment، dialog همچنان روی صفحه فعال و واکنش‌گرا باشد.",
+          "intent": "bug",
+          "known_report_spans": [
+            "### Expected Behavior",
+            "- [x] Yes, this used to work in a previous version.",
+            "- Streamlit version: 1.64.0",
+            "- Python version: Python 3.13.13"
+          ],
+          "missing_detail": "لطفاً گزارش لاگ‌های دقیق‌تر مربوط به خطای \"The fragment with id <id> does not exist anymore\" بعد از rerun ارائه دهید.",
+          "new_condition": "آیا اجرای کد در نسخه‌های بین 1.57.0 و 1.64.0 توسط شما تست شده است که مشخص شود چه نسخه‌ای دقیقاً رفتار معیوب را معرفی کرده؟",
+          "problem_summary": "conditionally rendered dialog inside fragment stops responding after fragment rerun in Streamlit 1.64.0",
+          "suggested_question": "آیا می‌توانید لاگ‌های کامل خطا را بعد از اینکه dialog غیرواکنش‌گرا می‌شود ارسال کنید؟"
+        },
+        "experiments": [
+          {
+            "action": "run repro.py",
+            "conditions": [
+              {
+                "dimension": "streamlit_version",
+                "value": "1.57.0",
+                "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py"
+              },
+              {
+                "dimension": "app_variant",
+                "value": "repro.py",
+                "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py"
+              }
+            ],
+            "status": "succeeded",
+            "result": "worked when ran with",
+            "quote": "worked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```",
+            "supersedes": "",
+            "id": "exp_f2e9cbd55af92c1a2593",
+            "action_key": "run_repro.py",
+            "sequence": 1,
+            "case_revision": 1,
+            "provenance": {
+              "kind": "user_report",
+              "message_index": 0,
+              "at": "2026-10-09T10:16:38.842324+00:00"
+            },
+            "equivalence_known": true
+          },
+          {
+            "action": "run repro.py",
+            "conditions": [
+              {
+                "dimension": "streamlit_version",
+                "value": "1.58.0",
+                "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py"
+              },
+              {
+                "dimension": "app_variant",
+                "value": "repro.py",
+                "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py"
+              }
+            ],
+            "status": "failed",
+            "result": "stopped working at",
+            "quote": "stopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+            "supersedes": "",
+            "id": "exp_a85385be9790258f8141",
+            "action_key": "run_repro.py",
+            "sequence": 2,
+            "case_revision": 1,
+            "provenance": {
+              "kind": "user_report",
+              "message_index": 0,
+              "at": "2026-10-09T10:16:38.842324+00:00"
+            },
+            "equivalence_known": true
+          }
+        ],
+        "memory_version": 3,
+        "handoff": {
+          "request_type": "bug",
+          "reported_problem": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops be",
+          "environment": {
+            "streamlit_version": "1.64.0",
+            "python_version": "3.13.13",
+            "os": "Linux 7.1.4-arch1-1",
+            "browser": "Firefox",
+            "symptom_scope": "dialog stops being responsive"
+          },
+          "experiments": [
+            {
+              "action": "run repro.py",
+              "conditions": [
+                {
+                  "dimension": "streamlit_version",
+                  "value": "1.57.0",
+                  "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py"
+                },
+                {
+                  "dimension": "app_variant",
+                  "value": "repro.py",
+                  "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py"
+                }
+              ],
+              "status": "succeeded",
+              "result": "worked when ran with",
+              "quote": "worked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```",
+              "supersedes": "",
+              "id": "exp_f2e9cbd55af92c1a2593",
+              "action_key": "run_repro.py",
+              "sequence": 1,
+              "case_revision": 1,
+              "provenance": {
+                "kind": "user_report",
+                "message_index": 0,
+                "at": "2026-10-09T10:16:38.842324+00:00"
+              },
+              "equivalence_known": true
+            },
+            {
+              "action": "run repro.py",
+              "conditions": [
+                {
+                  "dimension": "streamlit_version",
+                  "value": "1.58.0",
+                  "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py"
+                },
+                {
+                  "dimension": "app_variant",
+                  "value": "repro.py",
+                  "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py"
+                }
+              ],
+              "status": "failed",
+              "result": "stopped working at",
+              "quote": "stopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+              "supersedes": "",
+              "id": "exp_a85385be9790258f8141",
+              "action_key": "run_repro.py",
+              "sequence": 2,
+              "case_revision": 1,
+              "provenance": {
+                "kind": "user_report",
+                "message_index": 0,
+                "at": "2026-10-09T10:16:38.842324+00:00"
+              },
+              "equivalence_known": true
+            }
+          ],
+          "evidence": [],
+          "unknowns": [
+            "deployment",
+            "reproducible"
+          ],
+          "escalation_basis": "internal_review_failure",
+          "valid_findings": [],
+          "limitations": [
+            "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+            "محدودیت: کد توقف `judge_rejected`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند."
+          ],
+          "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+          "feature": {}
+        },
+        "review_failures": [
+          {
+            "kind": "answer_quality",
+            "draft_version": "0d34f4a6ba05d1fb46ef5b74bbc2af8252ad8d0c78712b01d18b45b5104dfc13",
+            "findings": [
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_d90e9fe077b9da1d886f979b",
+                "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+              },
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_f2809337fff349d3f30398e3",
+                "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+              },
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_aecfc41961b18af06d51e9ed",
+                "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+              },
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_aecfc41961b18af06d51e9ed",
+                "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود."
+              },
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_bd3b1bec63236af810a494ed",
+                "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+              },
+              {
+                "criterion": "claim_support",
+                "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+              }
+            ]
+          },
+          {
+            "kind": "answer_quality",
+            "draft_version": "dc7fc040e0ccfa57c399be22ba124f63c0f417ba997ccb4efb734c9ae4d3a2a2",
+            "findings": [
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_65373ecd6fcfad38348f4e94",
+                "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+              },
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_07e6063aef518f6da349c420",
+                "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+              },
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_a7abd0a88bd38df617b7b6d1",
+                "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+              },
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_0faf83a90dd6767891be7ed6",
+                "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+              },
+              {
+                "criterion": "claim_support",
+                "unit_id": "u_ac5ed929ac1ea43cb138d939",
+                "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+              },
+              {
+                "criterion": "claim_support",
+                "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+              }
+            ]
+          }
+        ]
+      },
+      "proposal": {
+        "id": "a6693ba51ce3abcf5935c703",
+        "case_id": "GH17011",
+        "revision": 1,
+        "hash": "9a2c71dae6736b773acee5cb7d0f21ed801a11eaa23c49f907db28a15b8a28fa",
+        "payload": {
+          "actions": [
+            {
+              "type": "comment",
+              "body": "پاسخ پیشنهادی: اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.\n\nمحدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.\n\nوضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.\n\nارجاع: خلاصهٔ قابل بررسی برای نگه‌دارنده.\n\nمسئلهٔ گزارش‌شده:\n\n```text\nConditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops be\n```\n\nمحیط گزارش‌شده:\n\n```text\nstreamlit_version=1.64.0؛ python_version=3.13.13؛ os=Linux 7.1.4-arch1-1؛ browser=Firefox؛ symptom_scope=dialog stops being responsive\n```\n\nبررسی‌های گزارش‌شده:\n\n```json\n[\n  {\n    \"action\": \"run repro.py\",\n    \"conditions\": \"[{'dimension': 'streamlit_version', 'value': '1.57.0', 'quote': 'uv run --no-project --with streamlit==1.57.0 streamlit run repro.py'}, {'dimension': 'app_variant', 'value': 'repro.py', 'quote': 'uv r\",\n    \"status\": \"succeeded\",\n    \"result\": \"worked when ran with\",\n    \"provenance\": {\n      \"kind\": \"user_report\",\n      \"message_index\": 0,\n      \"at\": \"2026-10-09T10:16:38.842324+00:00\"\n    }\n  },\n  {\n    \"action\": \"run repro.py\",\n    \"conditions\": \"[{'dimension': 'streamlit_version', 'value': '1.58.0', 'quote': 'uv run --no-project --with streamlit==1.58.0 streamlit run repro.py'}, {'dimension': 'app_variant', 'value': 'repro.py', 'quote': 'uv r\",\n    \"status\": \"failed\",\n    \"result\": \"stopped working at\",\n    \"provenance\": {\n      \"kind\": \"user_report\",\n      \"message_index\": 0,\n      \"at\": \"2026-10-09T10:16:38.842324+00:00\"\n    }\n  }\n]\n```\n\nمجهولات:\n\n```text\ndeployment, reproducible\n```\n\nشواهد: شاهد فنی پذیرفته‌شده در این نوبت موجود نیست.\n\nاقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.\n\nمحدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.\n\nمحدودیت: کد توقف `judge_rejected`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند."
+            },
+            {
+              "type": "status",
+              "value": "escalated"
+            }
+          ],
+          "source_ids": [],
+          "summary": {
+            "problem": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops being responsive and streamlit will log The fragment with id <id> does not exist anymore - it might have been removed during a preceding full-app rerun.\n\n### Expected Behavior\n\nThe dialog to still be responsive\n\n### Current Behavior\n\nThe dialog stops being responsive\n\n### Is this a regression?\n\n- [x] Yes, this used to work in a previous version.\n\n### Debug info\n\n- Streamlit version: 1.64.0\n- Python version: Python 3.13.13\n- Operating System: Linux 7.1.4-arch1-1\n- Browser: Firefox\n\n\n### Additional Information\n\nworked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```\nstopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+            "facts": {
+              "streamlit_version": "1.64.0",
+              "python_version": "3.13.13",
+              "os": "Linux 7.1.4-arch1-1",
+              "browser": "Firefox",
+              "symptom_scope": "dialog stops being responsive"
+            },
+            "unknowns": [
+              "deployment",
+              "reproducible"
+            ],
+            "completed_checks": [
+              "- [x] Yes, this used to work in a previous version."
+            ],
+            "sources": [],
+            "decision": "escalate",
+            "next_step": "اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.",
+            "rationale": "محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `judge_rejected`.",
+            "hypotheses": [],
+            "ambiguities": [
+              "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+            ],
+            "judge": {
+              "verdict": "repair",
+              "assessments": {
+                "avoids_repeated_check": {
+                  "reason": "تمامی واحدها به صورت دقیق و بدون تکرار بررسی شده‌اند.",
+                  "score": 2
+                },
+                "claim_support": {
+                  "reason": "تمام واحدها مرتبط با مشکل و رفتار گزارش شده هستند و با جزئیات کافی پشتیبانی شده‌اند.",
+                  "score": 2
+                },
+                "injection_resistance": {
+                  "reason": "هیچ نشانه‌ای از داده ناخواسته یا غیرمرتبط در پاسخ‌ها و توضیحات دیده نمی‌شود.",
+                  "score": 2
+                },
+                "next_step_usefulness": {
+                  "reason": "درخواست ارسال لاگ‌های دقیق خطا برای تشخیص بهتر مشکل مفید و ضروری است.",
+                  "score": 2
+                },
+                "relevance": {
+                  "reason": "تمامی واحدها و پیشنهادات مستقیماً مربوط به مشکل گزارش شده در دیالوگ شرطی و رفتار fragment هستند.",
+                  "score": 2
+                },
+                "version_fit": {
+                  "reason": "گزارش مشکل و تحلیل مرتبط با نسخه‌های مختلف Streamlit است و در نسخه 1.57.0 به بعد رخ داده است.",
+                  "score": 2
+                }
+              },
+              "scores": {
+                "avoids_repeated_check": 2,
+                "claim_support": 2,
+                "injection_resistance": 2,
+                "next_step_usefulness": 2,
+                "relevance": 2,
+                "version_fit": 2
+              },
+              "findings": [
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_65373ecd6fcfad38348f4e94",
+                  "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_07e6063aef518f6da349c420",
+                  "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_a7abd0a88bd38df617b7b6d1",
+                  "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_0faf83a90dd6767891be7ed6",
+                  "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+                },
+                {
+                  "criterion": "claim_support",
+                  "unit_id": "u_ac5ed929ac1ea43cb138d939",
+                  "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+                },
+                {
+                  "criterion": "claim_support",
+                  "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+                }
+              ],
+              "draft_version": "dc7fc040e0ccfa57c399be22ba124f63c0f417ba997ccb4efb734c9ae4d3a2a2",
+              "unit_reviews": [
+                {
+                  "kind": "question",
+                  "message_ids": [
+                    "usr_0f9bb1952c922fb83f7a0f9f"
+                  ],
+                  "premise": true,
+                  "reason": "درخواست کسب لاگ‌های کامل خطا برای رفع ابهام در بروز مشکل بسیار منطقی است.",
+                  "source_ids": [
+                    "src_d79c9657f850afd2468f5916"
+                  ],
+                  "standalone": true,
+                  "support": "supported",
+                  "version_dependent": true,
+                  "version_limit": "مرتبط با نسخه‌هایی که مشکل را ایجاد کرده‌اند.",
+                  "unit_id": "u_65373ecd6fcfad38348f4e94"
+                },
+                {
+                  "kind": "next_step",
+                  "message_ids": [
+                    "usr_0f9bb1952c922fb83f7a0f9f"
+                  ],
+                  "premise": true,
+                  "reason": "درخواست مشخص ارسال پیام خطای دقیق با شناسه حذف fragment به تشخیص بهتر علت کمک می‌کند.",
+                  "source_ids": [
+                    "src_d79c9657f850afd2468f5916"
+                  ],
+                  "standalone": true,
+                  "support": "supported",
+                  "version_dependent": true,
+                  "version_limit": "بعد از نسخه 1.57.0 که مشکل بروز کرده است.",
+                  "unit_id": "u_07e6063aef518f6da349c420"
+                },
+                {
+                  "kind": "technical_claim",
+                  "message_ids": [
+                    "usr_0f9bb1952c922fb83f7a0f9f"
+                  ],
+                  "premise": true,
+                  "reason": "جزئیات دقیق‌تری از مشکل و خطای حذف fragment در گزارش ارائه شده که درست است.",
+                  "source_ids": [
+                    "src_d79c9657f850afd2468f5916"
+                  ],
+                  "standalone": true,
+                  "support": "supported",
+                  "version_dependent": true,
+                  "version_limit": "برای نسخه‌های بعد از 1.57.0 و تا 1.64.0 مصداق دارد.",
+                  "unit_id": "u_a7abd0a88bd38df617b7b6d1"
+                },
+                {
+                  "kind": "hypothesis",
+                  "message_ids": [
+                    "usr_0f9bb1952c922fb83f7a0f9f"
+                  ],
+                  "premise": true,
+                  "reason": "مشاهده شده دیالوگ پس از rerun fragment باقی می‌ماند ولی دیگر پاسخگو نیست که با لاگ حذف fragment همخوانی دارد.",
+                  "source_ids": [
+                    "src_d79c9657f850afd2468f5916"
+                  ],
+                  "standalone": true,
+                  "support": "supported",
+                  "version_dependent": true,
+                  "version_limit": "نسخه‌های جدیدتر از 1.57.0 تا نسخه 1.64.0 بررسی شده‌اند.",
+                  "unit_id": "u_0faf83a90dd6767891be7ed6"
+                },
+                {
+                  "kind": "request_summary",
+                  "message_ids": [
+                    "usr_0f9bb1952c922fb83f7a0f9f"
+                  ],
+                  "premise": true,
+                  "reason": "خلاصه رفتار فعلی که دیالوگ پس از rerun fragment روی سایت ظاهر می‌شود ولی غیرواکنش‌گرا است.",
+                  "source_ids": [
+                    "src_d79c9657f850afd2468f5916"
+                  ],
+                  "standalone": true,
+                  "support": "supported",
+                  "version_dependent": true,
+                  "version_limit": "نسخه‌هایی پس از 1.57.0 که تغییر رفتار ایجاد شده‌اند.",
+                  "unit_id": "u_ac5ed929ac1ea43cb138d939"
+                }
+              ],
+              "unit_results": [
+                {
+                  "unit_id": "u_65373ecd6fcfad38348f4e94",
+                  "literal_valid": true,
+                  "semantic_support": "supported",
+                  "valid": false
+                },
+                {
+                  "unit_id": "u_07e6063aef518f6da349c420",
+                  "literal_valid": true,
+                  "semantic_support": "supported",
+                  "valid": false
+                },
+                {
+                  "unit_id": "u_a7abd0a88bd38df617b7b6d1",
+                  "literal_valid": true,
+                  "semantic_support": "supported",
+                  "valid": false
+                },
+                {
+                  "unit_id": "u_0faf83a90dd6767891be7ed6",
+                  "literal_valid": true,
+                  "semantic_support": "supported",
+                  "valid": false
+                },
+                {
+                  "unit_id": "u_ac5ed929ac1ea43cb138d939",
+                  "literal_valid": true,
+                  "semantic_support": "supported",
+                  "valid": false
+                }
+              ],
+              "valid_unit_ids": [],
+              "source_spans": [
+                {
+                  "evidence_id": "issue:16005:v2:e620d4c5f982acfd",
+                  "product_version": null,
+                  "span_id": "src_d79c9657f850afd2468f5916",
+                  "start": 31,
+                  "end": 63,
+                  "text": "```python\nimport streamlit as st"
+                }
+              ],
+              "linked_evidence_ids": [],
+              "orphan_evidence_ids": [
+                "issue:16005:v2:e620d4c5f982acfd"
+              ],
+              "novelty": {
+                "message_ids": [
+                  "usr_0f9bb1952c922fb83f7a0f9f"
+                ],
+                "reason": "درخواست لاگ خطاهای دقیق پس از رفتار غیرفعال شدن دیالوگ در شرایط خاص fragment که مستقیماً به موضوع گزارش شده ربط دارد، جدید است.",
+                "relation": "answers_requested_detail",
+                "status": "new",
+                "useful": true,
+                "effective_status": "new"
+              },
+              "failure_kind": "answer_quality"
+            },
+            "investigation_plan": {
+              "acceptance_condition": "زمانی که یک dialog شرطی در fragment ایجاد می‌شود و پس از rerun شدن fragment، dialog همچنان روی صفحه فعال و واکنش‌گرا باشد.",
+              "intent": "bug",
+              "known_report_spans": [
+                "### Expected Behavior",
+                "- [x] Yes, this used to work in a previous version.",
+                "- Streamlit version: 1.64.0",
+                "- Python version: Python 3.13.13"
+              ],
+              "missing_detail": "لطفاً گزارش لاگ‌های دقیق‌تر مربوط به خطای \"The fragment with id <id> does not exist anymore\" بعد از rerun ارائه دهید.",
+              "new_condition": "آیا اجرای کد در نسخه‌های بین 1.57.0 و 1.64.0 توسط شما تست شده است که مشخص شود چه نسخه‌ای دقیقاً رفتار معیوب را معرفی کرده؟",
+              "problem_summary": "conditionally rendered dialog inside fragment stops responding after fragment rerun in Streamlit 1.64.0",
+              "suggested_question": "آیا می‌توانید لاگ‌های کامل خطا را بعد از اینکه dialog غیرواکنش‌گرا می‌شود ارسال کنید؟"
+            },
+            "experiments": [
+              {
+                "action": "run repro.py",
+                "conditions": [
+                  {
+                    "dimension": "streamlit_version",
+                    "value": "1.57.0",
+                    "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py"
+                  },
+                  {
+                    "dimension": "app_variant",
+                    "value": "repro.py",
+                    "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py"
+                  }
+                ],
+                "status": "succeeded",
+                "result": "worked when ran with",
+                "quote": "worked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```",
+                "supersedes": "",
+                "id": "exp_f2e9cbd55af92c1a2593",
+                "action_key": "run_repro.py",
+                "sequence": 1,
+                "case_revision": 1,
+                "provenance": {
+                  "kind": "user_report",
+                  "message_index": 0,
+                  "at": "2026-10-09T10:16:38.842324+00:00"
+                },
+                "equivalence_known": true
+              },
+              {
+                "action": "run repro.py",
+                "conditions": [
+                  {
+                    "dimension": "streamlit_version",
+                    "value": "1.58.0",
+                    "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py"
+                  },
+                  {
+                    "dimension": "app_variant",
+                    "value": "repro.py",
+                    "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py"
+                  }
+                ],
+                "status": "failed",
+                "result": "stopped working at",
+                "quote": "stopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+                "supersedes": "",
+                "id": "exp_a85385be9790258f8141",
+                "action_key": "run_repro.py",
+                "sequence": 2,
+                "case_revision": 1,
+                "provenance": {
+                  "kind": "user_report",
+                  "message_index": 0,
+                  "at": "2026-10-09T10:16:38.842324+00:00"
+                },
+                "equivalence_known": true
+              }
+            ],
+            "memory_version": 3,
+            "handoff": {
+              "request_type": "bug",
+              "reported_problem": "Conditionally created dialog in a fragment stops logically existing after rerun of a fragment while still existing on the website\n\n### Checklist\n\n- [x] I have searched the [existing issues](https://github.com/streamlit/streamlit/issues) for similar issues.\n- [x] I added a very descriptive title to this issue.\n- [x] I have provided sufficient information below to help reproduce this issue.\n\n### Summary\n\nWhen a fragment gets rerun and it has conditionally rendered child dialog (for example guarded by a button being clicked) the dialog will stop being responsive while still existing on the page\n\n### Reproducible Code Example\n\n```Python\nimport streamlit as st\n\n\n@st.dialog(\"Dialog\", dismissible=False)\ndef show_dialog() -> None:\n    if st.button(\"Increment\"):\n        st.session_state[\"clicks\"] = st.session_state.get(\"clicks\", 0) + 1\n    st.write(\"Clicks:\", st.session_state.get(\"clicks\", 0))\n\n\n@st.fragment(run_every=5)\ndef parent_fragment() -> None:\n    st.session_state[\"parent_runs\"] = st.session_state.get(\"parent_runs\", 0) + 1\n    st.write(\"Parent runs:\", st.session_state[\"parent_runs\"])\n    if st.button(\"Open dialog\"):\n        show_dialog()\n\n\nst.write(\"Open the dialog, then wait for the parent fragment's next automatic rerun (every 5 seconds).\")\nparent_fragment()\n```\n\n### Steps To Reproduce\n\n1. Click Open dialog\n2. start clicking increment\n3. after parent reruns the dialog stops be",
+              "environment": {
+                "streamlit_version": "1.64.0",
+                "python_version": "3.13.13",
+                "os": "Linux 7.1.4-arch1-1",
+                "browser": "Firefox",
+                "symptom_scope": "dialog stops being responsive"
+              },
+              "experiments": [
+                {
+                  "action": "run repro.py",
+                  "conditions": [
+                    {
+                      "dimension": "streamlit_version",
+                      "value": "1.57.0",
+                      "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py"
+                    },
+                    {
+                      "dimension": "app_variant",
+                      "value": "repro.py",
+                      "quote": "uv run --no-project --with streamlit==1.57.0 streamlit run repro.py"
+                    }
+                  ],
+                  "status": "succeeded",
+                  "result": "worked when ran with",
+                  "quote": "worked when ran with\n```\nuv run --no-project --with streamlit==1.57.0 streamlit run repro.py\n```",
+                  "supersedes": "",
+                  "id": "exp_f2e9cbd55af92c1a2593",
+                  "action_key": "run_repro.py",
+                  "sequence": 1,
+                  "case_revision": 1,
+                  "provenance": {
+                    "kind": "user_report",
+                    "message_index": 0,
+                    "at": "2026-10-09T10:16:38.842324+00:00"
+                  },
+                  "equivalence_known": true
+                },
+                {
+                  "action": "run repro.py",
+                  "conditions": [
+                    {
+                      "dimension": "streamlit_version",
+                      "value": "1.58.0",
+                      "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py"
+                    },
+                    {
+                      "dimension": "app_variant",
+                      "value": "repro.py",
+                      "quote": "uv run --no-project --with streamlit==1.58.0 streamlit run repro.py"
+                    }
+                  ],
+                  "status": "failed",
+                  "result": "stopped working at",
+                  "quote": "stopped working at\n```\nuv run --no-project --with streamlit==1.58.0 streamlit run repro.py\n```",
+                  "supersedes": "",
+                  "id": "exp_a85385be9790258f8141",
+                  "action_key": "run_repro.py",
+                  "sequence": 2,
+                  "case_revision": 1,
+                  "provenance": {
+                    "kind": "user_report",
+                    "message_index": 0,
+                    "at": "2026-10-09T10:16:38.842324+00:00"
+                  },
+                  "equivalence_known": true
+                }
+              ],
+              "evidence": [],
+              "unknowns": [
+                "deployment",
+                "reproducible"
+              ],
+              "escalation_basis": "internal_review_failure",
+              "valid_findings": [],
+              "limitations": [
+                "محدودیت: علت و رفع مشکل مستقلاً تأیید نشده‌اند.",
+                "محدودیت: کد توقف `judge_rejected`؛ خطای داخلی ضرورت ارجاع پرونده را اثبات نمی‌کند."
+              ],
+              "maintainer_action": "اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.",
+              "feature": {}
+            },
+            "review_failures": [
+              {
+                "kind": "answer_quality",
+                "draft_version": "0d34f4a6ba05d1fb46ef5b74bbc2af8252ad8d0c78712b01d18b45b5104dfc13",
+                "findings": [
+                  {
+                    "criterion": "claim_support",
+                    "unit_id": "u_d90e9fe077b9da1d886f979b",
+                    "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+                  },
+                  {
+                    "criterion": "claim_support",
+                    "unit_id": "u_f2809337fff349d3f30398e3",
+                    "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+                  },
+                  {
+                    "criterion": "claim_support",
+                    "unit_id": "u_aecfc41961b18af06d51e9ed",
+                    "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+                  },
+                  {
+                    "criterion": "claim_support",
+                    "unit_id": "u_aecfc41961b18af06d51e9ed",
+                    "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود."
+                  },
+                  {
+                    "criterion": "claim_support",
+                    "unit_id": "u_bd3b1bec63236af810a494ed",
+                    "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+                  },
+                  {
+                    "criterion": "claim_support",
+                    "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+                  }
+                ]
+              },
+              {
+                "kind": "answer_quality",
+                "draft_version": "dc7fc040e0ccfa57c399be22ba124f63c0f417ba997ccb4efb734c9ae4d3a2a2",
+                "findings": [
+                  {
+                    "criterion": "claim_support",
+                    "unit_id": "u_65373ecd6fcfad38348f4e94",
+                    "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+                  },
+                  {
+                    "criterion": "claim_support",
+                    "unit_id": "u_07e6063aef518f6da349c420",
+                    "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+                  },
+                  {
+                    "criterion": "claim_support",
+                    "unit_id": "u_a7abd0a88bd38df617b7b6d1",
+                    "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+                  },
+                  {
+                    "criterion": "claim_support",
+                    "unit_id": "u_0faf83a90dd6767891be7ed6",
+                    "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+                  },
+                  {
+                    "criterion": "claim_support",
+                    "unit_id": "u_ac5ed929ac1ea43cb138d939",
+                    "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+                  },
+                  {
+                    "criterion": "claim_support",
+                    "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "status": "pending"
+      },
+      "retrieved": [
+        {
+          "id": "issue:16005:v2:e620d4c5f982acfd",
+          "source_id": "issue:16005",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/16005",
+          "section": "Reproducible Code Example",
+          "product_version": null,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "retrieval_score": 0.03030303
+        },
+        {
+          "id": "docs:fragments:v2:cb48967ad96007e2",
+          "source_id": "docs:fragments",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "section": "Restricted commands during parallel execution",
+          "product_version": null,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "retrieval_score": 0.03837652
+        },
+        {
+          "id": "docs:fragments:v2:f8d97e183dd7d878",
+          "source_id": "docs:fragments",
+          "kind": "docs",
+          "url": "https://github.com/streamlit/docs/blob/695e6ce2fb1b23afc6df66b40420ab0013ad72fd/content/develop/concepts/architecture/fragments.md",
+          "section": "Defining and calling a fragment",
+          "product_version": null,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "official_documentation",
+          "retrieval_score": 0.03385836
+        },
+        {
+          "id": "issue:11266:v2:b0b00ad71c9d0511",
+          "source_id": "issue:11266",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/11266",
+          "section": "Additional Information",
+          "product_version": null,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "retrieval_score": 0.02895833
+        },
+        {
+          "id": "issue:11266:v2:5df5b300853d70e7",
+          "source_id": "issue:11266",
+          "kind": "issue",
+          "url": "https://github.com/streamlit/streamlit/issues/11266",
+          "section": "Reproducible Code Example",
+          "product_version": null,
+          "version_relation": "unknown",
+          "temporal_status": "not_historical",
+          "source_authority": "reported_observation",
+          "retrieval_score": 0.0300905
+        }
+      ],
+      "steps": 10,
+      "model_calls": 6,
+      "max_calls": 8,
+      "repair_count": 1,
+      "judge": {
+        "verdict": "repair",
+        "assessments": {
+          "avoids_repeated_check": {
+            "reason": "تمامی واحدها به صورت دقیق و بدون تکرار بررسی شده‌اند.",
+            "score": 2
+          },
+          "claim_support": {
+            "reason": "تمام واحدها مرتبط با مشکل و رفتار گزارش شده هستند و با جزئیات کافی پشتیبانی شده‌اند.",
+            "score": 2
+          },
+          "injection_resistance": {
+            "reason": "هیچ نشانه‌ای از داده ناخواسته یا غیرمرتبط در پاسخ‌ها و توضیحات دیده نمی‌شود.",
+            "score": 2
+          },
+          "next_step_usefulness": {
+            "reason": "درخواست ارسال لاگ‌های دقیق خطا برای تشخیص بهتر مشکل مفید و ضروری است.",
+            "score": 2
+          },
+          "relevance": {
+            "reason": "تمامی واحدها و پیشنهادات مستقیماً مربوط به مشکل گزارش شده در دیالوگ شرطی و رفتار fragment هستند.",
+            "score": 2
+          },
+          "version_fit": {
+            "reason": "گزارش مشکل و تحلیل مرتبط با نسخه‌های مختلف Streamlit است و در نسخه 1.57.0 به بعد رخ داده است.",
+            "score": 2
+          }
+        },
+        "scores": {
+          "avoids_repeated_check": 2,
+          "claim_support": 2,
+          "injection_resistance": 2,
+          "next_step_usefulness": 2,
+          "relevance": 2,
+          "version_fit": 2
+        },
+        "findings": [
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_65373ecd6fcfad38348f4e94",
+            "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_07e6063aef518f6da349c420",
+            "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_a7abd0a88bd38df617b7b6d1",
+            "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_0faf83a90dd6767891be7ed6",
+            "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+          },
+          {
+            "criterion": "claim_support",
+            "unit_id": "u_ac5ed929ac1ea43cb138d939",
+            "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+          },
+          {
+            "criterion": "claim_support",
+            "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+          }
+        ],
+        "draft_version": "dc7fc040e0ccfa57c399be22ba124f63c0f417ba997ccb4efb734c9ae4d3a2a2",
+        "unit_reviews": [
+          {
+            "kind": "question",
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "premise": true,
+            "reason": "درخواست کسب لاگ‌های کامل خطا برای رفع ابهام در بروز مشکل بسیار منطقی است.",
+            "source_ids": [
+              "src_d79c9657f850afd2468f5916"
+            ],
+            "standalone": true,
+            "support": "supported",
+            "version_dependent": true,
+            "version_limit": "مرتبط با نسخه‌هایی که مشکل را ایجاد کرده‌اند.",
+            "unit_id": "u_65373ecd6fcfad38348f4e94"
+          },
+          {
+            "kind": "next_step",
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "premise": true,
+            "reason": "درخواست مشخص ارسال پیام خطای دقیق با شناسه حذف fragment به تشخیص بهتر علت کمک می‌کند.",
+            "source_ids": [
+              "src_d79c9657f850afd2468f5916"
+            ],
+            "standalone": true,
+            "support": "supported",
+            "version_dependent": true,
+            "version_limit": "بعد از نسخه 1.57.0 که مشکل بروز کرده است.",
+            "unit_id": "u_07e6063aef518f6da349c420"
+          },
+          {
+            "kind": "technical_claim",
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "premise": true,
+            "reason": "جزئیات دقیق‌تری از مشکل و خطای حذف fragment در گزارش ارائه شده که درست است.",
+            "source_ids": [
+              "src_d79c9657f850afd2468f5916"
+            ],
+            "standalone": true,
+            "support": "supported",
+            "version_dependent": true,
+            "version_limit": "برای نسخه‌های بعد از 1.57.0 و تا 1.64.0 مصداق دارد.",
+            "unit_id": "u_a7abd0a88bd38df617b7b6d1"
+          },
+          {
+            "kind": "hypothesis",
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "premise": true,
+            "reason": "مشاهده شده دیالوگ پس از rerun fragment باقی می‌ماند ولی دیگر پاسخگو نیست که با لاگ حذف fragment همخوانی دارد.",
+            "source_ids": [
+              "src_d79c9657f850afd2468f5916"
+            ],
+            "standalone": true,
+            "support": "supported",
+            "version_dependent": true,
+            "version_limit": "نسخه‌های جدیدتر از 1.57.0 تا نسخه 1.64.0 بررسی شده‌اند.",
+            "unit_id": "u_0faf83a90dd6767891be7ed6"
+          },
+          {
+            "kind": "request_summary",
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "premise": true,
+            "reason": "خلاصه رفتار فعلی که دیالوگ پس از rerun fragment روی سایت ظاهر می‌شود ولی غیرواکنش‌گرا است.",
+            "source_ids": [
+              "src_d79c9657f850afd2468f5916"
+            ],
+            "standalone": true,
+            "support": "supported",
+            "version_dependent": true,
+            "version_limit": "نسخه‌هایی پس از 1.57.0 که تغییر رفتار ایجاد شده‌اند.",
+            "unit_id": "u_ac5ed929ac1ea43cb138d939"
+          }
+        ],
+        "unit_results": [
+          {
+            "unit_id": "u_65373ecd6fcfad38348f4e94",
+            "literal_valid": true,
+            "semantic_support": "supported",
+            "valid": false
+          },
+          {
+            "unit_id": "u_07e6063aef518f6da349c420",
+            "literal_valid": true,
+            "semantic_support": "supported",
+            "valid": false
+          },
+          {
+            "unit_id": "u_a7abd0a88bd38df617b7b6d1",
+            "literal_valid": true,
+            "semantic_support": "supported",
+            "valid": false
+          },
+          {
+            "unit_id": "u_0faf83a90dd6767891be7ed6",
+            "literal_valid": true,
+            "semantic_support": "supported",
+            "valid": false
+          },
+          {
+            "unit_id": "u_ac5ed929ac1ea43cb138d939",
+            "literal_valid": true,
+            "semantic_support": "supported",
+            "valid": false
+          }
+        ],
+        "valid_unit_ids": [],
+        "source_spans": [
+          {
+            "evidence_id": "issue:16005:v2:e620d4c5f982acfd",
+            "product_version": null,
+            "span_id": "src_d79c9657f850afd2468f5916",
+            "start": 31,
+            "end": 63,
+            "text": "```python\nimport streamlit as st"
+          }
+        ],
+        "linked_evidence_ids": [],
+        "orphan_evidence_ids": [
+          "issue:16005:v2:e620d4c5f982acfd"
+        ],
+        "novelty": {
+          "message_ids": [
+            "usr_0f9bb1952c922fb83f7a0f9f"
+          ],
+          "reason": "درخواست لاگ خطاهای دقیق پس از رفتار غیرفعال شدن دیالوگ در شرایط خاص fragment که مستقیماً به موضوع گزارش شده ربط دارد، جدید است.",
+          "relation": "answers_requested_detail",
+          "status": "new",
+          "useful": true,
+          "effective_status": "new"
+        },
+        "failure_kind": "answer_quality"
+      },
+      "pipeline": [
+        {
+          "stage": "extract",
+          "status": "ok",
+          "keys": [
+            "browser",
+            "os",
+            "python_version",
+            "streamlit_version",
+            "symptom_scope"
+          ],
+          "facts_with_quotes": [
+            {
+              "key": "streamlit_version",
+              "quote": "- Streamlit version: 1.64.0",
+              "value": "1.64.0"
+            },
+            {
+              "key": "python_version",
+              "quote": "- Python version: Python 3.13.13",
+              "value": "3.13.13"
+            },
+            {
+              "key": "os",
+              "quote": "- Operating System: Linux 7.1.4-arch1-1",
+              "value": "Linux 7.1.4-arch1-1"
+            },
+            {
+              "key": "browser",
+              "quote": "- Browser: Firefox",
+              "value": "Firefox"
+            },
+            {
+              "key": "symptom_scope",
+              "quote": "dialog stops being responsive",
+              "value": "dialog stops being responsive"
+            },
+            {
+              "key": "reproducible",
+              "quote": "I have provided sufficient information below to help reproduce this issue.",
+              "value": "true"
+            }
+          ],
+          "checks": [
+            "- [x] Yes, this used to work in a previous version."
+          ],
+          "ambiguities": [
+            "ابهام: وضعیت بازتولید بدون نتیجهٔ صریح کنار گذاشته شد."
+          ]
+        },
+        {
+          "stage": "read_case",
+          "revision": 1
+        },
+        {
+          "stage": "retrieve",
+          "method": "bm25+dense+rrf+mmr",
+          "rrf_k": 60,
+          "mmr_lambda": 0.7,
+          "components": {
+            "dense": true,
+            "mmr": true,
+            "quality": true,
+            "rerank": true,
+            "judge": true,
+            "rewrite": true
+          },
+          "embedding": {
+            "texts": 1,
+            "unique_missing": 0,
+            "cache_hits": 1,
+            "batches": 0,
+            "usage": [],
+            "identity": {
+              "provider": "https://api.metisai.ir/openai/v1",
+              "model": "text-embedding-3-small",
+              "normalization": "whitespace-v1",
+              "encoding_format": "float"
+            }
+          },
+          "candidates": [
+            "docs:fragments:v2:cb48967ad96007e2",
+            "docs:session_state:v2:58dde40a15de068f",
+            "docs:button-behavior-and-examples:v2:3a3ee4c8ee068999",
+            "docs:fragments:v2:f8d97e183dd7d878",
+            "issue:16005:v2:e620d4c5f982acfd",
+            "issue:11266:v2:5df5b300853d70e7",
+            "issue:16708:v2:7b2f3e555aef7fe6",
+            "issue:11266:v2:b0b00ad71c9d0511"
+          ],
+          "quality_filter": true,
+          "excluded_chunks": 2089,
+          "as_of": null,
+          "temporal_policy": "current_snapshot",
+          "version_warnings": [
+            "docs:fragments:v2:cb48967ad96007e2",
+            "docs:session_state:v2:58dde40a15de068f",
+            "docs:button-behavior-and-examples:v2:3a3ee4c8ee068999",
+            "docs:fragments:v2:f8d97e183dd7d878",
+            "issue:16005:v2:e620d4c5f982acfd",
+            "issue:11266:v2:5df5b300853d70e7",
+            "issue:16708:v2:7b2f3e555aef7fe6",
+            "issue:11266:v2:b0b00ad71c9d0511"
+          ]
+        },
+        {
+          "stage": "rerank",
+          "status": "ok",
+          "ids": [
+            "issue:16005:v2:e620d4c5f982acfd",
+            "docs:fragments:v2:cb48967ad96007e2",
+            "docs:fragments:v2:f8d97e183dd7d878",
+            "issue:11266:v2:b0b00ad71c9d0511",
+            "issue:11266:v2:5df5b300853d70e7",
+            "docs:session_state:v2:58dde40a15de068f",
+            "docs:button-behavior-and-examples:v2:3a3ee4c8ee068999",
+            "issue:16708:v2:7b2f3e555aef7fe6"
+          ]
+        },
+        {
+          "stage": "context_pack",
+          "ids": [
+            "issue:16005:v2:e620d4c5f982acfd",
+            "docs:fragments:v2:cb48967ad96007e2",
+            "docs:fragments:v2:f8d97e183dd7d878",
+            "issue:11266:v2:b0b00ad71c9d0511",
+            "issue:11266:v2:5df5b300853d70e7"
+          ],
+          "utf8_bytes": 4339
+        },
+        {
+          "stage": "draft",
+          "status": "produced"
+        },
+        {
+          "stage": "judge",
+          "attempt": 1,
+          "verdict": "repair",
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "تمام واحدهای متن یک بار بررسی دقیق شدند و هیچ بازبینی تکراری انجام نگرفت.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "واحدها مستقیماً طبق گزارش کاربر و گزارش‌های آزمایشی موجود به موضوع خطا و رفتار dialog اشاره می‌کنند و شواهد پشتیبان در منابع نیز موجود است.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "پرسش‌ها و فرضیه‌ها مستقیماً مرتبط به رفتار نرم‌افزاری و خطاهای مشخص هستند که نمی‌توان آنها را با حمله اطلاعاتی یا دستکاری نادرست تلقی کرد.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "درخواست برای ارسال لاگ‌های کامل خطا و توضیحات بیشتر به منظور تحلیل بهتر، بسیار مفید و گام منطقی بعدی است.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "تمام واحدها به دقت به موضوع مسأله اصلی یعنی مشکل dialog پس از rerun مرتبط هستند.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "مسأله به نسخه‌های مشخصی از Streamlit (1.57.0 و 1.58.0) مرتبط است و بررسی خاصی بر مبنای نسخه انجام شده است، بنابراین مناسب نسخه فعلی است.",
+              "score": 2
+            }
+          },
+          "scores": {
+            "avoids_repeated_check": 2,
+            "claim_support": 2,
+            "injection_resistance": 2,
+            "next_step_usefulness": 2,
+            "relevance": 2,
+            "version_fit": 2
+          },
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_d90e9fe077b9da1d886f979b",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_f2809337fff349d3f30398e3",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_aecfc41961b18af06d51e9ed",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_aecfc41961b18af06d51e9ed",
+              "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_bd3b1bec63236af810a494ed",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+            }
+          ],
+          "draft_version": "0d34f4a6ba05d1fb46ef5b74bbc2af8252ad8d0c78712b01d18b45b5104dfc13",
+          "unit_reviews": [
+            {
+              "kind": "question",
+              "message_ids": [
+                "usr_0f9bb1952c922fb83f7a0f9f"
+              ],
+              "premise": true,
+              "reason": "پرسش برای تکمیل اطلاعات و ردیابی دقیق خطا ضروری است.",
+              "source_ids": [],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": false,
+              "version_limit": "",
+              "unit_id": "u_d90e9fe077b9da1d886f979b"
+            },
+            {
+              "kind": "next_step",
+              "message_ids": [
+                "usr_0f9bb1952c922fb83f7a0f9f"
+              ],
+              "premise": true,
+              "reason": "درخواست ارسال لاگ‌ها برای کمک به تشخیص ریشه‌ی مشکل گام منطقی بعدی است.",
+              "source_ids": [],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": false,
+              "version_limit": "",
+              "unit_id": "u_f2809337fff349d3f30398e3"
+            },
+            {
+              "kind": "reported_fact",
+              "message_ids": [
+                "usr_0f9bb1952c922fb83f7a0f9f"
+              ],
+              "premise": true,
+              "reason": "این جمله با دقت دلیل اصلی مشکل را از دیدگاه گزارش کاربر بیان کرده است و با متن کد و لاگ‌ها همخوانی دارد.",
+              "source_ids": [],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": true,
+              "version_limit": "مشکل مربوط به بعد از نسخه 1.57.0 است",
+              "unit_id": "u_aecfc41961b18af06d51e9ed"
+            },
+            {
+              "kind": "hypothesis",
+              "message_ids": [
+                "usr_0f9bb1952c922fb83f7a0f9f"
+              ],
+              "premise": true,
+              "reason": "فرضیه بیان شده منطقی است و به طور مستقیم از رفتار گزارش شده استخراج شده است و با شواهد آزمایشی پشتیبانی می‌شود.",
+              "source_ids": [],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": true,
+              "version_limit": "مشکل از نسخه 1.58.0 شروع شده است",
+              "unit_id": "u_bd3b1bec63236af810a494ed"
+            }
+          ],
+          "unit_results": [
+            {
+              "unit_id": "u_d90e9fe077b9da1d886f979b",
+              "literal_valid": true,
+              "semantic_support": "supported",
+              "valid": false
+            },
+            {
+              "unit_id": "u_f2809337fff349d3f30398e3",
+              "literal_valid": true,
+              "semantic_support": "supported",
+              "valid": false
+            },
+            {
+              "unit_id": "u_aecfc41961b18af06d51e9ed",
+              "literal_valid": true,
+              "semantic_support": "supported",
+              "valid": false
+            },
+            {
+              "unit_id": "u_bd3b1bec63236af810a494ed",
+              "literal_valid": true,
+              "semantic_support": "supported",
+              "valid": false
+            }
+          ],
+          "valid_unit_ids": [],
+          "source_spans": [
+            {
+              "evidence_id": "issue:16005:v2:e620d4c5f982acfd",
+              "product_version": null,
+              "span_id": "src_908a6f6cc59ebbba8c40fa50",
+              "start": 66,
+              "end": 282,
+              "text": "@st.dialog(\"My dialog\")\ndef show_dialog():\n    st.write(\"dialog content\")\n    with st.popover(\"Open popover\"):\n        fruit = st.selectbox(\"Fruit\", [\"Apple\", \"Banana\", \"Cherry\"])\n        st.write(f\"picked: {fruit}\")"
+            }
+          ],
+          "linked_evidence_ids": [],
+          "orphan_evidence_ids": [
+            "issue:16005:v2:e620d4c5f982acfd"
+          ],
+          "novelty": {
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "reason": "گزارش کاربر و شرح مشکل به صورت دقیق و با ارائه کد نمونه به این مسأله اختصاص یافته است که پیش‌تر مشابه آن دیده نشده است.",
+            "relation": "unknown",
+            "status": "new",
+            "useful": true,
+            "effective_status": "new"
+          },
+          "failure_kind": "answer_quality",
+          "evaluation_kind": "model"
+        },
+        {
+          "stage": "repair",
+          "attempt": 1
+        },
+        {
+          "stage": "judge",
+          "attempt": 2,
+          "verdict": "repair",
+          "assessments": {
+            "avoids_repeated_check": {
+              "reason": "تمامی واحدها به صورت دقیق و بدون تکرار بررسی شده‌اند.",
+              "score": 2
+            },
+            "claim_support": {
+              "reason": "تمام واحدها مرتبط با مشکل و رفتار گزارش شده هستند و با جزئیات کافی پشتیبانی شده‌اند.",
+              "score": 2
+            },
+            "injection_resistance": {
+              "reason": "هیچ نشانه‌ای از داده ناخواسته یا غیرمرتبط در پاسخ‌ها و توضیحات دیده نمی‌شود.",
+              "score": 2
+            },
+            "next_step_usefulness": {
+              "reason": "درخواست ارسال لاگ‌های دقیق خطا برای تشخیص بهتر مشکل مفید و ضروری است.",
+              "score": 2
+            },
+            "relevance": {
+              "reason": "تمامی واحدها و پیشنهادات مستقیماً مربوط به مشکل گزارش شده در دیالوگ شرطی و رفتار fragment هستند.",
+              "score": 2
+            },
+            "version_fit": {
+              "reason": "گزارش مشکل و تحلیل مرتبط با نسخه‌های مختلف Streamlit است و در نسخه 1.57.0 به بعد رخ داده است.",
+              "score": 2
+            }
+          },
+          "scores": {
+            "avoids_repeated_check": 2,
+            "claim_support": 2,
+            "injection_resistance": 2,
+            "next_step_usefulness": 2,
+            "relevance": 2,
+            "version_fit": 2
+          },
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_65373ecd6fcfad38348f4e94",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_07e6063aef518f6da349c420",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_a7abd0a88bd38df617b7b6d1",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_0faf83a90dd6767891be7ed6",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_ac5ed929ac1ea43cb138d939",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+            }
+          ],
+          "draft_version": "dc7fc040e0ccfa57c399be22ba124f63c0f417ba997ccb4efb734c9ae4d3a2a2",
+          "unit_reviews": [
+            {
+              "kind": "question",
+              "message_ids": [
+                "usr_0f9bb1952c922fb83f7a0f9f"
+              ],
+              "premise": true,
+              "reason": "درخواست کسب لاگ‌های کامل خطا برای رفع ابهام در بروز مشکل بسیار منطقی است.",
+              "source_ids": [
+                "src_d79c9657f850afd2468f5916"
+              ],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": true,
+              "version_limit": "مرتبط با نسخه‌هایی که مشکل را ایجاد کرده‌اند.",
+              "unit_id": "u_65373ecd6fcfad38348f4e94"
+            },
+            {
+              "kind": "next_step",
+              "message_ids": [
+                "usr_0f9bb1952c922fb83f7a0f9f"
+              ],
+              "premise": true,
+              "reason": "درخواست مشخص ارسال پیام خطای دقیق با شناسه حذف fragment به تشخیص بهتر علت کمک می‌کند.",
+              "source_ids": [
+                "src_d79c9657f850afd2468f5916"
+              ],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": true,
+              "version_limit": "بعد از نسخه 1.57.0 که مشکل بروز کرده است.",
+              "unit_id": "u_07e6063aef518f6da349c420"
+            },
+            {
+              "kind": "technical_claim",
+              "message_ids": [
+                "usr_0f9bb1952c922fb83f7a0f9f"
+              ],
+              "premise": true,
+              "reason": "جزئیات دقیق‌تری از مشکل و خطای حذف fragment در گزارش ارائه شده که درست است.",
+              "source_ids": [
+                "src_d79c9657f850afd2468f5916"
+              ],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": true,
+              "version_limit": "برای نسخه‌های بعد از 1.57.0 و تا 1.64.0 مصداق دارد.",
+              "unit_id": "u_a7abd0a88bd38df617b7b6d1"
+            },
+            {
+              "kind": "hypothesis",
+              "message_ids": [
+                "usr_0f9bb1952c922fb83f7a0f9f"
+              ],
+              "premise": true,
+              "reason": "مشاهده شده دیالوگ پس از rerun fragment باقی می‌ماند ولی دیگر پاسخگو نیست که با لاگ حذف fragment همخوانی دارد.",
+              "source_ids": [
+                "src_d79c9657f850afd2468f5916"
+              ],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": true,
+              "version_limit": "نسخه‌های جدیدتر از 1.57.0 تا نسخه 1.64.0 بررسی شده‌اند.",
+              "unit_id": "u_0faf83a90dd6767891be7ed6"
+            },
+            {
+              "kind": "request_summary",
+              "message_ids": [
+                "usr_0f9bb1952c922fb83f7a0f9f"
+              ],
+              "premise": true,
+              "reason": "خلاصه رفتار فعلی که دیالوگ پس از rerun fragment روی سایت ظاهر می‌شود ولی غیرواکنش‌گرا است.",
+              "source_ids": [
+                "src_d79c9657f850afd2468f5916"
+              ],
+              "standalone": true,
+              "support": "supported",
+              "version_dependent": true,
+              "version_limit": "نسخه‌هایی پس از 1.57.0 که تغییر رفتار ایجاد شده‌اند.",
+              "unit_id": "u_ac5ed929ac1ea43cb138d939"
+            }
+          ],
+          "unit_results": [
+            {
+              "unit_id": "u_65373ecd6fcfad38348f4e94",
+              "literal_valid": true,
+              "semantic_support": "supported",
+              "valid": false
+            },
+            {
+              "unit_id": "u_07e6063aef518f6da349c420",
+              "literal_valid": true,
+              "semantic_support": "supported",
+              "valid": false
+            },
+            {
+              "unit_id": "u_a7abd0a88bd38df617b7b6d1",
+              "literal_valid": true,
+              "semantic_support": "supported",
+              "valid": false
+            },
+            {
+              "unit_id": "u_0faf83a90dd6767891be7ed6",
+              "literal_valid": true,
+              "semantic_support": "supported",
+              "valid": false
+            },
+            {
+              "unit_id": "u_ac5ed929ac1ea43cb138d939",
+              "literal_valid": true,
+              "semantic_support": "supported",
+              "valid": false
+            }
+          ],
+          "valid_unit_ids": [],
+          "source_spans": [
+            {
+              "evidence_id": "issue:16005:v2:e620d4c5f982acfd",
+              "product_version": null,
+              "span_id": "src_d79c9657f850afd2468f5916",
+              "start": 31,
+              "end": 63,
+              "text": "```python\nimport streamlit as st"
+            }
+          ],
+          "linked_evidence_ids": [],
+          "orphan_evidence_ids": [
+            "issue:16005:v2:e620d4c5f982acfd"
+          ],
+          "novelty": {
+            "message_ids": [
+              "usr_0f9bb1952c922fb83f7a0f9f"
+            ],
+            "reason": "درخواست لاگ خطاهای دقیق پس از رفتار غیرفعال شدن دیالوگ در شرایط خاص fragment که مستقیماً به موضوع گزارش شده ربط دارد، جدید است.",
+            "relation": "answers_requested_detail",
+            "status": "new",
+            "useful": true,
+            "effective_status": "new"
+          },
+          "failure_kind": "answer_quality",
+          "evaluation_kind": "model"
+        },
+        {
+          "stage": "prepare_proposal",
+          "id": "a6693ba51ce3abcf5935c703",
+          "hash": "9a2c71dae6736b773acee5cb7d0f21ed801a11eaa23c49f907db28a15b8a28fa",
+          "auto_execute": false
+        }
+      ],
+      "usage": {
+        "mode": "live",
+        "provider_requests": 5,
+        "cost_usd": 0.0174196,
+        "reserved_usd": 0,
+        "stages": [
+          {
+            "mode": "cached_live",
+            "cost_usd": 0,
+            "provider_requests": 0,
+            "kind": "extract",
+            "original_usage": {
+              "mode": "live",
+              "provider_requests": 1,
+              "kind": "extract",
+              "input_tokens": 1949,
+              "output_tokens": 477,
+              "cost_usd": 0.00169708,
+              "ledger_id": "d953d01e2929a78e9bcc496d"
+            }
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "rerank",
+            "input_tokens": 6954,
+            "output_tokens": 91,
+            "cost_usd": 0.0032199200000000002,
+            "ledger_id": "e75f25154f7fca957b984ff6"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "chat",
+            "input_tokens": 6858,
+            "output_tokens": 333,
+            "cost_usd": 0.0036035999999999998,
+            "ledger_id": "d50739e538b44cc09b934f68"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "judge",
+            "input_tokens": 3614,
+            "output_tokens": 837,
+            "cost_usd": 0.0030632800000000003,
+            "ledger_id": "9c72fcff5e3689f32a59dc9d"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "repair",
+            "input_tokens": 8353,
+            "output_tokens": 301,
+            "cost_usd": 0.00420508,
+            "ledger_id": "9ad54713835a2791d610c70c"
+          },
+          {
+            "mode": "live",
+            "provider_requests": 1,
+            "kind": "judge",
+            "input_tokens": 3519,
+            "output_tokens": 1011,
+            "cost_usd": 0.0033277199999999997,
+            "ledger_id": "f12329be46263ee0fd38066a"
+          }
+        ],
+        "charged_or_reserved_usd": 0.01741959999999998
+      },
+      "validation_error": "judge_rejected",
+      "review_failures": [
+        {
+          "kind": "answer_quality",
+          "draft_version": "0d34f4a6ba05d1fb46ef5b74bbc2af8252ad8d0c78712b01d18b45b5104dfc13",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_d90e9fe077b9da1d886f979b",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_f2809337fff349d3f30398e3",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_aecfc41961b18af06d51e9ed",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_aecfc41961b18af06d51e9ed",
+              "reason": "شاهد: انتساب آزاد کافی نیست؛ گزارش کاربر باید عبارت دقیق و محصور پیام باشد، یا ادعای فنی جدا بررسی شود."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_bd3b1bec63236af810a494ed",
+              "reason": "شاهد: ادعای فنی یا پیش‌فرض پشتوانهٔ مستقیم ندارد."
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+            }
+          ]
+        },
+        {
+          "kind": "answer_quality",
+          "draft_version": "dc7fc040e0ccfa57c399be22ba124f63c0f417ba997ccb4efb734c9ae4d3a2a2",
+          "findings": [
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_65373ecd6fcfad38348f4e94",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_07e6063aef518f6da349c420",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_a7abd0a88bd38df617b7b6d1",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_0faf83a90dd6767891be7ed6",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "unit_id": "u_ac5ed929ac1ea43cb138d939",
+              "reason": "شاهد: سازگاری نسخه نامعلوم است؛ محدودیت در واحد پاسخ نیست."
+            },
+            {
+              "criterion": "claim_support",
+              "reason": "استناد: منبع انتخاب‌شده هیچ واحد معتبر باقی‌مانده را پشتیبانی نمی‌کند."
+            }
+          ]
+        }
+      ],
+      "reviewed_draft": {
+        "draft_version": "dc7fc040e0ccfa57c399be22ba124f63c0f417ba997ccb4efb734c9ae4d3a2a2",
+        "case_id": "GH17011",
+        "case_revision": 1,
+        "generation": 1,
+        "units": [
+          {
+            "unit_id": "u_65373ecd6fcfad38348f4e94",
+            "field": "question",
+            "text": "آیا می‌توانید لاگ‌های کامل خطا را پس از غیر واکنش‌گرا شدن dialog ارسال کنید؟",
+            "start": 0,
+            "end": 76
+          },
+          {
+            "unit_id": "u_07e6063aef518f6da349c420",
+            "field": "next_step",
+            "text": "کاربر لاگ‌های دقیق خطا و پیغام \"The fragment with id <id> does not exist anymore\" را پس از بروز مشکل ارسال کند.",
+            "start": 0,
+            "end": 111
+          },
+          {
+            "unit_id": "u_a7abd0a88bd38df617b7b6d1",
+            "field": "rationale",
+            "text": "از گزارش و کد نمونه مشخص است که دیالوگ شرطی داخل یک fragment پس از rerun fragment همچنان نمایش داده می‌شود ولی به کاربر پاسخ نمی‌دهد و لاگ خطای حذف fragment نشان داده می‌شود. برای تداوم تشخیص علت این مشکل نیاز به لاگ‌های کامل خطا داریم.",
+            "start": 0,
+            "end": 236
+          },
+          {
+            "unit_id": "u_0faf83a90dd6767891be7ed6",
+            "field": "hypotheses.0",
+            "text": "دیالوگ شرطی در fragment پس از rerun کاملا حذف نشده ولی منطقا دیگر پاسخگو نیست.",
+            "start": 0,
+            "end": 78
+          },
+          {
+            "unit_id": "u_ac5ed929ac1ea43cb138d939",
+            "field": "feature_proposal.current_behavior",
+            "text": "dialog شرطی داخل fragment بعد از rerun fragment دیگر واکنش‌گرا نیست ولی روی سایت هنوز دیده می‌شود.",
+            "start": 0,
+            "end": 98
+          }
+        ]
+      },
+      "latency_seconds": 32.606121
+    },
+    "failure": null,
+    "elapsed_seconds": 32.64077199995518,
+    "usage": [
+      {
+        "mode": "cached_live",
+        "cost_usd": 0,
+        "provider_requests": 0,
+        "kind": "extract",
+        "original_usage": {
+          "mode": "live",
+          "provider_requests": 1,
+          "kind": "extract",
+          "input_tokens": 1949,
+          "output_tokens": 477,
+          "cost_usd": 0.00169708,
+          "ledger_id": "d953d01e2929a78e9bcc496d"
+        }
+      },
+      {
+        "mode": "live",
+        "provider_requests": 1,
+        "kind": "rerank",
+        "input_tokens": 6954,
+        "output_tokens": 91,
+        "cost_usd": 0.0032199200000000002,
+        "ledger_id": "e75f25154f7fca957b984ff6"
+      },
+      {
+        "mode": "live",
+        "provider_requests": 1,
+        "kind": "chat",
+        "input_tokens": 6858,
+        "output_tokens": 333,
+        "cost_usd": 0.0036035999999999998,
+        "ledger_id": "d50739e538b44cc09b934f68"
+      },
+      {
+        "mode": "live",
+        "provider_requests": 1,
+        "kind": "judge",
+        "input_tokens": 3614,
+        "output_tokens": 837,
+        "cost_usd": 0.0030632800000000003,
+        "ledger_id": "9c72fcff5e3689f32a59dc9d"
+      },
+      {
+        "mode": "live",
+        "provider_requests": 1,
+        "kind": "repair",
+        "input_tokens": 8353,
+        "output_tokens": 301,
+        "cost_usd": 0.00420508,
+        "ledger_id": "9ad54713835a2791d610c70c"
+      },
+      {
+        "mode": "live",
+        "provider_requests": 1,
+        "kind": "judge",
+        "input_tokens": 3519,
+        "output_tokens": 1011,
+        "cost_usd": 0.0033277199999999997,
+        "ledger_id": "f12329be46263ee0fd38066a"
+      }
+    ],
+    "pipeline_sha256": "64db05cd7d60cb29920c56966c01cf69df8097283bbad2c27952b4e072d1710e",
+    "pipeline_path": "F:\\Quera AI\\Project\\streamlit-casepilot\\artifacts\\quality_v25\\baseline\\src\\casepilot\\pipeline.py"
+  }
+]
