@@ -43,7 +43,6 @@ def packet(envelope,spans):
 def schema(c):
     def refs(keys): return {'type':'array','maxItems':min(3,len(keys)),'items':{'type':'string',**({'enum':list(keys)} if keys else {})}}
     def indices(n): return {'type':'array','maxItems':n,'items':{'type':'integer','minimum':0,'maximum':max(0,n-1)}}
-    short={'type':'string','maxLength':80}
     nonempty={'type':'string','minLength':1,'maxLength':80,'pattern':r'\S'}
     reviews={}
     for a,u in c['units'].items():
@@ -54,16 +53,16 @@ def schema(c):
             'i':{'type':'boolean'},'v':{'type':'boolean'},'l':indices(len(u['phrases'])),'r':nonempty})
     return obj({'b':{'type':'string','enum':[c['binding']]},'v':{'type':'string','enum':['accept','repair','escalate']},
         'a':{'type':'array','minItems':6,'maxItems':6,'items':{'type':'integer','enum':[0,1,2]}},
-        'r':{'type':'array','minItems':6,'maxItems':6,'items':short},'u':obj(reviews),
+        'r':{'type':'array','minItems':6,'maxItems':6,'items':nonempty},'u':obj(reviews),
         'n':obj({'u':{'type':'boolean'},'s':{'type':'string','enum':['new','repeated','unknown']},
             'm':refs(c['messages']),'l':{'type':'string','enum':['answers_requested_detail','equivalent_experiment','context_only','unknown']},'r':nonempty})})
 
 PROMPT=SEMANTIC_JUDGE_PROMPT+'''
 WIRE OVERRIDE: Return ONLY compact-semantic-1 matching the schema. The checks above are unchanged; use the compact_contract mappings, never old long IDs in output.
-b=exact binding. v=verdict. a=six scores in criteria_order. r=six Persian reasons, EMPTY for score2 and one decision-making sentence <=80 characters for a lower score. u=ALL u0/u1/... keys.
+b=exact binding. v=verdict. a=six scores in criteria_order. r=six NONEMPTY reasons: use exactly `ok` for score2 and one decision-making Persian sentence <=80 characters for a lower score. Never leave a low-score reason blank. u=ALL u0/u1/... keys.
 Per unit: k=index in kind_order; a=index in act_order; s=index in support_order; e=source aliases ONLY s0/...; m=user phrase aliases ONLY m0/... supporting the SPECIFIC request/observation. An alias refers to the exact [start,end) substring of its span in spans.messages; blank headings/unrelated context do not support a detail.
 p=ordered contiguous phrase indices of the technical assertion IN THIS unit, or [] when none. Unit phrases are [start,end) slices covering its ENTIRE text; choose enough complete slices to contain the assertion. Never omit an assertion hidden in a request/question. l=contiguous unit phrase indices containing a visible version limitation, or []. d=other unit aliases required as prerequisites. i=standalone; v=version-dependent. r=one short Persian reason <=80 characters. The server derives premise from p, resolves exact assertion text, exact user quotation and all full IDs; do not rewrite those texts.
-n: u=useful, s=novelty status, m=user phrase aliases, l=relation, r=short reason. All earlier semantic, attribution, dependency, version, novelty and six-score checks apply. No dropped units and no guessed aliases. Empty successful score reasons only reduce repetition; they do not reduce checks.
+n: u=useful, s=novelty status, m=user phrase aliases, l=relation, r=short reason. All earlier semantic, attribution, dependency, version, novelty and six-score checks apply. No dropped units and no guessed aliases.
 '''
 
 def decode(raw,c):
@@ -80,7 +79,7 @@ def decode(raw,c):
     check(raw['b']==c['binding'] and raw['v'] in ('accept','repair','escalate'))
     check(isinstance(raw['a'],list) and len(raw['a'])==6 and all(type(x) is int and x in (0,1,2) for x in raw['a']))
     check(isinstance(raw['r'],list) and len(raw['r'])==6)
-    assessments={k:{'score':s,'reason':reason(r,empty=s==2) or 'بررسی: ایرادی گزارش نشده است.'} for k,s,r in zip(CRITERIA,raw['a'],raw['r'])}
+    assessments={k:{'score':s,'reason':reason(r)} for k,s,r in zip(CRITERIA,raw['a'],raw['r'])}
     check(isinstance(raw['u'],dict) and set(raw['u'])==set(c['units']))
     entries=[]
     for a,u in c['units'].items():
@@ -115,5 +114,5 @@ def encode_fixture(result,c):
             'v':e['version_dependent'],'l':phrase(e['version_limit'],u),'r':e['reason'][:80]}
     n=result['novelty']
     return {'b':c['binding'] if result['draft_version']==c['draft_version'] else result['draft_version'],'v':result['verdict'],'a':[result['assessments'][k]['score'] for k in CRITERIA],
-        'r':[result['assessments'][k]['reason'][:80] if result['assessments'][k]['score']<2 else '' for k in CRITERIA],
+        'r':[result['assessments'][k]['reason'][:80] if result['assessments'][k]['score']<2 else 'ok' for k in CRITERIA],
         'u':entries,'n':{'u':n['useful'],'s':n['status'],'m':messages(n['message_ids']),'l':n['relation'],'r':n['reason'][:80]}}

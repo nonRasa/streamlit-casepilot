@@ -152,12 +152,13 @@ class CompactControls(unittest.TestCase):
         a,s,env,r,c,w=self.setup_review();self.assertEqual(checked_semantic_review(r,a,[],s,env)['verdict'],'accept')
     def test_empty_and_whitespace_reasons_are_forbidden_by_schema_and_decoder(self):
         a,s,env,r,c,w=self.setup_review();wire_schema=schema(c)
-        for field in (wire_schema['properties']['u']['properties']['u0']['properties']['r'],wire_schema['properties']['n']['properties']['r']):
+        for field in (wire_schema['properties']['r']['items'],wire_schema['properties']['u']['properties']['u0']['properties']['r'],wire_schema['properties']['n']['properties']['r']):
             self.assertEqual(field['minLength'],1);self.assertEqual(field['pattern'],r'\S')
         for reason in ('','   '):
-            for target in ('unit','novelty'):
+            for target in ('score','unit','novelty'):
                 bad=copy.deepcopy(w)
-                if target=='unit':bad['u']['u0']['r']=reason
+                if target=='score':bad['r'][0]=reason
+                elif target=='unit':bad['u']['u0']['r']=reason
                 else:bad['n']['r']=reason
                 with self.subTest(reason=reason,target=target),self.assertRaises(CasePilotError):decode(bad,c)
 

@@ -8,10 +8,24 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'src'))
 
 from casepilot.routing import handoff, proposed_status, proposal_actions, render_handoff
+from casepilot.pipeline import repair_feedback
 from casepilot.store import Store
 
 
 class ReviewFailureOutcomeTests(unittest.TestCase):
+    def test_repair_feedback_keeps_findings_without_duplicate_spans(self):
+        findings=[{'criterion':'claim_support','unit_id':'u1','reason':'Unsupported claim.'},
+                  {'criterion':'next_step_usefulness','reason':'Ask one detail.'}]
+        review={'failure_kind':'answer_quality','findings':findings,
+                'message_spans':[{'text':'x'*20000}],'unit_reviews':[{'text':'y'*20000}]}
+        envelope={'units':[{'unit_id':'u1','field':'rationale'}]}
+        compact=repair_feedback(review,envelope)
+        self.assertEqual(len(compact['findings']),2)
+        self.assertEqual(compact['findings'][0]['field'],'rationale')
+        self.assertEqual(compact['findings'][1]['field'],None)
+        self.assertNotIn('message_spans',compact)
+        self.assertLess(len(str(compact).encode()),1000)
+
     def test_internal_failure_does_not_propose_case_status_change(self):
         for code in ('judge_contract_error', 'invalid_judge', 'judge_rejected',
                      'provider_response_invalid', 'deterministic_review_failed'):
@@ -40,6 +54,29 @@ class ReviewFailureOutcomeTests(unittest.TestCase):
         self.assertIn('Works locally.', rendered)
         self.assertIn('نتیجهٔ مستقل تأیید نشده', rendered)
         self.assertNotIn('رفع مشکل تأیید شد', rendered)
+
+    def test_first_turn_failure_asks_only_missing_streamlit_version(self):
+        state = {'id':'case-a','messages':[{'role':'user','text':'3.5 GB upload kills the server.\nEDIT: I tried a Docker 4 GB limit, but it still failed.'}],
+                 'facts':{},'checks':['Docker 4 GB limit also failed.'],'experiments':[],
+                 'investigation_plan':{'intent':'bug'}}
+        packet=handoff(state,[],'judge_rejected')
+        self.assertIn('فقط نسخهٔ دقیق Streamlit',packet['maintainer_action'])
+        self.assertNotIn('پایتون',packet['maintainer_action'])
+        self.assertIn('Docker 4 GB',render_handoff(packet))
+        self.assertEqual(packet['reported_attempts'],['EDIT: I tried a Docker 4 GB limit, but it still failed.'])
+        self.assertIn('مستقلاً تأیید نشده',render_handoff(packet))
+        self.assertEqual(packet['valid_findings'],[])
+
+    def test_recovery_does_not_repeat_version_or_repurpose_feature(self):
+        base={'id':'case-a','messages':[{'role':'user','text':'Upload kills server.'}],
+              'facts':{},'checks':[],'experiments':[],'investigation_plan':{'intent':'bug'}}
+        for change in ({'facts':{'streamlit_version':'1.50.0'}},
+                       {'messages':[{'role':'user','text':'Streamlit version: 1.50.0; upload kills server.'}]},
+                       {'messages':base['messages']+[{'role':'user','text':'Still fails.'}]},
+                       {'investigation_plan':{'intent':'feature_request'}}):
+            with self.subTest(change=change):
+                packet=handoff(dict(base,**change),[],'judge_rejected')
+                self.assertNotIn('فقط نسخهٔ دقیق Streamlit',packet['maintainer_action'])
 
     def test_simulated_approval_executes_comment_once_without_status_change(self):
         with tempfile.TemporaryDirectory() as directory:

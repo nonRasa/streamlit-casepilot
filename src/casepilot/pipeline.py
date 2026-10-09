@@ -46,6 +46,12 @@ def fixture_role(role,packet):
     if role=='judge': return {'verdict':'accept','assessments':{k:{'score':2,'reason':'توضیح: بدل آزمایشی؛ داوری معنایی مدل نیست.'} for k in CRITERIA}}
     raise CasePilotError('unknown_role','نقش مدل شناخته‌شده نیست.')
 
+def repair_feedback(review,envelope):
+    """Keep every actionable finding without duplicating the judge's full spans."""
+    fields={u['unit_id']:u['field'] for u in envelope['units']}
+    return {'failure_kind':review.get('failure_kind'),
+            'findings':[dict(f,field=fields.get(f.get('unit_id'))) for f in review['findings']]}
+
 def run(agent,case_id,message,request_id,facts,checks,input_hash,components=None):
     options={'dense':True,'mmr':True,'rerank':True,'judge':True,'rewrite':True,'quality':True}; options.update(components or {})
     start=time.perf_counter(); client=agent.client; before=client.calls; stages=[]; usages=[]
@@ -189,7 +195,7 @@ def run(agent,case_id,message,request_id,facts,checks,input_hash,components=None
                     elif judge['verdict']=='escalate':
                         validation_error='judge_rejected'; answer=fallback(validation_error); break
                     else:
-                        answer=draft(state,packet,judge); event('repair',{'attempt':repair_count})
+                        answer=draft(state,packet,repair_feedback(judge,envelope)); event('repair',{'attempt':repair_count})
                     forced=deterministic_findings(answer,packet,state)
             elif forced:
                 validation_error='deterministic_review_failed'; answer=fallback(validation_error)
