@@ -136,7 +136,12 @@ def run(agent,case_id,message,request_id,facts,checks,input_hash,components=None
             search_args={'k':8,'version':state['facts'].get('streamlit_version'),'components':options}
             if options.get('as_of'): search_args['as_of']=options['as_of']
             candidates=agent.hybrid.search(query,**search_args)
-            retrieval_trace=agent.hybrid.last_trace; event('retrieve',retrieval_trace)
+            retrieval_trace=dict(agent.hybrid.last_trace)
+            if options['quality'] and state['facts'].get('streamlit_version'):
+                excluded=[r['id'] for r in candidates if r.get('version_relation')=='mismatch']
+                candidates=[r for r in candidates if r.get('version_relation')!='mismatch']
+                retrieval_trace['version_excluded_for_draft']=excluded
+            event('retrieve',retrieval_trace)
             usages.extend(retrieval_trace.get('embedding',{}).get('usage',[]))
             if candidates and options['rerank']:
                 try:

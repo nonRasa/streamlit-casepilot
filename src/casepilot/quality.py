@@ -6,7 +6,7 @@ snapshots and the private embedding cache remain reproducible.
 import re
 from .common import digest,canonical
 
-REVISION = 'v2.15b-version-comparison-contract'
+REVISION = 'v2.16-version-matched-evidence-and-plan'
 NONTECH = re.compile(r'(?i)^(checklist|related issues|additional context|community|voting|references|related pr|other issues)\b')
 BOILERPLATE = re.compile(r'(?i)searched.*(?:existing|similar).*issues|descriptive title|provided sufficient information|vote.*(?:issue|feature)|thumbs.up|community voting|please add.*reaction')
 FUTURE = re.compile(r'(?i)\b(?:proposal|proposed architecture|future architecture|design proposal|execution model proposal)\b')
@@ -63,7 +63,7 @@ def novelty_findings(answer,state):
     def add(reason): findings.append({'criterion':'avoids_repeated_check','reason':reason})
     full_error=bool(re.search(r'(?im)^\s*(?:full error|complete error|خطای کامل)\s*:',report) and
                     re.search(r'\b[A-Za-z_]\w*(?:Error|Exception)\s*:',report))
-    asks_error=bool(re.search(r'(?i)(?:send|provide|share|paste|show|ارسال|بفرست|ارائه|بگذار|در اختیار).{0,70}(?:full|complete|کامل).{0,30}(?:error|exception|خطا|ارور)|(?:full|complete|کامل).{0,30}(?:error|exception|خطا|ارور).{0,70}(?:send|provide|share|paste|show|ارسال|بفرست|ارائه)',q))
+    asks_error=bool(re.search(r'(?i)(?:send|provide|share|paste|show|ارسال|بفرست|ارائه|بگذار|در اختیار).{0,100}(?:full|complete|کامل).{0,30}(?:error|exception|خطا|ارور)|(?:full|complete|کامل).{0,30}(?:error|exception|خطا|ارور).{0,120}(?:send|provide|share|paste|show|ارسال|بفرست|ارائه)|(?:خطا|ارور)ی?\s*کامل.{0,100}(?:ارسال|بفرست|ارائه)',q))
     if full_error and asks_error:
         add('خطا: متن کامل خطا با نام استثنا در گزارش آمده است؛ تنها بخش واقعاً غایب را بخواهید.')
     asks_class=bool(re.search(r'(?i)(?:send|provide|share|paste|show|ارسال|بفرست|ارائه).{0,100}(?:class|کلاس)|(?:class|کلاس).{0,100}(?:send|provide|share|paste|show|ارسال|بفرست|ارائه)',q))

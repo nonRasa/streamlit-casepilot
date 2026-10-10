@@ -140,12 +140,15 @@ class PipelineTests(unittest.TestCase):
         original=pipeline.fixture_role
         with patch.object(pipeline,'fixture_role',side_effect=lambda n,p: {'ordered_ids':['invented']} if n=='rerank' else original(n,p)): out=self.turn()
         self.assertEqual(out['retrieved'][0]['id'],self.hybrid.rows[0]['id']); self.assertTrue(any(s.get('error')=='invalid_rerank' for s in out['pipeline']))
-    def test_version_mismatch_cannot_be_accepted_by_fixture_judge(self):
+    def test_version_mismatch_is_excluded_before_draft(self):
         out=self.agent.turn('A','Streamlit 1.18.1 widget problem','r1',facts={'reproducible':True})
         # Production retriever supplies mismatch metadata; direct fixture emulates it.
         self.hybrid.rows[0]['version_relation']='mismatch'
         out=self.agent.turn('A','same issue persists','r2')
-        self.assertEqual(out['decision'],'escalate'); self.assertEqual(out['validation_error'],'judge_rejected')
+        self.assertEqual(out['decision'],'escalate'); self.assertIsNone(out['validation_error'])
+        self.assertEqual(out['retrieved'],[])
+        self.assertEqual(next(s for s in out['pipeline'] if s['stage']=='retrieve')['version_excluded_for_draft'],[self.hybrid.rows[0]['id']])
+        self.assertEqual(out['summary']['sources'],[])
     def test_invalid_citation_never_reaches_approval(self):
         original=self.client.generate
         def broken(*args,**kwargs):
@@ -171,3 +174,4 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(err.exception.code,'stale_approval')
 
 if __name__=='__main__': unittest.main()
+

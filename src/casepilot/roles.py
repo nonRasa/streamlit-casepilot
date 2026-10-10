@@ -43,8 +43,15 @@ def checked_investigation(plan,message):
     require(isinstance(plan,dict) and set(plan)==set(INVESTIGATION['properties']) and plan['intent'] in ('bug','feature_request','usage_question','unknown','mixed'),'invalid_extraction','برنامهٔ تشخیص معتبر نیست.')
     require(all(isinstance(plan[k],str) and len(plan[k])<=1000 for k in plan if k not in ('intent','known_report_spans')),'invalid_extraction','متن برنامه بیش از حد مجاز است.')
     spans=plan['known_report_spans']
-    require(isinstance(spans,list) and len(spans)<=4 and all(isinstance(s,str) and 3<=len(s)<=600 and s in message for s in spans),'invalid_extraction','شاهد برنامه در پیام کاربر نیست.')
-    return plan
+    require(isinstance(spans,list) and len(spans)<=4 and all(isinstance(s,str) and 3<=len(s.strip())<=len(s)<=600 and (s in message or s.strip() in message) for s in spans),'invalid_extraction','شاهد برنامه در پیام کاربر نیست.')
+    checked=dict(plan,known_report_spans=[s if s in message else s.strip() for s in spans])
+    if checked['suggested_question']:
+        from .quality import novelty_findings
+        answer={'decision':'ask','question':checked['suggested_question'],'next_step':''}
+        if any(f['criterion']=='avoids_repeated_check' for f in novelty_findings(answer,{'messages':[{'text':message}]})):
+            checked['suggested_question']=''
+            if not checked['new_condition']: checked['missing_detail']=''
+    return checked
 
 def checked_quality_judge(result,answer,evidence,state,forced=()):
     require(isinstance(result,dict) and set(result)=={'verdict','assessments','audit'},'invalid_judge','ممیزی داور کامل نیست.')
@@ -195,3 +202,4 @@ source_ids ONLY src_; message_ids ONLY usr_. Review source support separately fr
 meaning.depends_on lists other supplied unit IDs needed for correctness or executability; standalone true only if the unit also remains useful by itself. Deleting a cause or prerequisite may invalidate its dependent action. Any recomposition is a fresh draft needing full review.
 novelty is independent of support: actual requested detail or equivalent PERFORMED test must be found in usr_ spans. Context_only, proposed experiments or empty headings do not prove repetition. Unknown stays unknown. Ask only one detail whose answer changes design/acceptance/diagnosis; no request for a known goal or hypothetical implementation. Six assessments stay 0=defect,1=uncertain,2=adequate. Accept only all2 with valid units and a useful safe next step; a specific feature handoff can be accepted. No approval/write authority.
 '''
+
