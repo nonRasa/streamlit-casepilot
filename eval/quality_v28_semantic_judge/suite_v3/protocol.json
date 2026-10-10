@@ -1,0 +1,51 @@
+{
+  "version": "fixed-draft-judge-v1",
+  "family_disjoint": true,
+  "reference_status": "provisional agent authored; independent review pending",
+  "roles": [
+    "judge"
+  ],
+  "models": {
+    "judge": "gpt-4.1-mini"
+  },
+  "no_retrieval": true,
+  "no_generation": true,
+  "no_embeddings": true,
+  "max_requests": 52,
+  "max_output_tokens": 2000,
+  "request_cap_usd": 0.02,
+  "hard_cap_usd": 0.9,
+  "phases": {
+    "baseline": {
+      "requests": 12,
+      "usd": 0.2
+    },
+    "correction_1": {
+      "requests": 12,
+      "usd": 0.2
+    },
+    "correction_2": {
+      "requests": 12,
+      "usd": 0.2
+    },
+    "holdout": {
+      "requests": 12,
+      "usd": 0.2
+    }
+  },
+  "connection_retries": {
+    "requests": 4,
+    "usd": 0.1
+  },
+  "acceptance": {
+    "false_acceptance": 0,
+    "false_rejection": 0,
+    "selected_unit_witness_accuracy": 1.0,
+    "contract_validity": 1.0,
+    "overall_unit_consistency": 1.0,
+    "require_independent_review_for_unconditional_quality_claim": true
+  },
+  "selection": "Development only; each correction one main component, recorded hypothesis; holdout only after selection; no holdout tuning",
+  "ambiguity_policy": "Exclude provisional ambiguous cases from definitive rates; never turn unknown into rejection or success",
+  "retry_policy": "Only connection/timeouts, identical frozen request; no content retries outside approved corrections"
+}

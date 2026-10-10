@@ -113,7 +113,7 @@ def rerank_ids(result,rows):
     return [allowed[i] for i in ids]
 
 def deterministic_findings(answer,evidence,state):
-    validate_answer(answer,evidence)
+    validate_answer(answer,evidence,state)
     from .quality import novelty_findings
     from .memory import diagnostic_findings
     from .routing import route_findings

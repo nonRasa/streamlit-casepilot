@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-10",
+  "base_commit": "3f3106784db62a74e4cbc14a63bc36fe5fcb160b",
+  "suite": "CasePilot V28 remaining defects; new synthetic families, held-out behavior labels excluded from product inputs",
+  "variants": {
+    "A": "v2",
+    "B": "v3"
+  },
+  "parent_context": false,
+  "context_tokens": 3000,
+  "models": {
+    "text_roles": "gpt-4.1-mini",
+    "query_embedding": "text-embedding-3-small"
+  },
+  "pricing_snapshot": "pricing.json",
+  "hard_cost_cap_usd": 1.1,
+  "estimated_cost_range_usd": [0.55, 0.7],
+  "estimated_text_tokens": {
+    "input_max_approx": 800000,
+    "output_max_approx": 100000
+  },
+  "production_path": "Agent.turn, live extraction, actual HybridRetriever over existing cached v2/v3 vectors, normal generation/repair and active semantic judge; no frozen candidates or vector injection",
+  "development_cases": [
+    "D1",
+    "D2",
+    "D3"
+  ],
+  "holdout_cases": [
+    "H1",
+    "H2"
+  ],
+  "max_development_correction_rounds": 2,
+  "turns_per_round": 6,
+  "holdout_runs": 4,
+  "max_connection_retries": 4,
+  "max_calls_per_turn": 8,
+  "turn_cost_cap_usd": 0.04,
+  "max_provider_requests": 208,
+  "max_product_attempts": 26,
+  "phase_limits": {
+    "development": {"requests": 144, "usd": 0.78},
+    "holdout": {"requests": 32, "usd": 0.16},
+    "connection_retry": {"requests": 32, "usd": 0.16}
+  },
+  "embedding_rebuild": false,
+  "direct_stored_draft_probes": 0,
+  "criteria": {
+    "report_quote": "Every rendered/persisted quote is code-copied from a current user-message snapshot with matching message_id, UTF-8 text hash, Unicode-codepoint [start,end), case revision and message role; empty is allowed when no relevant excerpt exists. A human reviewer also checks relevance to the specific feature detail.",
+    "technical_coverage": "Every code-triggered technical candidate has a full contiguous assertion range, technical label and a source selected into that answer. No candidate may pass as procedure or with p=none. Deterministic code enforces candidate coverage, selected-source linkage, provenance-derived version checks and a same-unit visible limitation. The model must separately judge whole-claim support and relevance; blind human review remains necessary because semantic truth is not mechanically proven.",
+    "preserved_safe_behavior": "Clear proposals remain requests, safe diagnostics remain fresh and single-target, and unsupported causes stay unknown.",
+    "quality_success": "All four final holdout product runs pass contract, quote-lineage, per-unit source/support/version checks and human-blind content review; zero unsupported technical claims, repeated questions/tests, false product-presence/absence claims, or incomplete report quotes. Any failure means no overall quality-success claim.",
+    "retrieval_metrics": "Report Recall@8 only against frozen exact source witnesses; report candidate and packed-context witness coverage, unknown/mismatched source-version counts, and context-token budget. nDCG@8 and irrelevant-candidate fraction stay null until blind pooled relevance grades are complete; unjudged candidates are never treated as irrelevant.",
+    "answer_metrics": "Report structural/contract failures separately from content rejection; count product acceptance, per-unit technical candidate coverage, selected-output-source linkage, exact report-quote snapshots and display, route, model cost, provider requests, and human-blind usefulness/freshness review.",
+    "report_separation": "Report retrieval metrics and answer/contract metrics separately; fixture, live product, and independent human review are separate evidence classes."
+  },
+  "freeze_policy": "Run all development rounds before select. A correction round requires a recorded defect hypothesis and effective source change. Freeze selected code and its hash before the four holdout runs. Never tune, relabel, or repeat a quality claim on holdout outputs.",
+  "limits": "The lexical candidate audit is a high-recall trigger, not a proof of entailment. Human/independent semantic review remains necessary; this small synthetic suite cannot establish general model quality."
+}
