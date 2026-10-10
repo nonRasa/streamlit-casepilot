@@ -195,22 +195,22 @@ def run(agent,case_id,message,request_id,facts,checks,input_hash,components=None
                     if judge['verdict']=='accept': break
                     review_failures.append({'kind':judge.get('failure_kind','answer_quality'),'draft_version':envelope['draft_version'],'findings':judge['findings']})
                     if attempt==1:
-                        validation_error='judge_rejected'; answer=fallback(validation_error); break
+                        validation_error='judge_rejected'; answer=fallback(validation_error,state); break
                     repair_count+=1
                     preserved=recompose_semantic(answer,judge,envelope,state) if client.mode=='live' else None
                     if preserved:
                         answer=preserved; event('recompose',{'attempt':repair_count,'requires_recheck':True,'retained_fields':[u['field'] for u in envelope['units'] if u['unit_id'] in judge['valid_unit_ids']]})
                     elif judge['verdict']=='escalate':
-                        validation_error='judge_rejected'; answer=fallback(validation_error); break
+                        validation_error='judge_rejected'; answer=fallback(validation_error,state); break
                     else:
                         answer=draft(state,packet,repair_feedback(judge,envelope)); event('repair',{'attempt':repair_count})
                     forced=deterministic_findings(answer,packet,state)
             elif forced:
-                validation_error='deterministic_review_failed'; answer=fallback(validation_error)
+                validation_error='deterministic_review_failed'; answer=fallback(validation_error,state)
             citations=validate_answer(answer,packet)
         except CasePilotError as exc:
             # Stop without retries or an unchecked technical answer. No write is granted.
-            validation_error=exc.code; answer=fallback(exc.code); citations=[]
+            validation_error=exc.code; answer=fallback(exc.code,state); citations=[]
             event('safe_escalation',{'error':exc.code})
         require(client.calls-before<=MAX_CALLS,'call_limit','سقف فراخوانی این نوبت نقض شده است.')
         response=render_response(answer,citations,state['facts'],state['checks'])
@@ -234,7 +234,7 @@ def run(agent,case_id,message,request_id,facts,checks,input_hash,components=None
         if client.mode=='live':
             usage['charged_or_reserved_usd']=client.budget.report()['charged_or_reserved_usd']-budget_before
         result={'case_id':case_id,'request_id':request_id,'architecture':'v2','quality_revision':REVISION,'mode':client.mode,'method':'final','components':options,
-                'generation_kind':'rule_based_regression' if rule_answer else ('model' if client.mode=='live' else 'test_fixture'),
+                'generation_kind':'recovery_fallback' if validation_error else ('rule_based_regression' if rule_answer else ('model' if client.mode=='live' else 'test_fixture')),
                 'decision':answer['decision'],'response':response,'summary':summary,'proposal':proposal,
                 'retrieved':[{k:r.get(k) for k in ('id','source_id','kind','url','section','product_version','version_relation','temporal_status','source_authority','retrieval_score')} for r in packet],
                 'steps':len(stages),'model_calls':client.calls-before,'max_calls':MAX_CALLS,'repair_count':repair_count,'judge':judge,'pipeline':stages,

@@ -25,6 +25,8 @@ def intent(state):
 
 def recovery_action(state,feature):
     """One source-free question for a first-turn review failure, never a diagnosis."""
+    if feature:
+        return 'اقدام: نگه‌دارنده امکان افزودن رفتار درخواستی و شرط پذیرش را بررسی و تصمیم طراحی را ثبت کند؛ پیاده‌سازی یا نتیجه هنوز تأیید نشده است.'
     if not feature and len(state.get('messages',[]))==1:
         import re
         report=state['messages'][0]['text']

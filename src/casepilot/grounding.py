@@ -25,9 +25,12 @@ def validate_answer(answer,evidence):
     if answer['decision']=='ask': require(bool(answer['question'].strip()),'invalid_model_output','پرسش مشخص لازم است.')
     return citations
 
-def fallback(code):
+def fallback(code,state=None):
+    from .routing import recovery_action, intent
+    next_step=(recovery_action(state,intent(state)=='feature_request') if state else
+               'اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.')
     return {'decision':'escalate','claims':[],'question':'',
-            'next_step':'اقدام بعدی: نگه‌دارنده بستهٔ شواهد و خطای اعتبارسنجی را بررسی کند؛ اقدام خودکار انجام نشود.',
+            'next_step':next_step,
             'rationale':'محدودیت: پاسخ پیشنهادی از کنترل ساختار یا استناد عبور نکرد. کد خطا: `'+code+'`.', 'hypotheses':[]}
 
 def render_response(answer,citations,facts,checks):
@@ -40,3 +43,4 @@ def render_response(answer,citations,facts,checks):
     if answer['hypotheses']: rows.extend('فرضیهٔ تأییدنشده: '+x for x in answer['hypotheses'])
     rows.append('وضعیت: رفع مشکل تأیید نشده است؛ ثبت پاسخ فقط پس از تأیید نگه‌دارنده انجام می‌شود.' if facts.get('resolved') is not True else 'وضعیت: کاربر رفع مشکل را اعلام کرده است؛ تغییر وضعیت همچنان تأیید نگه‌دارنده می‌خواهد.')
     return '\n\n'.join(rows)
+
