@@ -45,12 +45,15 @@ class HybridRetriever:
         self.client=client; self.path=Path(path or ROOT/'data/corpus_v2.json')
         require(self.path.exists(),'index_missing','ایندکس نسخهٔ دوم ساخته نشده است.')
         self.lexical=Retriever(self.path); self.chunks=self.lexical.chunks
-        embedder=MetisEmbedder(client) if client.mode=='live' else FixtureEmbedder()
-        self.cache=EmbeddingCache(cache_path or ROOT/'runtime'/('embeddings_live.sqlite3' if client.mode=='live' else 'embeddings_fixture.sqlite3'),embedder)
+        self.cache_path=cache_path or ROOT/'runtime'/('embeddings_live.sqlite3' if client.mode=='live' else 'embeddings_fixture.sqlite3')
+        self.cache=None
         self.vectors=None; self.last_trace={}
 
     def load_vectors(self):
         if self.vectors is None:
+            if self.cache is None:
+                embedder=MetisEmbedder(self.client) if self.client.mode=='live' else FixtureEmbedder()
+                self.cache=EmbeddingCache(self.cache_path,embedder)
             self.vectors=self.cache.get_many([embedding_text(r) for r in self.chunks],allow_create=self.client.mode!='live')
         return self.vectors
 

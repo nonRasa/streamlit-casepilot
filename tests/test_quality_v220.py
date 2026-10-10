@@ -1,6 +1,10 @@
 """Regression test for directly relevant official evidence reaching the draft."""
 import json
 import unittest
+from types import SimpleNamespace
+from tempfile import TemporaryDirectory
+from unittest.mock import patch
+import os
 from pathlib import Path
 
 from casepilot.hybrid import HybridRetriever
@@ -12,6 +16,14 @@ ROOT=Path(__file__).resolve().parents[1]
 
 
 class DirectEvidenceSelectionTests(unittest.TestCase):
+    def test_live_lexical_search_does_not_require_unused_embedding_configuration(self):
+        with TemporaryDirectory() as tmp, patch.dict(os.environ, {'METIS_EMBEDDING_MODEL': '', 'CASEPILOT_EMBEDDING_USD_PER_MILLION': ''}):
+            hybrid=HybridRetriever(SimpleNamespace(mode='live'),cache_path=Path(tmp)/'unused.sqlite3')
+            rows=hybrid.search('st.file_uploader deleted files',components={'dense':False})
+            self.assertTrue(rows)
+            self.assertIsNone(hybrid.cache)
+            self.assertFalse((Path(tmp)/'unused.sqlite3').exists())
+
     def test_upload_ram_guide_survives_issue_heavy_rerank(self):
         case=next(c for c in json.loads((ROOT/'eval/cases.json').read_text(encoding='utf-8')) if c['id']=='GH9218')
         message=case['initial_message']

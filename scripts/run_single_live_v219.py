@@ -13,7 +13,10 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--source-root', type=Path, required=True)
 parser.add_argument('--output', type=Path, required=True)
 parser.add_argument('--label', required=True)
+parser.add_argument('--incremental-cap-usd', type=float, default=.04)
 args = parser.parse_args()
+if not 0 < args.incremental_cap_usd <= .04:
+    parser.error('--incremental-cap-usd must be in (0, 0.04]')
 root = args.source_root.resolve()
 output = args.output.resolve()
 sys.path.insert(0, str(root / 'src'))
@@ -31,14 +34,14 @@ client.cache = output / 'fresh_cache'
 client.cache.mkdir()
 client.diagnostics = output / 'diagnostics'
 before = client.budget.report()
-client.budget.cap = min(client.budget.cap, before['charged_or_reserved_usd'] + .04, .30)
+client.budget.cap = min(client.budget.cap, before['charged_or_reserved_usd'] + args.incremental_cap_usd, .30)
 hybrid = HybridRetriever(client)
 frozen = {name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in
           ('src/casepilot/model.py', 'src/casepilot/pipeline.py', 'src/casepilot/quality.py',
            'src/casepilot/hybrid.py', 'data/corpus_v2.json', 'eval/cases.json')}
 result = {'label': args.label, 'case_id': case['id'], 'split': 'dev', 'variant': 'no_dense',
           'source_root': str(root), 'frozen_hashes': frozen, 'budget_before': before['charged_or_reserved_usd'],
-          'existing_uncertain_reserved_usd': before['uncertain_reserved_usd'], 'incremental_cap_usd': .04,
+          'existing_uncertain_reserved_usd': before['uncertain_reserved_usd'], 'incremental_cap_usd': args.incremental_cap_usd,
           'fresh_cache': True, 'constructor_bypass': False}
 with tempfile.TemporaryDirectory(prefix='casepilot-live-pair-') as tmp:
     agent = Agent(Store(Path(tmp) / 'tracker.sqlite3'), client=client, hybrid=hybrid, components={'dense': False})
