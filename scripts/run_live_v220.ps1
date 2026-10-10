@@ -22,7 +22,8 @@ try {
     $env:PYTHONIOENCODING = 'utf-8'
     Push-Location $repoRoot
     try {
-        & $python scripts/run_single_live_v219.py --source-root . --output ../pair_live/v220_case_display_20261010 --label v220-case-display --incremental-cap-usd 0.025
+        $runId = Get-Date -Format 'yyyyMMdd_HHmmss'
+        & $python scripts/run_single_live_v219.py --source-root . --output "../pair_live/v221_evidence_first_$runId" --label v221-evidence-first --incremental-cap-usd 0.017 --experiment-v221
         if ($LASTEXITCODE -ne 0) { throw "Live runner exited with code $LASTEXITCODE" }
     } finally { Pop-Location }
 } finally {

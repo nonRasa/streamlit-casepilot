@@ -47,6 +47,8 @@ SYSTEM+='''\nQUALITY 2.5: For features, current_behavior starts exactly with گ�
 SYSTEM+='''\nQUALITY 2.15: When the report includes complete reproducible code and explicitly says behavior changed from version X to Y, do not ask whether shown code contains methods it visibly lacks. Propose a controlled maintainer comparison: run that exact reported code under X and Y, record whether the same error occurs, and keep package/environment differences as unknown until measured. State this as a proposed check, never as already performed. The reported exception establishes only the observation; do not turn its explanatory text or a newer-version API reference into a proven cause or fix. If this comparison was already performed, select one genuinely new missing detail instead.'''
 SYSTEM+='''\nQUALITY 2.15b: For a reported regression with complete code and a prior-version result already asserted by the reporter, do not ask the reporter to reconfirm that result. Use decision=escalate and give the maintainer the exact controlled two-version comparison as a proposed next step. The question is empty, hypotheses=[], and claims=[] unless a directly applicable source is essential. If diagnostic.action=compare_versions, represent the two values in ONE condition: dimension=version_pair, value="X -> Y"; do not repeat the same dimension twice. For a bug, every feature_proposal string is empty and report_quotes=[]. Do not state that a changed version caused the error before the controlled result is obtained.'''
 
+EVIDENCE_FIRST=SYSTEM+'''\nEVIDENCE-FIRST EXPERIMENT: Before writing, identify the single source quote that directly supports the most useful product fact for this report. If you state that fact in rationale, select that SAME quote in claims and state only what it entails; explicitly limit unknown version applicability. This narrow sourced fact is the only exception to the earlier rule against technical prose in rationale. Do not turn a documented mechanism plus a reported symptom into a confirmed cause. If no exact quote supports a useful fact, use claims=[] and omit the fact. Keep hypotheses=[] unless a hypothesis changes the next check. For a bug, choose ONE decision-changing missing result or ONE changed experiment. The question and next_step must describe that SAME single action, without an environment checklist. Prefer a requested result that distinguishes two possible explanations over generic version collection when a concrete failure observation is already reported. Never ask for a check already performed.''' 
+
 def quote_candidates(text):
     """Partition source spans, preserving Markdown links and all original characters.
 
@@ -67,6 +69,29 @@ def quote_candidates(text):
             if 20<=len(quote)<=700:
                 candidates.append({'quote_id':'q'+str(len(candidates)+1),'text':quote})
     return candidates
+
+def focused_quote_candidates(text,query,limit=2):
+    """Offer short exact prose spans, ordered by overlap with the issue query."""
+    from .retrieval import tokens
+    candidates=[]
+    for item in quote_candidates(text):
+        parts=[]; start=0
+        for boundary in re.finditer(r'(?<=[.!?])\s+(?=[A-Z])',item['text']):
+            if item['text'][:boundary.start()].endswith(('i.e.','e.g.')): continue
+            parts.append(item['text'][start:boundary.start()]); start=boundary.end()
+        parts.append(item['text'][start:])
+        for index,part in enumerate(parts,1):
+            part=part.strip()
+            if 20<=len(part)<=700 and len(tokens(re.sub(r'https?://\S+',' ',part)))>=4:
+                candidates.append({'quote_id':item['quote_id']+'s'+str(index) if len(parts)>1 else item['quote_id'],
+                                   'text':part})
+    if not candidates: return quote_candidates(text)[:limit]
+    terms=set(tokens(query)); title=set(tokens(query.splitlines()[0]))
+    def score(item):
+        words=set(tokens(item['text']))
+        incomplete=(3 if item['text'].endswith(':') else 0)+(5 if item['text'].startswith('- ') else 0)
+        return (3*len(words & title)+len(words & terms)-incomplete,-len(words))
+    return sorted(candidates,key=lambda item:(-score(item)[0],-score(item)[1],item['quote_id']))[:limit]
 
 def resolve_claims(answer,candidates):
     """Resolve only exact, same-source selections; never repair a fabricated quote."""
@@ -248,8 +273,12 @@ class MetisClient:
 
     def generate(self,state,evidence,method='final'):
         sources=[]; candidates={}
+        if getattr(self,'focus_quotes',False):
+            from .quality import retrieval_query
+            query=retrieval_query(state,state['messages'][-1]['text'])
         for row in evidence:
-            options=quote_candidates(row['text'])
+            options=(focused_quote_candidates(row['text'],query) if getattr(self,'focus_quotes',False)
+                     else quote_candidates(row['text']))
             sources.append(dict({k:row.get(k) for k in ('id','url','section','revision','product_version','version_relation','kind')},quote_candidates=options))
             candidates.update({(row['id'],q['quote_id']):q['text'] for q in options})
         if getattr(self,'turn_scope',None):
@@ -268,7 +297,8 @@ class MetisClient:
             packet['feature_report_sections']=feature_context(state)
             # برنامهٔ استخراج مرجع الزام کاربر به پیاده‌سازی رابط پیشنهادی نیست.
             packet['investigation_plan']=dict(packet['investigation_plan'],missing_detail='',suggested_question='',new_condition='')
-        payload={'model':self.model,'messages':[{'role':'system','content':SYSTEM},{'role':'user','content':canonical(packet)}], 'max_tokens':self.max_output,
+        prompt=EVIDENCE_FIRST if getattr(self,'evidence_first',False) else SYSTEM
+        payload={'model':self.model,'messages':[{'role':'system','content':prompt},{'role':'user','content':canonical(packet)}], 'max_tokens':self.max_output,
                  'response_format':{'type':'json_schema','json_schema':{'name':'casepilot_selection','strict':True,'schema':selection_schema(state) if getattr(self,'turn_scope',None) else SCHEMA}}}
         answer=self._request(payload)
         if getattr(self,'turn_scope',None):

@@ -12,6 +12,23 @@ def embedding_text(row): return row['title']+'\n'+row['section']+'\n'+row['text'
 def version_relation(row,version):
     return relation(row,version)
 
+def split_lexical_queries(query):
+    """Separate exact API/error names from the report's symptom language."""
+    lines=query.splitlines(); title=lines[0] if lines else query
+    names=' '.join(line for line in lines[1:] if line.startswith(('APIs:','Errors:')))
+    symptoms=' '.join(line for line in lines[1:] if not line.startswith(('APIs:','Errors:')))
+    return (title+' '+names).strip()[:1200],(title+' '+symptoms).strip()[:1600]
+
+def split_lexical_search(lexical,query,k=100):
+    """RRF of two lexical views; no model, labels, or embedding calls."""
+    views=split_lexical_queries(query); scores={}; rows={}
+    for view in dict.fromkeys(views):
+        for rank,row in enumerate(lexical.search(view,k=k,method='baseline'),1):
+            scores[row['id']]=scores.get(row['id'],0)+1/(60+rank)
+            rows[row['id']]=row
+    return [dict(rows[key],retrieval_score=round(scores[key],8)) for key in
+            sorted(scores,key=lambda key:(-scores[key],key))[:k]]
+
 
 def direct_official_matches(rows,query,limit=2):
     """Reserve directly named official passages without using evaluation labels."""
@@ -60,7 +77,8 @@ class HybridRetriever:
     def search(self,query,k=8,method='final',version=None,components=None,as_of=None):
         options={'dense':True,'mmr':True,'quality':True}; options.update(components or {})
         if not options['dense']:
-            rows=self.lexical.search(query,k=100,method='baseline',version=version)
+            rows=(split_lexical_search(self.lexical,query) if options.get('split_query') else
+                  self.lexical.search(query,k=100,method='baseline',version=version))
             rows=[r for r in rows if eligible(r,as_of) and (not options['quality'] or technical_source(r))]
             if options['quality']:
                 reserved=direct_official_matches(rows,query,min(2,k))
@@ -72,7 +90,7 @@ class HybridRetriever:
                     reserved.append(row); chosen.add(row['id']); counts[row['source_id']]+=1
                 rows=reserved
             rows=[annotate(r,version,as_of) for r in rows[:k]]
-            self.last_trace={'method':'bm25','components':options,'as_of':as_of,'temporal_policy':'exclude_future_and_unknown' if as_of else 'current_snapshot'}; return rows
+            self.last_trace={'method':'bm25-split-rrf' if options.get('split_query') else 'bm25','components':options,'as_of':as_of,'temporal_policy':'exclude_future_and_unknown' if as_of else 'current_snapshot'}; return rows
         vectors=self.load_vectors()
         qvector=self.cache.get_many([query])[0]; stats=self.cache.last_stats
         # BM25 ranks without the V1 documentation quota or title routing heuristic.

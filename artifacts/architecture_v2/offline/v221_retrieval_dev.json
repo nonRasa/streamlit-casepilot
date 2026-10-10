@@ -1,0 +1,973 @@
+{
+  "split": "dev",
+  "mode": "offline_no_model",
+  "cases": 15,
+  "metrics": {
+    "single_simple": {
+      "cases_with_labeled_source": 10,
+      "labeled_source_hits": 14,
+      "official_chunks": 37,
+      "mismatched_chunks": 0,
+      "context_utf8_bytes": 69543
+    },
+    "single_reserved": {
+      "cases_with_labeled_source": 10,
+      "labeled_source_hits": 14,
+      "official_chunks": 37,
+      "mismatched_chunks": 0,
+      "context_utf8_bytes": 69543
+    },
+    "split_simple": {
+      "cases_with_labeled_source": 10,
+      "labeled_source_hits": 15,
+      "official_chunks": 41,
+      "mismatched_chunks": 0,
+      "context_utf8_bytes": 64018
+    },
+    "split_reserved": {
+      "cases_with_labeled_source": 10,
+      "labeled_source_hits": 15,
+      "official_chunks": 41,
+      "mismatched_chunks": 0,
+      "context_utf8_bytes": 64018
+    }
+  },
+  "details": [
+    {
+      "id": "GH9218",
+      "query": "file_uploader with large file results in server getting killed\nAPIs: st.file_uploader\nErrors: \n\n\n ### Summary\n\nI am using st.file_uploader to upload ~3.5gb file into my streamlit dashboard. This however, results in the server getting killed.\nWhen I inspect using btop, Upon file upload, the server starts using an astronomic amount of RAM.\n\nEDIT: I tried imposing a RAM limit by dockerizing the dashboard and settting a 4gb RAM limit, but it just gets killed in the container.\n\n### Reproducible Code Example\n\n \n\n\n### Steps To Reproduce\n\nstreamlit run dashboard.py --maxUploadSize=5000\n\n### Expected Behavior\n\nIt's probably better to stream it in chunks to disk when clicking an 'upload file' button.\n\n### Current Behavior\n\nThe server gets killed.\n\n### Is this a regression?\n \n\n",
+      "candidates": {
+        "single": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "api:file_uploader:v2:26f5eb70aec7e236",
+          "issue:5938:v2:2830a6d01721a174",
+          "issue:3722:v2:71635c29cc9d28e8",
+          "issue:1298:v2:21376c695dcce5f7",
+          "issue:5938:v2:a861777a980e3ac7",
+          "issue:4877:v2:cd5fba9651a80b06",
+          "issue:4256:v2:ae8bf70947296d5e"
+        ],
+        "split": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "api:file_uploader:v2:26f5eb70aec7e236",
+          "issue:5938:v2:2830a6d01721a174",
+          "issue:3722:v2:71635c29cc9d28e8",
+          "issue:10000:v2:713779bb904f28d5",
+          "issue:5938:v2:a861777a980e3ac7",
+          "issue:3942:v2:06ea987c110cc4c7",
+          "issue:4256:v2:ae8bf70947296d5e"
+        ]
+      },
+      "packets": {
+        "single_simple": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "api:file_uploader:v2:26f5eb70aec7e236",
+          "issue:5938:v2:2830a6d01721a174",
+          "issue:3722:v2:71635c29cc9d28e8",
+          "issue:1298:v2:21376c695dcce5f7"
+        ],
+        "single_reserved": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "api:file_uploader:v2:26f5eb70aec7e236",
+          "issue:5938:v2:2830a6d01721a174",
+          "issue:3722:v2:71635c29cc9d28e8",
+          "issue:1298:v2:21376c695dcce5f7"
+        ],
+        "split_simple": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "api:file_uploader:v2:26f5eb70aec7e236",
+          "issue:5938:v2:2830a6d01721a174",
+          "issue:3722:v2:71635c29cc9d28e8",
+          "issue:10000:v2:713779bb904f28d5"
+        ],
+        "split_reserved": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "api:file_uploader:v2:26f5eb70aec7e236",
+          "issue:5938:v2:2830a6d01721a174",
+          "issue:3722:v2:71635c29cc9d28e8",
+          "issue:10000:v2:713779bb904f28d5"
+        ]
+      },
+      "labeled_sources": [
+        "docs:where-file-uploader-store-when-deleted",
+        "api:file_uploader"
+      ]
+    },
+    {
+      "id": "GH11528",
+      "query": "cache_data failing to serialize classes from v1.44.0\nAPIs: st.cache_data st.cache_resource\nErrors: UnserializableReturnValueError\n\n\n ### Summary\n\nI noticed in the upgrade from 1.43.0 to 1.44.0 that we are getting UnserializableReturnValueError when calling cache_data with a self defined class. I can confirm pickle dumps and loads works fine for this class when I run it outside of streamlit. \n\nFull error:\n> streamlit.runtime.caching.cache_errors.UnserializableReturnValueError: Cannot serialize the return value (of type __main__.Example) in test(). st.cache_data uses pickle to serialize the function's return value and safely store it in the cache without mutating the original object. Please convert the return value to a pickle-serializable type. If you want to cache unserializable objects such as database connections or Tensorflow sessions, use st.cache_resource instead (see our docs for differences).\n\n### Reproducible Code Example\n\n \n\n### Steps To Reproduce\n\nRun the ",
+      "candidates": {
+        "single": [
+          "docs:caching:v2:32f926d02df11120",
+          "docs:caching:v2:e6829bd5089a51c5",
+          "issue:6138:v2:aba022125b158eae",
+          "issue:6138:v2:e0e1ec74cf07ea33",
+          "issue:2266:v2:f734f0780e7fab70",
+          "issue:6267:v2:e3d6ac8490a4040a"
+        ],
+        "split": [
+          "docs:caching:v2:32f926d02df11120",
+          "docs:caching:v2:5ff8b72948761052",
+          "issue:6138:v2:6d289edddcaef53e",
+          "issue:6138:v2:aba022125b158eae",
+          "docs:config-toml:v2:ac17071ef08c5110",
+          "issue:6228:v2:ff651d59c03b8190",
+          "issue:6228:v2:3dc8abd56d5afa89"
+        ]
+      },
+      "packets": {
+        "single_simple": [
+          "docs:caching:v2:32f926d02df11120",
+          "docs:caching:v2:e6829bd5089a51c5",
+          "issue:6138:v2:aba022125b158eae",
+          "issue:6138:v2:e0e1ec74cf07ea33",
+          "issue:2266:v2:f734f0780e7fab70"
+        ],
+        "single_reserved": [
+          "docs:caching:v2:32f926d02df11120",
+          "docs:caching:v2:e6829bd5089a51c5",
+          "issue:6138:v2:aba022125b158eae",
+          "issue:6138:v2:e0e1ec74cf07ea33",
+          "issue:2266:v2:f734f0780e7fab70"
+        ],
+        "split_simple": [
+          "docs:caching:v2:32f926d02df11120",
+          "docs:caching:v2:5ff8b72948761052",
+          "issue:6138:v2:6d289edddcaef53e",
+          "issue:6138:v2:aba022125b158eae",
+          "docs:config-toml:v2:ac17071ef08c5110"
+        ],
+        "split_reserved": [
+          "docs:caching:v2:32f926d02df11120",
+          "docs:caching:v2:5ff8b72948761052",
+          "issue:6138:v2:6d289edddcaef53e",
+          "issue:6138:v2:aba022125b158eae",
+          "docs:config-toml:v2:ac17071ef08c5110"
+        ]
+      },
+      "labeled_sources": [
+        "api:cache_data",
+        "api:cache_resource"
+      ]
+    },
+    {
+      "id": "GH12150",
+      "query": "Application Crash: file_uploader kills streamlit when used in a page via st.navigation 1.47 and 1.48 at least\nAPIs: st.navigation st.file_uploader st.write st.__version__ st.Page\nErrors: \n\n\n ### Summary\n\nHi,\n\nPlatform is windows 11, recent python, streamlit version 1.47 and 1.48\n\nI can't see this described in the issues list.\n\nI just spend a couple of hours tracing a very strange problem with st.file_uploader. The problem affects files of any size, including 1kB and doesn't seem to cause run away memory usage in streamlit.\n\nIf I create a simple app with the following file_uploader everything works as expected, file is uploaded and the message is printed\n\n \nHowever, if I create an application like this. Then the upload proceeds for a few seconds and then the server process dies with no diagnostics.\n\napp.py\n\n \n\nUpload_Data.py\n\n \n\nIf I replace the string with the python filename with a function, which does the same thing then the function works correctly.\n\nExpected behaviour\n\nApplication doesn't crash when using file_uploader",
+      "candidates": {
+        "single": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "issue:8971:v2:0a28ba3305cb4f86",
+          "issue:6748:v2:190573ad4e954f36",
+          "issue:897:v2:c5e6530ad8925522",
+          "issue:2266:v2:f734f0780e7fab70",
+          "issue:11500:v2:824b93b4a477e533",
+          "issue:1298:v2:398a47680ef7653f"
+        ],
+        "split": [
+          "docs:page-and-navigation:v2:eba8d65bd1eaeafb",
+          "issue:8971:v2:0a28ba3305cb4f86",
+          "issue:2266:v2:f734f0780e7fab70",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:3722:v2:71635c29cc9d28e8",
+          "issue:9100:v2:7b70f2892b520f9d"
+        ]
+      },
+      "packets": {
+        "single_simple": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "issue:8971:v2:0a28ba3305cb4f86",
+          "issue:6748:v2:190573ad4e954f36",
+          "issue:897:v2:c5e6530ad8925522",
+          "issue:2266:v2:f734f0780e7fab70"
+        ],
+        "single_reserved": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "issue:8971:v2:0a28ba3305cb4f86",
+          "issue:6748:v2:190573ad4e954f36",
+          "issue:897:v2:c5e6530ad8925522",
+          "issue:2266:v2:f734f0780e7fab70"
+        ],
+        "split_simple": [
+          "docs:page-and-navigation:v2:eba8d65bd1eaeafb",
+          "issue:8971:v2:0a28ba3305cb4f86",
+          "issue:2266:v2:f734f0780e7fab70",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:3722:v2:71635c29cc9d28e8"
+        ],
+        "split_reserved": [
+          "docs:page-and-navigation:v2:eba8d65bd1eaeafb",
+          "issue:8971:v2:0a28ba3305cb4f86",
+          "issue:2266:v2:f734f0780e7fab70",
+          "issue:11396:v2:4eba8133750794ae",
+          "issue:3722:v2:71635c29cc9d28e8"
+        ]
+      },
+      "labeled_sources": [
+        "api:navigation",
+        "api:file_uploader"
+      ]
+    },
+    {
+      "id": "GH12432",
+      "query": "Using HTML for putting an image (img src=\"app/static/imagefile.png\") not working despite all prerequisites present\nAPIs: st.container st.write st.components.v1\nErrors: \n\n\n ### Summary\n\nI intend to add images (particularly various icons) in my multipage app using HTML since I need them to be centered inside their corresponding container, with a label below each. The files are already stored in my static folder. But even though I already applied the format [IMAGE OMITTED: not inspected], and even though the file is present in the static folder, the file name and extension are correct, the file is not corrupted, and static file serving is enabled in .streamlit/config.toml (enableStaticServing = true), the image still does not appear.\n\n### Reproducible Code Example\n\n \n\n### Steps To Reproduce\n\n1. Define a `container`.\n2. Use `markdown` to display the image as centered within the container as in the code example above. Use [this image](  as example.\n3. Save code and run.\n\n### Expected Behavior\n\nThe image shoul",
+      "candidates": {
+        "single": [
+          "docs:static-file-serving:v2:f4e15cf050173133",
+          "issue:2213:v2:889fefc655cab46d",
+          "issue:9603:v2:9f5bea8bbe910c3c",
+          "docs:static-file-serving:v2:0837b2c0750a012d",
+          "issue:11430:v2:067ecc8e499d1a0e",
+          "issue:11430:v2:04ad82f05cd48ee6",
+          "issue:3531:v2:8598912df8e6f8d3"
+        ],
+        "split": [
+          "docs:static-file-serving:v2:f4e15cf050173133",
+          "issue:11430:v2:04ad82f05cd48ee6",
+          "docs:static-file-serving:v2:0837b2c0750a012d",
+          "issue:8971:v2:24932ce580274cf2",
+          "issue:11259:v2:a7e7c5e50f0fb1a6",
+          "issue:6018:v2:1d5fb4ea03adcd5d",
+          "docs:cache-data:v2:579ec7eddcc73008",
+          "docs:dynamic-navigation:v2:e76e43fa94339bae"
+        ]
+      },
+      "packets": {
+        "single_simple": [
+          "docs:static-file-serving:v2:f4e15cf050173133",
+          "issue:2213:v2:889fefc655cab46d",
+          "issue:9603:v2:9f5bea8bbe910c3c",
+          "docs:static-file-serving:v2:0837b2c0750a012d",
+          "issue:11430:v2:067ecc8e499d1a0e"
+        ],
+        "single_reserved": [
+          "docs:static-file-serving:v2:f4e15cf050173133",
+          "issue:2213:v2:889fefc655cab46d",
+          "issue:9603:v2:9f5bea8bbe910c3c",
+          "docs:static-file-serving:v2:0837b2c0750a012d",
+          "issue:11430:v2:067ecc8e499d1a0e"
+        ],
+        "split_simple": [
+          "docs:static-file-serving:v2:f4e15cf050173133",
+          "issue:11430:v2:04ad82f05cd48ee6",
+          "docs:static-file-serving:v2:0837b2c0750a012d",
+          "issue:8971:v2:24932ce580274cf2",
+          "issue:11259:v2:a7e7c5e50f0fb1a6"
+        ],
+        "split_reserved": [
+          "docs:static-file-serving:v2:f4e15cf050173133",
+          "issue:11430:v2:04ad82f05cd48ee6",
+          "docs:static-file-serving:v2:0837b2c0750a012d",
+          "issue:8971:v2:24932ce580274cf2",
+          "issue:11259:v2:a7e7c5e50f0fb1a6"
+        ]
+      },
+      "labeled_sources": [
+        "docs:static-file-serving"
+      ]
+    },
+    {
+      "id": "GH12607",
+      "query": "After File Upload the file stays in RAM\nAPIs: st.file_uploader st.rerun st.subheader st.session_state st.session_state.upload_counter st.selectbox st.info st.form st.text_input st.form_submit_button st.error st.session_state._uploaded_file_mgr st.success\nErrors: \n\n\n ### Summary\n\nWatch discuss Topic:\n \n\nStreamlit Version 1.49.1\nPython Version 3.13.7\n\nI searched for the issue on all known databases without success\n\nI am facing the following issue with st.file_uploader:\n\nWhen I am uploading a File about 600MB the RAM usage is after I selected the File about 660 MB.\nAt the moment I pressed the upload button the RAM usage increases up to 1800MB.\nAfter the Upload is done, the RAM usage stays at 660MB.\nIf I close the browsertab it stays at 660MB, only when I close the streamlit instance the RAM gets free.\n\nI tryed several solutions:\n\nclear_on_submit=True\nworking with session state keys\ngc.collect()\nst.rerun()\n\nThe phenomenon is:\nIf I set the clear_on_submit=false and deactivate the st.rerun() I am able to delete the File in the Widget and only then the file gets deleted from the RAM.\n\nI tested it with a ",
+      "candidates": {
+        "single": [
+          "issue:11266:v2:b0b00ad71c9d0511",
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "docs:session_state:v2:dbdb0bd803d59dad",
+          "docs:session_state:v2:751fb7916d352e2d",
+          "issue:897:v2:9c93284cc5fd4732",
+          "issue:8959:v2:4b191345bfa747e3",
+          "docs:widget-behavior:v2:bfcf53599ec9c62c",
+          "docs:widget-behavior:v2:6d4a90715244ce0a"
+        ],
+        "split": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "issue:5938:v2:6b17d70c89125c0d",
+          "issue:2213:v2:c4dfee32054add1d",
+          "issue:4877:v2:cd5fba9651a80b06",
+          "issue:8351:v2:4717f4e259b34e11",
+          "issue:4877:v2:cb7d0454d6e3b5fe",
+          "issue:10000:v2:713779bb904f28d5",
+          "issue:897:v2:9c93284cc5fd4732"
+        ]
+      },
+      "packets": {
+        "single_simple": [
+          "issue:11266:v2:b0b00ad71c9d0511",
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "docs:session_state:v2:dbdb0bd803d59dad",
+          "docs:session_state:v2:751fb7916d352e2d",
+          "issue:897:v2:9c93284cc5fd4732"
+        ],
+        "single_reserved": [
+          "issue:11266:v2:b0b00ad71c9d0511",
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "docs:session_state:v2:dbdb0bd803d59dad",
+          "docs:session_state:v2:751fb7916d352e2d",
+          "issue:897:v2:9c93284cc5fd4732"
+        ],
+        "split_simple": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "issue:5938:v2:6b17d70c89125c0d",
+          "issue:2213:v2:c4dfee32054add1d",
+          "issue:4877:v2:cd5fba9651a80b06",
+          "issue:8351:v2:4717f4e259b34e11"
+        ],
+        "split_reserved": [
+          "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+          "issue:5938:v2:6b17d70c89125c0d",
+          "issue:2213:v2:c4dfee32054add1d",
+          "issue:4877:v2:cd5fba9651a80b06",
+          "issue:8351:v2:4717f4e259b34e11"
+        ]
+      },
+      "labeled_sources": [
+        "docs:where-file-uploader-store-when-deleted",
+        "api:file_uploader"
+      ]
+    },
+    {
+      "id": "GH13002",
+      "query": "Add an option to fully disable sidebar rendering until authentication or page load is complete\nAPIs: st.set_page_config st.stop\nErrors: \n\n\nCurrently, Streamlit always renders the sidebar and multipage navigation menu before any backend logic runs.\nThis causes a brief flash (“flicker”) of the sidebar, even when developers try to hide it using CSS, st.set_page_config(initial_sidebar_state=\"collapsed\"), or st.stop() during login checks.\n\nProblem\n\nWhen implementing authentication or loading processes (e.g., validating user credentials via an API), Streamlit renders the sidebar before the authentication state is known.\nThis behavior creates two key issues:\n\nSecurity concern:\nUnauthenticated users can briefly see and click sidebar navigation links before st.stop() halts the script, allowing them to access or attempt to load protected pages.\nEven if no data is exposed, it creates a visible loophole and inconsistent behavior.\n\nUX inconsistency:\nThe sidebar “flashes” for a fraction",
+      "candidates": {
+        "single": [
+          "issue:7082:v2:bf75ea5263cdaebf",
+          "issue:7082:v2:89440209a8100512",
+          "docs:page-and-navigation:v2:b4411b33f0831441",
+          "docs:overview:v2:e600615da03c1f60",
+          "docs:dynamic-navigation:v2:03ef689ee83a7e33",
+          "docs:dynamic-navigation:v2:512aa627845c3056",
+          "issue:12305:v2:f92cb8627ba55d3f",
+          "docs:page-and-navigation:v2:5a77a44907e154f3"
+        ],
+        "split": [
+          "issue:7082:v2:bf75ea5263cdaebf",
+          "issue:7082:v2:89440209a8100512",
+          "docs:dynamic-navigation:v2:03ef689ee83a7e33",
+          "docs:dynamic-navigation:v2:e76e43fa94339bae",
+          "docs:page-and-navigation:v2:5a77a44907e154f3",
+          "issue:7241:v2:bd7e29875b77f8bf",
+          "issue:15115:v2:746f433302cee172",
+          "issue:8073:v2:1c7e4b7245ab8109"
+        ]
+      },
+      "packets": {
+        "single_simple": [
+          "issue:7082:v2:bf75ea5263cdaebf",
+          "issue:7082:v2:89440209a8100512",
+          "docs:page-and-navigation:v2:b4411b33f0831441",
+          "docs:overview:v2:e600615da03c1f60",
+          "docs:dynamic-navigation:v2:03ef689ee83a7e33"
+        ],
+        "single_reserved": [
+          "issue:7082:v2:bf75ea5263cdaebf",
+          "issue:7082:v2:89440209a8100512",
+          "docs:page-and-navigation:v2:b4411b33f0831441",
+          "docs:overview:v2:e600615da03c1f60",
+          "docs:dynamic-navigation:v2:03ef689ee83a7e33"
+        ],
+        "split_simple": [
+          "issue:7082:v2:bf75ea5263cdaebf",
+          "issue:7082:v2:89440209a8100512",
+          "docs:dynamic-navigation:v2:03ef689ee83a7e33",
+          "docs:dynamic-navigation:v2:e76e43fa94339bae",
+          "docs:page-and-navigation:v2:5a77a44907e154f3"
+        ],
+        "split_reserved": [
+          "issue:7082:v2:bf75ea5263cdaebf",
+          "issue:7082:v2:89440209a8100512",
+          "docs:dynamic-navigation:v2:03ef689ee83a7e33",
+          "docs:dynamic-navigation:v2:e76e43fa94339bae",
+          "docs:page-and-navigation:v2:5a77a44907e154f3"
+        ]
+      },
+      "labeled_sources": [
+        "docs:page-and-navigation",
+        "docs:dynamic-navigation"
+      ]
+    },
+    {
+      "id": "GH14593",
+      "query": "st.cache_data on class methods intermittently raises UnserializableReturnValueError\nAPIs: st.cache_data st.title st.button st.success st.error\nErrors: UnserializableReturnValueError PicklingError\n\n\n ### Summary\n\nWhen `@st.cache_data` decorates a method that returns a custom class instance, `pickle.dumps()` intermittently fails with `PicklingError: Can't pickle <class 'X'>: it's not the same object as X`. This happens because Streamlit's `LocalSourcesWatcher` deletes watched modules from `sys.modules` on file changes, creating a class identity mismatch between the instance being pickled and the class found by pickle's resolution mechanism.\n\n### Reproducible Code Example\n\n \n\n### Steps To Reproduce\n\n**Steps:**\n1. `streamlit run repro.py`\n2. Click **\"1) Normal call\"** — succeeds.\n3. Click **\"2) Simulate file-watcher\"** — fails with `UnserializableReturnValueError`.\n4. Click **\"1) Normal call\"** again — **also fails**, until Streamlit is restarted.\n\n\n### Expected Behavior\n\nStep 4 demonstrates persistence: `repro_agent` is never re-impo",
+      "candidates": {
+        "single": [
+          "docs:cache-data:v2:2d852be1ef02439a",
+          "docs:caching:v2:05de575ba90e68dc",
+          "docs:caching:v2:fc7121d6dc70df6b",
+          "issue:8957:v2:4676ef158175f46f",
+          "issue:7206:v2:ea87a59313b2df4f",
+          "issue:6138:v2:aba022125b158eae",
+          "issue:17026:v2:bb2eec8b927b20fc",
+          "issue:6138:v2:6d289edddcaef53e"
+        ],
+        "split": [
+          "docs:caching:v2:32f926d02df11120",
+          "docs:cache-data:v2:579ec7eddcc73008",
+          "issue:6138:v2:aba022125b158eae",
+          "issue:6138:v2:6d289edddcaef53e",
+          "docs:caching:v2:5eb771dcf326f9fe",
+          "issue:8957:v2:4676ef158175f46f",
+          "docs:get-started:v2:dad93c922b62a6c7",
+          "docs:get-started:v2:f421c25ad5221238"
+        ]
+      },
+      "packets": {
+        "single_simple": [
+          "docs:cache-data:v2:2d852be1ef02439a",
+          "docs:caching:v2:05de575ba90e68dc",
+          "docs:caching:v2:fc7121d6dc70df6b",
+          "issue:8957:v2:4676ef158175f46f",
+          "issue:7206:v2:ea87a59313b2df4f"
+        ],
+        "single_reserved": [
+          "docs:cache-data:v2:2d852be1ef02439a",
+          "docs:caching:v2:05de575ba90e68dc",
+          "docs:caching:v2:fc7121d6dc70df6b",
+          "issue:8957:v2:4676ef158175f46f",
+          "issue:7206:v2:ea87a59313b2df4f"
+        ],
+        "split_simple": [
+          "docs:caching:v2:32f926d02df11120",
+          "docs:cache-data:v2:579ec7eddcc73008",
+          "issue:6138:v2:aba022125b158eae",
+          "issue:6138:v2:6d289edddcaef53e",
+          "docs:caching:v2:5eb771dcf326f9fe"
+        ],
+        "split_reserved": [
+          "docs:caching:v2:32f926d02df11120",
+          "docs:cache-data:v2:579ec7eddcc73008",
+          "issue:6138:v2:aba022125b158eae",
+          "issue:6138:v2:6d289edddcaef53e",
+          "docs:caching:v2:5eb771dcf326f9fe"
+        ]
+      },
+      "labeled_sources": [
+        "api:cache_data",
+        "api:cache_resource"
+      ]
+    },
+    {
+      "id": "GH14639",
+      "query": "st.cache_data shares cache across st.Page pages for same-named functions with different source code\nAPIs: st.cache_data st.Page st.navigation st.set_page_config st.write st.Page.run\nErrors: \n\n\n ### Summary\n\nst.cache_data functions with the same name but different source code in different page files (loaded via st.navigation + st.Page) share the same cache. This is because st.Page executes all pages via exec() with\n  __module__ == \"__main__\", and inspect.getsource() fails in that context. The fallback to func.__code__.co_code (bytecode) does not include string constants, so functions with identical structure but different inline strings (e.g., different SQL queries) produce the same cache key.\n\n### Reproducible Code Example\n\n \n\n### Steps To Reproduce\n\n1. Create the three files above (main.py, page_a.py, page_b.py)\n2. Run streamlit run main.py\n3. Open Page A — displays source: page_a (correct)\n4. Navigate to Page B — displays source: page_a (wrong, should be page_b)\n5. Clear cache and open Page B first — displays source: page_b",
+      "candidates": {
+        "single": [
+          "docs:page-and-navigation:v2:82909a1790770a70",
+          "docs:dynamic-navigation:v2:e76e43fa94339bae",
+          "issue:8964:v2:7183d27ba82fbbf9",
+          "issue:11202:v2:d02b6d4d5e5d993e",
+          "issue:9603:v2:9f5bea8bbe910c3c",
+          "issue:8700:v2:23b22c939e6cb5dd",
+          "issue:16383:v2:93d73e173c0ea463",
+          "issue:15115:v2:746f433302cee172"
+        ],
+        "split": [
+          "docs:page-and-navigation:v2:82909a1790770a70",
+          "docs:overview:v2:168b7d2e2d49e258",
+          "issue:16383:v2:93d73e173c0ea463",
+          "issue:15115:v2:746f433302cee172",
+          "issue:16383:v2:39e660bb84b34ffb",
+          "issue:9603:v2:9f5bea8bbe910c3c"
+        ]
+      },
+      "packets": {
+        "single_simple": [
+          "docs:page-and-navigation:v2:82909a1790770a70",
+          "docs:dynamic-navigation:v2:e76e43fa94339bae",
+          "issue:8964:v2:7183d27ba82fbbf9",
+          "issue:11202:v2:d02b6d4d5e5d993e",
+          "issue:9603:v2:9f5bea8bbe910c3c"
+        ],
+        "single_reserved": [
+          "docs:page-and-navigation:v2:82909a1790770a70",
+          "docs:dynamic-navigation:v2:e76e43fa94339bae",
+          "issue:8964:v2:7183d27ba82fbbf9",
+          "issue:11202:v2:d02b6d4d5e5d993e",
+          "issue:9603:v2:9f5bea8bbe910c3c"
+        ],
+        "split_simple": [
+          "docs:page-and-navigation:v2:82909a1790770a70",
+          "docs:overview:v2:168b7d2e2d49e258",
+          "issue:16383:v2:93d73e173c0ea463",
+          "issue:15115:v2:746f433302cee172",
+          "issue:16383:v2:39e660bb84b34ffb"
+        ],
+        "split_reserved": [
+          "docs:page-and-navigation:v2:82909a1790770a70",
+          "docs:overview:v2:168b7d2e2d49e258",
+          "issue:16383:v2:93d73e173c0ea463",
+          "issue:15115:v2:746f433302cee172",
+          "issue:16383:v2:39e660bb84b34ffb"
+        ]
+      },
+      "labeled_sources": [
+        "docs:caching",
+        "api:cache_data"
+      ]
+    },
+    {
+      "id": "GH14710",
+      "query": "Await a Components V2 initialization value without session-state residue\nAPIs: st.components.v2 st.set_page_config st.header st.write st.rerun st.session_state\nErrors: \n\n\n ### Summary\n\n<details>\n<summary>./docker-compose.yml</summary>\n\n \n\n</details>\n<details>\n<summary>./comp.py</summary>\n\n \n\n</details>\n\n<details>\n<summary>./streamlit_app.py</summary>\n\n \n\n</details>\n`docker compose up`\nstreamlit v 1.55\n\nI'm trying to migrate our custom js widgets from v1 component api to the non-iframe v2 api.\nIt seems far more powerful, and seems like it'll cut boilerplate.\nIn our style, we have accumulated over the years a collection of js/client side running code, that doesn't particularly need/have an html or user-interfacing component.\n\nI think I've noticed an issue, where values are getting returned from the js frontend (as seen by console.log msgs), but the streamlit backend logs see those msgs as dropped. I'm still getting the hang of the runtime behaviors of this new component api, to figure out how to update our",
+      "candidates": {
+        "single": [
+          "docs:fragments:v2:0792bdfc1a784cc2",
+          "docs:session-state:v2:cb426c77e98849b8",
+          "docs:state-and-triggers:v2:cabf4c576d8247b3",
+          "docs:architecture:v2:7685deb75a6f3912",
+          "issue:6074:v2:66f31eeda7b5ae5c",
+          "docs:dataframes:v2:9557efbe7db234e2",
+          "docs:widget-updating-session-state:v2:584529b61c0951f3",
+          "issue:16608:v2:e0141b801a5b72a6"
+        ],
+        "split": [
+          "docs:fragments:v2:0792bdfc1a784cc2",
+          "docs:session-state:v2:cb426c77e98849b8",
+          "docs:state-and-triggers:v2:cabf4c576d8247b3",
+          "docs:state-and-triggers:v2:28832c7fc892def1",
+          "docs:dataframes:v2:9557efbe7db234e2",
+          "docs:session_state:v2:e8e6dd5b825549c9",
+          "docs:session-state:v2:bb99bbb10e9e542d",
+          "issue:10756:v2:6e3341190ff61afa"
+        ]
+      },
+      "packets": {
+        "single_simple": [
+          "docs:fragments:v2:0792bdfc1a784cc2",
+          "docs:session-state:v2:cb426c77e98849b8",
+          "docs:state-and-triggers:v2:cabf4c576d8247b3",
+          "docs:architecture:v2:7685deb75a6f3912",
+          "issue:6074:v2:66f31eeda7b5ae5c"
+        ],
+        "single_reserved": [
+          "docs:fragments:v2:0792bdfc1a784cc2",
+          "docs:session-state:v2:cb426c77e98849b8",
+          "docs:state-and-triggers:v2:cabf4c576d8247b3",
+          "docs:architecture:v2:7685deb75a6f3912",
+          "issue:6074:v2:66f31eeda7b5ae5c"
+        ],
+        "split_simple": [
+          "docs:fragments:v2:0792bdfc1a784cc2",
+          "docs:session-state:v2:cb426c77e98849b8",
+          "docs:state-and-triggers:v2:cabf4c576d8247b3",
+          "docs:state-and-triggers:v2:28832c7fc892def1",
+          "docs:dataframes:v2:9557efbe7db234e2"
+        ],
+        "split_reserved": [
+          "docs:fragments:v2:0792bdfc1a784cc2",
+          "docs:session-state:v2:cb426c77e98849b8",
+          "docs:state-and-triggers:v2:cabf4c576d8247b3",
+          "docs:state-and-triggers:v2:28832c7fc892def1",
+          "docs:dataframes:v2:9557efbe7db234e2"
+        ]
+      },
+      "labeled_sources": [
+        "docs:state-and-triggers",
+        "docs:architecture"
+      ]
+    },
+    {
+      "id": "GH14793",
+      "query": "Updating selectbox selection that is saved in st.session_state needs to be clicked twice\nAPIs: st.session_state st.selectbox st.navigation st.Page st.write\nErrors: \n\n\n ### Summary\n\nHello everyone. \n\nIn my use case, I have a multipage application, with an st.selectbox on top of every subpage. The default value of those selectboxes is taken from st.session_state. The bug I have encountered now is that when I want to update the selectbox value I need to select the new value twice. An example\n\nSelected option: 1\nI select option 2.\nSelected option: 1\nI select option 2 again.\nSelected option: 2\n\nFrom then on the value is updated and working as expected. This behavior is 100% reproducible for me but only happening after I updated the selected option once i.e. directly after the start of the application it works fine and expected once. Afterward I need to double select the options.\n\n### Reproducible Code Example\n\n \n\n### Steps To Reproduce\n\n1. Start the application `streamlit run app.py`\n2. Update the select ",
+      "candidates": {
+        "single": [
+          "docs:session-state:v2:c051df598b3fa36f",
+          "issue:9100:v2:7b70f2892b520f9d",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:17210:v2:538aaa12b4ee66bb",
+          "issue:9992:v2:a6b9d381c80eeebf",
+          "issue:8700:v2:23b22c939e6cb5dd",
+          "issue:8971:v2:0a28ba3305cb4f86",
+          "issue:11202:v2:e03f47e3262b9ba3"
+        ],
+        "split": [
+          "docs:session_state:v2:e51e65ed88016a3d",
+          "docs:session-state:v2:c051df598b3fa36f",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:9100:v2:7b70f2892b520f9d",
+          "issue:15599:v2:baae391ca6da7ddc",
+          "issue:6350:v2:38d168177c3295f4",
+          "issue:15599:v2:4287db7d27e90d71",
+          "docs:button-behavior-and-examples:v2:d51a7acec9b87fe0"
+        ]
+      },
+      "packets": {
+        "single_simple": [
+          "docs:session-state:v2:c051df598b3fa36f",
+          "issue:9100:v2:7b70f2892b520f9d",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:17210:v2:538aaa12b4ee66bb",
+          "issue:9992:v2:a6b9d381c80eeebf"
+        ],
+        "single_reserved": [
+          "docs:session-state:v2:c051df598b3fa36f",
+          "issue:9100:v2:7b70f2892b520f9d",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:17210:v2:538aaa12b4ee66bb",
+          "issue:9992:v2:a6b9d381c80eeebf"
+        ],
+        "split_simple": [
+          "docs:session_state:v2:e51e65ed88016a3d",
+          "docs:session-state:v2:c051df598b3fa36f",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:9100:v2:7b70f2892b520f9d",
+          "issue:15599:v2:baae391ca6da7ddc"
+        ],
+        "split_reserved": [
+          "docs:session_state:v2:e51e65ed88016a3d",
+          "docs:session-state:v2:c051df598b3fa36f",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:9100:v2:7b70f2892b520f9d",
+          "issue:15599:v2:baae391ca6da7ddc"
+        ]
+      },
+      "labeled_sources": [
+        "docs:widget-behavior",
+        "docs:widget-updating-session-state"
+      ]
+    },
+    {
+      "id": "GH16388",
+      "query": "Deleting a widget's session_state key leaves the frontend showing the stale value (backend/frontend divergence for one rerun)\nAPIs: st.session_state st.text_input st.write st.button\nErrors: \n\n\n ### Summary\n\nDeleting a keyed widget's entry from `st.session_state` (e.g. `del st.session_state[\"foo\"]` inside a callback) does not reset the widget, but can lead to an inconsistency between frontend and backend.\n\nThe Python side returns the widget's *default* value for that run, but the frontend keeps displaying the old value, so backend and frontend disagree.\n\nOn the **next** rerun the backend silently re-adopts the stale frontend value, so the deletion is effectively undone.\n\n### Reproducible Code Example\n\n \n\n### Steps To Reproduce\n\n1. Run the app.\n2. Click **Populate** (callback sets `st.session_state[\"foo\"] = \"hello\"`). The text input now shows `hello` and `widget returned: 'hello'`.\n3. Click **Delete** (callback runs `del st.session_state[\"foo\"]`).\n4. Observe the text input on screen vs. the `widget returned:` line.\n5. Click **N",
+      "candidates": {
+        "single": [
+          "docs:session_state:v2:9097f424b0c24f8d",
+          "docs:session-state:v2:f44578b3b45fb981",
+          "issue:11266:v2:fb12d480a23886b5",
+          "issue:11266:v2:b0b00ad71c9d0511",
+          "issue:16608:v2:0b23ef334e36e32a",
+          "issue:17026:v2:bb2eec8b927b20fc",
+          "issue:4256:v2:ae8bf70947296d5e",
+          "issue:7649:v2:7e78ccc53587aecc"
+        ],
+        "split": [
+          "docs:session_state:v2:9097f424b0c24f8d",
+          "docs:session-state:v2:b77e3087d1f97d19",
+          "docs:forms:v2:8ced1fb360863df4",
+          "docs:widget-behavior:v2:25bb099ded36c8f4",
+          "issue:16203:v2:81d4f77a8c2f37e4",
+          "issue:11266:v2:5df5b300853d70e7",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:6074:v2:9bd676319584a263"
+        ]
+      },
+      "packets": {
+        "single_simple": [
+          "docs:session_state:v2:9097f424b0c24f8d",
+          "docs:session-state:v2:f44578b3b45fb981",
+          "issue:11266:v2:fb12d480a23886b5",
+          "issue:11266:v2:b0b00ad71c9d0511",
+          "issue:16608:v2:0b23ef334e36e32a"
+        ],
+        "single_reserved": [
+          "docs:session_state:v2:9097f424b0c24f8d",
+          "docs:session-state:v2:f44578b3b45fb981",
+          "issue:11266:v2:fb12d480a23886b5",
+          "issue:11266:v2:b0b00ad71c9d0511",
+          "issue:16608:v2:0b23ef334e36e32a"
+        ],
+        "split_simple": [
+          "docs:session_state:v2:9097f424b0c24f8d",
+          "docs:session-state:v2:b77e3087d1f97d19",
+          "docs:forms:v2:8ced1fb360863df4",
+          "docs:widget-behavior:v2:25bb099ded36c8f4",
+          "issue:16203:v2:81d4f77a8c2f37e4"
+        ],
+        "split_reserved": [
+          "docs:session_state:v2:9097f424b0c24f8d",
+          "docs:session-state:v2:b77e3087d1f97d19",
+          "docs:forms:v2:8ced1fb360863df4",
+          "docs:widget-behavior:v2:25bb099ded36c8f4",
+          "issue:16203:v2:81d4f77a8c2f37e4"
+        ]
+      },
+      "labeled_sources": [
+        "docs:session_state",
+        "docs:widget-behavior"
+      ]
+    },
+    {
+      "id": "GH16732",
+      "query": "`setTriggerValue` called during mount is dropped ~1 in 4 times when the component remounts, despite an explicit `key`\nAPIs: st.components.v2 st.session_state st.session_state.clicks st.button st.write\nErrors: \n\n\n### Summary\n\nWhen a Components V2 component calls `setTriggerValue` during mount (inside the default function, rather than from a user event handler), values are silently lost if the component remounts because its `data` changed — even when an explicit `key` is passed, which keeps the element id stable.\n\nMeasured roughly a quarter loss: **5 of 21 values sent were never received by Python at all.** They are not late — a scan of the entire session log shows they never arrive in any subsequent run.\n\nThis is split out of #14710, where it surfaced during investigation. It is distinct from the two by-design mechanisms discussed there (`data` participating in element identity for unkeyed components, and trigger values resetting after each run).\n\n**Update — measured root cause.** A frontend race in `WidgetStateManager.removeInactive`: it destro",
+      "candidates": {
+        "single": [
+          "docs:state-and-triggers:v2:fd12b1a6c88e99d3",
+          "docs:state-and-triggers:v2:a6ff9fed454d63b9",
+          "docs:dataframes:v2:9557efbe7db234e2",
+          "issue:16721:v2:69dcda623ab4b70f",
+          "docs:caching:v2:501712b4b3d15f48",
+          "docs:config-toml:v2:ac17071ef08c5110",
+          "docs:widget-behavior:v2:83c608004691ab56",
+          "issue:16675:v2:48ada34970dbf984"
+        ],
+        "split": [
+          "docs:state-and-triggers:v2:fd12b1a6c88e99d3",
+          "docs:state-and-triggers:v2:101775aca81a035e",
+          "issue:16721:v2:69dcda623ab4b70f",
+          "issue:16721:v2:d565a6fc1d9e0224",
+          "docs:fragments:v2:cb48967ad96007e2",
+          "docs:widget-behavior:v2:ee0cfe9fcf250b2f",
+          "issue:10756:v2:6e3341190ff61afa",
+          "issue:12146:v2:71c12fd168534c0d"
+        ]
+      },
+      "packets": {
+        "single_simple": [
+          "docs:state-and-triggers:v2:fd12b1a6c88e99d3",
+          "docs:state-and-triggers:v2:a6ff9fed454d63b9",
+          "docs:dataframes:v2:9557efbe7db234e2",
+          "issue:16721:v2:69dcda623ab4b70f",
+          "docs:caching:v2:501712b4b3d15f48"
+        ],
+        "single_reserved": [
+          "docs:state-and-triggers:v2:fd12b1a6c88e99d3",
+          "docs:state-and-triggers:v2:a6ff9fed454d63b9",
+          "docs:dataframes:v2:9557efbe7db234e2",
+          "issue:16721:v2:69dcda623ab4b70f",
+          "docs:caching:v2:501712b4b3d15f48"
+        ],
+        "split_simple": [
+          "docs:state-and-triggers:v2:fd12b1a6c88e99d3",
+          "docs:state-and-triggers:v2:101775aca81a035e",
+          "issue:16721:v2:69dcda623ab4b70f",
+          "issue:16721:v2:d565a6fc1d9e0224",
+          "docs:fragments:v2:cb48967ad96007e2"
+        ],
+        "split_reserved": [
+          "docs:state-and-triggers:v2:fd12b1a6c88e99d3",
+          "docs:state-and-triggers:v2:101775aca81a035e",
+          "issue:16721:v2:69dcda623ab4b70f",
+          "issue:16721:v2:d565a6fc1d9e0224",
+          "docs:fragments:v2:cb48967ad96007e2"
+        ]
+      },
+      "labeled_sources": [
+        "docs:state-and-triggers",
+        "docs:widget-behavior"
+      ]
+    },
+    {
+      "id": "GH17093",
+      "query": "BUG: wrong value returned by backend vs frontend, when a widget is rendered after a previous page run set a default value in session state\nAPIs: st.session_state.setdefault st.toggle st.number_input st.write\nErrors: \n\n\n ### Summary\n\nIf a default value is set in session state on one page run, and then subsequently a widget is rendered with a corresponding `key`, then the default value is not picked up properly and the frontend and backend show different values for that widget.\n\n### Reproducible Code Example\n\n \n\n### Steps To Reproduce\n\n1.Turn on the  toggle\n2. Compare the value in the widget vs the value printed underneath\n\n### Expected Behavior\n\nThe value in the widget should match the number reported underneath.\n\n### Current Behavior\n\nThe input widget displays `0.00`, but the backend reports `You entered: 100`.\n\nIf `r` is pressed to trigger a re-run, then the frontend updates to display `0.0` and the default value is lost.\n\n### Is this a regression?\n \n\n",
+      "candidates": {
+        "single": [
+          "docs:session-state:v2:b77e3087d1f97d19",
+          "docs:session_state:v2:e51e65ed88016a3d",
+          "issue:11202:v2:e03f47e3262b9ba3",
+          "docs:widget-behavior:v2:83c608004691ab56",
+          "issue:12305:v2:11c163694eff1561",
+          "issue:12629:v2:f87a68207e6098c0",
+          "issue:2213:v2:889fefc655cab46d",
+          "issue:15544:v2:b3a1affa6894e9fe"
+        ],
+        "split": [
+          "docs:session-state:v2:b77e3087d1f97d19",
+          "docs:session_state:v2:58dde40a15de068f",
+          "docs:widget-behavior:v2:83c608004691ab56",
+          "docs:widget-behavior:v2:25bb099ded36c8f4",
+          "issue:15544:v2:2d6bb6dcd52bbcbe",
+          "issue:12305:v2:11c163694eff1561",
+          "issue:12305:v2:3f42e69ed9c5f0fa",
+          "issue:15544:v2:52e4ad4a63590a16"
+        ]
+      },
+      "packets": {
+        "single_simple": [
+          "docs:session-state:v2:b77e3087d1f97d19",
+          "docs:session_state:v2:e51e65ed88016a3d",
+          "issue:11202:v2:e03f47e3262b9ba3",
+          "docs:widget-behavior:v2:83c608004691ab56",
+          "issue:12305:v2:11c163694eff1561"
+        ],
+        "single_reserved": [
+          "docs:session-state:v2:b77e3087d1f97d19",
+          "docs:session_state:v2:e51e65ed88016a3d",
+          "issue:11202:v2:e03f47e3262b9ba3",
+          "docs:widget-behavior:v2:83c608004691ab56",
+          "issue:12305:v2:11c163694eff1561"
+        ],
+        "split_simple": [
+          "docs:session-state:v2:b77e3087d1f97d19",
+          "docs:session_state:v2:58dde40a15de068f",
+          "docs:widget-behavior:v2:83c608004691ab56",
+          "docs:widget-behavior:v2:25bb099ded36c8f4",
+          "issue:15544:v2:2d6bb6dcd52bbcbe"
+        ],
+        "split_reserved": [
+          "docs:session-state:v2:b77e3087d1f97d19",
+          "docs:session_state:v2:58dde40a15de068f",
+          "docs:widget-behavior:v2:83c608004691ab56",
+          "docs:widget-behavior:v2:25bb099ded36c8f4",
+          "issue:15544:v2:2d6bb6dcd52bbcbe"
+        ]
+      },
+      "labeled_sources": [
+        "docs:widget-behavior",
+        "docs:session_state"
+      ]
+    },
+    {
+      "id": "GH17119",
+      "query": "Keyed persist_state=None remount can reset the UI while st.session_state[key] still holds the previous value\nAPIs: st.session_state st.session_state.setdefault st.selectbox st.text_input st.write st.session_state.get\nErrors: \n\n\n ### Summary\n\nA keyed `persist_state=None` widget that has already registered, is then hidden, then shown again can render the widget default while `st.session_state[key]` still holds the previous value on that remount run. A follow-up rerun overwrites session state with the default. Unmount should reset **both** the UI and `st.session_state[key]` in the same run (#3512).\n\nThis is a follow-up to #17106 / #17093. That PR syncs delayed first mount to a leftover pre-registration user key. This issue is the already-registered remount path: unmount cleanup has dropped widget-id state, but a leftover user-key entry can leave the two sides out of sync for one run.\n\n### Reproducible Code Example\n\n \n\n### Steps To Reproduce\n\n1. Load the app. Input 2 is shown on first load with `\"input 2\"`.\n2. Switch the selectbox to B.\n3. Optionally edit input 3 ",
+      "candidates": {
+        "single": [
+          "docs:session_state:v2:58dde40a15de068f",
+          "docs:session-state:v2:b77e3087d1f97d19",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:17026:v2:bb2eec8b927b20fc",
+          "issue:6350:v2:38d168177c3295f4",
+          "issue:9128:v2:beab4182cf9b1879",
+          "issue:5689:v2:2027b3dea08a1c7b",
+          "issue:15599:v2:4287db7d27e90d71"
+        ],
+        "split": [
+          "docs:session_state:v2:e51e65ed88016a3d",
+          "docs:session-state:v2:145dc7890d5e6526",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:17026:v2:bb2eec8b927b20fc",
+          "docs:widget-behavior:v2:937f6c0d25919fb9",
+          "docs:button-behavior-and-examples:v2:3923f31f2f5a16ec",
+          "issue:6350:v2:38d168177c3295f4",
+          "issue:11266:v2:b0b00ad71c9d0511"
+        ]
+      },
+      "packets": {
+        "single_simple": [
+          "docs:session_state:v2:58dde40a15de068f",
+          "docs:session-state:v2:b77e3087d1f97d19",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:17026:v2:bb2eec8b927b20fc",
+          "issue:6350:v2:38d168177c3295f4"
+        ],
+        "single_reserved": [
+          "docs:session_state:v2:58dde40a15de068f",
+          "docs:session-state:v2:b77e3087d1f97d19",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:17026:v2:bb2eec8b927b20fc",
+          "issue:6350:v2:38d168177c3295f4"
+        ],
+        "split_simple": [
+          "docs:session_state:v2:e51e65ed88016a3d",
+          "docs:session-state:v2:145dc7890d5e6526",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:17026:v2:bb2eec8b927b20fc",
+          "docs:widget-behavior:v2:937f6c0d25919fb9"
+        ],
+        "split_reserved": [
+          "docs:session_state:v2:e51e65ed88016a3d",
+          "docs:session-state:v2:145dc7890d5e6526",
+          "issue:7649:v2:7e78ccc53587aecc",
+          "issue:17026:v2:bb2eec8b927b20fc",
+          "docs:widget-behavior:v2:937f6c0d25919fb9"
+        ]
+      },
+      "labeled_sources": [
+        "docs:widget-behavior",
+        "docs:session_state"
+      ]
+    },
+    {
+      "id": "GH17250",
+      "query": "AppTest: synchronize query parameters when interacting with query-bound widgets\nAPIs: st.query_params st.selectbox st.session_state st.text_input\nErrors: \n\n\n ### Summary\n\nPlease make AppTest's widget interaction API synchronize query parameters for widgets using `bind=\"query-params\"`. Currently, `.set_value(...).run()` changes the widget value but leaves both `at.query_params` and the app's `st.query_params` unchanged, so tests observe a different state from the browser.\n\n### Why?\n\nNative query-param binding lets apps replace manual URL callbacks. After that change, AppTest tests that verify shareable filters or inspect `st.query_params` can no longer reproduce the state reached by the same user interaction in the browser. Each test must manually mirror the binding's serialization into `at.query_params`.\n\nThe following self-contained example demonstrates the gap on Streamlit 1.65.0; it also occurs on 1.64.0:\n\n \n\nSave as `repro_query_binding.py` and run `python repro_query_binding.py` with `",
+      "candidates": {
+        "single": [
+          "docs:widget-behavior:v2:abf6740ecc9fcdd2",
+          "issue:16055:v2:35ca61da12614beb",
+          "docs:query_params:v2:302037cbe543a41e",
+          "docs:widget-behavior:v2:7638a3980198bd97",
+          "issue:7665:v2:bccae7231ff51f41",
+          "issue:7665:v2:bb24794c15e85720",
+          "docs:session-state:v2:f44578b3b45fb981",
+          "issue:12629:v2:c7e2ecc8caa69725"
+        ],
+        "split": [
+          "docs:widget-behavior:v2:abf6740ecc9fcdd2",
+          "docs:query_params:v2:302037cbe543a41e",
+          "docs:widget-behavior:v2:baed8384f45c1a16",
+          "issue:7665:v2:bccae7231ff51f41",
+          "docs:2026:v2:62fe4b630d58b24d",
+          "issue:7665:v2:bb24794c15e85720",
+          "issue:16055:v2:35ca61da12614beb",
+          "docs:2026:v2:f83ffb0ec7d07e63"
+        ]
+      },
+      "packets": {
+        "single_simple": [
+          "docs:widget-behavior:v2:abf6740ecc9fcdd2",
+          "issue:16055:v2:35ca61da12614beb",
+          "docs:query_params:v2:302037cbe543a41e",
+          "docs:widget-behavior:v2:7638a3980198bd97",
+          "issue:7665:v2:bccae7231ff51f41"
+        ],
+        "single_reserved": [
+          "docs:widget-behavior:v2:abf6740ecc9fcdd2",
+          "issue:16055:v2:35ca61da12614beb",
+          "docs:query_params:v2:302037cbe543a41e",
+          "docs:widget-behavior:v2:7638a3980198bd97",
+          "issue:7665:v2:bccae7231ff51f41"
+        ],
+        "split_simple": [
+          "docs:widget-behavior:v2:abf6740ecc9fcdd2",
+          "docs:query_params:v2:302037cbe543a41e",
+          "docs:widget-behavior:v2:baed8384f45c1a16",
+          "issue:7665:v2:bccae7231ff51f41",
+          "docs:2026:v2:62fe4b630d58b24d"
+        ],
+        "split_reserved": [
+          "docs:widget-behavior:v2:abf6740ecc9fcdd2",
+          "docs:query_params:v2:302037cbe543a41e",
+          "docs:widget-behavior:v2:baed8384f45c1a16",
+          "issue:7665:v2:bccae7231ff51f41",
+          "docs:2026:v2:62fe4b630d58b24d"
+        ]
+      },
+      "labeled_sources": [
+        "docs:get-started",
+        "docs:query_params"
+      ]
+    }
+  ],
+  "GH9218_quote_ablation": {
+    "source_id": "docs:where-file-uploader-store-when-deleted",
+    "old_count": 6,
+    "focused_count": 2,
+    "old_first_quote_id": "q1",
+    "focused_first_quote_id": "q1s1",
+    "old_first_has_bytesio_ram": true,
+    "focused_first_has_bytesio_ram": true,
+    "focused_quote_ids": [
+      "q1s1",
+      "q3"
+    ]
+  },
+  "GH9218_saved_rerank_ablation": {
+    "rerank_ids": [
+      "issue:5938:v2:2830a6d01721a174",
+      "issue:5938:v2:a861777a980e3ac7",
+      "docs:where-file-uploader-store-when-deleted:v2:b291aa7bd02cda48",
+      "issue:3722:v2:71635c29cc9d28e8",
+      "api:file_uploader:v2:26f5eb70aec7e236",
+      "issue:1298:v2:21376c695dcce5f7",
+      "issue:4877:v2:cd5fba9651a80b06",
+      "issue:4256:v2:ae8bf70947296d5e"
+    ],
+    "without_reserved": [
+      "issue:5938",
+      "issue:5938",
+      "docs:where-file-uploader-store-when-deleted",
+      "issue:3722",
+      "api:file_uploader"
+    ],
+    "with_reserved": [
+      "docs:where-file-uploader-store-when-deleted",
+      "api:file_uploader",
+      "issue:5938",
+      "issue:5938",
+      "issue:3722"
+    ],
+    "without_model_rerank": [
+      "docs:where-file-uploader-store-when-deleted",
+      "api:file_uploader",
+      "issue:5938",
+      "issue:3722",
+      "issue:1298"
+    ]
+  }
+}

@@ -5,7 +5,7 @@ a hashed proposal. Independent invocation is not independent human evaluation.
 """
 import re, time
 from .common import *
-from .model import SYSTEM, SCHEMA, QUALITY_SELECTION, quote_candidates, resolve_claims
+from .model import SYSTEM, EVIDENCE_FIRST, SCHEMA, QUALITY_SELECTION, quote_candidates, focused_quote_candidates, resolve_claims
 from .grounding import validate_answer, fallback, render_response
 from .hybrid import HybridRetriever, direct_official_matches
 from .roles import *
@@ -80,9 +80,11 @@ def run(agent,case_id,message,request_id,facts,checks,input_hash,components=None
             if client.mode!='live': return client.generate(state,evidence,'final')
             lookup={}; sources=[]
             for row in evidence:
-                candidates=quote_candidates(row['text']); sources.append(dict({k:row.get(k) for k in ('id','kind','section','product_version','version_relation')},quote_candidates=candidates))
+                candidates=(focused_quote_candidates(row['text'],query) if getattr(client,'focus_quotes',False)
+                            else quote_candidates(row['text']))
+                sources.append(dict({k:row.get(k) for k in ('id','kind','section','product_version','version_relation')},quote_candidates=candidates))
                 lookup.update({(row['id'],q['quote_id']):q['text'] for q in candidates})
-            selected=client.structured('repair',SYSTEM+'\nCorrect the specific review findings once. Do not repair or guess invalid IDs. Select fresh exact candidates. If support is lacking, ask a new discriminating question or escalate.',
+            selected=client.structured('repair',(EVIDENCE_FIRST if getattr(client,'evidence_first',False) else SYSTEM)+'\nCorrect the specific review findings once. Do not repair or guess invalid IDs. Select fresh exact candidates. If support is lacking, ask a new discriminating question or escalate.',
                 {'case_type':case_kind(state),'state':compact_state(state),'evidence':sources,'feedback':feedback},selection_schema(state),client.max_output)
             return prepare_feature(resolve_claims(check_selection(selected,state),lookup),state)
         finally: usages.append(dict(client.last_usage))
