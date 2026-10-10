@@ -101,6 +101,7 @@ def main():
     cases = [c for c in json.loads(CASES.read_text(encoding='utf-8')) if c['split'] == 'dev']
     annotation = json.loads(LABELS.read_text(encoding='utf-8'))
     labels = annotation['labels']
+    scored_labels = [label for label in labels if label.get('evaluable', True)]
     case_ids = {c['id'] for c in cases}
     by_source = collections.defaultdict(list)
     for row in original:
@@ -147,12 +148,12 @@ def main():
     metrics = {}
     details = {}
     for name, packet in packets.items():
-        metrics[name], details[name] = score(packet, labels, cases)
+        metrics[name], details[name] = score(packet, scored_labels, cases)
     candidate_metrics = {}
     candidate_details = {}
     for name, run in runs.items():
         candidates = {case_id: value['candidates'] for case_id, value in run.items()}
-        candidate_metrics[name], candidate_details[name] = score(candidates, labels, cases)
+        candidate_metrics[name], candidate_details[name] = score(candidates, scored_labels, cases)
     # Keep case metrics for every variant, but store IDs only where they are
     # needed to audit the baseline and the two observed packing regressions.
     audit_ids = {'baseline_frozen', 'target_400', 'child400_parent1600'}
@@ -163,7 +164,10 @@ def main():
                     row.pop('packet_ids', None)
     result = {
         'study': 'E0-E2 offline exploratory', 'split': 'dev', 'model_calls': 0,
-        'annotation_status': annotation['annotation_status'], 'labeled_cases': len({x['case_id'] for x in labels}),
+        'annotation_status': annotation['annotation_status'], 'proposed_labels': len(labels),
+        'excluded_labels': [{'case_id': x['case_id'], 'reason': x['exclusion_reason']}
+                            for x in labels if not x.get('evaluable', True)],
+        'scored_labeled_cases': len({x['case_id'] for x in scored_labels}),
         'total_dev_cases': len(cases), 'frozen_corpus_sha256': hashlib.sha256(BASE.read_bytes()).hexdigest(),
         'labels_sha256': hashlib.sha256(LABELS.read_bytes()).hexdigest(),
         'reconstruction': {'sources': len(sources), 'missing_line_slots': missing_line_slots,
