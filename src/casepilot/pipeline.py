@@ -7,7 +7,7 @@ import re, time
 from .common import *
 from .model import SYSTEM, SCHEMA, QUALITY_SELECTION, quote_candidates, resolve_claims
 from .grounding import validate_answer, fallback, render_response
-from .hybrid import HybridRetriever
+from .hybrid import HybridRetriever, direct_official_matches
 from .roles import *
 from .quality import compact_context, retrieval_query, report_inventory, REVISION
 from .review_contract import draft_units, checked_review_v23, review_spans, recompose, bound_review_schema, unpack_bound_review
@@ -26,9 +26,11 @@ def compact_state(state):
 def evidence_packet(rows):
     return [{k:r.get(k) for k in ('id','source_id','kind','title','section','text','revision','product_version','version_relation','temporal_status','source_authority','url')} for r in rows]
 
-def pack(rows,max_bytes=10000,k=5):
+def pack(rows,max_bytes=10000,k=5,query=None):
     selected=[]; size=0; seen=set()
-    for row in rows:
+    direct=direct_official_matches(rows,query) if query else []
+    prioritized=direct+[r for r in rows if r['id'] not in {d['id'] for d in direct}]
+    for row in prioritized:
         cost=len(row['text'].encode())
         if cost>max_bytes-size or row['sha256'] in seen: continue
         selected.append(row); size+=cost; seen.add(row['sha256'])
@@ -151,7 +153,7 @@ def run(agent,case_id,message,request_id,facts,checks,input_hash,components=None
                 except CasePilotError as exc:
                     if exc.code in PROVIDER_FAILURES|{'budget_exhausted','turn_budget_exhausted','call_limit','turn_timeout'}: raise
                     event('rerank',{'status':'fallback','error':exc.code,'ids':[r['id'] for r in candidates]})
-            packet=[] if rule_answer else pack(candidates)
+            packet=[] if rule_answer else pack(candidates,query=query if not options['dense'] else None)
             event('context_pack',{'ids':[r['id'] for r in packet],'utf8_bytes':sum(len(r['text'].encode()) for r in packet)})
             answer=rule_answer or draft(state,packet)
             event('draft',{'status':'rule_based_regression' if rule_answer else 'produced'})

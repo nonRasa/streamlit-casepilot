@@ -12,6 +12,34 @@ def embedding_text(row): return row['title']+'\n'+row['section']+'\n'+row['text'
 def version_relation(row,version):
     return relation(row,version)
 
+
+def direct_official_matches(rows,query,limit=2):
+    """Reserve directly named official passages without using evaluation labels."""
+    title=query.splitlines()[0].casefold()
+    title_words=' '.join(re.findall(r'[a-z0-9]+',title))
+    # Code examples often mention incidental APIs. Only names in the report's
+    # problem title qualify for a reserved documentation slot.
+    apis={name.casefold() for name in re.findall(r'\bst\.([A-Za-z_]\w*)',query)
+          if re.search(r'(?<![a-z0-9_])'+re.escape(name.casefold())+r'(?![a-z0-9_])',title)}
+    matches=[]
+    for position,row in enumerate(rows):
+        if row.get('kind')!='docs': continue
+        heading=(row.get('title','')+' '+row.get('section','')).casefold()
+        source=row.get('source_id','').casefold()
+        api_hit=any(re.search(r'(?<![a-z0-9_])'+re.escape(api)+r'(?![a-z0-9_])',heading) or source=='api:'+api for api in apis)
+        slug=source.split(':',1)[-1]
+        slug_words=' '.join(re.findall(r'[a-z0-9]+',slug))
+        named=bool(len(slug_words)>=8 and re.search(r'(?<![a-z0-9])'+re.escape(slug_words)+r'(?![a-z0-9])',title_words))
+        if not api_hit and not named: continue
+        matches.append((not api_hit,position,row))
+    matches.sort(key=lambda item:item[:2])
+    picked=[]; seen=set()
+    for _,_,row in matches:
+        if row['source_id'] in seen: continue
+        picked.append(row); seen.add(row['source_id'])
+        if len(picked)>=limit: break
+    return picked
+
 class HybridRetriever:
     def __init__(self,client,path=None,cache_path=None):
         self.client=client; self.path=Path(path or ROOT/'data/corpus_v2.json')
@@ -32,14 +60,8 @@ class HybridRetriever:
             rows=self.lexical.search(query,k=100,method='baseline',version=version)
             rows=[r for r in rows if eligible(r,as_of) and (not options['quality'] or technical_source(r))]
             if options['quality']:
-                # A repeated long guide must not crowd out API references that
-                # are named literally in the report. Keep version warnings.
-                apis=list(dict.fromkeys(re.findall(r'\bst\.([A-Za-z_]\w*)',query)))[:8]
-                reserved=[]; chosen=set()
-                for api in apis:
-                    match=next((r for r in rows if r['source_id']=='api:'+api and r['id'] not in chosen),None)
-                    if match and len(reserved)<min(2,k):
-                        reserved.append(match); chosen.add(match['id'])
+                reserved=direct_official_matches(rows,query,min(2,k))
+                chosen={r['id'] for r in reserved}
                 counts=collections.Counter(r['source_id'] for r in reserved)
                 for row in rows:
                     if len(reserved)>=k: break
