@@ -11,7 +11,7 @@ from .hybrid import HybridRetriever
 from .roles import *
 from .quality import compact_context, retrieval_query, report_inventory, REVISION
 from .review_contract import draft_units, checked_review_v23, review_spans, recompose, bound_review_schema, unpack_bound_review
-from .routing import handoff, render_handoff, proposal_actions
+from .routing import handoff, render_handoff, proposal_actions, reported_regression_check
 from .semantics import semantic_schema, checked_semantic_review, prepare_feature, recompose_semantic
 from .compact_review import packet as compact_review_packet, schema as compact_review_schema, decode as decode_compact_review, PROMPT as COMPACT_JUDGE_PROMPT
 from .case_type import case_kind, selection_schema, check_selection
@@ -120,11 +120,12 @@ def run(agent,case_id,message,request_id,facts,checks,input_hash,components=None
         state['investigation_plan']=investigation
         agent.store.save_plan(case_id,state['revision'],investigation)
         event('read_case',{'revision':state['revision']})
+        rule_answer=reported_regression_check(state) if options['quality'] else None
         answer=None; packet=[]; validation_error=None; judge=None; repair_count=0; review_failures=[]; envelope=None
         try:
             query=((investigation.get('problem_summary','')+'\n') if investigation else '')+retrieval_query(state,message)
             # One rewrite only for cross-language query; never an unbounded retrieval loop.
-            if options['rewrite'] and re.search(r'[\u0600-\u06ff]',message):
+            if not rule_answer and options['rewrite'] and re.search(r'[\u0600-\u06ff]',message):
                 try:
                     rewritten=role('rewrite',REWRITE_PROMPT,{'query':query[:8000],'facts':state['facts']},REWRITE,400)
                     require(isinstance(rewritten,dict) and set(rewritten)=={'query'} and isinstance(rewritten['query'],str) and 1<=len(rewritten['query'])<=1800,'invalid_rewrite','بازنویسی جست‌وجو معتبر نیست.')
@@ -133,7 +134,7 @@ def run(agent,case_id,message,request_id,facts,checks,input_hash,components=None
                     if exc.code in PROVIDER_FAILURES|{'budget_exhausted','turn_budget_exhausted','call_limit','turn_timeout'}: raise
                     event('rewrite',{'status':'fallback','error':exc.code})
             if agent.hybrid is None: agent.hybrid=HybridRetriever(client)
-            search_args={'k':8,'version':state['facts'].get('streamlit_version'),'components':options}
+            search_args={'k':8,'version':state['facts'].get('streamlit_version'),'components':dict(options,dense=False) if rule_answer else options}
             if options.get('as_of'): search_args['as_of']=options['as_of']
             candidates=agent.hybrid.search(query,**search_args)
             retrieval_trace=dict(agent.hybrid.last_trace)
@@ -143,15 +144,17 @@ def run(agent,case_id,message,request_id,facts,checks,input_hash,components=None
                 retrieval_trace['version_excluded_for_draft']=excluded
             event('retrieve',retrieval_trace)
             usages.extend(retrieval_trace.get('embedding',{}).get('usage',[]))
-            if candidates and options['rerank']:
+            if candidates and options['rerank'] and not rule_answer:
                 try:
                     ranked=role('rerank',RERANK_PROMPT,{'state':compact_state(state),'candidates':evidence_packet(candidates)},RERANK,350)
                     candidates=rerank_ids(ranked,candidates); event('rerank',{'status':'ok','ids':[r['id'] for r in candidates]})
                 except CasePilotError as exc:
                     if exc.code in PROVIDER_FAILURES|{'budget_exhausted','turn_budget_exhausted','call_limit','turn_timeout'}: raise
                     event('rerank',{'status':'fallback','error':exc.code,'ids':[r['id'] for r in candidates]})
-            packet=pack(candidates); event('context_pack',{'ids':[r['id'] for r in packet],'utf8_bytes':sum(len(r['text'].encode()) for r in packet)})
-            answer=draft(state,packet); event('draft',{'status':'produced'})
+            packet=[] if rule_answer else pack(candidates)
+            event('context_pack',{'ids':[r['id'] for r in packet],'utf8_bytes':sum(len(r['text'].encode()) for r in packet)})
+            answer=rule_answer or draft(state,packet)
+            event('draft',{'status':'rule_based_regression' if rule_answer else 'produced'})
             # Invalid individual quotes cannot silently survive, nor erase other
             # fields before the separate semantic review of the full remainder.
             retained=[]
@@ -164,7 +167,7 @@ def run(agent,case_id,message,request_id,facts,checks,input_hash,components=None
                     event('drop_invalid_citation',{'code':exc.code})
             answer['claims']=retained
             forced=deterministic_findings(answer,packet,state)
-            if options['judge']:
+            if options['judge'] and not rule_answer:
                 for attempt in range(2):
                     envelope=draft_units(answer,case_id,state['revision'],attempt)
                     jp={'facts':state['facts'],'experiments':state.get('experiments',[])[-12:],
@@ -231,6 +234,7 @@ def run(agent,case_id,message,request_id,facts,checks,input_hash,components=None
         if client.mode=='live':
             usage['charged_or_reserved_usd']=client.budget.report()['charged_or_reserved_usd']-budget_before
         result={'case_id':case_id,'request_id':request_id,'architecture':'v2','quality_revision':REVISION,'mode':client.mode,'method':'final','components':options,
+                'generation_kind':'rule_based_regression' if rule_answer else ('model' if client.mode=='live' else 'test_fixture'),
                 'decision':answer['decision'],'response':response,'summary':summary,'proposal':proposal,
                 'retrieved':[{k:r.get(k) for k in ('id','source_id','kind','url','section','product_version','version_relation','temporal_status','source_authority','retrieval_score')} for r in packet],
                 'steps':len(stages),'model_calls':client.calls-before,'max_calls':MAX_CALLS,'repair_count':repair_count,'judge':judge,'pipeline':stages,

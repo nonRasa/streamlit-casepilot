@@ -45,6 +45,35 @@ def recovery_action(state,feature):
                     'علت یا رفع مشکل هنوز تأیید نشده است.')
     return 'اقدام: گزارش و بررسی‌های ثبت‌شده را بازبینی کنید؛ برای بازتولید مستقل، نخست فقط مجهول تصمیم‌ساز را مشخص کنید.'
 
+def reported_regression_check(state):
+    """Source-free maintainer check for a first-turn version regression report.
+
+    The report identifies a comparison to run, not its result or root cause.
+    Already-performed comparisons must continue through the ordinary route.
+    """
+    import re
+    if intent(state)!='bug' or len(state.get('messages',[]))!=1: return None
+    report=state['messages'][0]['text']
+    versions=re.search(r'(?i)\bfrom\s+(\d+(?:\.\d+){1,3})\s+to\s+(\d+(?:\.\d+){1,3})\b',report)
+    code_blocks=re.findall(r'```[^\n]*\n(.*?)```',report,re.S)
+    complete_code=any(re.search(r'(?m)^\s*def\s+\w+\s*\(',block) and
+                      not re.search(r'(?i)\.\.\.|pseudo.code|TODO|omitted',block) for block in code_blocks)
+    if not versions or versions[1]==versions[2] or not complete_code: return None
+    before,after=versions.groups()
+    for event in active_experiments(state):
+        if event.get('status') not in ('performed_unknown','succeeded','failed','correction'): continue
+        values=[c.get('value','') for c in event.get('conditions',[])]
+        if (before in values and after in values or
+            before+' -> '+after in values or after+' -> '+before in values): return None
+    for check in state.get('checks',[]):
+        if before in check and after in check and re.search(r'(?i)\b(?:ran|tested|executed|compared)\b|اجرا|آزمایش|مقایسه',check): return None
+    return {'decision':'escalate','claims':[],'question':'',
+            'next_step':recovery_action(state,False),
+            'rationale':'محدودیت: اختلاف نسخه و خطا گزارش کاربر است؛ نتیجهٔ مقایسهٔ کنترل‌شده ثبت نشده و علت یا رفع تأیید نشده است.',
+            'hypotheses':[],
+            'diagnostic':{'action':'compare_versions','conditions':[{'dimension':'version_pair','value':before+' -> '+after}],
+                          'repeat_of':'','changed_condition':'','repeat_reason':'','missing_fact':''}}
+
 def reported_attempts(state):
     """Exact first-person attempt lines, never interpreted as verified results."""
     import re
